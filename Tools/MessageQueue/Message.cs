@@ -1,9 +1,9 @@
 ﻿using System;
-using Assets.Tools.Utils;
+using Assets.Lean;
 
 namespace Assets.Scripts.MessageQueue
 {
-    public class Message : IMessage {
+    public class Message : IResetable, IMessage {
 
         public Type MessageType;
         public object SenderObject;
@@ -19,7 +19,7 @@ namespace Assets.Scripts.MessageQueue
         /// <summary>
         /// release message refs
         /// </summary>
-        public virtual void Release() {
+        public virtual void Reset() {
 
             MessageType = null;
             SenderObject = null;
@@ -28,5 +28,8 @@ namespace Assets.Scripts.MessageQueue
             MessageData = null;
         }
 
+        public void Release() {
+            Reset();
+        }
     }
 }
