@@ -1,5 +1,5 @@
 ﻿using System;
-using Assets.Lean;
+using Assets.Tools.Utils;
 
 namespace Assets.Scripts.MessageQueue
 {
@@ -24,7 +24,7 @@ namespace Assets.Scripts.MessageQueue
             MessageType = null;
             SenderObject = null;
             if(Despawn)
-                MessageData?.Despawn();
+                MessageData.Despawn();
             MessageData = null;
         }
 

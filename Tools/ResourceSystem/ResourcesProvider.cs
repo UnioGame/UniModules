@@ -2,8 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using AssetBundlesModule;
 using Assets.Scripts.ProfilerTools;
-using ME;
 using UniRx;
 
 namespace UnityEngine.UI.Windows
@@ -221,12 +221,11 @@ namespace UnityEngine.UI.Windows
 
         }
 
-        public static IEnumerator LoadBundleResourceAsync<T>(string bundleName, string assetName, System.Action<T> resultCallback) where T : Object
+        public static IEnumerator LoadBundleResourceAsync<T>(string bundleName, string assetName, Action<T> resultCallback) where T : Object
         {
 
-            var operation = AssetBundleManager.Instance.LoadAsset(bundleName);
-            yield return operation.Execute();
-            yield return operation.LoadAssetByNameAsync<T>(assetName, resultCallback);
+            yield return AssetBundleManager.Instance.
+                LoadAssetAsync<T>(bundleName,assetName,AssetBundleSourceType.AsyncLocalFile, resultCallback);
 
         }
 
@@ -256,20 +255,14 @@ namespace UnityEngine.UI.Windows
 
             if (callback == null) yield break;
 
-            List<T> assets = null;
-            var operation = AssetBundleManager.Instance.LoadAsset(bundleName);
-            yield return operation.Execute();
-            yield return operation.LoadAssetsAsync<T>(x => assets = x);
-            callback(assets);
+            yield return AssetBundleManager.Instance.LoadAssetsAsync<T>(bundleName,AssetBundleSourceType.AsyncLocalFile,callback);
 
         }
 
         public static List<T> LoadBundleResources<T>(string bundleName) where T : Object
         {
 
-            var operation = AssetBundleManager.Instance.LoadAsset(bundleName);
-            operation.Load();
-            var assets = operation.LoadAssets<T>();
+            var assets = AssetBundleManager.Instance.LoadAssets<T>(bundleName);
             return assets;
 
         }
@@ -280,22 +273,16 @@ namespace UnityEngine.UI.Windows
             if (string.IsNullOrEmpty(bundleName) == true || string.IsNullOrEmpty(assetName) == true)
                 return null;
 
-            var operation = AssetBundleManager.Instance.LoadAsset(bundleName);
-            operation.Load();
-            var result = operation.LoadAsset<T>(assetName);
-            return result;
+            var asset = AssetBundleManager.Instance.LoadAsset<T>(bundleName,assetName);
+
+            return asset;
 
         }
 
         private void LoadResourceFromBundle<T>(TaskItem task) where T : Object
         {
             var resource = task.resource;
-            var assetName = resource.resourcesPath;
-            var provider = AssetBundleManager.Instance.LoadAsset(resource.assetBundleName);
-
-            provider.Load();
-
-            Object asset = provider.LoadAsset<T>(assetName);
+            var asset = AssetBundleManager.Instance.LoadAsset<T>(resource.assetBundleName,resource.assetPath);
 
             if (asset == null)
             {
@@ -316,28 +303,17 @@ namespace UnityEngine.UI.Windows
         private IEnumerator LoadResourceFromBundleAsync<T>(TaskItem task) where T : Object
         {
             var resource = task.resource;
-            var assetName = resource.resourcesPath;
-            var provider = AssetBundleManager.Instance.LoadAsset(resource.assetBundleName);
-            yield return provider.Execute();
-            Object asset = null;
-            yield return provider.LoadAssetByNameAsync<T>(assetName, x =>
-            {
+            var assetName = resource.assetPath;
+            yield return AssetBundleManager.Instance.LoadAssetAsync<T>(resource.assetBundleName, assetName,AssetBundleSourceType.AsyncLocalFile,
+                asset => {
+                    if (asset == null) {
+                        task.RaiseFailed();
+                    }
+                    else {
+                        task.RaiseSuccess(asset);
+                    }
 
-                asset = x;
-
-            });
-            if (asset == null)
-            {
-
-                task.RaiseFailed();
-
-            }
-            else
-            {
-
-                task.RaiseSuccess(asset);
-
-            }
+                });
 
         }
 

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using ME;
 using UnityEngine;
 using UnityEngine.UI.Windows;
 using Object = UnityEngine.Object;
@@ -878,11 +877,11 @@ public class ResourceBase
         else
         {
 
-            ME.EditorUtilities.SetObjectIfDirty(ref this.directRef, null);
+            EditorUtilities.SetObjectIfDirty(ref this.directRef, null);
             var obj = (Object)this.directRefSprite;
-            ME.EditorUtilities.SetObjectIfDirty(ref obj, null);
+            EditorUtilities.SetObjectIfDirty(ref obj, null);
             obj = (Object)this.directRefTexture;
-            ME.EditorUtilities.SetObjectIfDirty(ref obj, null);
+            EditorUtilities.SetObjectIfDirty(ref obj, null);
             this.directRefSprite = null;
             this.directRefTexture = null;
         }
