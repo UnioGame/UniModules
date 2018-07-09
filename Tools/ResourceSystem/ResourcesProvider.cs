@@ -832,7 +832,7 @@ namespace UnityEngine.UI.Windows
             { UnityEditor.BuildTarget.Switch, "Switch" },
 
             { UnityEditor.BuildTarget.StandaloneLinuxUniversal, "Linux" },
-            { UnityEditor.BuildTarget.StandaloneOSXUniversal, "Mac" },
+            { UnityEditor.BuildTarget.StandaloneOSX, "Mac" },
             { UnityEditor.BuildTarget.StandaloneWindows, "Windows" },
 
         };
