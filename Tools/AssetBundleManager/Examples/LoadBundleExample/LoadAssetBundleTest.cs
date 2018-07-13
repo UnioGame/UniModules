@@ -9,7 +9,6 @@ using Object = UnityEngine.Object;
 public class LoadAssetBundleTest : MonoBehaviour
 {
     private Coroutine _coroutine;
-    private bool _isBundleLoaded;
     private IAssetBundleManager _bundleManager;
     private Dictionary<string, IAssetBundleResourceRequest> _assetBundleProviders = new Dictionary<string, IAssetBundleResourceRequest>();
 
@@ -39,7 +38,6 @@ public class LoadAssetBundleTest : MonoBehaviour
 
     private IEnumerator Start()
     {
-        _isBundleLoaded = false;
         _bundleManager = AssetBundleManager.Instance;
         if (!_autoStart) {
             yield break;
@@ -81,7 +79,6 @@ public class LoadAssetBundleTest : MonoBehaviour
         if (string.IsNullOrEmpty(assetName))
             return;
         var asset = LoadAsset<Sprite>(assetBundleName, assetName);
-        var position = new Vector3(0, 0, 900);
         if (!asset)
         {
             Debug.LogError("Asset " + _assetName + " not loaded");
@@ -120,7 +117,7 @@ public class LoadAssetBundleTest : MonoBehaviour
         }
         var position = new Vector3(0,0,900);
         var item = GameObject.Instantiate(go,position, Quaternion.identity,Camera.main.transform);
-        Debug.LogFormat("LOAD ASSET {0} FROM BUNDLE {1}",assetName,assetBundleName);
+        Debug.LogFormat("LOAD ASSET {0} FROM BUNDLE {1} {2}",assetName,assetBundleName,item);
     }
     
     private void UnloadAssetBundle(string bundleName,bool forceUnload)

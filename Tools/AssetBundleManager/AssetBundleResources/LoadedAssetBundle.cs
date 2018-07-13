@@ -92,80 +92,52 @@ namespace AssetBundlesModule
 
         #region async operations
 
-        public IEnumerator LoadAllPrefabAssetsAsync<T>(Action<List<T>> callback)
+        private IEnumerator LoadAllPrefabAssetsAsync<T>(Action<List<T>> callback)
             where T : Object
         {
-            var type = typeof(T);
-            if (_loadedAssetsObjectsTypes.ContainsKey(type))
-            {
-                if (callback != null) callback(GetCacheAssets<T>());
-                yield break;
+            List<T> assets = null;
+            yield return LoadAssetsInternalAsync<T>(x => assets = x);
+            if (assets == null || assets.Count == 0) {
+                List<GameObject> gameObjects = null;
+                yield return LoadAssetsInternalAsync<GameObject>(x => gameObjects = x);
+                assets = LoadComponents<T>(gameObjects);
             }
-            yield return LoadAssetsInternalAsync<GameObject>();
-            var gameObjects = GetCacheAssets<GameObject>();
-
-            var result = LoadComponents<T>(gameObjects);
+            
             if(callback!=null)
-                callback(result.OfType<T>().ToList());
+                callback(assets);
 
-        }
-
-        public IEnumerator LoadPrefabAssetAsync<T>(Action<T> callback) where T : Object
-        {
-            yield return LoadAllPrefabAssetsAsync<T>(x => callback(x.FirstOrDefault()));
-        }
-        
-        public IEnumerator LoadPrefabAssetAsync<T>(string assetName,Action<T> callback) where T : Object
-        {
-            GameObject asset = null;
-            yield return LoadAssetAsync<GameObject>(assetName, x => asset = x);
-            if (!asset)
-            {
-                Debug.LogErrorFormat("LOAD NULL Game Object {0}",assetName);
-                callback(null);
-                yield break;
-            }
-            var component = asset.GetComponent<T>();
-            callback(component);
         }
 
         public IEnumerator LoadAssetAsync<T>(Action<T> callback) where T : Object
         {
             if (IsComponent(typeof(T)))
             {
-                yield return LoadPrefabAssetAsync(callback);
+                GameLog.LogErrorFormat("Trying to load Component from bundle {0} by Type {1}", BundleName,typeof(T).Name);
                 yield break;
             }
-            yield return LoadAssetsInternalAsync<T>();
-            yield return LoadAllAssetsAsync<T>(x => callback(x.FirstOrDefault()));
+            yield return LoadAssetAsync<T>(callback);
         }
 
-        public IEnumerator LoadAssetObjectAsync(string name, Action<Object> callback)
-        {
-            yield return LoadAssetInternalAsync<Object>(name);
-            var asset = GetCacheAsset<Object>(name);
-            callback(asset);
+        public IEnumerator LoadAssetAsync<T>(string assetName, Action<T> callback)
+            where T : Object {
 
-        }
-
-        public IEnumerator LoadAssetAsync<T>(string name, Action<T> callback)
-            where T : Object
-        {
-            if (IsComponent(typeof(T)))
-            {
-                yield return LoadPrefabAssetAsync(name,callback);
-                yield break;
+            T asset = null;
+            if (IsComponent(typeof(T))) {
+                GameObject gameObject = null;
+                yield return LoadAssetInternalAsync<GameObject>(assetName, x => gameObject = x);
+                if (!gameObject)
+                {
+                    Debug.LogErrorFormat("LOAD NULL Game Object {0}", assetName);
+                    callback(null);
+                    yield break;
+                }
+                asset = gameObject.GetComponent<T>();
             }
-            yield return LoadAssetInternalAsync<T>(name);
-            var asset = GetCacheAsset<T>(name);
-            callback(asset);
-        }
-
-        public IEnumerator LoadAssetAsync(string name)
-        {
-            var request = _assetBundle.LoadAssetAsync(name);
-            yield return request;
-            AddAsset(name, request.asset);
+            else {
+                yield return LoadAssetInternalAsync<T>(assetName,x => asset = x);
+            }
+            if(callback!=null)
+                callback(asset);
         }
 
         public IEnumerator LoadAllAssetsAsync<T>(Action<List<T>> callback)
@@ -174,17 +146,16 @@ namespace AssetBundlesModule
             var type = typeof(T);
             if (IsComponent(type))
             {
-                yield return LoadAllPrefabAssetsAsync<T>(callback);
+                //yield return LoadAllPrefabAssetsAsync<T>(callback);
+                GameLog.LogErrorFormat("Trying to load Component from bundle {0} by Type {1}", BundleName, typeof(T).Name);
                 yield break;
             }
-            yield return LoadAssetsInternalAsync<T>();
-            var result = GetCacheAssets(type);
-            if(callback != null) callback(result.OfType<T>().ToList());
+            yield return LoadAssetsInternalAsync<T>(callback);
         }
 
         public IEnumerator LoadAllAssetsAsync(Type type,Action<List<Object>> callback)
         {
-            yield return LoadAssetsInternalAsync(type);
+            yield return LoadAssetsInternalAsync(type,callback);
             var result = GetCacheAssets(type);
             if (callback != null) callback(result);
         }
@@ -193,34 +164,11 @@ namespace AssetBundlesModule
 
         #region sync operations
 
-        private List<Object> LoadPrefabAssets<T>()
-            where T : Object
-        {
-            var type = typeof(T);
-            var result = new List<Object>();
-
-            if (_loadedAssetsObjectsTypes.TryGetValue(type,out result) == true)
-                return result;
-
-            var items = LoadAssets<GameObject>();
-            return LoadComponents<T>(items);
-        }
-
-        public Object LoadAsset(string name)
-        {
-            Object result = null;
-            if (!_loadedAssetsObjects.ContainsKey(name))
-            {
-                result = _assetBundle.LoadAsset(name);
-                if (result == null)
-                {
-                    GameLog.LogErrorFormat("Loading asset {0} from Bundle {1} Failed", name, _assetBundle.name);
-                    return null;
-                }
-                AddAsset(name, result);
-            }
-            result = _loadedAssetsObjects[name];
+        public Object LoadAsset(string assetName) {
+            
+            var result = LoadAsset<Object>(assetName);
             return result;
+
         }
 
         public T LoadAsset<T>() where T : Object
@@ -236,28 +184,25 @@ namespace AssetBundlesModule
             
             var asset = GetCacheAsset<T>(assetName);
 
-            if (asset) return asset;
-
-            var targetType = typeof(T);
-            if (_componentType.IsAssignableFrom(targetType)) {
-                var gameObject = _assetBundle.LoadAsset<GameObject>(assetName);
-                asset = gameObject.GetComponent<T>();
+            if (!asset) {
+                var targetType = typeof(T);
+                if (_componentType.IsAssignableFrom(targetType)) {
+                    var gameObject = _assetBundle.LoadAsset<GameObject>(assetName);
+                    asset = gameObject.GetComponent<T>();
+                }
+                else {
+                    asset = _assetBundle.LoadAsset<T>(assetName);
+                }
+                AddAsset(assetName, targetType, asset);
             }
-            else {
-                asset = _assetBundle.LoadAsset<T>(assetName); 
-            }
 
-            AddAsset(assetName, targetType, asset);
+            ReferencedCount++;
             return asset;
         }
 
         public List<T> LoadAssets<T>()
             where T : Object
         {
-            if (!_assetBundle)
-            {
-                throw new NullReferenceException("AssetResource is NULL");
-            }
             var items = LoadAssetsInternal<T>();
             return items.OfType<T>().ToList();
         }
@@ -267,31 +212,32 @@ namespace AssetBundlesModule
             return LoadAsset(typeof(T).Name) as T;
         }
 
-        public Object LoadAssetByName(string assetName)
-        {
-            return _assetBundle.LoadAsset(assetName);
-        }
-
         #endregion
 
         #endregion
 
         #region private methods
 
+        private IEnumerator LoadAssetAsync(string assetName)
+        {
+            var request = _assetBundle.LoadAssetAsync(assetName);
+            yield return request;
+            AddAsset(assetName, request.asset);
+        }
 
         private void UpdateShaders() {
 
-            return;
             //load all shaders to memory
             _assetBundle.LoadAllAssets<Shader>();
             var materials = _assetBundle.LoadAllAssets<Material>();
-            for (int i = 0; i < materials.Length; i++) {
+            for (var i = 0; i < materials.Length; i++)
+            {
                 var material = materials[i];
                 //ShaderCompiler
-                material.shader = Shader.Find(material.shader.name); //hack to force 
+                material.shader = Shader.Find(material.shader.name); //apply shader to material
                 AddAsset(material.name, material.GetType(), material);
             }
-            
+
         }
 
 
@@ -340,19 +286,28 @@ namespace AssetBundlesModule
             }
         }
 
-        private List<Object> GetCacheAssets(Type type)
-        {
-            return _loadedAssetsObjectsTypes.ContainsKey(type) ? _loadedAssetsObjectsTypes[type] : _emptyObjects;
+        private List<Object> GetCacheAssets(Type type) {
+            List<Object> assets = null;
+            var result = _loadedAssetsObjectsTypes.TryGetValue(type, out assets) ? assets : _emptyObjects ;
+            return result;
         }
 
         private List<T> GetCacheAssets<T>()
             where T : Object
         {
             var type = typeof(T);
-            if (!_loadedAssetsObjectsTypes.ContainsKey(type))
+            List<Object> result = null;
+            if (!_loadedAssetsObjectsTypes.TryGetValue(type, out result))
                 return new List<T>();
-            var result = _loadedAssetsObjectsTypes[type];
             return result.OfType<T>().ToList();
+        }
+
+        private Object GetCacheAsset(Type type) {
+
+            List<Object> assets = null;
+            _loadedAssetsObjectsTypes.TryGetValue(type, out assets);
+            return assets == null ? null : assets.FirstOrDefault();
+
         }
 
         private T GetCacheAsset<T>(string assetName)
@@ -372,7 +327,7 @@ namespace AssetBundlesModule
 
         #endregion
 
-        private List<Object> LoadComponents<T>(List<GameObject> items) where T : Object {
+        private List<T> LoadComponents<T>(List<GameObject> items) where T : Object {
 
             var targetType = typeof(T);
 
@@ -381,9 +336,9 @@ namespace AssetBundlesModule
             List<Object> result = null;
 
             if (_loadedAssetsObjectsTypes.TryGetValue(targetType, out result) == true)
-                return result;
+                return result.OfType<T>().ToList();
 
-            return _emptyObjects;
+            return new List<T>();
         }
 
         private void AddComponentsToCache(List<GameObject> items,Type componentType) {
@@ -411,72 +366,98 @@ namespace AssetBundlesModule
             where T : Object
         {
             var type = typeof(T);
-            if (_loadedAssetsObjectsTypes.ContainsKey(type))
-                return GetCacheAssets(type);
-            if (IsComponent(type) == true) {
-                return LoadPrefabAssets<T>();
+            var result = GetCacheAssets(type);
+            
+            if (result.Count == 0 && IsComponent(type) == true) {
+                Debug.LogErrorFormat("Loading asset TYPE {0} from Bundle {1} Failed", type.Name, _assetBundle.name);
+
+                //result = LoadPrefabAssets<T>();
             }
-            var result = _assetBundle.LoadAllAssets<T>();
-            if (result.Length == 0)
-            {
-                Debug.LogErrorFormat("Loading asset TYPE {0} from Bundle {1} Failed",
-                    type.Name, _assetBundle.name);
+
+            if (result.Count == 0) {
+                var bundleAssets = _assetBundle.LoadAllAssets<T>();
+                if (bundleAssets.Length == 0) {
+                    Debug.LogErrorFormat("Loading asset TYPE {0} from Bundle {1} Failed", type.Name, _assetBundle.name);
+                    return result;
+                }
+                AddAssets(type, bundleAssets);
+                result = new List<Object>(bundleAssets);
             }
-            else
-            {
-                AddAssets(type, result);
-            }
-            return GetCacheAssets(type);
+
+            ReferencedCount++;
+            return result;
         }
 
 
-        private IEnumerator LoadAssetsInternalAsync<T>()
+        private IEnumerator LoadAssetsInternalAsync<T>(Action<List<T>> callback)
         {
             var type = typeof(T);
-            if (_loadedAssetsObjectsTypes.ContainsKey(type))
-            {
-                yield break;
+            var result = GetCacheAssets(type);
+            if (result.Count == 0) {
+                var request = _assetBundle.LoadAllAssetsAsync<T>();
+                yield return request;
+                if (request.allAssets.Length == 0) {
+                    Debug.LogErrorFormat("Loading asset TYPE {0} from Bundle {1} Failed", type.Name, _assetBundle.name);
+                }
+                AddAssets(type, request.allAssets);
+                result = GetCacheAssets(type);
             }
-            var result = _assetBundle.LoadAllAssetsAsync<T>();
-            yield return result;
-            if (result.allAssets.Length == 0)
-            {
-                Debug.LogErrorFormat("Loading asset TYPE {0} from Bundle {1} Failed",
-                    type.Name, _assetBundle.name);
-            }
-            AddAssets(type, result.allAssets);
+
+            ReferencedCount++;
+            if (callback != null)
+                callback(result.OfType<T>().ToList());
         }
 
-        private IEnumerator LoadAssetsInternalAsync(Type type)
-        {
-            if (_loadedAssetsObjectsTypes.ContainsKey(type))
-            {
-                yield break;
+        private IEnumerator LoadAssetsInternalAsync(Type type,Action<List<Object>> callback) {
+            var assets = GetCacheAssets(type);
+            if (assets == null || assets.Count==0) {
+                var result = _assetBundle.LoadAllAssetsAsync(type);
+                yield return result;
+                if (result.allAssets.Length == 0) {
+                    Debug.LogErrorFormat("Loading asset TYPE {0} from Bundle {1} Failed", type.Name, _assetBundle.name);
+                }
+
+                assets = result.allAssets.ToList();
+                AddAssets(type, result.allAssets);
             }
-            var result = _assetBundle.LoadAllAssetsAsync(type);
-            yield return result;
-            if (result.allAssets.Length == 0)
-            {
-                Debug.LogErrorFormat("Loading asset TYPE {0} from Bundle {1} Failed",
-                    type.Name, _assetBundle.name);
-            }
-            AddAssets(type, result.allAssets);
+
+            ReferencedCount++;
+            if (callback != null)
+                callback(assets);
         }
 
-        private IEnumerator LoadAssetInternalAsync<T>(string assetName)
+        private IEnumerator LoadAssetInternalAsync<T>(string assetName, Action<T> callback)
             where T : Object
         {
             var type = typeof(T);
             var asset = GetCacheAsset<T>(assetName);
-            if (asset)
-            {
-                yield break;
-            }
- 
-			var result = _assetBundle.LoadAssetAsync<T>(assetName);
-            yield return result;
-            AddAsset(assetName, type, result.asset);
+            if (!asset) {
 
+                var result = _assetBundle.LoadAssetAsync<T>(assetName);
+                yield return result;
+                asset = result.asset as T;
+                AddAsset(assetName, type, result.asset);
+                
+            }
+
+            if (asset) ReferencedCount++;
+            if(callback!=null)
+                callback(asset);
+        }
+
+        private T LoadAssetInternal<T>(string assetName)
+            where T : Object
+        {
+            var type = typeof(T);
+            var asset = GetCacheAsset<T>(assetName);
+            if (asset == null) {
+                asset = _assetBundle.LoadAsset<T>(assetName);
+                AddAsset(assetName, type, asset);
+            }
+            if(asset)
+                ReferencedCount++;
+
+            return asset;
         }
 
         private bool IsComponent(Type targetType)

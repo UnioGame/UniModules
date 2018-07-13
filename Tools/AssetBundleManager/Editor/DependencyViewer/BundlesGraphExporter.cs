@@ -17,12 +17,10 @@ namespace DependencyViewer
     }
 
     public class BundlesGraphExporter {
-
-        private string _subGraphTemplate = "subgraph {0} { {1} }";
+        
         private string _graphTemplate = "digraph {{ \n{0}\n }}";
         private string _directionNode = "{0} -> {1}";
         private string _lineNode = "{0} -- {1}";
-        private string _node = "{0}{1}";
 
         public void Export(List<DependencyViewerModel> models) {
 

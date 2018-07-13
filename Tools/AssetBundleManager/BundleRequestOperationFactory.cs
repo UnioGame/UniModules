@@ -73,11 +73,11 @@ namespace AssetBundlesModule
         public string GetStreamingAssetsPathWWW()
         {
             return _assetsLocation;
-            if (Application.isMobilePlatform || Application.isConsolePlatform)
-            {
-                return _assetsLocation;
-            }
-            return string.Format(_wwwTemplate, _assetsLocation); // Use the build output folder directly.
+            //if (Application.isMobilePlatform || Application.isConsolePlatform)
+            //{
+            //    return _assetsLocation;
+            //}
+            //return string.Format(_wwwTemplate, _assetsLocation); // Use the build output folder directly.
             //else if (Application.isMobilePlatform || Application.isConsolePlatform)
             //    return Application.streamingAssetsPath;
         }

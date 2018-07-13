@@ -23,7 +23,6 @@ public class AssetBundleManagerReferenciesWindow : EditorWindow {
     private static Type AssetType = typeof(Object);
 
     private Vector2 _scroll = new Vector2();
-    private AssetBundleManager _assetBundleManager;
     private Dictionary<string, AssetBundleProviderInfo> _providerInfos;
 
     private const string _bundleLableName = "{0} [{1}] :";
@@ -54,8 +53,6 @@ public class AssetBundleManagerReferenciesWindow : EditorWindow {
 
     private void InitializeWindow() {
 
-        _assetBundleManager = AssetBundleManager.Instance;
-        
         if (_providerInfos == null)
             _providerInfos = new Dictionary<string, AssetBundleProviderInfo>();
         if (_assetBundles == null || _assetBundles.Length == 0) {

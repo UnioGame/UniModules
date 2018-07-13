@@ -32,7 +32,10 @@ public class AssetReferenceViewerWindow : EditorWindow
 		
 
 	    _scroll = EditorGUILayout.BeginScrollView(_scroll);
-	    GUILayout.BeginVertical();
+	    if (string.IsNullOrEmpty(_guid))
+	        _guid = string.Empty;
+        
+        GUILayout.BeginVertical();
 
         EditorGUILayout.Space();
 

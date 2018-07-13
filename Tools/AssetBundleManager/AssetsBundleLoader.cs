@@ -58,7 +58,11 @@ namespace AssetBundlesModule
                 ? GetBundleDependencies(assetBundleName)
                 : ClassPool.Spawn<List<string>>();
 
+            GameProfiler.BeginSample("AssetBundleLoader.CreateBundleRequestWithDependencies");
+
             request = CreateBundleRequestWithDependencies(assetBundleName, dependencies, sourceType);
+
+            GameProfiler.EndSample();
 
             _requests.Add(assetBundleName,request);
             
@@ -88,18 +92,18 @@ namespace AssetBundlesModule
                 return dependencies;
             }
             
+            GameProfiler.BeginSample("AssetBundleLoader.GetBundleDependencies");
+
             dependencies = ClassPool.Spawn<List<string>>();
 
-            if (_simulateMode) {
-#if UNITY_EDITOR
-                dependencies.AddRange(UnityEditor.AssetDatabase.GetAssetBundleDependencies(assetBundleName, true));
-#endif
-            }
-            else {
+            if (_simulateMode == false) {
                 dependencies.AddRange(AssetBundleManifest.GetAllDependencies(assetBundleName));
             }
 
             _dependencies[assetBundleName] = dependencies;
+
+            GameProfiler.EndSample();
+
             return dependencies;
         }
 

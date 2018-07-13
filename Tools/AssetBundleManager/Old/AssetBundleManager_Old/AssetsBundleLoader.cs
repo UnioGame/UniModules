@@ -12,8 +12,7 @@ namespace AssetBundlesModule_Old{
         private const string ManifestName = "AssetBundles";
 
         #region static data
-
-        private static string _wwwTemplate = "file://{0}";//"{0}/";//
+        
         private static Dictionary<string, LoadedAssetBundle> _loadedAssetBundles = new Dictionary<string, LoadedAssetBundle>();
         private static Dictionary<string, AssetBundleCreateRequest> _downloadingRequest = new Dictionary<string, AssetBundleCreateRequest>();
         private static HashSet<string> _loadingBundles = new HashSet<string>();
@@ -282,11 +281,11 @@ namespace AssetBundlesModule_Old{
         {
             var assetLocation = GetStreamingAssetsPath();
             return assetLocation;
-            if (Application.isMobilePlatform || Application.isConsolePlatform)
-            {
-                return assetLocation;
-            }
-            return string.Format(_wwwTemplate, assetLocation); // Use the build output folder directly.
+            //if (Application.isMobilePlatform || Application.isConsolePlatform)
+            //{
+            //    return assetLocation;
+            //}
+            //return string.Format(_wwwTemplate, assetLocation); // Use the build output folder directly.
             //else if (Application.isMobilePlatform || Application.isConsolePlatform)
             //    return Application.streamingAssetsPath;
         }

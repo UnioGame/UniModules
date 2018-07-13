@@ -4,35 +4,32 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using AssetBundlesModule;
 using Assets.Tools.Utils;
 using Assets.Scripts.ProfilerTools;
 using UnityEngine;
 using Object = UnityEngine.Object;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 
-namespace Assets.Scripts.Tools.AssetBundleManager.AssetBundleResources
+namespace AssetBundlesModule
 {
+
     public class SimulateBundleResource : IAssetBundleResource
     {
 
         private static Type _componentType = typeof(Component);
         private static Type _gameObjectType = typeof(GameObject);
-        private static bool _useInstances = true;
-        
-        private Dictionary<string, Dictionary<Type, Object>> _namedAssets;
+
+        private bool _initialized = false;
+        private Dictionary<string, Dictionary<Type, List<Object>>> _namedAssets;
         private Dictionary<Type, List<Object>> _assets;
         private Dictionary<string, List<string>> _assetsMap;
-        
+        private List<Component> _components = new List<Component>();
+
         public string BundleName { get; protected set; }
         public string[] AllAssetsNames { get; protected set; }
         public string[] Dependencies { get; protected set; }
         public int ReferencedCount { get; set; }
         public IEnumerable<Object> CachedObjects { get; protected set; }
-
 
         #region constructor
 
@@ -44,13 +41,14 @@ namespace Assets.Scripts.Tools.AssetBundleManager.AssetBundleResources
                 GameLog.LogErrorFormat("SimulateBundleResource assetBundleName is empty", assetBundleName);
                 return;
             }
-            _namedAssets = new Dictionary<string, Dictionary<Type, Object>>();
+            _namedAssets = new Dictionary<string, Dictionary<Type, List<Object>>>();
             _assetsMap = new Dictionary<string, List<string>>();
             _assets = new Dictionary<Type, List<Object>>();
 
 #if UNITY_EDITOR
-            AllAssetsNames = AssetDatabase.GetAssetPathsFromAssetBundle(BundleName);
-            Dependencies = AssetDatabase.GetAssetBundleDependencies(assetBundleName,true);
+
+            AllAssetsNames = UnityEditor.AssetDatabase.GetAssetPathsFromAssetBundle(BundleName);
+            Dependencies =  new string[0];//UnityEditor.AssetDatabase.GetAssetBundleDependencies(assetBundleName,false);
 
             if (AllAssetsNames.Length == 0)
             {
@@ -58,10 +56,7 @@ namespace Assets.Scripts.Tools.AssetBundleManager.AssetBundleResources
                 return;
             }
 
-            //LogDependencies(Dependencies);
-
-            if (Application.isEditor == false || Application.isPlaying)
-                InitializeAssets(AllAssetsNames);
+            InitializeAssets(AllAssetsNames);
 #endif
         }
 
@@ -80,8 +75,8 @@ namespace Assets.Scripts.Tools.AssetBundleManager.AssetBundleResources
             yield break;
         }
 
-        public IEnumerator LoadAssetAsync<T>(string name, Action<T> callback) where T : Object {
-            var asset = LoadAssetByName<T>(name);
+        public IEnumerator LoadAssetAsync<T>(string assetName, Action<T> callback) where T : Object {
+            var asset = LoadAssetByName<T>(assetName);
             callback(asset);
             yield break;
         }
@@ -105,13 +100,15 @@ namespace Assets.Scripts.Tools.AssetBundleManager.AssetBundleResources
             yield break;
         }
 
-        public Object LoadAsset(string name) {
-            return LoadAssetByName(name);
+        public Object LoadAsset(string assetName) {
+            return LoadAssetByName(assetName);
         }
 
         #region sync
 
-        public T LoadAsset<T>() where T : Object {
+        public T LoadAsset<T>() where T : Object
+        {
+            LoadAssetsInternal();
             var type = typeof(T);
             if (!_assets.ContainsKey(type))
                 return null;
@@ -123,6 +120,7 @@ namespace Assets.Scripts.Tools.AssetBundleManager.AssetBundleResources
         }
 
         public List<T> LoadAssets<T>() where T : Object {
+            LoadAssetsInternal();
             var type = typeof(T);
             if (!_assets.ContainsKey(type))
                 return null;
@@ -187,55 +185,78 @@ namespace Assets.Scripts.Tools.AssetBundleManager.AssetBundleResources
                 _assetsMap[assetPath].Add(assetPath);
             }
 
-            LoadAssetsInternal();
         }
 
         private void LoadAssetsInternal()
         {
+            GameProfiler.BeginSample("Simulate.LoadAssetsInternal " + BundleName);
+
+            if (_initialized) return;
 #if  UNITY_EDITOR
             foreach (var assetPath in AllAssetsNames)
             {
-
-                var asset = AssetDatabase.LoadAssetAtPath<Object>(assetPath);
-                var gameObject = asset as GameObject;
-                if (gameObject != null)
-                {
-                    var components = gameObject.GetComponents(typeof(Component));
-                    for (int i = 0; i < components.Length; i++)
-                    {
-                        AddAsset(components[i]);
-                    }
-
-                    gameObject.SetActive(false);
-                    ;
-                }
-                AddAsset(asset);
-                if (asset is Texture2D)
-                {
-                    var sprite = AssetDatabase.LoadAssetAtPath<Sprite>(assetPath);
-                    AddAsset(sprite);
-                }
+                LoadAssetData(assetPath);
             }
 #endif
+            _initialized = true;
+
+            GameProfiler.EndSample();
         }
 
-        private void AddAsset(Object asset)
+        private void LoadAssetData(string assetPath)
         {
+#if UNITY_EDITOR
+            var asset = UnityEditor.AssetDatabase.LoadAssetAtPath<Object>(assetPath);
+            var gameObject = asset as GameObject;
+            if (gameObject != null)
+            {
+                var components = gameObject.GetComponents(typeof(Component));
+                for (int i = 0; i < components.Length; i++)
+                {
+                    AddAsset(components[i],assetPath);
+                }
 
+                gameObject.SetActive(false);
+            }
+            AddAsset(asset, assetPath);
+            if (asset is Texture2D)
+            {
+                var sprite = UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>(assetPath);
+                AddAsset(sprite, assetPath);
+            }
+#endif
+
+        }
+
+        private void AddAsset(Object asset, string assetPath)
+        {
             if (asset == null) return;
 
-            var assetName = asset.name;
             var type = asset.GetType();
-            if (!_assets.ContainsKey(type))
+            List<Object> typeAssets = null;
+            if (!_assets.TryGetValue(type,out typeAssets))
             {
-                _assets[type] = new List<Object>();
+                typeAssets = new List<Object>();
+                _assets[type] = typeAssets;
             }
             _assets[type].Add(asset);
-            if (!_namedAssets.ContainsKey(assetName))
+
+            Dictionary<Type, List<Object>> assets = null;
+            if (!_namedAssets.TryGetValue(assetPath,out assets))
             {
-                _namedAssets[assetName] = new Dictionary<Type, Object>();
+                assets = new Dictionary<Type, List<Object>>();
+                _namedAssets[assetPath] = assets;
             }
-            _namedAssets[assetName][type] = asset;
+
+            List<Object> typeObjects = null;
+            if(!assets.TryGetValue(type,out typeObjects))
+            {
+                typeObjects = new List<Object>();
+                assets[type] = typeObjects;
+            }
+
+            typeObjects.Add(asset);
+
         }
 
         private T LoadEditorAsset<T>(string assetName) where T : Object
@@ -250,78 +271,111 @@ namespace Assets.Scripts.Tools.AssetBundleManager.AssetBundleResources
             var targetType = typeof(T);
             var isComponent = _componentType.IsAssignableFrom(targetType);
             var resultAsset = GetCacheAsset<T>(assetName);
+            Object asset = null;
 
             if (resultAsset == null)
             {
+                GameProfiler.BeginSample("Simulate.LoadEditorAsset<T>");
 
                 var assets = _assetsMap[assetName];
                 for (int i = 0; i < assets.Count; i++)
                 {
 
                     var path = assets[i];
-                    var asset = isComponent
-                        ? AssetDatabase.LoadAssetAtPath<GameObject>(path) as Object
-                        : AssetDatabase.LoadAssetAtPath<T>(path);
-                    if (asset == null)
-                    {
-                        var loadedResource = AssetDatabase.LoadAssetAtPath<Object>(path);
+                    asset = isComponent
+                        ? UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(path) as Object
+                        : UnityEditor.AssetDatabase.LoadAssetAtPath<T>(path);
+                    if (asset == null) {
+                        var loadedResource = UnityEditor.AssetDatabase.LoadAssetAtPath<Object>(path);
                         asset = loadedResource as T;
                     }
-                    if (asset == null)
-                    {
+                    if (asset == null) {
                         continue;
                     }
 
                     //add already loaded asset to cache
-                    AddAsset(asset);
+                    AddAsset(asset, path);
 
                     var gameObject = asset as GameObject;
-                    if (isComponent && gameObject != null)
-                    {
-                        var component = gameObject.GetComponent<T>();
-                        if (component == false) continue;
-                        resultAsset = component;
-                        AddAsset(component);
-                    }
+                    var resultComponent = AddComponents<T>(gameObject,path);
+                    if (resultComponent)
+                        resultAsset = resultComponent;
 
                     var targetTypeAsset = asset as T;
-                    if (targetTypeAsset != null)
-                    {
+                    if (targetTypeAsset != null) {
                         resultAsset = targetTypeAsset;
                     }
                 }
 
-                if (resultAsset == null)
-                {
+                GameProfiler.EndSample();
+                
+                if (resultAsset == null)  {
                     GameLog.LogErrorFormat("Requested resource with name: {0} from bundle {1} is NULL", assetName,
                         BundleName);
                     return null;
                 }
             }
 
-            if (resultAsset is GameObject || isComponent)
+            resultAsset = MakeInstance<T>(resultAsset,isComponent);
+ 
+            if (resultAsset == null)
             {
-                var component = resultAsset as Component;
-                var targetObject = resultAsset as GameObject;
+                GameLog.LogErrorFormat("Requested resource with name: {0} from bundle {1} is NULL", assetName, BundleName);
+                return null;
+            }
+
+            return resultAsset;
+#endif
+#pragma warning disable CS0162 // Обнаружен недостижимый код
+            return null;
+#pragma warning restore CS0162 // Обнаружен недостижимый код
+        }
+
+        private T MakeInstance<T>(T asset, bool isComponent) where T : Object {
+
+            T resultAsset = null;
+            if (asset is GameObject || isComponent)
+            {
+                var component = asset as Component;
+                var targetObject = asset as GameObject;
                 var go = component != null ? component.gameObject : targetObject;
                 var position = go.transform.position;
                 var rotation = go.transform.rotation;
                 var resultGameObject = ObjectPool.Spawn(go, position, rotation, false);
+
+                AssetsInstanceMap.Register(resultGameObject, go);
+
                 resultAsset = isComponent ? resultGameObject.GetComponent<T>() : resultGameObject as T;
             }
             else
             {
-                var bufferResult = _useInstances ? Object.Instantiate(resultAsset) : resultAsset;
-                resultAsset = bufferResult ? bufferResult : resultAsset;
+                resultAsset = Object.Instantiate(asset);
             }
 
-            if (resultAsset == null)
-            {
-                GameLog.LogErrorFormat("Requested resource with name: {0} from bundle {1} is NULL", assetName, BundleName);
-            }
+            AssetsInstanceMap.Register(resultAsset, asset);
             return resultAsset;
-#endif
-            return null;
+        }
+
+        private T AddComponents<T>(GameObject gameObject,string path) where T : Object
+        {
+            T result = null;
+            _components.Clear();
+            if (gameObject != null)
+            {
+                gameObject.GetComponents(_components);
+                for (int i = 0; i < _components.Count; i++)
+                {
+                    var component = _components[i];
+                    var resultComponent = component as T;
+                    if (resultComponent)
+                    {
+                        result = resultComponent;
+                    }
+                    AddAsset(component, path);
+                }
+            }
+
+            return result;
         }
 
         private T GetCacheAsset<T>(string resourceName) where T : Object
@@ -333,9 +387,10 @@ namespace Assets.Scripts.Tools.AssetBundleManager.AssetBundleResources
             var namedItems = _namedAssets[resourceName];
             var targetType = typeof(T);
 
-            if (_componentType.IsAssignableFrom(targetType) && namedItems.ContainsKey(_gameObjectType))
+            if (_componentType.IsAssignableFrom(targetType) && 
+                namedItems.ContainsKey(_gameObjectType))
             {
-                var targetObject = namedItems[_gameObjectType] as GameObject;
+                var targetObject = namedItems[_gameObjectType].FirstOrDefault() as GameObject;
                 return targetObject ? targetObject.GetComponent<T>() : null;
             }
 
@@ -343,9 +398,9 @@ namespace Assets.Scripts.Tools.AssetBundleManager.AssetBundleResources
             {
                 var foundType = namedItems.FirstOrDefault(x => targetType.IsAssignableFrom(x.Key)).Key;
                 if (foundType == null) return null;
-                return namedItems[foundType] as T;
+                return namedItems[foundType].FirstOrDefault() as T;
             }
-            var asset = namedItems[targetType];
+            var asset = namedItems[targetType].FirstOrDefault();
             return asset as T;
         }
 

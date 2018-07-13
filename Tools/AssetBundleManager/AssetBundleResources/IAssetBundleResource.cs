@@ -15,16 +15,14 @@ namespace AssetBundlesModule {
         
         IEnumerator LoadAssetAsync<T>(Action<T> callback) where T : Object;
 
-        IEnumerator LoadAssetAsync<T>(string name, Action<T> callback)where T : Object;
-
-        IEnumerator LoadAssetObjectAsync(string name, Action<Object> action);
+        IEnumerator LoadAssetAsync<T>(string assetName, Action<T> callback)where T : Object;
 
         IEnumerator LoadAllAssetsAsync<T>(Action<List<T>> callback)where T : Object;
 
         IEnumerator LoadAllAssetsAsync(Type type,Action<List<Object>> callback);
 
 
-        Object LoadAsset(string name);
+        Object LoadAsset(string assetName);
         T LoadAsset<T>() where T : Object;
         T LoadAsset<T>(string assetName) where T : Object;
 
@@ -32,7 +30,6 @@ namespace AssetBundlesModule {
             where T : Object;
 
         T LoadAssetByTypeName<T>() where T : Object;
-        Object LoadAssetByName(string assetName);
 
         //unload bundle resource
         bool Unload(bool forceUnload);

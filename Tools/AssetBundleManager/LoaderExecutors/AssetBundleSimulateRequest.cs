@@ -1,14 +1,18 @@
 ﻿using System.Collections;
-using Assets.Scripts.Tools.AssetBundleManager.AssetBundleResources;
+using Assets.Scripts.ProfilerTools;
 
 namespace AssetBundlesModule {
 
     public class AssetBundleSimulateRequest : AssetBundleRequest {
 
         protected override void OnComplete() { 
+            
+            GameProfiler.BeginSample("AssetBundleSimulateRequest.OnComplete");
 
             BundleResource = new SimulateBundleResource(BundleName);
             base.OnComplete();
+
+            GameProfiler.EndSample();
 
         }
 

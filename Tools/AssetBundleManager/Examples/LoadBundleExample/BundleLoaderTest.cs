@@ -11,16 +11,12 @@ using UnityEditor;
 
 public class BundleLoaderTest : MonoBehaviour
 {
-    private Coroutine _coroutine;
-    private bool _isBundleLoaded;
     private IAssetBundleManager _bundleManager;
-    private IAssetBundleResourceRequest _assetBundleResourceRequest;
     private IAssetBundleResource _assetBundleResource;
     private string _status;
     private string _assetName;
 
     private Dictionary<string,IAssetBundleResource> _bundleResources = new Dictionary<string, IAssetBundleResource>();
-    private List<string> _spritesNames = new List<string>();
     private List<string> _assets = new List<string>();
 
     [SerializeField] private Transform _origin;
@@ -35,7 +31,6 @@ public class BundleLoaderTest : MonoBehaviour
     
     private void Start()
     {
-        _isBundleLoaded = false;
         _bundleManager = AssetBundleManager.Instance;
         _unloadABButton.onClick.AddListener(() => UnloadAssetBundle(false));
         _unloadABForceButton.onClick.AddListener(() => UnloadAssetBundle(true));
@@ -92,8 +87,10 @@ public class BundleLoaderTest : MonoBehaviour
         return bundleNames;
 
 #endif
-        
+
+#pragma warning disable CS0162 // Обнаружен недостижимый код
         return _bundleManager.AssetBundleManifest.GetAllAssetBundles();
+#pragma warning restore CS0162 // Обнаружен недостижимый код
     }
 
     public void LoadBundleResource() {
@@ -120,7 +117,6 @@ public class BundleLoaderTest : MonoBehaviour
             UpdateStatus(string.Format("Asset {0} {1} Loaded", assetBundle.BundleName, assetName));
         }
         Instantiate(go,_origin.position,Quaternion.identity);
-        _coroutine = null;
     }
 
     private void UpdateStatus(string status) {
@@ -132,7 +128,6 @@ public class BundleLoaderTest : MonoBehaviour
     private void UnloadAssetBundle(bool forceUnload)
     {
         _bundleManager.UnloadAssetBundle(_bundlesDropdown.SelectedBundleName,forceUnload);
-        _assetBundleResourceRequest = null;
     }
 
     private void CollectGC()

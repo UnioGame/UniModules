@@ -52,7 +52,7 @@ namespace AssetBundlesModule_Old
                 GameLog.LogErrorFormat("There is no asset in Bundle {0}", assetBundleName);
                 return;
             }
-            var dependencies = AssetDatabase.GetAssetBundleDependencies(assetBundleName, true);
+            var dependencies = AssetDatabase.GetAssetBundleDependencies(assetBundleName, false);
             //todo move to conditional method
             var abDependencies = string.Format("AssetBundle [{0}] dependencies : ", assetBundleName);
             for (var i = 0; i < dependencies.Length; i++)

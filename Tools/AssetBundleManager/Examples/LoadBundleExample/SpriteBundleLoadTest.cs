@@ -11,9 +11,7 @@ public class SpriteBundleLoadTest : MonoBehaviour
     private const string SpriteNameTemplate = "sprite_test {0}";
 
     private Coroutine _coroutine;
-    private bool _isBundleLoaded;
     private IAssetBundleManager _bundleManager;
-    private IAssetBundleResourceRequest _assetBundleResourceRequest;
     
     private List<string> _spritesNames = new List<string>();
 
@@ -28,7 +26,6 @@ public class SpriteBundleLoadTest : MonoBehaviour
     
     private void Start()
     {
-        _isBundleLoaded = false;
         _bundleManager = AssetBundleManager.Instance;
         _unloadABButton.onClick.AddListener(() => UnloadAssetBundle(false));
         _unloadABForceButton.onClick.AddListener(() => UnloadAssetBundle(true));
@@ -81,7 +78,6 @@ public class SpriteBundleLoadTest : MonoBehaviour
     private void UnloadAssetBundle(bool forceUnload)
     {
         _bundleManager.UnloadAssetBundle(AssetBundleName,forceUnload);
-        _assetBundleResourceRequest = null;
     }
 
     private void CollectGC()

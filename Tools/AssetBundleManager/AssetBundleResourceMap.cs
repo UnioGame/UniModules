@@ -55,5 +55,24 @@ namespace AssetBundlesModule
             return result;
         }
 
+        //public bool Unload(string assetBundleName, bool force)
+        //{
+        //    IAssetBundleResource resource = null;
+        //    if (_cacheMap.TryGetValue(assetBundleName, out resource) == false)
+        //    {
+        //        GameLog.LogWarningFormat("Bundle Map Unload NULL with name {0}", assetBundleName);
+        //        return false;
+        //    }
+
+        //    var result = resource.Unload(force);
+        //    if (result)
+        //    {
+        //        _cacheMap.Remove(assetBundleName);
+        //        _allNames.Clear();
+        //        _allNames.Remove(assetBundleName);
+        //    }
+        //    return result;
+        //}
+
     }
 }

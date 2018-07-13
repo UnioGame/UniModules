@@ -54,7 +54,7 @@ public class BundleAssetsViewerControl {
     {
         if (_assetsInBundleCache.Count == 0) return;
 
-        EditorGUILayout.LabelField(string.Format("Dependency assets [{0}]", _assetsInBundleCache.Count));
+        EditorGUILayout.LabelField(string.Format("Dependency of [{0}] assets [{1}]",_model.BundleName, _assetsInBundleCache.Count));
 
         EditorGUI.indentLevel++;
         var color = GUI.backgroundColor;

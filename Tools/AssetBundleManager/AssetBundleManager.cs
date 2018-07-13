@@ -121,6 +121,7 @@ public class AssetBundleManager : IAssetBundleManager
             return;
 
         _map.Unload(assetBundleName,force);
+
     }
     
     #region sync operations
@@ -193,13 +194,27 @@ public class AssetBundleManager : IAssetBundleManager
     #region private methtods
 
     private IAssetBundleResource GetBundleResource(string assetBundleName) {
+
+        GameProfiler.BeginSample("AssetBundleManager.GetBundleResourceRequest");
+
         var mode = IsSumulateMode ? AssetBundleSourceType.Simulation : AssetBundleSourceType.LocalFile;
         var request = _bundleLoader.GetAssetBundleRequest(assetBundleName, mode);
+
+        GameProfiler.EndSample();
+
         if (request.BundleResource != null)
             return request.BundleResource;
+
+        GameProfiler.BeginSample("AssetBundleManager.GetBundleResourceExecute");
+
         var awaiter = request.Execute();
         awaiter.WaitCoroutine();
+
+        GameProfiler.EndSample();
+
         return request.BundleResource;
+
+
     }
 
     private IEnumerator MakeAssetRequestAsync(string assetBundleName, Func<IAssetBundleResource,IEnumerator> resourceAction, 

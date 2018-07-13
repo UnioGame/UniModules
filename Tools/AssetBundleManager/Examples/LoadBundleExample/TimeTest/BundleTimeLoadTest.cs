@@ -19,9 +19,6 @@ public class BundleTimeLoadTest : MonoBehaviour {
     private string _bundleTemplateName = "data-assetprefabs{0}";
     private string _baseUrl = "";
     private string _assetTemplate = "sprite_test {0}";
-    private string[] _budnledependepciesTestName = new [] {
-        _budnledependepcies
-    };
     private int count = 100;
     private int _bundlesCount = 30;
     private string[] _bundlesNames;
@@ -121,7 +118,6 @@ public class BundleTimeLoadTest : MonoBehaviour {
 
     public void LoadBundlesWithSyncDependencies()
     {
-        var configuration = new AssetBundleConfiguration(_manifestName, _baseUrl, false, false);
         Observable.FromCoroutine(x => LoadBundles(_bundlesNames, _assetBundleManager, _sourceType)).Subscribe();
     }
 
@@ -292,7 +288,7 @@ public class BundleTimeLoadTest : MonoBehaviour {
         {
 
             var path = paths[i];
-            var bundle = AssetBundle.LoadFromFile(path);
+            AssetBundle.LoadFromFile(path);
 
         }
 
