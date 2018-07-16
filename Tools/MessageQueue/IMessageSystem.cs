@@ -2,29 +2,18 @@
 
 namespace Assets.Scripts.MessageQueue
 {
-    public interface IMessageSystem : IDisposable
+    public interface IMessageSystem<TData> : IDisposable
     {
         /// <summary>
         /// add source channel
         /// </summary>
-        void AddSource(IChannel channel);
-
-        /// <summary>
-        /// remove channel source
-        /// </summary>
-        void RemoveSource(IChannel channel);
+        IDisposable AddPublicher(IObservable<TData> observable);
 
         ///  <summary>
         ///  register channel to target messages
         ///  </summary>
-        /// <param name="channel">message channel</param>
-        void Register(IChannel channel);
-
-        /// <summary>
-        /// remove subscription
-        /// </summary>
-        /// <param name="channel">target channel</param>
-        void RemoveRegistration(IChannel channel);
+        /// <param name="observer"></param>
+        IResetable Subscribe(IObserver<TData> observer);
 
 
     }
