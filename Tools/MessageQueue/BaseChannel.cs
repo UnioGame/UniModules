@@ -16,10 +16,13 @@ namespace Assets.Scripts.MessageQueue {
         private List<IDisposable> _disposables;
         private Dictionary<Type, object> _registeredTypes;
 
-        private IDisposable _inputDisposable;
+        private IResetable _inputDisposable;
         private IDisposable _outputDisposable;
+        private IMessageSystem<IMessage> _messageSystem;
 
         public BaseChannel(IMessageSystem<IMessage> messageSystem) {
+
+            _messageSystem = messageSystem;
 
             _input = new Subject<IMessage>();
             _output = new Subject<IMessage>();
@@ -53,10 +56,14 @@ namespace Assets.Scripts.MessageQueue {
             where T : class {
 
             var targetType = typeof(T);
+            if(_inputDisposable == null)
+                _inputDisposable = _messageSystem.Subscribe(_input);
 
             if (_registeredTypes.TryGetValue(targetType, out object outObservable) == false) {
+
                 outObservable = _input.Select(x => x.Context as T).Where(x => x != null);
                 _registeredTypes.Add(targetType, outObservable);
+
             }
 
             return outObservable as IObservable<T>;
