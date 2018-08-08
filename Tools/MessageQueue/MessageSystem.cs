@@ -8,6 +8,7 @@ namespace Assets.Scripts.MessageQueue
 {
     public class MessageSystem : ObserableRxHub<IMessage>
     {
+
         private static Color _messageLogColor = new Color(0, 100, 0);
 
         #region private methods
@@ -16,21 +17,19 @@ namespace Assets.Scripts.MessageQueue
         {
             LogMessage(message,true);
 
-            //remove marked observers
-            for (var i = 0; i < _unsubscribedObservers.Count; i++) {
-                _subscribers.Remove(_unsubscribedObservers[i]);
-            }
-
             if (message == null || message.Type == null) {
                 return;
             }
 
-            for (var i = 0; i < _subscribers.Count; i++) {
-                var subsrcriber = _subscribers[i];
-                if (subsrcriber == sender || message.Sender == sender) continue;
+            foreach (var output in _subscribers) {
 
-                subsrcriber.OnNext(message);
+                var observer = output.Key;
+                if (observer == sender) continue;
+
+                observer.OnNext(message);
             }
+
+
             //relese message Data
             message.Despawn();
         }

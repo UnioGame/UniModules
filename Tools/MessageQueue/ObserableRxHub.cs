@@ -14,20 +14,17 @@ namespace Assets.Scripts.MessageQueue
         /// <summary>
         /// added channels
         /// </summary>
-        protected readonly List<IObserver<TData>> _subscribers;
-        protected readonly Dictionary<IResetable, int> _subscribersData;
+        protected readonly Dictionary<IObserver<TData>, IResetable> _subscribers;
         protected readonly Dictionary<IObservable<TData>, IDisposable> _observablesMap;
 
-        protected List<IObserver<TData>> _unsubscribedObservers;
+        private List<IObserver<TData>> _unsubscribedObservers;
 
         #endregion
 
         #region constructor
 
         public ObserableRxHub() {
-            _subscribers = new List<IObserver<TData>>();
-            _subscribersData = new Dictionary<IResetable, int>();
-
+            _subscribers = new Dictionary<IObserver<TData>, IResetable>();
             _observablesMap = new Dictionary<IObservable<TData>, IDisposable>();
             _unsubscribedObservers = new List<IObserver<TData>>();
         }
@@ -36,13 +33,16 @@ namespace Assets.Scripts.MessageQueue
 
         public IResetable Subscribe(IObserver<TData> observer) {
 
-            _subscribers.Add(observer);
+            IResetable resetable = null;
+            if (_subscribers.TryGetValue(observer, out resetable) == false) {
 
-            var messageCancellation = ClassPool.Spawn<MessageCancellation<TData>>();
-            messageCancellation.Initialize(observer, _unsubscribedObservers);
-            _subscribersData[messageCancellation] = _subscribers.Count;
-            
-            return messageCancellation;
+                var messageCancellation = ClassPool.Spawn<MessageCancellation<TData>>();
+                messageCancellation.Initialize(observer, _unsubscribedObservers);
+                resetable = messageCancellation;
+                _subscribers[observer] = resetable;
+            }
+
+            return resetable;
         }
 
         public IDisposable AddPublicher(IObservable<TData> observable) {
@@ -67,11 +67,10 @@ namespace Assets.Scripts.MessageQueue
 
         public void Dispose()
         {
-            foreach (var disposable in _subscribersData) {
-                disposable.Key.Cancel();
+            foreach (var disposable in _subscribers) {
+                disposable.Value.Cancel();
             }
             _subscribers.Clear();
-            _subscribersData.Clear();
         }
 
         #endregion
