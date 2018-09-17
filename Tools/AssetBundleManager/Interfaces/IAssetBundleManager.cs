@@ -9,7 +9,7 @@ public interface IAssetBundleManager
 {
     AssetBundleManifest AssetBundleManifest { get; }
 
-    void UnloadAssetBundle(string assetBundleName, bool force = false);
+    void UnloadAssetBundle(string assetBundleName, bool force = false, bool unloadForceMode = false);
 
     void UnloadAllAssets(bool force = false);
 
@@ -34,6 +34,8 @@ public interface IAssetBundleManager
     #endregion
 
     #region sync operations
+
+    List<Object> LoadAssetWithSubAssets( string assetBundleName, string assetName);
 
     T LoadAsset<T>(string assetBundleName) where T : Object;
 

@@ -1,78 +1,146 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Assets.Scripts.ProfilerTools;
+using Assets.Tools.Utils;
 
 namespace AssetBundlesModule
 {
+
     public class AssetBundleResourceMap : IAssetBundleResourceMap {
 
-        private readonly Dictionary<string, IAssetBundleResource> _cacheMap;
+        private readonly Dictionary<string, AssetBundleResourceModel> _cacheMap;
+        private readonly Dictionary<IAssetBundleResource, int> _bundleReferences;
+        private const int _increaseDelta = 1;
+        private const int _decreseDelta = -1;
+
         private List<string> _allNames;
 
         public ReadOnlyCollection<string> GetAllNames
         {
             get { return _allNames.AsReadOnly(); }
         }
-
+        
         public AssetBundleResourceMap() {
-            _cacheMap = new Dictionary<string, IAssetBundleResource>();
+            _cacheMap = new Dictionary<string, AssetBundleResourceModel>();
             _allNames = new List<string>();
+            _bundleReferences = new Dictionary<IAssetBundleResource, int>();
         }
 
-        public bool Add(string assetBundleName,IAssetBundleResource bundleResource) {
+        public bool Add(AssetBundleResourceModel resourceModel) {
 
-            if (_cacheMap.ContainsKey(assetBundleName))
-            {
-                GameLog.LogErrorFormat("Bundle Resource with name [{0}] already exists", assetBundleName);
-                return false;
-            }
+            if (AddResource(resourceModel) == false) return false;
+            var resource = resourceModel.BundleResource;
+            if (_bundleReferences.ContainsKey(resource) == false)
+                _bundleReferences[resource] = 0;
 
-            _cacheMap[assetBundleName] = bundleResource;
-            _allNames.Add(assetBundleName);
+            UpdateReferences(resourceModel.Dependecies, _increaseDelta);
+            
             return true;
         }
 
         public IAssetBundleResource Get(string bundleName) {
-            IAssetBundleResource resource = null;
+            AssetBundleResourceModel resource = null;
             _cacheMap.TryGetValue(bundleName, out resource);
-            return resource;
+            return resource == null ? null : resource.BundleResource;
         }
 
-        public bool Unload(string assetBundleName, bool force) {
+        public bool Unload(string assetBundleName, bool force,bool forceUnloadMode) {
 
-            IAssetBundleResource resource = null;
+            AssetBundleResourceModel resource = null;
             if (_cacheMap.TryGetValue(assetBundleName, out resource) == false) {
-                GameLog.LogWarningFormat("Bundle Map Unload NULL with name {0}", assetBundleName);
                 return false;
             }
 
-            var result = resource.Unload(force);
+            var bundleResource = resource.BundleResource;
+            var result = false;
+            var references = _bundleReferences[bundleResource];
+            if (force == true || references == 0) {
+
+                result = bundleResource.Unload(force,forceUnloadMode);
+
+                GameLog.LogResource(string.Format("RESOURCEMAP UNLOAD {0} FORCE {1} MODE {2} RESULT {3}",
+                    assetBundleName, force, forceUnloadMode, result));
+
+            }
+
             if (result) {
-                _cacheMap.Remove(assetBundleName);
-                _allNames.Clear();
-                _allNames.Remove(assetBundleName);
+                GameLog.LogResource(string.Format("RESOURCEMAP UNLOADED {0} FORCE {1} MODE {2}",
+                    assetBundleName, force, forceUnloadMode));
+                UpdateReferences(resource.Dependecies,_decreseDelta);
+                UnloadDependencies(resource.Dependecies);
+                CleanUpAssetBundleResource(resource.BundleResource);
             }
             return result;
         }
 
-        //public bool Unload(string assetBundleName, bool force)
-        //{
-        //    IAssetBundleResource resource = null;
-        //    if (_cacheMap.TryGetValue(assetBundleName, out resource) == false)
-        //    {
-        //        GameLog.LogWarningFormat("Bundle Map Unload NULL with name {0}", assetBundleName);
-        //        return false;
-        //    }
+        private bool TryUnload(string assetBundleName) {
+            AssetBundleResourceModel resource = null;
+            if (_cacheMap.TryGetValue(assetBundleName, out resource) == false)
+            {
+                return false;
+            }
 
-        //    var result = resource.Unload(force);
-        //    if (result)
-        //    {
-        //        _cacheMap.Remove(assetBundleName);
-        //        _allNames.Clear();
-        //        _allNames.Remove(assetBundleName);
-        //    }
-        //    return result;
-        //}
+            var bundleResource = resource.BundleResource;
+            if (bundleResource.TryUnload(true)) {
+                CleanUpAssetBundleResource(bundleResource);
+                return true;
+            }
 
+            return false;
+        }
+
+        private bool AddResource(AssetBundleResourceModel resourceModel) {
+
+            var resource = resourceModel.BundleResource;
+            var assetBundleName = resource.BundleName;
+
+            if (_cacheMap.ContainsKey(assetBundleName))
+            {
+                return false;
+            }
+
+            _cacheMap[assetBundleName] = resourceModel;
+            _allNames.Add(assetBundleName);
+            
+            return true;
+        }
+
+        private void CleanUpAssetBundleResource(IAssetBundleResource resource) {
+
+            _cacheMap.Remove(resource.BundleName);
+            _allNames.Remove(resource.BundleName);
+            _bundleReferences.Remove(resource);
+
+            resource.Despawn();
+        }
+
+        private void UpdateReferences(List<IAssetBundleResource> assetBundleNames, int delta) {
+            for (int i = 0; i < assetBundleNames.Count; i++) {
+                var resource = assetBundleNames[i];
+                UpdateReference(resource, delta);
+            }
+        }
+
+        private void UpdateReference(IAssetBundleResource resource, int delta) {
+            int referencies = 0;
+            _bundleReferences.TryGetValue(resource, out referencies);
+            _bundleReferences[resource] = Math.Max(referencies + delta, 0);
+        }
+
+        private void UnloadDependencies(List<IAssetBundleResource> assetBundleNames) {
+
+            for (int i = 0; i < assetBundleNames.Count; i++) {
+                var resource = assetBundleNames[i];
+                var bundleName = resource.BundleName;
+                var referencies = 0;
+                if(_bundleReferences.TryGetValue(resource, out referencies) == false)
+                    continue;
+                if(referencies > 0)
+                    continue;
+                TryUnload(bundleName);
+            }
+
+        }
     }
 }

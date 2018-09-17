@@ -14,6 +14,16 @@ namespace Assets.Tools.Utils
             if (item == null) return new TResult();
             return item;
         }
+
+        public static TResult GetItem<TResult>(Func<TResult> factory,Action<TResult> onSpawn = null)
+            where TResult : class
+        {
+            var item = ClassPool<TResult>.Spawn(onSpawn);
+            if (item == null && factory!=null)
+                item = factory();
+            return item;
+        }
+
     }
     // This class allows you to pool normal C# classes, for example:
     // var foo = Lean.LeanClassPool<Foo>.Spawn() ?? new Foo();

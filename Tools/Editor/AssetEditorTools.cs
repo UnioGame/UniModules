@@ -3,12 +3,23 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Tools.ReflectionUtils;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace Assets.UI.Windows.Tools.Editor
 {
+
+    public struct ProgressData
+    {
+
+        public string Title;
+        public string Content;
+        public float Progress;
+        public bool IsDone;
+
+    }
 
     public class AssetEditorTools
     {
@@ -20,7 +31,7 @@ namespace Assets.UI.Windows.Tools.Editor
 
         public const string AssetRoot = "assets";
         public const string ModificationTemplate = @"\n( *)(m_Modifications:[\w,\W]*)(?=\n( *)m_RemovedComponents)";
-        public static List<string> _modificationsIgnoreList = new List<string>() {".fbx"};
+        public static List<string> _modificationsIgnoreList = new List<string>() { ".fbx" };
 
 
         [MenuItem("Assets/Set Selected Dirty")]
@@ -73,13 +84,15 @@ namespace Assets.UI.Windows.Tools.Editor
             EditorUtility.SetDirty(asset);
         }
 
-        public static void ApplyProgressAssetAction<T>(List<T> assets,string message, Action<T> action) {
+        public static void ApplyProgressAssetAction<T>(List<T> assets, string message, Action<T> action)
+        {
 
             var count = assets.Count;
-            for (int i = 0; i < count; i++) {
+            for (int i = 0; i < count; i++)
+            {
 
                 var asset = assets[i];
-                if (asset == null)continue;
+                if (asset == null) continue;
                 var progress = i / ((float)count);
                 EditorUtility.DisplayProgressBar(string.Format("Progress [{0} of {1}] :", i, count), asset.ToString(), progress);
                 action(asset);
@@ -133,6 +146,7 @@ namespace Assets.UI.Windows.Tools.Editor
             for (int i = 0; i < resources.Count; i++)
             {
                 var asset = resources[i];
+                if (asset == null) continue;
 
                 GetAssets(asset, items);
                 ProceedTypeAssets(items, action, excludedItems);
@@ -355,14 +369,48 @@ namespace Assets.UI.Windows.Tools.Editor
 
         public static List<T> GetComponentAssets<T>(string[] folders = null) where T : Object
         {
+
             var result = new List<T>();
-            var items = GetAssets<GameObject>(folders);
-            foreach (var item in items)
-            {
-                var targetComponents = item.GetComponents<T>();
-                result.AddRange(targetComponents);
-            }
+            ShowActionProgress(GetComponentAssets(result, folders));
             return result;
+
+        }
+
+        public static IEnumerator<ProgressData> GetComponentAssets<T>(List<T> container, string[] folders = null)
+        {
+
+            var progress = new ProgressData()
+            {
+                Content = "Loading...",
+                Title = "GetComponentAssets " + typeof(T).Name,
+            };
+            yield return progress;
+            var items = GetAssets<GameObject>(folders);
+            for (var i = 0; i < items.Count; i++)
+            {
+                var item = items[i];
+                var targetComponents = item.GetComponents<T>();
+                container.AddRange(targetComponents);
+                progress.Progress = (float)i / items.Count;
+            }
+
+        }
+
+        public static void ShowActionProgress(IEnumerator<ProgressData> awaiter)
+        {
+
+            EditorUtility.DisplayProgressBar(string.Empty, string.Empty, 0);
+
+            while (awaiter.MoveNext())
+            {
+
+                var progress = awaiter.Current;
+                EditorUtility.DisplayProgressBar(progress.Title, progress.Content, progress.Progress);
+
+            }
+
+            EditorUtility.ClearProgressBar();
+
         }
 
         public static List<T> GetAssetsWithChilds<T>(string[] folders = null) where T : Object
@@ -413,8 +461,8 @@ namespace Assets.UI.Windows.Tools.Editor
         {
 
             if (string.IsNullOrEmpty(bundleTag)) return string.Empty;
-            var parentName = bundleTag.Replace(".", "");
-            parentName = parentName.Replace(" ", "");
+            var parentName = bundleTag.Replace(".", "-");
+            parentName = parentName.Replace(" ", "-");
             parentName = parentName.Replace("?", "");
             parentName = parentName.Replace("_", "-");
             return parentName;
@@ -467,7 +515,7 @@ namespace Assets.UI.Windows.Tools.Editor
 
                 var path = AssetDatabase.GetAssetPath(asset);
                 var importer = AssetImporter.GetAtPath(path);
-                var bundleName = AssetEditorTools.ApplyBundleTag(importer, bundleTag, variant, useTemplate, depth, startDepth);
+                AssetEditorTools.ApplyBundleTag(importer, bundleTag, variant, useTemplate, depth, startDepth);
 
             }
 
@@ -517,9 +565,25 @@ namespace Assets.UI.Windows.Tools.Editor
             }
 
             assetBundleName = GetValidBundleTag(assetBundleName);
+            var assetBundleVariant = GetValidBundleTag(variant);
 
-            importer.SetAssetBundleNameAndVariant(assetBundleName, variant);
+            if (importer.assetBundleName == assetBundleName)
+                return importer.assetBundleName;
 
+            importer.SetAssetBundleNameAndVariant(assetBundleName, assetBundleVariant);
+
+            return assetBundleName;
+        }
+
+        public static string GetBundleTag(string bundleTag,string assetPath = null, bool useTemplate = false, int depth = 4, int startDepth = 0) {
+            var assetBundleName = bundleTag;
+            if (string.IsNullOrEmpty(assetPath) ==false && useTemplate)
+            {
+                var tag = (string.IsNullOrEmpty(bundleTag) ? string.Empty : bundleTag + "-");
+                assetBundleName = tag + GetFoldersTemplateName(assetPath, depth, false, startDepth);
+            }
+
+            assetBundleName = GetValidBundleTag(assetBundleName);
             return assetBundleName;
         }
 
@@ -565,7 +629,7 @@ namespace Assets.UI.Windows.Tools.Editor
 
         public static List<AssetImporter> GetAssetImporters<T>(string[] folders = null, bool foldersOnly = false) where T : Object
         {
-            return GetAssetImporters(string.Format("t:{0}", typeof(T).Name));
+            return GetAssetImporters(string.Format("t:{0}", typeof(T).Name), folders, foldersOnly);
         }
 
         public static List<AssetImporter> GetAssetImporters(Type targetType, string[] folders = null, bool foldersOnly = false)
@@ -608,6 +672,21 @@ namespace Assets.UI.Windows.Tools.Editor
         public static List<T> GetAssets<T>(string filter, string[] folders = null) where T : Object
         {
             var assets = new List<T>();
+            ShowActionProgress(GetAssets(assets, filter, folders));
+            return assets;
+        }
+
+        public static IEnumerator<ProgressData> GetAssets<T>(List<T> resultContainer, string filter, string[] folders = null) where T : Object
+        {
+
+            var progress = new ProgressData()
+            {
+                Content = "loading...",
+                Title = "GetAsset of type " + typeof(T).Name,
+            };
+
+            yield return progress;
+
             var type = typeof(T);
             var ids = AssetDatabase.FindAssets(filter, folders);
             for (int i = 0; i < ids.Length; i++)
@@ -623,9 +702,12 @@ namespace Assets.UI.Windows.Tools.Editor
 
                 asset = AssetDatabase.LoadAssetAtPath(assetPath, type) as T;
 
-                if (asset) assets.Add(asset);
+                if (asset) resultContainer.Add(asset);
+
+                progress.Progress = (float)i / ids.Length;
+
+                yield return progress;
             }
-            return assets;
         }
     }
 

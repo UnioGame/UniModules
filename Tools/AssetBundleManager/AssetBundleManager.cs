@@ -3,15 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using AssetBundlesModule;
 using Assets.Scripts.ProfilerTools;
+using Assets.Tools.Utils;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
 public class AssetBundleManager : IAssetBundleManager
 {
-    private readonly IAssetBundleResourceMap _map;
     private const AssetBundleSourceType _defaultResourceType = AssetBundleSourceType.AsyncLocalFile;
     private readonly IAssetsBundleLoader _bundleLoader;
-
+    private readonly IAssetBundleResourceMap _resourceMap;
     private AssetBundleManifest _assetBundleManifest;
 
     #region static data
@@ -43,9 +43,11 @@ public class AssetBundleManager : IAssetBundleManager
 
     public AssetBundleManager(AssetBundleConfiguration configuration)
     {
+
         Configuration = configuration;
-        _map = Configuration.AssetBundleResourceMap;
         _bundleLoader = Configuration.AssetsBundleLoader;
+        _resourceMap = Configuration.ResourceMap;
+
     }
 
     #endregion
@@ -53,6 +55,17 @@ public class AssetBundleManager : IAssetBundleManager
     public bool IsSumulateMode
     {
         get { return Configuration.SimulateMode; }
+    }
+
+    private BundleGroupMap _bundleGroupMap;
+    public BundleGroupMap BundleGroupMap {
+        get {
+            //todo fix it
+            if (_bundleGroupMap == null) {
+                _bundleGroupMap = Resources.Load<BundleGroupMap>("BundleGroupMap");
+            }
+            return _bundleGroupMap;
+        }
     }
 
     public IAssetBundleConfiguration Configuration { get; protected set; }
@@ -84,23 +97,14 @@ public class AssetBundleManager : IAssetBundleManager
     public IEnumerator GetAssetBundleResourceAsync(string assetBundleName, AssetBundleSourceType sourceType,
         Action<IAssetBundleResource> resourceAction) {
 
+        IAssetBundleResource resource = null;
         sourceType = IsSumulateMode ? AssetBundleSourceType.Simulation : sourceType;
         sourceType = !Application.isEditor && sourceType == AssetBundleSourceType.Simulation
             ? _defaultResourceType
             : sourceType;
+
+        yield return MakeRequest(assetBundleName, sourceType, x => resource = x);
         
-        var request = _bundleLoader.GetAssetBundleRequest(assetBundleName, sourceType);
-        var awaiter = request.Execute();
-
-        if (request.BundleResource == null) {
-            var id = GameProfiler.BeginWatch(string.Format("GetAssetBundleResource {0} from {1} ", assetBundleName, sourceType));
-
-            yield return awaiter;
-
-            GameProfiler.StopWatch(id);
-        }
-        var resource = request.BundleResource;
-
         if (resource == null)
         {
             Debug.LogErrorFormat("Null IAssetBundleResource with name [{0}]", assetBundleName);
@@ -114,13 +118,12 @@ public class AssetBundleManager : IAssetBundleManager
     }
     
     // Unload assetbundle and its dependencies.
-    public void UnloadAssetBundle(string assetBundleName, bool force = false)
+    public void UnloadAssetBundle(string assetBundleName, bool force = false,bool unloadMode = false)
     {
         // If we're in Editor simulation mode, we don't have to load the manifest assetBundle.
         if (IsSumulateMode)
             return;
-
-        _map.Unload(assetBundleName,force);
+        _resourceMap.Unload(assetBundleName,force,unloadMode);
 
     }
     
@@ -140,7 +143,13 @@ public class AssetBundleManager : IAssetBundleManager
     {
         var resource = GetBundleResource(assetBundleName);
         return resource.LoadAsset<T>(assetName);
-     }
+    }
+
+    public List<Object> LoadAssetWithSubAssets(string assetBundleName,string assetName)
+    {
+        var resource = GetBundleResource(assetBundleName);
+        return resource.LoadAssetWithSubAssets(assetName);
+    }
 
     public List<T> LoadAssets<T>(string assetBundleName) where T : Object
     {
@@ -195,26 +204,40 @@ public class AssetBundleManager : IAssetBundleManager
 
     private IAssetBundleResource GetBundleResource(string assetBundleName) {
 
-        GameProfiler.BeginSample("AssetBundleManager.GetBundleResourceRequest");
-
+        IAssetBundleResource resource = null;
         var mode = IsSumulateMode ? AssetBundleSourceType.Simulation : AssetBundleSourceType.LocalFile;
-        var request = _bundleLoader.GetAssetBundleRequest(assetBundleName, mode);
-
-        GameProfiler.EndSample();
-
-        if (request.BundleResource != null)
-            return request.BundleResource;
+        var awaiter = MakeRequest(assetBundleName, mode, x => resource = x);
 
         GameProfiler.BeginSample("AssetBundleManager.GetBundleResourceExecute");
-
-        var awaiter = request.Execute();
+        
         awaiter.WaitCoroutine();
 
         GameProfiler.EndSample();
 
-        return request.BundleResource;
+        return resource;
+
+    }
+
+    private IEnumerator MakeRequest(string assetBundleName, AssetBundleSourceType sourceType, Action<IAssetBundleResource> action) {
 
 
+        var request = _bundleLoader.GetAssetBundleRequest(assetBundleName, sourceType);
+        
+        if (request.BundleResource == null)
+        {
+            var id = GameProfiler.BeginWatch(string.Format("GetAssetBundleResource {0} from {1} ",
+                assetBundleName, sourceType));
+
+            var awaiter = request.Execute();
+            yield return awaiter;
+
+            GameProfiler.StopWatch(id);
+        }
+
+        var resource = request.BundleResource;
+        request.Despawn();
+        if (action != null)
+            action(resource);
     }
 
     private IEnumerator MakeAssetRequestAsync(string assetBundleName, Func<IAssetBundleResource,IEnumerator> resourceAction, 

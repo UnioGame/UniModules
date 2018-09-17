@@ -1,18 +1,22 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using AssetBundlesModule;
 using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(BundleGroupMap))]
 public class BundleGroupEditor : Editor {
 
-    private static string[] _bundleTags;
-    private int _selectedEnumItem;
+    private static List<string> _bundleTags;
+    private static string[] _resourceGroupTags;
+
     private Vector2 _scroll;
     private BundleGroupItem _removed;
     private int _miniButtonMinWidth = 10;
-    private int _miniButtonMaxWidth = 50;
     private ToggleWindow _toggleWindow;
+
     private GUILayoutOption[] _buttonOptions = new GUILayoutOption[] {
         GUILayout.MinWidth(30), GUILayout.MaxWidth(30)
     }; 
@@ -20,7 +24,11 @@ public class BundleGroupEditor : Editor {
     public override void OnInspectorGUI() {
         
         if (_bundleTags == null) {
-            _bundleTags = AssetDatabase.GetAllAssetBundleNames();
+            _bundleTags = AssetDatabase.GetAllAssetBundleNames().ToList();
+        }
+
+        if (_resourceGroupTags == null) {
+            _resourceGroupTags = Enum.GetNames(typeof(RuntimePlatform)).ToArray();
         }
 
         _scroll = EditorGUILayout.BeginScrollView(_scroll);
@@ -37,7 +45,13 @@ public class BundleGroupEditor : Editor {
 
         for (int i = 0; i < groups.Count; i++) {
             var group = groups[i];
+
+            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+            EditorGUI.indentLevel++;
             DrawInsertItem(group);
+            EditorGUI.indentLevel--;
+            EditorGUILayout.EndVertical();
+
             EditorGUILayout.Separator();
             EditorGUILayout.Space();
         }
@@ -63,12 +77,42 @@ public class BundleGroupEditor : Editor {
 
     }
 
+    private void OnGroupPlatformSelected(BundleGroupItem groupItem, RuntimePlatform[] tags) {
+        groupItem.TargetPlatforms.Clear();
+        groupItem.TargetPlatforms.AddRange(tags);
+    }
+
+    private void DrawPlatformSelection(BundleGroupItem groupItem) {
+
+        if (GUILayout.Button("select runtime platforms", EditorStyles.miniButton))
+        {
+            var selectedItems = groupItem.TargetPlatforms.Select(x => x.ToString()).ToArray();
+            ToggleWindow.Show(_resourceGroupTags, selectedItems, x =>
+                OnGroupPlatformSelected(groupItem,
+                    x.Select(y => (RuntimePlatform)Enum.Parse(typeof(RuntimePlatform), y)).ToArray()));
+        }
+
+        groupItem.ShowRuntimePlatforms = EditorGUILayout.Foldout(groupItem.ShowRuntimePlatforms, "plaforms");
+        if (groupItem.ShowRuntimePlatforms) {
+            var textValuesStrings = groupItem.TargetPlatforms.Select(x => x.ToString()).ToArray();
+            var textValue = string.Join("\n", textValuesStrings);
+            EditorGUILayout.TextArea(textValue);
+        }
+        
+    }
+
     private void DrawInsertItem(BundleGroupItem groupItem) {
 
-        GUILayout.BeginHorizontal();
+        DrawPlatformSelection(groupItem);
 
-        var groupTag = EditorGUILayout.EnumPopup("Bundle group:", groupItem.Group);
-        groupItem.Group = (BundleGroup)groupTag;
+        EditorGUILayout.BeginHorizontal();
+
+        var groupTag = EditorGUILayout.EnumPopup("Bundle group:", groupItem.GroupTag);
+        groupItem.GroupTag = (ResourceGroupTag)groupTag;
+
+        groupItem.ForceUnload = GUILayout.Toggle(groupItem.ForceUnload,"force", EditorStyles.miniButtonMid);
+        groupItem.ForceUnloadMode = GUILayout.Toggle(groupItem.ForceUnloadMode, "mode", EditorStyles.miniButtonMid);
+
         if (GUILayout.Button("-", EditorStyles.miniButtonRight, GUILayout.MinWidth(_miniButtonMinWidth))) {
             _removed = groupItem;
         }
@@ -76,44 +120,61 @@ public class BundleGroupEditor : Editor {
         GUILayout.EndHorizontal();
         GUILayout.BeginHorizontal();
 
-        if (GUILayout.Button("Bundle list", EditorStyles.miniButtonLeft, GUILayout.MinWidth(_miniButtonMinWidth))) {
-            ShowBundleWindow(groupItem,_bundleTags, groupItem.Bundles.ToArray());
+        if (GUILayout.Button("Bundle list", EditorStyles.miniButton)) {
+            _toggleWindow = ShowBundleWindow(groupItem,_bundleTags.ToArray(), groupItem.Bundles.ToArray());
         }
-        //_selectedEnumItem = EditorGUILayout.Popup(_selectedEnumItem, _bundleTags);
-        //if (GUILayout.Button("+", EditorStyles.miniButtonRight, GUILayout.MinWidth(_miniButtonWidth)))
-        //{
-        //    var tag = _bundleTags[_selectedEnumItem];
-        //    if (groupItem.Bundles.Contains(tag) == false)
-        //        groupItem.Bundles.Add(tag);
-        //}
 
         GUILayout.EndHorizontal();
 
         var removedItem = string.Empty;
 
         var items = groupItem.Bundles.ToArray();
-        foreach (var bundle in items) {
-            GUILayout.BeginHorizontal();
 
-            GUILayout.Label(bundle);
-            if (GUILayout.Button("-", EditorStyles.miniButtonRight,_buttonOptions)) {
-                removedItem = bundle;
-            }
+        groupItem.ShowBundlesInput = EditorGUILayout.Foldout(groupItem.ShowBundlesInput, "bundles input");
+        if (groupItem.ShowBundlesInput) {
 
-            GUILayout.EndHorizontal();
+            var bundleText = string.Join("\n", items);
+            GUILayout.BeginVertical();
+
+            var newText = EditorGUILayout.TextArea(bundleText);
+            if (newText != bundleText)
+                ApplyTags(newText, groupItem);
+            GUILayout.EndVertical();
+
         }
 
-        groupItem.Bundles.RemoveAll(x => x == removedItem);
+        groupItem.ShowBundles = EditorGUILayout.Foldout(groupItem.ShowBundles, "show bundles");
+        if (groupItem.ShowBundles) {
+            foreach (var bundle in items) {
+                GUILayout.BeginHorizontal();
 
+                GUILayout.Label(bundle);
+                if (GUILayout.Button("-", EditorStyles.miniButtonRight, _buttonOptions)) {
+                    removedItem = bundle;
+                }
+
+                GUILayout.EndHorizontal();
+            }
+            
+            groupItem.Bundles.RemoveAll(x => x == removedItem);
+        }
+        
     }
 
-    private ToggleWindow ShowBundleWindow(BundleGroupItem item,string[] source, string[] selected) {
+    private void ApplyTags(string bundleText, BundleGroupItem groupItem) {
+        bundleText = bundleText.Replace(" ", "");
+        var bundles = bundleText.Split('\n');
+        OnBundleSelected(groupItem, bundles.Where(x => _bundleTags.Contains(x)).ToArray());
+    }
 
+    private ToggleWindow ShowBundleWindow(BundleGroupItem item, string[] source, string[] selected) {
+
+        var sourceArray = source.ToArray();
         if (_toggleWindow == null) {
-            _toggleWindow = ToggleWindow.Show(source,selected,x => OnBundleSelected(item, x));
+            _toggleWindow = ToggleWindow.Show(sourceArray, selected,x => OnBundleSelected(item, x));
         }
         else {
-            _toggleWindow.Initialize(source, selected, x => OnBundleSelected(item, selected));
+            _toggleWindow.Initialize(sourceArray, selected, x => OnBundleSelected(item, selected));
         }
         return _toggleWindow;
     }

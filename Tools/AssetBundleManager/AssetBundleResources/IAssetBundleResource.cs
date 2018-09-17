@@ -1,26 +1,30 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Assets.Tools.Utils;
 using Object = UnityEngine.Object;
 
-namespace AssetBundlesModule {
+namespace AssetBundlesModule
+{
 
-    public interface IAssetBundleResource : IDisposable {
-        
+    public interface IAssetBundleResource : IPoolable
+    {
+
         string BundleName { get; }
         string[] AllAssetsNames { get; }
         int ReferencedCount { get; set; }
 
-        IEnumerable<Object> CachedObjects { get; }
-        
+        IDictionary<string, Object> CachedAssets { get; }
+
         IEnumerator LoadAssetAsync<T>(Action<T> callback) where T : Object;
 
-        IEnumerator LoadAssetAsync<T>(string assetName, Action<T> callback)where T : Object;
+        IEnumerator LoadAssetAsync<T>(string assetName, Action<T> callback) where T : Object;
 
-        IEnumerator LoadAllAssetsAsync<T>(Action<List<T>> callback)where T : Object;
+        IEnumerator LoadAllAssetsAsync<T>(Action<List<T>> callback) where T : Object;
 
-        IEnumerator LoadAllAssetsAsync(Type type,Action<List<Object>> callback);
+        IEnumerator LoadAllAssetsAsync(Type type, Action<List<Object>> callback);
 
+        IEnumerator LoadAssetWithSubAssetsAsync(string name, Action<List<Object>> callback);
 
         Object LoadAsset(string assetName);
         T LoadAsset<T>() where T : Object;
@@ -29,9 +33,14 @@ namespace AssetBundlesModule {
         List<T> LoadAssets<T>()
             where T : Object;
 
+        List<Object> LoadAssetWithSubAssets(string name);
+
         T LoadAssetByTypeName<T>() where T : Object;
 
-        //unload bundle resource
-        bool Unload(bool forceUnload);
+        bool Unload(bool forceUnload, bool forceMode);
+
+        bool TryUnload(bool unloadForceMode);
+
+
     }
 }

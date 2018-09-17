@@ -8,13 +8,11 @@ namespace AssetBundlesModule
 {
     public class AssetsBundleLoader : IAssetsBundleLoader {
 
-        private readonly IAssetBundlesRequestCache _assetBundlesRequestCache;
         private readonly IBundleRequestFactory _bundleRequestFactory;
         private readonly string _manifestName;
         private readonly bool _simulateMode = false;
         private readonly Dictionary<string, List<string>> _dependencies;
-        private readonly Dictionary<string, IAssetBundleRequest> _requests;
-        
+
         private AssetBundleManifest _manifest;
 
         public AssetBundleManifest AssetBundleManifest
@@ -31,14 +29,12 @@ namespace AssetBundlesModule
 
         #region constructor
 
-        public AssetsBundleLoader(IAssetBundlesRequestCache assetBundlesRequestCache, 
+        public AssetsBundleLoader(
             IBundleRequestFactory requestFactory, string manifestName, bool simulateMode) {
-            _assetBundlesRequestCache = assetBundlesRequestCache;
             _bundleRequestFactory = requestFactory;
             _manifestName = manifestName;
             _simulateMode = simulateMode;
             _dependencies = new Dictionary<string, List<string>>();
-            _requests = new Dictionary<string, IAssetBundleRequest>();
         }
 
         #endregion
@@ -46,14 +42,10 @@ namespace AssetBundlesModule
         #region public methods
 
         // Load AssetResource and its dependencies.
-        public IAssetBundleRequest GetAssetBundleRequest(string assetBundleName,AssetBundleSourceType sourceType,bool loadDependencies = true)
-        {
+        public IAssetBundleRequest GetAssetBundleRequest(string assetBundleName,AssetBundleSourceType sourceType,bool loadDependencies = true) {
 
             IAssetBundleRequest request = null;
-            if (_requests.TryGetValue(assetBundleName, out request)) {
-                return request;
-            }
-            
+
             var dependencies = loadDependencies
                 ? GetBundleDependencies(assetBundleName)
                 : ClassPool.Spawn<List<string>>();
@@ -64,27 +56,10 @@ namespace AssetBundlesModule
 
             GameProfiler.EndSample();
 
-            _requests.Add(assetBundleName,request);
-            
             return request;
 
         }
 
-        public void UnloadDependencies(string assetBundleName, bool forceUnload = false) {
-
-            var dependencies = GetBundleDependencies(assetBundleName);
-
-            foreach (var dependency in dependencies)
-            {
-                UnloadAssetBundleInternal(dependency, forceUnload);
-            }
-        }
-
-        public void UnloadAssetBundleInternal(string assetBundleName, bool forceUnload = false)
-        {
-            _assetBundlesRequestCache.Unload(assetBundleName,forceUnload);
-        }
-        
         public List<string> GetBundleDependencies(string assetBundleName) {
 
             List<string> dependencies = null;
@@ -113,17 +88,8 @@ namespace AssetBundlesModule
 
         private IAssetBundleRequest CreateBundleRequestWithDependencies(string targetBundle, List<string> dependencies, AssetBundleSourceType sourceType)
         {
-            var targetRequest = GetBundleRequest(targetBundle, sourceType);
 
-            var dependenciesReqiests = ClassPool.Spawn<List<IAssetBundleRequest>>();
-            //put all requests to bundles into cache
-            for (var i = 0; i < dependencies.Count; i++)
-            {
-                var request = GetBundleRequest(dependencies[i], sourceType);
-                dependenciesReqiests.Add(request);
-            }
-
-            var aggregateRequest = _bundleRequestFactory.Create(targetRequest, dependenciesReqiests, sourceType);
+            var aggregateRequest = _bundleRequestFactory.Create(targetBundle, dependencies, sourceType);
 
             LogLoadingBundle(targetBundle, dependencies, sourceType);
 
@@ -137,18 +103,9 @@ namespace AssetBundlesModule
         
         private IAssetBundleRequest GetBundleRequest(string assetBundleName,AssetBundleSourceType sourceType) {
             
-            var bundleRequest = _assetBundlesRequestCache.Get(assetBundleName);
-            if (bundleRequest != null)
-                return bundleRequest;
-
-            bundleRequest = _bundleRequestFactory.Create(assetBundleName, sourceType);
-            var validation = _assetBundlesRequestCache.Add(assetBundleName, sourceType, bundleRequest);
-
-            if (validation == false) {
-                GameLog.LogErrorFormat("Add bundleRequest [{0}] to Chache error",assetBundleName);
-            } 
-                
+            var bundleRequest = _bundleRequestFactory.Create(assetBundleName, sourceType);
             return bundleRequest;
+
         }
 
         private AssetBundleManifest LoadManifest(string assetBundleName)

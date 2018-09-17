@@ -1,4 +1,5 @@
-﻿using Assets.Tools.Utils;
+﻿using System.Collections;
+using Assets.Tools.Utils;
 
 namespace Tools.AsyncOperations
 {
@@ -6,6 +7,5 @@ namespace Tools.AsyncOperations
     {
         bool IsDone { get; }
         string Error { get; }
-        bool Active { get; }
     }
 }

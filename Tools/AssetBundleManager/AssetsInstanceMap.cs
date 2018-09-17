@@ -15,12 +15,17 @@ public static class AssetsInstanceMap {
         if (!target || !source) return false;
         if (target == source) return true;
         
-        long targetId = target.GetInstanceID();
-        var sourceId = source.GetInstanceID();
-        if (IsInstance(targetId, sourceId) || IsInstance(sourceId, targetId))
-            return true;
+		if (AssetBundleManager.Instance.IsSumulateMode == true) {
+			
+			long targetId = target.GetInstanceID();
+			var sourceId = source.GetInstanceID();
+			var isInstance = IsInstance(targetId, sourceId);
+			return isInstance;
 
-        return false;
+		}
+
+		return false;
+
     }
 
     public static bool IsInstanceOfAny<T>(this T instance, T[] sources) where T : Object
@@ -49,11 +54,17 @@ public static class AssetsInstanceMap {
 
     private static bool IsInstance(long targetId, long sourceId) {
         long id;
-        if (_idMap.TryGetValue(targetId, out id))
-        {
-            return id == sourceId;
+        if (_idMap.TryGetValue(targetId, out id)) {
+            if (id == sourceId)
+                return true;
         }
 
-        return false;
+        long sourceCloneId;
+        if (_idMap.TryGetValue(sourceId, out sourceCloneId)) {
+            if (targetId == sourceCloneId)
+                return true;
+        }
+
+        return id == sourceCloneId || targetId == sourceId;
     }
 }

@@ -1,11 +1,14 @@
-﻿using AssetBundlesModule;
+﻿using System.Collections.ObjectModel;
+using AssetBundlesModule;
 
 namespace AssetBundlesModule
 {
     public interface IAssetBundleResourceMap {
 
-        bool Add(string assetBundlename,IAssetBundleResource bundleResource);
-        bool Unload(string assetBundleName,bool force);
+        ReadOnlyCollection<string> GetAllNames { get; }
+
+        bool Add(AssetBundleResourceModel resourceModel);
+        bool Unload(string assetBundleName,bool force, bool forceUnloadMode);
 
         IAssetBundleResource Get(string bundleName);
 

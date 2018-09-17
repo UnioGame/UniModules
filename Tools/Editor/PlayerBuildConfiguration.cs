@@ -5,52 +5,58 @@ using UnityEditor;
 using UnityEngine;
 
 namespace Tools.BuildTools {
-  
+
     [CreateAssetMenu(menuName = "Build/PlayerBuild Configuration")]
     public class PlayerBuildConfiguration : ScriptableObject {
-    
-        public List<BuildOptions> DefaultAssetBundleOptions = new List<BuildOptions>();
-    
-        public List<PlayerBuildOption> PlatformConfiguration;
-        
-        public BuildOptions GetRuntimeBundleOptions(BuildTargetGroup platform) {
-    
-            var assetBundleOptions = BuildOptions.None;
+
+        public List<BuildOptions> defaultBuildOptions = new List<BuildOptions>();
+        public List<PlayerBuildOption> platformConfiguration;
+
+        public BuildOptions GetBuildOptions(BuildTargetGroup platform) {
+
+            var buildOptions = BuildOptions.None;
             var configFound = false;
-    
-            var optionItems = PlatformConfiguration.Where(x => x.RuntimePlatforms.Contains(platform));
-    
+
+            var optionItems = platformConfiguration.Where(x => x.runtimePlatforms.Contains(platform));
+
             foreach (var configuration in optionItems) {
+
                 configFound = true;
-                assetBundleOptions |= CreateOptions(configuration.AssetBundleOptions);
+                buildOptions |= CreateOptions(configuration.buildOptions);
+
             }
             if (configFound == false) {
-                assetBundleOptions = CreateOptions(DefaultAssetBundleOptions);
+
+                buildOptions = CreateOptions(defaultBuildOptions);
+
             }
-    
-            return assetBundleOptions;
+
+            return buildOptions;
+
         }
-        
+
         private BuildOptions CreateOptions(List<BuildOptions> options) {
-    
-            var bundleOptions = BuildOptions.None;
-            foreach (var option in options)
-            {
-                Debug.LogFormat("~~~Add BuildAssetBundleOption [{0}]", option);
-                bundleOptions |= option;
+
+            var buildOptions = BuildOptions.None;
+            foreach (var option in options) {
+
+                Debug.LogFormat("~~~Add BuildOption [{0}]", option);
+                buildOptions |= option;
+
             }
-    
-            return bundleOptions;
+
+            return buildOptions;
+
         }
+
     }
-    
+
     [Serializable]
     public class PlayerBuildOption {
-    
-        public List<BuildTargetGroup> RuntimePlatforms = new List<BuildTargetGroup>();
-        public List<BuildOptions> AssetBundleOptions = new List<BuildOptions>();
-        
-    } 
+
+        public List<BuildTargetGroup> runtimePlatforms = new List<BuildTargetGroup>();
+        public List<BuildOptions> buildOptions = new List<BuildOptions>();
+
+    }
 
 }
-

@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Assets.Tools.Utils;
 using UnityEngine;
 
 namespace AssetBundlesModule
@@ -15,7 +16,9 @@ namespace AssetBundlesModule
 
             if (BundleResource != null)
                 return;
-            BundleResource = new LoadedAssetBundle(AssetBundle.LoadFromFile(Resource));
+            var resource = ClassPool.Spawn<LoadedAssetBundle>();
+            resource.Initialize(AssetBundle.LoadFromFile(Resource));
+            BundleResource = resource;
 
         }
 

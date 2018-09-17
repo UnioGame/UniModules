@@ -27,6 +27,31 @@ namespace Assets.Scripts.ProfilerTools
             Debug.Log(message);
         }
 
+
+        [Conditional("RESOURCES_LOG_ENABLED")]
+        public static void LogResource(string message)
+        {
+            Debug.Log(message);
+        }
+
+        [Conditional("UNITY_EDITOR")]
+        public static void EditorLogFormat(LogType logType,string format, params object[] objects) {
+            switch (logType) {
+
+                case LogType.Error:
+                case LogType.Assert:
+                case LogType.Exception:
+                    LogErrorFormat(format,objects);
+                    break;
+                case LogType.Warning:
+                    Debug.LogWarningFormat(format,objects);
+                    break;
+                case LogType.Log:
+                    Debug.LogFormat(format,objects);
+                    break;
+            }
+        }
+
         public static void LogError(string message, Object source = null)
         {
             if (!Enabled) return;

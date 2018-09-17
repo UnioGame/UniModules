@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI.Windows;
+using UnityEngine.UI.Windows.Extensions;
 using Object = UnityEngine.Object;
 #if UNITY_EDITOR
 using UnityEditor;

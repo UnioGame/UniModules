@@ -110,16 +110,16 @@ public class BundleAssetsViewerControl {
 
         EditorGUILayout.ObjectField(targetAsset.name, targetAsset, targetAsset.GetType(), false);
 
-        EditorGUILayout.LabelField(string.Join(": ", referenciesViewer.BundleReferencies));
+        EditorGUILayout.LabelField(string.Join(": ", referenciesViewer.BundleReferences));
 
         EditorGUILayout.Space();
 
-        ShowAssetReferencies(assetPath);
+        ShowAssetReferences(assetPath);
         
         EditorGUILayout.EndVertical();
     }
 
-    private void ShowAssetReferencies(string assetPath) {
+    private void ShowAssetReferences(string assetPath) {
         _showAssetRefs[assetPath] = EditorGUILayout.Foldout(_showAssetRefs[assetPath], assetPath);
         if (_showAssetRefs[assetPath])
         {

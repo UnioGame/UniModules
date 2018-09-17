@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Assets.Scripts.ProfilerTools;
+using Assets.Tools.Utils;
 using UnityEngine;
 
 namespace AssetBundlesModule
@@ -28,9 +29,10 @@ namespace AssetBundlesModule
 
             if (BundleResource != null)
                 return;
-            
-            BundleResource = new LoadedAssetBundle(_bundleCreateRequest.assetBundle);
 
+            var resource = ClassPool.Spawn<LoadedAssetBundle>();
+            resource.Initialize(_bundleCreateRequest.assetBundle);
+            BundleResource = resource;
             _bundleCreateRequest = null;
         }
 

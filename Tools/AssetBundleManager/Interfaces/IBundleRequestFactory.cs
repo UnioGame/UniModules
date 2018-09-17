@@ -6,7 +6,7 @@ namespace AssetBundlesModule
 
         IAssetBundleRequest Create(string bundleName, AssetBundleSourceType sourceType);
 
-        IAssetBundleRequest Create(IAssetBundleRequest bundleName, List<IAssetBundleRequest> dependencies, AssetBundleSourceType sourceType);
+        IAssetBundleRequest Create(string bundleName, List<string> dependencies, AssetBundleSourceType sourceType);
 
     }
 

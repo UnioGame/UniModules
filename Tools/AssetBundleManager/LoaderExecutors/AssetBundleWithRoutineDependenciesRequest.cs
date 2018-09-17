@@ -25,5 +25,10 @@ namespace AssetBundlesModule
 
         }
 
+        public AssetBundleWithRoutineDependenciesRequest(IAssetBundleResourceMap resourceMap,
+                                                         IAssetBundlesRequestCache requestCache) : 
+            base(resourceMap,requestCache) {
+        }
+
     }
 }

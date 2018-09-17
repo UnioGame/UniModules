@@ -7,12 +7,17 @@ namespace AssetBundlesModule
     {
         protected override IEnumerator MoveNext() {     
             
-            for (var i = 0; i < _allRequests.Count; i++) {
-                var request = _allRequests[i];
+            for (var i = 0; i < Requests.Count; i++) {
+                var request = Requests[i];
                 if(request.IsDone == false)
-                    yield return _allRequests[i].Execute();
+                    yield return Requests[i].Execute();
             }
             
+        }
+
+        public AssetBundleWithDependenciesSequentRequest(IAssetBundleResourceMap resourceMap,
+                                                         IAssetBundlesRequestCache requestCache) : 
+            base(resourceMap,requestCache) {
         }
 
     }

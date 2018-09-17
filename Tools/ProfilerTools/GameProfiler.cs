@@ -1,12 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.Profiling;
 using Debug = UnityEngine.Debug;
-
-#if UNITY_EDITOR	
-using UnityEditor;
-#endif
 
 namespace Assets.Scripts.ProfilerTools
 {
@@ -18,12 +15,17 @@ namespace Assets.Scripts.ProfilerTools
         private static Dictionary<long, Stopwatch> _stopwatches = new Dictionary<long, Stopwatch>();
         private static Stack<Stopwatch> _freeStopwatches = new Stack<Stopwatch>();
         private static Dictionary<long, string> _stopwatchesTags = new Dictionary<long, string>();
+        private static Stack<string> _memorySamplesNames = new Stack<string>();
+        private static Stack<long> _memorySampleSize = new Stack<long>();
 
         private static int ProfileEnabled = -1;
         private const string ProfileEditorKey = "ProfileEditorKey";
 
+#if ENABLE_PROFILING
         public static bool Enabled = true;
-
+#else
+        public static bool Enabled = false;
+#endif
 
         // Flag to indicate if we want to simulate assetBundles in Editor without building them actually.
         public static bool IsProfileEnabled
@@ -32,7 +34,7 @@ namespace Assets.Scripts.ProfilerTools
             {
 #if UNITY_EDITOR
                 if (ProfileEnabled == -1)
-                    ProfileEnabled = EditorPrefs.GetBool(ProfileEditorKey, true) ? 1 : 0;
+                    ProfileEnabled = UnityEditor.EditorPrefs.GetBool(ProfileEditorKey, true) ? 1 : 0;
 
                 return ProfileEnabled != 0;
 #else
@@ -47,7 +49,7 @@ namespace Assets.Scripts.ProfilerTools
                 if (newValue != ProfileEnabled)
                 {
                     ProfileEnabled = newValue;
-                    EditorPrefs.SetBool(ProfileEditorKey, value);
+                    UnityEditor.EditorPrefs.SetBool(ProfileEditorKey, value);
                 }
 
                 Enabled = newValue == 1;
@@ -59,16 +61,16 @@ namespace Assets.Scripts.ProfilerTools
 
         private const string _profileMode = "Tools/Profile/Enable Profiling";
 
-        [MenuItem(_profileMode)]
+        [UnityEditor.MenuItem(_profileMode)]
         public static void ToggleSimulationMode()
         {
             IsProfileEnabled = !IsProfileEnabled;
         }
 
-        [MenuItem(_profileMode, true)]
+        [UnityEditor.MenuItem(_profileMode, true)]
         public static bool ToggleSimulationModeValidate()
         {
-            Menu.SetChecked(_profileMode, IsProfileEnabled);
+            UnityEditor.Menu.SetChecked(_profileMode, IsProfileEnabled);
             return true;
         }
 
@@ -77,32 +79,24 @@ namespace Assets.Scripts.ProfilerTools
         [Conditional("ENABLE_UNITY_PROFILING")]
         public static void BeginSample(string key)
         {
-            if (!Enabled) return;
             Profiler.BeginSample(key);
         }
 
         [Conditional("ENABLE_UNITY_PROFILING")]
         public static void EndSample()
         {
-            if (!Enabled) return;
             Profiler.EndSample();
         }
         
         public static long BeginWatch(string name, bool logProfilingStart = false) {
-#if ENABLE_PROFILING
             if (!Enabled) return -1;
             return BeginWatchRunTime(name, logProfilingStart);
-#endif
-            return -1;
         }
 
         public static long BeginWatchFormat(string name, params object[] args)
         {
-#if ENABLE_PROFILING
             if (!Enabled) return -1;
             return BeginWatchRunTime(string.Format(name,args));
-#endif
-            return -1;
         }
 
         [Conditional("ENABLE_PROFILING")]
@@ -112,9 +106,31 @@ namespace Assets.Scripts.ProfilerTools
             StopWatchRunTime(id);
         }
 
+        [Conditional("ENABLE_MEMORY_PROFILING")]
+        public static void BeginMemorySample(string memorySampleName) {
+            if (string.IsNullOrEmpty(memorySampleName))
+                return;
+
+            var memSize = GC.GetTotalMemory(false);
+            _memorySamplesNames.Push(memorySampleName);
+            _memorySampleSize.Push(memSize);
+        }
+
+        [Conditional("ENABLE_MEMORY_PROFILING")]
+        public static void EndMemorySample() {
+
+            if (_memorySamplesNames.Count <= 0) return;
+            var name = _memorySamplesNames.Pop();
+            var size = _memorySampleSize.Pop();
+            var memSize = GC.GetTotalMemory(false);
+
+            var mb = (memSize - size) / (1048576f); 
+            Debug.LogFormat("MEMORY SAMPLE [{0}] [{1:0.####} MB]: \n\tsize before: {2} \n\tsize after: {3}", name, mb, size, memSize );
+        }
+
         public static long BeginWatchRunTime(string name, bool logStart = false) {
 
-            if (!Enabled || name == null) return -1;
+            if (name == null) return -1;
 
             _currentId++;
             if (_currentId < 0) _currentId = 0;
@@ -137,7 +153,7 @@ namespace Assets.Scripts.ProfilerTools
         
         public static void StopWatchRunTime(long id) {
 
-            if (!Enabled || id <= 0) return;
+            if (id <= 0) return;
 
             Stopwatch watch = null;
             if (_stopwatches.TryGetValue(id, out watch)) {

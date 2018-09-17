@@ -21,11 +21,12 @@ namespace AssetBundlesModule
             SimulateMode = simulateMode;
             LoadDependenciesAsync = loadDependenciesAsync;
 
-            _requestFactory = new BundleRequestOperationFactory(ManifestName,LoadDependenciesAsync);
+            RequestCache = new AssetBundlesRequestCache();
+            ResourceMap = new AssetBundleResourceMap();
+
+            _requestFactory = new BundleRequestOperationFactory(ManifestName,LoadDependenciesAsync, ResourceMap, RequestCache);
 
             AssetsBundleLoader = CreateLoader(_requestFactory);
-
-            AssetBundleResourceMap = new AssetBundleResourceMap();
         }
 
         #region static properties
@@ -74,16 +75,15 @@ namespace AssetBundlesModule
         public bool SimulateMode { get; protected set; }
         public string ManifestName { get; protected set; }
         public string BaseUrl { get; protected set; }
-        public IAssetBundleResourceMap AssetBundleResourceMap { get; protected set; }
+        public IAssetBundlesRequestCache RequestCache { get; protected set; }
         public IAssetsBundleLoader AssetsBundleLoader { get; protected set; }
+        public IAssetBundleResourceMap ResourceMap { get; protected set; }
 
         #region private methods
 
         private IAssetsBundleLoader CreateLoader(IBundleRequestFactory requestFactory) {
 
-            var loadedCache = new AssetBundlesRequestCache();
-
-            var loader = new AssetsBundleLoader(loadedCache, requestFactory,ManifestName, IsSimulateMode);
+            var loader = new AssetsBundleLoader(requestFactory,ManifestName, IsSimulateMode);
 
             return loader;
         }

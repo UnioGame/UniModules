@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Linq;
 using Assets.Scripts.ProfilerTools;
 using Assets.UI.Windows.Tools.Editor;
@@ -85,13 +85,13 @@ namespace AssetBundlesModule {
             BuildPipeline.BuildAssetBundles(abTargetPath, buildOptions, BuildTarget.StandaloneWindows);
         }
 
-        [MenuItem("Tools/AssetBundles/Build/StandaloneOSXIntel64")]
-        public static void BuildAllAssetBundlesStandaloneOSXIntel64()
+        [MenuItem("Tools/AssetBundles/Build/StandaloneOSX")]
+        public static void BuildAllAssetBundlesStandaloneOSX()
         {
             var abTargetPath = BundlesStreamingPath;
             CreateBundlesFolders(abTargetPath);
             BuildAssetBundleOptions buildOptions = BuildAssetBundleOptions.ChunkBasedCompression;
-            BuildPipeline.BuildAssetBundles(abTargetPath, buildOptions, BuildTarget.StandaloneOSXIntel64);
+            BuildPipeline.BuildAssetBundles(abTargetPath, buildOptions, BuildTarget.StandaloneOSX);
         }
 
         [MenuItem("Tools/AssetBundles/Build/Compressed")]

@@ -10,8 +10,8 @@ namespace AssetBundlesModule
         protected override void OnComplete()
         {
 
-            for (int i = 0; i < _allRequests.Count; i++) {
-                var request = _allRequests[i];
+            for (int i = 0; i < Requests.Count; i++) {
+                var request = Requests[i];
                 if(request.IsDone)
                     continue;
                 var awaiter = request.Execute();
@@ -23,6 +23,10 @@ namespace AssetBundlesModule
 
         protected override bool IsIterationActive() {
             return false;
+        }
+
+        public AssetBundleWithDependenciesSyncRequest(IAssetBundleResourceMap resourceMap, IAssetBundlesRequestCache requestCache) : 
+            base(resourceMap, requestCache) {
         }
 
     }

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Assets.Scripts.ProfilerTools;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 using Object = UnityEngine.Object;
 
 namespace AssetBundlesModule
@@ -14,29 +16,29 @@ namespace AssetBundlesModule
         private static Type _componentType = typeof(Component);
         private List<Object> _emptyObjects = new List<Object>();
         private AssetBundle _assetBundle;
-
+        
         private string[] _allAssetsNames;
 
         private string[] _dependencies;
         private HashSet<Object> _loadedAssets = new HashSet<Object>();
         
-        private Dictionary<string, Object> _loadedAssetsObjects = new Dictionary<string, Object>();
-
+        private Dictionary<string, Object> _cachedAssets = new Dictionary<string, Object>();
+        private Dictionary<string, List<Object>> _cachedAssetWithSubAssets = new Dictionary<string, List<Object>>();
         private Dictionary<Type, List<Object>> _loadedAssetsObjectsTypes = new Dictionary<Type, List<Object>>();
         private Dictionary<string, Dictionary<Type, Object>> _loadedNameTypeAssetCashe =
             new Dictionary<string, Dictionary<Type, Object>>();
 
         #region constructor
 
-        public LoadedAssetBundle(AssetBundle assetBundle)
+        public void Initialize(AssetBundle assetBundle)
         {
             if (!assetBundle) {
                 throw new ArgumentNullException("assetBundle", "AssetResource in LoadedAssetBundle is NULL");
             }
 
             _assetBundle = assetBundle;
+            BundleName = _assetBundle ? _assetBundle.name : null;
             ReferencedCount = 1;
-
             UpdateShaders();
         }
 
@@ -44,9 +46,10 @@ namespace AssetBundlesModule
 
         #region public properties
 
-        public string BundleName
-        {
-            get { return _assetBundle.name; }
+        public string BundleName { get; protected set; }
+
+        public IDictionary<string, Object> CachedAssets {
+            get { return _cachedAssets; }
         }
 
         public string[] AllAssetsNames {
@@ -72,41 +75,39 @@ namespace AssetBundlesModule
 
         #region public methods
 
-        public void Dispose()
+        public void Release()
         {
-            _loadedAssetsObjects.Clear();
+            _cachedAssets.Clear();
             _loadedAssetsObjectsTypes.Clear();
             _loadedAssets.Clear();
             _loadedNameTypeAssetCashe.Clear();
-            _assetBundle.Unload(true);
+            _cachedAssetWithSubAssets.Clear();
             _assetBundle = null;
         }
 
-        public bool Unload(bool forceUnload) {
+        public bool TryUnload(bool unloadForceMode) {
+            if (ReferencedCount <= 0) {
+                return Unload(false, unloadForceMode);
+            }
+
+            return false;
+        }
+
+        public bool Unload(bool forceUnload,bool forceMode) {
+            if (!_assetBundle)
+                return true;
             if (forceUnload || --ReferencedCount <= 0) {
-                _assetBundle.Unload(forceUnload);
+                _assetBundle.Unload(forceMode);
+                
+                GameLog.LogResource(string.Format("UNLOAD BUNDLE {0} FORCE {1} MODE {2}",
+                    this.BundleName,forceUnload,forceMode));
+                
                 return true;
             }
             return false;
         }
 
         #region async operations
-
-        private IEnumerator LoadAllPrefabAssetsAsync<T>(Action<List<T>> callback)
-            where T : Object
-        {
-            List<T> assets = null;
-            yield return LoadAssetsInternalAsync<T>(x => assets = x);
-            if (assets == null || assets.Count == 0) {
-                List<GameObject> gameObjects = null;
-                yield return LoadAssetsInternalAsync<GameObject>(x => gameObjects = x);
-                assets = LoadComponents<T>(gameObjects);
-            }
-            
-            if(callback!=null)
-                callback(assets);
-
-        }
 
         public IEnumerator LoadAssetAsync<T>(Action<T> callback) where T : Object
         {
@@ -159,7 +160,11 @@ namespace AssetBundlesModule
             var result = GetCacheAssets(type);
             if (callback != null) callback(result);
         }
-        
+
+        public IEnumerator LoadAssetWithSubAssetsAsync(string assetName, Action<List<Object>> callback) {
+            yield return LoadAssetWithSubAssetsInternalAsync(assetName, callback);
+        }
+
         #endregion
 
         #region sync operations
@@ -205,6 +210,10 @@ namespace AssetBundlesModule
         {
             var items = LoadAssetsInternal<T>();
             return items.OfType<T>().ToList();
+        }
+
+        public List<Object> LoadAssetWithSubAssets(string assetName) {
+            return LoadAssetWithSubAssetsInternal(assetName);
         }
 
         public T LoadAssetByTypeName<T>() where T : Object
@@ -267,7 +276,7 @@ namespace AssetBundlesModule
                 _loadedAssetsObjectsTypes[type] = new List<Object>();
             
             _loadedAssets.Add(asset);
-            _loadedAssetsObjects[name] = asset;
+            _cachedAssets[name] = asset;
             
             if(!isLoaded)
                 _loadedAssetsObjectsTypes[type].Add(asset);
@@ -388,7 +397,6 @@ namespace AssetBundlesModule
             return result;
         }
 
-
         private IEnumerator LoadAssetsInternalAsync<T>(Action<List<T>> callback)
         {
             var type = typeof(T);
@@ -443,6 +451,29 @@ namespace AssetBundlesModule
             if (asset) ReferencedCount++;
             if(callback!=null)
                 callback(asset);
+        }
+
+        private List<Object> LoadAssetWithSubAssetsInternal(string assetName) {
+            List<Object> subAssets;
+            if (_cachedAssetWithSubAssets.TryGetValue(assetName, out subAssets))
+                return subAssets;
+            var assets = _assetBundle.LoadAssetWithSubAssets(assetName);
+            subAssets = new List<Object>(assets);
+            _cachedAssetWithSubAssets[assetName] = subAssets;
+            return subAssets;
+        }
+
+        private IEnumerator LoadAssetWithSubAssetsInternalAsync(string assetName, Action<List<Object>> callback)
+        {
+            List<Object> subAssets;
+            if (_cachedAssetWithSubAssets.TryGetValue(assetName, out subAssets) == false) {
+                var request = _assetBundle.LoadAssetWithSubAssetsAsync(assetName);
+                yield return request;
+                subAssets = new List<Object>(request.allAssets);
+                _cachedAssetWithSubAssets[assetName] = subAssets;
+            }
+            if(callback!=null)
+                callback(subAssets);
         }
 
         private T LoadAssetInternal<T>(string assetName)

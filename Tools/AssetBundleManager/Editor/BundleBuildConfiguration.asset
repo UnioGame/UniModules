@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4425bf74c178e644c8effa71b9eb538d, type: 3}
   m_Name: BundleBuildConfiguration
   m_EditorClassIdentifier: 
-  DefaultAssetBundleOptions: 00010000
+  DefaultAssetBundleOptions: 0001000002000000
   PlatformConfiguration:
   - RuntimePlatforms: 0200000004000000050000000a0000000b000000110000001300000018000000190000001b0000001e0000001f0000002100000026000000
     AssetBundleOptions: 0100000002000000

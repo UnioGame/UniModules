@@ -7,8 +7,10 @@ namespace AssetBundlesModule {
         bool SimulateMode { get; }
         string ManifestName { get; }
         string BaseUrl { get; }
-        IAssetBundleResourceMap AssetBundleResourceMap { get; }
+
         IAssetsBundleLoader AssetsBundleLoader { get; }
+        IAssetBundleResourceMap ResourceMap { get; }
+        IAssetBundlesRequestCache RequestCache { get; }
 
     }
 

@@ -17,14 +17,14 @@ public class AssetBundleReferenceViewer {
     private string _infoLabel;
     private string[] _linkedAssetBundleNames;
 	
-	private Dictionary<string, HashSet<Object>> _assetsBundleReferencies = new Dictionary<string, HashSet<Object>>();
+	private Dictionary<string, HashSet<Object>> _assetsBundleReferences = new Dictionary<string, HashSet<Object>>();
     private Dictionary<string,bool> _foldoutBundles = new Dictionary<string, bool>();
 
     public int FoundReferences {
-        get { return _assetsBundleReferencies.Count; }
+        get { return _assetsBundleReferences.Count; }
     }
 
-    public string[] BundleReferencies {
+    public string[] BundleReferences {
         get { return _linkedAssetBundleNames; }
     }
 
@@ -46,7 +46,7 @@ public class AssetBundleReferenceViewer {
 	        _targetBundleName = AssetBundlesEditorOperations.GetBundleName(_targetAsset);
 	    }
         EditorGUILayout.LabelField("Target Bundle: ", _targetBundleName);
-		var asset = EditorGUILayout.ObjectField("Asset Object :", _targetAsset,typeof(Object),false,GUILayout.Width(400)); 
+		var asset = EditorGUILayout.ObjectField("Asset Object :", _targetAsset,typeof(Object),true,GUILayout.Width(400)); 
 		
 		GUILayout.EndHorizontal();
 
@@ -61,7 +61,7 @@ public class AssetBundleReferenceViewer {
 
 	    if (asset != _targetAsset)
 		{
-			_assetsBundleReferencies.Clear();
+			_assetsBundleReferences.Clear();
 		}
 		_targetAsset = asset;
 		
@@ -77,32 +77,32 @@ public class AssetBundleReferenceViewer {
             if (GUILayout.Button("Find AssetBundle Referencies"))
                 Refresh();
         }
-	    _scroll = EditorGUILayout.BeginScrollView(_scroll, GUILayout.MinHeight(120));
-        if (_assetsBundleReferencies.Count > 0)
-			ShowReferencies(_assetsBundleReferencies);
+	    _scroll = EditorGUILayout.BeginScrollView(_scroll, GUILayout.ExpandHeight(true));
+        if (_assetsBundleReferences.Count > 0)
+			ShowReferences(_assetsBundleReferences);
 	    EditorGUILayout.EndScrollView();
         GUILayout.EndVertical();
 	}
 
     public void Refresh() {
-        FindAllReferencies(_targetAsset);
-        _linkedAssetBundleNames = _assetsBundleReferencies.Select(x => x.Key).ToArray();
-        _infoLabel = string.Format("Reference [{0}] : {1}", _assetsBundleReferencies.Count,
+        FindAllReferences(_targetAsset);
+        _linkedAssetBundleNames = _assetsBundleReferences.Select(x => x.Key).ToArray();
+        _infoLabel = string.Format("Reference [{0}] : {1}", _assetsBundleReferences.Count,
             string.Join(": ", _linkedAssetBundleNames));
-        foreach (var referenc in _assetsBundleReferencies) {
+        foreach (var referenc in _assetsBundleReferences) {
             _foldoutBundles[referenc.Key] = false;
         }
     }
 
-	private void FindAllReferencies(Object asset) {
+	private void FindAllReferences(Object asset) {
 	    if (asset == false) {
-            _assetsBundleReferencies.Clear();
+            _assetsBundleReferences.Clear();
 	        return;
 	    }
-	    _assetsBundleReferencies = AssetBundlesEditorOperations.FindAllReferenciesToAnotherBundle(asset, _excludeTargetBundle);
+	    _assetsBundleReferences = AssetBundlesEditorOperations.FindAllReferencesToAnotherBundle(asset, _excludeTargetBundle);
     }
 	
-	private void ShowReferencies(Dictionary<string,HashSet<Object>> refs)
+	private void ShowReferences(Dictionary<string,HashSet<Object>> refs)
 	{
 		if (refs.Count == 0)
 			return;

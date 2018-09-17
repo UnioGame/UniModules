@@ -15,7 +15,6 @@ namespace AssetBundlesModule
 
     public class SimulateBundleResource : IAssetBundleResource
     {
-
         private static Type _componentType = typeof(Component);
         private static Type _gameObjectType = typeof(GameObject);
 
@@ -24,16 +23,17 @@ namespace AssetBundlesModule
         private Dictionary<Type, List<Object>> _assets;
         private Dictionary<string, List<string>> _assetsMap;
         private List<Component> _components = new List<Component>();
+        private Dictionary<string,Object> _cachedAssets = new Dictionary<string, Object>();
+        private Dictionary<string,List<Object>> _cachedassetsWithSubAssets = new Dictionary<string, List<Object>>();
 
         public string BundleName { get; protected set; }
         public string[] AllAssetsNames { get; protected set; }
         public string[] Dependencies { get; protected set; }
         public int ReferencedCount { get; set; }
-        public IEnumerable<Object> CachedObjects { get; protected set; }
 
         #region constructor
 
-        public SimulateBundleResource(string assetBundleName)
+        public void Initialize(string assetBundleName)
         {
 
             BundleName = Path.GetFileNameWithoutExtension(assetBundleName);
@@ -66,7 +66,11 @@ namespace AssetBundlesModule
 
         public void Dispose() {
             AllAssetsNames = null;
-            Unload(true);
+            Unload(true,true);
+        }
+
+        public IDictionary<string, Object> CachedAssets {
+            get { return _cachedAssets; }
         }
 
         public IEnumerator LoadAssetAsync<T>(Action<T> action) where T : Object {
@@ -100,6 +104,13 @@ namespace AssetBundlesModule
             yield break;
         }
 
+        public IEnumerator LoadAssetWithSubAssetsAsync(string assetName, Action<List<Object>> callback) {
+            var assets = LoadAssetWithSubAssets(assetName);
+            if (callback != null)
+                callback(assets);
+            yield break;
+        }
+
         public Object LoadAsset(string assetName) {
             return LoadAssetByName(assetName);
         }
@@ -127,6 +138,23 @@ namespace AssetBundlesModule
             return _assets[type].OfType<T>().ToList();
         }
 
+        public List<Object> LoadAssetWithSubAssets(string assetName) {
+            List<Object> assets;
+            if (_cachedassetsWithSubAssets.TryGetValue(assetName, out assets))
+                return assets;
+            assets = new List<Object>();
+#if UNITY_EDITOR
+            List<string> assetPaths;
+            if (_assetsMap.TryGetValue(assetName, out assetPaths) == false)
+                return null;
+            var path = assetPaths.FirstOrDefault();
+            var loadAssets = UnityEditor.AssetDatabase.LoadAllAssetsAtPath(path);
+            assets.AddRange(loadAssets);
+            _cachedassetsWithSubAssets[assetName] = assets;
+#endif
+            return assets;
+        }
+
         public T LoadAssetByTypeName<T>() where T : Object {
             var assetName = typeof(T).Name;
             return LoadAssetByName<T>(assetName);
@@ -141,15 +169,19 @@ namespace AssetBundlesModule
             throw new NotImplementedException();
         }
 
-        public bool Unload(bool forceUnload) {
+        public bool Unload(bool forceUnload, bool forceMode) {
 
-            if (forceUnload || --ReferencedCount <= 0) {
-                _namedAssets.Clear();
-                _assets.Clear();
-                _assetsMap.Clear();
-                return true;
-            }
+            //if (forceUnload || --ReferencedCount <= 0) {
+            //    _namedAssets.Clear();
+            //    _assets.Clear();
+            //    _assetsMap.Clear();
+            //    return true;
+            //}
 
+            return false;
+        }
+
+        public bool TryUnload(bool unloadForceMode) {
             return false;
         }
 
@@ -325,10 +357,9 @@ namespace AssetBundlesModule
             }
 
             return resultAsset;
-#endif
-#pragma warning disable CS0162 // Обнаружен недостижимый код
+#else
             return null;
-#pragma warning restore CS0162 // Обнаружен недостижимый код
+#endif
         }
 
         private T MakeInstance<T>(T asset, bool isComponent) where T : Object {
@@ -349,7 +380,11 @@ namespace AssetBundlesModule
             }
             else
             {
-                resultAsset = Object.Instantiate(asset);
+				if (Application.isEditor == true && asset is Texture) {
+					resultAsset = asset;
+				} else {
+					resultAsset = Object.Instantiate(asset);
+				}
             }
 
             AssetsInstanceMap.Register(resultAsset, asset);
@@ -402,6 +437,19 @@ namespace AssetBundlesModule
             }
             var asset = namedItems[targetType].FirstOrDefault();
             return asset as T;
+        }
+
+        public void Release() {
+            _initialized = false;
+            _namedAssets.Clear();
+            _assets.Clear();
+            _assetsMap.Clear();
+            _components.Clear();
+            BundleName = string.Empty;
+            AllAssetsNames = null;
+            Dependencies = null;
+            ReferencedCount = 0;
+            
         }
 
     }

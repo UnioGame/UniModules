@@ -1,0 +1,10 @@
+{
+    "name": "UnityToolsAsm",
+    "references": [
+        "UniRx"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}

@@ -46,7 +46,7 @@ public static class AssetBundlesEditorOperations
         Debug.LogFormat("Apply bundle Tag {0} with variant {1} to {2} Assets", assetBundleTag, assetBundleVariant, allFolderAssets.Length);
     }
 
-    public static Dictionary<string, HashSet<Object>> FindAllReferenciesToAnotherBundle(Object asset, bool excludesourceAssetBundle = true)
+    public static Dictionary<string, HashSet<Object>> FindAllReferencesToAnotherBundle(Object asset, bool excludesourceAssetBundle = true)
     {
         var bundleReferencies = new Dictionary<string, HashSet<Object>>();
         if (asset == false) return bundleReferencies;

@@ -8,15 +8,22 @@ namespace AssetBundlesModule
     {
         private readonly string _manifestName;
         private readonly bool _asyncDependencies;
+        private readonly IAssetBundleResourceMap _resourceMap;
+        private readonly IAssetBundlesRequestCache _requestCache;
         private readonly string _assetsLocation;
         
         protected static string _wwwTemplate = "file://{0}";//"{0}/";//
         
 
-        public BundleRequestOperationFactory(string manifestName, bool asyncDependencies) {
+        public BundleRequestOperationFactory(string manifestName, 
+                                             bool asyncDependencies, 
+                                             IAssetBundleResourceMap resourceMap,
+                                             IAssetBundlesRequestCache requestCache) {
 
             _manifestName = manifestName;
             _asyncDependencies = asyncDependencies;
+            _resourceMap = resourceMap;
+            _requestCache = requestCache;
             _assetsLocation = string.Format("{0}/{1}/", Application.streamingAssetsPath, _manifestName);
 
         }
@@ -25,43 +32,77 @@ namespace AssetBundlesModule
             return CreateOperation(bundleName, sourceType);
         }
 
-        public IAssetBundleRequest Create(IAssetBundleRequest targetBundle, 
-            List<IAssetBundleRequest> dependencies, AssetBundleSourceType sourceType) {
+        public IAssetBundleRequest Create(string targetBundle, 
+            List<string> dependencies, AssetBundleSourceType sourceType) {
+
+            var aggregateRequest = CreateAggregate(sourceType);
+
+            var targetRequest = CreateOperation(targetBundle, sourceType);
+
+            var dependenciesReqiests = ClassPool.Spawn<List<IAssetBundleRequest>>();
+
+            for (var i = 0; i < dependencies.Count; i++)
+            {
+                var request = CreateOperation(dependencies[i], sourceType);
+                dependenciesReqiests.Add(request);
+            }
+
+            aggregateRequest.Initialize(targetRequest, dependenciesReqiests);
+            return aggregateRequest;
+
+        }
+
+        private IAssetBundleAggregateRequest CreateAggregate(AssetBundleSourceType sourceType) {
 
             AssetBundleWithDependenciesBaseRequest request = null;
-            switch (sourceType) {
+            switch (sourceType)
+            {
                 case AssetBundleSourceType.LocalFile:
                 case AssetBundleSourceType.Simulation:
-                    request = ClassPool.Spawn<AssetBundleWithDependenciesSequentRequest>();
+                    request = ClassPool.GetItem(() =>
+                        new AssetBundleWithDependenciesSequentRequest(_resourceMap,_requestCache));
                     break;
                 default:
                 {
-                    if (_asyncDependencies) {
-                        request = ClassPool.Spawn<AssetBundleWithRoutineDependenciesRequest>();
+                    if (_asyncDependencies)
+                    {
+                        request = ClassPool.GetItem(() =>
+                            new AssetBundleWithRoutineDependenciesRequest(_resourceMap,_requestCache));
                     }
-                    else {
-                        request = ClassPool.Spawn<AssetBundleWithDependenciesSequentRequest>();
+                    else
+                    {
+                        request = ClassPool.GetItem(() =>
+                            new AssetBundleWithDependenciesSequentRequest(_resourceMap,_requestCache));
                     }
                     break;
                 }
             }
 
-            request.Initialize(targetBundle,dependencies);
             return request;
-
         }
 
         private IAssetBundleRequest CreateOperation(string assetBundleName, AssetBundleSourceType sourceType) {
-            
+
+            var request = _requestCache.Get(assetBundleName);
+            if (request != null)
+                return request;
+
+            var loadedResource = _resourceMap.Get(assetBundleName);
+            if (loadedResource != null) {
+                request = ClassPool.GetItem(() =>
+                    new LoadedAssetBundleRequest(loadedResource));
+                return request;
+            }
+
             var bundleResource = GetAssetsBundlesPath(assetBundleName);
 
-            //var url = GetDownloadUrl(bundleResource);
+            request = CreateRequest(sourceType);
 
-            var requestOperation = CreateRequest(sourceType);
+            request.Initialize(assetBundleName,bundleResource);
 
-            requestOperation.Initialize(assetBundleName,bundleResource);
+            _requestCache.Add(assetBundleName, sourceType,request);
 
-            return requestOperation;
+            return request;
         }
 
 
@@ -73,13 +114,6 @@ namespace AssetBundlesModule
         public string GetStreamingAssetsPathWWW()
         {
             return _assetsLocation;
-            //if (Application.isMobilePlatform || Application.isConsolePlatform)
-            //{
-            //    return _assetsLocation;
-            //}
-            //return string.Format(_wwwTemplate, _assetsLocation); // Use the build output folder directly.
-            //else if (Application.isMobilePlatform || Application.isConsolePlatform)
-            //    return Application.streamingAssetsPath;
         }
 
 

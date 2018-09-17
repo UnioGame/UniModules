@@ -23,7 +23,7 @@ public class AssetBundlesTagBuilder : EditorWindow
     private int _depth = 3;
 
     // Add menu named "My Window" to the Window menu
-    [MenuItem("Tools/GameData/Apply Bundles Tags")]
+    [MenuItem("Tools/AssetBundles/Bundles Tags Builder")]
     static void Initialize()
     {
         // Get existing open window or if none, make a new one:
