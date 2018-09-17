@@ -34,6 +34,13 @@ namespace Assets.Scripts.ProfilerTools
             Debug.Log(message);
         }
 
+
+        [Conditional("LOG_GAME_STATE")]
+        public static void LogGameState(string message)
+        {
+            Debug.Log(message);
+        }
+
         [Conditional("UNITY_EDITOR")]
         public static void EditorLogFormat(LogType logType,string format, params object[] objects) {
             switch (logType) {

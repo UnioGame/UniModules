@@ -1,7 +1,8 @@
 {
     "name": "UnityToolsAsm",
     "references": [
-        "UniRx"
+        "UniRx",
+        "UniRx.Async"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],

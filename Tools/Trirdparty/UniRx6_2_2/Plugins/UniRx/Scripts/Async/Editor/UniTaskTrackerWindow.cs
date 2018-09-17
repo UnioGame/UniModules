@@ -67,11 +67,11 @@ namespace UniRx.Async.Editor
         public static bool EnableAutoReload => TaskTracker.EditorEnableState.EnableAutoReload;
         public static bool EnableTracking => TaskTracker.EditorEnableState.EnableTracking;
         public static bool EnableStackTrace => TaskTracker.EditorEnableState.EnableStackTrace;
-        static readonly GUIContent EnableAutoReloadHeadContent = EditorGUIUtility.TrTextContent("Enable AutoReload", "Reload automatically.", (Texture)null);
-        static readonly GUIContent ReloadHeadContent = EditorGUIUtility.TrTextContent("Reload", "Reload View.", (Texture)null);
-        static readonly GUIContent GCHeadContent = EditorGUIUtility.TrTextContent("GC.Collect", "Invoke GC.Collect.", (Texture)null);
-        static readonly GUIContent EnableTrackingHeadContent = EditorGUIUtility.TrTextContent("Enable Tracking", "Start to track async/await UniTask. Performance impact: low", (Texture)null);
-        static readonly GUIContent EnableStackTraceHeadContent = EditorGUIUtility.TrTextContent("Enable StackTrace", "Capture StackTrace when task is started. Performance impact: high", (Texture)null);
+        static readonly GUIContent EnableAutoReloadHeadContent = new GUIContent("Enable AutoReload");
+        static readonly GUIContent ReloadHeadContent = new GUIContent("Reload");
+        static readonly GUIContent GCHeadContent = new GUIContent("GC.Collect");
+        static readonly GUIContent EnableTrackingHeadContent = new GUIContent("Enable Tracking");
+        static readonly GUIContent EnableStackTraceHeadContent = new GUIContent("Enable StackTrace");
 
         // [Enable Tracking] | [Enable StackTrace]
         void RenderHeadPanel()

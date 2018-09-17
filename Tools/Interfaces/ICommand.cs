@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using UniRx.Async;
 
 public interface ICommand
 {
@@ -6,7 +7,9 @@ public interface ICommand
     bool Rollback();
 }
 
-public interface ICommandRoutine
+public interface ICommandRoutine : IRoutine<IEnumerator> {}
+
+public interface IRoutine<TResult>
 {
-    IEnumerator Execute();   
+    TResult Execute();
 }

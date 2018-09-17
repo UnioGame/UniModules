@@ -2,9 +2,11 @@
 
 namespace Assets.Scripts.StateMachine
 {
-    public interface IExecutor
+    public interface IExecutor : ICommonExecutor<IEnumerator> { }
+
+    public interface ICommonExecutor<TData>
     {
-        void Execute(IEnumerator enumerator);
+        void Execute(TData data);
         void Stop();
     }
 }
