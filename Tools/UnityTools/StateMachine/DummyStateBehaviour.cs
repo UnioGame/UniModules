@@ -6,8 +6,6 @@ namespace Assets.Scripts.Tools.StateMachine
 {
     public class DummyStateBehaviour : StateBehaviour
     {
-        private bool _isActive;
-
         protected override IEnumerator ExecuteState()
         {
             GameLog.Log("IM DUMMY STATE",Color.cyan);
@@ -19,10 +17,5 @@ namespace Assets.Scripts.Tools.StateMachine
         }
 
 
-        public override void Dispose()
-        {
-            _isActive = false;
-            base.Dispose();
-        }
     }
 }

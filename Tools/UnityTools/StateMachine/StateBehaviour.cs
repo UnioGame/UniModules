@@ -8,30 +8,38 @@ namespace Assets.Scripts.Tools.StateMachine
     public class StateBehaviour : IStateBehaviour<IEnumerator>
     {
         protected readonly List<IDisposable> _disposables = new List<IDisposable>();
-
+        protected bool _isActive;
+        
         #region public methods
 
-        public IEnumerator Execute()
-        {
-
+        public IEnumerator Execute() {
+            
+            Stop();
+            
+            _isActive = true;
+            
             Initialize();
 
             yield return ExecuteState();
 
         }
 
-        public void Stop()
-        {
-            Dispose();
+        public void Stop() {
+            
+            _isActive = false;
+            _disposables.Cancel();
+            OnStateStop();
+            
         }
 
-        public virtual void Dispose()
-        {
-            _disposables.Cancel();
-        }
+
 
         #endregion
-
+        
+        protected virtual void OnStateStop()
+        {
+        }
+        
         protected virtual void Initialize()
         {
         }
