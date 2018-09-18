@@ -3,16 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts.Extensions;
 
-namespace Assets.Scripts.Tools.StateMachine
-{
-    public class StateBehaviour : IStateBehaviour<IEnumerator>
-    {
+namespace Assets.Scripts.Tools.StateMachine {
+    public class BaseStateBehaviour : IStateBehaviour<IEnumerator> {
         protected readonly List<IDisposable> _disposables = new List<IDisposable>();
         protected bool _isActive;
-        
-        #region public methods
 
         public IEnumerator Execute() {
+            
+            Stop();
             
             _isActive = true;
             
@@ -30,14 +28,10 @@ namespace Assets.Scripts.Tools.StateMachine
             
         }
 
-
-
-        #endregion
-        
         protected virtual void OnStateStop()
         {
         }
-        
+
         protected virtual void Initialize()
         {
         }
@@ -46,6 +40,5 @@ namespace Assets.Scripts.Tools.StateMachine
         {
             yield break;
         }
-
     }
 }

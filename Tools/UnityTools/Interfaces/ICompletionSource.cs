@@ -2,10 +2,10 @@
 
 namespace Assets.Scripts.Interfaces
 {
-    public interface ICompletionSource : IDisposable
+    public interface ICompletionSource : ICompletionStatus ,IDisposable
     {
 
-        bool IsComplete { get; }
+        void Complete();
 
     }
 }

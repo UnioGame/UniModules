@@ -7,11 +7,11 @@ namespace Assets.Scripts.Extension
     public static class RoutineExtension
     {
 
-        public static IEnumerator RoutineWaitUntil(this ICompletionSource source) {
+        public static IEnumerator RoutineWaitUntil(this ICompletionStatus status) {
 
-            if(source == null)yield break;
+            if(status == null)yield break;
             
-            while (source.IsComplete == false) {
+            while (status.IsComplete == false) {
                 yield return null;
             }
 

@@ -26,9 +26,9 @@ namespace Assets.FlipTheKnife.NewPrototype.Scripts.Extension
 
         }
 
-        public static async UniTask WaitUntil(this ICompletionSource source)
+        public static async UniTask WaitUntil(this ICompletionStatus status)
         {
-            while (source.IsComplete == false) {
+            while (status.IsComplete == false) {
                 await UniTask.DelayFrame(1);
             }
         }
