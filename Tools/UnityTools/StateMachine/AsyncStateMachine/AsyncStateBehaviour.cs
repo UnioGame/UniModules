@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts.Extensions;
-using Assets.Scripts.Tools.StateMachine;
 using UniRx.Async;
-using UnityEngine;
-
 
 namespace Assets.Scripts.Tools.StateMachine
 {

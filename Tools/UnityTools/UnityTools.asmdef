@@ -1,5 +1,5 @@
 {
-    "name": "UnityToolsAsm",
+    "name": "UnityTools",
     "references": [
         "UniRx",
         "UniRx.Async"
