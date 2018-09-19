@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using Assets.Scripts.Tools.StateMachine;
 using UnityEngine;
 
-public class DummyStateFactory<TAwaiter> : IStateFactory<IStateBehaviour<TAwaiter>,TAwaiter> {
+public class DummyStateFactory<TState> : IStateFactory<TState,TState> {
     
-    public IStateBehaviour<TAwaiter> Create(IStateBehaviour<TAwaiter> state)
+    public TState Create(TState state)
     {
         return state;
     }

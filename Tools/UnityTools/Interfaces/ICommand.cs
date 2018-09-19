@@ -17,3 +17,8 @@ public interface IRoutine<TResult>
 {
     TResult Execute();
 }
+
+public interface IRoutine<TData,TResult>
+{
+    TResult Execute(TData data);
+}

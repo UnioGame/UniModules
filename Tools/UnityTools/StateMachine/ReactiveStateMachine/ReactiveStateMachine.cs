@@ -3,16 +3,16 @@ using UniRx;
 
 namespace Assets.Scripts.Tools.StateMachine
 {
-    public class ReactiveStateMachine<TAwaiter> : StateBehaviour
+    public class ReactiveStateMachine<TState> : StateBehaviour
     {
-        private IStateSelector<IStateBehaviour<TAwaiter>> _stateSelector;
-        private IStateManager<IStateBehaviour<TAwaiter>> _stateManager;
+        private IStateSelector<TState> _stateSelector;
+        private IStateManager<TState> _stateManager;
         
-        public void Initialize(IStateSelector<IStateBehaviour<TAwaiter>> stateSelector,
-            IStateManager<IStateBehaviour<TAwaiter>> stateManager)
+        public void Initialize(IStateSelector<TState> stateSelector,
+            IStateManager<TState> stateManager)
         {
             if(IsActive)
-                Stop();
+                Exit();
             
             _stateSelector = stateSelector;
             _stateManager = stateManager;          

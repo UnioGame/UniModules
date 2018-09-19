@@ -6,14 +6,15 @@ namespace Assets.Scripts.Tools.StateMachine
 {
 
 	[CreateAssetMenu(menuName = "UniStateMachine/StatesSelector SO",fileName = "StatesSelector")]
-	public class UniStatesSelectorObject : ScriptableObject , IStateSelector<IStateBehaviour<IEnumerator>>
+	public class UniStatesSelectorObject<TData> : ScriptableObject , 
+		IStateSelector<IStateBehaviour<TData,IEnumerator>>
 	{
 		[SerializeField]
-		private UniStateObject _defaultState;
+		private UniStateObject<TData> _defaultState;
 		[SerializeField]
-		private List<UniStateSelectorObject> _nodes = new List<UniStateSelectorObject>();
+		private List<UniStateSelectorObject<TData>> _nodes = new List<UniStateSelectorObject<TData>>();
 		
-		public IStateBehaviour<IEnumerator> Select()
+		public IStateBehaviour<TData,IEnumerator> Select()
 		{
 			if (_nodes == null)
 			{
@@ -25,7 +26,7 @@ namespace Assets.Scripts.Tools.StateMachine
 			return node == null ? _defaultState : node.GetBehaviour();
 		}
 
-		private UniStateSelectorObject SelectNode()
+		private UniStateSelectorObject<TData> SelectNode()
 		{
 			for (int i = 0; i < _nodes.Count; i++)
 			{

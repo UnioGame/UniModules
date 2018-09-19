@@ -45,7 +45,7 @@ namespace Assets.Scripts.Tools.StateMachine.AsyncStateMachine
 
         #region public methods
 
-        public virtual void Dispose()
+        public void Dispose()
         {
             _stateMachine.Dispose();
             _controllerDisposable.Cancel();
@@ -54,6 +54,10 @@ namespace Assets.Scripts.Tools.StateMachine.AsyncStateMachine
         public void SetState(TStateType state)
         {
             _stateController.SetState(state);
+        }
+
+        public void Stop() {
+            _stateMachine.Stop();
         }
 
         #endregion

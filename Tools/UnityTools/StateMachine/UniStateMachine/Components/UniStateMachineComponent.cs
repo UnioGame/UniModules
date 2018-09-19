@@ -1,18 +1,20 @@
 ﻿
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace Assets.Scripts.Tools.StateMachine
 {
-	public class UniStateMachineComponent : UniStateComponent
+	[Serializable]
+	public class UniStateMachineComponent<TData> : UniStateComponent<TData>
 	{
-		protected ReactiveStateMachine<IEnumerator> _stateMachine;
+		protected ReactiveStateMachine<IStateBehaviour<TData,IEnumerator>> _stateMachine;
 
 		#region inspector data
 		
 		[SerializeField]
-		private UniStatesSelectorComponent _statesSelectorObject;
+		private UniStatesSelectorComponent<TData> _statesSelectorObject;
 
 		#endregion
 		
@@ -21,10 +23,10 @@ namespace Assets.Scripts.Tools.StateMachine
 
 		protected override void OnInitialize()
 		{
-			_stateMachine = new RxRoutineStateMachine(_statesSelectorObject);
+			_stateMachine = new ReactiveStateMachine<IStateBehaviour<TData,IEnumerator>>();
 		}
 
-		protected override IEnumerator UpdateState()
+		protected override IEnumerator UpdateState(TData data)
 		{
 			yield return _stateMachine.Execute();
 		}

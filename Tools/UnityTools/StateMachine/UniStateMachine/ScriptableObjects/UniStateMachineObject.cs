@@ -7,23 +7,25 @@ namespace Assets.Scripts.Tools.StateMachine
 {
 	
 	[CreateAssetMenu(menuName = "UniStateMachine/StateMachine SO",fileName = "StateMachine")]
-	public class UniStateMachineObject : UniStateObject
+	public class UniStateMachineObject<TData,TState> : UniStateObject<TData>
 	{
-		protected ReactiveStateMachine<IEnumerator> _stateMachine;
+		protected ReactiveStateMachine<TData,TState> _stateMachine;
 
 		#region inspector data
 		
 		[SerializeField]
-		private UniStatesSelectorObject _statesSelectorObject;
+		private UniStatesSelectorObject<TData> _statesSelectorObject;
 
 		#endregion
-		
 		
 		#region private methods
 
 		protected override void OnInitialize()
 		{
-			_stateMachine = new RxRoutineStateMachine(_statesSelectorObject);
+			base.OnInitialize();
+			_stateMachine = new ReactiveStateMachine<TData, TState>();
+			
+			//_stateMachine.Initialize(_statesSelectorObject);
 		}
 
 		#endregion

@@ -5,23 +5,22 @@ using UniRx;
 
 namespace Assets.Scripts.Tools.StateMachine
 {
-    public class RxStateExecutor : IStateExecutor<IEnumerator>
+    public class RxStateExecutor : IStateExecutor<IStateBehaviour<IEnumerator>>
     {
         private IDisposable _disposables;
+        private IStateBehaviour<IEnumerator> _state;
 
-        public void Dispose()
+        public void Execute(IStateBehaviour<IEnumerator> state)
         {
-            _disposables.Cancel();
-        }
-
-        public void Execute(IEnumerator state)
-        {
-            var enumerator = state;
-            _disposables = Observable.FromCoroutine(x => enumerator).Subscribe();
+            _state = state;
+            _disposables = Observable.FromCoroutine(x => _state.Execute()).Subscribe();
         }
 
         public void Stop()
         {
+            if(_state!=null)
+                _state.Exit();
+            _state = null;
             _disposables.Cancel();
             _disposables = null;
         }

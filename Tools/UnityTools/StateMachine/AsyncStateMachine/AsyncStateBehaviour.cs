@@ -23,7 +23,7 @@ namespace Assets.Scripts.Tools.StateMachine
             await ExecuteState();
         }
 
-        public void Stop()
+        public void Exit()
         {
             Dispose();
         }

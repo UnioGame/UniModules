@@ -7,5 +7,6 @@ namespace Assets.Scripts.Tools.StateMachine
         TStateType CurrentState { get; }
         TStateType PreviousState { get; }
         void SetState(TStateType state);
+        void Stop();
     }
 }

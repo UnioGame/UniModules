@@ -6,45 +6,43 @@ using UnityEngine;
 
 namespace Assets.Scripts.Tools.StateMachine
 {
-	public class UniStateComponent : MonoBehaviour, IStateBehaviour<IEnumerator>
+	[Serializable]
+	public class UniStateComponent<TData> : MonoBehaviour, IStateBehaviour<TData,IEnumerator>
 	{
 		[NonSerialized]
-		private bool _initialized = false;
-		[NonSerialized]
-		private StateFunctionBehaviour _stateFunctionBehaviour;
-		
+		private StateFunctionBehaviour<TData> _stateFunctionBehaviour = new StateFunctionBehaviour<TData>();
+
+		public bool IsActive
+		{
+			get { return _stateFunctionBehaviour.IsActive; }
+		}
+
 		#region public methods
 		
-		public IEnumerator Execute()
+		public IEnumerator Execute(TData data)
 		{
-			if (_initialized == false)
-			{
-				_initialized = true;
-				Initialize();
-			}
-			
 			_stateFunctionBehaviour.Initialize(UpdateState);
-			yield return _stateFunctionBehaviour.Execute();
+			yield return _stateFunctionBehaviour.Execute(data);
 			
 		}
 
-		public virtual void Stop()
+		public virtual void Exit()
 		{
-			_stateFunctionBehaviour.Stop();
+			if(_stateFunctionBehaviour!=null)
+				_stateFunctionBehaviour.Exit();
 			OnStop();
 		}
 
 		#endregion
 
 
-		protected virtual IEnumerator UpdateState()
+		protected virtual IEnumerator UpdateState(TData data)
 		{
 			yield break;
 		}
 		
 		private void Initialize()
 		{
-			_stateFunctionBehaviour = new StateFunctionBehaviour();
 			OnInitialize();
 		}
 
@@ -56,6 +54,10 @@ namespace Assets.Scripts.Tools.StateMachine
 		protected virtual void OnStop()
 		{
 			
+		}
+
+		private void OnDestroy() {
+			Exit();
 		}
 	}
 }

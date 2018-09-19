@@ -6,7 +6,7 @@ namespace Assets.Scripts.Tools.StateMachine
 {
     public interface IStateBehaviour<TResult> : IRoutine<TResult>
     {
-        void Stop();
+        void Exit();
     }
 
 }

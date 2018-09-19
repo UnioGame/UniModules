@@ -5,14 +5,15 @@ using UnityEngine;
 namespace Assets.Scripts.Tools.StateMachine
 {
 
-	public class UniStatesSelectorComponent : MonoBehaviour , IStateSelector<IStateBehaviour<IEnumerator>>
+	public class UniStatesSelectorComponent<TData> : MonoBehaviour , 
+		IStateSelector<IStateBehaviour<TData,IEnumerator>>
 	{
 		[SerializeField]
-		private UniStateComponent _defaultState;
+		private UniStateComponent<TData> _defaultState;
 		[SerializeField]
-		private List<UniStateSelectorComponent> _nodes = new List<UniStateSelectorComponent>();
+		private List<UniStateSelectorComponent<TData>> _nodes = new List<UniStateSelectorComponent<TData>>();
 		
-		public IStateBehaviour<IEnumerator> Select()
+		public IStateBehaviour<TData,IEnumerator> Select()
 		{
 			if (_nodes == null)
 			{
@@ -24,7 +25,7 @@ namespace Assets.Scripts.Tools.StateMachine
 			return node == null ? _defaultState : node.GetBehaviour();
 		}
 
-		private UniStateSelectorComponent SelectNode()
+		private UniStateSelectorComponent<TData> SelectNode()
 		{
 			for (int i = 0; i < _nodes.Count; i++)
 			{

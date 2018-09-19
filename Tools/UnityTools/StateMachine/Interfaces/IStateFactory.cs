@@ -1,7 +1,7 @@
 ﻿namespace Assets.Scripts.Tools.StateMachine
 {
-    public interface IStateFactory<TStateType, TAwaiter>
+    public interface IStateFactory<TStateType, TResult>
     {
-        IStateBehaviour<TAwaiter> Create(TStateType state);
+        TResult Create(TStateType state);
     }
 }

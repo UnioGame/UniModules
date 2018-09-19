@@ -6,56 +6,46 @@ using UnityEngine;
 
 namespace Assets.Scripts.Tools.StateMachine
 {
-	public class UniStateObject : ScriptableObject, IStateBehaviour<IEnumerator>
+	public class UniStateObject<TData> : ScriptableObjectRoutine<TData,IEnumerator>, 
+		IStateBehaviour<TData,IEnumerator>
 	{
+
 		[NonSerialized]
-		private bool _initialized = false;
-		[NonSerialized]
-		private StateFunctionBehaviour _stateFunctionBehaviour;
+		private StateFunctionBehaviour<TData> _stateFunctionBehaviour;
 		
 		#region public methods
-		
-		public IEnumerator Execute()
-		{
-			if (_initialized == false)
-			{
-				_initialized = true;
-				Initialize();
-			}
-			
-			_stateFunctionBehaviour.Initialize(UpdateState);
-			yield return _stateFunctionBehaviour.Execute();
-			
-		}
 
-		public virtual void Stop()
+		public void Exit()
 		{
-			_stateFunctionBehaviour.Stop();
-			OnStop();
+			_stateFunctionBehaviour.Exit();
 		}
 
 		#endregion
 
 
-		protected virtual IEnumerator UpdateState()
-		{
-			yield break;
-		}
+		public bool IsActive => _stateFunctionBehaviour != null && 
+		                        _stateFunctionBehaviour.IsActive;
+
+		#region private methods
 		
-		private void Initialize()
-		{
-			_stateFunctionBehaviour = new StateFunctionBehaviour();
-			OnInitialize();
-		}
-
-		protected virtual void OnInitialize()
-		{
+		protected override IEnumerator OnExecute(TData data) {
+			
+			yield return _stateFunctionBehaviour.Execute(data);
 			
 		}
 
-		protected virtual void OnStop()
-		{
+		protected override void OnInitialize() {
+			
+			_stateFunctionBehaviour = new StateFunctionBehaviour<TData>();
+			_stateFunctionBehaviour.Initialize(UpdateState,null,OnStop);
+			base.OnInitialize();
 			
 		}
+
+		protected virtual void OnStop(){}
+		
+		protected virtual IEnumerator UpdateState(TData data){yield break;}
+
+		#endregion
 	}
 }

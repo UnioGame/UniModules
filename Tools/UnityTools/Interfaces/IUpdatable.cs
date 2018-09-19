@@ -4,4 +4,9 @@
     {
         void Update(float delta);
     }
+    
+    public interface IUpdatable<TData>
+    {
+        void Update(TData data,float delta);
+    }
 }

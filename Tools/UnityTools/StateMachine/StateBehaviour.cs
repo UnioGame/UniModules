@@ -29,7 +29,7 @@ namespace Assets.Scripts.Tools.StateMachine
 
         }
 
-        public void Stop() {
+        public void Exit() {
             
             IsActive = false;
             _disposables.Cancel();

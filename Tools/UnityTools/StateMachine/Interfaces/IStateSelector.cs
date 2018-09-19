@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IStateSelector<TState>
+namespace Assets.Scripts.Tools.StateMachine 
 {
+	public interface IStateSelector<TState> {
 
-	TState Select();
+		TState Select();
 
+	}
 }

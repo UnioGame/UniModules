@@ -10,7 +10,7 @@ namespace Assets.Scripts.Tools.StateMachine {
 
         public IEnumerator Execute() {
             
-            Stop();
+            Exit();
             
             _isActive = true;
             
@@ -20,7 +20,7 @@ namespace Assets.Scripts.Tools.StateMachine {
 
         }
 
-        public void Stop() {
+        public void Exit() {
             
             _isActive = false;
             _disposables.Cancel();

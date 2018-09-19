@@ -4,10 +4,10 @@ using Assets.Scripts.Tools.StateMachine;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class UniStateSelectorComponent : MonoBehaviour
+public class UniStateSelectorComponent<TData> : MonoBehaviour
 {
 	[SerializeField]
-	private UniStateComponent _stateObject;
+	private UniStateComponent<TData> _stateObject;
 	
 	public int Priority { get; }
 
@@ -16,7 +16,7 @@ public class UniStateSelectorComponent : MonoBehaviour
 		return false;
 	}
 
-	public virtual IStateBehaviour<IEnumerator> GetBehaviour()
+	public virtual IStateBehaviour<TData,IEnumerator> GetBehaviour()
 	{
 		return _stateObject;
 	}	
