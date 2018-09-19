@@ -5,8 +5,8 @@ using Debug = UnityEngine.Debug;
 
 namespace Assets.Scripts.Tools.StateMachine
 {
-    public class StateMachine<TState> :
-        IStateMachine<IStateBehaviour<TState>>
+    public class StateMachine<TAwaiter> :
+        IStateMachine<IStateBehaviour<TAwaiter>>
     {
         #region private properties
 
@@ -14,19 +14,19 @@ namespace Assets.Scripts.Tools.StateMachine
         private Color _stopColor = Color.green;
         private const string ExecuteStateTemplate = "Execute State = {0}";
         private const string StopStateTemplate = "STOP State = {0}";
-        private readonly IStateExecutor<TState> _executor;
+        private readonly IStateExecutor<TAwaiter> _executor;
 
         #endregion
 
         #region public properties
 
-        public IStateBehaviour<TState> State { get; protected set; }
+        public IStateBehaviour<TAwaiter> State { get; protected set; }
 
         #endregion
 
         #region constructor
 
-        public StateMachine(IStateExecutor<TState> executor)
+        public StateMachine(IStateExecutor<TAwaiter> executor)
         {
             _executor = executor;
         }
@@ -35,7 +35,7 @@ namespace Assets.Scripts.Tools.StateMachine
 
         #region public methods
 
-        public void Execute(IStateBehaviour<TState> state)
+        public void Execute(IStateBehaviour<TAwaiter> state)
         {
             GameLog.LogGameState(string.Format("STATE : move from {0} to state {1}",State,state));
 
@@ -74,7 +74,7 @@ namespace Assets.Scripts.Tools.StateMachine
 
         #region private methods
 
-        protected virtual void ExecuteState(IStateBehaviour<TState> state)
+        protected virtual void ExecuteState(IStateBehaviour<TAwaiter> state)
         {
             State = state;
             _executor.Execute(State.Execute());

@@ -7,23 +7,23 @@ namespace Assets.Scripts.Tools.StateMachine
 {
     public class RxStateExecutor : IStateExecutor<IEnumerator>
     {
-        private IDisposable _exucutionDisposable;
+        private IDisposable _disposables;
 
         public void Dispose()
         {
-            _exucutionDisposable.Cancel();
+            _disposables.Cancel();
         }
 
         public void Execute(IEnumerator state)
         {
             var enumerator = state;
-            _exucutionDisposable = Observable.FromCoroutine(x => enumerator).Subscribe();
+            _disposables = Observable.FromCoroutine(x => enumerator).Subscribe();
         }
 
         public void Stop()
         {
-            _exucutionDisposable.Cancel();
-            _exucutionDisposable = null;
+            _disposables.Cancel();
+            _disposables = null;
         }
     }
 }

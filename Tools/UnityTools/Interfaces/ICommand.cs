@@ -4,6 +4,10 @@ using UniRx.Async;
 public interface ICommand
 {
     void Execute();
+}
+
+public interface IRollbackCommand : ICommand
+{
     bool Rollback();
 }
 

@@ -1,65 +1,42 @@
 ﻿using System;
-using System.Diagnostics;
+using System.Collections.Generic;
 using Assets.Scripts.Extensions;
 using UniRx;
-using Debug = UnityEngine.Debug;
 
 namespace Assets.Scripts.Tools.StateMachine
 {
-    public class StateManager<TStateType,TAwaiter> : IStateManager<TStateType>
+    public class StateManager<TStateType, TAwaiter> : IStateManager<TStateType>
     {
-        protected IStateTransitionValidator<TStateType> _validator;
-        private readonly IStateController<TStateType> _stateController;
+        protected List<IDisposable> _disposables;
+        protected IStateValidator<TStateType> _validator;
         protected IStateMachine<IStateBehaviour<TAwaiter>> _stateMachine;
-        private readonly IStateFactory<TStateType, TAwaiter> _stateFactory;
-        protected readonly IDisposable _controllerDisposable;
+        private IStateFactory<TStateType, TAwaiter> _stateFactory;
 
-        #region constructor
-
-        public StateManager(IStateController<TStateType> stateController,
+        public StateManager(
             IStateMachine<IStateBehaviour<TAwaiter>> stateMachine,
             IStateFactory<TStateType, TAwaiter> stateFactory,
-            IStateTransitionValidator<TStateType> validator = null)
+            IStateValidator<TStateType> validator = null)
         {
-            _stateController = stateController;
+            _disposables = new List<IDisposable>();
             _stateMachine = stateMachine;
             _stateFactory = stateFactory;
             _validator = validator;
-            _controllerDisposable = 
-                _stateController.StateObservable.
-                Skip(1).Subscribe(ExecuteState);
+
         }
 
-        #endregion
-
-        #region public properties
-
-
         public TStateType CurrentState { get; protected set; }
-
-
         public TStateType PreviousState { get; protected set; }
-
-
-        #endregion
-
-        #region public methods
 
         public virtual void Dispose()
         {
-            _stateMachine.Dispose();
-            _controllerDisposable.Cancel();
+            _disposables.Cancel();
         }
 
-        public void SetState(TStateType state)
+        public virtual void SetState(TStateType state)
         {
-            _stateController.SetState(state);
+            ExecuteState(state);
         }
 
-        #endregion
-
-        #region private methods
-        
         protected void ExecuteState(TStateType state)
         {
             if (!ValidateTransition(state))
@@ -78,10 +55,7 @@ namespace Assets.Scripts.Tools.StateMachine
         protected virtual bool ValidateTransition(TStateType nextState)
         {
             return _validator == null || 
-                _validator.Validate(CurrentState, nextState);
+                   _validator.Validate(CurrentState, nextState);
         }
-
-        #endregion
-
     }
 }

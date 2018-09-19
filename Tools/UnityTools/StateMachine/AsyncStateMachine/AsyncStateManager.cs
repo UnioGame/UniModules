@@ -8,7 +8,7 @@ namespace Assets.Scripts.Tools.StateMachine.AsyncStateMachine
 {
     public class AsyncStateManager<TStateType> : IStateManager<TStateType>
     {
-        protected IStateTransitionValidator<TStateType> _validator;
+        protected IStateValidator<TStateType> _validator;
         private readonly IStateController<TStateType> _stateController;
         protected IAsyncStateMachine _stateMachine;
         private readonly IAsyncStateFactory<TStateType> _stateFactory;
@@ -19,7 +19,7 @@ namespace Assets.Scripts.Tools.StateMachine.AsyncStateMachine
         public AsyncStateManager(IStateController<TStateType> stateController,
             IAsyncStateMachine stateMachine,
             IAsyncStateFactory<TStateType> stateFactory,
-            IStateTransitionValidator<TStateType> validator = null)
+            IStateValidator<TStateType> validator = null)
         {
             _stateController = stateController;
             _stateMachine = stateMachine;

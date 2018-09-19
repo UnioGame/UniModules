@@ -12,7 +12,11 @@ namespace Assets.Scripts.Tools.StateMachine
         
         #region public methods
 
-        public IEnumerator Execute() {
+        public IEnumerator Execute()
+        {
+
+            if (_isActive)
+                yield return Wait();
             
             _isActive = true;
             
@@ -33,6 +37,14 @@ namespace Assets.Scripts.Tools.StateMachine
 
 
         #endregion
+
+        protected virtual IEnumerator Wait()
+        {
+            while (_isActive)
+            {
+                yield return null;
+            }
+        }
         
         protected virtual void OnStateStop()
         {

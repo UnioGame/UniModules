@@ -1,6 +1,6 @@
 ﻿namespace Assets.Scripts.Tools.StateMachine
 {
-    public interface IStateTransitionValidator<TStateType>  {
+    public interface IStateValidator<TStateType>  {
 
         bool Validate(TStateType from, TStateType to);
     }
