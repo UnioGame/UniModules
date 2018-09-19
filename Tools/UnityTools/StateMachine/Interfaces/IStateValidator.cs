@@ -2,6 +2,6 @@
 {
     public interface IStateValidator<TStateType>  {
 
-        bool Validate(TStateType from, TStateType to);
+        bool Validate(TStateType fromState, TStateType toState);
     }
 }

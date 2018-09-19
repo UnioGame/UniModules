@@ -58,6 +58,7 @@ namespace Assets.Scripts.Tools.StateMachine
         {
             if (State != null)
             {
+                State.Stop();
                 GameLog.LogFormat(StopStateTemplate, _stopColor, State.GetType().Name);
                 State = null;
             }

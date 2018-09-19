@@ -22,7 +22,7 @@ namespace Assets.Scripts.Tools.StateMachine.AsyncStateMachine
             Stop();
             var task = state;
             _taskDisposable = Observable.
-                FromMicroCoroutine(() => task.ToCoroutine(ExeptionHandler)).
+                FromCoroutine(() => task.ToCoroutine(ExeptionHandler)).
                 Subscribe();
         }
 

@@ -9,8 +9,7 @@ namespace Assets.Scripts.Tools.StateMachine
         protected override IEnumerator ExecuteState()
         {
             GameLog.Log("IM DUMMY STATE",Color.cyan);
-            _isActive = true;
-            while (_isActive)
+            while (IsActive)
             {
                 yield return null;
             }

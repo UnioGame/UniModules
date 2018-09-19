@@ -8,17 +8,20 @@ namespace Assets.Scripts.Tools.StateMachine
     public class StateBehaviour : IStateBehaviour<IEnumerator>
     {
         protected readonly List<IDisposable> _disposables = new List<IDisposable>();
-        protected bool _isActive;
+
+
+        public bool IsActive { get; protected set; }
+
         
         #region public methods
 
         public IEnumerator Execute()
         {
 
-            if (_isActive)
+            if (IsActive)
                 yield return Wait();
             
-            _isActive = true;
+            IsActive = true;
             
             Initialize();
 
@@ -28,7 +31,7 @@ namespace Assets.Scripts.Tools.StateMachine
 
         public void Stop() {
             
-            _isActive = false;
+            IsActive = false;
             _disposables.Cancel();
             OnStateStop();
             
@@ -40,7 +43,7 @@ namespace Assets.Scripts.Tools.StateMachine
 
         protected virtual IEnumerator Wait()
         {
-            while (_isActive)
+            while (IsActive)
             {
                 yield return null;
             }
