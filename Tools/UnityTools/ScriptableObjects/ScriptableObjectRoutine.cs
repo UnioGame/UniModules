@@ -1,13 +1,13 @@
 ﻿using System;
 using UnityEngine;
 
-public abstract class ScriptableObjectRoutine<TData,TResult> : 
-	ScriptableObject ,IRoutine<TData, TResult>{
+public abstract class ScriptableObjectRoutine<TResult> : 
+	ScriptableObject ,IRoutine<TResult>{
 	
 	[NonSerialized]
 	private bool _initialized = false;
 	
-	public TResult Execute(TData data) {
+	public TResult Execute() {
 		
 		if (_initialized == false)
 		{
@@ -15,7 +15,7 @@ public abstract class ScriptableObjectRoutine<TData,TResult> :
 			OnInitialize();
 		}
 
-		return OnExecute(data);
+		return OnExecute();
 		
 	}
 	
@@ -24,7 +24,7 @@ public abstract class ScriptableObjectRoutine<TData,TResult> :
 
 	protected virtual void OnInitialize() {}
 
-	protected abstract TResult OnExecute(TData data);
+	protected abstract TResult OnExecute();
 
 	#endregion
 

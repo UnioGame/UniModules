@@ -4,15 +4,18 @@ using System.Collections.Generic;
 using Assets.Scripts.Extensions;
 
 namespace Assets.Scripts.Tools.StateMachine {
+    
     public class BaseStateBehaviour : IStateBehaviour<IEnumerator> {
+        
         protected readonly List<IDisposable> _disposables = new List<IDisposable>();
-        protected bool _isActive;
 
-        public IEnumerator Execute() {
+        public IEnumerator Execute()
+        {
+
+            if (IsActive)
+                yield return OnAlreadyActive();
             
-            Exit();
-            
-            _isActive = true;
+            IsActive = true;
             
             Initialize();
 
@@ -20,9 +23,11 @@ namespace Assets.Scripts.Tools.StateMachine {
 
         }
 
+        public bool IsActive { get; protected set; }
+
         public void Exit() {
             
-            _isActive = false;
+            IsActive = false;
             _disposables.Cancel();
             OnStateStop();
             
@@ -39,6 +44,14 @@ namespace Assets.Scripts.Tools.StateMachine {
         protected virtual IEnumerator ExecuteState()
         {
             yield break;
+        }
+
+        protected virtual IEnumerator OnAlreadyActive()
+        {
+            while (IsActive)
+            {
+                yield return null;
+            }
         }
     }
 }

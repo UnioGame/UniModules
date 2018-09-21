@@ -34,6 +34,34 @@ namespace Assets.UI.Windows.Tools.Editor
         public static List<string> _modificationsIgnoreList = new List<string>() { ".fbx" };
 
 
+        public static TTarget SaveAssetAsNested<TTarget>(Object root, string name = null)
+            where TTarget : ScriptableObject
+        {
+            var asset = ScriptableObject.CreateInstance<TTarget>();
+            var result = SaveAssetAsNested(asset,root, name);
+            if (result) return asset;
+            return null;
+        }
+
+        public static bool SaveAssetAsNested(Object child, Object root, string name = null)
+        {
+            var assetPath = AssetDatabase.GetAssetPath(root);
+            if (string.IsNullOrEmpty(assetPath))
+                return false;
+            
+            var childName = name == null ? child.name : name;
+            childName = string.IsNullOrEmpty(childName) ? child.GetType().Name : childName;
+            child.name = childName;
+            
+            AssetDatabase.AddObjectToAsset(child,root);
+
+            EditorUtility.SetDirty(root);
+            AssetDatabase.SaveAssets ();
+            AssetDatabase.Refresh ();
+            
+            return true;
+        }
+        
         [MenuItem("Assets/Set Selected Dirty")]
         public static void SetSelectedAsDirty()
         {

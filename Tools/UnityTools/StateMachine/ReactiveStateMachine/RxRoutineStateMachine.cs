@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using Assets.Scripts.Tools.StateMachine;
 using UnityEngine;
 
-public class RxRoutineStateMachine<TData> : ReactiveStateMachine<TData,IStateBehaviour<IEnumerator>> 
+public class RxRoutineStateMachine<TData> : ReactiveStateMachine<IStateBehaviour<IEnumerator>> 
 {
 
 
-    public RxRoutineStateMachine(IStateSelector<TData,IStateBehaviour<IEnumerator>> selector)
+    public RxRoutineStateMachine(IStateSelector<IStateBehaviour<IEnumerator>> selector)
     {
         
         var validator = new DummyStateValidator<IStateBehaviour<IEnumerator>>();

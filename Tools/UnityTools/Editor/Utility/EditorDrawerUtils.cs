@@ -6,15 +6,29 @@ using Object = UnityEngine.Object;
 
 namespace LevelEditor
 {
-    public class EditorDrawerUtils : MonoBehaviour {
+    public class EditorDrawerUtils {
 
 
         public static void DrawVertialLayout(Action action,params GUILayoutOption[] options)
         {
             if (action == null) return;
-            EditorGUILayout.BeginVertical(options);
-            action();
-            EditorGUILayout.EndVertical();
+            try
+            {
+                if (options == null)
+                {
+                    EditorGUILayout.BeginVertical(options);
+                }
+                else
+                {
+                    EditorGUILayout.BeginVertical();
+                }
+                action();
+            }
+            finally
+            {
+                EditorGUILayout.EndVertical();
+            }
+            
         }
 
         public static void DrawVertialLayout(Action action,Color color, params GUILayoutOption[] options)
@@ -28,24 +42,37 @@ namespace LevelEditor
         public static void DrawVertialLayout(Action action)
         {
             if (action == null) return;
-            EditorGUILayout.BeginVertical();
-            action();
-            EditorGUILayout.EndVertical();
+            try
+            {
+                EditorGUILayout.BeginVertical();
+                action();
+            }
+            finally
+            {
+                EditorGUILayout.EndVertical();
+            }
         }
 
         public static void DrawHorizontalLayout(Action action,params GUILayoutOption[] guiLayoutOptions)
         {
             if (action == null) return;
-            if (guiLayoutOptions == null)
+            try
             {
-                EditorGUILayout.BeginHorizontal();
+                if (guiLayoutOptions == null)
+                {
+                    EditorGUILayout.BeginHorizontal();
+                }
+                else
+                {
+                    EditorGUILayout.BeginHorizontal(guiLayoutOptions);
+                }
+                action();
             }
-            else
+            finally
             {
-                EditorGUILayout.BeginHorizontal(guiLayoutOptions);
+                EditorGUILayout.EndHorizontal();
             }
-            action();
-            EditorGUILayout.EndHorizontal();
+            
         }
 
         public static void DrawAndRevertColor(Action action)
@@ -53,6 +80,23 @@ namespace LevelEditor
             var defaultColor = GUI.backgroundColor;
             action();
             GUI.backgroundColor = defaultColor;
+        }
+
+        public static Vector2 DrawScroll(Action drawer,Vector2 scroll)
+        {
+            if (drawer == null)
+                return scroll;
+            try
+            {
+                scroll = EditorGUILayout.BeginScrollView(scroll);
+                drawer();
+                return scroll;
+            }
+            finally
+            {
+                EditorGUILayout.EndScrollView();
+            }
+
         }
 
         public static Object DrawObject(Object item,bool opened = false)

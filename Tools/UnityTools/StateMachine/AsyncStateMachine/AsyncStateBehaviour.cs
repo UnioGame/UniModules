@@ -10,30 +10,33 @@ namespace Assets.Scripts.Tools.StateMachine
     {
         protected readonly List<IDisposable> _disposables = new List<IDisposable>();
 
-        #region public methods
-
-        /// <summary>
-        /// TODO add cancelation token
-        /// </summary>
-        /// <returns></returns>
         public async UniTask Execute()
         {
+
+            if (IsActive)
+                await OnAlreadyActive();
+            
+            IsActive = true;
+            
             Initialize();
 
             await ExecuteState();
+
         }
 
-        public void Exit()
-        {
-            Dispose();
-        }
+        public bool IsActive { get; protected set; }
 
-        public virtual void Dispose()
-        {
+        public void Exit() {
+            
+            IsActive = false;
             _disposables.Cancel();
+            OnStateStop();
+            
         }
 
-        #endregion
+        protected virtual void OnStateStop()
+        {
+        }
 
         protected virtual void Initialize()
         {
@@ -42,6 +45,14 @@ namespace Assets.Scripts.Tools.StateMachine
         protected virtual async UniTask ExecuteState()
         {
             
+        }
+
+        protected virtual async UniTask OnAlreadyActive()
+        {
+            while (IsActive)
+            {
+                await UniTask.Yield(PlayerLoopTiming.Update);
+            }
         }
 
     }
