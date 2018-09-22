@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Assets.Scripts.Tools.StateMachine
 {
 
-    [CreateAssetMenu(menuName = "UniStateMachine/DataContext StateMachine", fileName = "DataContextStateMachine")]
+    [CreateAssetMenu(menuName = "UniStateMachine/FSM", fileName = "StateMachine")]
     public class DataContextStateMachine : UniStateMachineObject<DataContextStateSelector>
     {
         protected IContextProvider _contextProvider;

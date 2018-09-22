@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts.Tools.StateMachine;
+using SubjectNerd.Utilities;
 using UnityEngine;
 
 namespace Assets.Scripts.Tools.StateMachine
@@ -12,9 +13,11 @@ namespace Assets.Scripts.Tools.StateMachine
     {
         private IContextProvider _contextProvider;
         
-        [SerializeField] private List<UniSelectorNode> _stateNodes;
-
+        [Reorderable]
+        public List<UniSelectorNode> _stateNodes;
+        
         public List<UniSelectorNode> Nodes => _stateNodes;
+        
         
         public void Initialize(IContextProvider contextProvider)
         {
