@@ -5,8 +5,9 @@ using Assets.Scripts.Tools.StateMachine;
 using SubjectNerd.Utilities;
 using UnityEngine;
 
-namespace Assets.Scripts.Tools.StateMachine
+namespace UniStateMachine
 {
+    
     [Serializable]
     public class UniStateSelector :ScriptableObject,
         IStateSelector<IStateBehaviour<IEnumerator>>
@@ -14,9 +15,9 @@ namespace Assets.Scripts.Tools.StateMachine
         private IContextProvider _contextProvider;
         
         [Reorderable]
-        public List<UniSelectorNode> _stateNodes;
+        public List<UniStateTransition> _stateNodes;
         
-        public List<UniSelectorNode> Nodes => _stateNodes;
+        public List<UniStateTransition> Nodes => _stateNodes;
         
         
         public void Initialize(IContextProvider contextProvider)
@@ -39,6 +40,7 @@ namespace Assets.Scripts.Tools.StateMachine
                 var behaviour = state.GetState();
                 behaviour.Initialize(_contextProvider);
                 return behaviour;
+                
             }
 
             return null;

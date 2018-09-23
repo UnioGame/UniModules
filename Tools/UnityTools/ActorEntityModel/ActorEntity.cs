@@ -1,15 +1,16 @@
 ﻿using System.Collections;
 using Assets.Scripts.Tools.StateMachine;
+using UniStateMachine;
 
 namespace Tools.ActorModel
 {
-    public class ActorEntity<TModel, TView> : Entity
+    public class ActorEntity<TModel, TView> : EntityObject
     {
         protected IEnumerator _progress;
         protected IStateBehaviour<IEnumerator> _stateBehaviour;
 
         #region public properties
-
+        
         public TView View { get; protected set; }
 
         public TModel Model { get; protected set; }

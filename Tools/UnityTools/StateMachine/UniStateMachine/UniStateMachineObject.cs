@@ -3,8 +3,7 @@ using System.Collections;
 using Assets.Scripts.Tools.StateMachine;
 using UnityEngine;
 
-
-namespace Assets.Scripts.Tools.StateMachine
+namespace UniStateMachine
 {
 	[Serializable]
 	[CreateAssetMenu(menuName = "UniStateMachine/StateMachine")]

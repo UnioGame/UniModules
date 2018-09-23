@@ -2,7 +2,7 @@
 using Assets.Scripts.ProfilerTools;
 using UnityEngine;
 
-namespace Assets.Scripts.Tools.StateMachine
+namespace UniStateMachine
 {
     public class DummyStateBehaviour : StateBehaviour
     {

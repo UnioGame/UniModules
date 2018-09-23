@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Assets.Scripts.Extensions;
 using UniRx.Async;
 
-namespace Assets.Scripts.Tools.StateMachine
+namespace UniStateMachine
 {
 
     public class AsyncStateBehaviour : IStateBehaviour<UniTask>

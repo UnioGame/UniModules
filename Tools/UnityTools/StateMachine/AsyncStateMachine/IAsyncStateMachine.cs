@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Assets.Scripts.Tools.StateMachine.AsyncStateMachine
+namespace UniStateMachine
 {
     public interface IAsyncStateMachine : IDisposable
     {

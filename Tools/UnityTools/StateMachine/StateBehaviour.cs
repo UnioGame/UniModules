@@ -2,8 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts.Extensions;
+using UniStateMachine;
 
-namespace Assets.Scripts.Tools.StateMachine
+namespace UniStateMachine
 {
     public class StateBehaviour : IStateBehaviour<IEnumerator>
     {
@@ -27,6 +28,7 @@ namespace Assets.Scripts.Tools.StateMachine
 
             yield return ExecuteState();
 
+            OnFinish();
         }
 
         public void Exit() {
@@ -55,6 +57,10 @@ namespace Assets.Scripts.Tools.StateMachine
         
         protected virtual void Initialize()
         {
+        }
+
+        protected virtual void OnFinish() {
+            
         }
 
         protected virtual IEnumerator ExecuteState()

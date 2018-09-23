@@ -1,9 +1,10 @@
 ﻿using System.Diagnostics;
 using Assets.Scripts.ProfilerTools;
+using Assets.Scripts.Tools.StateMachine;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
-namespace Assets.Scripts.Tools.StateMachine
+namespace UniStateMachine
 {
     public class BaseStateMachine<TState> :
         IStateMachine<TState>

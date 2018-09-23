@@ -5,7 +5,7 @@ using Assets.Scripts.Extensions;
 using UniRx;
 using UniRx.Async;
 
-namespace Assets.Scripts.Tools.StateMachine.AsyncStateMachine
+namespace UniStateMachine
 {
   
     public class AsyncStateExecutor : IStateExecutor<UniTask>

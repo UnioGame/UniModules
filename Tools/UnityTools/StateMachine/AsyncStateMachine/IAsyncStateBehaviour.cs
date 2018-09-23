@@ -1,7 +1,8 @@
 
 using UniRx.Async;
+using UniStateMachine;
 
-namespace Assets.Scripts.Tools.StateMachine.AsyncStateMachine
+namespace UniStateMachine
 {
     public interface IAsyncStateBehaviour : IStateBehaviour<UniTask>{
     }

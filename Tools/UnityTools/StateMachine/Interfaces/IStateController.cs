@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Assets.Scripts.Tools.StateMachine
+namespace UniStateMachine
 {
     public interface IStateController<TStateType> : IDisposable
     {

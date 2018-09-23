@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
 using Assets.Scripts.Extensions;
+using Assets.Scripts.Tools.StateMachine;
 using UniRx;
 using Debug = UnityEngine.Debug;
 
-namespace Assets.Scripts.Tools.StateMachine
+namespace UniStateMachine
 {
     public class ControllerStateManager<TStateType,TState> : StateManager<TStateType, TState>
     {

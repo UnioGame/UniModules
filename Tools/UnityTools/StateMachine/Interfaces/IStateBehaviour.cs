@@ -2,7 +2,7 @@
 using System;
 using UniRx;
 
-namespace Assets.Scripts.Tools.StateMachine
+namespace UniStateMachine
 {
     public interface IStateBehaviour<TResult> : IRoutine<TResult>
     {

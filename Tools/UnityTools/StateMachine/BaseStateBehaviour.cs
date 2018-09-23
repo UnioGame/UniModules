@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts.Extensions;
 
-namespace Assets.Scripts.Tools.StateMachine {
+namespace UniStateMachine
+{
     
     public class BaseStateBehaviour : IStateBehaviour<IEnumerator> {
         

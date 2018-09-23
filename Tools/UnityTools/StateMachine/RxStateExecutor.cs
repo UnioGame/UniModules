@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections;
 using Assets.Scripts.Extensions;
+using Assets.Scripts.Tools.StateMachine;
 using UniRx;
 
-namespace Assets.Scripts.Tools.StateMachine
+namespace UniStateMachine
 {
     public class RxStateExecutor : IStateExecutor<IStateBehaviour<IEnumerator>>
     {

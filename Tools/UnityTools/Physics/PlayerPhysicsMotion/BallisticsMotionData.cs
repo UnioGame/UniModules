@@ -10,7 +10,6 @@ namespace PhysicsBallisticsMotion {
         
         public Vector3 InitialPosition;
         public Vector3 Force;
-        public ForceMode ForceMode;
         public float Time;
         
     }

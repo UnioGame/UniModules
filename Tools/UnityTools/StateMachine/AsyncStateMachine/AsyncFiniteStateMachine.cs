@@ -1,7 +1,8 @@
 ﻿using Assets.Scripts.ProfilerTools;
+using Assets.Scripts.Tools.StateMachine.AsyncStateMachine;
 using UnityEngine;
 
-namespace Assets.Scripts.Tools.StateMachine.AsyncStateMachine
+namespace UniStateMachine
 {
     public class AsyncFiniteStateMachine : IAsyncStateMachine
     {

@@ -7,6 +7,7 @@ using UnityEditor;
 using UnityEngine;
 
 namespace UniStateMachine {
+    
     [CustomEditor(typeof(UniStateSelector), true)]
     public class UniStateSelectorEditor : Editor {
 
@@ -15,7 +16,7 @@ namespace UniStateMachine {
             var stateSelector = target as UniStateSelector;
 
             if (stateSelector._stateNodes == null)
-                stateSelector._stateNodes = new List<UniSelectorNode>();
+                stateSelector._stateNodes = new List<UniStateTransition>();
 
             EditorGUILayout.BeginVertical();
             
@@ -48,13 +49,13 @@ namespace UniStateMachine {
             CleanUpNodes(nodes);
         }
 
-        private void CleanUpNodes(List<UniSelectorNode> nodes) {
+        private void CleanUpNodes(List<UniStateTransition> nodes) {
 
             nodes.RemoveAll(x => x == null);
 
         }
 
-        private void DrawNode(List<UniSelectorNode> nodes, int index) {
+        private void DrawNode(List<UniStateTransition> nodes, int index) {
 
             var node = nodes[index];
             
@@ -75,9 +76,8 @@ namespace UniStateMachine {
 
             if (node && GUILayout.Button("-", GUILayout.MaxWidth(20))) {
                 
-                Object.DestroyImmediate(node,true);
+                node.DestroyNestedAsset();
                 nodes[index] = null; 
-                AssetDatabase.SaveAssets();
                 
             }
             
@@ -88,12 +88,10 @@ namespace UniStateMachine {
 
             EditorGUILayout.BeginHorizontal();
 
-            var nodeTypes = UniFSMEditorModel.Validators;
-
             var index = selector.Nodes.Count;
             
             if (GUILayout.Button("add node")) {
-                var node = selector.AddNeted<UniSelectorNode>("Node" + index);
+                var node = selector.AddNeted<UniStateTransition>("Transition" + index);
                 selector.Nodes.Add(node);
             }
             

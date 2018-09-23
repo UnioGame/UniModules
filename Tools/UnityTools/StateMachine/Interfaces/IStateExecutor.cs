@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 
-namespace Assets.Scripts.Tools.StateMachine
+namespace UniStateMachine
 {
     public interface IStateExecutor<TState>
     {

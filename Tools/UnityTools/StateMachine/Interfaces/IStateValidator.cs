@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Tools.StateMachine
+﻿namespace UniStateMachine
 {
     public interface IStateValidator<TStateType>  {
 

@@ -7,10 +7,18 @@ using Object = UnityEngine.Object;
 namespace LevelEditor {
     
     public static class EditorDrawerUtils {
-        
-        public static void DrawVertialLayout(Action action, params GUILayoutOption[] options) {
+
+        public static void DrawVertialLayout(Action action,GUIStyle style, params GUILayoutOption[] options) {
+            
             if (action == null) return;
-            if (options == null) {
+            
+            if (style != null && options != null) {
+                EditorGUILayout.BeginVertical(style,options);               
+            }
+            else if(style!=null){
+                EditorGUILayout.BeginVertical(style);  
+            }
+            else if (options != null) {
                 EditorGUILayout.BeginVertical(options);
             }
             else {
@@ -20,6 +28,13 @@ namespace LevelEditor {
             action();
 
             EditorGUILayout.EndVertical();
+            
+        }
+
+        public static void DrawVertialLayout(Action action, params GUILayoutOption[] options) {
+            
+            DrawVertialLayout(action, null, options);
+
         }
 
         public static void DrawVertialLayout(Action action, Color color, params GUILayoutOption[] options) {
@@ -29,16 +44,10 @@ namespace LevelEditor {
             GUI.backgroundColor = prevColor;
         }
 
-        public static void DrawVertialLayout(Action action) {
-            if (action == null) return;
-
-            EditorGUILayout.BeginVertical();
-            action();
-        }
-
         public static void DrawHorizontalLayout(Action action, params GUILayoutOption[] guiLayoutOptions) {
             
             if (action == null) return;
+            
             if (guiLayoutOptions == null) {
                 EditorGUILayout.BeginHorizontal();
             }
@@ -60,6 +69,12 @@ namespace LevelEditor {
             GUI.backgroundColor = defaultBackColor;
             GUI.color = defaultGuiColor;
             GUI.contentColor = defaultContentColor;
+        }
+
+        public static void DrawVecticalBox(Action action) {
+
+            DrawVertialLayout(action,GUI.skin.box);
+            
         }
         
         public static void DrawWithBackgroudColor(Color color,Action action) {

@@ -1,7 +1,4 @@
-﻿using System.Diagnostics;
-using Assets.Scripts.ProfilerTools;
-using UnityEngine;
-using Debug = UnityEngine.Debug;
+﻿using UniStateMachine;
 
 namespace Assets.Scripts.Tools.StateMachine
 {

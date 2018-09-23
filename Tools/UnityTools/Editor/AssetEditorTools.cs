@@ -33,6 +33,14 @@ namespace Assets.UI.Windows.Tools.Editor
         public const string ModificationTemplate = @"\n( *)(m_Modifications:[\w,\W]*)(?=\n( *)m_RemovedComponents)";
         public static List<string> _modificationsIgnoreList = new List<string>() { ".fbx" };
 
+        
+        public static Object SaveAssetAsNested(Object root,Type assetType, string name = null)
+        {
+            var asset = ScriptableObject.CreateInstance(assetType);
+            var result = SaveAssetAsNested(asset,root, name);
+            if (result) return asset;
+            return null;
+        }
 
         public static TTarget SaveAssetAsNested<TTarget>(Object root, string name = null)
             where TTarget : ScriptableObject

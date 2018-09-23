@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts.Tools.StateMachine;
 using UnityEngine;
 
 
-namespace Assets.Scripts.Tools.StateMachine
+namespace UniStateMachine
 {
 
     [CreateAssetMenu(menuName = "UniStateMachine/FSM", fileName = "StateMachine")]

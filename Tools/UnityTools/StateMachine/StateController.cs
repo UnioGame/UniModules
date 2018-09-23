@@ -1,7 +1,7 @@
 ﻿using System;
 using UniRx;
 
-namespace Assets.Scripts.Tools.StateMachine
+namespace UniStateMachine
 {
     public class StateController<TState> : IStateController<TState>
     {

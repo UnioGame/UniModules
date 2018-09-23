@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Assets.Scripts.Common;
 using UnityEngine;
 
-namespace Assets.Scripts.Tools.StateMachine
+namespace UniStateMachine
 {
 
 	[Serializable]
@@ -13,6 +13,8 @@ namespace Assets.Scripts.Tools.StateMachine
 
 		[SerializeField] 
 		private List<UniNodeValidator> _validators = new List<UniNodeValidator>();
+
+		public List<UniNodeValidator> Validators => _validators;
 
 		public bool Validate(IContextProvider context)
 		{

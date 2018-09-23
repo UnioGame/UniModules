@@ -2,9 +2,10 @@
 using System.Diagnostics;
 using Assets.Scripts.Extensions;
 using Assets.Scripts.ProfilerTools;
+using Assets.Scripts.Tools.StateMachine;
 using UniRx;
 
-namespace Assets.Scripts.Tools.StateMachine.AsyncStateMachine
+namespace UniStateMachine
 {
     public class AsyncStateManager<TStateType> : IStateManager<TStateType>
     {

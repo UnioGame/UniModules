@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using Assets.Scripts.Tools.StateMachine;
+using UniStateMachine;
 
 public interface IGameModule :IStateBehaviour<IEnumerator>
 {

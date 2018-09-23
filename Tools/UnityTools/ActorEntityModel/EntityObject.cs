@@ -2,7 +2,7 @@
 
 namespace Tools.ActorModel
 {
-    public class Entity : IEntity, IDisposable
+    public class EntityObject : IEntity, IDisposable
     {
         protected float _deltaTime;
 

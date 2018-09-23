@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using Assets.Scripts.Extensions;
+using Assets.Scripts.Tools.StateMachine;
 using UniRx;
+using UniStateMachine;
 
-namespace Assets.Scripts.Tools.StateMachine
+namespace UniStateMachine
 {
     public class StateManager<TStateType, TState> : IStateManager<TStateType> {
         

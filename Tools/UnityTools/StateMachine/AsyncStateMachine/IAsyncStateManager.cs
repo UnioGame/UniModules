@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Tools.StateMachine.AsyncStateMachine
+﻿namespace UniStateMachine
 {
     public interface IAsyncStateManager<TStateType>
     {

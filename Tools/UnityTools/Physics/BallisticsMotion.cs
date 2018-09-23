@@ -16,14 +16,13 @@ namespace PhysicsBallisticsMotion
         [SerializeField]
         private int _pointsCount = 20;
         [SerializeField]
-        private float _dotSeparation = 0.2f;
-        [SerializeField]
-        private float _dotShift = 0.2f;
+        private float _timeShift = 0.1f;
         [SerializeField]
         private Vector3 _force = new Vector3(10, 10, 0);
         [SerializeField]
         private ForceMode _forceMode = ForceMode.Impulse;
 
+        
         public List<Vector3> Trajectory = new List<Vector3>();
 
         private void Awake()
@@ -56,8 +55,8 @@ namespace PhysicsBallisticsMotion
 
                 var position = Input.mousePosition;
                 position.z = 10;
-
                 var worldPosition = Camera.main.ScreenToWorldPoint(position);
+                
                 UpdateTrajectory(_pointsCount, worldPosition);
             }
         }
@@ -82,7 +81,7 @@ namespace PhysicsBallisticsMotion
             
             for (int i = 0; i < pointCount; i++) {
                 
-                Data.Time = (_dotSeparation * i + _dotShift) * Time.fixedDeltaTime;
+                Data.Time = (_timeShift * i) * Time.fixedDeltaTime;
                 
                 var position = _calculator.GetPosition(Data);
 

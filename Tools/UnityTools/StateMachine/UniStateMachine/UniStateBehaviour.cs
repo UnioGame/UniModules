@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections;
 using Assets.Scripts.Tools.StateMachine;
+using UniStateMachine;
 using UnityEngine;
 
-namespace Assets.Scripts.Tools.StateMachine
+namespace UniStateMachine
 {
     [Serializable]
     public class UniStateBehaviour : ScriptableObject, IStateBehaviour<IContextProvider,IEnumerator>

@@ -33,9 +33,22 @@ namespace LevelEditor {
             return editor;
         }
 
+        public static void DestroyNestedAsset(this Object asset) {
+            
+            Object.DestroyImmediate(asset,true);
+            AssetDatabase.SaveAssets();
+            
+        }
+        
         public static TTarget AddNeted<TTarget>(this ScriptableObject root, string name = null)
             where TTarget : ScriptableObject {
             return AssetEditorTools.SaveAssetAsNested<TTarget>(root, name);
+        }
+        
+        public static Object AddNeted(this ScriptableObject root,Type assetType, string name = null)
+        {
+            return AssetEditorTools.SaveAssetAsNested(root,assetType, name);
+            
         }
 
         public static Editor GetEditor(this Object target) {
