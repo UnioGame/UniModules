@@ -8,7 +8,7 @@ using UnityEditor;
 
 public static class UniFSMEditorModel {
     private static Lazy<List<Type>> _validators =
-        new Lazy<List<Type>>(() => CreateTypes(typeof(UniNodeValidator)));
+        new Lazy<List<Type>>(() => CreateTypes(typeof(UniTransitionValidator)));
 
     private static Lazy<List<Type>> _behaviours =
         new Lazy<List<Type>>(() => CreateTypes(typeof(UniStateBehaviour)));
@@ -56,10 +56,13 @@ public static class UniFSMEditorModel {
     private static void UpdateTypeCache() {
 
         _validators.Value.Clear();
-        _validators.Value.AddRange(CreateTypes(typeof(UniNodeValidator)));
+
+        var types = CreateTypes(typeof(UniTransitionValidator));
+        _validators.Value.AddRange(types);
 
         _behaviours.Value.Clear();
-        _behaviours.Value.AddRange(CreateTypes(typeof(UniStateBehaviour)));
+        types = CreateTypes(typeof(UniStateBehaviour));
+        _behaviours.Value.AddRange(types);
         
     }
 

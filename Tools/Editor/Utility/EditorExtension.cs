@@ -7,7 +7,7 @@ using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace LevelEditor {
+namespace UniEditorTools {
     public static class EditorExtension {
         public static void DrawDefaultEditor(this GameObject target) {
             if (!target) return;

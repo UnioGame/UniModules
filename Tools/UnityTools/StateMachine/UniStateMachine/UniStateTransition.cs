@@ -14,13 +14,13 @@ namespace UniStateMachine {
         private bool _defaultValidatorValue = false;
         
         [SerializeField]
-        private UniNodeValidator _validator;
+        private UniTransitionValidator _validator;
         [SerializeField] 
         private UniStateBehaviour _stateBehaviour;
 
-        public UniNodeValidator Validator => _validator;
+        public UniTransitionValidator Validator => _validator;
 
-        public void SetValidator(UniNodeValidator validator) {
+        public void SetValidator(UniTransitionValidator validator) {
             _validator = validator;
         }
         

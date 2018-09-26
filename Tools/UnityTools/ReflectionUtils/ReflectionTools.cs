@@ -120,11 +120,13 @@ namespace Tools.ReflectionUtils
 
         public static Type[] GetAllChildTypes(Type targetType)
         {
+            
             var subclassTypes = Assembly
                 .GetAssembly(targetType)
                 .GetTypes()
                 .Where(t => t.IsSubclassOf(targetType));
             return subclassTypes.ToArray();
+            
         }
 
         public static bool Validate(object item, Type searchType)

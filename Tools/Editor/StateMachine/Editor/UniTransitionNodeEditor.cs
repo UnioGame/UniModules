@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts.Tools.StateMachine;
-using LevelEditor;
+using UniEditorTools;
 using UnityEditor;
 using UnityEngine;
 
@@ -22,7 +22,7 @@ namespace UniStateMachine {
                 return;
 
             if (!_transition.Validator) {
-                var validator = _transition.AddNeted<UniNodeValidator>("Validator");
+                var validator = _transition.AddNeted<UniTransitionValidator>("Validator");
                 _transition.SetValidator(validator);
             }
             
@@ -31,7 +31,7 @@ namespace UniStateMachine {
             serializedObject.Save();
         }
 
-        public void DrawValidators(UniNodeValidator validator) {
+        public void DrawValidators(UniTransitionValidator validator) {
 
             var validators = validator.Validators;
             
@@ -46,7 +46,7 @@ namespace UniStateMachine {
 
         }
 
-        private void DrawAddValidator(List<UniNodeValidator> validators) {
+        private void DrawAddValidator(List<UniTransitionValidator> validators) {
 
             var nodeTypes = UniFSMEditorModel.ValidatorsNames;
             _selectedValidator = EditorGUILayout.
@@ -58,14 +58,14 @@ namespace UniStateMachine {
                     Validators[_selectedValidator];
 
                 var transition = _transition.AddNeted(selectedValidatorType, 
-                    selectedValidatorType.Name) as UniNodeValidator;
+                    selectedValidatorType.Name) as UniTransitionValidator;
                 
                 validators.Add(transition);
             }
             
         }
         
-        private void DrawValidator(UniNodeValidator validator) {
+        private void DrawValidator(UniTransitionValidator validator) {
 
             if (!validator) return;
             

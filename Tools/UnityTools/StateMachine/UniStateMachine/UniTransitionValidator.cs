@@ -8,13 +8,13 @@ namespace UniStateMachine
 {
 
 	[Serializable]
-	public class UniNodeValidator :ScriptableObject, IValidator<IContextProvider>
+	public class UniTransitionValidator :ScriptableObject, IValidator<IContextProvider>
 	{
 
 		[SerializeField] 
-		private List<UniNodeValidator> _validators = new List<UniNodeValidator>();
+		private List<UniTransitionValidator> _validators = new List<UniTransitionValidator>();
 
-		public List<UniNodeValidator> Validators => _validators;
+		public List<UniTransitionValidator> Validators => _validators;
 
 		public bool Validate(IContextProvider context)
 		{
