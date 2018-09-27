@@ -1,5 +1,5 @@
 ﻿using System;
-using Assets.Scripts.StateMachine;
+using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
 
 namespace UniStateMachine
 {

@@ -1,13 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
+using Assets.Tools.Utils;
+using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
 
 namespace Tools.ActorModel
 {
-    public class EntityObject : IEntity, IDisposable
+    public class EntityObject : IEntity
     {
-        protected float _deltaTime;
-
+        
+        private Dictionary<Type, object> _contextValues = new Dictionary<Type, object>();
+        
+        #region public properties
+        
         public int Id { get; protected set; }
+        
         public bool IsActive { get; protected set; }
+        
+        #endregion
 
         #region public methods
 
@@ -29,44 +38,63 @@ namespace Tools.ActorModel
 
         public void Dispose()
         {
+            _contextValues.Clear();
+            
             if (IsActive)
                 SetState(false);
+            
             Id = -1;
             OnDispose();
         }
 
-        public void Update(float time)
+        public virtual TData GetContext<TData>() where TData : class
         {
-            if (IsActive == false)
-                return;
+            
+            object value = null;
+            if (!_contextValues.TryGetValue(typeof(TData), out value))
+            {
+                return null;
+            }
 
-            _deltaTime = time;
-            OnUpdate(time);
+            var valueData = value as IDataValue<TData>;
+            return valueData?.Value;
+            
         }
-
-        public virtual TData GetContext<TData>() where TData : class 
+              
+        public void AddContext<TData>(TData data)
         {
-            var result = this as TData;
-            return result;
+            object value = null;
+            IDataValue<TData> dataValue = null;
+            var type = typeof(TData);
+            
+            if (_contextValues.TryGetValue(type, out value))
+            {
+                dataValue = value as IDataValue<TData>;
+                dataValue.SetValue(data);
+                return;
+            }
+            
+            dataValue = ClassPool<IDataValue<TData>>.Spawn();
+            dataValue.SetValue(data);
+            _contextValues[type] = dataValue;
+
         }
         
         #endregion
 
         #region private methods
 
+        
         protected virtual void Activate()
         {
         }
 
         protected virtual void Deactivate()
         {
+            
         }
 
         protected virtual void OnDispose()
-        {
-        }
-
-        protected virtual void OnUpdate(float time)
         {
         }
 

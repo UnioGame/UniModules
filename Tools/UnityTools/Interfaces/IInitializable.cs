@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public interface IInitializable<TContext>
+﻿namespace Modules.UnityToolsModule.Tools.UnityTools.Interfaces
 {
+	public interface IInitializable<TContext>
+	{
 
-	void Initialize(TContext context);
+		void Initialize(TContext context);
 	
+	}
 }

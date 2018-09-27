@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Assets.Scripts.Interfaces;
+using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
 using Tools.ActorModel;
 using UnityEngine;
 

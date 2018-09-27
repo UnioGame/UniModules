@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Common
+﻿namespace Modules.UnityToolsModule.Tools.UnityTools.Interfaces
 {
     public interface IValidator<TData>
     {

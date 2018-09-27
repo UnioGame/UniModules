@@ -1,4 +1,7 @@
-﻿public interface IResetable
+﻿namespace Modules.UnityToolsModule.Tools.UnityTools.Interfaces
 {
-    void Reset();
+    public interface IResetable
+    {
+        void Reset();
+    }
 }

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts.Extensions;
+using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
 using UnityEngine;
 
 namespace UniStateMachine {

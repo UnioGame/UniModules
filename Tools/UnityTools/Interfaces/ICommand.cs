@@ -1,24 +1,27 @@
 ﻿using System.Collections;
 using UniRx.Async;
 
-public interface ICommand
+namespace Modules.UnityToolsModule.Tools.UnityTools.Interfaces
 {
-    void Execute();
-}
+    public interface ICommand
+    {
+        void Execute();
+    }
 
-public interface IRollbackCommand : ICommand
-{
-    bool Rollback();
-}
+    public interface IRollbackCommand : ICommand
+    {
+        bool Rollback();
+    }
 
-public interface ICommandRoutine : IRoutine<IEnumerator> {}
+    public interface ICommandRoutine : IRoutine<IEnumerator> {}
 
-public interface IRoutine<TResult>
-{
-    TResult Execute();
-}
+    public interface IRoutine<TResult>
+    {
+        TResult Execute();
+    }
 
-public interface IRoutine<TData,TResult>
-{
-    TResult Execute(TData data);
+    public interface IRoutine<TData,TResult>
+    {
+        TResult Execute(TData data);
+    }
 }

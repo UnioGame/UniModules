@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
-using Assets.Scripts.Common;
 using Assets.Scripts.Tools.StateMachine;
+using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
 using UniStateMachine;
 using UnityEngine;
 

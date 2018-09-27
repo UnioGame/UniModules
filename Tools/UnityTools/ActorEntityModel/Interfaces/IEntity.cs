@@ -1,14 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Assets.Scripts.Common;
-using UnityEngine;
+﻿using System;
+using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
 
 namespace Tools.ActorModel
 {
-    public interface IEntity : IUpdatable, IContextProvider
+    public interface IEntity : IContextProvider,IDisposable
     {
+        
         int Id { get; }
 
         void SetState(bool state);
+
+        void AddContext<TData>(TData data);
+        
     }
 }

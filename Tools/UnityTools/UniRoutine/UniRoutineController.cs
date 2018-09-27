@@ -27,14 +27,15 @@ namespace Tools.UniRoutineTask
 			
 		};
 
-		public static void AddWithSubRoutines(IEnumerator enumerator, RoutineType routineType = RoutineType.UpdateStep)
+		public static IDisposable AddWithSubRoutines(IEnumerator enumerator, RoutineType routineType = RoutineType.UpdateStep)
 		{
 			
 			//get routine
 			var routine = _uniRoutines[routineType];
 			//add enumerator to routines
-			routine.Value.AddRoutine(enumerator);
-			
+			var result = routine.Value.AddRoutine(enumerator);
+			return result;
+
 		}
 
 

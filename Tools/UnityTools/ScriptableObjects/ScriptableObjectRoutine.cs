@@ -1,4 +1,5 @@
 ﻿using System;
+using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
 using UnityEngine;
 
 public abstract class ScriptableObjectRoutine<TResult> : 

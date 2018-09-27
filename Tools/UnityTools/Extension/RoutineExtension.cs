@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections;
-using Assets.Scripts.Interfaces;
+using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
 using Tools.AsyncOperations;
 using UnityEngine;
 

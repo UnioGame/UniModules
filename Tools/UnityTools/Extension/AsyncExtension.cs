@@ -1,5 +1,5 @@
 ﻿using System;
-using Assets.Scripts.Interfaces;
+using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
 using UniRx.Async;
 using UnityEngine;
 

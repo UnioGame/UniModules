@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
 using Tools.AsyncOperations;
 
 public class AsyncRequestOperation : IAsyncOperation {

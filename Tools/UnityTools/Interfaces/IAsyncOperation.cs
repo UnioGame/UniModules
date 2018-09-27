@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using Assets.Tools.Utils;
+﻿using Assets.Tools.Utils;
 
-namespace Tools.AsyncOperations
+namespace Modules.UnityToolsModule.Tools.UnityTools.Interfaces
 {
     public interface IAsyncOperation : IPoolable, ICommandRoutine
     {

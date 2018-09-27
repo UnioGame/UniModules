@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts.Tools.StateMachine;
+using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
 using SubjectNerd.Utilities;
 using UnityEngine;
 

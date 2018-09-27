@@ -6,6 +6,7 @@ using UnityEngine;
 namespace Tools.UniRoutineTask {
     
     public class UniRoutineTask : IEnumerator<IEnumerator> {
+        
         private Stack<IEnumerator> _awaiters = new Stack<IEnumerator>();
 
         public void Initialize(IEnumerator enumerator) {

@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace Assets.Scripts.StateMachine
+namespace Modules.UnityToolsModule.Tools.UnityTools.Interfaces
 {
     public interface IExecutor : ICommonExecutor<IEnumerator> { }
 

@@ -1,13 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UniRx.Async;
-using UnityEngine;
+﻿using UniRx.Async;
 
-public interface IUniTaskExecutor
+namespace Modules.UnityToolsModule.Tools.UnityTools.Interfaces
 {
+    public interface IUniTaskExecutor
+    {
 
-    UniTask Execute(UniTask actionTask);
+        UniTask Execute(UniTask actionTask);
 
-    void Stop();
+        void Stop();
 
+    }
 }
