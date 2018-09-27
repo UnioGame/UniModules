@@ -64,8 +64,12 @@ namespace UniStateMachine
             ChangeState(state);
         }
 
-        protected virtual void ChangeState(TStateType state)
+        private void ChangeState(TStateType state)
         {
+            if (state == null) {
+                _stateMachine.Stop();
+                return;
+            }
             var stateBehaviour = _stateFactory.Create(state);
             _stateMachine.Execute(stateBehaviour);
         }
