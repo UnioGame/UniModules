@@ -24,7 +24,7 @@ namespace UniStateMachine {
             var nodeSelector = _stateMachine.StateSelector;
 
             if (!nodeSelector) {
-                if (CreateNodeSelector(_stateMachine) == false) {
+                if (CreateStateSelector(_stateMachine) == false) {
                     return;
                 }
             }
@@ -33,13 +33,13 @@ namespace UniStateMachine {
                 return;
 
             _nodesScroll = EditorDrawerUtils.
-                DrawScroll(_nodesScroll,() => DrawNodes(nodeSelector));
+                DrawScroll(_nodesScroll,() => DrawStates(nodeSelector));
             
             serializedObject.Save();
             
         }
 
-        private void DrawNodes(DataContextStateSelector selector) {
+        private void DrawStates(ContextStateSelector selector) {
             
             if (selector == null || selector._stateNodes == null)
                 return;
@@ -51,10 +51,10 @@ namespace UniStateMachine {
             EditorGUILayout.EndVertical();
         }
 
-        private bool CreateNodeSelector(DataContextStateMachine stateMachine) {
+        private bool CreateStateSelector(DataContextStateMachine stateMachine) {
             
             var result = AssetEditorTools.
-                SaveAssetAsNested<DataContextStateSelector>(stateMachine,"StateSelector");
+                SaveAssetAsNested<ContextStateSelector>(stateMachine,"StateSelector");
             if (result) {
                 stateMachine.SetSelector(result);
             }

@@ -8,7 +8,7 @@ namespace UniStateMachine
 {
 
     [CreateAssetMenu(menuName = "UniStateMachine/FSM", fileName = "StateMachine")]
-    public class DataContextStateMachine : UniStateMachineObject<DataContextStateSelector>
+    public class DataContextStateMachine : UniStateMachineObject<ContextStateSelector>
     {
         protected IContextProvider _contextProvider;
         

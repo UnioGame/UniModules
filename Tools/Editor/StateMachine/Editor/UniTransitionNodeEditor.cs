@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts.Tools.StateMachine;
+using Malee.Editor;
 using UniEditorTools;
 using UnityEditor;
 using UnityEngine;
@@ -13,6 +14,7 @@ namespace UniStateMachine {
 
         private int _selectedValidator;
         private UniStateTransition _transition;
+        private ReorderableList _validatorsList;
         
         public override void OnInspectorGUI() {
 
@@ -41,6 +43,8 @@ namespace UniStateMachine {
 
             }
 
+            GUILayout.Space(2);
+            EditorGUILayout.Separator();
             EditorDrawerUtils.DrawHorizontalLayout(() 
                 => DrawAddValidator(validators));
 

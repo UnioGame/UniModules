@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using UnityEditor.Compilation;
 using UnityEngine;
+using Assembly = System.Reflection.Assembly;
 using Object = UnityEngine.Object;
 
 namespace Tools.ReflectionUtils
@@ -118,17 +120,26 @@ namespace Tools.ReflectionUtils
 
         }
 
-        public static Type[] GetAllChildTypes(Type targetType)
-        {
+        
+        public static List<Type> GetDerivedTypes(Type aType) {
             
-            var subclassTypes = Assembly
-                .GetAssembly(targetType)
-                .GetTypes()
-                .Where(t => t.IsSubclassOf(targetType));
-            return subclassTypes.ToArray();
+            var  appDomain = System.AppDomain.CurrentDomain;
+            var result = new List<System.Type>();
+            var assemblies = appDomain.GetAssemblies();
             
+            for(int i = 0; i<assemblies.Length; i++)
+            {
+                var assembly = assemblies[i];
+                var types = assembly.GetTypes();
+                for (var j = 0; j < types.Length; j++) {
+                    var type = types[j];
+                    if (type.IsSubclassOf(aType))
+                        result.Add(type);
+                }
+            }
+            return result;
         }
-
+        
         public static bool Validate(object item, Type searchType)
         {
             if (item == null)

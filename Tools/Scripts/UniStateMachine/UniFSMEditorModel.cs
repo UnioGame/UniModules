@@ -67,6 +67,6 @@ public static class UniFSMEditorModel {
     }
 
     private static List<Type> CreateTypes(Type type) {
-        return new List<Type>(ReflectionTools.GetAllChildTypes(type));
+         return ReflectionTools.GetDerivedTypes(type);
     }
 }

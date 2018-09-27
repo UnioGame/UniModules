@@ -10,10 +10,10 @@ namespace UniStateMachine
 	[Serializable]
 	public class UniTransitionValidator :ScriptableObject, IValidator<IContextProvider>
 	{
-
+		[HideInInspector]
 		[SerializeField] 
 		private List<UniTransitionValidator> _validators = new List<UniTransitionValidator>();
-
+		
 		public List<UniTransitionValidator> Validators => _validators;
 
 		public bool Validate(IContextProvider context)
