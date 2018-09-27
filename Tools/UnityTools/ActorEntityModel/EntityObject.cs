@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Assets.Tools.Utils;
 using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
+using UniTools.Common;
 
 namespace Tools.ActorModel
 {
@@ -13,8 +14,8 @@ namespace Tools.ActorModel
         #region public properties
         
         public int Id { get; protected set; }
-        
-        public bool IsActive { get; protected set; }
+
+        public bool IsActive { get; protected set; } = true;
         
         #endregion
 
@@ -64,17 +65,17 @@ namespace Tools.ActorModel
         public void AddContext<TData>(TData data)
         {
             object value = null;
-            IDataValue<TData> dataValue = null;
+            DataValue<TData> dataValue = null;
             var type = typeof(TData);
             
             if (_contextValues.TryGetValue(type, out value))
             {
-                dataValue = value as IDataValue<TData>;
+                dataValue = value as DataValue<TData>;
                 dataValue.SetValue(data);
                 return;
             }
             
-            dataValue = ClassPool<IDataValue<TData>>.Spawn();
+            dataValue = ClassPool.Spawn<DataValue<TData>>();
             dataValue.SetValue(data);
             _contextValues[type] = dataValue;
 

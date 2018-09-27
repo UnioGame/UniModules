@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Assets.Scripts.Extensions;
+using Assets.Scripts.ProfilerTools;
 using Assets.Scripts.Tools.StateMachine;
 using UniRx;
 using UniStateMachine;
+using Debug = UnityEngine.Debug;
 
 namespace UniStateMachine
 {
@@ -54,6 +57,9 @@ namespace UniStateMachine
             if (!ValidateTransition(state))
                 return;
             PreviousState = CurrentState;
+
+            StateLogger.LogState("STATE CHANGED {0} FROM : {1} TO {2}",this,CurrentState,state);
+            
             CurrentState = state;
             ChangeState(state);
         }
@@ -69,5 +75,6 @@ namespace UniStateMachine
             return _validator == null || 
                    _validator.Validate(CurrentState, nextState);
         }
+
     }
 }

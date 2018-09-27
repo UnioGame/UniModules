@@ -10,6 +10,9 @@ namespace UniStateMachine
 	[Serializable]
 	public class UniTransitionValidator :ScriptableObject, IValidator<IContextProvider>
 	{
+		[SerializeField]
+		private bool _defaultValue = true;
+		
 		[HideInInspector]
 		[SerializeField] 
 		private List<UniTransitionValidator> _validators = new List<UniTransitionValidator>();
@@ -18,7 +21,9 @@ namespace UniStateMachine
 
 		public bool Validate(IContextProvider context)
 		{
-			for (var i = 0; i < _validators.Count; i++)
+			var result = ValidateNode(context);
+			
+			for (var i = 0; result && i < _validators.Count; i++)
 			{
 				var validator = _validators[i];
 				if (validator == null)
@@ -30,12 +35,12 @@ namespace UniStateMachine
 					return false;
 			}
 
-			return ValidateNode(context);
+			return result;
 		}
 
 		protected virtual bool ValidateNode(IContextProvider context)
 		{
-			return true;
+			return _defaultValue;
 		}
 	}
 }

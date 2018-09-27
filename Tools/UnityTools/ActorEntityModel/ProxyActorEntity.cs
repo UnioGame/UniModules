@@ -15,6 +15,8 @@ namespace Tools.ActorModel
 			_onDispose = onDispose;
 		}
 		
+		
+		
 		protected override void Activate()
 		{
 			_onActivate?.Invoke();

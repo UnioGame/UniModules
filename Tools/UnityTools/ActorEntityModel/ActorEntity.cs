@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
 using UniStateMachine;
 
 namespace Tools.ActorModel
@@ -15,7 +16,9 @@ namespace Tools.ActorModel
         public void SetBehaviour(IStateBehaviour<IEnumerator> behaviour)
         {
             if (_stateBehaviour != null)
+            {
                 _stateBehaviour.Exit();
+            }
             
             _stateBehaviour = behaviour;
             

@@ -10,6 +10,7 @@ namespace UniStateMachine
 {
     
     [Serializable]
+    [CreateAssetMenu(menuName = "UniStateMachine/StateSelector",fileName = "StateSelector")]
     public class UniStateSelector :ScriptableObject,
         IStateSelector<IStateBehaviour<IEnumerator>>
     {
@@ -35,9 +36,14 @@ namespace UniStateMachine
                 var state = _stateNodes[i];
                 if(state == null)
                     continue;
-                if (!state.Validate(_contextProvider))
+                
+                //select transition
+                var selectionResult = state.Validate(_contextProvider);
+                
+                if (!selectionResult)
                     continue;
                 
+                //get transition state and initialize
                 var behaviour = state.GetState();
                 behaviour.Initialize(_contextProvider);
                 return behaviour;

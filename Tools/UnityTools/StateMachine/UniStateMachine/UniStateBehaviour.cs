@@ -8,34 +8,24 @@ using UnityEngine;
 namespace UniStateMachine
 {
     [Serializable]
-    public class UniStateBehaviour : ScriptableObject, IStateBehaviour<IContextProvider,IEnumerator>
+    public class UniStateBehaviour : ScriptableObjectRoutine<IEnumerator>, IStateBehaviour<IContextProvider,IEnumerator>
     {
 
         [NonSerialized]
-        private IContextProvider _contextProvider;
+        protected IContextProvider _contextProvider;
         [NonSerialized]
         private Lazy<IStateBehaviour<IEnumerator>> _stateBehaviour;
-        [NonSerialized]
-        private WeakReference<IContextProvider> _context;
-        
+
         public bool IsActive => _stateBehaviour.Value.IsActive;
 
         #region public methods
         
         public void Initialize(IContextProvider contextProvider)
         {
-            
-            if(_stateBehaviour == null)
-                _stateBehaviour = new Lazy<IStateBehaviour<IEnumerator>>(Create);
             _contextProvider = contextProvider;
-            
+            OnContextChanged(_contextProvider);
         }
         
-        public IEnumerator Execute()
-        {
-            yield return _stateBehaviour.Value.Execute();
-        }
-
         public void Exit()
         {
             _stateBehaviour.Value.Exit();
@@ -43,6 +33,18 @@ namespace UniStateMachine
 
         #endregion
         
+        protected override IEnumerator OnExecute()
+        {
+            yield return _stateBehaviour.Value.Execute();
+        }
+
+        protected override void OnInitialize()
+        {
+            if(_stateBehaviour == null)
+                _stateBehaviour = new Lazy<IStateBehaviour<IEnumerator>>(Create);
+            base.OnInitialize();
+        }
+
         protected virtual IEnumerator ExecuteState()
         {
             yield break;
@@ -57,7 +59,12 @@ namespace UniStateMachine
         {
         }
 
-        private IStateBehaviour<IEnumerator> Create()
+        protected virtual void OnContextChanged(IContextProvider contextProvider)
+        {
+            
+        }
+
+        protected virtual IStateBehaviour<IEnumerator> Create()
         {
             var behaviour = new ProxyStateBehaviour();
             behaviour.Initialize(ExecuteState, OnEnter, OnExit);

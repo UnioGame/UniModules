@@ -18,15 +18,41 @@ namespace Assets.Scripts.ProfilerTools
         [Conditional("LOGS_ENABLED")]
         public static void Log(string message, Object source = null)
         {
-            if (!Enabled) return;
-            if (source)
-            {
-                Debug.Log(message, source);
-                return;
-            }
-            Debug.Log(message);
+            LogRuntime(message, source);
         }
 
+        
+        [Conditional("LOGS_ENABLED")]
+        public static void LogFormatWithTrace(string template, params object[] values)
+        {
+            LogFormat(template,values);
+            LogFormat("Stack Trace {0}", System.Environment.StackTrace);
+        }
+
+        [Conditional("LOGS_ENABLED")]
+        public static void LogFormat(string template, Color color, params object[] values)
+        {
+            var message = values == null || values.Length == 0 ? template :
+                string.Format(template, values);
+            Log(message, color);
+        }
+
+        [Conditional("LOGS_ENABLED")]
+        public static void Log(string message, Color color, Object source = null)
+        {
+            if (!Enabled || string.IsNullOrEmpty(message)) return;
+            var colorMessage = GetColorTemplate(message, color);
+            Log(colorMessage, source);
+        }
+
+        [Conditional("LOGS_ENABLED")]
+        public static void LogWarning(string message, Color color, Object source = null)
+        {
+            if (!Enabled) return;
+            var colorMessage = GetColorTemplate(message, color);
+            LogWarning(colorMessage, source);
+        }
+  
 
         [Conditional("RESOURCES_LOG_ENABLED")]
         public static void LogResource(string message)
@@ -58,6 +84,32 @@ namespace Assets.Scripts.ProfilerTools
                     break;
             }
         }
+        
+        
+        [Conditional("LOGS_ENABLED")]
+        public static void LogWarning(string message, Object source = null)
+        {
+            if (!Enabled) return;
+            if (source)
+            {
+                Debug.LogWarning(message, source);
+                return;
+            }
+            Debug.LogWarning(message);
+        }
+
+        [Conditional("LOGS_ENABLED")]
+        public static void LogWarningFormat(string template, params object[] values)
+        {
+            if (!Enabled) return;
+            Debug.LogWarningFormat(template,values);
+        }
+
+        [Conditional("LOGS_ENABLED")]
+        public static void LogFormat(string template, params object[] values)
+        {
+            LogFormatRuntime(template, values);
+        }
 
         public static void LogError(string message, Object source = null)
         {
@@ -87,62 +139,11 @@ namespace Assets.Scripts.ProfilerTools
             Debug.LogErrorFormat(message, objects);
         }
 
-        [Conditional("LOGS_ENABLED")]
-        public static void LogWarning(string message, Object source = null)
-        {
-            if (!Enabled) return;
-            if (source)
-            {
-                Debug.LogWarning(message, source);
-                return;
-            }
-            Debug.LogWarning(message);
-        }
-
-        [Conditional("LOGS_ENABLED")]
-        public static void LogWarningFormat(string template, params object[] values)
-        {
-            if (!Enabled) return;
-            Debug.LogWarningFormat(template,values);
-        }
-
-        [Conditional("LOGS_ENABLED")]
-        public static void LogFormat(string template, params object[] values)
+        public static void LogFormatRuntime(string template, params object[] values)
         {
             var message = values == null || values.Length == 0 ? template :
                 string.Format(template, values);
-            Log(message);
-        }
-
-        [Conditional("LOGS_ENABLED")]
-        public static void LogFormatWithTrace(string template, params object[] values)
-        {
-            LogFormat(template,values);
-            LogFormat("Stack Trace {0}", System.Environment.StackTrace);
-        }
-
-        [Conditional("LOGS_ENABLED")]
-        public static void LogFormat(string template, Color color, params object[] values)
-        {
-            var message = values == null || values.Length == 0 ? template :
-                string.Format(template, values);
-            Log(message, color);
-        }
-
-        [Conditional("LOGS_ENABLED")]
-        public static void Log(string message, Color color, Object source = null)
-        {
-            if (!Enabled || string.IsNullOrEmpty(message)) return;
-            var colorMessage = GetColorTemplate(message, color);
-            Log(colorMessage, source);
-        }
-
-        [Conditional("LOGS_ENABLED")]
-        public static void LogWarning(string message, Color color, Object source = null)
-        {
-            if (!Enabled) return;
-            var colorMessage = GetColorTemplate(message, color);
-            LogWarning(colorMessage, source);
+            LogRuntime(message);
         }
 
         public static string GetColorTemplate(string message, Color color)
@@ -151,6 +152,18 @@ namespace Assets.Scripts.ProfilerTools
                 (byte)(color.r * 255f), (byte)(color.g * 255f), (byte)(color.b * 255f),
                 message);
             return colorMessage;
+        }
+        
+              
+        public static void LogRuntime(string message, Object source = null)
+        {
+            if (!Enabled) return;
+            if (source)
+            {
+                Debug.Log(message, source);
+                return;
+            }
+            Debug.Log(message);
         }
 
         #region extensions
