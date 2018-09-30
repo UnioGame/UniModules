@@ -39,7 +39,8 @@ namespace UniStateMachine
 
         public void Execute(TState state)
         {
-            GameLog.LogGameState(string.Format("STATE : move from {0} to state {1}",State,state));
+            StateLogger.LogState("STATE : move from {0} to state {1}",State,state);
+            
             GameProfiler.BeginSample("Stop state");
             Stop();
             GameProfiler.EndSample();
@@ -54,7 +55,8 @@ namespace UniStateMachine
 
         public void Stop()
         {
-            GameLog.LogFormat(StopStateTemplate, _stopColor, State.GetType().Name);
+            StateLogger.LogState(StopStateTemplate, _stopColor, State == null? "NULL":
+                State.GetType().Name);
             
             //stop state
             _executor.Stop();

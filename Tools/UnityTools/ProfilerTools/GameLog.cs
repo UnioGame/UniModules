@@ -38,11 +38,8 @@ namespace Assets.Scripts.ProfilerTools
         }
 
         [Conditional("LOGS_ENABLED")]
-        public static void Log(string message, Color color, Object source = null)
-        {
-            if (!Enabled || string.IsNullOrEmpty(message)) return;
-            var colorMessage = GetColorTemplate(message, color);
-            Log(colorMessage, source);
+        public static void Log(string message, Color color, Object source = null) {
+            LogRuntime(message, color, source);
         }
 
         [Conditional("LOGS_ENABLED")]
@@ -144,6 +141,13 @@ namespace Assets.Scripts.ProfilerTools
             var message = values == null || values.Length == 0 ? template :
                 string.Format(template, values);
             LogRuntime(message);
+        }
+        
+        public static void LogRuntime(string message, Color color, Object source = null)
+        {
+            if (!Enabled || string.IsNullOrEmpty(message)) return;
+            var colorMessage = GetColorTemplate(message, color);
+            LogRuntime(colorMessage, source);
         }
 
         public static string GetColorTemplate(string message, Color color)

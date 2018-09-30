@@ -1,7 +1,4 @@
-﻿//using System.Collections;
-//using System.Collections.Generic;
-//using Assets.Scripts.Tools.StateMachine;
-//using Assets.UI.Windows.Tools.Editor;
+﻿//using System.Collections.Generic;
 //using UniEditorTools;
 //using UnityEditor;
 //using UnityEditorInternal;

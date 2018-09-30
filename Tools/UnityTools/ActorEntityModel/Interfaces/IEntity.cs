@@ -8,8 +8,6 @@ namespace Tools.ActorModel
         
         int Id { get; }
 
-        void SetState(bool state);
-
         void AddContext<TData>(TData data);
         
     }

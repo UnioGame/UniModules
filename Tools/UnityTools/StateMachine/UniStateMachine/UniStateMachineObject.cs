@@ -19,7 +19,11 @@ namespace UniStateMachine
 		#endregion
 
 		public IStateSelector<IStateBehaviour<IEnumerator>> StateSelector => _stateSelector;
-			
+
+		public void SetSelector(UniStateSelector selector) {
+			_stateSelector = selector;
+		}
+		
 		#region private methods
 
 		protected override void OnContextChanged(IContextProvider contextProvider)

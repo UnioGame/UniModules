@@ -16,6 +16,9 @@ namespace UniStateMachine
         [NonSerialized]
         private Lazy<IStateBehaviour<IEnumerator>> _stateBehaviour;
 
+        [SerializeField]
+        private bool _isActive;
+        
         public bool IsActive => _stateBehaviour.Value.IsActive;
 
         #region public methods
@@ -50,13 +53,14 @@ namespace UniStateMachine
             yield break;
         }
 
-
-        protected virtual void OnEnter()
+        protected virtual void OnEnter() 
         {
+            _isActive = true;
         }
 
         protected virtual void OnExit()
         {
+            _isActive = false;
         }
 
         protected virtual void OnContextChanged(IContextProvider contextProvider)

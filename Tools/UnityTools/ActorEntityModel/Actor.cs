@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Collections;
-using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
 using UniStateMachine;
+using UnityToolsModule.Tools.UnityTools.ActorEntityModel;
 
 namespace Tools.ActorModel
 {
-    public class ActorEntity : EntityObject
+    public class Actor : BehaviourObject
     {
         
         protected IStateBehaviour<IEnumerator> _stateBehaviour;
+        
         private IDisposable _routineDisposable;
+        
             
         #region public methods
-
+        
         public void SetBehaviour(IStateBehaviour<IEnumerator> behaviour)
         {
             if (_stateBehaviour != null)
@@ -25,6 +27,24 @@ namespace Tools.ActorModel
             SetBehaviourState(IsActive);
         }
 
+        
+        public void SetState(bool state)
+        {
+            if (IsActive == state)
+                return;
+            if (state)
+            {
+                Activate();
+            }
+            else
+            {
+                Deactivate();
+            }
+
+            IsActive = state;
+        }
+
+        
         #endregion
 
         #region private methods

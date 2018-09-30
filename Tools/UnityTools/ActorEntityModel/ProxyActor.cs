@@ -2,13 +2,13 @@
 
 namespace Tools.ActorModel
 {
-	public class ProxyActorEntity : ActorEntity
+	public class ProxyActor : Actor
 	{
 		private Action _onActivate;
 		private Action _onDeactivate;
 		private Action _onDispose;
 
-		public ProxyActorEntity(Action onActivate, Action onDeactivate, Action onDispose)
+		public ProxyActor(Action onActivate, Action onDeactivate, Action onDispose)
 		{
 			_onActivate = onActivate;
 			_onDeactivate = onDeactivate;

@@ -15,6 +15,7 @@ namespace UniStateMachine {
         
         [SerializeField]
         private UniTransitionValidator _validator;
+        
         [SerializeField] 
         private UniStateBehaviour _stateBehaviour;
 

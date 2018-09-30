@@ -8,12 +8,12 @@ namespace UniStateMachine
 {
 
 	[Serializable]
+	[CreateAssetMenu(menuName = "States/Validators/DefaultValidator", fileName = "DefaultValidator")]
 	public class UniTransitionValidator :ScriptableObject, IValidator<IContextProvider>
 	{
 		[SerializeField]
-		private bool _defaultValue = true;
+		protected bool _defaultValue = true;
 		
-		[HideInInspector]
 		[SerializeField] 
 		private List<UniTransitionValidator> _validators = new List<UniTransitionValidator>();
 		
@@ -35,6 +35,8 @@ namespace UniStateMachine
 					return false;
 			}
 
+			StateLogger.LogState("VALIDATOR {0} VALUE {1}",this.name,result);
+			
 			return result;
 		}
 

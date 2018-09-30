@@ -8,42 +8,22 @@ namespace Tools.ActorModel
 {
     public class EntityObject : IEntity
     {
-        
+        /// <summary>
+        /// registered conmponents
+        /// </summary>
         private Dictionary<Type, object> _contextValues = new Dictionary<Type, object>();
         
         #region public properties
         
         public int Id { get; protected set; }
 
-        public bool IsActive { get; protected set; } = true;
-        
         #endregion
 
         #region public methods
 
-        public void SetState(bool state)
-        {
-            if (IsActive == state)
-                return;
-            if (state)
-            {
-                Activate();
-            }
-            else
-            {
-                Deactivate();
-            }
-
-            IsActive = state;
-        }
-
         public void Dispose()
         {
             _contextValues.Clear();
-            
-            if (IsActive)
-                SetState(false);
-            
             Id = -1;
             OnDispose();
         }
@@ -84,16 +64,6 @@ namespace Tools.ActorModel
         #endregion
 
         #region private methods
-
-        
-        protected virtual void Activate()
-        {
-        }
-
-        protected virtual void Deactivate()
-        {
-            
-        }
 
         protected virtual void OnDispose()
         {

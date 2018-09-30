@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using Assets.Scripts.ProfilerTools;
+using UnityEngine;
 using Debug = UnityEngine.Debug;
 
 namespace UniStateMachine
@@ -15,5 +16,11 @@ namespace UniStateMachine
             GameLog.LogFormatRuntime(message,values);
         }
 
+        [Conditional("STATE_MACHINE_LOG")]
+        public static void LogState(string message,Color color, Object source)
+        {
+            GameLog.LogRuntime(message,color,source);
+        }
+        
     }
 }
