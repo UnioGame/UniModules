@@ -35,7 +35,7 @@ namespace UniStateMachine
 					return false;
 			}
 
-			StateLogger.LogState("VALIDATOR {0} VALUE {1}",this.name,result);
+			StateLogger.LogValidator("VALIDATOR {0} VALUE {1}",this.name,result);
 			
 			return result;
 		}

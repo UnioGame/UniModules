@@ -58,7 +58,8 @@ namespace UniStateMachine
                 return;
             PreviousState = CurrentState;
 
-            StateLogger.LogState("STATE CHANGED {0} FROM : {1} TO {2}",this,CurrentState,state);
+            StateLogger.LogStateChanged(this?.GetType().Name,
+                CurrentState?.GetType().Name,state?.GetType().Name);
             
             CurrentState = state;
             ChangeState(state);

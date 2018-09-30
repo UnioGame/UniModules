@@ -38,7 +38,10 @@ namespace UniStateMachine
         
         protected override IEnumerator OnExecute()
         {
+            
+            StateLogger.LogState(string.Format("STATE EXECUTE {0} TYPE {1}",this.name,GetType().Name),this);
             yield return _stateBehaviour.Value.Execute();
+            
         }
 
         protected override void OnInitialize()

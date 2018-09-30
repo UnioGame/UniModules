@@ -39,7 +39,7 @@ namespace UniStateMachine
 
         public void Execute(TState state)
         {
-            StateLogger.LogState("STATE : move from {0} to state {1}",State,state);
+            StateLogger.LogStateChanged(this,State,state);
             
             GameProfiler.BeginSample("Stop state");
             Stop();
@@ -55,9 +55,6 @@ namespace UniStateMachine
 
         public void Stop()
         {
-            StateLogger.LogState(StopStateTemplate, _stopColor, State == null? "NULL":
-                State.GetType().Name);
-            
             //stop state
             _executor.Stop();
             
