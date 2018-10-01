@@ -2,6 +2,7 @@
 using System.Collections;
 using UniStateMachine;
 using UnityToolsModule.Tools.UnityTools.ActorEntityModel;
+using UnityToolsModule.Tools.UnityTools.UniRoutine;
 
 namespace Tools.ActorModel
 {

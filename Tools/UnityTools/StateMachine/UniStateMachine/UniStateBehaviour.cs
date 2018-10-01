@@ -2,7 +2,6 @@
 using System.Collections;
 using Assets.Scripts.Tools.StateMachine;
 using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
-using UniStateMachine;
 using UnityEngine;
 
 namespace UniStateMachine

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using Assets.Scripts.Tools.StateMachine;
 
 namespace UniStateMachine {
 
@@ -33,5 +32,6 @@ namespace UniStateMachine {
 				yield break;
 			}
 		}
+
 	}
 }

@@ -1,24 +1,17 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UniStateMachine;
 using UnityEngine;
+using UnityToolsModule.Tools.UnityTools.Animator;
 
 namespace GamePlay.States {
 
-    public struct AnimatorParameterValue {
 
-        public AnimatorControllerParameterType ParameterType;
-        public string Name;
-        public float FloatValue;
-        public int IntValue;
-        public bool BoolValue;
-        
-    }
-    
     public class AnimationParameterState : UniStateBehaviour {
 
         [SerializeField]
-        private List<AnimatorParameterValue> _parameters = new List<AnimatorParameterValue>();
+        private List<AnimatorParameter> _parameters = new List<AnimatorParameter>();
         
         private int _animationId;
 

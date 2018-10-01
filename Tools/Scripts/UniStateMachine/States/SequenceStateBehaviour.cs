@@ -6,8 +6,8 @@ using UnityEngine;
 
 namespace GamePlay.States {
 
-	[CreateAssetMenu(menuName = "States/States/MultiplyState", fileName = "MultiplyState")]
-	public class MultiplyStateBehaviour : UniStateBehaviour {
+	[CreateAssetMenu(menuName = "States/States/SequenceStateBehaviour", fileName = "SequenceStateBehaviour")]
+	public class SequenceStateBehaviour : UniStateBehaviour {
 		
 		private UniStateBehaviour _activeState;
 		
