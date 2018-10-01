@@ -17,6 +17,9 @@ public class SensorObject : MonoBehaviour, ISensorObject
     [SerializeField]
     protected bool disableOnStayCollisions;
 
+    [SerializeField]
+    protected Collider _collider;
+    
     #endregion
 
     #region public properties
@@ -29,6 +32,8 @@ public class SensorObject : MonoBehaviour, ISensorObject
 
     public Collision LastCollisionObject { get; protected set; }
 
+    public Collider Collider => _collider;
+    
     #endregion
 
     #region public methods
