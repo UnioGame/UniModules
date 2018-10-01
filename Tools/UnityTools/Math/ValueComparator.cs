@@ -34,7 +34,17 @@ namespace Tools.MathTools {
 			return false;
 
 		}
-		
+
+
+		public static bool IsBetween(float value, float from, float to) {
+
+			if (value >= from && value <= to)
+				return true;
+			if (value >= to && value <= from)
+				return true;
+
+			return false;
+		}
 		
 	}
 	
