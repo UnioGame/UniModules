@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Tools.ActorModel;
 using UnityEngine;
@@ -7,6 +8,7 @@ namespace Tools.ActorModel {
 
 	public class EntityComponent : MonoBehaviour {
 
+        [NonSerialized]
 		private EntityObject _entity = new EntityObject();
 
 		public IEntity Entity => _entity;
