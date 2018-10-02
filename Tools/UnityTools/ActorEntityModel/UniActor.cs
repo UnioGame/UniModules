@@ -9,19 +9,15 @@ namespace Tools.ActorModel
 		private ProxyActor _actor;
 		private IEntity _entity;
 
-		
 		public bool IsActive => _actor.IsActive;
 		
-		
 		public void SetEntity(IEntity entity) {
-
 			_entity = entity;
-
-		}
+		    _actor.SetEntity(_entity);
+        }
 
 		public void SetBehaviour(UniStateBehaviour behaviour)
 		{		
-			behaviour.Initialize(_entity);
 			_actor.SetBehaviour(behaviour);	
 		}
 

@@ -1,14 +1,16 @@
 ﻿using System;
+using System.Collections;
 using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
 using UnityEngine;
 
-public abstract class ScriptableObjectRoutine<TResult> : 
-	ScriptableObject ,IRoutine<TResult>{
+public abstract class ScriptableObjectRoutine<TContext> : 
+	ScriptableObject ,IRoutine<TContext,IEnumerator>
+{
 	
 	[NonSerialized]
 	private bool _initialized = false;
 	
-	public TResult Execute() {
+	public IEnumerator Execute(TContext context) {
 		
 		if (_initialized == false)
 		{
@@ -16,7 +18,7 @@ public abstract class ScriptableObjectRoutine<TResult> :
 			OnInitialize();
 		}
 
-		return OnExecute();
+		yield return OnExecute(context);
 		
 	}
 	
@@ -25,7 +27,7 @@ public abstract class ScriptableObjectRoutine<TResult> :
 
 	protected virtual void OnInitialize() {}
 
-	protected abstract TResult OnExecute();
+	protected abstract IEnumerator OnExecute(TContext context);
 
 	#endregion
 

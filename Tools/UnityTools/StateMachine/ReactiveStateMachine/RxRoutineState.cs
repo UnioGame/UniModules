@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace UniStateMachine {
 
-    public class RxRoutineStateMachine<TData> : ReactiveStateMachine<IStateBehaviour<IEnumerator>> {
+    public class RxRoutineState<TData> : ReactiveState<IStateBehaviour<IEnumerator>> {
 
 
-        public RxRoutineStateMachine(IStateSelector<IStateBehaviour<IEnumerator>> selector) {
+        public RxRoutineState(ISelector<IStateBehaviour<IEnumerator>> selector) {
 
             var validator = new DummyStateValidator<IStateBehaviour<IEnumerator>>();
             var stateMachine = new StateMachine<IEnumerator>(new RxStateExecutor());

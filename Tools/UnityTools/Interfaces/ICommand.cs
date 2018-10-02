@@ -15,12 +15,12 @@ namespace Modules.UnityToolsModule.Tools.UnityTools.Interfaces
 
     public interface ICommandRoutine : IRoutine<IEnumerator> {}
 
-    public interface IRoutine<TResult>
+    public interface IRoutine<out TResult>
     {
         TResult Execute();
     }
 
-    public interface IRoutine<TData,TResult>
+    public interface IRoutine<in TData,out TResult>
     {
         TResult Execute(TData data);
     }

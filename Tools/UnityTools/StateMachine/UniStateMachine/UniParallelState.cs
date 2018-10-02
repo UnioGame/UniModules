@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts.Extensions;
+using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
 using UnityEngine;
 using UnityToolsModule.Tools.UnityTools.UniRoutine;
 
@@ -16,7 +17,7 @@ namespace UniStateMachine
         [SerializeField]
         private List<UniStateParallelMode> _states = new List<UniStateParallelMode>();
 
-        protected override IEnumerator ExecuteState()
+        protected override IEnumerator ExecuteState(IContextProvider context)
         {
             _stateDisposables.Cancel();
             _stateDisposables = _stateDisposables ?? new List<IDisposable>();
@@ -25,29 +26,32 @@ namespace UniStateMachine
             for (int i = 0; i < _states.Count; i++)
             {
                 var state = _states[i].StateBehaviour;
-                state.Initialize(_contextProvider);
-
-                var disposable = state.Execute().RunWithSubRoutines();
+ 
+                var disposable = state.Execute(context)
+                    .RunWithSubRoutines();
                 _stateDisposables.Add(disposable);
             }
-            while (IsActive)
+
+            while (IsActive(context))
             {
                 yield return null;
             }
+            
+            yield break;
         }
 
-        protected override void OnExit()
+        protected override void OnExit(IContextProvider context)
         {
             _stateDisposables.Cancel();
             for (int i = 0; i < _states.Count; i++)
             {
                 var state = _states[i].StateBehaviour;
-                if (state.IsActive)
+                if (state.IsActive(context))
                 {
-                    state.Exit();
+                    state.Exit(context);
                 }
             }
-            base.OnExit();
+            base.OnExit(context);
         }
     }
 }

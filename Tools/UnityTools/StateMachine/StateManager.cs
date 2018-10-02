@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Assets.Scripts.Extensions;
-using Assets.Scripts.ProfilerTools;
 using Assets.Scripts.Tools.StateMachine;
-using UniRx;
-using UniStateMachine;
-using Debug = UnityEngine.Debug;
 
 namespace UniStateMachine
 {
@@ -71,8 +66,8 @@ namespace UniStateMachine
                 _stateMachine.Stop();
                 return;
             }
-            var stateBehaviour = _stateFactory.Create(state);
-            _stateMachine.Execute(stateBehaviour);
+            var newState = _stateFactory.Create(state);
+            _stateMachine.Execute(newState);
         }
 
         protected virtual bool ValidateTransition(TStateType nextState)

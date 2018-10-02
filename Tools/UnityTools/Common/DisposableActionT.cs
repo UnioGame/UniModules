@@ -12,6 +12,7 @@ public class DisposableAction<TArg> : IDisposable
     {
         IsDisposed = false;
         _onDisposed = action;
+        _arg = arg;
     }
 
     public void Reset()

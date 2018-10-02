@@ -1,11 +1,9 @@
-
 using System;
 using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
-using UniRx;
 
 namespace UniStateMachine
 {
-    public interface IStateBehaviour<TResult> : IRoutine<TResult>
+    public interface IStateBehaviour<out TResult> : IRoutine<TResult>
     {
         
         bool IsActive { get; }
@@ -13,11 +11,11 @@ namespace UniStateMachine
         
     }
 
-    public interface IStateBehaviour<TContext,TResult> :IStateBehaviour<TResult>,IInitializable<TContext>
+    public interface IStateBehaviour< in TContext,out TResult> :
+        IRoutine<TContext,TResult>
     {
-        
-        
-        
+        bool IsActive(TContext context);
+        void Exit(TContext context);
     }
     
 }

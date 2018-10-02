@@ -16,7 +16,6 @@ namespace Tools.ActorModel
 		}
 		
 		
-		
 		protected override void Activate()
 		{
 			_onActivate?.Invoke();

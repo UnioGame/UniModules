@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
 using UniStateMachine;
 using UnityEngine;
 
@@ -14,7 +15,7 @@ namespace GamePlay.States {
 		[SerializeField] 
 		private List<UniStateBehaviour> _states = new List<UniStateBehaviour>();
 
-		protected override IEnumerator ExecuteState() {
+		protected override IEnumerator ExecuteState(IContextProvider context) {
 
 			for (int i = 0; i < _states.Count; i++) {
 				
@@ -22,28 +23,26 @@ namespace GamePlay.States {
 				
 				if(!_activeState)
 					continue;
-				
-				_activeState.Initialize(_contextProvider);
-				
-				yield return _activeState.Execute();
+
+				yield return _activeState.Execute(context);
 				
 				if(_activeState == null)
 					continue;
 					
-				_activeState.Exit();
+				_activeState.Exit(context);
 				_activeState = null;
 				
 			}
 			
 		}
 
-		protected override void OnExit() 
+		protected override void OnExit(IContextProvider context) 
 		{
 			if (_activeState != null) {
-				_activeState.Exit();
+				_activeState.Exit(context);
 				_activeState = null;
 			}
-			base.OnExit();
+			base.OnExit(context);
 		}
 	}
 }

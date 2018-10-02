@@ -3,59 +3,62 @@ using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts.Extensions;
 using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
+using StateMachine.ContextStateMachine;
 using UnityEngine;
 
 namespace UniStateMachine {
     
-    public class UniStateComponent : MonoBehaviour, IStateBehaviour<IContextProvider,IEnumerator> {
+    public class UniStateComponent : MonoBehaviour,
+        IContextStateBehaviour<IEnumerator>
+    {
         
         protected List<IDisposable> _disposables = new List<IDisposable>();
         private IContextProvider _contextProvider;
-        private Lazy<IStateBehaviour<IEnumerator>> _stateBehaviour;
-        private WeakReference<IContextProvider> _context;
+        private Lazy<IContextStateBehaviour<IEnumerator>> _stateBehaviour;
         	
         [SerializeField]
         private bool _isActive;
-        
-        public bool IsActive => _stateBehaviour.Value.IsActive;
 
         #region public methods
 
-        public void Initialize(IContextProvider contextProvider) {
-            
-            _contextProvider = contextProvider;
-            
+        public bool IsActive(IContextProvider context)
+        {
+            return _stateBehaviour.Value.IsActive(context);
         }
 
-        public IEnumerator Execute() {
+        public IEnumerator Execute(IContextProvider context) {
             _isActive = true;
-            yield return _stateBehaviour.Value.Execute();
+            yield return _stateBehaviour.Value.Execute(context);
         }
 
-        public void Exit() {
+        public void Exit(IContextProvider context) {
             _isActive = false;
-            _stateBehaviour.Value.Exit();
+            _stateBehaviour.Value.Exit(context);
             _disposables.Cancel();
+        }
+
+        public void Dispose()
+        {
+            _stateBehaviour.Value.Dispose();
         }
 
         #endregion
 
-        protected virtual IEnumerator ExecuteState() {
+        protected virtual IEnumerator ExecuteState(IContextProvider contextProvider) {
             yield break;
         }
 
-
-        protected virtual void OnEnter() {
+        protected virtual void OnEnter(IContextProvider contextProvider) {
         }
 
-        protected virtual void OnExit() {
+        protected virtual void OnExit(IContextProvider contextProvider) {
         }
 
         protected virtual void Awake() {
-            _stateBehaviour = new Lazy<IStateBehaviour<IEnumerator>>(Create);
+            _stateBehaviour = new Lazy<IContextStateBehaviour<IEnumerator>>(Create);
         }
 
-        private IStateBehaviour<IEnumerator> Create() {
+        private IContextStateBehaviour<IEnumerator> Create() {
             
             var behaviour = new ProxyStateBehaviour();
             behaviour.Initialize(ExecuteState, OnEnter, OnExit);
@@ -63,10 +66,7 @@ namespace UniStateMachine {
         }
 
         protected virtual void OnDestroy() {
-            if (IsActive) {
-                Debug.LogErrorFormat("Destroy Active state {0} {1}",this.name,this.GetType().Name);
-                Exit();
-            }
+            _stateBehaviour.Value.Dispose();
         }
     }
 }

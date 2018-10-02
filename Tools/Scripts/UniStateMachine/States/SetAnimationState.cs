@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
 using UniStateMachine;
 using UnityEngine;
 
@@ -16,9 +17,9 @@ namespace GamePlay.States {
         
         private int _animationId;
 
-        protected override IEnumerator ExecuteState() {
+        protected override IEnumerator ExecuteState(IContextProvider context) {
 
-            var animator = _contextProvider.GetContext<Animator>();
+            var animator = context.GetContext<Animator>();
             _animationId = Animator.StringToHash(_animation);
             
             animator.Play(_animationId);

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
+using Assets.Modules.UnityToolsModule;
 using Assets.Scripts.Tools.StateMachine;
 using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
+using StateMachine.ContextStateMachine;
 using UnityEngine;
 
 namespace UniStateMachine
@@ -18,7 +20,7 @@ namespace UniStateMachine
 
 		#endregion
 
-		public IStateSelector<IStateBehaviour<IEnumerator>> StateSelector => _stateSelector;
+		public IContextSelector<IEnumerator> StateSelector => _stateSelector;
 
 		public void SetSelector(UniStateSelector selector) {
 			_stateSelector = selector;
@@ -26,29 +28,14 @@ namespace UniStateMachine
 		
 		#region private methods
 
-		protected override void OnContextChanged(IContextProvider contextProvider)
+		protected override IContextStateBehaviour<IEnumerator> Create()
 		{
-			_stateSelector.Initialize(contextProvider);
-		}
+		    var executor = new UniRoutineExecutor();
+		    var stateMachine = new ContextStateMachine<IEnumerator>(executor);
+            var reactiveState = new ContextReactiveState();
 
-		protected override IStateBehaviour<IEnumerator> Create()
-		{
-			var executor = new RxStateExecutor();
-			var stateMachine = new StateMachine<IEnumerator>(executor);
-			var stateFactory = new DummyStateFactory<IStateBehaviour<IEnumerator>>();
-			var stateValidator = new DummyStateValidator<IStateBehaviour<IEnumerator>>();
-
-
-			var stateManager = new StateManager<IStateBehaviour<IEnumerator>, IStateBehaviour<IEnumerator>>(
-				stateMachine,
-				stateFactory,
-				stateValidator
-			);
-
-			var reactiveState = new ReactiveStateMachine<IStateBehaviour<IEnumerator>>();
-			reactiveState.Initialize(_stateSelector, stateManager);
-
-			return reactiveState;
+		    reactiveState.Initialize(_stateSelector, stateMachine);
+            return reactiveState;
 		}
 
 		#endregion

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-
+﻿
 namespace UniStateMachine
 {
     public interface IStateExecutor<TState>

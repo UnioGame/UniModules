@@ -27,14 +27,14 @@ namespace UniStateMachine
 
             yield return ExecuteState();
 
-            OnFinish();
+            OnPostExecute();
         }
 
         public void Exit() {
             
             IsActive = false;
             _disposables.Cancel();
-            OnStateStop();
+            OnExite();
             
         }
 
@@ -50,7 +50,7 @@ namespace UniStateMachine
             }
         }
         
-        protected virtual void OnStateStop()
+        protected virtual void OnExite()
         {
         }
         
@@ -58,7 +58,7 @@ namespace UniStateMachine
         {
         }
 
-        protected virtual void OnFinish() {
+        protected virtual void OnPostExecute() {
             
         }
 

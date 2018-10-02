@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Assets.Scripts.Tools.StateMachine;
+using Assets.Modules.UnityToolsModule;
 using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
+using StateMachine.ContextStateMachine;
 using SubjectNerd.Utilities;
 using UnityEngine;
 
@@ -12,23 +13,14 @@ namespace UniStateMachine
     [Serializable]
     [CreateAssetMenu(menuName = "UniStateMachine/StateSelector",fileName = "StateSelector")]
     public class UniStateSelector :ScriptableObject,
-        IStateSelector<IStateBehaviour<IEnumerator>>
+        IContextSelector<IEnumerator>
     {
-        private IContextProvider _contextProvider;
-        
         [Reorderable]
         public List<UniStateTransition> _stateNodes;
         
         public List<UniStateTransition> Nodes => _stateNodes;
         
-        
-        public void Initialize(IContextProvider contextProvider)
-        {
-            _contextProvider = contextProvider;
-        }
-        
-        
-        public virtual IStateBehaviour<IEnumerator> Select()
+        public virtual IContextStateBehaviour<IEnumerator> Select(IContextProvider context)
         {
             for (int i = 0; i < _stateNodes.Count; i++)
             {
@@ -38,14 +30,13 @@ namespace UniStateMachine
                     continue;
                 
                 //select transition
-                var selectionResult = state.Validate(_contextProvider);
+                var selectionResult = state.Validate(context);
                 
                 if (!selectionResult)
                     continue;
                 
-                //get transition state and initialize
+                //get transition state
                 var behaviour = state.GetState();
-                behaviour.Initialize(_contextProvider);
                 return behaviour;
                 
             }

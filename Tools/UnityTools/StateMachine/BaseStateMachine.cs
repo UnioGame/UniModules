@@ -1,8 +1,4 @@
-﻿using System.Diagnostics;
-using Assets.Scripts.ProfilerTools;
-using Assets.Scripts.Tools.StateMachine;
-using UnityEngine;
-using Debug = UnityEngine.Debug;
+﻿using Assets.Scripts.ProfilerTools;
 
 namespace UniStateMachine
 {
@@ -11,8 +7,6 @@ namespace UniStateMachine
     {
         #region private properties
 
-        private static Color _color = Color.blue;
-        private static Color _stopColor = Color.green;
         private const string ExecuteStateTemplate = "Execute State = {0}";
         private const string StopStateTemplate = "STOP State = {0}";
         

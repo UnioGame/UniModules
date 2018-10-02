@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections;
-using UniStateMachine;
+using StateMachine.ContextStateMachine;
 using UnityToolsModule.Tools.UnityTools.ActorEntityModel;
 using UnityToolsModule.Tools.UnityTools.UniRoutine;
 
@@ -8,19 +8,23 @@ namespace Tools.ActorModel
 {
     public class Actor : BehaviourObject
     {
-        
-        protected IStateBehaviour<IEnumerator> _stateBehaviour;
-        
+        protected IContextStateBehaviour<IEnumerator> _stateBehaviour;
         private IDisposable _routineDisposable;
-        
-            
+        private IEntity _entity;
+
         #region public methods
-        
-        public void SetBehaviour(IStateBehaviour<IEnumerator> behaviour)
+
+
+        public void SetEntity(IEntity entity)
+        {
+            _entity = entity;
+        }
+
+        public void SetBehaviour(IContextStateBehaviour<IEnumerator> behaviour)
         {
             if (_stateBehaviour != null)
             {
-                _stateBehaviour.Exit();
+                _stateBehaviour.Exit(_entity);
             }
             
             _stateBehaviour = behaviour;
@@ -28,7 +32,6 @@ namespace Tools.ActorModel
             SetBehaviourState(IsActive);
         }
 
-        
         public void SetState(bool state)
         {
             if (IsActive == state)
@@ -58,7 +61,7 @@ namespace Tools.ActorModel
 
             if (!activate && _routineDisposable != null)
             {
-                _stateBehaviour?.Exit();
+                _stateBehaviour?.Exit(_entity);
             }
             
             //release current routine
@@ -68,8 +71,8 @@ namespace Tools.ActorModel
             if (_stateBehaviour == null)
                 return;
 
-            _routineDisposable = _stateBehaviour.
-                Execute().RunWithSubRoutines();
+            var routine = _stateBehaviour.Execute(_entity);
+            _routineDisposable = routine.RunWithSubRoutines();
 
         }
 

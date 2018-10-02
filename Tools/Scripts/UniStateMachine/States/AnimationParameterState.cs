@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
 using UniStateMachine;
 using UnityEngine;
 using UnityToolsModule.Tools.UnityTools.Animator;
@@ -15,9 +16,9 @@ namespace GamePlay.States {
         
         private int _animationId;
 
-        protected override IEnumerator ExecuteState() {
+        protected override IEnumerator ExecuteState(IContextProvider context) {
 
-            var animator = _contextProvider.GetContext<Animator>();
+            var animator = context.GetContext<Animator>();
 
             var parameters = animator.parameters;
 

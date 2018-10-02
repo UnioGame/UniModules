@@ -4,12 +4,12 @@ using UniRx;
 
 namespace UniStateMachine
 {
-    public class ReactiveStateMachine<TState> : StateBehaviour
+    public class ReactiveState<TState> : StateBehaviour
     {
-        private IStateSelector<TState> _stateSelector;
+        private ISelector<TState> _stateSelector;
         private IStateManager<TState> _stateManager;
         
-        public void Initialize(IStateSelector<TState> stateSelector,
+        public void Initialize(ISelector<TState> stateSelector,
             IStateManager<TState> stateManager)
         {
             if(IsActive)
@@ -36,11 +36,11 @@ namespace UniStateMachine
             }
         }
 
-        protected override void OnStateStop()
+        protected override void OnExite()
         {
             _stateManager = null;
             _stateSelector = null;
-            base.OnStateStop();
+            base.OnExite();
         }
 
         #endregion

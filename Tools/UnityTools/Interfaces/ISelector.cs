@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Tools.StateMachine 
 {
-	public interface IStateSelector<TState> {
+	public interface ISelector<TState> {
 
 		TState Select();
 
