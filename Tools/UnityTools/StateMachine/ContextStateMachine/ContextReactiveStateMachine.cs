@@ -39,6 +39,7 @@ namespace Assets.Tools.UnityTools.StateMachine.ContextStateMachine
 
         protected override void OnExit(IContext context)
         {
+            _stateMachine.Stop();
             _stateMachine = null;
             _stateSelector = null;
         }

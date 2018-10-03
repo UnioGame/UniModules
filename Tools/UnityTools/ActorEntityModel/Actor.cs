@@ -62,6 +62,7 @@ namespace Assets.Tools.UnityTools.ActorEntityModel
             if (!activate && _routineDisposable != null)
             {
                 _stateBehaviour?.Exit(_entity);
+                _stateBehaviour?.Dispose();
             }
             
             //release current routine
