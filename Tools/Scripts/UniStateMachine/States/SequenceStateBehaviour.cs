@@ -10,8 +10,6 @@ namespace GamePlay.States {
 	[CreateAssetMenu(menuName = "States/States/SequenceStateBehaviour", fileName = "SequenceStateBehaviour")]
 	public class SequenceStateBehaviour : UniStateBehaviour {
 		
-		private UniStateBehaviour _activeState;
-		
 		[SerializeField] 
 		private List<UniStateBehaviour> _states = new List<UniStateBehaviour>();
 
@@ -19,28 +17,30 @@ namespace GamePlay.States {
 
 			for (int i = 0; i < _states.Count; i++) {
 				
-				_activeState = _states[i];
-				
-				if(!_activeState)
+				var activeState = _states[i];
+				_stateContext.AddValue(context, activeState);
+
+				if(!activeState)
 					continue;
 
-				yield return _activeState.Execute(context);
+				yield return activeState.Execute(context);
 				
-				if(_activeState == null)
+				if(activeState == null)
 					continue;
-					
-				_activeState.Exit(context);
-				_activeState = null;
-				
-			}
+
+			    activeState.Exit(context);
+			    _stateContext.Remove<UniStateBehaviour>(context);
+
+            }
 			
 		}
 
 		protected override void OnExit(IContext context) 
 		{
-			if (_activeState != null) {
-				_activeState.Exit(context);
-				_activeState = null;
+            Debug.Log("SQU EXIT");
+            var state = _stateContext.Get<UniStateBehaviour>(context);
+            if (state != null) {
+                state.Exit(context);
 			}
 			base.OnExit(context);
 		}

@@ -61,7 +61,7 @@ namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine
 
         protected override void OnExit(IContext context)
         {
-
+            Debug.Log("PARALL EXIT");
             var disposableItems = _stateContext.Get<List<IDisposableItem>>(context);
             for (var i = 0; i < disposableItems.Count; i++)
             {
