@@ -10,16 +10,20 @@ namespace UniStateMachine
         IContextStateMachine<TAwaiter>
     {
             
-        private readonly IRoutineExecutor<TAwaiter> _stateExecutor;
+        private readonly IContextExecutor<TAwaiter> _stateExecutor;
+
+        private IRoutineExecutor<TAwaiter> _stateBehaviour;
+        private IDisposable _stateExecution;
 
         protected List<IDisposable> disposables;
-        protected IContextProvider contextProvider;
+
 
         #region public methods
 
-        public ContextStateMachine(IRoutineExecutor<TAwaiter> stateExecutor)
+        public ContextStateMachine(IContextExecutor<TAwaiter> stateExecutor)
         {
             disposables = new List<IDisposable>();
+
             _stateExecutor = stateExecutor;
         }
 
@@ -32,6 +36,7 @@ namespace UniStateMachine
 
         public void Execute(IContextStateBehaviour<TAwaiter> state, IContextProvider context)
         {
+            StopActiveState();
             ChangeState(state, context);
         }
 
@@ -46,7 +51,7 @@ namespace UniStateMachine
 
         public IContextStateBehaviour<TAwaiter> ActiveState { get; protected set; }
 
-        public bool IsActive => _stateExecutor.IsActive;
+        public IContextProvider Context { get; protected set; }
 
         #endregion
 
@@ -54,17 +59,15 @@ namespace UniStateMachine
             IContextProvider context)
         {
 
-            StopActiveState();
-
             if (state == null)
             {
                 ActiveState = null;
-                contextProvider = null;
+                Context = null;
                 return;
             }
 
             ActiveState = state;
-            contextProvider = context;
+            Context = context;
 
             StartState(state, context);
             
@@ -77,11 +80,11 @@ namespace UniStateMachine
             _stateExecutor.Execute(routine);
             
         }
-
+      
         private void StopActiveState()
         {
-            _stateExecutor.Stop();
-            ActiveState?.Exit(contextProvider);
+            _stateExecution.Cancel();
+            ActiveState?.Exit(Context);
         }
 
     }

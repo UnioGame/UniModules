@@ -7,22 +7,11 @@ namespace StateMachine.ContextStateMachine
 {
     public class ContextStateBehaviour : IContextStateBehaviour<IEnumerator>
     {
-        protected Dictionary<IContextProvider, bool> _contextItems = new Dictionary<IContextProvider, bool>();
 
         #region public methods
 
         public IEnumerator Execute(IContextProvider context)
         {
-            if (context == null)
-            {
-                GameLog.LogErrorFormat("NULL CONTEXT OF STATE {0}",GetType().Name);
-                yield break;
-            }
-
-            if (IsActive(context))
-                yield return Wait(context);
-
-            AddContext(context);
             Initialize(context);
 
             yield return ExecuteState(context);
@@ -30,14 +19,8 @@ namespace StateMachine.ContextStateMachine
             OnPostExecute(context);
         }
 
-        public bool IsActive(IContextProvider context)
-        {
-            return _contextItems.ContainsKey(context);
-        }
-
         public void Exit(IContextProvider context)
         {
-            RemoveContext(context);
             OnExit(context);
         }
 
@@ -51,24 +34,6 @@ namespace StateMachine.ContextStateMachine
         }
 
         #endregion
-
-        protected void RemoveContext(IContextProvider context)
-        {
-            _contextItems.Remove(context);
-        }
-
-        protected void AddContext(IContextProvider context)
-        {
-            _contextItems[context] = true;
-        }
-
-        protected virtual IEnumerator Wait(IContextProvider context)
-        {
-            while (IsActive(context))
-            {
-                yield return null;
-            }
-        }
 
         protected virtual void OnExit(IContextProvider context)
         {

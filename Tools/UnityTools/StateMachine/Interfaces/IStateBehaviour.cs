@@ -14,7 +14,6 @@ namespace UniStateMachine
     public interface IStateBehaviour< in TContext,out TResult> :
         IRoutine<TContext,TResult>
     {
-        bool IsActive(TContext context);
         void Exit(TContext context);
     }
     

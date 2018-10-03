@@ -4,7 +4,7 @@ using Assets.Modules.UnityToolsModule;
 
 namespace StateMachine.ContextStateMachine
 {
-    public class ContextReactiveState : ContextStateBehaviour
+    public class ContextReactiveStateMachine : ContextStateBehaviour
     {
         private IContextSelector<IEnumerator> _stateSelector;
         private IContextStateMachine<IEnumerator> _stateMachine;
@@ -24,7 +24,7 @@ namespace StateMachine.ContextStateMachine
 
         protected override IEnumerator ExecuteState(IContextProvider context)
         {
-            while (IsActive(context))
+            while (true)
             {
                 var state = _stateSelector.Select(context);
 
@@ -49,11 +49,11 @@ namespace StateMachine.ContextStateMachine
         private bool ValidateState(IContextStateBehaviour<IEnumerator> state, IContextProvider context)
         {
             var activeState = _stateMachine.ActiveState;
+            var stateContext = _stateMachine.Context;
 
-            if (activeState == null || _stateMachine.IsActive == false)
+            if (activeState == null)
                 return true;
-
-            if (activeState == state && activeState.IsActive(context))
+            if (activeState == state && stateContext == context)
                 return false;
 
             return true;

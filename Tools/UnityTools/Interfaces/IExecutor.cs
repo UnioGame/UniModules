@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 
 namespace Modules.UnityToolsModule.Tools.UnityTools.Interfaces
 {
@@ -22,5 +23,10 @@ namespace Modules.UnityToolsModule.Tools.UnityTools.Interfaces
     {
         void Execute(TData data);
         void Stop();
+    }
+
+    public interface IContextExecutor<TContext>
+    {
+        IDisposable Execute(TContext context);
     }
 }

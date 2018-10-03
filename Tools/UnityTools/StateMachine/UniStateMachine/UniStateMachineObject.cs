@@ -32,7 +32,7 @@ namespace UniStateMachine
 		{
 		    var executor = new UniRoutineExecutor();
 		    var stateMachine = new ContextStateMachine<IEnumerator>(executor);
-            var reactiveState = new ContextReactiveState();
+            var reactiveState = new ContextReactiveStateMachine();
 
 		    reactiveState.Initialize(_stateSelector, stateMachine);
             return reactiveState;
