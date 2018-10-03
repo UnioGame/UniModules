@@ -25,7 +25,9 @@ namespace Assets.Tools.UnityTools.Common
             if (_contexts.TryGetValue(context, out var contextData) == false)
             {
                 contextData = ClassPool.Spawn<ContextData>();
+                _contexts[context] = contextData;
             }
+
             contextData.Add(value);
 
         }

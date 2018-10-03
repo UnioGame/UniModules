@@ -21,7 +21,7 @@ namespace Assets.Tools.UnityTools.StateMachine {
 		}
 
 		protected override void Initialize(IContext context) {
-			_onEnter?.Invoke(context);
+            _onEnter?.Invoke(context);
 		}
 
 		protected override void OnExit(IContext context) {

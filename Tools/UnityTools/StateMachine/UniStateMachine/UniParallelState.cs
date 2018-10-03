@@ -14,8 +14,6 @@ namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine
     public class UniParallelState : UniStateBehaviour
     {
         [NonSerialized]
-        private IContextProvider<IContext> _contextProvider;
-        [NonSerialized]
         private IContextExecutor<IEnumerator> _executor;
 
         [SerializeField]
@@ -27,8 +25,8 @@ namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine
             var completionSource = ClassPool.Spawn<CompletionConditionSource>();
             completionSource.Initialize(() => IsComplete(routineDisposables));
 
-            _contextProvider.AddValue(context, routineDisposables);
-            _contextProvider.AddValue(context, completionSource);
+            _stateContext.AddValue(context, routineDisposables);
+            _stateContext.AddValue(context, completionSource);
 
             //launch states
             for (int i = 0; i < _states.Count; i++)
@@ -57,7 +55,6 @@ namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine
 
         protected override void OnInitialize()
         {
-            _contextProvider = new ContextProviderProvider<IContext>();
             _executor = new UniRoutineExecutor();
             base.OnInitialize();
         }
@@ -65,16 +62,19 @@ namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine
         protected override void OnExit(IContext context)
         {
 
-            var disposableItems = _contextProvider.Get<List<IDisposableItem>>(context);
-            for (int i = 0; i < disposableItems.Count; i++)
+            var disposableItems = _stateContext.Get<List<IDisposableItem>>(context);
+            for (var i = 0; i < disposableItems.Count; i++)
             {
                 var item = disposableItems[i];
                 item.Dispose();
             }
             disposableItems.Despawn();
 
-            var completionsSource = _contextProvider.Get<CompletionConditionSource>(context);
+            var completionsSource = _stateContext.Get<CompletionConditionSource>(context);
             completionsSource.Despawn();
+
+            _stateContext.Remove<List<IDisposableItem>>(context);
+            _stateContext.Remove<CompletionConditionSource>(context);
 
             base.OnExit(context);
         }

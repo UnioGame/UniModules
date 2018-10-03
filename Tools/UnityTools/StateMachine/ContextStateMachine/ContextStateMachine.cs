@@ -23,7 +23,6 @@ namespace Assets.Tools.UnityTools.StateMachine.ContextStateMachine
         public ContextStateMachine(IContextExecutor<TAwaiter> stateExecutor)
         {
             disposables = new List<IDisposable>();
-
             _stateExecutor = stateExecutor;
         }
 

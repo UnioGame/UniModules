@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Assets.Tools.UnityTools.Common;
 using Assets.Tools.UnityTools.Interfaces;
 using Assets.Tools.UnityTools.ScriptableObjects;
 using Assets.Tools.UnityTools.StateMachine.Interfaces;
@@ -12,40 +13,40 @@ namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine
         ScriptableObjectRoutine<IContext>,
         IContextStateBehaviour<IEnumerator>
     {
-
         [NonSerialized]
-        private Lazy<IContextStateBehaviour<IEnumerator>> _stateBehaviour;
+        protected IContextProvider<IContext> _stateContext;
 
         [SerializeField]
         private bool _isActive;
  
         #region public methods
 
-        public void Exit(IContext contextProvider)
+        public void Exit(IContext context)
         {
-            _stateBehaviour.Value.Exit(contextProvider);
+            var behaviour = GetBehaviour(context);
+            behaviour.Exit(context);
+
+            _stateContext.Remove<IContextStateBehaviour<IEnumerator>>(context);
         }
-
-
+        
         public void Dispose()
         {
-            _stateBehaviour.Value.Dispose();
+            _stateContext.Release();
         }
 
         #endregion
 
-        protected override IEnumerator OnExecute(IContext context)
+        protected sealed override IEnumerator OnExecute(IContext context)
         {
             
             StateLogger.LogState(string.Format("STATE EXECUTE {0} TYPE {1}",this.name,GetType().Name),this);
-            yield return _stateBehaviour.Value.Execute(context);
+            yield return GetBehaviour(context).Execute(context);
             
         }
 
         protected override void OnInitialize()
         {
-            if(_stateBehaviour == null)
-                _stateBehaviour = new Lazy<IContextStateBehaviour<IEnumerator>>(Create);
+            _stateContext = new ContextProviderProvider<IContext>();
             base.OnInitialize();
         }
 
@@ -69,6 +70,19 @@ namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine
             var behaviour = new ProxyStateBehaviour();
             behaviour.Initialize(ExecuteState, OnEnter, OnExit);
             return behaviour;
+        }
+
+        protected IContextStateBehaviour<IEnumerator> GetBehaviour(IContext context)
+        {
+
+            var contextState = _stateContext.Get<IContextStateBehaviour<IEnumerator>>(context);
+            if (contextState == null)
+            {
+                contextState = Create();
+                _stateContext.AddValue(context, contextState);
+            }
+
+            return contextState;
         }
 
     }

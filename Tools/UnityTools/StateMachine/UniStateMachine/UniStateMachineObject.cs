@@ -28,7 +28,7 @@ namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine
 		
 		#region private methods
 
-		protected override IContextStateBehaviour<IEnumerator> Create()
+	    protected override IContextStateBehaviour<IEnumerator> Create()
 		{
 		    var executor = new UniRoutineExecutor();
 		    var stateMachine = new ContextStateMachine<IEnumerator>(executor);
