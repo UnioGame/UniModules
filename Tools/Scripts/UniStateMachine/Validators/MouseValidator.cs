@@ -14,7 +14,7 @@ public class MouseValidator : UniTransitionValidator
     [SerializeField]
     private KeyStates _keyStates;
     
-    protected override bool ValidateNode(IContextProvider context) {
+    protected override bool ValidateNode(IContext context) {
 
         var keyValue = (long) _keyStates;
         var statesValues = UniInputSystem.KeyStatesValues;

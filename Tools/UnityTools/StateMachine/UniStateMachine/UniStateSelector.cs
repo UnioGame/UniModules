@@ -20,7 +20,7 @@ namespace UniStateMachine
         
         public List<UniStateTransition> Nodes => _stateNodes;
         
-        public virtual IContextStateBehaviour<IEnumerator> Select(IContextProvider context)
+        public virtual IContextStateBehaviour<IEnumerator> Select(IContext context)
         {
             for (int i = 0; i < _stateNodes.Count; i++)
             {

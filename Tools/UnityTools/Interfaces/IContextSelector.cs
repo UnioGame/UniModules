@@ -6,6 +6,6 @@ namespace Assets.Modules.UnityToolsModule
 {
     public interface IContextSelector<TResult>
     {
-        IContextStateBehaviour<TResult> Select(IContextProvider context);
+        IContextStateBehaviour<TResult> Select(IContext context);
     }
 }

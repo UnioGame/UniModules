@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections;
+using Assets.Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
 
 namespace Tools.UniRoutineTask
 {
     public interface IUniRoutine
     {
-        IDisposable AddRoutine(IEnumerator enumerator);
+        IDisposableItem AddRoutine(IEnumerator enumerator);
         void Update();
     }
 }

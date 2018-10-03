@@ -1,7 +1,8 @@
 ﻿using System;
+using Assets.Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
 using Assets.Tools.Utils;
 
-public class DisposableAction<TArg> : IDisposable
+public class DisposableAction<TArg> : IDisposableItem
 {
     private Action<TArg> _onDisposed;
     private TArg _arg;

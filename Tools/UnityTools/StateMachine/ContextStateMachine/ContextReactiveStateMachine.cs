@@ -22,7 +22,7 @@ namespace StateMachine.ContextStateMachine
 
         #region private methods
 
-        protected override IEnumerator ExecuteState(IContextProvider context)
+        protected override IEnumerator ExecuteState(IContext context)
         {
             while (true)
             {
@@ -37,7 +37,7 @@ namespace StateMachine.ContextStateMachine
             }
         }
 
-        protected override void OnExit(IContextProvider context)
+        protected override void OnExit(IContext context)
         {
             _stateMachine = null;
             _stateSelector = null;
@@ -46,7 +46,7 @@ namespace StateMachine.ContextStateMachine
         /// <summary>
         /// is state with target context already active, when return false
         /// </summary>
-        private bool ValidateState(IContextStateBehaviour<IEnumerator> state, IContextProvider context)
+        private bool ValidateState(IContextStateBehaviour<IEnumerator> state, IContext context)
         {
             var activeState = _stateMachine.ActiveState;
             var stateContext = _stateMachine.Context;

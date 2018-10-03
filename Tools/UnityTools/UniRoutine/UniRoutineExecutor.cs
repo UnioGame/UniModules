@@ -1,28 +1,17 @@
 ﻿using System;
 using System.Collections;
+using Assets.Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
 using Assets.Scripts.Extensions;
 using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
 using UnityToolsModule.Tools.UnityTools.UniRoutine;
 
-public class UniRoutineExecutor : IRoutineExecutor<IEnumerator>
+public class UniRoutineExecutor : IContextExecutor<IEnumerator>
 {
 
-    private IDisposable _disposable;
-
-    public bool IsActive { get; protected set; }
-
-    public void Execute(IEnumerator data)
+    public IDisposableItem Execute(IEnumerator data)
     {
-        IsActive = true;
-        _disposable = data.RunWithSubRoutines();
-
+        var disposable = data.RunWithSubRoutines();
+        return disposable;
     }
-
-    public void Stop()
-    {
-        IsActive = false;
-        _disposable.Cancel();
-    }
-
 
 }

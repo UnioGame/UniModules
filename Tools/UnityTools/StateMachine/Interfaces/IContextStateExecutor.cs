@@ -7,7 +7,7 @@ namespace Assets.Modules.UnityToolsModule.Tools.UnityTools.StateMachine.Interfac
     public interface IContextStateExecutor<TAwaiter>  :IDisposable
     {
 
-        IDisposable Execute(IContextStateBehaviour<TAwaiter> state, IContextProvider context);
+        IDisposable Execute(IContextStateBehaviour<TAwaiter> state, IContext context);
 
     }
 }

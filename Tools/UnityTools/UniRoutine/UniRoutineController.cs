@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Assets.Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
 using Tools.UniRoutineTask;
 using UnityEngine;
 using UnityEngine.Experimental.PlayerLoop;
@@ -28,7 +29,7 @@ namespace Tools.UniRoutineTask
 			
 		};
 
-		public static IDisposable AddWithSubRoutines(IEnumerator enumerator, RoutineType routineType = RoutineType.UpdateStep)
+		public static IDisposableItem AddWithSubRoutines(IEnumerator enumerator, RoutineType routineType = RoutineType.UpdateStep)
 		{
 			
 			//get routine

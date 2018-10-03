@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Assets.Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
 
 namespace Modules.UnityToolsModule.Tools.UnityTools.Interfaces
 {
@@ -27,6 +28,6 @@ namespace Modules.UnityToolsModule.Tools.UnityTools.Interfaces
 
     public interface IContextExecutor<TContext>
     {
-        IDisposable Execute(TContext context);
+        IDisposableItem Execute(TContext context);
     }
 }

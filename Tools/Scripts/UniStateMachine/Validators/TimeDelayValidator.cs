@@ -14,7 +14,7 @@ public class TimeDelayValidator : UniTransitionValidator
 	[SerializeField]
 	private float DelayBeforeTransition = 0.2f;
 
-	protected override bool ValidateNode(IContextProvider context) 
+	protected override bool ValidateNode(IContext context) 
 	{
 		var timePassed =  Time.realtimeSinceStartup - _lastValidationTime;
 		_lastValidationTime = Time.realtimeSinceStartup;

@@ -16,9 +16,9 @@ namespace GamePlay.States {
         
         private int _animationId;
 
-        protected override IEnumerator ExecuteState(IContextProvider context) {
+        protected override IEnumerator ExecuteState(IContext context) {
 
-            var animator = context.GetContext<Animator>();
+            var animator = context.Get<Animator>();
 
             var parameters = animator.parameters;
 

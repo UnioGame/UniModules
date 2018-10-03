@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
 using StateMachine.ContextStateMachine;
 using UnityEngine;
@@ -8,9 +9,10 @@ namespace UniStateMachine
 {
     [Serializable]
     public class UniStateBehaviour : 
-        ScriptableObjectRoutine<IContextProvider>,
+        ScriptableObjectRoutine<IContext>,
         IContextStateBehaviour<IEnumerator>
     {
+
         [NonSerialized]
         private Lazy<IContextStateBehaviour<IEnumerator>> _stateBehaviour;
 
@@ -19,12 +21,7 @@ namespace UniStateMachine
  
         #region public methods
 
-        public bool IsActive(IContextProvider context)
-        {
-            return _stateBehaviour.Value.IsActive(context);
-        }
-
-        public void Exit(IContextProvider contextProvider)
+        public void Exit(IContext contextProvider)
         {
             _stateBehaviour.Value.Exit(contextProvider);
         }
@@ -37,7 +34,7 @@ namespace UniStateMachine
 
         #endregion
 
-        protected override IEnumerator OnExecute(IContextProvider context)
+        protected override IEnumerator OnExecute(IContext context)
         {
             
             StateLogger.LogState(string.Format("STATE EXECUTE {0} TYPE {1}",this.name,GetType().Name),this);
@@ -52,17 +49,17 @@ namespace UniStateMachine
             base.OnInitialize();
         }
 
-        protected virtual IEnumerator ExecuteState(IContextProvider context)
+        protected virtual IEnumerator ExecuteState(IContext context)
         {
             yield break;
         }
 
-        protected virtual void OnEnter(IContextProvider context) 
+        protected virtual void OnEnter(IContext context) 
         {
             _isActive = true;
         }
 
-        protected virtual void OnExit(IContextProvider context)
+        protected virtual void OnExit(IContext context)
         {
             _isActive = false;
         }

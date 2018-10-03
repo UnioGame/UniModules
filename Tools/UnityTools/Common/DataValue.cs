@@ -23,5 +23,11 @@ namespace UniTools.Common
             Value = default(TData);
             _isReleased = true;
         }
+
+        public void Dispose()
+        {
+            Release();
+            this.Despawn();
+        }
     }
 }

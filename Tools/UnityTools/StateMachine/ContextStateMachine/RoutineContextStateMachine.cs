@@ -6,7 +6,8 @@ namespace UniStateMachine
 {
     public class RoutineContextStateMachine : ContextStateMachine<IEnumerator>
     {
-        public RoutineContextStateMachine(IRoutineExecutor<IEnumerator> stateExecutor) : base(stateExecutor)
+        public RoutineContextStateMachine(IContextExecutor<IEnumerator> stateExecutor) : 
+            base(stateExecutor)
         {
         }
     }

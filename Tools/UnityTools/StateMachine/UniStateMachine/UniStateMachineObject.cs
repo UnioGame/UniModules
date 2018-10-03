@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections;
 using Assets.Modules.UnityToolsModule;
-using Assets.Scripts.Tools.StateMachine;
-using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
 using StateMachine.ContextStateMachine;
 using UnityEngine;
 

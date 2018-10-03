@@ -16,7 +16,7 @@ public class TimesValidator : UniTransitionValidator
 	[NonSerialized]
 	private int _counter;
 
-	protected override bool ValidateNode(IContextProvider context)
+	protected override bool ValidateNode(IContext context)
 	{
 		var result = Unlimited || _counter < AllowTransitionCount;
 		_counter++;

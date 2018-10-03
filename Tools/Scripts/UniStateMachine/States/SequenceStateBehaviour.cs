@@ -15,7 +15,7 @@ namespace GamePlay.States {
 		[SerializeField] 
 		private List<UniStateBehaviour> _states = new List<UniStateBehaviour>();
 
-		protected override IEnumerator ExecuteState(IContextProvider context) {
+		protected override IEnumerator ExecuteState(IContext context) {
 
 			for (int i = 0; i < _states.Count; i++) {
 				
@@ -36,7 +36,7 @@ namespace GamePlay.States {
 			
 		}
 
-		protected override void OnExit(IContextProvider context) 
+		protected override void OnExit(IContext context) 
 		{
 			if (_activeState != null) {
 				_activeState.Exit(context);

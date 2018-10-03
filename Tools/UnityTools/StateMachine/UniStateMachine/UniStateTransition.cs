@@ -9,7 +9,7 @@ namespace UniStateMachine {
     
     [Serializable]
     [CreateAssetMenu(menuName = "UniStateMachine/StateNode", fileName = "StateNode")]
-    public class UniStateTransition : ScriptableObject ,IValidator<IContextProvider> {
+    public class UniStateTransition : ScriptableObject ,IValidator<IContext> {
 
         private bool _defaultValidatorValue = false;
         
@@ -33,7 +33,7 @@ namespace UniStateMachine {
             return _stateBehaviour;
         }
 
-        public bool Validate(IContextProvider data) {
+        public bool Validate(IContext data) {
             
             if (_validator == null)
                 return _defaultValidatorValue;

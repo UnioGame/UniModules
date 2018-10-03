@@ -6,11 +6,11 @@ namespace StateMachine.ContextStateMachine
 {
     public interface IContextStateMachine<TAwaiter> : IDisposable
     {
+        bool IsActive { get; }
 
-        IContextProvider Context { get; }
-
+        IContext Context { get; }
         IContextStateBehaviour<TAwaiter> ActiveState { get; }
-        void Execute(IContextStateBehaviour<TAwaiter> state, IContextProvider context);
+        void Execute(IContextStateBehaviour<TAwaiter> state, IContext context);
         void Stop();
 
     }

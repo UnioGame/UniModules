@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Assets.Scripts.Extensions;
+using Assets.Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
+using Assets.Tools.Utils;
 using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
 using UnityEngine;
 using UnityToolsModule.Tools.UnityTools.UniRoutine;
@@ -11,47 +12,45 @@ namespace UniStateMachine
     [CreateAssetMenu(menuName = "States/States/UniParallelState", fileName = "UniParallelState")]
     public class UniParallelState : UniStateBehaviour
     {
-        [NonSerialized]
-        private List<IDisposable> _stateDisposables;
-
         [SerializeField]
         private List<UniStateParallelMode> _states = new List<UniStateParallelMode>();
 
-        protected override IEnumerator ExecuteState(IContextProvider context)
+        protected override IEnumerator ExecuteState(IContext context)
         {
-            _stateDisposables.Cancel();
-            _stateDisposables = _stateDisposables ?? new List<IDisposable>();
-            
-            //launch states
-            for (int i = 0; i < _states.Count; i++)
-            {
-                var state = _states[i].StateBehaviour;
- 
-                var disposable = state.Execute(context)
-                    .RunWithSubRoutines();
-                _stateDisposables.Add(disposable);
-            }
+            //var routineDisposables = ClassPool.Spawn<List<IDisposableItem>>();
 
-            while (IsActive(context))
-            {
-                yield return null;
-            }
-            
+            ////launch states
+            //for (int i = 0; i < _states.Count; i++)
+            //{
+            //    var state = _states[i].StateBehaviour;
+            //    var disposable = state.Execute(context)
+            //        .RunWithSubRoutines();
+            //    _stateDisposables.Add(disposable);
+            //}
+
+            //while (IsActive(context))
+            //{
+            //    yield return null;
+            //}
+
+            //routineDisposables.Despawn();
+
             yield break;
         }
 
-        protected override void OnExit(IContextProvider context)
+        protected override void OnExit(IContext context)
         {
-            _stateDisposables.Cancel();
-            for (int i = 0; i < _states.Count; i++)
-            {
-                var state = _states[i].StateBehaviour;
-                if (state.IsActive(context))
-                {
-                    state.Exit(context);
-                }
-            }
-            base.OnExit(context);
+            //_stateDisposables.Cancel();
+            //for (int i = 0; i < _states.Count; i++)
+            //{
+            //    var state = _states[i].StateBehaviour;
+            //    if (state.IsActive(context))
+            //    {
+            //        state.Exit(context);
+            //    }
+            //}
+            //base.OnExit(context);
         }
+
     }
 }

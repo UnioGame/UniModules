@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Assets.Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
 using Assets.Scripts.Extensions;
 using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
 using StateMachine.ContextStateMachine;
@@ -13,7 +14,7 @@ namespace UniStateMachine
         private readonly IContextExecutor<TAwaiter> _stateExecutor;
 
         private IRoutineExecutor<TAwaiter> _stateBehaviour;
-        private IDisposable _stateExecution;
+        private IDisposableItem _stateExecution;
 
         protected List<IDisposable> disposables;
 
@@ -34,7 +35,7 @@ namespace UniStateMachine
             
         }
 
-        public void Execute(IContextStateBehaviour<TAwaiter> state, IContextProvider context)
+        public void Execute(IContextStateBehaviour<TAwaiter> state, IContext context)
         {
             StopActiveState();
             ChangeState(state, context);
@@ -51,18 +52,18 @@ namespace UniStateMachine
 
         public IContextStateBehaviour<TAwaiter> ActiveState { get; protected set; }
 
-        public IContextProvider Context { get; protected set; }
+        public IContext Context { get; protected set; }
+
+        public bool IsActive => _stateExecution != null && _stateExecution.IsDisposed == false;
 
         #endregion
 
         private void ChangeState(IContextStateBehaviour<TAwaiter> state, 
-            IContextProvider context)
+            IContext context)
         {
 
             if (state == null)
             {
-                ActiveState = null;
-                Context = null;
                 return;
             }
 
@@ -73,11 +74,11 @@ namespace UniStateMachine
             
         }
 
-        private void StartState(IContextStateBehaviour<TAwaiter> state, IContextProvider context)
+        private void StartState(IContextStateBehaviour<TAwaiter> state, IContext context)
         {
 
             var routine = state.Execute(context);
-            _stateExecutor.Execute(routine);
+            _stateExecution = _stateExecutor.Execute(routine);
             
         }
       
@@ -85,6 +86,10 @@ namespace UniStateMachine
         {
             _stateExecution.Cancel();
             ActiveState?.Exit(Context);
+            
+            ActiveState = null;
+            Context = null;
+            _stateExecution = null;
         }
 
     }

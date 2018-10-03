@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using Assets.Tools.Utils;
-using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
-using UniTools.Common;
+﻿using Assets.Modules.UnityToolsModule.Tools.UnityTools.Common;
 
 namespace Tools.ActorModel
 {
     public class EntityObject : IEntity
     {
-        /// <summary>
-        /// registered conmponents
-        /// </summary>
-        private Dictionary<Type, object> _contextValues = new Dictionary<Type, object>();
-        
+        private ContextData _contextData = new ContextData();
+
         #region public properties
         
         public int Id { get; protected set; }
@@ -23,44 +16,32 @@ namespace Tools.ActorModel
 
         public void Dispose()
         {
-            _contextValues.Clear();
-            Id = -1;
             OnDispose();
+            Release();
         }
 
-        public virtual TData GetContext<TData>() where TData : class
+        public virtual TData Get<TData>()
         {
-            
-            object value = null;
-            if (!_contextValues.TryGetValue(typeof(TData), out value))
-            {
-                return null;
-            }
-
-            var valueData = value as IDataValue<TData>;
-            return valueData?.Value;
-            
+            return _contextData.Get<TData>();
         }
-              
-        public void AddContext<TData>(TData data)
+
+        public bool Remove<TData>()
         {
-            object value = null;
-            DataValue<TData> dataValue = null;
-            var type = typeof(TData);
-            
-            if (_contextValues.TryGetValue(type, out value))
-            {
-                dataValue = value as DataValue<TData>;
-                dataValue.SetValue(data);
-                return;
-            }
-            
-            dataValue = ClassPool.Spawn<DataValue<TData>>();
-            dataValue.SetValue(data);
-            _contextValues[type] = dataValue;
+            return _contextData.Remove<TData>();
+        }
+
+        public void Add<TData>(TData data)
+        {
+            _contextData.Add(data);
 
         }
-        
+
+        public void Release()
+        {
+            _contextData.Release();
+            Id = -1;
+        }
+
         #endregion
 
         #region private methods
@@ -70,5 +51,7 @@ namespace Tools.ActorModel
         }
 
         #endregion
+
+ 
     }
 }

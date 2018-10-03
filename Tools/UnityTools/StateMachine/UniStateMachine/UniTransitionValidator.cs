@@ -9,7 +9,7 @@ namespace UniStateMachine
 
 	[Serializable]
 	[CreateAssetMenu(menuName = "States/Validators/DefaultValidator", fileName = "DefaultValidator")]
-	public class UniTransitionValidator :ScriptableObject, IValidator<IContextProvider>
+	public class UniTransitionValidator :ScriptableObject, IValidator<IContext>
 	{
 		[SerializeField]
 		protected bool _defaultValue = true;
@@ -19,7 +19,7 @@ namespace UniStateMachine
 		
 		public List<UniTransitionValidator> Validators => _validators;
 
-		public bool Validate(IContextProvider context)
+		public bool Validate(IContext context)
 		{
 			var result = ValidateNode(context);
 			
@@ -40,7 +40,7 @@ namespace UniStateMachine
 			return result;
 		}
 
-		protected virtual bool ValidateNode(IContextProvider context)
+		protected virtual bool ValidateNode(IContext context)
 		{
 			return _defaultValue;
 		}

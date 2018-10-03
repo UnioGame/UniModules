@@ -12,7 +12,7 @@ namespace UnityTools.StateMachine.ContextStateMachine
 
 
         public IDisposable Execute(IContextStateBehaviour<IEnumerator> state, 
-            IContextProvider context)
+            IContext context)
         {
             var routine = state.Execute(context);
             var dispose = routine.RunWithSubRoutines();

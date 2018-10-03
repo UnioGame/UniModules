@@ -5,7 +5,7 @@ using UniStateMachine;
 namespace StateMachine.ContextStateMachine
 {
     public interface IContextStateBehaviour<out TAwaiter> : 
-        IStateBehaviour<IContextProvider, TAwaiter>,
+        IStateBehaviour<IContext, TAwaiter>,
         IDisposable
     {
     }

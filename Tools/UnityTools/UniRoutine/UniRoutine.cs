@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Assets.Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
 using Assets.Tools.Utils;
 
 namespace Tools.UniRoutineTask {
@@ -14,7 +15,7 @@ namespace Tools.UniRoutineTask {
 		
 		private static UniRoutineManager _routineObject;
 
-		public IDisposable AddRoutine(IEnumerator enumerator) {
+		public IDisposableItem AddRoutine(IEnumerator enumerator) {
 
 			if (enumerator == null) return null;
 

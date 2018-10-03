@@ -13,7 +13,7 @@ namespace UniStateMachine {
     {
         
         protected List<IDisposable> _disposables = new List<IDisposable>();
-        private IContextProvider _contextProvider;
+        private IContext _contextProvider;
         private Lazy<IContextStateBehaviour<IEnumerator>> _stateBehaviour;
         	
         [SerializeField]
@@ -21,17 +21,12 @@ namespace UniStateMachine {
 
         #region public methods
 
-        public bool IsActive(IContextProvider context)
-        {
-            return _stateBehaviour.Value.IsActive(context);
-        }
-
-        public IEnumerator Execute(IContextProvider context) {
+        public IEnumerator Execute(IContext context) {
             _isActive = true;
             yield return _stateBehaviour.Value.Execute(context);
         }
 
-        public void Exit(IContextProvider context) {
+        public void Exit(IContext context) {
             _isActive = false;
             _stateBehaviour.Value.Exit(context);
             _disposables.Cancel();
@@ -44,14 +39,14 @@ namespace UniStateMachine {
 
         #endregion
 
-        protected virtual IEnumerator ExecuteState(IContextProvider contextProvider) {
+        protected virtual IEnumerator ExecuteState(IContext contextProvider) {
             yield break;
         }
 
-        protected virtual void OnEnter(IContextProvider contextProvider) {
+        protected virtual void OnEnter(IContext contextProvider) {
         }
 
-        protected virtual void OnExit(IContextProvider contextProvider) {
+        protected virtual void OnExit(IContext contextProvider) {
         }
 
         protected virtual void Awake() {
