@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Tools.ActorModel
+namespace Assets.Tools.UnityTools.ActorEntityModel
 {
 	public class ProxyActor : Actor
 	{

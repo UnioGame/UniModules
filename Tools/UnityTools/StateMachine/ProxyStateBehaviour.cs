@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections;
-using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
-using StateMachine.ContextStateMachine;
+using Assets.Tools.UnityTools.Interfaces;
+using Assets.Tools.UnityTools.StateMachine.ContextStateMachine;
 
-namespace UniStateMachine {
+namespace Assets.Tools.UnityTools.StateMachine {
 
 	public class ProxyStateBehaviour : ContextStateBehaviour {
 

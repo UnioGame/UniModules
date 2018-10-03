@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace AssetBundlesModule_Old{
+namespace Assets.Tools.UnityTools.AssetBundleManager.Old.AssetBundleManager_Old{
 
     public class AssetLevelOperation : AssetOperation
     {

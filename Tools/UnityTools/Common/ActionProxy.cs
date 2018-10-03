@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Assets.Tools.Utils;
+using Assets.Tools.UnityTools.ObjectPool.Scripts;
 
-namespace Assets.Scripts.Modules.Tools.Common
+namespace Assets.Tools.UnityTools.Common
 {
     public class ActionProxy<T> : IPoolable
     {

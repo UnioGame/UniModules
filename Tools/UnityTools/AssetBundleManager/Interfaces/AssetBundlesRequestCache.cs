@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Assets.Tools.Utils;
+using Assets.Tools.UnityTools.ObjectPool.Scripts;
 
-namespace AssetBundlesModule
+namespace Assets.Tools.UnityTools.AssetBundleManager.Interfaces
 {
     public class AssetBundlesRequestCache : IAssetBundlesRequestCache {
 

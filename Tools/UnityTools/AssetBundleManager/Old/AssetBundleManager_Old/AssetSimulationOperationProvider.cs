@@ -1,8 +1,9 @@
-﻿#if UNITY_EDITOR	
+﻿#if UNITY_EDITOR
 using UnityEditor;
+
 #endif
 
-namespace AssetBundlesModule_Old{
+namespace Assets.Tools.UnityTools.AssetBundleManager.Old.AssetBundleManager_Old{
     
     public class AssetSimulationOperationProvider
     {

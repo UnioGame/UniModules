@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Tools.UniRoutineTask {
+namespace Assets.Tools.UnityTools.UniRoutine {
 
     public class UniRoutineManager : MonoBehaviour {
 

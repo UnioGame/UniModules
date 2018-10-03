@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Assets.Scripts.Extensions;
-using Assets.Scripts.Tools.StateMachine;
+using Assets.Tools.UnityTools.Extension;
+using Assets.Tools.UnityTools.StateMachine.Interfaces;
 
-namespace UniStateMachine
+namespace Assets.Tools.UnityTools.StateMachine
 {
     public class StateManager<TStateType, TState> : IStateManager<TStateType> {
         

@@ -1,6 +1,6 @@
-﻿using Assets.Tools.Utils;
+﻿using Assets.Tools.UnityTools.ObjectPool.Scripts;
 
-namespace Modules.UnityToolsModule.Tools.UnityTools.Interfaces
+namespace Assets.Tools.UnityTools.Interfaces
 {
     public interface IContext : IPoolable
     {

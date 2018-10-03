@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Assets.Tools
+namespace Assets.Tools.UnityTools.ObjectPool.Scripts
 {
     public class MemorizeTool
     {

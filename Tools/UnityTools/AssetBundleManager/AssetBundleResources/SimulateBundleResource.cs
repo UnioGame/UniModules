@@ -4,13 +4,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using Assets.Tools.Utils;
-using Assets.Scripts.ProfilerTools;
+using Assets.Tools.UnityTools.ProfilerTools;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
 
-namespace AssetBundlesModule
+namespace Assets.Tools.UnityTools.AssetBundleManager.AssetBundleResources
 {
 
     public class SimulateBundleResource : IAssetBundleResource
@@ -372,7 +371,7 @@ namespace AssetBundlesModule
                 var go = component != null ? component.gameObject : targetObject;
                 var position = go.transform.position;
                 var rotation = go.transform.rotation;
-                var resultGameObject = ObjectPool.Spawn(go, position, rotation, false);
+                var resultGameObject = ObjectPool.Scripts.ObjectPool.Spawn(go, position, rotation, false);
 
                 AssetsInstanceMap.Register(resultGameObject, go);
 

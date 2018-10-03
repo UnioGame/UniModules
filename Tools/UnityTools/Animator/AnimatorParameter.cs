@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace UnityToolsModule.Tools.UnityTools.Animator
+namespace Assets.Tools.UnityTools.Animator
 {
     [Serializable]
     public class AnimatorParameter

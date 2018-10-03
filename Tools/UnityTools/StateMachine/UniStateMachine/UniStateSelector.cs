@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Assets.Modules.UnityToolsModule;
-using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
-using StateMachine.ContextStateMachine;
-using SubjectNerd.Utilities;
+using Assets.Tools.UnityTools.Interfaces;
+using Assets.Tools.UnityTools.ReorderableInspector;
+using Assets.Tools.UnityTools.StateMachine.Interfaces;
 using UnityEngine;
 
-namespace UniStateMachine
+namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine
 {
     
     [Serializable]

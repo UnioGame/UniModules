@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Assets.Tools.Utils;
+using Assets.Tools.UnityTools.AssetBundleManager.Interfaces;
+using Assets.Tools.UnityTools.ObjectPool.Scripts;
 
-namespace AssetBundlesModule {
+namespace Assets.Tools.UnityTools.AssetBundleManager.LoaderExecutors {
     public class AssetBundleWithDependenciesBaseRequest : AssetBundleRequest, IAssetBundleAggregateRequest {
 
         private readonly IAssetBundleResourceMap _resourceMap;

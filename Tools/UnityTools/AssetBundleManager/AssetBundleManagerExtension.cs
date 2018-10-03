@@ -1,8 +1,11 @@
 ﻿
-public static class AssetBundleManagerExtension  {
+namespace Assets.Tools.UnityTools.AssetBundleManager
+{
+    public static class AssetBundleManagerExtension  {
 
-    public static void LoadAsset(this AssetBundleManager bundleManager) {
+        public static void LoadAsset(this AssetBundleManager bundleManager) {
+
+        }
 
     }
-
 }

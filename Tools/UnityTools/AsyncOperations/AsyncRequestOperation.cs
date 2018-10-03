@@ -1,77 +1,79 @@
 ﻿using System.Collections;
-using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
-using Tools.AsyncOperations;
+using Assets.Tools.UnityTools.Interfaces;
 
-public class AsyncRequestOperation : IAsyncOperation {
+namespace Assets.Tools.UnityTools.AsyncOperations
+{
+    public class AsyncRequestOperation : IAsyncOperation {
 
-    private static long _id;
+        private static long _id;
     
-    public AsyncRequestOperation() {
-        _id++;
-        Id = _id;
-    }
-    
-    public long Id { get; protected set; }
-    
-    public bool IsDone { get; protected set; }
-
-    public string Error { get; protected set; }
-
-    public bool Active { get; protected set; }
-
-    public IEnumerator Execute() {
-
-        if (Active) {
-            yield return WaitActive();
+        public AsyncRequestOperation() {
+            _id++;
+            Id = _id;
         }
+    
+        public long Id { get; protected set; }
+    
+        public bool IsDone { get; protected set; }
 
-        if (OnValidate()) {
+        public string Error { get; protected set; }
 
-            Active = true;
-            OnInitialize();
+        public bool Active { get; protected set; }
 
-            if(IsIterationActive())
-                yield return MoveNext();
+        public IEnumerator Execute() {
 
+            if (Active) {
+                yield return WaitActive();
+            }
+
+            if (OnValidate()) {
+
+                Active = true;
+                OnInitialize();
+
+                if(IsIterationActive())
+                    yield return MoveNext();
+
+                IsDone = true;
+                OnComplete();
+
+            }
             IsDone = true;
-            OnComplete();
-
+            Active = false;
         }
-        IsDone = true;
-        Active = false;
-    }
 
-    public virtual void Release()
-    {
-        OnReset();
-    }
-
-    #region private methods
-
-    protected virtual IEnumerator MoveNext() {
-        yield break;
-    }
-    
-    protected virtual void OnInitialize(){}
-    
-    protected virtual void OnReset(){}
-
-    protected virtual void OnComplete() { }
-
-    protected virtual bool IsIterationActive() {
-        return true;
-    }
-
-    protected virtual bool OnValidate() {
-        return IsDone == false && string.IsNullOrEmpty(Error);
-    }
-
-    private IEnumerator WaitActive() {
-        while (IsDone == false) {
-            yield return null;
+        public virtual void Release()
+        {
+            OnReset();
         }
-    }
 
-    #endregion
+        #region private methods
+
+        protected virtual IEnumerator MoveNext() {
+            yield break;
+        }
+    
+        protected virtual void OnInitialize(){}
+    
+        protected virtual void OnReset(){}
+
+        protected virtual void OnComplete() { }
+
+        protected virtual bool IsIterationActive() {
+            return true;
+        }
+
+        protected virtual bool OnValidate() {
+            return IsDone == false && string.IsNullOrEmpty(Error);
+        }
+
+        private IEnumerator WaitActive() {
+            while (IsDone == false) {
+                yield return null;
+            }
+        }
+
+        #endregion
+    }
 }
 

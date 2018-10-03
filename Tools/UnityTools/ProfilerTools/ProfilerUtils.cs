@@ -1,9 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using UnityEngine;
 
-namespace Assets.Scripts.ProfilerTools
+namespace Assets.Tools.UnityTools.ProfilerTools
 {
     public class ProfilerUtils
     {

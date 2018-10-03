@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Assets.Tools.Utils;
-using Assets.Scripts.ProfilerTools;
-using Tools.AsyncOperations;
+using Assets.Tools.UnityTools.AssetBundleManager.Interfaces;
+using Assets.Tools.UnityTools.AsyncOperations;
+using Assets.Tools.UnityTools.ObjectPool.Scripts;
 
-namespace AssetBundlesModule
+namespace Assets.Tools.UnityTools.AssetBundleManager.LoaderExecutors
 {
 
     public class AssetBundleWithRoutineDependenciesRequest : AssetBundleWithDependenciesBaseRequest

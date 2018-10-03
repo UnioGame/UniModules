@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Assets.Scripts.Extensions;
+using Assets.Tools.UnityTools.Extension;
+using Assets.Tools.UnityTools.StateMachine.Interfaces;
 
-namespace UniStateMachine
+namespace Assets.Tools.UnityTools.StateMachine
 {
     
     public class BaseStateBehaviour : IStateBehaviour<IEnumerator> {

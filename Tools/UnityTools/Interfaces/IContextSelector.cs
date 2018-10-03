@@ -1,8 +1,6 @@
-﻿using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
-using StateMachine.ContextStateMachine;
-using UniStateMachine;
+﻿using Assets.Tools.UnityTools.StateMachine.Interfaces;
 
-namespace Assets.Modules.UnityToolsModule
+namespace Assets.Tools.UnityTools.Interfaces
 {
     public interface IContextSelector<TResult>
     {

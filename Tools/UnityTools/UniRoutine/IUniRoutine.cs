@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections;
-using Assets.Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
+﻿using System.Collections;
+using Assets.Tools.UnityTools.Interfaces;
 
-namespace Tools.UniRoutineTask
+namespace Assets.Tools.UnityTools.UniRoutine
 {
     public interface IUniRoutine
     {

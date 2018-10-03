@@ -1,9 +1,9 @@
 ﻿using System;
-using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
+using Assets.Tools.UnityTools.Interfaces;
 using UniRx.Async;
 using UnityEngine;
 
-namespace Assets.FlipTheKnife.NewPrototype.Scripts.Extension
+namespace Assets.Tools.UnityTools.Extension
 {
     public static class AsyncExtension
     {

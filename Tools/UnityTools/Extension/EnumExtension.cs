@@ -1,25 +1,23 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public static class EnumFlagExtension  {
+﻿namespace Assets.Tools.UnityTools.Extension
+{
+    public static class EnumFlagExtension  {
 
 
-	public static bool IsFlagSet(this long value, long flag) 
-	{
-		return (value & flag) > 0;
-	}
+        public static bool IsFlagSet(this long value, long flag) 
+        {
+            return (value & flag) > 0;
+        }
 	
-	public static bool IsFlagInSet(this long value, long[] flags) 
-	{
-		for (int i = 0; i < flags.Length; i++) {
-			var flag = flags[i];
-			if ((value & flag) > 0)
-				return true;
-		}
+        public static bool IsFlagInSet(this long value, long[] flags) 
+        {
+            for (int i = 0; i < flags.Length; i++) {
+                var flag = flags[i];
+                if ((value & flag) > 0)
+                    return true;
+            }
 
-		return false;
-	}
+            return false;
+        }
 	
+    }
 }

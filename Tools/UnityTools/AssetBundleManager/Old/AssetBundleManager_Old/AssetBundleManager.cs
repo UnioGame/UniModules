@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Assets.Scripts.ProfilerTools;
+using Assets.Tools.UnityTools.ProfilerTools;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace AssetBundlesModule_Old{
+namespace Assets.Tools.UnityTools.AssetBundleManager.Old.AssetBundleManager_Old{
 
 // Class takes care of loading assetBundle and its dependencies automatically, loading variants automatically.
     public class AssetBundleManager : IAssetManager

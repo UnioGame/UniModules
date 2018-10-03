@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
+﻿using Assets.Tools.UnityTools.Interfaces;
 using UnityEngine;
 
-namespace Tools.ActorModel
+namespace Assets.Tools.UnityTools.ActorEntityModel
 {
 	public abstract class UniActorModel<TModel> : ScriptableObject, IFactory<TModel>
 	{

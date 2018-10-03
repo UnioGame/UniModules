@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using AssetBundlesModule;
+using Assets.Tools.UnityTools.AssetBundleManager;
 using Assets.UI.Windows.Tools.Editor;
 using UnityEditor;
 using UnityEngine;

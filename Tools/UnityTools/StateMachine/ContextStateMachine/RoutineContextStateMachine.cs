@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections;
-using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
+﻿using System.Collections;
+using Assets.Tools.UnityTools.Interfaces;
 
-namespace UniStateMachine
+namespace Assets.Tools.UnityTools.StateMachine.ContextStateMachine
 {
     public class RoutineContextStateMachine : ContextStateMachine<IEnumerator>
     {

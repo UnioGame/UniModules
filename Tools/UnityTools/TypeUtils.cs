@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace UnityEngine.UI.Windows.Extensions {
+namespace Assets.Tools.UnityTools {
 	
 	public static class TypeUtils {
 

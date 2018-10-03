@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace PhysicsBallisticsMotion {
+namespace Assets.Tools.UnityTools.Physics.PlayerPhysicsMotion {
 
     public class RigidbodyBallisticMotionCalculator {
 

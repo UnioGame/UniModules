@@ -1,7 +1,6 @@
 ﻿using System;
-using Assets.Tools.Utils;
 
-namespace Modules.UnityToolsModule.Tools.UnityTools.Interfaces
+namespace Assets.Tools.UnityTools.Interfaces
 {
 	public interface IDataValue<TData> : IDisposable
 	{

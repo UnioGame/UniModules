@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Assets.Modules.UnityToolsModule.Tools.UnityTools.Common;
-using Assets.Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
-using Assets.Scripts.Extension;
-using Assets.Tools.Utils;
-using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
+using Assets.Tools.UnityTools.Common;
+using Assets.Tools.UnityTools.Extension;
+using Assets.Tools.UnityTools.Interfaces;
+using Assets.Tools.UnityTools.ObjectPool.Scripts;
+using Assets.Tools.UnityTools.UniRoutine;
 using UnityEngine;
 
-namespace UniStateMachine
+namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine
 {
     [CreateAssetMenu(menuName = "States/States/UniParallelState", fileName = "UniParallelState")]
     public class UniParallelState : UniStateBehaviour

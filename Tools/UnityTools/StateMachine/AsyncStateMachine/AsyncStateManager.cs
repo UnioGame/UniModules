@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Diagnostics;
-using Assets.Scripts.Extensions;
-using Assets.Scripts.ProfilerTools;
-using Assets.Scripts.Tools.StateMachine;
+using Assets.Tools.UnityTools.Extension;
+using Assets.Tools.UnityTools.StateMachine.Interfaces;
 using UniRx;
 
-namespace UniStateMachine
+namespace Assets.Tools.UnityTools.StateMachine.AsyncStateMachine
 {
     public class AsyncStateManager<TStateType> : IStateManager<TStateType>
     {

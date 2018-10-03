@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Assets.Scripts.ProfilerTools;
+using Assets.Tools.UnityTools.ProfilerTools;
 using UnityEngine;
-using UnityEngine.UI.Windows;
 
-namespace AssetBundlesModule
+namespace Assets.Tools.UnityTools.AssetBundleManager.Utils
 {
     
     public class BundleItemInfo {

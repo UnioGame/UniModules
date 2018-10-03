@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Assets.Scripts.Tools.StateMachine;
-using Tools.ReflectionUtils;
-using UniStateMachine;
+using Assets.Tools.UnityTools.ReflectionUtils;
+using Assets.Tools.UnityTools.StateMachine.UniStateMachine;
 using UnityEditor;
 
 public static class UniFSMEditorModel {

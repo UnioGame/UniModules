@@ -1,7 +1,8 @@
 ﻿using System;
+using Assets.Tools.UnityTools.StateMachine.Interfaces;
 using UniRx;
 
-namespace UniStateMachine
+namespace Assets.Tools.UnityTools.StateMachine
 {
     public class StateController<TState> : IStateController<TState>
     {

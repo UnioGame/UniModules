@@ -1,11 +1,11 @@
 ﻿using System.Collections;
-using Assets.Scripts.ProfilerTools;
+using UnityEditor;
 using UnityEngine;
 #if UNITY_EDITOR
-using UnityEditor;
+
 #endif
 
-namespace AssetBundlesModule_Old{
+namespace Assets.Tools.UnityTools.AssetBundleManager.Old.AssetBundleManager_Old{
 
     public class AssetLevelSimulationOperation : AssetOperation
     {

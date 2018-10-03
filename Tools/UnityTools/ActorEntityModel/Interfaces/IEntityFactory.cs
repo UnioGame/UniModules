@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
-using Tools.ActorModel;
-using UnityEngine;
+﻿using Assets.Tools.UnityTools.Interfaces;
 
-public interface IEntityFactory : IFactory<IEntity> {}
+namespace Assets.Tools.UnityTools.ActorEntityModel.Interfaces
+{
+    public interface IEntityFactory : IFactory<IEntity> {}
+}

@@ -1,6 +1,6 @@
-﻿using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
+﻿using Assets.Tools.UnityTools.Interfaces;
 
-namespace AssetBundlesModule_Old
+namespace Assets.Tools.UnityTools.AssetBundleManager.Old.AssetBundleManager_Old
 {
     public interface IAssetOperation : IResetable, ICommandRoutine
     {

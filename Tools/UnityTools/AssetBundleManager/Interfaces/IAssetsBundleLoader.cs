@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace AssetBundlesModule {
+namespace Assets.Tools.UnityTools.AssetBundleManager.Interfaces {
 
     public interface IAssetsBundleLoader {
 

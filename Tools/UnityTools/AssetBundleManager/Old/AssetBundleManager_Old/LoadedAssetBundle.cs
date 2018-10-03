@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace AssetBundlesModule_Old{
+namespace Assets.Tools.UnityTools.AssetBundleManager.Old.AssetBundleManager_Old{
     
     // Loaded assetBundle contains the references count which can be used to unload dependent assetBundles automatically.
     public class LoadedAssetBundle : IDisposable

@@ -1,9 +1,8 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using Assets.Scripts.Tools.StateMachine;
-using UnityEngine;
+using Assets.Tools.UnityTools.Interfaces;
+using Assets.Tools.UnityTools.StateMachine.Interfaces;
 
-namespace UniStateMachine {
+namespace Assets.Tools.UnityTools.StateMachine.ReactiveStateMachine {
 
     public class RxRoutineState<TData> : ReactiveState<IStateBehaviour<IEnumerator>> {
 

@@ -1,8 +1,8 @@
 ﻿using System.Collections;
-using Assets.Scripts.ProfilerTools;
+using Assets.Tools.UnityTools.ProfilerTools;
 using UnityEngine;
 
-namespace UniStateMachine
+namespace Assets.Tools.UnityTools.StateMachine
 {
     public class DummyStateBehaviour : StateBehaviour
     {

@@ -1,4 +1,6 @@
-﻿namespace UniStateMachine {
+﻿using Assets.Tools.UnityTools.StateMachine.Interfaces;
+
+namespace Assets.Tools.UnityTools.StateMachine {
 
 
     public class DummyStateValidator<TState> : IStateValidator<TState>

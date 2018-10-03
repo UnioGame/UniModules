@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections;
-using Assets.Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
-using Tools.UniRoutineTask;
+﻿using System.Collections;
+using Assets.Tools.UnityTools.Interfaces;
 
-namespace UnityToolsModule.Tools.UnityTools.UniRoutine
+namespace Assets.Tools.UnityTools.UniRoutine
 {
     public static class UniRoutineExtension {
 

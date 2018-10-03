@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Assets.Scripts.Extensions
+namespace Assets.Tools.UnityTools.Extension
 {
     public static class RxExtension
     {

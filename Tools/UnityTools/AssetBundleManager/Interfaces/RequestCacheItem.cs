@@ -1,9 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using AssetBundlesModule;
-using UnityEngine;
-
-namespace AssetBundlesModule {
+﻿namespace Assets.Tools.UnityTools.AssetBundleManager.Interfaces {
 
 	public class RequestCacheItem {
 

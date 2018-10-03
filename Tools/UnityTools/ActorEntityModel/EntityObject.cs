@@ -1,6 +1,7 @@
-﻿using Assets.Modules.UnityToolsModule.Tools.UnityTools.Common;
+﻿using Assets.Tools.UnityTools.ActorEntityModel.Interfaces;
+using Assets.Tools.UnityTools.Common;
 
-namespace Tools.ActorModel
+namespace Assets.Tools.UnityTools.ActorEntityModel
 {
     public class EntityObject : IEntity
     {

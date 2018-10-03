@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
-using Assets.Scripts.Extensions;
-using Assets.Scripts.Tools.StateMachine;
+using Assets.Tools.UnityTools.StateMachine.Interfaces;
 using UniRx;
-using Debug = UnityEngine.Debug;
 
-namespace UniStateMachine
+namespace Assets.Tools.UnityTools.StateMachine
 {
     public class ControllerStateManager<TStateType,TState> : StateManager<TStateType, TState>
     {

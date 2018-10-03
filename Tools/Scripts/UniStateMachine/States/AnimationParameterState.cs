@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
-using UniStateMachine;
+using Assets.Tools.UnityTools.Animator;
+using Assets.Tools.UnityTools.Interfaces;
+using Assets.Tools.UnityTools.StateMachine.UniStateMachine;
 using UnityEngine;
-using UnityToolsModule.Tools.UnityTools.Animator;
 
 namespace GamePlay.States {
 

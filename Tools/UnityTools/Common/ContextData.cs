@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Assets.Tools.Utils;
-using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
-using UniTools.Common;
+using Assets.Tools.UnityTools.Interfaces;
+using Assets.Tools.UnityTools.ObjectPool.Scripts;
 
-namespace Assets.Modules.UnityToolsModule.Tools.UnityTools.Common
+namespace Assets.Tools.UnityTools.Common
 {
     public class ContextData : IContext
     {

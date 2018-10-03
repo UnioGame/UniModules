@@ -1,7 +1,7 @@
 ﻿using System;
-using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
+using Assets.Tools.UnityTools.Interfaces;
 
-namespace Tools.ActorModel
+namespace Assets.Tools.UnityTools.ActorEntityModel.Interfaces
 {
     public interface IEntity : IContext,IDisposable
     {

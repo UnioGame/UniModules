@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Assets.Scripts.Extensions;
+using Assets.Tools.UnityTools.Extension;
+using Assets.Tools.UnityTools.StateMachine.Interfaces;
 using UniRx.Async;
 
-namespace UniStateMachine
+namespace Assets.Tools.UnityTools.StateMachine.AsyncStateMachine
 {
 
     public class AsyncStateBehaviour : IStateBehaviour<UniTask>

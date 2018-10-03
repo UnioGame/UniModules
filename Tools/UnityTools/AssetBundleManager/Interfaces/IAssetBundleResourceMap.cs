@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
-using AssetBundlesModule;
+using Assets.Tools.UnityTools.AssetBundleManager.AssetBundleResources;
 
-namespace AssetBundlesModule
+namespace Assets.Tools.UnityTools.AssetBundleManager.Interfaces
 {
     public interface IAssetBundleResourceMap {
 

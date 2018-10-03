@@ -1,6 +1,6 @@
 ﻿using System.Collections;
-using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
-using UniStateMachine;
+using Assets.Tools.UnityTools.Interfaces;
+using Assets.Tools.UnityTools.StateMachine.UniStateMachine;
 using UnityEngine;
 
 namespace GamePlay.States {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace UnityToolsModule.Tools.UnityTools.ActorEntityModel {
+namespace Assets.Tools.UnityTools.Interfaces {
     public interface IBehaviourObject : IDisposable {
         bool IsActive { get; }
         void SetEnabled(bool state);

@@ -1,8 +1,8 @@
 ﻿using System.Collections;
-using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
-using Assets.Modules.UnityToolsModule;
+using Assets.Tools.UnityTools.Interfaces;
+using Assets.Tools.UnityTools.StateMachine.Interfaces;
 
-namespace StateMachine.ContextStateMachine
+namespace Assets.Tools.UnityTools.StateMachine.ContextStateMachine
 {
     public class ContextReactiveStateMachine : ContextStateBehaviour
     {

@@ -1,11 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using Assets.Scripts.ProfilerTools;
+﻿using System.Diagnostics;
+using Assets.Tools.UnityTools.ProfilerTools;
 using UnityEngine;
-using Debug = UnityEngine.Debug;
 
-namespace UniStateMachine
+namespace Assets.Tools.UnityTools.StateMachine
 {
     public static class StateLogger
     {

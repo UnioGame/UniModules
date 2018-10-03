@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Assets.Scripts.Extensions;
-using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
-using StateMachine.ContextStateMachine;
+using Assets.Tools.UnityTools.Extension;
+using Assets.Tools.UnityTools.Interfaces;
+using Assets.Tools.UnityTools.StateMachine.Interfaces;
 using UnityEngine;
 
-namespace UniStateMachine {
+namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine {
     
     public class UniStateComponent : MonoBehaviour,
         IContextStateBehaviour<IEnumerator>

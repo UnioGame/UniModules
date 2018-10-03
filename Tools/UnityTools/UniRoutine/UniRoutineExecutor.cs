@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections;
-using Assets.Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
-using Assets.Scripts.Extensions;
-using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
-using UnityToolsModule.Tools.UnityTools.UniRoutine;
+﻿using System.Collections;
+using Assets.Tools.UnityTools.Interfaces;
 
-public class UniRoutineExecutor : IContextExecutor<IEnumerator>
+namespace Assets.Tools.UnityTools.UniRoutine
 {
-
-    public IDisposableItem Execute(IEnumerator data)
+    public class UniRoutineExecutor : IContextExecutor<IEnumerator>
     {
-        var disposable = data.RunWithSubRoutines();
-        return disposable;
-    }
 
+        public IDisposableItem Execute(IEnumerator data)
+        {
+            var disposable = data.RunWithSubRoutines();
+            return disposable;
+        }
+
+    }
 }

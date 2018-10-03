@@ -1,8 +1,7 @@
 ﻿using System;
-using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
-using StateMachine.ContextStateMachine;
+using Assets.Tools.UnityTools.Interfaces;
 
-namespace Assets.Modules.UnityToolsModule.Tools.UnityTools.StateMachine.Interfaces
+namespace Assets.Tools.UnityTools.StateMachine.Interfaces
 {
     public interface IContextStateExecutor<TAwaiter>  :IDisposable
     {

@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Assets.Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
-using Assets.Scripts.Extensions;
-using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
-using StateMachine.ContextStateMachine;
+using Assets.Tools.UnityTools.Extension;
+using Assets.Tools.UnityTools.Interfaces;
+using Assets.Tools.UnityTools.StateMachine.Interfaces;
 
-namespace UniStateMachine
+namespace Assets.Tools.UnityTools.StateMachine.ContextStateMachine
 {
     public class ContextStateMachine<TAwaiter> : 
         IContextStateMachine<TAwaiter>

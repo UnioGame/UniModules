@@ -1,7 +1,6 @@
 ﻿using System;
-using UnityEngine;
 
-namespace UnityToolsModule.Tools.UnityTools.Input {
+namespace Assets.Tools.UnityTools.Input {
 	
 	[Flags]
 	public enum KeyStates {

@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Tools.UniRoutineTask;
+using Assets.Tools.UnityTools.UniRoutine;
 
-namespace UniStateMachine
+namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine
 {
     [Serializable]
     public class UniStateParallelMode

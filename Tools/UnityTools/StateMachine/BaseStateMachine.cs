@@ -1,6 +1,7 @@
-﻿using Assets.Scripts.ProfilerTools;
+﻿using Assets.Tools.UnityTools.ProfilerTools;
+using Assets.Tools.UnityTools.StateMachine.Interfaces;
 
-namespace UniStateMachine
+namespace Assets.Tools.UnityTools.StateMachine
 {
     public class BaseStateMachine<TState> :
         IStateMachine<TState>

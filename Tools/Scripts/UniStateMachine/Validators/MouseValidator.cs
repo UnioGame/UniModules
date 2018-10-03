@@ -1,7 +1,9 @@
-﻿using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
-using UniStateMachine;
+﻿using Assets.Tools.UnityTools.Attributes;
+using Assets.Tools.UnityTools.Extension;
+using Assets.Tools.UnityTools.Input;
+using Assets.Tools.UnityTools.Interfaces;
+using Assets.Tools.UnityTools.StateMachine.UniStateMachine;
 using UnityEngine;
-using UnityToolsModule.Tools.UnityTools.Input;
 
 [CreateAssetMenu(menuName = "States/Validators/MouseValidator", fileName = "MouseValidator")]
 public class MouseValidator : UniTransitionValidator 

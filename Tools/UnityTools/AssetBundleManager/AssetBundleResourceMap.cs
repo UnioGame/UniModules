@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Assets.Scripts.ProfilerTools;
-using Assets.Tools.Utils;
+using Assets.Tools.UnityTools.AssetBundleManager.AssetBundleResources;
+using Assets.Tools.UnityTools.AssetBundleManager.Interfaces;
+using Assets.Tools.UnityTools.ObjectPool.Scripts;
+using Assets.Tools.UnityTools.ProfilerTools;
 
-namespace AssetBundlesModule
+namespace Assets.Tools.UnityTools.AssetBundleManager
 {
 
     public class AssetBundleResourceMap : IAssetBundleResourceMap {
@@ -125,7 +126,7 @@ namespace AssetBundlesModule
         private void UpdateReference(IAssetBundleResource resource, int delta) {
             int referencies = 0;
             _bundleReferences.TryGetValue(resource, out referencies);
-            _bundleReferences[resource] = Math.Max(referencies + delta, 0);
+            _bundleReferences[resource] = System.Math.Max(referencies + delta, 0);
         }
 
         private void UnloadDependencies(List<IAssetBundleResource> assetBundleNames) {

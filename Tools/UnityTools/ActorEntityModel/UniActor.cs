@@ -1,8 +1,9 @@
-﻿using UniStateMachine;
+﻿using Assets.Tools.UnityTools.ActorEntityModel.Interfaces;
+using Assets.Tools.UnityTools.Interfaces;
+using Assets.Tools.UnityTools.StateMachine.UniStateMachine;
 using UnityEngine;
-using UnityToolsModule.Tools.UnityTools.ActorEntityModel;
 
-namespace Tools.ActorModel
+namespace Assets.Tools.UnityTools.ActorEntityModel
 {
 	public class UniActor : MonoBehaviour, IBehaviourObject
 	{

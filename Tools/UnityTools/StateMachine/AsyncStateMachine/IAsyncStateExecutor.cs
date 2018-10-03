@@ -1,7 +1,7 @@
 ﻿using System;
 using UniRx.Async;
 
-namespace Assets.Scripts.Tools.StateMachine.AsyncStateMachine
+namespace Assets.Tools.UnityTools.StateMachine.AsyncStateMachine
 {
     public interface IAsyncStateExecutor : IDisposable
     {

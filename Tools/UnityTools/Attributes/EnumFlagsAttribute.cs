@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 
-public class EnumFlagsAttribute : PropertyAttribute
+namespace Assets.Tools.UnityTools.Attributes
 {
-    public EnumFlagsAttribute() { }
+    public class EnumFlagsAttribute : PropertyAttribute
+    {
+        public EnumFlagsAttribute() { }
+    }
 }

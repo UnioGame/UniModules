@@ -5,7 +5,7 @@ using UnityEngine;
 using Debug = UnityEngine.Debug;
 using Object = UnityEngine.Object;
 
-namespace Assets.Scripts.ProfilerTools
+namespace Assets.Tools.UnityTools.ProfilerTools
 {
     public static class GameLog
     {

@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections;
-using Assets.Scripts.Tools.StateMachine;
-using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
-using UniStateMachine;
+using Assets.Tools.UnityTools.Interfaces;
 using UnityEngine;
 
-namespace UniStateMachine {
+namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine {
     
     [Serializable]
     [CreateAssetMenu(menuName = "UniStateMachine/StateNode", fileName = "StateNode")]

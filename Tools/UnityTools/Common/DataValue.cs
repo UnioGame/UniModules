@@ -1,7 +1,7 @@
-﻿using Assets.Tools.Utils;
-using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
+﻿using Assets.Tools.UnityTools.Interfaces;
+using Assets.Tools.UnityTools.ObjectPool.Scripts;
 
-namespace UniTools.Common
+namespace Assets.Tools.UnityTools.Common
 {
     public class DataValue<TData> : IDataValue<TData>
     {

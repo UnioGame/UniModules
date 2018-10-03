@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Assets.Tools.UnityTools.Interfaces;
 
-namespace UnityToolsModule.Tools.UnityTools.ActorEntityModel 
+namespace Assets.Tools.UnityTools.ActorEntityModel 
 {
     
     public class BehaviourObject : IBehaviourObject {

@@ -1,9 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
-
-namespace Tools.UniRoutineTask {
+namespace Assets.Tools.UnityTools.UniRoutine {
     
     public class UniRoutineTask : IEnumerator<IEnumerator> {
         

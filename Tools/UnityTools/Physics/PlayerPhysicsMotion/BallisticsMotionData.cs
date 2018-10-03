@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace PhysicsBallisticsMotion {
+namespace Assets.Tools.UnityTools.Physics.PlayerPhysicsMotion {
 
     [Serializable]
     public struct BallisticsMotionData {

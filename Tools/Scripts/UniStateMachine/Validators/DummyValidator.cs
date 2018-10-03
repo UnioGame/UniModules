@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UniStateMachine;
+using Assets.Tools.UnityTools.StateMachine.UniStateMachine;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "States/Validators/DummyValidator", fileName = "DummyValidator")]

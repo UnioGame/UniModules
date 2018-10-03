@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections;
-using StateMachine.ContextStateMachine;
-using UnityToolsModule.Tools.UnityTools.ActorEntityModel;
-using UnityToolsModule.Tools.UnityTools.UniRoutine;
+using Assets.Tools.UnityTools.ActorEntityModel.Interfaces;
+using Assets.Tools.UnityTools.StateMachine.Interfaces;
+using Assets.Tools.UnityTools.UniRoutine;
 
-namespace Tools.ActorModel
+namespace Assets.Tools.UnityTools.ActorEntityModel
 {
     public class Actor : BehaviourObject
     {

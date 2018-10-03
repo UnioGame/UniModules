@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Assets.Tools.UnityTools.CoroutineTools;
 using UnityEngine;
 
-namespace Tools.Memory
+namespace Assets.Tools.UnityTools
 {
     public class MemoryUtils
     {

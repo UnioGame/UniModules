@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using AssetBundlesModule;
+using Assets.Tools.UnityTools.AssetBundleManager;
+using Assets.Tools.UnityTools.AssetBundleManager.AssetBundleResources;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;

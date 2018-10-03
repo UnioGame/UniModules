@@ -1,8 +1,7 @@
-
+using Assets.Tools.UnityTools.StateMachine.Interfaces;
 using UniRx.Async;
-using UniStateMachine;
 
-namespace UniStateMachine
+namespace Assets.Tools.UnityTools.StateMachine.AsyncStateMachine
 {
     public interface IAsyncStateBehaviour : IStateBehaviour<UniTask>{
     }

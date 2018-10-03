@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Assets.Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
-using Tools.UniRoutineTask;
+using Assets.Tools.UnityTools.Interfaces;
 using UnityEngine;
-using UnityEngine.Experimental.PlayerLoop;
 
-namespace Tools.UniRoutineTask
+namespace Assets.Tools.UnityTools.UniRoutine
 {
 	public enum RoutineType : byte
 	{

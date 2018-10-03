@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Assets.Tools.Utils;
+﻿using Assets.Tools.UnityTools.AssetBundleManager.Interfaces;
+using Assets.Tools.UnityTools.CoroutineTools;
 
-namespace AssetBundlesModule
+namespace Assets.Tools.UnityTools.AssetBundleManager.LoaderExecutors
 {
 
     public class AssetBundleWithDependenciesSyncRequest : AssetBundleWithDependenciesBaseRequest

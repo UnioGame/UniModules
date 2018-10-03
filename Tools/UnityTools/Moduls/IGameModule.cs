@@ -1,7 +1,10 @@
 ﻿using System.Collections;
-using UniStateMachine;
+using Assets.Tools.UnityTools.StateMachine.Interfaces;
 
-public interface IGameModule :IStateBehaviour<IEnumerator>
+namespace Assets.Tools.UnityTools.Moduls
 {
+    public interface IGameModule :IStateBehaviour<IEnumerator>
+    {
     
+    }
 }

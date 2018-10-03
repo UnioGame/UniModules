@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Tools.StateMachine
+﻿namespace Assets.Tools.UnityTools.StateMachine.Interfaces
 {
     public interface IStateFactory<TStateType, TResult>
     {

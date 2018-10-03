@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public interface IEntityBehaciour {
+﻿namespace Assets.Tools.UnityTools.ActorEntityModel.Interfaces
+{
+    public interface IEntityBehaciour {
 
 	
 	
+    }
 }

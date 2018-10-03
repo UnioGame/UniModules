@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Assets.Tools.Utils;
+using Assets.Tools.UnityTools.ObjectPool.Scripts;
 using UniRx;
 
-namespace Tools.AsyncOperations
+namespace Assets.Tools.UnityTools.AsyncOperations
 {
     public static class AsyncOperationExtensions
     {

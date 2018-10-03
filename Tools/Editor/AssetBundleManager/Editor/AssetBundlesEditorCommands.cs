@@ -1,6 +1,7 @@
 using System.IO;
 using System.Linq;
-using Assets.Scripts.ProfilerTools;
+using Assets.Tools.UnityTools.AssetBundleManager;
+using Assets.Tools.UnityTools.ProfilerTools;
 using Assets.UI.Windows.Tools.Editor;
 using UnityEditor;
 using UnityEngine;

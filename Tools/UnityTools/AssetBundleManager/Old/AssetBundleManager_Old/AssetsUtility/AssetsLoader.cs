@@ -1,8 +1,7 @@
 ﻿using System.Collections;
-using AssetBundlesModule;
 using UnityEngine;
 
-namespace AssetBundlesModule_Old
+namespace Assets.Tools.UnityTools.AssetBundleManager.Old.AssetBundleManager_Old.AssetsUtility
 {
     public static class AssetsLoader  {
 

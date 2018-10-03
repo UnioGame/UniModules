@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections;
-using Assets.Scripts.Extensions;
-using Assets.Scripts.Tools.StateMachine;
+using Assets.Tools.UnityTools.Extension;
+using Assets.Tools.UnityTools.StateMachine.Interfaces;
 using UniRx;
 
-namespace UniStateMachine
+namespace Assets.Tools.UnityTools.StateMachine
 {
     public class RxStateExecutor : IStateExecutor<IStateBehaviour<IEnumerator>>
     {

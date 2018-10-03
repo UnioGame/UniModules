@@ -2,11 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Assets.Scripts.ProfilerTools;
+using Assets.Tools.UnityTools.CoroutineTools;
+using Assets.Tools.UnityTools.ProfilerTools;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
-namespace AssetBundlesModule_Old{
+namespace Assets.Tools.UnityTools.AssetBundleManager.Old.AssetBundleManager_Old{
     public static class AssetsBundleLoader
     {
         private const string ManifestName = "AssetBundles";

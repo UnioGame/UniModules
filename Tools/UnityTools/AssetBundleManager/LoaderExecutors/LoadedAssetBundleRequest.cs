@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Assets.Tools.UnityTools.AssetBundleManager.AssetBundleResources;
 
-namespace AssetBundlesModule
+namespace Assets.Tools.UnityTools.AssetBundleManager.LoaderExecutors
 {
     public class LoadedAssetBundleRequest : AssetBundleRequest
     {

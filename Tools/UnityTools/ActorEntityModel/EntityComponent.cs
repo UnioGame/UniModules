@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Tools.ActorModel;
+using Assets.Tools.UnityTools.ActorEntityModel.Interfaces;
 using UnityEngine;
 
-namespace Tools.ActorModel {
+namespace Assets.Tools.UnityTools.ActorEntityModel {
 
 	public class EntityComponent : MonoBehaviour {
 

@@ -1,7 +1,6 @@
-﻿using Assets.Scripts.Tools.StateMachine;
-using UniStateMachine;
+﻿using Assets.Tools.UnityTools.StateMachine;
 
-namespace Tools.GameModeuls {
+namespace Assets.Tools.UnityTools.Moduls {
 	
 	
 	//TODO add messages & adapters

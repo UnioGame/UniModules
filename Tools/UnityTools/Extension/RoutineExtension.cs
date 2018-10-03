@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections;
-using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
-using Tools.AsyncOperations;
+using Assets.Tools.UnityTools.Interfaces;
 using UnityEngine;
 
-namespace Assets.Scripts.Extension
+namespace Assets.Tools.UnityTools.Extension
 {
     public static class RoutineExtension
     {

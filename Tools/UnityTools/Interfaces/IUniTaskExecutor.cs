@@ -1,6 +1,6 @@
 ﻿using UniRx.Async;
 
-namespace Modules.UnityToolsModule.Tools.UnityTools.Interfaces
+namespace Assets.Tools.UnityTools.Interfaces
 {
     public interface IUniTaskExecutor
     {

@@ -1,4 +1,8 @@
-﻿namespace AssetBundlesModule
+﻿using Assets.Tools.UnityTools.AssetBundleManager.AssetBundleResources;
+using Assets.Tools.UnityTools.AssetBundleManager.Interfaces;
+using Assets.Tools.UnityTools.AsyncOperations;
+
+namespace Assets.Tools.UnityTools.AssetBundleManager.LoaderExecutors
 {
     public abstract class AssetBundleRequest : AsyncRequestOperation, IAssetBundleRequest {
 

@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using Assets.Scripts.Tools;
+﻿using Assets.Tools.UnityTools.AssetBundleManager.Interfaces;
 
-namespace AssetBundlesModule
+namespace Assets.Tools.UnityTools.AssetBundleManager
 {
     public class AssetBundleConfiguration : IAssetBundleConfiguration {
 

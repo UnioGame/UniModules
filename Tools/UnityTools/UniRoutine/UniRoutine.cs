@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using Assets.Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
-using Assets.Tools.Utils;
+using Assets.Tools.UnityTools.Common;
+using Assets.Tools.UnityTools.Interfaces;
+using Assets.Tools.UnityTools.ObjectPool.Scripts;
 
-namespace Tools.UniRoutineTask {
+namespace Assets.Tools.UnityTools.UniRoutine {
 
 	public class UniRoutine : IUniRoutine
 	{

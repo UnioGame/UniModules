@@ -2,11 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using AssetBundlesModule;
-using Assets.Scripts.ProfilerTools;
+using Assets.Tools.UnityTools.AssetBundleManager;
+using Assets.Tools.UnityTools.ProfilerTools;
 using UniRx;
+using UnityEngine;
+using Object = UnityEngine.Object;
 
-namespace UnityEngine.UI.Windows
+namespace Assets.Tools.UnityTools.ResourceSystem
 {
 
     [System.Serializable]
@@ -224,7 +226,7 @@ namespace UnityEngine.UI.Windows
         public static IEnumerator LoadBundleResourceAsync<T>(string bundleName, string assetName, Action<T> resultCallback) where T : Object
         {
 
-            yield return AssetBundleManager.Instance.
+            yield return AssetBundleManager.AssetBundleManager.Instance.
                 LoadAssetAsync<T>(bundleName,assetName,AssetBundleSourceType.AsyncLocalFile, resultCallback);
 
         }
@@ -255,14 +257,14 @@ namespace UnityEngine.UI.Windows
 
             if (callback == null) yield break;
 
-            yield return AssetBundleManager.Instance.LoadAssetsAsync<T>(bundleName,AssetBundleSourceType.AsyncLocalFile,callback);
+            yield return AssetBundleManager.AssetBundleManager.Instance.LoadAssetsAsync<T>(bundleName,AssetBundleSourceType.AsyncLocalFile,callback);
 
         }
 
         public static List<T> LoadBundleResources<T>(string bundleName) where T : Object
         {
 
-            var assets = AssetBundleManager.Instance.LoadAssets<T>(bundleName);
+            var assets = AssetBundleManager.AssetBundleManager.Instance.LoadAssets<T>(bundleName);
             return assets;
 
         }
@@ -273,7 +275,7 @@ namespace UnityEngine.UI.Windows
             if (string.IsNullOrEmpty(bundleName) == true || string.IsNullOrEmpty(assetName) == true)
                 return null;
 
-            var asset = AssetBundleManager.Instance.LoadAsset<T>(bundleName,assetName);
+            var asset = AssetBundleManager.AssetBundleManager.Instance.LoadAsset<T>(bundleName,assetName);
 
             return asset;
 
@@ -282,7 +284,7 @@ namespace UnityEngine.UI.Windows
         private void LoadResourceFromBundle<T>(TaskItem task) where T : Object
         {
             var resource = task.resource;
-            var asset = AssetBundleManager.Instance.LoadAsset<T>(resource.assetBundleName,resource.assetPath);
+            var asset = AssetBundleManager.AssetBundleManager.Instance.LoadAsset<T>(resource.assetBundleName,resource.assetPath);
 
             if (asset == null)
             {
@@ -304,7 +306,7 @@ namespace UnityEngine.UI.Windows
         {
             var resource = task.resource;
             var assetName = resource.assetPath;
-            yield return AssetBundleManager.Instance.LoadAssetAsync<T>(resource.assetBundleName, assetName,AssetBundleSourceType.AsyncLocalFile,
+            yield return AssetBundleManager.AssetBundleManager.Instance.LoadAssetAsync<T>(resource.assetBundleName, assetName,AssetBundleSourceType.AsyncLocalFile,
                 asset => {
                     if (asset == null) {
                         task.RaiseFailed();
@@ -483,7 +485,7 @@ namespace UnityEngine.UI.Windows
 
         public static void UnloadBundleResource(string bundleName, bool forceUnload = false)
         {
-            AssetBundleManager.Instance.UnloadAssetBundle(bundleName, forceUnload);
+            AssetBundleManager.AssetBundleManager.Instance.UnloadAssetBundle(bundleName, forceUnload);
         }
 
 
@@ -745,14 +747,14 @@ namespace UnityEngine.UI.Windows
                 if (isBytesOutput == true)
                 {
 
-                    if (data == null) data = UnityEngine.UI.Windows.ResourcesProvider.Load<TextAsset>(resourcePath);
+                    if (data == null) data = ResourcesProvider.Load<TextAsset>(resourcePath);
                     task.RaiseSuccess(((data as TextAsset).bytes));
 
                 }
                 else
                 {
 
-                    if (data == null) data = UnityEngine.UI.Windows.ResourcesProvider.Load(resourcePath, typeof(T));
+                    if (data == null) data = ResourcesProvider.Load(resourcePath, typeof(T));
                     task.RaiseSuccess(data);
 
                 }

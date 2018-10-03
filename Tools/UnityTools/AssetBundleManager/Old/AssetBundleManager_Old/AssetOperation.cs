@@ -1,8 +1,8 @@
 ﻿using System.Collections;
-using Assets.Scripts.ProfilerTools;
+using Assets.Tools.UnityTools.ProfilerTools;
 using UnityEngine;
 
-namespace AssetBundlesModule_Old{
+namespace Assets.Tools.UnityTools.AssetBundleManager.Old.AssetBundleManager_Old{
     
     public abstract class AssetOperation : IAssetOperation
     {

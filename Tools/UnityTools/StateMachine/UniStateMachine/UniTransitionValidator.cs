@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
+using Assets.Tools.UnityTools.Interfaces;
 using UnityEngine;
 
-namespace UniStateMachine
+namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine
 {
 
 	[Serializable]

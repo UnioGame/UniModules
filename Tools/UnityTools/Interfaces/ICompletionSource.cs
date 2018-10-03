@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Modules.UnityToolsModule.Tools.UnityTools.Interfaces
+namespace Assets.Tools.UnityTools.Interfaces
 {
     public interface ICompletionSource : ICompletionStatus ,IDisposable
     {

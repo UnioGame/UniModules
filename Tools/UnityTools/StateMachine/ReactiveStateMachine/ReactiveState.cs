@@ -1,8 +1,9 @@
 ﻿using System.Collections;
-using Assets.Scripts.Tools.StateMachine;
+using Assets.Tools.UnityTools.Interfaces;
+using Assets.Tools.UnityTools.StateMachine.Interfaces;
 using UniRx;
 
-namespace UniStateMachine
+namespace Assets.Tools.UnityTools.StateMachine.ReactiveStateMachine
 {
     public class ReactiveState<TState> : StateBehaviour
     {

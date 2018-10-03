@@ -1,18 +1,16 @@
-﻿using System;
+﻿#if UNITY_EDITOR
+#endif
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using Assets.Tools.Utils;
-using Assets.Scripts.ProfilerTools;
-#if UNITY_EDITOR
+using Assets.Tools.UnityTools.ProfilerTools;
 using UnityEditor;
-#endif
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace AssetBundlesModule_Old
+namespace Assets.Tools.UnityTools.AssetBundleManager.Old.AssetBundleManager_Old
 {
     public class AssetBundleOperationSimulation : IAssetProvider {
 
@@ -374,7 +372,7 @@ namespace AssetBundlesModule_Old
                 var go = component != null ? component.gameObject : targetObject;
                 var position = go.transform.position;
                 var rotation = go.transform.rotation;
-                var resultGameObject = ObjectPool.Spawn(go, position, rotation, false);
+                var resultGameObject = ObjectPool.Scripts.ObjectPool.Spawn(go, position, rotation, false);
                 resultAsset = isComponent ? resultGameObject.GetComponent<T>() : resultGameObject as T;
             }
             else

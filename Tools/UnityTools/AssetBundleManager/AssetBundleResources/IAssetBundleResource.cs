@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Assets.Tools.Utils;
+using Assets.Tools.UnityTools.ObjectPool.Scripts;
 using Object = UnityEngine.Object;
 
-namespace AssetBundlesModule
+namespace Assets.Tools.UnityTools.AssetBundleManager.AssetBundleResources
 {
 
     public interface IAssetBundleResource : IPoolable

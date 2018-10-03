@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using UnityEngine;
 using UnityEngine.Profiling;
 using Debug = UnityEngine.Debug;
 
-namespace Assets.Scripts.ProfilerTools
+namespace Assets.Tools.UnityTools.ProfilerTools
 {
     public static class GameProfiler {
 

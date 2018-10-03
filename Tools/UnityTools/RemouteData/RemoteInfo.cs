@@ -1,11 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class RemoteInfo : ScriptableObject
+namespace Assets.Tools.UnityTools.RemouteData
 {
+    public class RemoteInfo : ScriptableObject
+    {
 
-    public string Name;
-    public int SourceId;
+        public string Name;
+        public int SourceId;
 
+    }
 }

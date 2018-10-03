@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
+﻿using Assets.Tools.UnityTools.Interfaces;
 
-namespace Assets.Scripts.Tools
+namespace Assets.Tools.UnityTools.Common
 {
     public class CompletionSource : ICompletionSource
     {

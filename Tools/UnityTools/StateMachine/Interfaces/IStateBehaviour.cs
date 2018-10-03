@@ -1,7 +1,6 @@
-using System;
-using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
+using Assets.Tools.UnityTools.Interfaces;
 
-namespace UniStateMachine
+namespace Assets.Tools.UnityTools.StateMachine.Interfaces
 {
     public interface IStateBehaviour<out TResult> : IRoutine<TResult>
     {

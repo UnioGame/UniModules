@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Assets.Tools.Utils;
+﻿using System.Collections.Generic;
+using Assets.Tools.UnityTools.AssetBundleManager.AssetBundleResources;
+using Assets.Tools.UnityTools.ObjectPool.Scripts;
 
-namespace AssetBundlesModule
+namespace Assets.Tools.UnityTools.AssetBundleManager
 {
     public class AssetBundleResourceModel : IPoolable {
         

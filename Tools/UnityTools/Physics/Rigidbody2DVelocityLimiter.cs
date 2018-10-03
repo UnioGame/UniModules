@@ -1,44 +1,45 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Rigidbody2DVelocityLimiter : MonoBehaviour
+namespace Assets.Tools.UnityTools.Physics
 {
-
-    private float _sqrMaxValocity;
-    public float _sqrMinVelocity;
-
-    public float MinVelocity;
-
-    public float MaxVelocity;
-
-    public bool UseMaxValocity;
-
-    public bool UseMinValocity;
-
-    public Rigidbody2D Rigidbody2D;
-
-    public void FixedUpdate()
+    public class Rigidbody2DVelocityLimiter : MonoBehaviour
     {
 
-        if (UseMaxValocity && Rigidbody2D.velocity.sqrMagnitude > _sqrMaxValocity)
+        private float _sqrMaxValocity;
+        public float _sqrMinVelocity;
+
+        public float MinVelocity;
+
+        public float MaxVelocity;
+
+        public bool UseMaxValocity;
+
+        public bool UseMinValocity;
+
+        public Rigidbody2D Rigidbody2D;
+
+        public void FixedUpdate()
         {
-            Rigidbody2D.velocity = Rigidbody2D.velocity.normalized * MaxVelocity;
+
+            if (UseMaxValocity && Rigidbody2D.velocity.sqrMagnitude > _sqrMaxValocity)
+            {
+                Rigidbody2D.velocity = Rigidbody2D.velocity.normalized * MaxVelocity;
+            }
+
+            if (UseMinValocity && Rigidbody2D.velocity.sqrMagnitude < _sqrMinVelocity)
+            {
+                Rigidbody2D.velocity = Rigidbody2D.velocity.normalized * MinVelocity;
+            }
+
         }
 
-        if (UseMinValocity && Rigidbody2D.velocity.sqrMagnitude < _sqrMinVelocity)
+        private void Awake()
         {
-            Rigidbody2D.velocity = Rigidbody2D.velocity.normalized * MinVelocity;
+
+            Rigidbody2D = Rigidbody2D == null ? GetComponent<Rigidbody2D>() : Rigidbody2D;
+            _sqrMinVelocity = MinVelocity * MinVelocity;
+            _sqrMaxValocity = MaxVelocity * MaxVelocity;
         }
 
     }
-
-    private void Awake()
-    {
-
-        Rigidbody2D = Rigidbody2D == null ? GetComponent<Rigidbody2D>() : Rigidbody2D;
-        _sqrMinVelocity = MinVelocity * MinVelocity;
-        _sqrMaxValocity = MaxVelocity * MaxVelocity;
-    }
-
 }

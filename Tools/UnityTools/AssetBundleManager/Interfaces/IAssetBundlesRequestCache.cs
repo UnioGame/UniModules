@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace AssetBundlesModule
+namespace Assets.Tools.UnityTools.AssetBundleManager.Interfaces
 {
     
     public interface IAssetBundlesRequestCache {

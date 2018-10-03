@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using Assets.Tools.UnityTools.Physics.PlayerPhysicsMotion;
 using UnityEngine;
 
-namespace PhysicsBallisticsMotion
+namespace Assets.Tools.UnityTools.Physics
 {
 
     public class BallisticsMotion : MonoBehaviour
@@ -30,13 +31,13 @@ namespace PhysicsBallisticsMotion
             _rigidbody = GetComponent<Rigidbody>();
             Data = new BallisticsMotionData();
             
-            _calculator = new RigidbodyBallisticMotionCalculator(Physics.gravity);
+            _calculator = new RigidbodyBallisticMotionCalculator(UnityEngine.Physics.gravity);
         }
 
         private void Update()
         {
 
-            if (Input.GetMouseButtonUp(0))
+            if (UnityEngine.Input.GetMouseButtonUp(0))
             {
                 if (_isPrepared)
                 {
@@ -45,7 +46,7 @@ namespace PhysicsBallisticsMotion
                 _isPrepared = false;
             }
 
-            if (Input.GetMouseButtonDown(0))
+            if (UnityEngine.Input.GetMouseButtonDown(0))
             {
                 _isPrepared = true;
             }
@@ -53,9 +54,9 @@ namespace PhysicsBallisticsMotion
             if (_isPrepared)
             {
 
-                var position = Input.mousePosition;
+                var position = UnityEngine.Input.mousePosition;
                 position.z = 10;
-                var worldPosition = Camera.main.ScreenToWorldPoint(position);
+                var worldPosition = UnityEngine.Camera.main.ScreenToWorldPoint(position);
                 
                 UpdateTrajectory(_pointsCount, worldPosition);
             }

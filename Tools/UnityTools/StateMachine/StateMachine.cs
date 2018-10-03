@@ -1,6 +1,6 @@
-﻿using UniStateMachine;
+﻿using Assets.Tools.UnityTools.StateMachine.Interfaces;
 
-namespace Assets.Scripts.Tools.StateMachine
+namespace Assets.Tools.UnityTools.StateMachine
 {
     public class StateMachine<TAwaiter> :
         BaseStateMachine<IStateBehaviour<TAwaiter>>

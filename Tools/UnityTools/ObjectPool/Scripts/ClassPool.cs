@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using Assets.Scripts.ProfilerTools;
+using Assets.Tools.UnityTools.ProfilerTools;
 
-namespace Assets.Tools.Utils
+namespace Assets.Tools.UnityTools.ObjectPool.Scripts
 {
     public static class ClassPool {
 

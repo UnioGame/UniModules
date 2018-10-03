@@ -1,8 +1,9 @@
 ﻿#if UNITY_EDITOR
 using UnityEditor;
+
 #endif
 
-namespace Assets.Scripts.Tools
+namespace Assets.Tools.UnityTools
 {
     public class EditorSettingsProperty
     {

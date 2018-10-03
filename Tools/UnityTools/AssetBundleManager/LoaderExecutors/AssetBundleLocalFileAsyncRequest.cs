@@ -1,9 +1,10 @@
 ﻿using System.Collections;
-using Assets.Scripts.ProfilerTools;
-using Assets.Tools.Utils;
+using Assets.Tools.UnityTools.AssetBundleManager.AssetBundleResources;
+using Assets.Tools.UnityTools.ObjectPool.Scripts;
+using Assets.Tools.UnityTools.ProfilerTools;
 using UnityEngine;
 
-namespace AssetBundlesModule
+namespace Assets.Tools.UnityTools.AssetBundleManager.LoaderExecutors
 {
 
     public class AssetBundleLocalFileAsyncRequest : AssetBundleRequest {

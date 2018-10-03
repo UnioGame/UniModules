@@ -1,4 +1,4 @@
-﻿namespace Assets.Tools.Utils
+﻿namespace Assets.Tools.UnityTools.ObjectPool.Scripts
 {
     public interface IPoolable
     {

@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.Networking;
 
-namespace AssetBundlesModule
+namespace Assets.Tools.UnityTools.AssetBundleManager.LoaderExecutors
 {
 
     public class AssetBundleFromWebRequest : AssetBundleRequest

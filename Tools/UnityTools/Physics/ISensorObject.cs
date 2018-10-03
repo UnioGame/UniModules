@@ -1,12 +1,15 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public interface ISensorObject
+namespace Assets.Tools.UnityTools.Physics
 {
-    IReadOnlyDictionary<Transform, Collision> CollisionData { get; }
-    IReadOnlyDictionary<Transform, Collider> TriggersData { get; }
-    void SetCollisionMask(int mask);
-    void SetCollisionMask(string[] mask);
+    public interface ISensorObject
+    {
+        IReadOnlyDictionary<Transform, Collision> CollisionData { get; }
+        IReadOnlyDictionary<Transform, Collider> TriggersData { get; }
+        void SetCollisionMask(int mask);
+        void SetCollisionMask(string[] mask);
 
-    void Reset();
+        void Reset();
+    }
 }

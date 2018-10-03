@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections;
-using Assets.Scripts.Extensions;
-using Tools.UniRoutineTask;
-using UnityToolsModule.Tools.UnityTools.UniRoutine;
+using Assets.Tools.UnityTools.Extension;
+using Assets.Tools.UnityTools.StateMachine.Interfaces;
+using Assets.Tools.UnityTools.UniRoutine;
 
-namespace UniStateMachine
+namespace Assets.Tools.UnityTools.StateMachine
 {
     public class RoutineStateExecutor : IStateExecutor<IStateBehaviour<IEnumerator>>
     {

@@ -1,6 +1,4 @@
-﻿using Assets.Scripts.Tools.AssetBundleManager;
-
-namespace AssetBundlesModule {
+﻿namespace Assets.Tools.UnityTools.AssetBundleManager.Interfaces {
 
     public interface IAssetBundleConfiguration {
         
