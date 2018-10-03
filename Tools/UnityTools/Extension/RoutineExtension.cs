@@ -18,9 +18,19 @@ namespace Assets.Scripts.Extension
             }
 
         }
-        
-        
-        
+
+        public static IEnumerator RoutineWaitUntil(this Func<bool> completeFunc)
+        {
+
+            if (completeFunc == null) yield break;
+            while (completeFunc() == false)
+            {
+                yield return null;
+            }
+
+        }
+
+
         public static IEnumerator RoutineWaitUntil(this AsyncOperation operation) {
 
             if(operation == null)yield break;

@@ -16,7 +16,7 @@ namespace UniStateMachine
 		[SerializeField] 
 		protected UniStateSelector _stateSelector;
 
-		#endregion
+        #endregion
 
 		public IContextSelector<IEnumerator> StateSelector => _stateSelector;
 

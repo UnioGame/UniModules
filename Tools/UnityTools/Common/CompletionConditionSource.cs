@@ -1,7 +1,9 @@
 ﻿using System;
+using Assets.Tools.Utils;
 using Modules.UnityToolsModule.Tools.UnityTools.Interfaces;
 
-public class CompletionConditionSource : ICompletionStatus , IDisposable{
+public class CompletionConditionSource : ICompletionStatus , IPoolable
+{
     
     private Func<bool> _competionFunc;
 
@@ -10,11 +12,17 @@ public class CompletionConditionSource : ICompletionStatus , IDisposable{
         get { return _competionFunc == null || _competionFunc(); }
     }
 
-    public CompletionConditionSource(Func<bool> competionFunc) {
+    public void Initialize(Func<bool> competionFunc) {
         _competionFunc = competionFunc;
     }
 
-    public void Dispose() {
+    public void Dispose()
+    {
+        Release();
+    }
+    
+    public void Release()
+    {
         _competionFunc = null;
     }
 }

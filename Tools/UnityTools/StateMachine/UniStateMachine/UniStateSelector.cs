@@ -15,11 +15,20 @@ namespace UniStateMachine
     public class UniStateSelector :ScriptableObject,
         IContextSelector<IEnumerator>
     {
+        [SerializeField]
+        private UniStateTransition _selectedTransition;
+        [SerializeField]
+        private UniStateBehaviour _selectStateBehaviour;
+
         [Reorderable]
         public List<UniStateTransition> _stateNodes;
         
         public List<UniStateTransition> Nodes => _stateNodes;
-        
+
+        public UniStateTransition SelectTransition => _selectedTransition;
+
+        public UniStateBehaviour SelectState => _selectStateBehaviour;
+
         public virtual IContextStateBehaviour<IEnumerator> Select(IContext context)
         {
             for (int i = 0; i < _stateNodes.Count; i++)
@@ -34,9 +43,13 @@ namespace UniStateMachine
                 
                 if (!selectionResult)
                     continue;
-                
+
                 //get transition state
                 var behaviour = state.GetState();
+
+                _selectedTransition = state;
+                _selectStateBehaviour = behaviour;
+
                 return behaviour;
                 
             }

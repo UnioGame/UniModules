@@ -1,6 +1,8 @@
-﻿namespace Modules.UnityToolsModule.Tools.UnityTools.Interfaces
+﻿using System;
+
+namespace Modules.UnityToolsModule.Tools.UnityTools.Interfaces
 {
-    public interface ICompletionStatus 
+    public interface ICompletionStatus : IDisposable
     {
 
         bool IsComplete { get; }

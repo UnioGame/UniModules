@@ -15,12 +15,12 @@ namespace Assets.Tools.Utils
         }
 
         public static void DespawnRecursive<TData>(this List<TData> data)
+            where TData : class 
         {
             for (int i = 0; i < data.Count; i++)
             {
-                var poolable = data[i] as IPoolable;
-                if (poolable != null)
-                    poolable.Despawn();
+                if (data[i] is IPoolable)
+                    data[i].Despawn();
             }
             data.Clear();
             ClassPool<List<TData>>.Despawn(data);

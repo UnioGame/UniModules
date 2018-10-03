@@ -8,7 +8,7 @@ namespace Assets.Modules.UnityToolsModule.Tools.UnityTools.Common
     {
         private Dictionary<TContext, ContextData> _contexts = new Dictionary<TContext, ContextData>();
 
-        public TData Get<TData>(TContext context, TData data)
+        public TData Get<TData>(TContext context)
         {
 
             if (_contexts.TryGetValue(context, out var contextData))
