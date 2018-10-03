@@ -18,18 +18,19 @@ namespace GamePlay.States {
 			for (int i = 0; i < _states.Count; i++) {
 				
 				var activeState = _states[i];
-				_stateContext.AddValue(context, activeState);
-
-				if(!activeState)
+                if(!activeState)
 					continue;
 
-				yield return activeState.Execute(context);
-				
-				if(activeState == null)
+			    _stateContext.AddValue(context, activeState);
+
+                yield return activeState.Execute(context);
+
+                _stateContext.Remove<UniStateBehaviour>(context);
+
+                if (!activeState)
 					continue;
 
 			    activeState.Exit(context);
-			    _stateContext.Remove<UniStateBehaviour>(context);
 
             }
 			
@@ -40,6 +41,7 @@ namespace GamePlay.States {
             Debug.Log("SQU EXIT");
             var state = _stateContext.Get<UniStateBehaviour>(context);
             if (state != null) {
+                Debug.Log("SQU STOP");
                 state.Exit(context);
 			}
 			base.OnExit(context);
