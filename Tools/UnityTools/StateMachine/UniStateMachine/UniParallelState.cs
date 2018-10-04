@@ -61,7 +61,6 @@ namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine
 
         protected override void OnExit(IContext context)
         {
-            Debug.Log("PARALL EXIT");
 
             //dispose all registered disposable items of context
             var disposableItems = _context.Get<List<IDisposableItem>>(context);

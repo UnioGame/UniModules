@@ -38,10 +38,8 @@ namespace GamePlay.States {
 
 		protected override void OnExit(IContext context) 
 		{
-            Debug.Log("SQU EXIT");
             var state = _context.Get<UniStateBehaviour>(context);
             if (state != null) {
-                Debug.Log("SQU STOP");
                 state.Exit(context);
 			}
 			base.OnExit(context);
