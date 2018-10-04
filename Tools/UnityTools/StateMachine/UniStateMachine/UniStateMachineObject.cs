@@ -25,9 +25,27 @@ namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine
 		public void SetSelector(UniStateSelector selector) {
 			_stateSelector = selector;
 		}
-		
-		#region private methods
 
+        /// <summary>
+        /// Stop all state machines for all contexts
+        /// </summary>
+	    public override void Dispose()
+        {
+            //stop states for all state contexts
+            var contexts = _context.Contexts;
+            foreach (var context in contexts)
+            {
+                Exit(context);
+            }
+	        base.Dispose();
+	    }
+
+	    #region private methods
+
+        /// <summary>
+        /// create new state machine with IEnumerator awaiter states
+        /// </summary>
+        /// <returns>reactive state behaviour</returns>
 	    protected override IContextStateBehaviour<IEnumerator> Create()
 		{
 		    var executor = new UniRoutineExecutor();
@@ -38,6 +56,25 @@ namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine
             return reactiveState;
 		}
 
-		#endregion
+        /// <summary>
+        /// return own state for each context
+        /// </summary>
+        /// <param name="context">state context</param>
+        /// <returns>relative context state behaciour</returns>
+	    protected override IContextStateBehaviour<IEnumerator> GetBehaviour(IContext context)
+        {
+            //get state for target cotext
+            var state = _context.Get<IContextStateBehaviour<IEnumerator>>(context);
+            //create state if not exists
+            if (state == null)
+            {
+                state = Create();
+                _context.AddValue(context,state);
+            }
+
+            return state;
+        }
+
+	    #endregion
 	}
 }

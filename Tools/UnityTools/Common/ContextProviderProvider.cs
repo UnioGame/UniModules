@@ -8,6 +8,8 @@ namespace Assets.Tools.UnityTools.Common
     {
         private Dictionary<TContext, ContextData> _contexts = new Dictionary<TContext, ContextData>();
 
+        public IReadOnlyCollection<TContext> Contexts => _contexts.Keys;
+
         public TData Get<TData>(TContext context)
         {
 

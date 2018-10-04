@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Assets.Tools.UnityTools.Common;
 using Assets.Tools.UnityTools.Extension;
 using Assets.Tools.UnityTools.Interfaces;
 using Assets.Tools.UnityTools.StateMachine.Interfaces;
@@ -8,60 +9,77 @@ using UnityEngine;
 
 namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine {
     
-    public class UniStateComponent : MonoBehaviour,
-        IContextStateBehaviour<IEnumerator>
+    public class UniStateComponent : MonoBehaviour,IContextStateBehaviour<IEnumerator>
     {
-        
         protected List<IDisposable> _disposables = new List<IDisposable>();
-        private IContext _contextProvider;
-        private Lazy<IContextStateBehaviour<IEnumerator>> _stateBehaviour;
-        	
-        [SerializeField]
-        private bool _isActive;
+
+        private IContextStateBehaviour<IEnumerator> _state;
+
+        /// <summary>
+        /// state local context data
+        /// </summary>
+        protected IContextProvider<IContext> _context = new ContextProviderProvider<IContext>();
 
         #region public methods
 
-        public IEnumerator Execute(IContext context) {
-            _isActive = true;
-            yield return _stateBehaviour.Value.Execute(context);
-        }
-
-        public void Exit(IContext context) {
-            _isActive = false;
-            _stateBehaviour.Value.Exit(context);
-            _disposables.Cancel();
-        }
-
-        public void Dispose()
+        public void Exit(IContext context)
         {
-            _stateBehaviour.Value.Dispose();
+
+            var behaviour = GetBehaviour(context);
+            behaviour.Exit(context);
+
+        }
+
+        /// <summary>
+        /// stop ay execution of state
+        /// release all resources
+        /// </summary>
+        public virtual void Dispose()
+        {
+            _disposables.Cancel();
+            _state.Dispose();
+            _context.Release();
+        }
+
+        public IEnumerator Execute(IContext context)
+        {
+            StateLogger.LogState(string.Format("STATE EXECUTE {0} TYPE {1}", this.name, GetType().Name), this);
+            var state = GetBehaviour(context);
+            yield return state.Execute(context);
         }
 
         #endregion
 
-        protected virtual IEnumerator ExecuteState(IContext contextProvider) {
+        #region state behaviour methods
+
+        protected virtual void OnInitialize(){}
+
+        protected virtual IEnumerator ExecuteState(IContext context)
+        {
             yield break;
         }
 
-        protected virtual void OnEnter(IContext contextProvider) {
-        }
+        protected virtual void OnExit(IContext context) { }
 
-        protected virtual void OnExit(IContext contextProvider) {
-        }
 
-        protected virtual void Awake() {
-            _stateBehaviour = new Lazy<IContextStateBehaviour<IEnumerator>>(Create);
-        }
+        #endregion
 
-        private IContextStateBehaviour<IEnumerator> Create() {
-            
+        protected virtual IContextStateBehaviour<IEnumerator> Create()
+        {
             var behaviour = new ProxyStateBehaviour();
-            behaviour.Initialize(ExecuteState, OnEnter, OnExit);
+            behaviour.Initialize(ExecuteState, OnInitialize, OnExit);
             return behaviour;
         }
 
-        protected virtual void OnDestroy() {
-            _stateBehaviour.Value.Dispose();
+        protected virtual IContextStateBehaviour<IEnumerator> GetBehaviour(IContext context)
+        {
+
+            if (_state == null)
+            {
+                _state = Create();
+            }
+
+            return _state;
         }
     }
 }

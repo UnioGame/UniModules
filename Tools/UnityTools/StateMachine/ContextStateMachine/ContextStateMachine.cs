@@ -6,12 +6,16 @@ using Assets.Tools.UnityTools.StateMachine.Interfaces;
 
 namespace Assets.Tools.UnityTools.StateMachine.ContextStateMachine
 {
+    /// <summary>
+    /// FSM for supports states with context data
+    /// one per actor execution process
+    /// </summary>
+    /// <typeparam name="TAwaiter">awaiter type</typeparam>
     public class ContextStateMachine<TAwaiter> : 
         IContextStateMachine<TAwaiter>
     {
             
         private readonly IContextExecutor<TAwaiter> _stateExecutor;
-
         private IRoutineExecutor<TAwaiter> _stateBehaviour;
         private IDisposableItem _stateExecution;
 
@@ -26,6 +30,10 @@ namespace Assets.Tools.UnityTools.StateMachine.ContextStateMachine
             _stateExecutor = stateExecutor;
         }
 
+        /// <summary>
+        /// stop active execution
+        /// call relative dispose methods
+        /// </summary>
         public virtual void Dispose() {
 
             StopActiveState();
@@ -82,7 +90,7 @@ namespace Assets.Tools.UnityTools.StateMachine.ContextStateMachine
       
         private void StopActiveState()
         {
-            _stateExecution.Cancel();
+            _stateExecution?.Dispose();
             ActiveState?.Exit(Context);
             
             ActiveState = null;

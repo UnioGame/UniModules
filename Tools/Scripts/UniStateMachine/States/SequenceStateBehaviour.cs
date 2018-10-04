@@ -21,11 +21,11 @@ namespace GamePlay.States {
                 if(!activeState)
 					continue;
 
-			    _stateContext.AddValue(context, activeState);
+			    _context.AddValue(context, activeState);
 
                 yield return activeState.Execute(context);
 
-                _stateContext.Remove<UniStateBehaviour>(context);
+                _context.Remove<UniStateBehaviour>(context);
 
                 if (!activeState)
 					continue;
@@ -39,7 +39,7 @@ namespace GamePlay.States {
 		protected override void OnExit(IContext context) 
 		{
             Debug.Log("SQU EXIT");
-            var state = _stateContext.Get<UniStateBehaviour>(context);
+            var state = _context.Get<UniStateBehaviour>(context);
             if (state != null) {
                 Debug.Log("SQU STOP");
                 state.Exit(context);

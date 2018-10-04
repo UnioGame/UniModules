@@ -4,14 +4,20 @@ using Assets.Tools.UnityTools.StateMachine.Interfaces;
 
 namespace Assets.Tools.UnityTools.StateMachine.ContextStateMachine
 {
-    public class ContextStateBehaviour : IContextStateBehaviour<IEnumerator>
+    public abstract class ContextStateBehaviour : IContextStateBehaviour<IEnumerator>
     {
+
+        private bool _initialized = false;
 
         #region public methods
 
         public IEnumerator Execute(IContext context)
         {
-            Initialize(context);
+            if (_initialized == false)
+            {
+                _initialized = true;
+                OnInitialize();
+            }
 
             yield return ExecuteState(context);
 
@@ -23,32 +29,17 @@ namespace Assets.Tools.UnityTools.StateMachine.ContextStateMachine
             OnExit(context);
         }
 
-        public virtual void Dispose()
-        {
-
-        }
+        public abstract void Dispose();
 
         #endregion
 
-        protected virtual void OnExit(IContext context)
-        {
+        protected virtual void OnInitialize() { }
 
-        }
+        protected virtual void OnExit(IContext context){}
 
-        protected virtual void Initialize(IContext context)
-        {
-        }
+        protected virtual void OnPostExecute(IContext context){}
 
-        protected virtual void OnPostExecute(IContext context)
-        {
-
-        }
-
-        protected virtual IEnumerator ExecuteState(IContext context)
-        {
-            yield break;
-        }
-
+        protected abstract IEnumerator ExecuteState(IContext context);
 
     }
 }

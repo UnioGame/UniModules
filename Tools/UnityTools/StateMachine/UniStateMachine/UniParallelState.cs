@@ -25,8 +25,8 @@ namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine
             var completionSource = ClassPool.Spawn<CompletionConditionSource>();
             completionSource.Initialize(() => IsComplete(routineDisposables));
 
-            _stateContext.AddValue(context, routineDisposables);
-            _stateContext.AddValue(context, completionSource);
+            _context.AddValue(context, routineDisposables);
+            _context.AddValue(context, completionSource);
 
             //launch states
             for (int i = 0; i < _states.Count; i++)
@@ -62,7 +62,9 @@ namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine
         protected override void OnExit(IContext context)
         {
             Debug.Log("PARALL EXIT");
-            var disposableItems = _stateContext.Get<List<IDisposableItem>>(context);
+
+            //dispose all registered disposable items of context
+            var disposableItems = _context.Get<List<IDisposableItem>>(context);
             for (var i = 0; i < disposableItems.Count; i++)
             {
                 var item = disposableItems[i];
@@ -70,11 +72,17 @@ namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine
             }
             disposableItems.Despawn();
 
-            var completionsSource = _stateContext.Get<CompletionConditionSource>(context);
+            for (var i = 0; i < _states.Count; i++)
+            {
+                var state = _states[i];
+                state.StateBehaviour.Exit(context);
+            }
+
+            var completionsSource = _context.Get<CompletionConditionSource>(context);
             completionsSource.Despawn();
 
-            _stateContext.Remove<List<IDisposableItem>>(context);
-            _stateContext.Remove<CompletionConditionSource>(context);
+            _context.Remove<List<IDisposableItem>>(context);
+            _context.Remove<CompletionConditionSource>(context);
 
             base.OnExit(context);
         }

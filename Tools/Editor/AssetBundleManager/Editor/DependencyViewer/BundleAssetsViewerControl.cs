@@ -79,7 +79,7 @@ public class BundleAssetsViewerControl {
 
         for (var i = 0; i < _assetsInBundleCache.Count; i++) {
             var assetPath = _assetsInBundleCache[i];
-            EditorUtility.DisplayProgressBar("Initialize AssetBundle Dependencies", "refreshing...",i / (float)_assetsInBundleCache.Count);
+            EditorUtility.DisplayProgressBar("OnEnter AssetBundle Dependencies", "refreshing...",i / (float)_assetsInBundleCache.Count);
             var asset = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(assetPath);
             _assets[assetPath] = asset;
             _showAssetRefs[assetPath] = false;

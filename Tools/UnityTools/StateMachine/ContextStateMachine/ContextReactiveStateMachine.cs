@@ -4,6 +4,10 @@ using Assets.Tools.UnityTools.StateMachine.Interfaces;
 
 namespace Assets.Tools.UnityTools.StateMachine.ContextStateMachine
 {
+
+    /// <summary>
+    /// reactive state must be one item per execution instance
+    /// </summary>
     public class ContextReactiveStateMachine : ContextStateBehaviour
     {
         private IContextSelector<IEnumerator> _stateSelector;
@@ -19,12 +23,18 @@ namespace Assets.Tools.UnityTools.StateMachine.ContextStateMachine
 
         }
 
+        public override void Dispose()
+        {
+            _stateMachine?.Stop();
+            _stateMachine = null;
+            _stateSelector = null;
+        }
 
         #region private methods
 
         protected override IEnumerator ExecuteState(IContext context)
         {
-            while (true)
+            while (_stateSelector!=null && _stateMachine !=null)
             {
                 var state = _stateSelector.Select(context);
 
@@ -37,11 +47,12 @@ namespace Assets.Tools.UnityTools.StateMachine.ContextStateMachine
             }
         }
 
+        /// <summary>
+        /// stop state machine at any exit call
+        /// </summary>
         protected override void OnExit(IContext context)
         {
-            _stateMachine.Stop();
-            _stateMachine = null;
-            _stateSelector = null;
+            Dispose();
         }
 
         /// <summary>

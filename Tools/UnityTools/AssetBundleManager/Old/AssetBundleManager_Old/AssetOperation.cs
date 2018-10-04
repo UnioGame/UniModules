@@ -42,7 +42,7 @@ namespace Assets.Tools.UnityTools.AssetBundleManager.Old.AssetBundleManager_Old{
         {
             GameLog.Log("WaitBundleLoad");
             yield return WaitBundleLoad();
-            GameLog.Log("Initialize");
+            GameLog.Log("OnEnter");
             yield return Initialize();
             IsDone = true;
         }

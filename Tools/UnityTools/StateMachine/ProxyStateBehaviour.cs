@@ -8,25 +8,37 @@ namespace Assets.Tools.UnityTools.StateMachine {
 	public class ProxyStateBehaviour : ContextStateBehaviour {
 
 		private Func<IContext,IEnumerator> _updateFunction;
-		private Action<IContext> _onEnter;
+		private Action _onInitialize;
 		private Action<IContext> _onExit;
 
+        /// <summary>
+        /// set state functions
+        /// </summary>
+        /// <param name="updateFunction"></param>
+        /// <param name="onInitialize">initialize action, call only once</param>
+        /// <param name="onExit"></param>
 		public void Initialize(Func<IContext, IEnumerator> updateFunction,
-		    Action<IContext> onEnter = null,
+		    Action onInitialize = null,
 		    Action<IContext> onExit = null)
 		{
 			_updateFunction = updateFunction;
-			_onEnter = onEnter;
+		    _onInitialize = onInitialize;
 			_onExit = onExit;
 		}
 
-		protected override void Initialize(IContext context) {
-            _onEnter?.Invoke(context);
+		protected override void OnInitialize() {
+		    _onInitialize?.Invoke();
 		}
 
-		protected override void OnExit(IContext context) {
+	    public override void Dispose()
+	    {
+	        _updateFunction = null;
+	        _onInitialize = null;
+	        _onExit = null;
+	    }
+
+	    protected override void OnExit(IContext context) {
 			_onExit?.Invoke(context);
-			base.OnExit(context);
 		}
 
 		protected override IEnumerator ExecuteState(IContext context)

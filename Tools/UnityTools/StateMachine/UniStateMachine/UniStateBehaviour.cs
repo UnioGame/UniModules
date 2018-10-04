@@ -2,23 +2,23 @@
 using System.Collections;
 using Assets.Tools.UnityTools.Common;
 using Assets.Tools.UnityTools.Interfaces;
-using Assets.Tools.UnityTools.ScriptableObjects;
 using Assets.Tools.UnityTools.StateMachine.Interfaces;
 using UnityEngine;
 
 namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine
 {
     [Serializable]
-    public class UniStateBehaviour : 
-        ScriptableObjectRoutine<IContext>,
-        IContextStateBehaviour<IEnumerator>
+    public class UniStateBehaviour : ScriptableObject, IContextStateBehaviour<IEnumerator>
     {
         [NonSerialized]
-        protected IContextProvider<IContext> _stateContext;
+        private IContextStateBehaviour<IEnumerator> _state;
 
-        [SerializeField]
-        private bool _isActive;
- 
+        /// <summary>
+        /// state local context data
+        /// </summary>
+        [NonSerialized]
+        protected IContextProvider<IContext> _context;
+
         #region public methods
 
         public void Exit(IContext context)
@@ -26,63 +26,62 @@ namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine
             var behaviour = GetBehaviour(context);
             behaviour.Exit(context);
 
-            _stateContext.Remove<IContextStateBehaviour<IEnumerator>>(context);
+            //remove all local state data
+            _context.RemoveContext(context);
         }
         
-        public void Dispose()
+        /// <summary>
+        /// stop ay execution of state
+        /// release all resources
+        /// </summary>
+        public virtual void Dispose()
         {
-            _stateContext.Release();
+            _state?.Dispose();
+            _context?.Release();
+        }
+
+        public IEnumerator Execute(IContext context)
+        {
+            if (_context == null)
+            {
+                _context = new ContextProviderProvider<IContext>();
+            }
+            var state = GetBehaviour(context);
+
+            StateLogger.LogState(string.Format("STATE EXECUTE {0} FROM {1} TYPE {2}", state, this.name, GetType().Name), this);
+            yield return state.Execute(context);
         }
 
         #endregion
 
-        protected sealed override IEnumerator OnExecute(IContext context)
-        {
-            
-            StateLogger.LogState(string.Format("STATE EXECUTE {0} TYPE {1}",this.name,GetType().Name),this);
-            yield return GetBehaviour(context).Execute(context);
-            
-        }
+        #region state behaviour methods
 
-        protected override void OnInitialize()
-        {
-            _stateContext = new ContextProviderProvider<IContext>();
-            base.OnInitialize();
-        }
+        protected virtual void OnInitialize(){}
 
         protected virtual IEnumerator ExecuteState(IContext context)
         {
             yield break;
         }
 
-        protected virtual void OnEnter(IContext context) 
-        {
-            _isActive = true;
-        }
+        protected virtual void OnExit(IContext context) { }
 
-        protected virtual void OnExit(IContext context)
-        {
-            _isActive = false;
-        }
+        #endregion
 
         protected virtual IContextStateBehaviour<IEnumerator> Create()
         {
             var behaviour = new ProxyStateBehaviour();
-            behaviour.Initialize(ExecuteState, OnEnter, OnExit);
+            behaviour.Initialize(ExecuteState, OnInitialize, OnExit);
             return behaviour;
         }
 
-        protected IContextStateBehaviour<IEnumerator> GetBehaviour(IContext context)
-        {
-
-            var contextState = _stateContext.Get<IContextStateBehaviour<IEnumerator>>(context);
-            if (contextState == null)
+        protected virtual IContextStateBehaviour<IEnumerator> GetBehaviour(IContext context)
+        { 
+            if (_state == null)
             {
-                contextState = Create();
-                _stateContext.AddValue(context, contextState);
+                _state = Create();
             }
 
-            return contextState;
+            return _state;
         }
 
     }

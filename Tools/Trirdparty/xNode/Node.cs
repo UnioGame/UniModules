@@ -70,7 +70,7 @@ namespace XNode {
             NodeDataCache.UpdatePorts(this, ports);
         }
 
-        /// <summary> Initialize node. Called on creation. </summary>
+        /// <summary> OnEnter node. Called on creation. </summary>
         protected virtual void Init() { }
 
         /// <summary> Checks all connections for invalid references, and removes them. </summary>
