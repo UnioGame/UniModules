@@ -138,7 +138,7 @@ namespace Assets.Tools.UnityTools.Physics
         private bool ValidateCollision(int layer)
         {
             var mask = collisionMask.value;
-            var isValidLayer = (mask | (1 << layer)) > 0;
+            var isValidLayer = (mask | (1 << layer)) == mask;
             return isValidLayer;
         }
     }
