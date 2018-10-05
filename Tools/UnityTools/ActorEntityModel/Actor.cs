@@ -12,6 +12,8 @@ namespace Assets.Tools.UnityTools.ActorEntityModel
         private IDisposable _routineDisposable;
         private IEntity _entity;
 
+        public IContextStateBehaviour<IEnumerator> State => _stateBehaviour;
+
         #region public methods
 
 
@@ -22,57 +24,40 @@ namespace Assets.Tools.UnityTools.ActorEntityModel
 
         public void SetBehaviour(IContextStateBehaviour<IEnumerator> behaviour)
         {
-            if (_stateBehaviour != null)
-            {
-                _stateBehaviour.Exit(_entity);
-            }
-            
             _stateBehaviour = behaviour;
-            
             SetBehaviourState(IsActive);
         }
-
-        public void SetState(bool state)
-        {
-            if (IsActive == state)
-                return;
-            if (state)
-            {
-                Activate();
-            }
-            else
-            {
-                Deactivate();
-            }
-
-            IsActive = state;
-        }
-
-        
+      
         #endregion
 
         #region private methods
 
         protected void SetBehaviourState(bool activate)
         {
-            //already active
-            if (activate == (_routineDisposable!=null))
-                return;
+            if (activate == false)
+            {
+                StopBehaviour();
+            }
 
-            if (!activate && _routineDisposable != null)
+            //already active
+            if (activate == false || State == null)
+                return;
+   
+            //activate state
+            var routine = _stateBehaviour.Execute(_entity);
+            _routineDisposable = routine.RunWithSubRoutines();
+
+        }
+
+        private void StopBehaviour()
+        {
+            if (_routineDisposable != null)
             {
                 _stateBehaviour?.Exit(_entity);
             }
-            
             //release current routine
             _routineDisposable?.Dispose();
             _routineDisposable = null;
-
-            if (_stateBehaviour == null || !activate)
-                return;
-
-            var routine = _stateBehaviour.Execute(_entity);
-            _routineDisposable = routine.RunWithSubRoutines();
 
         }
 

@@ -7,7 +7,7 @@ namespace Assets.Tools.UnityTools.ActorEntityModel
 
         #region public properties
         
-        public bool IsActive { get; protected set; } = true;
+        public bool IsActive { get; protected set; } = false;
         
         #endregion
         
