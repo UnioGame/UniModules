@@ -8,5 +8,6 @@ namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine
     {
         public UniStateBehaviour StateBehaviour;
         public RoutineType RoutineType = RoutineType.UpdateStep;
+        public bool RestartOnComplete = true;
     }
 }

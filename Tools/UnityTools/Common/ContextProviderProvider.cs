@@ -34,6 +34,11 @@ namespace Assets.Tools.UnityTools.Common
 
         }
 
+        public bool HasContext(TContext context)
+        {
+            return context != null && _contexts.ContainsKey(context);
+        }
+
         public void RemoveContext(TContext context)
         {
 

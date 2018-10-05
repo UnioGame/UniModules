@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Assets.Tools.UnityTools.Common;
 using Assets.Tools.UnityTools.Interfaces;
 using Assets.Tools.UnityTools.StateMachine.ContextStateMachine;
 using Assets.Tools.UnityTools.StateMachine.Interfaces;
@@ -37,7 +38,9 @@ namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine
             {
                 Exit(context);
             }
-	        base.Dispose();
+            _context?.Release();
+
+            base.Dispose();
 	    }
 
 	    #region private methods
@@ -48,7 +51,8 @@ namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine
         /// <returns>reactive state behaviour</returns>
 	    protected override IContextStateBehaviour<IEnumerator> Create()
 		{
-		    var executor = new UniRoutineExecutor();
+
+            var executor = new UniRoutineExecutor();
 		    var stateMachine = new ContextStateMachine<IEnumerator>(executor);
             var reactiveState = new ContextReactiveStateMachine();
 
@@ -63,6 +67,8 @@ namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine
         /// <returns>relative context state behaciour</returns>
 	    protected override IContextStateBehaviour<IEnumerator> GetBehaviour(IContext context)
         {
+            if(_context == null)
+                _context = new ContextProviderProvider<IContext>();
             //get state for target cotext
             var state = _context.Get<IContextStateBehaviour<IEnumerator>>(context);
             //create state if not exists

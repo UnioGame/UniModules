@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Collections;
 using Assets.Tools.UnityTools.Interfaces;
 using UnityEngine;
 
 namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine {
     
     [Serializable]
-    [CreateAssetMenu(menuName = "UniStateMachine/StateNode", fileName = "StateNode")]
-    public class UniStateTransition : ScriptableObject ,IValidator<IContext> {
+    [CreateAssetMenu(menuName = "UniStateMachine/UniStateTransition", fileName = "UniStateTransition")]
+    public class UniStateTransition : UniStateBehaviour, IValidator<IContext> {
 
         private bool _defaultValidatorValue = false;
         
@@ -17,6 +18,8 @@ namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine {
         private UniStateBehaviour _stateBehaviour;
 
         public UniTransitionValidator Validator => _validator;
+
+        #region public methods
 
         public void SetValidator(UniTransitionValidator validator) {
             _validator = validator;
@@ -30,12 +33,26 @@ namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine {
             return _stateBehaviour;
         }
 
-        public bool Validate(IContext data) {
-            
+        public bool Validate(IContext data)
+        {
+
             if (_validator == null)
                 return _defaultValidatorValue;
             return _validator.Validate(data);
-            
+
+        }
+
+        #endregion
+
+        protected override IEnumerator ExecuteState(IContext context)
+        {
+            if(Validate(context) == false)
+                yield break;
+            var behaviour = GetState();
+            if(!behaviour)
+                yield break;
+
+            yield return behaviour.Execute(context);
         }
     }
 }

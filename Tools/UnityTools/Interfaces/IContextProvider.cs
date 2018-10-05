@@ -13,5 +13,7 @@ namespace Assets.Tools.UnityTools.Interfaces
         void Remove<TData>(TContext context);
         void AddValue<TData>(TContext context, TData value);
 
+        bool HasContext(TContext context);
+
     }
 }

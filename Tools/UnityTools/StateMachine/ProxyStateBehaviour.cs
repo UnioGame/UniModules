@@ -8,7 +8,7 @@ namespace Assets.Tools.UnityTools.StateMachine {
 	public class ProxyStateBehaviour : ContextStateBehaviour {
 
 		private Func<IContext,IEnumerator> _updateFunction;
-		private Action _onInitialize;
+	    private Action<IContextProvider<IContext>> _onInitialize;
 		private Action<IContext> _onExit;
 
         /// <summary>
@@ -18,7 +18,7 @@ namespace Assets.Tools.UnityTools.StateMachine {
         /// <param name="onInitialize">initialize action, call only once</param>
         /// <param name="onExit"></param>
 		public void Initialize(Func<IContext, IEnumerator> updateFunction,
-		    Action onInitialize = null,
+		    Action<IContextProvider<IContext>> onInitialize = null,
 		    Action<IContext> onExit = null)
 		{
 			_updateFunction = updateFunction;
@@ -26,8 +26,8 @@ namespace Assets.Tools.UnityTools.StateMachine {
 			_onExit = onExit;
 		}
 
-		protected override void OnInitialize() {
-		    _onInitialize?.Invoke();
+		protected override void OnInitialize(IContextProvider<IContext> stateContext) {
+		    _onInitialize?.Invoke(stateContext);
 		}
 
 	    public override void Dispose()

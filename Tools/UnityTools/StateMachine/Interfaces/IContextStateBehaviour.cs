@@ -7,5 +7,6 @@ namespace Assets.Tools.UnityTools.StateMachine.Interfaces
         IStateBehaviour<IContext, TAwaiter>,
         IDisposable
     {
+        bool IsActive(IContext context);
     }
 }

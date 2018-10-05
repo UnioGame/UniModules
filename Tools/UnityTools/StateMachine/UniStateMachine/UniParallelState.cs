@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using Assets.Tools.UnityTools.Common;
-using Assets.Tools.UnityTools.Extension;
 using Assets.Tools.UnityTools.Interfaces;
 using Assets.Tools.UnityTools.ObjectPool.Scripts;
 using Assets.Tools.UnityTools.UniRoutine;
@@ -13,37 +10,53 @@ namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine
     [CreateAssetMenu(menuName = "States/States/UniParallelState", fileName = "UniParallelState")]
     public class UniParallelState : UniStateBehaviour
     {
-        [NonSerialized]
-        private IContextExecutor<IEnumerator> _executor;
-
         [SerializeField]
         private List<UniStateParallelMode> _states = new List<UniStateParallelMode>();
 
         protected override IEnumerator ExecuteState(IContext context)
         {
-            var routineDisposables = ClassPool.Spawn<List<IDisposableItem>>();
-            var completionSource = ClassPool.Spawn<CompletionConditionSource>();
-            completionSource.Initialize(() => IsComplete(routineDisposables));
+            var disposableItems = new IDisposableItem[_states.Count];
+            _context.AddValue(context,disposableItems);
 
-            _context.AddValue(context, routineDisposables);
-            _context.AddValue(context, completionSource);
+            var isActive = true;
 
-            //launch states
-            for (int i = 0; i < _states.Count; i++)
+            while (isActive)
             {
-                var state = _states[i].StateBehaviour;
-                var routine = state.Execute(context);
-                var disposable = _executor.Execute(routine);
-                routineDisposables.Add(disposable);
-            }
+                isActive = false;
+                //launch states
+                for (int i = 0; i < _states.Count; i++)
+                {
+                    var state = _states[i].StateBehaviour;
+                    var validationResult = state is IValidator<IContext> validator ? 
+                        validator.Validate(context) : true;
 
-            yield return completionSource.RoutineWaitUntil();
+                    isActive |= validationResult;
+
+                    if (validationResult && state.IsActive(context))
+                        continue;
+
+                    disposableItems[i]?.Dispose();
+
+                    var launchState = validationResult && 
+                                      (disposableItems[i] == null || _states[i].RestartOnComplete);
+
+                    if (launchState)
+                    {
+                        var routine = state.Execute(context);
+                        var disposable = routine.RunWithSubRoutines(_states[i].RoutineType);
+                        disposableItems[i] = disposable;
+                    }
+
+                }
+
+                yield return null;
+            }
 
         }
 
-        protected bool IsComplete(List<IDisposableItem> items)
+        protected bool IsComplete(IDisposableItem[] items)
         {
-            for (int i = 0; i < items.Count; i++)
+            for (int i = 0; i < items.Length; i++)
             {
                 var item = items[i];
                 if (!item.IsDisposed)
@@ -53,21 +66,15 @@ namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine
             return true;
         }
 
-        protected override void OnInitialize()
-        {
-            _executor = new UniRoutineExecutor();
-            base.OnInitialize();
-        }
-
         protected override void OnExit(IContext context)
         {
 
             //dispose all registered disposable items of context
-            var disposableItems = _context.Get<List<IDisposableItem>>(context);
-            for (var i = 0; i < disposableItems.Count; i++)
+            var disposableItems = _context.Get< IDisposableItem[]> (context);
+            for (var i = 0; i < disposableItems.Length; i++)
             {
                 var item = disposableItems[i];
-                item.Dispose();
+                item?.Dispose();
             }
             disposableItems.Despawn();
 
@@ -77,12 +84,8 @@ namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine
                 state.StateBehaviour.Exit(context);
             }
 
-            var completionsSource = _context.Get<CompletionConditionSource>(context);
-            completionsSource.Despawn();
-
-            _context.Remove<List<IDisposableItem>>(context);
-            _context.Remove<CompletionConditionSource>(context);
-
+            _context.Remove<IDisposableItem[]>(context);
+ 
             base.OnExit(context);
         }
 

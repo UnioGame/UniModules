@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Assets.Tools.UnityTools.Common;
 using Assets.Tools.UnityTools.Extension;
 using Assets.Tools.UnityTools.Interfaces;
 using Assets.Tools.UnityTools.StateMachine.Interfaces;
@@ -18,7 +17,7 @@ namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine {
         /// <summary>
         /// state local context data
         /// </summary>
-        protected IContextProvider<IContext> _context = new ContextProviderProvider<IContext>();
+        protected IContextProvider<IContext> _context;
 
         #region public methods
 
@@ -30,6 +29,12 @@ namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine {
 
         }
 
+        public bool IsActive(IContext context)
+        {
+            var state = GetBehaviour(context);
+            return state.IsActive(context);
+        }
+
         /// <summary>
         /// stop ay execution of state
         /// release all resources
@@ -37,8 +42,7 @@ namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine {
         public virtual void Dispose()
         {
             _disposables.Cancel();
-            _state.Dispose();
-            _context.Release();
+            _state?.Dispose();
         }
 
         public IEnumerator Execute(IContext context)
@@ -52,7 +56,16 @@ namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine {
 
         #region state behaviour methods
 
-        protected virtual void OnInitialize(){}
+        protected void Initialize(IContextProvider<IContext> stateContext)
+        {
+            _context = stateContext;
+            OnInitialize();
+        }
+
+        protected virtual void OnInitialize()
+        {
+
+        }
 
         protected virtual IEnumerator ExecuteState(IContext context)
         {
@@ -67,13 +80,12 @@ namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine {
         protected virtual IContextStateBehaviour<IEnumerator> Create()
         {
             var behaviour = new ProxyStateBehaviour();
-            behaviour.Initialize(ExecuteState, OnInitialize, OnExit);
+            behaviour.Initialize(ExecuteState, Initialize, OnExit);
             return behaviour;
         }
 
         protected virtual IContextStateBehaviour<IEnumerator> GetBehaviour(IContext context)
         {
-
             if (_state == null)
             {
                 _state = Create();
