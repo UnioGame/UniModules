@@ -45,21 +45,20 @@ public class ActorComponent : EntityComponent, IDisposable {
         Entity?.Release();
 
 	}
-
+    
     protected IContextStateBehaviour<IEnumerator> GetState()
     {
         var model = Entity.Get<ActorModel>();
-        if (model?.Behaviour == null)
-            return null;
-
-        var state = model.Behaviour.Value;
-
-        if (state == null)
-        {
-            state = _stateObject ? 
+        var parameterBehaviour = _stateObject ? 
                 (IContextStateBehaviour<IEnumerator>) _stateObject : 
                 _stateComponent;
-        }
+
+        if (model?.Behaviour == null && parameterBehaviour == null)
+            return null;
+
+        var state = model?.Behaviour == null ?
+            parameterBehaviour:
+            model.Behaviour.Value;
 
         return state;
 
