@@ -6,17 +6,25 @@ namespace Assets.Tools.UnityTools.Utils
     public static class VectorUtils  {
 
 
-        public static Vector3 NearestPosition(this List<GameObject> objects, Vector3 position)
+        public static Vector3 NearestPosition(this IEnumerable<GameObject> objects, Vector3 position)
         {
-            if(objects == null || objects.Count == 0)
-                return Vector3.zero;
+            if(objects == null) return Vector3.zero;
 
-            var selectedPosition = objects[0].transform.position;
-            var minDistance = Vector3.Distance(position, selectedPosition);
+            var selectedPosition =Vector3.zero;
+            var minDistance = 0f; 
 
-            for (int i = 1; i < objects.Count; i++)
-            {
-                var objectPosition = objects[i].transform.position;
+            var first = true;
+            
+            foreach (var item in objects) {
+
+                if (first) {
+                    first = false;
+                    selectedPosition = item.transform.position;
+                    minDistance = Vector3.Distance(position, selectedPosition);
+                    continue;
+                }
+                
+                var objectPosition = item.transform.position;
                 var distance = Vector3.Distance(position, objectPosition);
                 if (distance < minDistance) {
                     selectedPosition = objectPosition;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Assets.Tools.UnityTools.ActorEntityModel;
 using Assets.Tools.UnityTools.Common;
 using Assets.Tools.UnityTools.Interfaces;
 using Assets.Tools.UnityTools.StateMachine.Interfaces;
@@ -8,19 +9,22 @@ using Assets.Tools.UnityTools.StateMachine.UniStateMachine;
 using Assets.Tools.UnityTools.UniRoutine;
 using UnityEngine;
 
-public class ActorComponent : MonoBehaviour, IDisposable {
+public class ActorComponent : EntityComponent, IDisposable {
 		
-	private IContext _context = new ContextData();
 	private IDisposableItem _disposableItem;
+	private bool _isActive;
 	
 	[SerializeField]
 	private UniStateComponent _state;
 	[SerializeField]
+	private UniStateBehaviour _stateBehaviour;
+	[SerializeField]
 	private bool _launchOnStart = true;
 
-	public IContextStateBehaviour<IEnumerator> State => _state;
+	public IContextStateBehaviour<IEnumerator> State { get; protected set; }
+    
+	public Actor Actor { get; protected set; }
 
-	public IContext Context => _context;
 	
 	// Use this for initialization
 	private void Start () {
@@ -28,33 +32,68 @@ public class ActorComponent : MonoBehaviour, IDisposable {
 		if (_launchOnStart == false)
 			return;
 
-		Launch();
+		SetState(true);
 	}
 
 	public void Dispose() {
-		Context?.Release();
-		_disposableItem?.Dispose();
+		SetState(false);
+		Entity?.Release();
 	}
-	
-	public void Launch() {
-		
-		AddContextData();
-		if (State == null)
+
+	public void SetState(bool state) {
+
+		if (state == _isActive) {
 			return;
+		}
+
+		_isActive = state;
 		
-		var awaiter = _state.Execute(Context);
-		_disposableItem = awaiter.RunWithSubRoutines();
+		Actor.SetState(_isActive);
 		
+		if (_isActive) {
+			Activate();
+		}
+		else {
+			Deactivate();
+		}
+
 	}
 
 	protected virtual void AddContextData() {
 		
 	}
 
-	private void OnDestroy() {
-		
-		Dispose();
+	protected virtual void Activate() {
 		
 	}
+	
+	protected virtual void Deactivate() 
+	{
+		_disposableItem?.Dispose();
+	}
 
+	private void OnDisable() {
+		SetState(false);
+	}
+
+	private void OnEnable() {
+		SetState(true);
+	}
+
+	private void OnDestroy() {
+		Dispose();
+	}
+
+	private void Awake() {
+		
+		Actor = new Actor();
+		AddContextData();
+		Actor.SetEntity(Entity);
+
+		State = _state != null ? (IContextStateBehaviour<IEnumerator>)_state : _stateBehaviour;
+		
+		if (State == null)
+			return;
+		Actor.SetBehaviour(State);
+	}
 }

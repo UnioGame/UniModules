@@ -45,6 +45,11 @@ namespace Assets.Tools.UnityTools.Math {
 
 			return false;
 		}
+
+		public static bool ValidateMask(this int mask, int value) {
+			var result = (mask & value) > 0;
+			return result;
+		}
 		
 	}
 	

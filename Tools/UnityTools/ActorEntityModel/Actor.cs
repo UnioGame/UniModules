@@ -68,7 +68,7 @@ namespace Assets.Tools.UnityTools.ActorEntityModel
             _routineDisposable?.Dispose();
             _routineDisposable = null;
 
-            if (_stateBehaviour == null)
+            if (_stateBehaviour == null || !activate)
                 return;
 
             var routine = _stateBehaviour.Execute(_entity);
