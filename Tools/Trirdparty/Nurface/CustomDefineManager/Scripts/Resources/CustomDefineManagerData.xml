@@ -57,13 +57,13 @@
   <Directive>
     <name>GAME_STATE_LOG</name>
     <targets>Standalone iOS Android WebGL Metro</targets>
-    <enabled>true</enabled>
+    <enabled>false</enabled>
     <sortOrder>9</sortOrder>
   </Directive>
   <Directive>
     <name>STATE_MACHINE_LOG</name>
     <targets>Standalone iOS Android WebGL Metro</targets>
-    <enabled>true</enabled>
+    <enabled>false</enabled>
     <sortOrder>10</sortOrder>
   </Directive>
 </ArrayOfDirective>

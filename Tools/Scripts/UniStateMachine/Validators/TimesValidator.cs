@@ -9,17 +9,27 @@ using UnityEngine;
 public class TimesValidator : UniTransitionValidator
 {
 	[SerializeField]
-	private int AllowTransitionCount = 1;
+	private int AllowedTransitionCount = 1;
 	[SerializeField]
 	private bool Unlimited = false;
 
 	[NonSerialized]
-	private int _counter;
+	private Dictionary<int, int> _transitionCounter;
+	
+	protected override bool ValidateNode(IContext context) {
 
-	protected override bool ValidateNode(IContext context)
-	{
-		var result = Unlimited || _counter < AllowTransitionCount;
-		_counter++;
+		if (_transitionCounter == null) {
+			_transitionCounter = new Dictionary<int, int>();
+		}
+		
+		var id = context.GetHashCode();
+		var counter = 0;
+		_transitionCounter.TryGetValue(id, out counter);
+		
+		var result = Unlimited || counter < AllowedTransitionCount;
+		counter++;
+		_transitionCounter[id] = counter;
+		
 		return result;
-	}
+	} 
 }

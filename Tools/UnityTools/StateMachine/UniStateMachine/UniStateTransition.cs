@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine {
     
     [Serializable]
-    [CreateAssetMenu(menuName = "UniStateMachine/UniStateTransition", fileName = "UniStateTransition")]
+    [CreateAssetMenu(menuName = "States/Transitions/StateTransition", fileName = "StateTransition")]
     public class UniStateTransition : UniStateBehaviour, IValidator<IContext> {
 
         private bool _defaultValidatorValue = false;
