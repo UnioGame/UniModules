@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Assets.Tools.UnityTools.Interfaces;
 using Assets.Tools.UnityTools.ObjectPool.Scripts;
+using Assets.Tools.UnityTools.ReorderableInspector;
 using Assets.Tools.UnityTools.UniRoutine;
 using UnityEngine;
 
@@ -11,6 +12,7 @@ namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine
     public class UniParallelState : UniStateBehaviour
     {
         [SerializeField]
+        [Reorderable]
         private List<UniStateParallelMode> _states = new List<UniStateParallelMode>();
 
         protected override IEnumerator ExecuteState(IContext context)
