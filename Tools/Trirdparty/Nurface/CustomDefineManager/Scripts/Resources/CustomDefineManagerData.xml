@@ -63,7 +63,7 @@
   <Directive>
     <name>STATE_MACHINE_LOG</name>
     <targets>Standalone iOS Android WebGL Metro</targets>
-    <enabled>false</enabled>
+    <enabled>true</enabled>
     <sortOrder>10</sortOrder>
   </Directive>
 </ArrayOfDirective>

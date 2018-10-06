@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Assets.Tools.UnityTools.Interfaces;
+using Assets.Tools.UnityTools.ReorderableInspector;
 using UnityEngine;
 
 namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine
@@ -13,6 +14,7 @@ namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine
 		[SerializeField]
 		protected bool _defaultValue = true;
 		
+		[Reorderable]
 		[SerializeField] 
 		private List<UniTransitionValidator> _validators = new List<UniTransitionValidator>();
 		
