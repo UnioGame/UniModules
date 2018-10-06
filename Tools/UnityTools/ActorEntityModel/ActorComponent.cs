@@ -34,7 +34,7 @@ public class ActorComponent : EntityComponent, IDisposable {
 
     #endregion
 
-    public IContextStateBehaviour<IEnumerator> State { get; protected set; }
+    public IContextState<IEnumerator> State { get; protected set; }
 
     public Actor Actor => _actor;
 
@@ -46,11 +46,11 @@ public class ActorComponent : EntityComponent, IDisposable {
 
 	}
     
-    protected IContextStateBehaviour<IEnumerator> GetState()
+    protected IContextState<IEnumerator> GetState()
     {
         var model = Entity.Get<ActorModel>();
         var parameterBehaviour = _stateObject ? 
-                (IContextStateBehaviour<IEnumerator>) _stateObject : 
+                (IContextState<IEnumerator>) _stateObject : 
                 _stateComponent;
 
         if (model?.Behaviour == null && parameterBehaviour == null)

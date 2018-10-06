@@ -41,7 +41,7 @@ namespace Assets.Tools.UnityTools.StateMachine.ContextStateMachine
             
         }
 
-        public void Execute(IContextStateBehaviour<TAwaiter> state, IContext context)
+        public void Execute(IContextState<TAwaiter> state, IContext context)
         {
             StopActiveState();
             ChangeState(state, context);
@@ -56,7 +56,7 @@ namespace Assets.Tools.UnityTools.StateMachine.ContextStateMachine
 
         #region public properties
 
-        public IContextStateBehaviour<TAwaiter> ActiveState { get; protected set; }
+        public IContextState<TAwaiter> ActiveState { get; protected set; }
 
         public IContext Context { get; protected set; }
 
@@ -64,7 +64,7 @@ namespace Assets.Tools.UnityTools.StateMachine.ContextStateMachine
 
         #endregion
 
-        private void ChangeState(IContextStateBehaviour<TAwaiter> state, 
+        private void ChangeState(IContextState<TAwaiter> state, 
             IContext context)
         {
 
@@ -80,7 +80,7 @@ namespace Assets.Tools.UnityTools.StateMachine.ContextStateMachine
             
         }
 
-        private void StartState(IContextStateBehaviour<TAwaiter> state, IContext context)
+        private void StartState(IContextState<TAwaiter> state, IContext context)
         {
 
             var routine = state.Execute(context);

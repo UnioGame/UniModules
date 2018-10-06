@@ -8,11 +8,11 @@ using UnityEngine;
 
 namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine {
     
-    public class UniStateComponent : MonoBehaviour,IContextStateBehaviour<IEnumerator>
+    public class UniStateComponent : MonoBehaviour,IContextState<IEnumerator>
     {
         protected List<IDisposable> _disposables = new List<IDisposable>();
 
-        private IContextStateBehaviour<IEnumerator> _state;
+        private IContextState<IEnumerator> _state;
 
         /// <summary>
         /// state local context data
@@ -77,14 +77,14 @@ namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine {
 
         #endregion
 
-        protected virtual IContextStateBehaviour<IEnumerator> Create()
+        protected virtual IContextState<IEnumerator> Create()
         {
             var behaviour = new ProxyStateBehaviour();
             behaviour.Initialize(ExecuteState, Initialize, OnExit);
             return behaviour;
         }
 
-        protected virtual IContextStateBehaviour<IEnumerator> GetBehaviour(IContext context)
+        protected virtual IContextState<IEnumerator> GetBehaviour(IContext context)
         {
             if (_state == null)
             {

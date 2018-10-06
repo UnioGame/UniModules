@@ -22,8 +22,8 @@ namespace Assets.Tools.UnityTools.ActorEntityModel
 	    /// </summary>
 	    public UniStateComponent StateComponent;
 
-	    public IContextStateBehaviour<IEnumerator> Behaviour =>
-	        StateObject ? StateObject  as IContextStateBehaviour<IEnumerator> : StateComponent;
+	    public IContextState<IEnumerator> Behaviour =>
+	        StateObject ? StateObject  as IContextState<IEnumerator> : StateComponent;
 
         public abstract ActorModel Create();
 

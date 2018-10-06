@@ -18,32 +18,37 @@ namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine
             var disposableItems = new IDisposableItem[_states.Count];
             _context.AddValue(context,disposableItems);
 
-            var isActive = true;
-
-            while (isActive)
+            while (true)
             {
-                isActive = false;
                 //launch states
                 for (int i = 0; i < _states.Count; i++)
                 {
                     var state = _states[i].StateBehaviour;
-                    var validationResult = state is IValidator<IContext> validator ? 
+                    var disposable = disposableItems[i];
+                    
+                    var validationResult = 
+                        state is IValidator<IContext> validator ? 
                         validator.Validate(context) : true;
 
-                    isActive |= validationResult;
-
-                    if (validationResult && state.IsActive(context))
+                    var isStateActive = disposable?.IsDisposed == false;
+     
+                    //continue state execution
+                    if (validationResult && isStateActive)
                         continue;
 
-                    disposableItems[i]?.Dispose();
+                    //stop current execution
+                    disposable?.Dispose();
+                    
+                    if(validationResult == false)
+                        continue;
 
-                    var launchState = validationResult && 
-                                      (disposableItems[i] == null || _states[i].RestartOnComplete);
+                    //if state can be restarted or it first launch
+                    var canLaunchState = disposableItems[i] == null || _states[i].RestartOnComplete;
 
-                    if (launchState)
+                    if (canLaunchState)
                     {
                         var routine = state.Execute(context);
-                        var disposable = routine.RunWithSubRoutines(_states[i].RoutineType);
+                        disposable = routine.RunWithSubRoutines(_states[i].RoutineType);
                         disposableItems[i] = disposable;
                     }
 
@@ -52,18 +57,6 @@ namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine
                 yield return null;
             }
 
-        }
-
-        protected bool IsComplete(IDisposableItem[] items)
-        {
-            for (int i = 0; i < items.Length; i++)
-            {
-                var item = items[i];
-                if (!item.IsDisposed)
-                    return false;
-            }
-
-            return true;
         }
 
         protected override void OnExit(IContext context)

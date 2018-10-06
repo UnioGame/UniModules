@@ -6,7 +6,7 @@ using Assets.Tools.UnityTools.StateMachine.Interfaces;
 
 namespace Assets.Tools.UnityTools.StateMachine.ContextStateMachine
 {
-    public abstract class ContextStateBehaviour : IContextStateBehaviour<IEnumerator>
+    public abstract class ContextStateBehaviour : IContextState<IEnumerator>
     {
 
         private bool _initialized = false;
@@ -27,9 +27,13 @@ namespace Assets.Tools.UnityTools.StateMachine.ContextStateMachine
                 OnInitialize(_context);
             }
 
+            _context.AddValue(context,true);
+            
             yield return ExecuteState(context);
 
             OnPostExecute(context);
+            
+            //_context.RemoveContext(context);
         }
 
         public void Exit(IContext context)
@@ -41,10 +45,16 @@ namespace Assets.Tools.UnityTools.StateMachine.ContextStateMachine
 
         public virtual void Dispose()
         {
+            var contexts = _context?.Contexts;
+            if (contexts != null) {
+                foreach (var context in contexts) {
+                    Exit(context);
+                }
+            }
             _context?.Release();
         }
 
-        public bool IsActive(IContext context)
+        public virtual bool IsActive(IContext context)
         {
             return _context?.HasContext(context) ?? false;
         }

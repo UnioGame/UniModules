@@ -8,11 +8,11 @@ namespace Assets.Tools.UnityTools.ActorEntityModel
 {
     public class Actor : BehaviourObject
     {
-        protected IContextStateBehaviour<IEnumerator> _stateBehaviour;
+        protected IContextState<IEnumerator> _stateBehaviour;
         private IDisposable _routineDisposable;
         private IEntity _entity;
 
-        public IContextStateBehaviour<IEnumerator> State => _stateBehaviour;
+        public IContextState<IEnumerator> State => _stateBehaviour;
 
         #region public methods
 
@@ -22,7 +22,7 @@ namespace Assets.Tools.UnityTools.ActorEntityModel
             _entity = entity;
         }
 
-        public void SetBehaviour(IContextStateBehaviour<IEnumerator> behaviour)
+        public void SetBehaviour(IContextState<IEnumerator> behaviour)
         {
             _stateBehaviour = behaviour;
             SetBehaviourState(IsActive);

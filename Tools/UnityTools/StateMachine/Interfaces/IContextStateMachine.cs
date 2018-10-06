@@ -8,8 +8,8 @@ namespace Assets.Tools.UnityTools.StateMachine.Interfaces
         bool IsActive { get; }
 
         IContext Context { get; }
-        IContextStateBehaviour<TAwaiter> ActiveState { get; }
-        void Execute(IContextStateBehaviour<TAwaiter> state, IContext context);
+        IContextState<TAwaiter> ActiveState { get; }
+        void Execute(IContextState<TAwaiter> state, IContext context);
         void Stop();
 
     }

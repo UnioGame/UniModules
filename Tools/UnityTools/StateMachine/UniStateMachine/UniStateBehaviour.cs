@@ -7,10 +7,10 @@ using UnityEngine;
 namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine
 {
     [Serializable]
-    public class UniStateBehaviour : ScriptableObject, IContextStateBehaviour<IEnumerator>
+    public class UniStateBehaviour : ScriptableObject, IContextState<IEnumerator>
     {
         [NonSerialized]
-        private IContextStateBehaviour<IEnumerator> _state;
+        private IContextState<IEnumerator> _state;
         [NonSerialized]
         protected IContextProvider<IContext> _context;
 
@@ -18,13 +18,13 @@ namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine
 
         public bool IsActive(IContext context)
         {
-            var state = GetBehaviour(context);
-            return state.IsActive(context);
+            var state = GetBehaviour();
+            return state == null ? false : state.IsActive(context);
         }
 
         public void Exit(IContext context)
         {
-            var behaviour = GetBehaviour(context);
+            var behaviour = GetBehaviour();
             behaviour.Exit(context);
         }
         
@@ -34,14 +34,16 @@ namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine
         /// </summary>
         public virtual void Dispose()
         {
+            _context?.Release();
             _state?.Dispose();
         }
 
         public IEnumerator Execute(IContext context)
         {
-            var state = GetBehaviour(context);
+            StateLogger.LogState(string.Format("STATE EXECUTE {0} TYPE {1} CONTEXT {2}", 
+                name, GetType().Name, context), this);
 
-            StateLogger.LogState(string.Format("STATE EXECUTE {0} FROM {1} TYPE {2}", state, this.name, GetType().Name), this);
+            var state = GetBehaviour();
             yield return state.Execute(context);
         }
 
@@ -55,10 +57,7 @@ namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine
             OnInitialize();
         }
 
-        protected virtual void OnInitialize()
-        {
-
-        }
+        protected virtual void OnInitialize() { }
 
         protected virtual IEnumerator ExecuteState(IContext context)
         {
@@ -67,22 +66,23 @@ namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine
 
         protected virtual void OnExit(IContext context) { }
 
+        protected virtual void OnPostExecute(IContext context){}
+        
         #endregion
 
-        protected virtual IContextStateBehaviour<IEnumerator> Create()
+        private IContextState<IEnumerator> Create()
         {
             var behaviour = new ProxyStateBehaviour();
-            behaviour.Initialize(ExecuteState, Initialize, OnExit);
+            behaviour.Initialize(ExecuteState, Initialize, OnExit,OnPostExecute);
             return behaviour;
         }
 
-        protected virtual IContextStateBehaviour<IEnumerator> GetBehaviour(IContext context)
+        private IContextState<IEnumerator> GetBehaviour()
         { 
             if (_state == null)
             {
                 _state = Create();
             }
-
             return _state;
         }
 

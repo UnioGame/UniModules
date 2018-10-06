@@ -8,7 +8,7 @@ public class ActorModel
 
     public string Name;
     
-    public ReactiveProperty<IContextStateBehaviour<IEnumerator>> Behaviour;
+    public ReactiveProperty<IContextState<IEnumerator>> Behaviour;
 
     public virtual void AddContextData(IContext context)
     {

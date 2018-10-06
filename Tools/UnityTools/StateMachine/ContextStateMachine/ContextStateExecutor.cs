@@ -10,7 +10,7 @@ namespace Assets.Tools.UnityTools.StateMachine.ContextStateMachine
     {
 
 
-        public IDisposable Execute(IContextStateBehaviour<IEnumerator> state, 
+        public IDisposable Execute(IContextState<IEnumerator> state, 
             IContext context)
         {
             var routine = state.Execute(context);

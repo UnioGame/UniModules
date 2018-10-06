@@ -23,11 +23,19 @@ namespace Assets.Tools.UnityTools.StateMachine.ContextStateMachine
 
         }
 
+        public override bool IsActive(IContext context) {
+
+            var state = _stateMachine?.ActiveState;
+            return state != null && state.IsActive(context);
+
+        }
+
         public override void Dispose()
         {
             _stateMachine?.Stop();
             _stateMachine = null;
             _stateSelector = null;
+            base.Dispose();
         }
 
         #region private methods
@@ -58,7 +66,7 @@ namespace Assets.Tools.UnityTools.StateMachine.ContextStateMachine
         /// <summary>
         /// is state with target context already active, when return false
         /// </summary>
-        private bool ValidateState(IContextStateBehaviour<IEnumerator> state, IContext context)
+        private bool ValidateState(IContextState<IEnumerator> state, IContext context)
         {
             var activeState = _stateMachine.ActiveState;
             var stateContext = _stateMachine.Context;

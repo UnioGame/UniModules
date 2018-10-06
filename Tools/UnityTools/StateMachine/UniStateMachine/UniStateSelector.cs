@@ -28,7 +28,7 @@ namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine
 
         public UniStateBehaviour SelectState => _selectStateBehaviour;
 
-        public virtual IContextStateBehaviour<IEnumerator> Select(IContext context)
+        public virtual IContextState<IEnumerator> Select(IContext context)
         {
             for (int i = 0; i < _stateNodes.Count; i++)
             {
