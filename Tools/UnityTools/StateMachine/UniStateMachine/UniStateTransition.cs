@@ -54,5 +54,11 @@ namespace Assets.Tools.UnityTools.StateMachine.UniStateMachine {
 
             yield return behaviour.Execute(context);
         }
+
+        protected override void OnExit(IContext context) 
+        {
+            _stateBehaviour?.Exit(context);
+            base.OnExit(context);
+        }
     }
 }
