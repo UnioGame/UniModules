@@ -36,7 +36,7 @@ namespace Assets.Tools.UnityTools.Math {
 		}
 
 
-		public static bool IsBetween(float value, float from, float to) {
+		public static bool IsInRange(float value, float from, float to) {
 
 			if (value >= from && value <= to)
 				return true;
