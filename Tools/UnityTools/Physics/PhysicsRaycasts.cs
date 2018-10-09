@@ -6,7 +6,7 @@ namespace Modules.UnityToolsModule.Tools.UnityTools.Physics
     {
         public bool Valid;
         public Vector3 Position;
-        public Vector3 Direction;
+        public Vector3 NormilizedDirection;
         public RaycastHit Hit;
     }
     
@@ -23,7 +23,7 @@ namespace Modules.UnityToolsModule.Tools.UnityTools.Physics
             {
                 Valid = true,
                 Position = position,
-                Direction = direction,
+                NormilizedDirection = direction.normalized,
                 Hit = hit,
             };
             
