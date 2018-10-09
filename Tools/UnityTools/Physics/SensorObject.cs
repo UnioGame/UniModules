@@ -17,6 +17,9 @@ namespace Assets.Tools.UnityTools.Physics
         protected LayerMask collisionMask;
 
         [SerializeField]
+        protected LayerMask ignoreRaycastsMask;
+
+        [SerializeField]
         protected bool disableOnStayCollisions;
 
         [SerializeField]
@@ -35,7 +38,13 @@ namespace Assets.Tools.UnityTools.Physics
         public Collision LastCollisionObject { get; protected set; }
 
         public Collider Collider => _collider;
-    
+
+        public LayerMask RaycastMask => ignoreRaycastsMask;
+
+        public Vector3 Position => transform.position;
+
+        public Transform Transform => transform;
+        
         #endregion
 
         #region public methods

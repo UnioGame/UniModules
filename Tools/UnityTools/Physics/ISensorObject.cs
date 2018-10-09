@@ -7,6 +7,15 @@ namespace Assets.Tools.UnityTools.Physics
     {
         IReadOnlyDictionary<Transform, Collision> CollisionData { get; }
         IReadOnlyDictionary<Transform, Collider> TriggersData { get; }
+        
+        LayerMask RaycastMask { get; }
+        Collider Collider { get; }
+        Collider LastTriggerObject { get;  }
+        Collision LastCollisionObject { get;}
+        
+        Vector3 Position { get; }
+        Transform Transform { get; }
+        
         void SetCollisionMask(int mask);
         void SetCollisionMask(string[] mask);
 
