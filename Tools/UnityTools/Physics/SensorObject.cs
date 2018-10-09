@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -6,7 +7,10 @@ namespace Assets.Tools.UnityTools.Physics
 {
     public class SensorObject : MonoBehaviour, ISensorObject
     {
+        protected BoolReactiveProperty _triggerConnectionChanged = new BoolReactiveProperty(false);
+        protected BoolReactiveProperty _collisionConnectionChanged = new BoolReactiveProperty(false);
 
+        
         protected Dictionary<Transform, Collision> collisions =
             new Dictionary<Transform, Collision>();
         protected Dictionary<Transform, Collider> triggerColliders =
@@ -47,6 +51,10 @@ namespace Assets.Tools.UnityTools.Physics
         public Vector3 Position => transform.position;
 
         public Transform Transform => transform;
+
+        public IReadOnlyReactiveProperty<bool> TriggerConnectionChanged => _triggerConnectionChanged;
+
+        public IReadOnlyReactiveProperty<bool> CollisionConnectionChanged => _collisionConnectionChanged;
         
         #endregion
 
@@ -127,6 +135,8 @@ namespace Assets.Tools.UnityTools.Physics
             }
 
             collisions.Remove(collision.transform);
+
+            _collisionConnectionChanged.Value = collisions.Count > 0;
         }
 
         private void RemoveTriggerCollision(Collider collider)
@@ -137,6 +147,8 @@ namespace Assets.Tools.UnityTools.Physics
                 LastTriggerObject = null;
             }
             triggerColliders.Remove(collider.transform);
+            
+            _triggerConnectionChanged.Value = triggerColliders.Count > 0;
         }
 
         private void UpdateTriggerCollision(Collider collision)

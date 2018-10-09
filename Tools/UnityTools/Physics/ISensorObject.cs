@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
 
 namespace Assets.Tools.UnityTools.Physics
@@ -10,6 +11,9 @@ namespace Assets.Tools.UnityTools.Physics
         
         LayerMask CollisionMask { get; }
         LayerMask RaycastMask { get; }
+        
+        IReadOnlyReactiveProperty<bool> TriggerConnectionChanged { get;  }
+        IReadOnlyReactiveProperty<bool> CollisionConnectionChanged { get;  }
         
         Collider Collider { get; }
         Collider LastTriggerObject { get;  }
