@@ -8,7 +8,9 @@ namespace Assets.Tools.UnityTools.Physics
         IReadOnlyDictionary<Transform, Collision> CollisionData { get; }
         IReadOnlyDictionary<Transform, Collider> TriggersData { get; }
         
+        LayerMask CollisionMask { get; }
         LayerMask RaycastMask { get; }
+        
         Collider Collider { get; }
         Collider LastTriggerObject { get;  }
         Collision LastCollisionObject { get;}

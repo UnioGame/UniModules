@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Assets.Tools.UnityTools.Physics
 {
@@ -17,7 +18,7 @@ namespace Assets.Tools.UnityTools.Physics
         protected LayerMask collisionMask;
 
         [SerializeField]
-        protected LayerMask ignoreRaycastsMask;
+        protected LayerMask raycastsMask;
 
         [SerializeField]
         protected bool disableOnStayCollisions;
@@ -39,7 +40,9 @@ namespace Assets.Tools.UnityTools.Physics
 
         public Collider Collider => _collider;
 
-        public LayerMask RaycastMask => ignoreRaycastsMask;
+        public LayerMask CollisionMask => collisionMask;
+
+        public LayerMask RaycastMask => raycastsMask;
 
         public Vector3 Position => transform.position;
 
