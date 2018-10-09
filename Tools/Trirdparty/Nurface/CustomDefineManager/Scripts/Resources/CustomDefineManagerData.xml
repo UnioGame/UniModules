@@ -7,63 +7,69 @@
     <sortOrder>0</sortOrder>
   </Directive>
   <Directive>
+    <name>VALIDATOR_MACHINE_LOG</name>
+    <targets>Standalone iOS Android WebGL Metro</targets>
+    <enabled>false</enabled>
+    <sortOrder>1</sortOrder>
+  </Directive>
+  <Directive>
     <name>TMP_PRESENT</name>
     <targets>Standalone</targets>
-    <enabled>true</enabled>
-    <sortOrder>1</sortOrder>
+    <enabled>false</enabled>
+    <sortOrder>2</sortOrder>
   </Directive>
   <Directive>
     <name>ENABLE_PROFILING</name>
     <targets>Standalone iOS Android WebGL Metro</targets>
     <enabled>false</enabled>
-    <sortOrder>2</sortOrder>
+    <sortOrder>3</sortOrder>
   </Directive>
   <Directive>
     <name>LOGS_ENABLED</name>
     <targets>Standalone iOS Android WebGL Metro</targets>
     <enabled>false</enabled>
-    <sortOrder>3</sortOrder>
+    <sortOrder>4</sortOrder>
   </Directive>
   <Directive>
     <name>ENABLE_UNITY_PROFILING</name>
     <targets>Standalone iOS Android WebGL Metro</targets>
     <enabled>false</enabled>
-    <sortOrder>4</sortOrder>
+    <sortOrder>5</sortOrder>
   </Directive>
   <Directive>
     <name>AI6_DEBUG</name>
     <targets>Standalone iOS Android WebGL Metro</targets>
     <enabled>false</enabled>
-    <sortOrder>5</sortOrder>
+    <sortOrder>6</sortOrder>
   </Directive>
   <Directive>
     <name>ENABLE_MEMORY_PROFILING</name>
     <targets>Standalone iOS Android WebGL Metro</targets>
     <enabled>false</enabled>
-    <sortOrder>6</sortOrder>
+    <sortOrder>7</sortOrder>
   </Directive>
   <Directive>
     <name>ENABLE_RESOURCE_LOG</name>
     <targets>Standalone iOS Android WebGL Metro</targets>
     <enabled>false</enabled>
-    <sortOrder>7</sortOrder>
+    <sortOrder>8</sortOrder>
   </Directive>
   <Directive>
     <name>RESOURCES_LOG_ENABLED</name>
     <targets>Standalone iOS Android WebGL Metro</targets>
     <enabled>false</enabled>
-    <sortOrder>8</sortOrder>
+    <sortOrder>9</sortOrder>
   </Directive>
   <Directive>
     <name>GAME_STATE_LOG</name>
     <targets>Standalone iOS Android WebGL Metro</targets>
     <enabled>false</enabled>
-    <sortOrder>9</sortOrder>
+    <sortOrder>10</sortOrder>
   </Directive>
   <Directive>
     <name>STATE_MACHINE_LOG</name>
     <targets>Standalone iOS Android WebGL Metro</targets>
     <enabled>false</enabled>
-    <sortOrder>10</sortOrder>
+    <sortOrder>11</sortOrder>
   </Directive>
 </ArrayOfDirective>
