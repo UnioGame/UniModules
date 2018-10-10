@@ -34,9 +34,9 @@ namespace Assets.Tools.UnityTools.Physics
 
         #region public properties
 
-        public IReadOnlyDictionary<Transform, Collision> CollisionData => collisions;
+        public IReadOnlyCollection<Collision> CollisionData => collisions.Values;
 
-        public IReadOnlyDictionary<Transform, Collider> TriggersData => triggerColliders;
+        public IReadOnlyCollection<Collider> TriggersData => triggerColliders.Values;
 
         public Collider LastTriggerObject { get; protected set; }
 

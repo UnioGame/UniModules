@@ -6,8 +6,8 @@ namespace Assets.Tools.UnityTools.Physics
 {
     public interface ISensorObject
     {
-        IReadOnlyDictionary<Transform, Collision> CollisionData { get; }
-        IReadOnlyDictionary<Transform, Collider> TriggersData { get; }
+        IReadOnlyCollection<Collision> CollisionData { get; }
+        IReadOnlyCollection<Collider> TriggersData { get; }
         
         LayerMask CollisionMask { get; }
         LayerMask RaycastMask { get; }
