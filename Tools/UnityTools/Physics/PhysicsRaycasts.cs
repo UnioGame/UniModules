@@ -4,9 +4,9 @@ namespace Modules.UnityToolsModule.Tools.UnityTools.Physics
 {
     public struct PointRayData
     {
+        public RaycastHit Hit;
         public bool Valid;
         public Vector3 Position;
-        public RaycastHit Hit;
     }
     
     public static class PhysicsRaycasts 
