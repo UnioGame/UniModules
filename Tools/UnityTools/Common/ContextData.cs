@@ -58,6 +58,11 @@ namespace Assets.Tools.UnityTools.Common
 
         }
 
+        public IObservable<TData> Observable<TData>()
+        {
+            throw new NotImplementedException();
+        }
+
         public void Release()
         {
 

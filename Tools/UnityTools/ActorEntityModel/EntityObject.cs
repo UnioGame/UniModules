@@ -1,4 +1,5 @@
-﻿using Assets.Tools.UnityTools.ActorEntityModel.Interfaces;
+﻿using System;
+using Assets.Tools.UnityTools.ActorEntityModel.Interfaces;
 using Assets.Tools.UnityTools.Common;
 
 namespace Assets.Tools.UnityTools.ActorEntityModel
@@ -35,6 +36,11 @@ namespace Assets.Tools.UnityTools.ActorEntityModel
         {
             _contextData.Add(data);
 
+        }
+
+        public IObservable<TData> Observable<TData>()
+        {
+            throw new NotImplementedException();
         }
 
         public void Release()

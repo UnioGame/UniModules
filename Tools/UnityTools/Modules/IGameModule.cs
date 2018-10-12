@@ -5,6 +5,6 @@ namespace Assets.Tools.UnityTools.Moduls
 {
     public interface IGameModule :IStateBehaviour<IEnumerator>
     {
-    
+        
     }
 }
