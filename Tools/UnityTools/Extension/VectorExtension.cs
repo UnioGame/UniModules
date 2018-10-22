@@ -11,6 +11,12 @@ namespace Assets.Tools.UnityTools.Extension
 
         }
         
+        public static bool IsLeft(this Vector3 from,Vector3 to,Vector3 direction)
+        {
+            var source =  to - from;
+            return source.IsLeft(direction);
+        }
+        
         public static float Cross2D(this Vector3 a, Vector3 b)
         {
             return (-a.x * b.y + a.y * b.x);
