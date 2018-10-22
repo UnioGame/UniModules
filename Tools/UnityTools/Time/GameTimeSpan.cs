@@ -9,14 +9,14 @@
 
         public void Update(float realTime)
         {
-            ActiveTime = realTime - StartTime;
             DeltaTime = realTime - LastUpdateTime;
+            ActiveTime = realTime - StartTime;
             LastUpdateTime = realTime;
         }
 
-        public void Reset()
+        public void Reset(float time)
         {
-            StartTime = UnityEngine.Time.realtimeSinceStartup;
+            StartTime = time;
             LastUpdateTime = StartTime;
             ActiveTime = 0;
             DeltaTime = 0;

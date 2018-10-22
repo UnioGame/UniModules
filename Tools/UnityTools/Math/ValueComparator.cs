@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Assets.Tools.UnityTools.Math {
 
@@ -44,6 +45,16 @@ namespace Assets.Tools.UnityTools.Math {
 				return true;
 
 			return false;
+		}
+
+		public static bool IsInRange(this float value, Vector2 range)
+		{
+			return IsInRange(value, range.x, range.y);
+		}
+		
+		public static bool IsAbsInRange(this float value, Vector2 range)
+		{
+			return IsInRange(Mathf.Abs(value), range.x, range.y);
 		}
 
 		public static bool ValidateMask(this int mask, int value) {
