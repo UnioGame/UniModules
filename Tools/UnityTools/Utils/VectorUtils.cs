@@ -34,6 +34,15 @@ namespace Assets.Tools.UnityTools.Utils
 
             return first ? defaultPosition : selectedPosition;
         }
-    
+
+        public static float Distance(this Component source, Component target)
+        {
+            return Vector3.Distance(source.transform.position, target.transform.position);
+        }
+        
+        public static float Distance(this Component source, Vector3 target)
+        {
+            return Vector3.Distance(source.transform.position, target);
+        }
     }
 }
