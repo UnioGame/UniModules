@@ -57,8 +57,15 @@ namespace Assets.Tools.UnityTools.Math {
 			return IsInRange(Mathf.Abs(value), range.x, range.y);
 		}
 
-		public static bool ValidateMask(this int mask, int value) {
+		public static bool ValidateMask(this int mask, int value) 
+		{
 			var result = (mask & value) > 0;
+			return result;
+		}
+		
+		public static bool ValidateLayerMask(this int mask, int layer) 
+		{
+			var result = (mask & (1 << layer)) > 0;
 			return result;
 		}
 		

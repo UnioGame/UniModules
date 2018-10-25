@@ -6,7 +6,7 @@ namespace Assets.Tools.UnityTools.Utils
     public static class VectorUtils  {
 
 
-        public static Vector3 NearestPosition(this IEnumerable<GameObject> objects, Vector3 position)
+        public static Vector3 NearestPosition(this IEnumerable<GameObject> objects, Vector3 position,Vector3 defaultPosition)
         {
             if(objects == null) return Vector3.zero;
 
@@ -32,7 +32,7 @@ namespace Assets.Tools.UnityTools.Utils
                 }
             }
 
-            return selectedPosition;
+            return first ? defaultPosition : selectedPosition;
         }
     
     }
