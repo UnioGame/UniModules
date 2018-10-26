@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Assets.Tools.UnityTools.Interfaces;
 using UniRx;
 
@@ -7,12 +8,15 @@ namespace Assets.Tools.UnityTools.Moduls
     public class ModulesAdapter : IDisposable
     {
         private readonly IContext _source;
-        private readonly IContext _target;
 
-        public ModulesAdapter(IContext source, IContext target)
+        public ModulesAdapter(IContext source)
         {
             _source = source;
-            _target = target;
+        }
+
+        public void Register()
+        {
+            
         }
 
         public void Dispose()
@@ -30,7 +34,7 @@ namespace Assets.Tools.UnityTools.Moduls
 
         private void OnContextDataReceived<TData>(TData data)
         {
-            _target.Add(data);
+            
         }
 
     }
