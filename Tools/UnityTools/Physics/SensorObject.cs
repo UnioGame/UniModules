@@ -5,6 +5,7 @@ using UnityEngine.Serialization;
 
 namespace Assets.Tools.UnityTools.Physics
 {
+    [RequireComponent(typeof(Collider))]
     public class SensorObject : MonoBehaviour, ISensorObject
     {
         protected BoolReactiveProperty _triggerConnectionChanged = new BoolReactiveProperty(false);
@@ -20,9 +21,6 @@ namespace Assets.Tools.UnityTools.Physics
 
         [SerializeField]
         protected LayerMask collisionMask;
-
-        [SerializeField]
-        protected LayerMask raycastsMask;
 
         [SerializeField]
         protected bool disableOnStayCollisions;
@@ -45,8 +43,6 @@ namespace Assets.Tools.UnityTools.Physics
         public Collider Collider => _collider;
 
         public LayerMask CollisionMask => collisionMask;
-
-        public LayerMask RaycastMask => raycastsMask;
 
         public Vector3 Position => transform.position;
 
@@ -165,5 +161,6 @@ namespace Assets.Tools.UnityTools.Physics
             var isValidLayer = (mask | (1 << layer)) == mask;
             return isValidLayer;
         }
+        
     }
 }

@@ -10,7 +10,6 @@ namespace Assets.Tools.UnityTools.Physics
         IReadOnlyCollection<Collider> TriggersData { get; }
         
         LayerMask CollisionMask { get; }
-        LayerMask RaycastMask { get; }
         
         IReadOnlyReactiveProperty<bool> TriggerConnectionChanged { get;  }
         IReadOnlyReactiveProperty<bool> CollisionConnectionChanged { get;  }
