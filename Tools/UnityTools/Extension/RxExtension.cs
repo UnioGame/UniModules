@@ -10,15 +10,15 @@ namespace Assets.Tools.UnityTools.Extension
             disposable?.Dispose();
         }
 
-        public static void Cancel(this List<IDisposable> disposable)
+        public static void Cancel(this List<IDisposable> disposables)
         {
-            if (disposable == null)
+            if (disposables == null)
                 return;
-            for (var i = 0; i < disposable.Count; i++)
+            for (var i = 0; i < disposables.Count; i++)
             {
-                disposable[i]?.Dispose();
+                disposables[i]?.Dispose();
             }
-            disposable.Clear();
+            disposables.Clear();
         }
     }
 }
