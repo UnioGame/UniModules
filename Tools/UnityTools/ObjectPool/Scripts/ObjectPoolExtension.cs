@@ -46,6 +46,13 @@ namespace Assets.Tools.UnityTools.ObjectPool.Scripts
             return pawn;
         }
 
+        public static GameObject SpawnObject(this GameObject prototype, Vector3 position, Quaternion rotation, Transform parent = null, bool stayAtPosition = false)
+        {
+            if (!prototype) return null;
+            var pawn = ObjectPool.Spawn(prototype,position,rotation,parent,stayAtPosition);
+            return pawn;
+        }
+
         public static TComponent Spawn<TComponent>(this TComponent prototype, Vector3 position,
             Quaternion rotation, Transform parent = null, bool stayWorldPosition = false)
             where TComponent : Component
