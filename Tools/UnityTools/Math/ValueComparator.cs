@@ -47,7 +47,22 @@ namespace Assets.Tools.UnityTools.Math {
 			return false;
 		}
 
-		public static bool IsInRange(this float value, Vector2 range)
+	    public static bool IsInRange(this int value, int from, int to)
+	    {
+
+	        if (value >= from && value <= to)
+	            return true;
+	        if (value >= to && value <= from)
+	            return true;
+
+	        return false;
+	    }
+
+	    public static bool IsInRange(this int value, Vector2Int range) {
+	        return value.IsInRange(range.x, range.y);
+	    }
+
+        public static bool IsInRange(this float value, Vector2 range)
 		{
 			return IsInRange(value, range.x, range.y);
 		}
