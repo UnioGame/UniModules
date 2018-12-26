@@ -101,7 +101,7 @@ namespace UnityTools.ActorEntityModel
         private void Initialize()
         {
             var model = _actorInfo?.Create();
-            model?.AddContextData(Context);
+            model?.RegisterContext(Context);
             InitializeContext();
             Actor.SetModel(model);
         }
