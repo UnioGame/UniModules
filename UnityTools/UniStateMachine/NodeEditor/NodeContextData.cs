@@ -8,8 +8,6 @@ namespace UniStateMachine.Nodes
     {
         public UniNode Node;
 
-        public IDisposableItem DisposableItem;
-
         public IContext Context;
 
         public void Activate(UniNode node, IContext nodeContext)
@@ -19,9 +17,7 @@ namespace UniStateMachine.Nodes
             Context = nodeContext;
 
             node.Input.Value.AddValue(nodeContext,nodeContext);
-            var routine = Node.Execute(Context);
-            var routineDisposable = routine.RunWithSubRoutines(Node.RoutineType);
-            DisposableItem = routineDisposable;
+            Node.Execute(Context);
 
         }
 		
@@ -30,8 +26,6 @@ namespace UniStateMachine.Nodes
             Node?.Input.Value.RemoveContext(Context);
             Node?.Exit(Context);
             Node = null;
-            DisposableItem?.Dispose();
-            DisposableItem = null;
             Context = null;
         }
     }

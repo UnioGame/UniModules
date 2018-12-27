@@ -18,9 +18,6 @@ namespace UniStateMachine
         #region inspector data
 
         [SerializeField]
-        private RoutineType _routineType = RoutineType.UpdateStep;
-
-        [SerializeField]
         private UniStateValidator _validator;
         
         #endregion
@@ -48,12 +45,16 @@ namespace UniStateMachine
         
         #endregion
 
-        public RoutineType RoutineType => _routineType;
-
-
         public virtual bool Validate(IContext context)
         {
             return _validator ? _validator.Validate(context) : true;
+        }
+
+
+        protected override void OnExit(IContext context)
+        {
+            Input.Value.RemoveContext(context);
+            base.OnExit(context);
         }
     }
 }

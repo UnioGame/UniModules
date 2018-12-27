@@ -2,9 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using Assets.Modules.UnityToolsModule.Tools.UnityTools.DataFlow;
+using Assets.Tools.UnityTools.Common;
 using Assets.Tools.UnityTools.Interfaces;
+using Assets.Tools.UnityTools.ObjectPool.Scripts;
 using Assets.Tools.UnityTools.StateMachine;
 using Assets.Tools.UnityTools.StateMachine.Interfaces;
+using Assets.Tools.UnityTools.UniRoutine;
 using UniStateMachine.Nodes;
 using UnityEngine;
 using XNode;
@@ -12,23 +15,23 @@ using XNode;
 namespace UniStateMachine
 {
     [Serializable]
-    public abstract class UniGraphNode : Node, IContextState<IEnumerator>
+    public abstract class UniGraphNode : Node , IContextState<IEnumerator>
     {
         public const string OutputPortName = "Output";
         
         [HideInInspector]
         [SerializeField]
         private List<UniPortValue> _outputs = new List<UniPortValue>();
-        
-        [NonSerialized]
-        private IContextState<IEnumerator> _state;
-        
+
         [NonSerialized]
         protected IContextData<IContext> _context;
-
+       
+        [SerializeField]
+        private RoutineType _routineType = RoutineType.UpdateStep;
+        
         #region ports
         
-        [Output(ShowBackingValue.Always)]
+        [HideInInspector]
         public UniPortValue Output = new UniPortValue(){Name = OutputPortName};
                 
         [NonSerialized]
@@ -47,11 +50,13 @@ namespace UniStateMachine
             }
         }
         
-        #endregion
+        #endregion 
         
-        
+        public RoutineType RoutineType => _routineType;
+
         [NonSerialized]
         private Dictionary<string, UniPortValue> _portValues;
+        
         public IReadOnlyDictionary<string, UniPortValue> PortValues
         {
             get
@@ -59,7 +64,8 @@ namespace UniStateMachine
                 if (_portValues == null)
                 {
                     _portValues = new Dictionary<string, UniPortValue>();
-                    foreach (var value in GetOutputValues())
+                    _portValues[OutputPortName] = Output;
+                    foreach (var value in OutputValues)
                     {
                         _portValues[value.Name] = value;
                     }
@@ -71,27 +77,71 @@ namespace UniStateMachine
         
         #region public methods
 
+                
+        [NonSerialized]
+        private IContextState<IEnumerator> _state;
+
+        private IContextState<IEnumerator> Behaviour
+        {
+            get
+            {
+                if (_state == null)
+                {
+                    var behaviour = new ProxyStateBehaviour();
+                    behaviour.Initialize(ExecuteState, Initialize, OnExit, OnPostExecute);
+                    _state = behaviour;
+                }
+
+                return _state;
+            }
+        }
+        
         public bool IsAnyActive => _context?.Contexts.Count > 0;
 
+        [NonSerialized]
+        private List<UniPortValue> _outputValues;
+        public IReadOnlyList<UniPortValue> OutputValues
+        {
+            get
+            {
+                if (_outputValues == null)
+                {
+                    _outputValues = new List<UniPortValue>();
+                    _outputValues.Add(Output);
+                    _outputValues.AddRange(_outputs);
+                }
+
+                return _outputValues;
+            }
+        }
+        
         public bool IsActive(IContext context)
         {
-            var state = GetBehaviour();
-            return state.IsActive(context);
+            return Behaviour.IsActive(context);
         }
 
         public ILifeTime GetLifeTime(IContext context)
         {
-            return _state.GetLifeTime(context);
+            return Behaviour.GetLifeTime(context);
         }
-
+ 
+        
         public void Exit(IContext context)
         {
-            var behaviour = GetBehaviour();
-            behaviour.Exit(context);
-            foreach (var output in GetOutputValues())
+            Behaviour.Exit(context);
+            foreach (var output in OutputValues)
             {
                 output.Value.RemoveContext(context);
             }
+        }
+        
+        public IEnumerator Execute(IContext context)
+        {
+            StateLogger.LogState(string.Format("STATE EXECUTE {0} TYPE {1} CONTEXT {2}", 
+                name, GetType().Name, context), this);
+
+            yield return Behaviour.Execute(context);
+            
         }
         
         /// <summary>
@@ -100,68 +150,17 @@ namespace UniStateMachine
         /// </summary>
         public virtual void Dispose()
         {
+            foreach (var outputValue in OutputValues)
+            {
+                outputValue.Value.Release();
+            }
+            Behaviour?.Dispose();
             _context?.Release();
-            _state?.Dispose();
         }
 
-        public IEnumerator Execute(IContext context)
+        public override object GetValue(NodePort port)
         {
-            StateLogger.LogState(string.Format("STATE EXECUTE {0} TYPE {1} CONTEXT {2}", 
-                name, GetType().Name, context), this);
-
-            var state = GetBehaviour();
-            yield return state.Execute(context);
-        }
-
-        #endregion
-
-        #region state behaviour methods
-
-        private void Initialize(IContextData<IContext> stateContext)
-        {
-            _context = stateContext;
-        }
-
-        protected virtual IEnumerator ExecuteState(IContext context)
-        {
-            Output.Value.AddValue(context, context);
-            yield break;
-        }
-
-        protected virtual void OnExit(IContext context)
-        {
-            Output.Value.RemoveContext(context);
-            _context?.RemoveContext(context);
-        }
-
-        protected virtual void OnPostExecute(IContext context){}
-        
-        #endregion
-
-        private IContextState<IEnumerator> Create()
-        {
-            var behaviour = new ProxyStateBehaviour();
-            behaviour.Initialize(ExecuteState, Initialize, OnExit, OnPostExecute);
-            return behaviour;
-        }
-
-        private IContextState<IEnumerator> GetBehaviour()
-        { 
-            if (_state == null)
-            {
-                _state = Create();
-            }
-            return _state;
-        }
-
-                
-        public IEnumerable<UniPortValue> GetOutputValues()
-        {
-            yield return Output;
-            for (var i = 0; i < _outputs.Count; i++)
-            {
-                yield return _outputs[i];    
-            }
+            return GetPortValue(port);
         }
 
         public void AddPortValue(UniPortValue portValue)
@@ -189,12 +188,33 @@ namespace UniStateMachine
         public UniPortValue GetPortValue(NodePort port)
         {
             PortValues.TryGetValue(port.fieldName, out var value);
-            if (value == null && port.fieldName == OutputPortName)
-            {
-                _portValues[port.fieldName] = Output;
-                value = Output;
-            }
             return value;
         }
+        
+        #endregion
+
+        #region state behaviour methods
+
+        private void Initialize(IContextData<IContext> stateContext)
+        {
+            _context = stateContext;
+        }
+
+        protected virtual IEnumerator ExecuteState(IContext context)
+        {
+            Output.Value.AddValue(context, context);
+            yield break;
+        }
+
+        protected virtual void OnExit(IContext context)
+        {
+            Output.Value.RemoveContext(context);
+            _context?.RemoveContext(context);
+        }
+
+        protected virtual void OnPostExecute(IContext context){}
+        
+        #endregion
+
     }
 }

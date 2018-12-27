@@ -1,12 +1,17 @@
-﻿using UniEditorTools;
+﻿using System;
+using UniEditorTools;
 using UniStateMachine;
+using UniStateMachine.Nodes;
 using UnityEngine;
+using XNode;
 
 namespace SubModules.Scripts.UniStateMachine.NodeEditor
 {
 	[CustomNodeEditor(typeof(UniGraphNode))]
 	public class UniNodeEditor : XNodeEditor.NodeEditor
 	{
+		public static Type UniPortValueType = typeof(UniPortValue);
+		
 		public bool IsSelected()
 		{
 			var node = target as UniGraphNode;
@@ -50,7 +55,14 @@ namespace SubModules.Scripts.UniStateMachine.NodeEditor
 
 		public virtual void DrawOutputPorts(UniGraphNode node)
 		{
-			foreach (var portValue in node.GetOutputValues())
+			
+			var outputPort = node.OutputPort;
+			if (outputPort == null)
+			{
+				node.AddInstanceOutput(UniPortValueType, Node.ConnectionType.Multiple, UniGraphNode.OutputPortName);
+			}
+
+			foreach (var portValue in node.OutputValues)
 			{
 				var port = node.GetOutputPort(portValue.Name);
 				port.DrawPortField(port.fieldName);

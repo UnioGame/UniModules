@@ -21,6 +21,10 @@ namespace UniStateMachine.Nodes
     {
 	    #region private properties
 
+	    private List<UniNode> _uniNodes;
+
+	    private List<UniGraphNode> _allNodes;
+
 	    [NonSerialized]
 	    private List<UniRootNode> _rootNodes;
 	    
@@ -39,7 +43,7 @@ namespace UniStateMachine.Nodes
 			    if (_graphState == null)
 			    {
 				    var state = new ProxyStateBehaviour();
-				    state.Initialize(OnExecute,OnInitialize,null);
+				    state.Initialize(OnExecute,OnInitialize,OnExit);
 				    _graphState = state;
 			    }
 
@@ -92,27 +96,35 @@ namespace UniStateMachine.Nodes
 		{
 		    if (_contextData == null)
 		        return;
-			foreach (var context in _contextData.Contexts.ToList())
+		    
+			foreach (var context in _contextData.Contexts)
 			{
-			    Exit(context);
+				OnExit(context);
 			}
         }
 	    
 	    #region private
-	    	    
-	    protected virtual IEnumerator UpdateGraph(UniGraphData graphContext)
+
+	    protected void OnExit(IContext context)
+	    {
+		    if (_allNodes == null) return;
+
+		    for (int i = 0; i < _allNodes.Count; i++)
+		    {
+			    var node = _allNodes[i];
+			    node.Exit(context);
+		    }
+	    }
+	    
+	    protected virtual IEnumerator UpdateGraph(IContext context)
 	    {
 
-		    while (true)
+		    while (IsActive(context))
 		    {
 
-			    for (var i = 0; i < nodes.Count; i++)
+			    for (var i = 0; i < _uniNodes.Count; i++)
 			    {
-				    if(!(nodes[i] is UniNode node))
-				    {
-					    continue;
-				    }
-				    UpdateNode(node, graphContext);
+				    UpdateNode(_uniNodes[i]);
 			    }
 				
 			    yield return null;
@@ -122,6 +134,21 @@ namespace UniStateMachine.Nodes
 	    
 	    private void OnInitialize(IContextData<IContext> contextData)
 	    {
+		    _uniNodes = new List<UniNode>();
+		    _allNodes = new List<UniGraphNode>();
+		    foreach (var node in nodes)
+		    {
+			    if (!(node is UniGraphNode graphNode))
+			    {
+				    continue;
+			    }
+			    _allNodes.Add(graphNode);
+			    if(!(graphNode is UniNode uniNode))
+			    {
+				    continue;
+			    }
+			    _uniNodes.Add(uniNode);
+		    }
 		    _contextData = contextData;
 	    }
 	    
@@ -135,26 +162,19 @@ namespace UniStateMachine.Nodes
 		    }
 
 		    var lifeTime = GetLifeTime(context);
-		    var graphData = ClassPool.Spawn<UniGraphData>();
-		    graphData.Initialize(context);
-			
-		    _contextData.AddValue(context, graphData);
 
 		    foreach (var rootNode in roots)
 		    {
-			    var dispose = rootNode.Execute(context).RunWithSubRoutines();
-			    lifeTime.AddCleanUpAction(() => rootNode.Exit(context));
-			    lifeTime.AddDispose(dispose);
+			    var rootDisposableItem = rootNode.Execute(context).RunWithSubRoutines();
+			    lifeTime.AddDispose(rootDisposableItem);
 		    }
 		    
-		    var disposable = UpdateGraph(graphData).RunWithSubRoutines();
-
+		    var disposable = UpdateGraph(context).RunWithSubRoutines();
 		    lifeTime.AddDispose(disposable);
-		    lifeTime.AddCleanUpAction(() => graphData?.Despawn());
 
 	    }
 
-        private void UpdateNode(UniNode node, UniGraphData graphContext)
+        private void UpdateNode(UniNode node)
 		{
             GameProfiler.BeginSample("UpdateNodes");
 
@@ -180,25 +200,22 @@ namespace UniStateMachine.Nodes
 			    }
 		    }
 		    
-		    var activeContexts = graphContext[node];
-		    if (activeContexts != null)
+		    var activeContexts = node.Input.Contexts;
+		    foreach (var context in activeContexts)
 		    {
-		        foreach (var context in activeContexts.Keys)
-		        {
-			        if(!connectedContexts.ContainsKey(context))
-						removedItems.Add(context);
-                }
+			    if(!connectedContexts.ContainsKey(context))
+				    removedItems.Add(context);
 		    }
-
+		    
             for (var i = 0; i < removedItems.Count; i++)
             {
 	            var context = removedItems[i];
-	            StopNode(node, context, graphContext);
+	            StopNode(node, context);
             }
 
             foreach (var connection in connectedContexts)
 		    {
-                UpdateNode(node, connection.Key, graphContext);
+                UpdateNode(node, connection.Key);
 		    }
 
             connections.DespawnCollection();
@@ -208,44 +225,40 @@ namespace UniStateMachine.Nodes
 		    GameProfiler.EndSample();
         }
 
-		private void UpdateNode(UniNode node, IContext context, UniGraphData graphContext)
+		private void UpdateNode(UniNode node, IContext context)
 		{
 
             if (node.Validate(context))
 		    {
-		        LaunchNode(node, context, graphContext);
+		        LaunchNode(node, context);
 		    }
 		    else
 		    {
-		        StopNode(node, context, graphContext);
+		        StopNode(node, context);
 		    }
         
 		}
 
-		private void LaunchNode(UniNode node, IContext context, UniGraphData graphContext)
+		private void LaunchNode(UniNode node, IContext context)
 		{
 		    if (node.IsActive(context))
 		        return;
 
-		    var data = graphContext.Get(node, context);
-
 		    StateLogger.LogState($"GRAPH NODE {node.name} : STARTED", node);
 
-            //if node already was started, but restart option disabled
-            //when pass target node
-            if (data!=null)
-			{
-			    data.Activate(node,context);
-			    return;
-			}
-
-            var item = ClassPool.Spawn<NodeContextData>();
-            item.Activate(node,context);
-		    graphContext.Add(node,context, item);
+		    var inputValue = node.Input.Value;
+		    inputValue.AddValue(context,context);
+            
+		    var awaiter = node.Execute(context);
+		    var disposable = awaiter.RunWithSubRoutines(node.RoutineType);
+            
+		    //cleanup actions
+		    var lifeTime = node.GetLifeTime(context);
+		    lifeTime.AddDispose(disposable);
 
 		}
 		
-		private void StopNode(UniNode node, IContext context, UniGraphData graphContext)
+		private void StopNode(UniNode node, IContext context)
 		{
             //node already active for this context
 		    if (!node.IsActive(context))
@@ -253,21 +266,7 @@ namespace UniStateMachine.Nodes
 
             StateLogger.LogState($"GRAPH NODE {node.name} : STOPED", node);
 
-            var output = node.Output.Value;
-            var outputContext = output.Get<IContext>(context);
-            graphContext.Release(node, context);
-
-		    if (outputContext == null)
-		        return;
-
-            //stop all connected nodes
-		    var outputNodes = node.OutputPort.GetConnectedNodes<UniNode>();
-            for (int i = 0; i < outputNodes.Count; i++)
-		    {
-		        var item = outputNodes[i];
-		        StopNode(item, outputContext, graphContext);
-		    }
-            outputNodes.DespawnCollection();
+            node.Exit(context);
 
 		}
 

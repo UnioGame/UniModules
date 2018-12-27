@@ -12,7 +12,7 @@ namespace Assets.Tools.UnityTools.StateMachine.ContextStateMachine
 {
     public abstract class ContextStateBehaviour : IContextState<IEnumerator>
     {
-        protected Dictionary<IContext, LifeTimeDefinition> _lifeTimes;
+        private Dictionary<IContext, LifeTimeDefinition> _lifeTimes;
 
         private bool _initialized = false;
 
@@ -25,13 +25,7 @@ namespace Assets.Tools.UnityTools.StateMachine.ContextStateMachine
 
         public IEnumerator Execute(IContext context)
         {
-            if (_initialized == false)
-            {
-                _initialized = true;
-                _contextData = new ContextDataProvider<IContext>();
-                _lifeTimes = new Dictionary<IContext, LifeTimeDefinition>();
-                OnInitialize(_contextData);
-            }
+            Initialize();
 
             //if state already active - wait
             if (IsActive(context))
@@ -40,8 +34,6 @@ namespace Assets.Tools.UnityTools.StateMachine.ContextStateMachine
                 yield break;
             }
 
-            var lifeTime = ClassPool.Spawn<LifeTimeDefinition>();
-            _lifeTimes[context] = lifeTime;
             _contextData.AddValue(context,true);
             
             yield return ExecuteState(context);
@@ -58,7 +50,9 @@ namespace Assets.Tools.UnityTools.StateMachine.ContextStateMachine
             OnExit(context);
             //remove all local state data
             _contextData?.RemoveContext(context);
+            
             var lifeTime = GetLifeTime(context);
+
             if (lifeTime != null)
             {
                 lifeTime.Despawn();
@@ -85,12 +79,29 @@ namespace Assets.Tools.UnityTools.StateMachine.ContextStateMachine
 
         public ILifeTime GetLifeTime(IContext context)
         {
-            _lifeTimes.TryGetValue(context, out var value);
-            return value?.LifeTime;
+            if(_lifeTimes== null)
+                _lifeTimes = new Dictionary<IContext, LifeTimeDefinition>();
+            
+            if (!_lifeTimes.TryGetValue(context, out var value))
+            {
+                value = ClassPool.Spawn<LifeTimeDefinition>();
+                _lifeTimes[context] = value;
+            }
+            return value.LifeTime;
         }
 
         #endregion
 
+        private void Initialize()
+        {
+            if (_initialized != false) return;
+            
+            _initialized = true;
+            _contextData = new ContextDataProvider<IContext>();
+            _lifeTimes = new Dictionary<IContext, LifeTimeDefinition>();
+            OnInitialize(_contextData);
+        }
+        
         protected virtual void OnInitialize(IContextData<IContext> stateContext) { }
 
         protected virtual void OnExit(IContext context){}

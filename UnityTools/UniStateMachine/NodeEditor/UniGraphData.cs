@@ -5,7 +5,7 @@ using Assets.Tools.UnityTools.ObjectPool.Scripts;
 
 namespace UniStateMachine.Nodes
 {
-    public class UniGraphData : DoubleKeyDictionary<UniNode, IContext, NodeContextData>, IPoolable
+    public class UniGraphData1 : DoubleKeyDictionary<UniNode, IContext, NodeContextData>, IPoolable
     {
 
         public IContext Context;

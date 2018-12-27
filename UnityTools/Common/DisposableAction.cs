@@ -1,4 +1,5 @@
 ﻿using System;
+using Assets.Tools.UnityTools.ObjectPool.Scripts;
 
 namespace Assets.Tools.UnityTools.Common
 {
@@ -16,11 +17,13 @@ namespace Assets.Tools.UnityTools.Common
 
         public void Dispose()
         {
-        
             if (IsDisposed) return;
+            IsDisposed = true;
+            
             _onDisposed?.Invoke();
             _onDisposed = null;
         
+            ClassPool.Despawn(this);
         }
     }
 }
