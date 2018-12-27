@@ -2,6 +2,7 @@
 using Assets.Tools.UnityTools.ObjectPool.Scripts;
 using Assets.Tools.UnityTools.StateMachine.Interfaces;
 using UniStateMachine;
+using UniStateMachine.Nodes;
 using UnityEngine;
 
 namespace UnityTools.ActorEntityModel
@@ -19,7 +20,7 @@ namespace UnityTools.ActorEntityModel
         /// behaviour SO
         /// </summary>
         [SerializeField]
-        private UniGraphNode _stateObject;
+        private UniNodesGraph _stateObject;
 
         /// <summary>
         /// behaviour component

@@ -29,7 +29,8 @@ namespace UnityTools.ActorEntityModel
 
         public string InfoName => _name;
 
-        public IContextState<IEnumerator> Behaviour => _statesGraph;
+        public IContextState<IEnumerator> Behaviour => _statesGraph ? _statesGraph : 
+	        (IContextState<IEnumerator>)_stateObject;
         
         public abstract ActorModel Create();
 

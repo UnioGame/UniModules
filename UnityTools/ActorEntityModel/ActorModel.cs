@@ -10,7 +10,8 @@ public class ActorModel : IPoolable
 {
     public string Name;
     
-    public ReactiveProperty<IContextState<IEnumerator>> Behaviour = new ReactiveProperty<IContextState<IEnumerator>>();
+    public ReactiveProperty<IContextState<IEnumerator>> Behaviour = 
+        new ReactiveProperty<IContextState<IEnumerator>>();
     
     public virtual void Release()
     {
