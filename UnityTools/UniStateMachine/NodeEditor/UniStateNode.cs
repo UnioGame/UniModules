@@ -172,17 +172,20 @@ namespace UniStateMachine
             }
             if (PortValues.ContainsKey(portValue.Name))
             {
-                Debug.LogErrorFormat("Port Value connected to port woth ID {0} already exists",portValue.PortId);
                 return;
             }
+            
             _outputs.Add(portValue);
-            _portValues = null;
+            _outputValues.Add(portValue);
+            _portValues[portValue.Name] = portValue;
         }
 
         public void CleanUpValues()
         {
             var ports = PortValues;
             _outputs.RemoveAll(x => ports.ContainsKey(x.Name) == false);
+            _outputValues = null;
+            _portValues = null;
         }
         
         public UniPortValue GetPortValue(NodePort port)
