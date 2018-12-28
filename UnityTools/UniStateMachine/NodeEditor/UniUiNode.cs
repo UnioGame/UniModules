@@ -30,7 +30,8 @@ namespace UniStateMachine
 
             _context.AddValue<IUiViewBehaviour>(context,uiView);
 
-            var interactionsDisposable = uiView.InteractionObservable.Subscribe(x => OnUiTriggerAction(x,context));
+            var interactionsDisposable = uiView.InteractionObservable.
+                Subscribe(x => OnUiTriggerAction(x,context));
             lifetime.AddDispose(interactionsDisposable);
             
             uiView.gameObject.SetActive(true);
@@ -55,8 +56,17 @@ namespace UniStateMachine
         {
 
             var port = GetPort(trigger.Name);
-            var value = GetPortValue(port);
-            value.Value.AddValue(context,context);
+            var portValue = GetPortValue(port);
+            var value = portValue.Value;
+
+            if (trigger.IsActive)
+            {
+                value.AddValue(context,context);
+            }
+            else
+            {
+                value.RemoveContext(context);
+            }
 
         }
         
