@@ -7,6 +7,8 @@ public static class UniNodeEditorExtensions
     
     public static GUILayoutOption[] DefaultPortOptions = new GUILayoutOption[0];
 
+    public static GUILayoutOption[] MainPortOptions = new GUILayoutOption[0];
+    
     public static NodePort DrawPortField(this NodePort port, GUIContent label,GUILayoutOption[] options) {
 
         NodeEditorGUILayout.PortField(label,port,options);
@@ -14,10 +16,11 @@ public static class UniNodeEditorExtensions
 
     }
 
-    public static NodePort DrawPortField(this NodePort port, string label, GUILayoutOption[] options)
+    public static NodePort DrawPortField(this NodePort port, NodeGuiLayoutStyle style)
     {
 
-        NodeEditorGUILayout.PortField(new GUIContent(label), port, options);
+        NodeEditorGUILayout.PortField(port, style);
+        
         return port;
 
     }
@@ -30,8 +33,4 @@ public static class UniNodeEditorExtensions
 
     }
 
-    public static NodePort DrawPortField(this NodePort port,string title)
-    {
-        return port.DrawPortField(title, DefaultPortOptions);
-    }
 }

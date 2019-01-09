@@ -4,6 +4,7 @@ using UniStateMachine;
 using UniStateMachine.Nodes;
 using UnityEngine;
 using XNode;
+using XNodeEditor;
 
 namespace SubModules.Scripts.UniStateMachine.NodeEditor
 {
@@ -55,7 +56,6 @@ namespace SubModules.Scripts.UniStateMachine.NodeEditor
 
 		public virtual void DrawOutputPorts(UniGraphNode node)
 		{
-			
 			var outputPort = node.OutputPort;
 			if (outputPort == null)
 			{
@@ -64,8 +64,16 @@ namespace SubModules.Scripts.UniStateMachine.NodeEditor
 
 			foreach (var portValue in node.OutputValues)
 			{
+				
 				var port = node.GetOutputPort(portValue.Name);
-				port.DrawPortField(port.fieldName);
+				var portStyle = NodeEditorGUILayout.GetDefaultPortStyle(port);
+				if (port != outputPort)
+				{
+					portStyle.Background = Color.red;
+					portStyle.Color = Color.blue;
+				}
+				
+				port.DrawPortField(portStyle);
 			}
 		}
 		
