@@ -16,14 +16,14 @@ namespace UniStateMachine.Nodes
             Node = node;
             Context = nodeContext;
 
-            node.Input.Value.AddValue(nodeContext,nodeContext);
+            node.Input.UpdateValue(nodeContext,nodeContext);
             Node.Execute(Context);
 
         }
 		
         public void Release()
         {
-            Node?.Input.Value.RemoveContext(Context);
+            Node?.Input.RemoveContext(Context);
             Node?.Exit(Context);
             Node = null;
             Context = null;

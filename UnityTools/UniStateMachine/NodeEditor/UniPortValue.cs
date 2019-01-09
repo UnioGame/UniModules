@@ -21,6 +21,20 @@ namespace UniStateMachine.Nodes
         #endregion
         
         #region private property
+
+        private ContextDataProvider<IContext> _contextSubjects;
+
+        protected ContextDataProvider<IContext> ContextSubjects
+        {
+            get
+            {
+                if (_contextSubjects == null)
+                {
+                    _contextSubjects = new ContextDataProvider<IContext>();
+                }
+                return _contextSubjects;
+            }
+        }
         
         private ContextDataProvider<IContext> _dataProvider;
         
@@ -40,15 +54,10 @@ namespace UniStateMachine.Nodes
 
         #region rx 
 
-        public IDisposable Subscribe<TData>(IContext context, IObserver<TData> observer)
+        public IDisposable Subscribe<TData>(IContext context, Action<TData> observer)
         {
-            var subject = Value.Get<Subject<TData>>(context);
-            
-            if (subject == null)
-            {
-                subject = new Subject<TData>();
-                Value.AddValue(context, subject);
-            }
+
+            var subject = GetSubject<TData>(context);
 
             return subject.Subscribe(observer);
             
@@ -63,22 +72,25 @@ namespace UniStateMachine.Nodes
 
         public bool RemoveContext(IContext context)
         {
+            FireContextValue<object>(context,null);
             return Value.RemoveContext(context);
         }
 
         public bool Remove<TData>(IContext context)
         {
-            var subject = Value.Get<Subject<TData>>(context);
-            if (subject != null)
+            if (Value.Remove<TData>(context))
             {
-                subject.OnNext(default(TData));
+                FireContextValue<TData>(context,default(TData));
+                return true;
             }
-            return Value.Remove<TData>(context);
+
+            return false;
         }
 
-        public bool AddValue<TData>(IContext context, TData value)
+        public void UpdateValue<TData>(IContext context, TData value)
         {
-            throw new NotImplementedException();
+            FireContextValue(context,value);
+            Value.UpdateValue(context, value);
         }
 
         public bool HasContext(IContext context)
@@ -93,15 +105,29 @@ namespace UniStateMachine.Nodes
 
         public void Release()
         {
+            ContextSubjects.Release();
             Value.Release();
         }
         
         #region private methods
 
-        protected void FireContextValue<T>(IContext context, T value)
+        protected Subject<TData> GetSubject<TData>(IContext context)
         {
-            var subject = Value.Get<Subject<T>>(context);
-            subject?.OnNext(value);
+            var subjects = ContextSubjects;
+            var subject = subjects.Get<Subject<TData>>(context);
+            if (subject == null)
+            {
+                subject = new Subject<TData>();
+                subjects.UpdateValue(context,subject);
+            }
+
+            return subject;
+        }
+        
+        protected void FireContextValue<TData>(IContext context, TData value)
+        {
+            var subject = GetSubject<TData>(context);
+            subject.OnNext(value);
         }
 
         #endregion

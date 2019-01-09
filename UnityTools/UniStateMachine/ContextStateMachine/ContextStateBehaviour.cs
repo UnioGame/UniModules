@@ -19,7 +19,7 @@ namespace Assets.Tools.UnityTools.StateMachine.ContextStateMachine
         /// <summary>
         /// state local context data
         /// </summary>
-        protected IContextData<IContext> _contextData;
+        protected ContextDataProvider<IContext> _contextData;
 
         #region public methods
 
@@ -34,7 +34,7 @@ namespace Assets.Tools.UnityTools.StateMachine.ContextStateMachine
                 yield break;
             }
 
-            _contextData.AddValue(context,true);
+            _contextData.UpdateValue(context,true);
             
             yield return ExecuteState(context);
 

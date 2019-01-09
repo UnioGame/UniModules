@@ -131,7 +131,7 @@ namespace UniStateMachine
             Behaviour.Exit(context);
             foreach (var output in OutputValues)
             {
-                output.Value.RemoveContext(context);
+                output.RemoveContext(context);
             }
         }
         
@@ -152,10 +152,9 @@ namespace UniStateMachine
         {
             foreach (var outputValue in OutputValues)
             {
-                outputValue.Value.Release();
+                outputValue.Release();
             }
             Behaviour?.Dispose();
-            _context?.Release();
         }
 
         public override object GetValue(NodePort port)
@@ -205,13 +204,13 @@ namespace UniStateMachine
 
         protected virtual IEnumerator ExecuteState(IContext context)
         {
-            Output.Value.AddValue(context, context);
+            Output.UpdateValue(context, context);
             yield break;
         }
 
         protected virtual void OnExit(IContext context)
         {
-            Output.Value.RemoveContext(context);
+            Output.RemoveContext(context);
             _context?.RemoveContext(context);
         }
 

@@ -23,7 +23,7 @@ namespace Assets.Tools.UnityTools.Common
 
         }
 
-        public bool AddValue<TData>(TContext context, TData value)
+        public void UpdateValue<TData>(TContext context, TData value)
         {
 
             if (_contexts.TryGetValue(context, out var contextData) == false)
@@ -32,7 +32,7 @@ namespace Assets.Tools.UnityTools.Common
                 _contexts[context] = contextData;
             }
 
-            return contextData.Add(value);
+            contextData.Add(value);
 
         }
 

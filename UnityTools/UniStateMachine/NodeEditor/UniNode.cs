@@ -53,7 +53,7 @@ namespace UniStateMachine
 
         protected override void OnExit(IContext context)
         {
-            Input.Value.RemoveContext(context);
+            Input.RemoveContext(context);
             base.OnExit(context);
         }
     }

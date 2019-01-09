@@ -72,8 +72,8 @@ namespace UniStateMachine
 					var awaiter = activeState.Execute(context);
 					disposableItem = awaiter.RunWithSubRoutines();
 					
-					_context.AddValue(context,disposableItem);
-					_context.AddValue(context,activeState);
+					_context.UpdateValue(context,disposableItem);
+					_context.UpdateValue(context,activeState);
 				}
 				
 				yield return null;

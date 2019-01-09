@@ -246,8 +246,8 @@ namespace UniStateMachine.Nodes
 
 		    StateLogger.LogState($"GRAPH NODE {node.name} : STARTED", node);
 
-		    var inputValue = node.Input.Value;
-		    inputValue.AddValue(context,context);
+		    var inputValue = node.Input;
+		    inputValue.UpdateValue(context,context);
             
 		    var awaiter = node.Execute(context);
 		    var disposable = awaiter.RunWithSubRoutines(node.RoutineType);

@@ -28,7 +28,7 @@ namespace UniStateMachine
             
             lifetime.AddCleanUpAction(uiView.Release);
 
-            _context.AddValue<IUiViewBehaviour>(context,uiView);
+            _context.UpdateValue<IUiViewBehaviour>(context,uiView);
 
             var interactionsDisposable = uiView.InteractionObservable.
                 Subscribe(x => OnUiTriggerAction(x,context));
@@ -57,15 +57,14 @@ namespace UniStateMachine
 
             var port = GetPort(trigger.Name);
             var portValue = GetPortValue(port);
-            var value = portValue.Value;
-
+            
             if (trigger.IsActive)
             {
-                value.AddValue(context,context);
+                portValue.UpdateValue(context,context);
             }
             else
             {
-                value.RemoveContext(context);
+                portValue.RemoveContext(context);
             }
 
         }

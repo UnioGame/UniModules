@@ -42,24 +42,24 @@ namespace Assets.Tools.UnityTools.Common
             return false;
         }
 
-        public bool Add<TData>(TData data)
+        public void Add<TData>(TData data)
         {
             
-            object value = null;
             DataValue<TData> dataValue = null;
             var type = typeof(TData);
 
-            //value already exists
-            if (_contextValues.TryGetValue(type, out value)){
-                return false;
+            //value already exists, replace it
+            if (_contextValues.TryGetValue(type, out object value))
+            {
+                dataValue = (DataValue<TData>) value;
+                dataValue.SetValue(data);
+                return;
             }
 
             dataValue = ClassPool.Spawn<DataValue<TData>>();
             dataValue.SetValue(data);
             _contextValues[type] = dataValue;
-
-            return true;
-            
+         
         }
 
         public void Release()

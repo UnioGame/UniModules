@@ -15,7 +15,7 @@ namespace Assets.Tools.UnityTools.Interfaces
         
         bool Remove<TData>(TContext context);
         
-        bool AddValue<TData>(TContext context, TData value);
+        void UpdateValue<TData>(TContext context, TData value);
         
         bool HasContext(TContext context);
 
