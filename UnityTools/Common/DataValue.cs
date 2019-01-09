@@ -29,8 +29,9 @@ namespace Assets.Tools.UnityTools.Common
         {
             if(_isReleased)
                 return;
-            
+
             Release();
+            
             this.Despawn();
         }
         

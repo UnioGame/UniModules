@@ -15,6 +15,7 @@ namespace Assets.Tools.UnityTools.Common
 
         public virtual TData Get<TData>()
         {
+            
             if (!_contextValues.TryGetValue(typeof(TData), out var value))
             {
                 return default(TData);
@@ -28,6 +29,7 @@ namespace Assets.Tools.UnityTools.Common
         public bool Remove<TData>()
         {
             var type = typeof(TData);
+            
             if (_contextValues.TryGetValue(type, out var value))
             {
                 var typeValue = (DataValue<TData>)value;
@@ -40,23 +42,24 @@ namespace Assets.Tools.UnityTools.Common
             return false;
         }
 
-        public void Add<TData>(TData data)
+        public bool Add<TData>(TData data)
         {
+            
             object value = null;
             DataValue<TData> dataValue = null;
             var type = typeof(TData);
 
-            if (_contextValues.TryGetValue(type, out value))
-            {
-                dataValue = value as DataValue<TData>;
-                dataValue.SetValue(data);
-                return;
+            //value already exists
+            if (_contextValues.TryGetValue(type, out value)){
+                return false;
             }
 
             dataValue = ClassPool.Spawn<DataValue<TData>>();
             dataValue.SetValue(data);
             _contextValues[type] = dataValue;
 
+            return true;
+            
         }
 
         public void Release()

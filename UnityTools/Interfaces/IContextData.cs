@@ -5,15 +5,18 @@ using Assets.Tools.UnityTools.ObjectPool.Scripts;
 namespace Assets.Tools.UnityTools.Interfaces
 {
 
-    public interface IContextData<TContext> : IPoolable
+    public interface IContextData<TContext>
     {
         IReadOnlyCollection<TContext> Contexts { get; }
 
         TData Get<TData>(TContext context);
 
-        void RemoveContext(TContext context);
-        void Remove<TData>(TContext context);
-        void AddValue<TData>(TContext context, TData value);
+        bool RemoveContext(TContext context);
+        
+        bool Remove<TData>(TContext context);
+        
+        bool AddValue<TData>(TContext context, TData value);
+        
         bool HasContext(TContext context);
 
     }

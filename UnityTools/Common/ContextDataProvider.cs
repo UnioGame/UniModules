@@ -5,7 +5,7 @@ using Assets.Tools.UnityTools.ObjectPool.Scripts;
 
 namespace Assets.Tools.UnityTools.Common
 {
-    public class ContextDataProvider<TContext> : IContextData<TContext>
+    public class ContextDataProvider<TContext> : IContextData<TContext>,IPoolable
     {
 
         private Dictionary<TContext, ContextData> _contexts = new Dictionary<TContext, ContextData>();
@@ -23,7 +23,7 @@ namespace Assets.Tools.UnityTools.Common
 
         }
 
-        public void AddValue<TData>(TContext context, TData value)
+        public bool AddValue<TData>(TContext context, TData value)
         {
 
             if (_contexts.TryGetValue(context, out var contextData) == false)
@@ -32,7 +32,7 @@ namespace Assets.Tools.UnityTools.Common
                 _contexts[context] = contextData;
             }
 
-            contextData.Add(value);
+            return contextData.Add(value);
 
         }
 
@@ -41,23 +41,28 @@ namespace Assets.Tools.UnityTools.Common
             return context != null && _contexts.ContainsKey(context);
         }
 
-        public void RemoveContext(TContext context)
+        public bool RemoveContext(TContext context)
         {
 
             if (_contexts.TryGetValue(context, out var contextData))
             {
                 contextData.Despawn();
                 _contexts.Remove(context);
+                return true;
             }
 
+            return false;
         }
 
-        public void Remove<TData>(TContext context)
+        public bool Remove<TData>(TContext context)
         {
             if (_contexts.TryGetValue(context, out var contextData))
             {
                 contextData.Remove<TData>();
+                return true;
             }
+
+            return false;
         }
 
         public void Release()
