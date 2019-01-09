@@ -37,6 +37,7 @@ namespace XNode {
         /// <summary> Creates a copy of the original node in the graph </summary>
         public virtual Node CopyNode(Node original) {
             Node node = ScriptableObject.Instantiate(original);
+            node.UpdateId();
             node.ClearConnections();
             nodes.Add(node);
             node.graph = this;

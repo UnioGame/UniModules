@@ -19,11 +19,16 @@ namespace XNode {
             {
                 if (_id == 0)
                 {
-                    _id = node.graph.GetId();
+                    UpdateId();
                 }
 
                 return _id;
             }
+        }
+
+        public void UpdateId()
+        {
+            _id = node.graph.GetId();
         }
 
         public enum IO { Input, Output }

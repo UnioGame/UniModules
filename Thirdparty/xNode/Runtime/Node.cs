@@ -37,7 +37,7 @@ namespace XNode {
             {
                 if (_id == 0)
                 {
-                    _id = graph.GetId();
+                    UpdateId();
                 }
 
                 return _id;
@@ -52,6 +52,16 @@ namespace XNode {
             Unconnected,
             /// <summary> Always show the backing value </summary>
             Always
+        }
+
+        public void UpdateId()
+        {
+            _id = graph.GetId();
+            foreach (var portPair in ports)
+            {
+                var port = portPair.Value;
+                port.UpdateId();
+            }
         }
 
         public enum ConnectionType {
