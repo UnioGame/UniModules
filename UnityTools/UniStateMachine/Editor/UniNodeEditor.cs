@@ -67,7 +67,7 @@ namespace SubModules.Scripts.UniStateMachine.NodeEditor
 				
 				var port = node.GetOutputPort(portValue.Name);
 				var portStyle = NodeEditorGUILayout.GetDefaultPortStyle(port);
-				if (port != outputPort)
+				if (port.IsDynamic)
 				{
 					portStyle.Background = Color.red;
 					portStyle.Color = Color.blue;

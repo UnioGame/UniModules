@@ -34,7 +34,7 @@ namespace SubModules.Scripts.UniStateMachine.NodeEditor {
             DrawUiNode(uiNode);
         }
 
-        public void DrawUiNode(UniUiNode node) 
+        public static void DrawUiNode(UniUiNode node) 
         {
             var oldView = node.UiView;
             var uiView = node.UiView.DrawObjectLayout("View");
@@ -68,7 +68,7 @@ namespace SubModules.Scripts.UniStateMachine.NodeEditor {
 
 
 
-        private void AddInteractionPorts(UniUiNode node, List<InteractionTrigger> interactionItems) 
+        private static void AddInteractionPorts(UniUiNode node, List<InteractionTrigger> interactionItems) 
         {
             foreach (var handler in interactionItems)
             {

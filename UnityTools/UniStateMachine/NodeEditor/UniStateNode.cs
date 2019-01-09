@@ -169,6 +169,7 @@ namespace UniStateMachine
                 Debug.LogErrorFormat("Try add NULL port value to {0}",this);
                 return;
             }
+            
             if (PortValues.ContainsKey(portValue.Name))
             {
                 return;
