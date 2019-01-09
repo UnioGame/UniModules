@@ -54,7 +54,7 @@ namespace Assets.Tools.UnityTools.Common
 
         public void Remove<TData>(TContext context)
         {
-            if (_contexts.TryGetValue(context, out var contextData) == false)
+            if (_contexts.TryGetValue(context, out var contextData))
             {
                 contextData.Remove<TData>();
             }
