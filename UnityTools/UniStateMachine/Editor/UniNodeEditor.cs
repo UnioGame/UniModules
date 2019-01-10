@@ -46,7 +46,7 @@ namespace SubModules.Scripts.UniStateMachine.NodeEditor
 			
 			node.Invalidate();
 
-			DrawOutputPorts(node);
+			DrawPorts(node);
 		}
 
 		public override GUIStyle GetBodyStyle()
@@ -54,14 +54,14 @@ namespace SubModules.Scripts.UniStateMachine.NodeEditor
 			return base.GetBodyStyle();
 		}
 
-		public virtual void DrawOutputPorts(UniGraphNode node)
+		public virtual void DrawPorts(UniGraphNode node)
 		{
 			UpdateDefaultPorts(node);
 			
 			foreach (var portValue in node.PortValues)
 			{
 				
-				var port = node.GetOutputPort(portValue.Name);
+				var port = node.GetPort(portValue.Name);
 				var portStyle = GetPortStyle(port);
 				
 				port.DrawPortField(portStyle);
@@ -72,8 +72,8 @@ namespace SubModules.Scripts.UniStateMachine.NodeEditor
 		private void UpdateDefaultPorts(UniGraphNode node)
 		{
 			
-			node.UpdatePort<UniPortValue>(UniNode.OutputPortName, NodePort.IO.Output);
-			node.UpdatePort<UniPortValue>(UniNode.InputPortName,NodePort.IO.Input);
+			node.UpdatePortValue(UniNode.OutputPortName, NodePort.IO.Output);
+			node.UpdatePortValue(UniNode.InputPortName,NodePort.IO.Input);
 
 		}
 

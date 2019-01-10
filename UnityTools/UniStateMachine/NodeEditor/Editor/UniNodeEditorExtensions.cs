@@ -18,15 +18,20 @@ public static class UniNodeEditorExtensions
 
     }
 
-    public static (UniPortValue , NodePort) UpdatePortValue(this UniUiNode node, 
+    public static (UniPortValue , NodePort) UpdatePortValue(this UniGraphNode node, 
         string portName, NodePort.IO direction = NodePort.IO.Output)
     {
         
         var port = node.UpdatePort<UniPortValue>(portName, direction);
-        var portValue = new UniPortValue();
-        portValue.ConnectToPort(port);
-        node.AddPortValue(portValue);
+        var portValue = node.GetPortValue(port);
         
+        if (portValue == null)
+        {
+            portValue = new UniPortValue();
+            portValue.ConnectToPort(port);
+            node.AddPortValue(portValue);
+        }
+
         return (portValue,port);
         
     }

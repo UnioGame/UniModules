@@ -167,13 +167,16 @@ namespace UniStateMachine
             
             _portValues.Add(portValue);
 
+            Invalidate();
         }
 
         public void Invalidate()
         {
-            var portsMap = PortValuesMap;
-            _portValues.RemoveAll(x => portsMap.ContainsKey(x.Name) == false);
-            _portValues.Clear();
+            
+            _portValues.RemoveAll(x => GetPort(x.Name) == null);
+
+            PortValuesMap.Clear();
+            
         }
         
         public UniPortValue GetPortValue(NodePort port)

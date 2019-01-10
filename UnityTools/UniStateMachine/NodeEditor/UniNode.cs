@@ -48,7 +48,6 @@ namespace UniStateMachine
             return _validator ? _validator.Validate(context) : true;
         }
 
-
         protected override void OnExit(IContext context)
         {
             Input.RemoveContext(context);
