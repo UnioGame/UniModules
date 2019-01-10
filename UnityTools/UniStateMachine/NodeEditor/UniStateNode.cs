@@ -72,7 +72,9 @@ namespace UniStateMachine
         private RoutineType _routineType = RoutineType.UpdateStep;
 
         #endregion
-              
+        
+        public UniPortValue Output => GetPortValue(OutputPortName);
+        
         public RoutineType RoutineType => _routineType;
 
         public bool IsAnyActive => _context?.Contexts.Count > 0;

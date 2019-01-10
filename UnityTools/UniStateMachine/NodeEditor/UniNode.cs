@@ -24,7 +24,7 @@ namespace UniStateMachine
         
         #region ports
 
-        public UniPortValue InputValue
+        public UniPortValue Input => GetPortValue(InputPortName);
 
         #endregion
 
