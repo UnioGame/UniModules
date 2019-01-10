@@ -72,11 +72,11 @@ namespace SubModules.Scripts.UniStateMachine.NodeEditor {
         {
             foreach (var handler in interactionItems)
             {
+                var outputData = node.UpdatePortValue(handler.Name, NodePort.IO.Output);
                 
-                var port = node.AddInstanceOutput(UniPortType, Node.ConnectionType.Multiple, handler.Name);
-                var portValue = new UniPortValue();
-                portValue.ConnectToPort(port);
-                node.AddPortValue(portValue);
+                var inputName = string.Format($"{UniUiNode.UiInputTriggerPrefix}{handler.Name}");
+
+                var inputData = node.UpdatePortValue(inputName, NodePort.IO.Input);
                 
             }
         }
