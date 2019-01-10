@@ -24,23 +24,8 @@ namespace UniStateMachine
         
         #region ports
 
-        [NonSerialized]
-        private NodePort _inputPort;
-        public NodePort InputPort
-        {
-            get
-            {
-                if (_inputPort == null)
-                {
-                    _inputPort = GetPort(InputPortName);
-                }
+        public UniPortValue InputValue
 
-                return _inputPort;
-            }
-        }
-        
-        public UniPortValue Input;      
-        
         #endregion
 
         public virtual bool Validate(IContext context)
@@ -50,7 +35,8 @@ namespace UniStateMachine
 
         protected override void OnExit(IContext context)
         {
-            Input.RemoveContext(context);
+            var input = GetPortValue(InputPortName);
+            input.RemoveContext(context);
             base.OnExit(context);
         }
     }

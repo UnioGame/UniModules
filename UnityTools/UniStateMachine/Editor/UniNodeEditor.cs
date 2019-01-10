@@ -91,6 +91,7 @@ namespace SubModules.Scripts.UniStateMachine.NodeEditor
 			
 			if (port.IsDynamic)
 			{
+				portStyle.Name = port.fieldName;
 				portStyle.Background = Color.red;
 				portStyle.Color = Color.blue;
 			}

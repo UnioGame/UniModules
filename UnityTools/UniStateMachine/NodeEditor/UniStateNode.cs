@@ -23,8 +23,6 @@ namespace UniStateMachine
         
         [NonSerialized] protected IContextData<IContext> _context;
        
-        [NonSerialized] private NodePort _outputPort;
-        
         [NonSerialized] private Dictionary<string,UniPortValue> _portValuesMap;
 
         protected Dictionary<string, UniPortValue> PortValuesMap
@@ -65,10 +63,7 @@ namespace UniStateMachine
         #endregion
         
         #region serialized data
-                
-        [HideInInspector]
-        public UniPortValue Output = new UniPortValue(){Name = OutputPortName};
-        
+
         [HideInInspector]
         [SerializeField]
         private List<UniPortValue> _portValues = new List<UniPortValue>();
@@ -77,23 +72,6 @@ namespace UniStateMachine
         private RoutineType _routineType = RoutineType.UpdateStep;
 
         #endregion
-
-        #region ports
-        
-        public NodePort OutputPort
-        {
-            get
-            {
-                if (_outputPort == null)
-                {
-                    _outputPort = GetPort(OutputPortName);
-                }
-
-                return _outputPort;
-            }
-        }
-        
-        #endregion 
               
         public RoutineType RoutineType => _routineType;
 
@@ -181,7 +159,12 @@ namespace UniStateMachine
         
         public UniPortValue GetPortValue(NodePort port)
         {
-            PortValuesMap.TryGetValue(port.fieldName, out var value);
+            return GetPortValue(port.fieldName);
+        }
+
+        public UniPortValue GetPortValue(string portName)
+        {
+            PortValuesMap.TryGetValue(portName, out var value);
             return value;
         }
         
@@ -196,13 +179,15 @@ namespace UniStateMachine
 
         protected virtual IEnumerator ExecuteState(IContext context)
         {
-            Output.UpdateValue(context, context);
+            var output = GetPortValue(OutputPortName);
+            output.UpdateValue(context, context);
             yield break;
         }
 
         protected virtual void OnExit(IContext context)
         {
-            Output.RemoveContext(context);
+            var output = GetPortValue(OutputPortName);
+            output.RemoveContext(context);
             _context?.RemoveContext(context);
         }
 

@@ -14,7 +14,7 @@ namespace UniStateMachine
 {
     public class UniUiNode : UniNode
     {
-        public const string UiInputTriggerPrefix = "UiInput";
+        public const string UiInputTriggerPrefix = "[in]";
         
         #region inspector
 
