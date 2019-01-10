@@ -166,9 +166,7 @@ namespace UniStateMachine
             }
             
             _portValues.Add(portValue);
-            
-            //invalidate cached values
-            Invalidate();
+
         }
 
         public void Invalidate()
