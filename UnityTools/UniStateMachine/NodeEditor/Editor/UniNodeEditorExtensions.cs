@@ -15,6 +15,34 @@ public static class UniNodeEditorExtensions
         return port;
 
     }
+    
+    
+    public static NodePort UpdatePort<TValue>(this Node node,string portName,NodePort.IO direction = NodePort.IO.Output)
+    {
+        
+        var nodePort = node.GetPort(portName);
+
+        if (nodePort != null && nodePort.IsDynamic)
+        {      
+            if (nodePort.direction != direction)
+            {
+                node.RemoveInstancePort(portName);
+                nodePort = null;
+            }
+
+        }
+        
+        if (nodePort == null)
+        {
+            var portType = typeof(TValue);
+
+            nodePort = direction == NodePort.IO.Output
+                ? node.AddInstanceOutput(portType, Node.ConnectionType.Multiple, portName)
+                : node.AddInstanceInput(portType, Node.ConnectionType.Multiple, portName);
+        }
+
+        return nodePort;
+    }
 
     public static NodePort DrawPortField(this NodePort port, NodeGuiLayoutStyle style)
     {

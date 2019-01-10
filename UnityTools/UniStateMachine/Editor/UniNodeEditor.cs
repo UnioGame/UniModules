@@ -44,7 +44,7 @@ namespace SubModules.Scripts.UniStateMachine.NodeEditor
 			
 			base.OnBodyGUI();
 			
-			node.CleanUpValues();
+			node.Invalidate();
 
 			DrawOutputPorts(node);
 		}
@@ -56,25 +56,46 @@ namespace SubModules.Scripts.UniStateMachine.NodeEditor
 
 		public virtual void DrawOutputPorts(UniGraphNode node)
 		{
-			var outputPort = node.OutputPort;
-			if (outputPort == null)
-			{
-				node.AddInstanceOutput(UniPortValueType, Node.ConnectionType.Multiple, UniGraphNode.OutputPortName);
-			}
-
-			foreach (var portValue in node.OutputValues)
+			UpdateDefaultPorts(node);
+			
+			foreach (var portValue in node.PortValues)
 			{
 				
 				var port = node.GetOutputPort(portValue.Name);
-				var portStyle = NodeEditorGUILayout.GetDefaultPortStyle(port);
-				if (port.IsDynamic)
-				{
-					portStyle.Background = Color.red;
-					portStyle.Color = Color.blue;
-				}
+				var portStyle = GetPortStyle(port);
 				
 				port.DrawPortField(portStyle);
 			}
+			
+		}
+
+		private void UpdateDefaultPorts(UniGraphNode node)
+		{
+			
+			node.UpdatePort<UniPortValue>(UniNode.OutputPortName, NodePort.IO.Output);
+			node.UpdatePort<UniPortValue>(UniNode.InputPortName,NodePort.IO.Input);
+
+		}
+
+
+		private NodeGuiLayoutStyle GetPortStyle(NodePort port)
+		{
+			var portStyle = NodeEditorGUILayout.GetDefaultPortStyle(port);
+
+			if (port.fieldName == UniNode.OutputPortName || port.fieldName == UniNode.InputPortName)
+			{
+				portStyle.Background = Color.blue;
+				portStyle.Color = Color.white;
+				return portStyle;
+			}
+			
+			if (port.IsDynamic)
+			{
+				portStyle.Background = Color.red;
+				portStyle.Color = Color.blue;
+			}
+			
+			return portStyle;
 		}
 		
 	}

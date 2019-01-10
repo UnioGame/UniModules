@@ -19,68 +19,34 @@ namespace UniStateMachine
     {
         public const string OutputPortName = "Output";
         
-        [HideInInspector]
-        [SerializeField]
-        private List<UniPortValue> _outputs = new List<UniPortValue>();
-
-        [NonSerialized]
-        protected IContextData<IContext> _context;
+        #region private fields
+        
+        [NonSerialized] protected IContextData<IContext> _context;
        
-        [SerializeField]
-        private RoutineType _routineType = RoutineType.UpdateStep;
+        [NonSerialized] private NodePort _outputPort;
         
-        #region ports
-        
-        [HideInInspector]
-        public UniPortValue Output = new UniPortValue(){Name = OutputPortName};
-                
-        [NonSerialized]
-        private NodePort _outputPort;
+        [NonSerialized] private Dictionary<string,UniPortValue> _portValuesMap;
 
-        public NodePort OutputPort
+        protected Dictionary<string, UniPortValue> PortValuesMap
         {
             get
             {
-                if (_outputPort == null)
+                if (_portValuesMap == null)
                 {
-                    _outputPort = GetPort(OutputPortName);
+                    _portValuesMap = new Dictionary<string, UniPortValue>();
                 }
 
-                return _outputPort;
-            }
-        }
-        
-        #endregion 
-        
-        public RoutineType RoutineType => _routineType;
-
-        [NonSerialized]
-        private Dictionary<string, UniPortValue> _portValues;
-        
-        public IReadOnlyDictionary<string, UniPortValue> PortValues
-        {
-            get
-            {
-                if (_portValues == null)
+                if (_portValuesMap.Count == 0)
                 {
-                    _portValues = new Dictionary<string, UniPortValue>();
-                    _portValues[OutputPortName] = Output;
-                    foreach (var value in OutputValues)
-                    {
-                        _portValues[value.Name] = value;
-                    }
+                    _portValues.ForEach(x => _portValuesMap.Add(x.Name,x));
                 }
 
-                return _portValues;
+                return _portValuesMap;
             }
         }
-        
-        #region public methods
 
-                
         [NonSerialized]
         private IContextState<IEnumerator> _state;
-
         private IContextState<IEnumerator> Behaviour
         {
             get
@@ -95,25 +61,48 @@ namespace UniStateMachine
                 return _state;
             }
         }
-        
-        public bool IsAnyActive => _context?.Contexts.Count > 0;
 
-        [NonSerialized]
-        private List<UniPortValue> _outputValues;
-        public IReadOnlyList<UniPortValue> OutputValues
+        #endregion
+        
+        #region serialized data
+                
+        [HideInInspector]
+        public UniPortValue Output = new UniPortValue(){Name = OutputPortName};
+        
+        [HideInInspector]
+        [SerializeField]
+        private List<UniPortValue> _portValues = new List<UniPortValue>();
+
+        [SerializeField]
+        private RoutineType _routineType = RoutineType.UpdateStep;
+
+        #endregion
+
+        #region ports
+        
+        public NodePort OutputPort
         {
             get
             {
-                if (_outputValues == null)
+                if (_outputPort == null)
                 {
-                    _outputValues = new List<UniPortValue>();
-                    _outputValues.Add(Output);
-                    _outputValues.AddRange(_outputs);
+                    _outputPort = GetPort(OutputPortName);
                 }
 
-                return _outputValues;
+                return _outputPort;
             }
         }
+        
+        #endregion 
+              
+        public RoutineType RoutineType => _routineType;
+
+        public bool IsAnyActive => _context?.Contexts.Count > 0;
+
+        public IReadOnlyList<UniPortValue> PortValues => _portValues;
+        
+        
+        #region public methods
         
         public bool IsActive(IContext context)
         {
@@ -125,11 +114,10 @@ namespace UniStateMachine
             return Behaviour.GetLifeTime(context);
         }
  
-        
         public void Exit(IContext context)
         {
             Behaviour.Exit(context);
-            foreach (var output in OutputValues)
+            foreach (var output in PortValues)
             {
                 output.RemoveContext(context);
             }
@@ -150,11 +138,12 @@ namespace UniStateMachine
         /// </summary>
         public virtual void Dispose()
         {
-            foreach (var outputValue in OutputValues)
+            foreach (var outputValue in PortValues)
             {
                 outputValue.Release();
             }
             Behaviour?.Dispose();
+            Invalidate();
         }
 
         public override object GetValue(NodePort port)
@@ -164,33 +153,34 @@ namespace UniStateMachine
 
         public void AddPortValue(UniPortValue portValue)
         {
+            
             if (portValue == null)
             {
                 Debug.LogErrorFormat("Try add NULL port value to {0}",this);
                 return;
             }
             
-            if (PortValues.ContainsKey(portValue.Name))
+            if (PortValuesMap.ContainsKey(portValue.Name))
             {
                 return;
             }
             
-            _outputs.Add(portValue);
-            _outputValues.Add(portValue);
-            _portValues[portValue.Name] = portValue;
+            _portValues.Add(portValue);
+            
+            //invalidate cached values
+            Invalidate();
         }
 
-        public void CleanUpValues()
+        public void Invalidate()
         {
-            var ports = PortValues;
-            _outputs.RemoveAll(x => ports.ContainsKey(x.Name) == false);
-            _outputValues = null;
-            _portValues = null;
+            var portsMap = PortValuesMap;
+            _portValues.RemoveAll(x => portsMap.ContainsKey(x.Name) == false);
+            _portValues.Clear();
         }
         
         public UniPortValue GetPortValue(NodePort port)
         {
-            PortValues.TryGetValue(port.fieldName, out var value);
+            PortValuesMap.TryGetValue(port.fieldName, out var value);
             return value;
         }
         

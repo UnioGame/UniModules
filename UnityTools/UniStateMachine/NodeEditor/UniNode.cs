@@ -24,6 +24,8 @@ namespace UniStateMachine
         
         #region ports
 
+        [NonSerialized]
+        private NodePort _inputPort;
         public NodePort InputPort
         {
             get
@@ -37,10 +39,6 @@ namespace UniStateMachine
             }
         }
         
-        [NonSerialized]
-        private NodePort _inputPort;
-        
-        [Input(ShowBackingValue.Always)]
         public UniPortValue Input;      
         
         #endregion
