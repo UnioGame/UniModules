@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Assets.Modules.UnityToolsModule.Tools.UnityTools.DataFlow;
 using Assets.Tools.UnityTools.Interfaces;
 using Assets.Tools.UnityTools.ObjectPool.Scripts;
+using UnityTools.Common;
 
 namespace Assets.Tools.UnityTools.Common
 {
@@ -11,7 +12,7 @@ namespace Assets.Tools.UnityTools.Common
         /// <summary>
         /// registered conmponents
         /// </summary>
-        private Dictionary<Type, object> _contextValues = new Dictionary<Type, object>();
+        private Dictionary<Type, IDataTransition> _contextValues = new Dictionary<Type, IDataTransition>();
 
         public virtual TData Get<TData>()
         {
@@ -49,7 +50,7 @@ namespace Assets.Tools.UnityTools.Common
             var type = typeof(TData);
 
             //value already exists, replace it
-            if (_contextValues.TryGetValue(type, out object value))
+            if (_contextValues.TryGetValue(type, out IDataTransition value))
             {
                 dataValue = (DataValue<TData>) value;
                 dataValue.SetValue(data);

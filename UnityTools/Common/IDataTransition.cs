@@ -3,7 +3,9 @@
     public interface IDataTransition
     {
 
-        void CopyTo();
+        void CopyTo(IDataTransition transition);
+
+        void Add<TData>(TData data);
 
     }
 }
