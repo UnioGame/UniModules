@@ -50,7 +50,7 @@ namespace UniStateMachine.Nodes
 
         #endregion
                    
-        public IReadOnlyCollection<IContext> Contexts => _dataProvider.Contexts;
+        public IReadOnlyCollection<IContext> Contexts => Value.Contexts;
 
         #region rx 
 

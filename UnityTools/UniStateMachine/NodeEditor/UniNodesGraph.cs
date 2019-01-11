@@ -178,7 +178,8 @@ namespace UniStateMachine.Nodes
 		{
             GameProfiler.BeginSample("UpdateNodes");
 
-			var input = node.InputPort;
+			var input = node.GetPort(UniNode.InputPortName);
+			
 			var connections = input.GetConnections();
             var connectedContexts = ClassPool.Spawn<Dictionary<IContext, NodePort>>();
 		    var removedItems = ClassPool.Spawn<List<IContext>>();
@@ -196,6 +197,10 @@ namespace UniStateMachine.Nodes
 			    var contexts = portValue.Contexts;
 			    foreach (var context in contexts)
 			    {
+				    var contextValue = portValue.Get<IContext>(context);
+				    if(contextValue == null)
+					    continue;
+				    
 				    connectedContexts[context] = connection;
 			    }
 		    }
