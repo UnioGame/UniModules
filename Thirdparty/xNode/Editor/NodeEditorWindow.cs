@@ -166,6 +166,10 @@ namespace XNodeEditor
             var nodeGraph = EditorUtility.InstanceIDToObject(instanceID) as XNode.NodeGraph;
             if (nodeGraph != null) {
                 var w = GetWindow(typeof(NodeEditorWindow), false, "xNode", true) as NodeEditorWindow;
+                
+                var nodeEditor = w as NodeEditorWindow;
+                nodeEditor?.portConnectionPoints.Clear();
+                
                 w.wantsMouseMove = true;
                 w.graph = nodeGraph;
                 return true;

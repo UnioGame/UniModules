@@ -56,29 +56,11 @@ namespace SubModules.Scripts.UniStateMachine.NodeEditor {
                 return;
             }
             
-            uiView.UpdateTriggers();
-
-            AddInteractionPorts(node, uiView.Triggers);
-
             node.UiView = PrefabUtility.SavePrefabAsset(uiView.gameObject).GetComponent<UiViewBehaviour>();
             
             EditorUtility.SetDirty(node.graph);
 
         }
 
-
-
-        private static void AddInteractionPorts(UniUiNode node, List<InteractionTrigger> interactionItems) 
-        {
-            foreach (var handler in interactionItems)
-            {
-                var outputData = node.UpdatePortValue(handler.Name, NodePort.IO.Output);
-                
-                var inputName = string.Format($"{UniUiNode.UiInputTriggerPrefix}{handler.Name}");
-
-                var inputData = node.UpdatePortValue(inputName, NodePort.IO.Input);
-                
-            }
-        }
     }
 }

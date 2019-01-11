@@ -28,6 +28,12 @@ namespace UniStateMachine
 
         #endregion
 
+        public override void UpdatePorts()
+        {
+            this.UpdatePortValue(InputPortName, NodePort.IO.Input);
+            base.UpdatePorts();
+        }
+
         public virtual bool Validate(IContext context)
         {
             return _validator ? _validator.Validate(context) : true;

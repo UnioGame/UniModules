@@ -205,19 +205,26 @@ namespace XNodeEditor {
 
         public static NodeGuiLayoutStyle GetDefaultPortStyle(NodePort port)
         {
+            var name = port == null ? string.Empty : port.fieldName;
+            var label = port == null ? new GUIContent(string.Empty) : new GUIContent(port.fieldName);
+            
             var style = new NodeGuiLayoutStyle()
             {
                 Color = GetMainPortColor(port),
                 Background = GetBackgroundPortColor(port),
                 Options = new GUILayoutOption[] { GUILayout.MinWidth(30)},
-                Label = new GUIContent(ObjectNames.NicifyVariableName(port.fieldName)),
-                Name = port.fieldName,
+                Label = label,
+                Name = name,
             };
+            
             return style;
         }
         
         public static Color GetMainPortColor(NodePort port)
         {
+            if(port ==null)
+                return Color.magenta;
+            
             return NodeEditorWindow.current.graphEditor.GetTypeColor(port.ValueType);
         }
 
@@ -225,6 +232,9 @@ namespace XNodeEditor {
         {
             
             Color backgroundColor = new Color32(90, 97, 105, 255);
+            if (port == null)
+                return backgroundColor;
+            
             if (NodeEditorWindow.nodeTint.TryGetValue(port.node.GetType(), out var tint)) backgroundColor *= tint;
             return backgroundColor;
             

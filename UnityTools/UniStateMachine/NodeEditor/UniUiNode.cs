@@ -34,6 +34,7 @@ namespace UniStateMachine
 
             var interactionsDisposable = uiView.InteractionObservable.
                 Subscribe(x => OnUiTriggerAction(x,context));
+            
             lifetime.AddDispose(interactionsDisposable);
             
             uiView.gameObject.SetActive(true);
@@ -81,5 +82,28 @@ namespace UniStateMachine
             return base.Validate(context);
         }
 
+        public override void UpdatePorts()
+        {
+            base.UpdatePorts();
+
+            if (!UiView)
+            {
+                //todo remove ui ports
+                return;
+            }
+            
+            UiView.UpdateTriggers();
+            
+            foreach (var handler in UiView.Triggers)
+            {
+                
+                this.UpdatePortValue(handler.Name, NodePort.IO.Output);
+                
+                var inputName = string.Format($"{UniUiNode.UiInputTriggerPrefix}{handler.Name}");
+
+                this.UpdatePortValue(inputName, NodePort.IO.Input);
+                
+            }
+        }
     }
 }

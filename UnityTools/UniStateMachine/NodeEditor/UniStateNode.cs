@@ -83,6 +83,11 @@ namespace UniStateMachine
         
         
         #region public methods
+
+        public virtual void UpdatePorts()
+        {
+            this.UpdatePortValue(OutputPortName, NodePort.IO.Output);
+        }
         
         public bool IsActive(IContext context)
         {
@@ -131,23 +136,25 @@ namespace UniStateMachine
             return GetPortValue(port);
         }
 
-        public void AddPortValue(UniPortValue portValue)
+        public bool AddPortValue(UniPortValue portValue)
         {
             
             if (portValue == null)
             {
                 Debug.LogErrorFormat("Try add NULL port value to {0}",this);
-                return;
+                return false;
             }
             
             if (PortValuesMap.ContainsKey(portValue.Name))
             {
-                return;
+                return false;
             }
             
             _portValues.Add(portValue);
 
             Invalidate();
+
+            return true;
         }
 
         public void Invalidate()
@@ -177,6 +184,8 @@ namespace UniStateMachine
         private void Initialize(IContextData<IContext> stateContext)
         {
             _context = stateContext;
+            UpdatePorts();
+            OnInitialize(stateContext);
         }
 
         protected virtual IEnumerator ExecuteState(IContext context)
@@ -193,6 +202,11 @@ namespace UniStateMachine
             _context?.RemoveContext(context);
         }
 
+        protected virtual void OnInitialize(IContextData<IContext> localContext)
+        {
+            
+        }
+        
         protected virtual void OnPostExecute(IContext context){}
         
         #endregion
