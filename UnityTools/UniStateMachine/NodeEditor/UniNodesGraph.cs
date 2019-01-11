@@ -262,6 +262,16 @@ namespace UniStateMachine.Nodes
 		    lifeTime.AddDispose(disposable);
 
 		}
+
+		private void UpdateInputsValues(UniNode node, IContext context)
+		{
+			var values = node.PortValues;
+			for (int i = 0; i < values.Count; i++)
+			{
+				var value = values[i];
+				
+			}
+		}
 		
 		private void StopNode(UniNode node, IContext context)
 		{

@@ -34,6 +34,11 @@ namespace Assets.Tools.UnityTools.Common
             
             this.Despawn();
         }
+
+        public void CopyTo()
+        {
+            
+        }
         
         private void Release()
         {

@@ -61,7 +61,7 @@ namespace Assets.Tools.UnityTools.Common
             _contextValues[type] = dataValue;
          
         }
-
+        
         public void Release()
         {
 

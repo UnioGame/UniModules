@@ -39,11 +39,5 @@ namespace UniStateMachine
             return _validator ? _validator.Validate(context) : true;
         }
 
-        protected override void OnExit(IContext context)
-        {
-            var input = GetPortValue(InputPortName);
-            input.RemoveContext(context);
-            base.OnExit(context);
-        }
     }
 }

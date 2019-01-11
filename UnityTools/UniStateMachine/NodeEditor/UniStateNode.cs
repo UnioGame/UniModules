@@ -197,8 +197,11 @@ namespace UniStateMachine
 
         protected virtual void OnExit(IContext context)
         {
-            var output = GetPortValue(OutputPortName);
-            output.RemoveContext(context);
+            for (int i = 0; i < _portValues.Count; i++)
+            {
+                var portValue = _portValues[i];
+                portValue.RemoveContext(context);
+            }
             _context?.RemoveContext(context);
         }
 

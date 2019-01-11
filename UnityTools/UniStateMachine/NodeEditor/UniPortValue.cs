@@ -52,6 +52,8 @@ namespace UniStateMachine.Nodes
                    
         public IReadOnlyCollection<IContext> Contexts => Value.Contexts;
 
+        
+        
         #region rx 
 
         public IDisposable Subscribe<TData>(IContext context, Action<TData> observer)

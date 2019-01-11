@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Tests.GraphTest
 {
-	public class TestLogNode : UniNode
+	public class LogNode : UniNode
 	{
 		[SerializeField]
 		private string _message;

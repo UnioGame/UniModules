@@ -40,6 +40,7 @@ namespace UniStateMachine
             return (portValue,port);
         
         }
+        
 
         public static NodePort UpdatePort<TValue>(this Node node,string portName,NodePort.IO direction = NodePort.IO.Output)
         {
