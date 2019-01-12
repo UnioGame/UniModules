@@ -1,11 +1,8 @@
 ﻿namespace UnityTools.Common
 {
-    public interface IDataTransition
+    public interface IDataTransition<TFrom,TTo>
     {
-
-        void CopyTo(IDataTransition transition);
-
-        void Add<TData>(TData data);
+        void Move(TFrom fromData, TTo data);
 
     }
 }

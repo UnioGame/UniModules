@@ -35,7 +35,7 @@ namespace Assets.Tools.UnityTools.Common
             contextData.Add(value);
 
         }
-
+        
         public bool HasContext(TContext context)
         {
             return context != null && _contexts.ContainsKey(context);
