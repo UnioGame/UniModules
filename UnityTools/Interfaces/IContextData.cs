@@ -5,7 +5,7 @@ using Assets.Tools.UnityTools.ObjectPool.Scripts;
 namespace Assets.Tools.UnityTools.Interfaces
 {
 
-    public interface IContextData<TContext>
+    public interface IContextData<TContext> : IContextDataWriter<TContext>
     {
         IReadOnlyCollection<TContext> Contexts { get; }
 
@@ -14,10 +14,15 @@ namespace Assets.Tools.UnityTools.Interfaces
         bool RemoveContext(TContext context);
         
         bool Remove<TData>(TContext context);
-        
-        void UpdateValue<TData>(TContext context, TData value);
-        
+
+    }
+
+    public interface IContextDataWriter<TContext>
+    {
+             
         bool HasContext(TContext context);
+   
+        void UpdateValue<TData>(TContext context, TData value);
 
     }
 }

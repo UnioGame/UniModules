@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using Assets.Modules.UnityToolsModule.Tools.UnityTools.DataFlow;
-using Assets.Tools.UnityTools.Interfaces;
 using Assets.Tools.UnityTools.ObjectPool.Scripts;
 using UnityTools.Common;
+using UnityTools.Interfaces;
 
 namespace Assets.Tools.UnityTools.Common
 {
-    public class ContextData
+    public class ContextData : IContextData, IDataTransition
     {
         /// <summary>
         /// registered conmponents
         /// </summary>
-        private Dictionary<Type, IDataTransition> _contextValues = new Dictionary<Type, IDataTransition>();
+        private Dictionary<Type, IDataCopier<IDataTransition>> _contextValues = new Dictionary<Type, IDataCopier<IDataTransition>>();
 
         public virtual TData Get<TData>()
         {
@@ -22,7 +21,7 @@ namespace Assets.Tools.UnityTools.Common
                 return default(TData);
             }
 
-            var valueData = value as DataValue<TData>;
+            var valueData = value as ContextValue<TData>;
             return valueData.Value;
 
         }
@@ -33,7 +32,7 @@ namespace Assets.Tools.UnityTools.Common
             
             if (_contextValues.TryGetValue(type, out var value))
             {
-                var typeValue = (DataValue<TData>)value;
+                var typeValue = (ContextValue<TData>)value;
                 var removed = _contextValues.Remove(type);
 
                 typeValue.Dispose();
@@ -46,20 +45,20 @@ namespace Assets.Tools.UnityTools.Common
         public void Add<TData>(TData data)
         {
             
-            DataValue<TData> dataValue = null;
+            ContextValue<TData> contextValue = null;
             var type = typeof(TData);
 
             //value already exists, replace it
-            if (_contextValues.TryGetValue(type, out IDataTransition value))
+            if (_contextValues.TryGetValue(type, out IDataCopier<IDataTransition> value))
             {
-                dataValue = (DataValue<TData>) value;
-                dataValue.SetValue(data);
+                contextValue = (ContextValue<TData>) value;
+                contextValue.SetValue(data);
                 return;
             }
 
-            dataValue = ClassPool.Spawn<DataValue<TData>>();
-            dataValue.SetValue(data);
-            _contextValues[type] = dataValue;
+            contextValue = ClassPool.Spawn<ContextValue<TData>>();
+            contextValue.SetValue(data);
+            _contextValues[type] = contextValue;
          
         }
         
@@ -75,5 +74,9 @@ namespace Assets.Tools.UnityTools.Common
 
         }
 
+        public void Move<TValue>(TValue value)
+        {
+            Add<TValue>(value);
+        }
     }
 }

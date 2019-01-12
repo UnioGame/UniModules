@@ -2,10 +2,11 @@
 using Assets.Modules.UnityToolsModule.Tools.UnityTools.DataFlow;
 using Assets.Tools.UnityTools.Interfaces;
 using Assets.Tools.UnityTools.ObjectPool.Scripts;
+using UnityTools.Interfaces;
 
 namespace Assets.Tools.UnityTools.Common
 {
-    public class ContextDataProvider<TContext> : IContextData<TContext>,IPoolable
+    public class ContextDataProvider<TContext> : IContextData<TContext>, IDataCopier<>, IPoolable
     {
 
         private Dictionary<TContext, ContextData> _contexts = new Dictionary<TContext, ContextData>();

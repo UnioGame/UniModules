@@ -3,11 +3,12 @@ using Assets.Tools.UnityTools.Interfaces;
 using Assets.Tools.UnityTools.ObjectPool.Scripts;
 using UniRx;
 using UnityTools.Common;
+using UnityTools.Interfaces;
 
 namespace Assets.Tools.UnityTools.Common
 {
     [Serializable]
-    public class DataValue<TData> : IDataValue<TData>, IDataTransition
+    public class ContextValue<TData> : IDataValue<TData>, IDataCopier<IDataTransition>
     {
         protected ReactiveProperty<TData> _reactiveValue = new ReactiveProperty<TData>();
         protected bool _isReleased;
@@ -38,14 +39,10 @@ namespace Assets.Tools.UnityTools.Common
         
         #region IDataTransition
 
-        public void CopyTo(IDataTransition dataTransition)
+        
+        public void CopyTo(IDataTransition target)
         {
-            dataTransition.Add<TData>(Value);
-        }
-
-        public void Add<TValue>(TValue data)
-        {
-            SetValue(data);
+            target.Move(Value);
         }
         
         #endregion

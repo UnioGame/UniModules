@@ -1,11 +1,15 @@
 ﻿using Assets.Tools.UnityTools.Common;
-using UnityTools.Common;
 
-public class ContextDataTransition<TContext> : 
-    IDataTransition<ContextDataProvider<TContext>,ContextDataProvider<TContext>>
+namespace UnityTools.Common
 {
-    public void Move(ContextDataProvider<TContext> fromData, ContextDataProvider<TContext> data)
+    public class ContextDataConteiner<TContext> : 
+        IDataConteiner<>
     {
+        public void Move(ContextDataProvider<TContext> fromData, 
+            ContextDataProvider<TContext> data)
+        {
+            
+        }
         
     }
 }
