@@ -4,6 +4,7 @@ using Assets.Tools.UnityTools.Common;
 using Assets.Tools.UnityTools.Interfaces;
 using UniRx;
 using UnityEngine;
+using UnityTools.Common;
 using XNode;
 
 namespace UniStateMachine.Nodes
@@ -53,7 +54,6 @@ namespace UniStateMachine.Nodes
         public IReadOnlyCollection<IContext> Contexts => Value.Contexts;
 
         
-        
         #region rx 
 
         public IDisposable Subscribe<TData>(IContext context, Action<TData> observer)
@@ -66,6 +66,11 @@ namespace UniStateMachine.Nodes
         }
         
         #endregion
+          
+        public void CopyTo(IContext context, IDataWriter writer)
+        {
+            Value.CopyTo(context,writer);
+        }
         
         public TData Get<TData>(IContext context)
         {
@@ -133,5 +138,6 @@ namespace UniStateMachine.Nodes
         }
 
         #endregion
+
     }
 }

@@ -2,11 +2,12 @@
 using Assets.Modules.UnityToolsModule.Tools.UnityTools.DataFlow;
 using Assets.Tools.UnityTools.Interfaces;
 using Assets.Tools.UnityTools.ObjectPool.Scripts;
+using UnityTools.Common;
 using UnityTools.Interfaces;
 
 namespace Assets.Tools.UnityTools.Common
 {
-    public class ContextDataProvider<TContext> : IContextData<TContext>, IDataCopier<>, IPoolable
+    public class ContextDataProvider<TContext> : IContextData<TContext>, IPoolable
     {
 
         private Dictionary<TContext, ContextData> _contexts = new Dictionary<TContext, ContextData>();
@@ -81,6 +82,21 @@ namespace Assets.Tools.UnityTools.Common
             
         }
 
+        public void CopyTo(TContext context, IDataWriter writer)
+        {
+            
+            if (!_contexts.TryGetValue(context, out var contextData))
+            {
+                return;
+            }
+
+            foreach (var value in contextData.Values)
+            {
+                value.CopyTo(writer);
+            }
+            
+            
+        }
 
     }
 }

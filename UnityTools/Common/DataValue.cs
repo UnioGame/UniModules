@@ -8,7 +8,7 @@ using UnityTools.Interfaces;
 namespace Assets.Tools.UnityTools.Common
 {
     [Serializable]
-    public class ContextValue<TData> : IDataValue<TData>, IDataCopier<IDataTransition>
+    public class ContextValue<TData> : IDataValue<TData>, IWritableValue
     {
         protected ReactiveProperty<TData> _reactiveValue = new ReactiveProperty<TData>();
         protected bool _isReleased;
@@ -38,11 +38,10 @@ namespace Assets.Tools.UnityTools.Common
         }
         
         #region IDataTransition
-
         
-        public void CopyTo(IDataTransition target)
+        public void CopyTo(global::UnityTools.Common.IDataWriter target)
         {
-            target.Move(Value);
+            target.Write(Value);
         }
         
         #endregion

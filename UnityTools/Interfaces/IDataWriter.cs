@@ -2,10 +2,10 @@
 
 namespace UnityTools.Common
 {
-    public interface IDataTransition
+    public interface IDataWriter
     {
         
-        void Move<TValue>(TValue value);
+        void Add<TValue>(TValue value);
 
     }
 

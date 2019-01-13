@@ -6,13 +6,15 @@ using UnityTools.Interfaces;
 
 namespace Assets.Tools.UnityTools.Common
 {
-    public class ContextData : IContextData, IDataTransition
+    public class ContextData : IContextData, IDataWriter
     {
         /// <summary>
         /// registered conmponents
         /// </summary>
-        private Dictionary<Type, IDataCopier<IDataTransition>> _contextValues = new Dictionary<Type, IDataCopier<IDataTransition>>();
+        private Dictionary<Type, IWritableValue> _contextValues = new Dictionary<Type, IWritableValue>();
 
+        public IReadOnlyCollection<IWritableValue> Values => _contextValues.Values;
+        
         public virtual TData Get<TData>()
         {
             
@@ -49,7 +51,7 @@ namespace Assets.Tools.UnityTools.Common
             var type = typeof(TData);
 
             //value already exists, replace it
-            if (_contextValues.TryGetValue(type, out IDataCopier<IDataTransition> value))
+            if (_contextValues.TryGetValue(type, out IWritableValue value))
             {
                 contextValue = (ContextValue<TData>) value;
                 contextValue.SetValue(data);
@@ -74,9 +76,5 @@ namespace Assets.Tools.UnityTools.Common
 
         }
 
-        public void Move<TValue>(TValue value)
-        {
-            Add<TValue>(value);
-        }
     }
 }

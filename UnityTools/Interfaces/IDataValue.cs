@@ -6,6 +6,7 @@ namespace Assets.Tools.UnityTools.Interfaces
 	{
 		TData Value { get; }
 		void SetValue(TData value);
+		
 	}
 }
 
