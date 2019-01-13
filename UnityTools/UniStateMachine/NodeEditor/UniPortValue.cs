@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Assets.Tools.UnityTools.Common;
 using Assets.Tools.UnityTools.Interfaces;
+using Assets.Tools.UnityTools.ObjectPool.Scripts;
 using UniRx;
 using UnityEngine;
 using UnityTools.Common;
@@ -10,7 +11,9 @@ using XNode;
 namespace UniStateMachine.Nodes
 {
     [Serializable]
-    public class UniPortValue : IContextData<IContext>
+    public class UniPortValue : 
+        IContextData<IContext>,
+        IContextWriterProvider<IContext>
     {
         #region serialized data
         
@@ -23,29 +26,44 @@ namespace UniStateMachine.Nodes
         
         #region private property
 
-        private ContextDataProvider<IContext> _contextSubjects;
+        private ContextData<IContext> _contextSubjects;
 
-        protected ContextDataProvider<IContext> ContextSubjects
+        private Dictionary<IContext, IDataWriter> _writers;
+
+        private ContextData<IContext> _data;
+
+        protected ContextData<IContext> ContextSubjects
         {
             get
             {
                 if (_contextSubjects == null)
                 {
-                    _contextSubjects = new ContextDataProvider<IContext>();
+                    _contextSubjects = new ContextData<IContext>();
                 }
                 return _contextSubjects;
             }
         }
-        
-        private ContextDataProvider<IContext> _dataProvider;
-        
-        protected ContextDataProvider<IContext> Value
+
+        protected Dictionary<IContext, IDataWriter> Writers
         {
             get
             {
-                if(_dataProvider == null)
-                    _dataProvider = new ContextDataProvider<IContext>();
-                return _dataProvider;
+                if (_writers == null)
+                {
+                    _writers = new Dictionary<IContext, IDataWriter>();
+                }
+
+                return _writers;
+            }
+        }
+
+        protected ContextData<IContext> Value
+        {
+            get
+            {
+                if(_data == null)
+                    _data = new ContextData<IContext>();
+                return _data;
             }
         }
 
@@ -53,7 +71,6 @@ namespace UniStateMachine.Nodes
                    
         public IReadOnlyCollection<IContext> Contexts => Value.Contexts;
 
-        
         #region rx 
 
         public IDisposable Subscribe<TData>(IContext context, Action<TData> observer)
@@ -67,7 +84,7 @@ namespace UniStateMachine.Nodes
         
         #endregion
           
-        public void CopyTo(IContext context, IDataWriter writer)
+        public void CopyTo(IContext context, IDataWriter writer )
         {
             Value.CopyTo(context,writer);
         }
@@ -114,6 +131,21 @@ namespace UniStateMachine.Nodes
         {
             ContextSubjects.Release();
             Value.Release();
+        }
+        
+        public IDataWriter GetWriter(IContext context)
+        {
+            var writers = Writers;
+            if (!writers.TryGetValue(context, out var writer))
+            {
+                var contextWriter = ClassPool.Spawn<ContextWriter>();
+                contextWriter.Initialize(context,this);
+                
+                writer = contextWriter;
+                writers[context] = writer;
+            }
+
+            return writer;
         }
         
         #region private methods

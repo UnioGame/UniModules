@@ -93,5 +93,24 @@ namespace UniNodesTests
             disposable.Dispose();
         }
         
+        [Test]
+        public void PortValueCopyTest()
+        {
+            var portValue1 = new UniPortValue();
+            var portValue2 = new UniPortValue();
+            
+            var context1 = new EntityObject();
+            var context2 = new EntityObject();
+            
+            var testPortValue = "TestPortValue";
+            
+            portValue1.UpdateValue(context1,testPortValue);
+
+            var writer = portValue2.GetWriter(context1);
+            
+            portValue1.CopyTo(context1,writer);
+            
+        }
+        
     }
 }

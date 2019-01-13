@@ -18,8 +18,16 @@ namespace Assets.Tools.UnityTools.Interfaces
 
     }
 
+    public interface IContextWriterProvider<TContext>
+    {
+    
+        IDataWriter GetWriter(TContext context);
+
+    }
+    
     public interface IContextDataWriter<TContext>
     {
+        bool HasValue<TValue>(TContext context);
              
         bool HasContext(TContext context);
    

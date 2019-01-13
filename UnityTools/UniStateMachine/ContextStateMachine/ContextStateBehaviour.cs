@@ -19,7 +19,7 @@ namespace Assets.Tools.UnityTools.StateMachine.ContextStateMachine
         /// <summary>
         /// state local context data
         /// </summary>
-        protected ContextDataProvider<IContext> _contextData;
+        protected ContextData<IContext> _contextData;
 
         #region public methods
 
@@ -97,7 +97,7 @@ namespace Assets.Tools.UnityTools.StateMachine.ContextStateMachine
             if (_initialized != false) return;
             
             _initialized = true;
-            _contextData = new ContextDataProvider<IContext>();
+            _contextData = new ContextData<IContext>();
             _lifeTimes = new Dictionary<IContext, LifeTimeDefinition>();
             OnInitialize(_contextData);
         }

@@ -1,80 +1,114 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Assets.Modules.UnityToolsModule.Tools.UnityTools.DataFlow;
+using Assets.Tools.UnityTools.Interfaces;
 using Assets.Tools.UnityTools.ObjectPool.Scripts;
 using UnityTools.Common;
 using UnityTools.Interfaces;
 
 namespace Assets.Tools.UnityTools.Common
 {
-    public class ContextData : IContextData, IDataWriter
+    public class ContextData<TContext> : 
+        IContextData<TContext>, 
+        ICopyableData<TContext>,
+        IPoolable
     {
-        /// <summary>
-        /// registered conmponents
-        /// </summary>
-        private Dictionary<Type, IWritableValue> _contextValues = new Dictionary<Type, IWritableValue>();
 
-        public IReadOnlyCollection<IWritableValue> Values => _contextValues.Values;
-        
-        public virtual TData Get<TData>()
+        private Dictionary<TContext, TypeData> _contexts = new Dictionary<TContext, TypeData>();
+
+        public IReadOnlyCollection<TContext> Contexts => _contexts.Keys;
+
+        #region public methods
+
+        public TData Get<TData>(TContext context)
         {
-            
-            if (!_contextValues.TryGetValue(typeof(TData), out var value))
-            {
-                return default(TData);
-            }
-
-            var valueData = value as ContextValue<TData>;
-            return valueData.Value;
-
+            var container = GetTypeData(context);
+            return container.Get<TData>();
         }
 
-        public bool Remove<TData>()
+        public void UpdateValue<TData>(TContext context, TData value)
         {
-            var type = typeof(TData);
             
-            if (_contextValues.TryGetValue(type, out var value))
-            {
-                var typeValue = (ContextValue<TData>)value;
-                var removed = _contextValues.Remove(type);
+            var container = GetTypeData(context);
+            container.Add<TData>(value);
 
-                typeValue.Dispose();
-                return removed;
+        }
+        
+        public bool HasContext(TContext context)
+        {
+            return context != null && _contexts.ContainsKey(context);
+        }
+
+        public bool RemoveContext(TContext context)
+        {
+
+            if (_contexts.TryGetValue(context, out var contextData))
+            {
+                contextData.Despawn();
+                _contexts.Remove(context);
+                return true;
             }
 
             return false;
         }
 
-        public void Add<TData>(TData data)
+        public bool HasValue<TValue>(TContext context)
+        {
+            var container = GetTypeData(context);
+            return container.HasData<TValue>();
+            
+        }
+
+        public bool Remove<TData>(TContext context)
         {
             
-            ContextValue<TData> contextValue = null;
-            var type = typeof(TData);
+            var container = GetTypeData(context);
+            return container.Remove<TData>();
 
-            //value already exists, replace it
-            if (_contextValues.TryGetValue(type, out IWritableValue value))
+        }
+
+        public void Release()
+        {
+            var contexts = ClassPool.Spawn<List<TContext>>();
+            contexts.AddRange(_contexts.Keys);
+            
+            foreach (var contextData in contexts)
             {
-                contextValue = (ContextValue<TData>) value;
-                contextValue.SetValue(data);
+                RemoveContext(contextData);
+            }
+            
+            contexts.DespawnCollection();
+            _contexts.Clear();
+            
+        }
+
+        public void CopyTo(TContext context, IDataWriter target)
+        {
+            
+            if (!_contexts.TryGetValue(context, out var contextData))
+            {
                 return;
             }
 
-            contextValue = ClassPool.Spawn<ContextValue<TData>>();
-            contextValue.SetValue(data);
-            _contextValues[type] = contextValue;
-         
+            foreach (var value in contextData.Values)
+            {
+                value.CopyTo(target);
+            }
+            
+            
         }
         
-        public void Release()
+        #endregion
+
+        protected TypeData GetTypeData(TContext context)
         {
-
-            foreach (var contextValue in _contextValues)
+            if (!_contexts.TryGetValue(context, out var contextData))
             {
-                var disposable = contextValue.Value as IDisposable;
-                disposable?.Dispose();
+                contextData = ClassPool.Spawn<TypeData>();
+                _contexts[context] = contextData;
             }
-            _contextValues.Clear();
 
+            return contextData;
         }
-
+        
     }
 }

@@ -39,9 +39,9 @@ namespace Assets.Tools.UnityTools.Common
         
         #region IDataTransition
         
-        public void CopyTo(global::UnityTools.Common.IDataWriter target)
+        public void CopyTo(IDataWriter target)
         {
-            target.Write(Value);
+            target.Add(Value);
         }
         
         #endregion
