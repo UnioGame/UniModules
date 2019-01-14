@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Assets.Modules.UnityToolsModule.Tools.UnityTools.DataFlow;
 using Assets.Tools.UnityTools.Interfaces;
 using Assets.Tools.UnityTools.ObjectPool.Scripts;
@@ -57,6 +58,12 @@ namespace Assets.Tools.UnityTools.Common
             var container = GetTypeData(context);
             return container.HasData<TValue>();
             
+        }
+
+        public bool HasValue(TContext context,Type type)
+        {
+            var container = GetTypeData(context);
+            return container.HasData(type);
         }
 
         public bool Remove<TData>(TContext context)

@@ -28,10 +28,10 @@ namespace UniStateMachine
 
         #endregion
 
-        public override void UpdatePorts()
+        public override void UpdatePortsCache()
         {
             this.UpdatePortValue(InputPortName, NodePort.IO.Input);
-            base.UpdatePorts();
+            base.UpdatePortsCache();
         }
 
         public virtual bool Validate(IContext context)

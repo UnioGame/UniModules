@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Assets.Tools.UnityTools.Physics;
+﻿using Assets.Tools.UnityTools.Physics;
 using UnityEditor;
 using UnityEngine;
 

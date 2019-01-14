@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using Assets.Tools.UnityTools.Common;
+using Assets.Tools.UnityTools.Extension;
 using Assets.Tools.UnityTools.Interfaces;
 using Assets.Tools.UnityTools.ObjectPool.Scripts;
 using Modules.Tools.UnityTools.Extension;
 using UniRx;
 using UnityEngine;
 using UnityTools.Common;
+using UnityTools.Interfaces;
 using XNode;
 
 namespace UniStateMachine.Nodes
@@ -27,23 +29,9 @@ namespace UniStateMachine.Nodes
         
         #region private property
 
-        private ReactiveContextData<IContext> _contextObservers;
-
         private Dictionary<IContext, IDataWriter> _writers;
 
         private ReactiveContextData<IContext> _data;
-
-        protected ContextData<IContext> ContextObservers
-        {
-            get
-            {
-                if (_contextObservers == null)
-                {
-                    _contextObservers = new ReactiveContextData<IContext>();
-                }
-                return _contextObservers;
-            }
-        }
 
         protected Dictionary<IContext, IDataWriter> Writers
         {
@@ -58,7 +46,7 @@ namespace UniStateMachine.Nodes
             }
         }
 
-        protected ContextData<IContext> Value
+        protected ReactiveContextData<IContext> Value
         {
             get
             {
@@ -71,20 +59,7 @@ namespace UniStateMachine.Nodes
         #endregion
                    
         public IReadOnlyCollection<IContext> Contexts => Value.Contexts;
-
-        #region rx 
-
-        public IDisposable Subscribe<TData>(IContext context, Action<TData> observer)
-        {
-
-            var subject = GetSubject<TData>(context);
-
-            return subject.Subscribe(observer);
-            
-        }
-        
-        #endregion
-          
+         
         public void CopyTo(IContext context, IDataWriter writer )
         {
             Value.CopyTo(context,writer);
@@ -97,25 +72,22 @@ namespace UniStateMachine.Nodes
 
         public bool RemoveContext(IContext context)
         {
-            FireContextValue<object>(context,null);
             return Value.RemoveContext(context);
         }
 
         public bool Remove<TData>(IContext context)
         {
-            if (Value.Remove<TData>(context))
-            {
-                FireContextValue<TData>(context,default(TData));
-                return true;
-            }
-
-            return false;
+            return Value.Remove<TData>(context);
         }
 
         public void UpdateValue<TData>(IContext context, TData value)
         {
-            FireContextValue(context,value);
             Value.UpdateValue(context, value);
+        }
+
+        public bool HasValue(IContext context, Type type)
+        {
+            return Value.HasValue(context, type);
         }
 
         public bool HasValue<TValue>(IContext context)
@@ -135,7 +107,6 @@ namespace UniStateMachine.Nodes
 
         public void Release()
         {
-            ContextObservers.Release();
             Value.Release();
         }
         
@@ -153,16 +124,7 @@ namespace UniStateMachine.Nodes
 
             return writer;
         }
-        
-        #region private methods
-        
-        protected void FireContextValue<TData>(IContext context, TData value)
-        {
-            var subject = ContextObservers.GetOrCreateDefault<Subject<TData>>() GetSubject<TData>(context);
-            subject.OnNext(value);
-        }
 
-        #endregion
-
+        
     }
 }

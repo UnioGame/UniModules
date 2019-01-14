@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Assets.Tools.UnityTools.Common;
 using Assets.Tools.UnityTools.Interfaces;
 using Assets.Tools.UnityTools.ObjectPool.Scripts;
+using UniRx;
 
 namespace UnityTools.RecycleRx
 {
@@ -18,7 +19,7 @@ namespace UnityTools.RecycleRx
         {
             
             var disposeAction = ClassPool.Spawn<DisposableAction>();
-            disposeAction.Initialize(() => _observers.Remove(observer));
+            disposeAction.Initialize(() => Remove(observer));
 
             _observers[observer] = disposeAction;
             
@@ -53,5 +54,11 @@ namespace UnityTools.RecycleRx
             Release();
         }
 
+        protected void Remove(IObserver<T> observer)
+        {
+            observer.OnCompleted();
+            _observers.Remove(observer);
+        }
+        
     }
 }

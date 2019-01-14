@@ -55,6 +55,11 @@ namespace Assets.Tools.UnityTools.Common
             return _contextValues.ContainsKey(type);
         }
 
+        public bool HasData(Type type)
+        {
+            return _contextValues.ContainsKey(type);
+        }
+
         public IDisposable Subscribe<TData>(IObserver<TData> observer)
         {
             var data = GetData<TData>(true);

@@ -1,4 +1,5 @@
-﻿using Assets.Tools.UnityTools.Interfaces;
+﻿using System;
+using Assets.Tools.UnityTools.Interfaces;
 using Assets.Tools.UnityTools.ObjectPool.Scripts;
 
 namespace Modules.Tools.UnityTools.Extension
@@ -20,14 +21,15 @@ namespace Modules.Tools.UnityTools.Extension
             return item;
             
         }
-        
-        public static TValue GetOrCreateDefault<TContext,TValue>(this IContextData<TContext> source,TContext context)
+ 
+        public static TValue GetOrCreateNew<TContext,TValue>(this IContextData<TContext> source,TContext context, Func<TValue> factory)
+            where TValue : class
         {
             
-            var item = source.HasContext()<TValue>(context);
+            var item = source.Get<TValue>(context);
             if (item == null)
             {
-                item = 
+                item = factory();
                 source.UpdateValue(context,item);
             }
 

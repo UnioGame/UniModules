@@ -22,14 +22,11 @@ namespace UniStateMachine.Nodes
 	    #region private properties
 
 	    private List<UniNode> _uniNodes;
-
 	    private List<UniGraphNode> _allNodes;
-
+	    
 	    [NonSerialized]
 	    private List<UniRootNode> _rootNodes;
-	    
-	    private Dictionary<UniNode, List<UniPortValue>> _activeNodes;
-	    
+
 	    private IContextState<IEnumerator> _graphState;
 	    /// <summary>
 	    /// state local context data
@@ -124,7 +121,8 @@ namespace UniStateMachine.Nodes
 
 			    for (var i = 0; i < _uniNodes.Count; i++)
 			    {
-				    UpdateNode(_uniNodes[i]);
+				    var node = _uniNodes[i];
+				    UpdateNode(node);
 			    }
 				
 			    yield return null;
@@ -185,7 +183,7 @@ namespace UniStateMachine.Nodes
 		    var removedItems = ClassPool.Spawn<List<IContext>>();
 
 		    //group contexts data from all connections
-		    for (int i = 0; i < connections.Count; i++)
+		    for (var i = 0; i < connections.Count; i++)
 		    {
 			    var connection = connections[i];
 			    if (!(connection.node is UniGraphNode graphNode))

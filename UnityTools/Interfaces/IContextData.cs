@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Assets.Modules.UnityToolsModule.Tools.UnityTools.DataFlow;
 using Assets.Tools.UnityTools.ObjectPool.Scripts;
 using UnityTools.Common;
@@ -27,6 +28,8 @@ namespace Assets.Tools.UnityTools.Interfaces
     
     public interface IContextDataWriter<TContext>
     {
+        bool HasValue(TContext context,Type type);
+        
         bool HasValue<TValue>(TContext context);
              
         bool HasContext(TContext context);

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using AssetBundlesModule;
+﻿using System.Collections.Generic;
 using Assets.Tools.UnityTools.AssetBundleManager;
 using Assets.Tools.UnityTools.AssetBundleManager.AssetBundleResources;
 using UnityEditor;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 public class AssetBundleProviderInfo {
 

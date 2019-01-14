@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Assets.Tools.UnityTools.ObjectPool.Scripts;
+using UniRx;
 using UnityTools.Interfaces;
 using UnityTools.RecycleRx;
 
@@ -34,7 +35,8 @@ namespace Assets.Tools.UnityTools.Extension
             }
         }
 
-        public static IRecycleObserver<T> CreateRecycleObserver<T>(this object _, Action<T> onNext, 
+        public static IRecycleObserver<T> CreateRecycleObserver<T>(this object _, 
+            Action<T> onNext, 
             Action onComplete = null,
             Action<Exception> onError = null)
         {
@@ -46,6 +48,7 @@ namespace Assets.Tools.UnityTools.Extension
             return observer;
             
         }
+        
         
     }
 }

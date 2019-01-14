@@ -44,7 +44,7 @@ namespace SubModules.Scripts.UniStateMachine.NodeEditor
 			
 			base.OnBodyGUI();
 			
-			node.UpdatePorts();
+			node.UpdatePortsCache();
 
 			DrawPorts(node);
 		}

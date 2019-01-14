@@ -84,9 +84,14 @@ namespace UniStateMachine
         
         #region public methods
 
-        public virtual void UpdatePorts()
+        public virtual void UpdatePortsCache()
         {
             this.UpdatePortValue(OutputPortName, NodePort.IO.Output);
+        }
+
+        public virtual void UpdatePortsValues()
+        {
+            
         }
         
         public bool IsActive(IContext context)
@@ -184,7 +189,7 @@ namespace UniStateMachine
         private void Initialize(IContextData<IContext> stateContext)
         {
             _context = stateContext;
-            UpdatePorts();
+            UpdatePortsCache();
             OnInitialize(stateContext);
         }
 
