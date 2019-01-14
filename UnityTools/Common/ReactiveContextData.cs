@@ -16,6 +16,8 @@ namespace UnityTools.Common
         public IDisposable Subscribe<TData>(TContext context, Action<TData> observer)
         {
 
+            var container = GetTypeData(context);
+            
             var subject = 
 
             return subject.Subscribe(observer);

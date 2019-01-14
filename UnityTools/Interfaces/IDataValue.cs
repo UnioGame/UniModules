@@ -2,9 +2,8 @@
 
 namespace Assets.Tools.UnityTools.Interfaces
 {
-	public interface IDataValue<TData> : IDisposable
+	public interface IDataValue<TData> : IDisposable, IReadonlyDataValue<TData>
 	{
-		TData Value { get; }
 		void SetValue(TData value);
 		
 	}

@@ -9,7 +9,7 @@ namespace Assets.Tools.UnityTools.Common
     public class TypeData : ITypeDataContainer, IDataWriter
     {
         /// <summary>
-        /// registered conmponents
+        /// registered components
         /// </summary>
         private Dictionary<Type, IWritableValue> _contextValues = new Dictionary<Type, IWritableValue>();
 
@@ -20,13 +20,8 @@ namespace Assets.Tools.UnityTools.Common
         public virtual TData Get<TData>()
         {
             
-            if (!_contextValues.TryGetValue(typeof(TData), out var value))
-            {
-                return default(TData);
-            }
-
-            var valueData = value as ContextValue<TData>;
-            return valueData.Value;
+            var data = GetData<TData>();
+            return data == null ? default(TData) : data.Value;
 
         }
 
@@ -46,23 +41,11 @@ namespace Assets.Tools.UnityTools.Common
             return false;
         }
 
-        public void Add<TData>(TData data)
+        public void Add<TData>(TData value)
         {
-            
-            ContextValue<TData> contextValue = null;
-            var type = typeof(TData);
 
-            //value already exists, replace it
-            if (_contextValues.TryGetValue(type, out IWritableValue value))
-            {
-                contextValue = (ContextValue<TData>) value;
-                contextValue.SetValue(data);
-                return;
-            }
-
-            contextValue = ClassPool.Spawn<ContextValue<TData>>();
-            contextValue.SetValue(data);
-            _contextValues[type] = contextValue;
+            var data = GetData<TData>(true);
+            data.SetValue(value);           
          
         }
 
@@ -72,6 +55,12 @@ namespace Assets.Tools.UnityTools.Common
             return _contextValues.ContainsKey(type);
         }
 
+        public IDisposable Subscribe<TData>(IObserver<TData> observer)
+        {
+            var data = GetData<TData>(true);
+            return data.Subscribe(observer);
+        }
+        
         public void Release()
         {
 
@@ -84,5 +73,27 @@ namespace Assets.Tools.UnityTools.Common
 
         }
 
+
+        protected ContextValue<TValue> GetData<TValue>(bool isCreateIfEmpty = false)
+        {
+            
+            ContextValue<TValue> data = null;
+            
+            var type = typeof(TValue);
+            
+            if (!_contextValues.TryGetValue(type, out var value) && isCreateIfEmpty)
+            {
+                data = ClassPool.Spawn<ContextValue<TValue>>();
+                _contextValues[type] = data;
+            }
+            else
+            {
+                data = value as ContextValue<TValue>;
+            }
+
+            return data;
+
+        }
+        
     }
 }

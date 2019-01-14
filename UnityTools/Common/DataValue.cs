@@ -4,37 +4,41 @@ using Assets.Tools.UnityTools.ObjectPool.Scripts;
 using UniRx;
 using UnityTools.Common;
 using UnityTools.Interfaces;
+using UnityTools.RecycleRx;
 
 namespace Assets.Tools.UnityTools.Common
 {
     [Serializable]
-    public class ContextValue<TData> : IDataValue<TData>, IWritableValue
+    public class ContextValue<TData> : IDataValue<TData>, 
+        IWritableValue, 
+        IObservable<TData>
     {
-        protected ReactiveProperty<TData> _reactiveValue = new ReactiveProperty<TData>();
-        protected bool _isReleased;
-
-        public IReadOnlyReactiveProperty<TData> ReactiveValue => _reactiveValue;
+        protected RecycleObservable<TData> _reactiveValue = new RecycleObservable<TData>();
 
         public TData Value
         {
             get => _reactiveValue.Value;
-            protected set { _reactiveValue.Value = value; }
+            protected set
+            {
+                _reactiveValue.SetValue(value);
+            }
         }
 
         public void SetValue(TData value)
         {
-            _isReleased = false;
             Value = value;
         }
 
         public void Dispose()
         {
-            if(_isReleased)
-                return;
-
             Release();
             
             this.Despawn();
+        }
+
+        public IDisposable Subscribe(IObserver<TData> action)
+        {
+            return _reactiveValue.Subscribe(action);
         }
         
         #region IDataTransition
@@ -48,8 +52,7 @@ namespace Assets.Tools.UnityTools.Common
         
         private void Release()
         {
-            Value = default(TData);
-            _isReleased = true;
+            _reactiveValue.Release();
         }
 
     }
