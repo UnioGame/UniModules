@@ -174,6 +174,7 @@ namespace UniStateMachine.Nodes
 
         private void UpdateNode(UniNode node)
 		{
+			
             GameProfiler.BeginSample("UpdateNodes");
 
 			var input = node.GetPort(UniNode.InputPortName);
