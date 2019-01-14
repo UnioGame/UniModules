@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Assets.Tools.UnityTools.ObjectPool.Scripts;
+using UnityTools.Interfaces;
+using UnityTools.RecycleRx;
 
 namespace Assets.Tools.UnityTools.Extension
 {
@@ -30,5 +33,19 @@ namespace Assets.Tools.UnityTools.Extension
                 disposables[i]?.Dispose();
             }
         }
+
+        public static IRecycleObserver<T> CreateRecycleObserver<T>(this object _, Action<T> onNext, 
+            Action onComplete = null,
+            Action<Exception> onError = null)
+        {
+            
+            var observer = ClassPool.Spawn<RecycleActionObserver<T>>();
+            
+            observer.Initialize(onNext,onComplete,onError);
+
+            return observer;
+            
+        }
+        
     }
 }

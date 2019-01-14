@@ -69,6 +69,7 @@ namespace Assets.Tools.UnityTools.Common
 
         public void Release()
         {
+            
             var contexts = ClassPool.Spawn<List<TContext>>();
             contexts.AddRange(_contexts.Keys);
             

@@ -1,9 +1,10 @@
 ﻿using System;
 using Assets.Tools.UnityTools.ObjectPool.Scripts;
+using UnityTools.Interfaces;
 
 namespace UnityTools.RecycleRx
 {
-    public class RecycleActionObserver<T> : IObserver<T>, IPoolable
+    public class RecycleActionObserver<T> : IRecycleObserver<T>
     {
         private Action<T> _onNext;
         private Action _onComplete;

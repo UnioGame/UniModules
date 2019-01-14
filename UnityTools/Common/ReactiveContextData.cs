@@ -16,7 +16,7 @@ namespace UnityTools.Common
         public IDisposable Subscribe<TData>(TContext context, IObserver<TData> observer)
         {
             var container = GetTypeData(context);
-            return container.Subscribe<TData>(observer);           
+            return container.Subscribe<TData>(observer);
         }
         
         #endregion

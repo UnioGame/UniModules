@@ -103,12 +103,17 @@ namespace UniNodesTests
             var context2 = new EntityObject();
             
             var testPortValue = "TestPortValue";
+            var testPortValue2 = "TestPortValue";
             
             portValue1.UpdateValue(context1,testPortValue);
-
+            portValue2.UpdateValue(context2,testPortValue2);
+            
             var writer = portValue2.GetWriter(context1);
+            var writer2 = portValue2.GetWriter(context2);
             
             portValue1.CopyTo(context1,writer);
+            portValue1.CopyTo(context2,writer2);
+            
             
         }
         
