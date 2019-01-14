@@ -13,15 +13,10 @@ namespace UnityTools.Common
         
         #region reactive methods
         
-        public IDisposable Subscribe<TData>(TContext context, Action<TData> observer)
+        public IDisposable Subscribe<TData>(TContext context, IObserver<TData> observer)
         {
-
             var container = GetTypeData(context);
-            
-            var subject = 
-
-            return subject.Subscribe(observer);
-            
+            return container.Subscribe<TData>(observer);           
         }
         
         #endregion

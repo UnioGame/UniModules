@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Assets.Tools.UnityTools.Common;
 using Assets.Tools.UnityTools.Interfaces;
 using Assets.Tools.UnityTools.ObjectPool.Scripts;
+using Modules.Tools.UnityTools.Extension;
 using UniRx;
 using UnityEngine;
 using UnityTools.Common;
@@ -26,21 +27,21 @@ namespace UniStateMachine.Nodes
         
         #region private property
 
-        private ContextData<IContext> _contextSubjects;
+        private ReactiveContextData<IContext> _contextObservers;
 
         private Dictionary<IContext, IDataWriter> _writers;
 
-        private ContextData<IContext> _data;
+        private ReactiveContextData<IContext> _data;
 
-        protected ContextData<IContext> ContextSubjects
+        protected ContextData<IContext> ContextObservers
         {
             get
             {
-                if (_contextSubjects == null)
+                if (_contextObservers == null)
                 {
-                    _contextSubjects = new ContextData<IContext>();
+                    _contextObservers = new ReactiveContextData<IContext>();
                 }
-                return _contextSubjects;
+                return _contextObservers;
             }
         }
 
@@ -62,7 +63,7 @@ namespace UniStateMachine.Nodes
             get
             {
                 if(_data == null)
-                    _data = new ContextData<IContext>();
+                    _data = new ReactiveContextData<IContext>();
                 return _data;
             }
         }
@@ -117,6 +118,11 @@ namespace UniStateMachine.Nodes
             Value.UpdateValue(context, value);
         }
 
+        public bool HasValue<TValue>(IContext context)
+        {
+            return Value.HasValue<TValue>(context);
+        }
+
         public bool HasContext(IContext context)
         {
             return Value.HasContext(context);
@@ -129,7 +135,7 @@ namespace UniStateMachine.Nodes
 
         public void Release()
         {
-            ContextSubjects.Release();
+            ContextObservers.Release();
             Value.Release();
         }
         
@@ -149,23 +155,10 @@ namespace UniStateMachine.Nodes
         }
         
         #region private methods
-
-        protected Subject<TData> GetSubject<TData>(IContext context)
-        {
-            var subjects = ContextSubjects;
-            var subject = subjects.Get<Subject<TData>>(context);
-            if (subject == null)
-            {
-                subject = new Subject<TData>();
-                subjects.UpdateValue(context,subject);
-            }
-
-            return subject;
-        }
         
         protected void FireContextValue<TData>(IContext context, TData value)
         {
-            var subject = GetSubject<TData>(context);
+            var subject = ContextObservers.GetOrCreateDefault<Subject<TData>>() GetSubject<TData>(context);
             subject.OnNext(value);
         }
 

@@ -53,6 +53,7 @@ namespace Assets.Tools.UnityTools.Common
 
         public bool HasValue<TValue>(TContext context)
         {
+            
             var container = GetTypeData(context);
             return container.HasData<TValue>();
             
