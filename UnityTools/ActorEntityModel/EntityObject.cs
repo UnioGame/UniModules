@@ -5,6 +5,8 @@ using Assets.Tools.UnityTools.Interfaces;
 using Assets.Tools.UnityTools.ObjectPool.Scripts;
 using Assets.Tools.UnityTools.ProfilerTools;
 using UniRx;
+using UnityEngine;
+using UnityTools.ProfilerTools;
 
 namespace UnityTools.ActorEntityModel
 {
@@ -13,7 +15,7 @@ namespace UnityTools.ActorEntityModel
         private IMessageBroker _broker;
         private TypeData _typeData;
         private LifeTimeDefinition _lifeTimeDefinition;
-        
+
         #region public properties
 
         public ILifeTime LifeTime => _lifeTimeDefinition.LifeTime;
@@ -58,7 +60,7 @@ namespace UnityTools.ActorEntityModel
                 
         public void Publish<T>(T message)
         {
-            GameLog.LogFormat("ENTITY {0} PUBLISH MESSAGE: {1}",GetType().Name,message.GetType().Name);
+            GameLog.LogMessage("ENTITY {0} PUBLISH: {1}",GetType().Name,message.GetType().Name);
             _broker.Publish(message);
         }
 

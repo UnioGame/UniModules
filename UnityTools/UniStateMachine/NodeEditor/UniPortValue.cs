@@ -42,7 +42,9 @@ namespace UniStateMachine.Nodes
         private ReactiveContextData<IContext> _data;
 
         #endregion
-                   
+
+        public int Count => _data.Count;
+        
         public IReadOnlyCollection<IContext> Contexts => _data.Contexts;
 
         public void Initialize()
@@ -101,7 +103,6 @@ namespace UniStateMachine.Nodes
         public void Release()
         {
             _data.Release();
-            _writers.Clear();
         }
         
         public IDataWriter GetWriter(IContext context)

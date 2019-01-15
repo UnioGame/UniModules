@@ -72,4 +72,10 @@
     <enabled>false</enabled>
     <sortOrder>11</sortOrder>
   </Directive>
+  <Directive>
+    <name>ENABLE_MESSAGE_LOG</name>
+    <targets>Standalone iOS Android WebGL Metro</targets>
+    <enabled>true</enabled>
+    <sortOrder>12</sortOrder>
+  </Directive>
 </ArrayOfDirective>

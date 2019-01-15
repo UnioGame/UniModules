@@ -84,11 +84,6 @@ namespace UniStateMachine
         {
             this.UpdatePortValue(OutputPortName, NodePort.IO.Output);
         }
-
-        public virtual void UpdatePortsValues()
-        {
-            
-        }
         
         public bool IsActive(IContext context)
         {

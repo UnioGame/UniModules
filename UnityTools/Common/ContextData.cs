@@ -18,6 +18,8 @@ namespace Assets.Tools.UnityTools.Common
 
         public IReadOnlyCollection<TContext> Contexts => _contexts.Keys;
 
+        public int Count => _contexts.Count;
+        
         #region public methods
 
         public TData Get<TData>(TContext context)

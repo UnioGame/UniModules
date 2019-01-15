@@ -189,7 +189,9 @@ namespace UniStateMachine.Nodes
 			    if(!(connectedNode is UniGraphNode uniNode)) continue;
 
 			    var value = uniNode.GetPortValue(connection.fieldName);
-
+			    if(value.Count == 0)
+				    continue;
+			    
 			    value?.CopyTo(portValue);
 		    }
 		    
@@ -213,6 +215,7 @@ namespace UniStateMachine.Nodes
 
 			for (int i = 0; i < contexts.Count; i++)
 			{
+				
 				var context = contexts[i];
 				
 				if (!value.HasContext(context))
@@ -220,58 +223,24 @@ namespace UniStateMachine.Nodes
 					StopNode(node, context);
 					continue;
 				}
+				
 				UpdateNode(node,context);
+
+				if (node.IsActive(context))
+				{
+					var values = node.PortValues;
+					for (var j = 0; j < values.Count; j++)
+					{
+						var portValue = values[j];
+						var port = node.GetPort(portValue.Name);
+						UpdatePortValue(node, port);
+					}
+				}
 				
 			}
+			
 
 			contexts.DespawnCollection();
-			
-//			var connections = input.GetConnections();
-//            var connectedContexts = ClassPool.Spawn<Dictionary<IContext, NodePort>>();
-//		    var removedItems = ClassPool.Spawn<List<IContext>>();
-//
-//		    //group contexts data from all connections
-//		    for (var i = 0; i < connections.Count; i++)
-//		    {
-//			    var connection = connections[i];
-//			    if (!(connection.node is UniGraphNode graphNode))
-//					continue;
-//
-//			    var portValue = graphNode.GetPortValue(connection);
-//			    if(portValue == null) continue;
-//
-//			    var contexts = portValue.Contexts;
-//			    foreach (var context in contexts)
-//			    {
-//				    var contextValue = portValue.Get<IContext>(context);
-//				    if(contextValue == null)
-//					    continue;
-//				    
-//				    connectedContexts[context] = connection;
-//			    }
-//		    }
-//		    
-//		    var activeContexts = node.Input.Contexts;
-//		    foreach (var context in activeContexts)
-//		    {
-//			    if(!connectedContexts.ContainsKey(context))
-//				    removedItems.Add(context);
-//		    }
-//		    
-//            for (var i = 0; i < removedItems.Count; i++)
-//            {
-//	            var context = removedItems[i];
-//	            StopNode(node, context);
-//            }
-//
-//            foreach (var connection in connectedContexts)
-//		    {
-//                UpdateNode(node, connection.Key);
-//		    }
-//
-//            connections.DespawnCollection();
-//		    connectedContexts.DespawnDictionary();
-//		    removedItems.DespawnCollection();
 
 		    GameProfiler.EndSample();
         }

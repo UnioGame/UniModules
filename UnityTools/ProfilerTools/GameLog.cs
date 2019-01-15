@@ -23,6 +23,18 @@ namespace Assets.Tools.UnityTools.ProfilerTools
 
         }
         
+        private static IGameLogger _messageLogger;
+        public static IGameLogger MessageLogger
+        {
+            get
+            {
+                if(_messageLogger == null)
+                    _messageLogger = new GameLogger("MESSAGE",true);
+                return _messageLogger;
+            }
+
+        }
+        
         [Conditional("LOGS_ENABLED")]
         public static void Log(string message, Object source = null)
         {
@@ -88,6 +100,12 @@ namespace Assets.Tools.UnityTools.ProfilerTools
         public static void LogFormat(string template, params object[] values)
         {
             Logger.LogFormatRuntime(template, values);
+        }
+
+        [Conditional("ENABLE_MESSAGE_LOG")]
+        public static void LogMessage(string template, params object[] values)
+        {
+            MessageLogger.LogFormat(template,values);
         }
 
         public static void LogError(string message, Object source = null)
