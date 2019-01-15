@@ -45,20 +45,6 @@ namespace UniStateMachine
 
         [NonSerialized]
         private IContextState<IEnumerator> _state;
-        private IContextState<IEnumerator> Behaviour
-        {
-            get
-            {
-                if (_state == null)
-                {
-                    var behaviour = new ProxyStateBehaviour();
-                    behaviour.Initialize(ExecuteState, Initialize, OnExit, OnPostExecute);
-                    _state = behaviour;
-                }
-
-                return _state;
-            }
-        }
 
         #endregion
         
@@ -80,10 +66,20 @@ namespace UniStateMachine
         public bool IsAnyActive => _context?.Contexts.Count > 0;
 
         public IReadOnlyList<UniPortValue> PortValues => _portValues;
-        
+
+        public IReadOnlyCollection<IContext> Contexts => _context?.Contexts;
         
         #region public methods
 
+        public void Initialize()
+        {
+            _state = CreateState();
+            foreach (var portValue in _portValues)
+            {
+                portValue.Initialize();
+            }
+        }
+        
         public virtual void UpdatePortsCache()
         {
             this.UpdatePortValue(OutputPortName, NodePort.IO.Output);
@@ -96,17 +92,17 @@ namespace UniStateMachine
         
         public bool IsActive(IContext context)
         {
-            return Behaviour.IsActive(context);
+            return _state.IsActive(context);
         }
 
         public ILifeTime GetLifeTime(IContext context)
         {
-            return Behaviour.GetLifeTime(context);
+            return _state.GetLifeTime(context);
         }
  
         public void Exit(IContext context)
         {
-            Behaviour.Exit(context);
+            _state.Exit(context);
             foreach (var output in PortValues)
             {
                 output.RemoveContext(context);
@@ -118,7 +114,7 @@ namespace UniStateMachine
             StateLogger.LogState(string.Format("STATE EXECUTE {0} TYPE {1} CONTEXT {2}", 
                 name, GetType().Name, context), this);
 
-            yield return Behaviour.Execute(context);
+            yield return _state.Execute(context);
             
         }
         
@@ -132,7 +128,7 @@ namespace UniStateMachine
             {
                 outputValue.Release();
             }
-            Behaviour?.Dispose();
+            _state?.Dispose();
             Invalidate();
         }
 
@@ -216,6 +212,13 @@ namespace UniStateMachine
         }
         
         protected virtual void OnPostExecute(IContext context){}
+
+        protected virtual IContextState<IEnumerator> CreateState()
+        {
+            var behaviour = new ProxyStateBehaviour();
+            behaviour.Initialize(ExecuteState, Initialize, OnExit, OnPostExecute);
+            return behaviour;
+        }
         
         #endregion
 

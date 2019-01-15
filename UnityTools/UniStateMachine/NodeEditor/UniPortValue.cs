@@ -33,71 +33,54 @@ namespace UniStateMachine.Nodes
 
         private ReactiveContextData<IContext> _data;
 
-        protected Dictionary<IContext, IDataWriter> Writers
-        {
-            get
-            {
-                if (_writers == null)
-                {
-                    _writers = new Dictionary<IContext, IDataWriter>();
-                }
-
-                return _writers;
-            }
-        }
-
-        protected ReactiveContextData<IContext> Value
-        {
-            get
-            {
-                if(_data == null)
-                    _data = new ReactiveContextData<IContext>();
-                return _data;
-            }
-        }
-
         #endregion
                    
-        public IReadOnlyCollection<IContext> Contexts => Value.Contexts;
-         
+        public IReadOnlyCollection<IContext> Contexts => _data.Contexts;
+
+        public void Initialize()
+        {
+            _data = new ReactiveContextData<IContext>();
+            _writers = new Dictionary<IContext, IDataWriter>();
+        }
+        
         public void CopyTo(IContext context, IDataWriter writer )
         {
-            Value.CopyTo(context,writer);
+            _data.CopyTo(context,writer);
         }
         
         public TData Get<TData>(IContext context)
         {
-            return Value.Get<TData>(context);
+            return _data.Get<TData>(context);
         }
 
         public bool RemoveContext(IContext context)
         {
-            return Value.RemoveContext(context);
+            return _data.RemoveContext(context);
         }
 
         public bool Remove<TData>(IContext context)
         {
-            return Value.Remove<TData>(context);
+            return _data.Remove<TData>(context);
         }
 
         public void UpdateValue<TData>(IContext context, TData value)
         {
-            Value.UpdateValue(context, value);
+            _data.UpdateValue(context, value);
         }
 
         public bool HasValue(IContext context, Type type)
         {
-            return Value.HasValue(context, type);
+            return _data.HasValue(context, type);
         }
 
         public bool HasValue<TValue>(IContext context)
         {
-            return Value.HasValue<TValue>(context);
+            return _data.HasValue<TValue>(context);
         }
 
         public bool HasContext(IContext context)
         {
-            return Value.HasContext(context);
+            return _data.HasContext(context);
         }
 
         public void ConnectToPort(NodePort port)
@@ -107,12 +90,13 @@ namespace UniStateMachine.Nodes
 
         public void Release()
         {
-            Value.Release();
+            _data.Release();
+            _writers.Clear();
         }
         
         public IDataWriter GetWriter(IContext context)
         {
-            var writers = Writers;
+            var writers = _writers;
             if (!writers.TryGetValue(context, out var writer))
             {
                 var contextWriter = ClassPool.Spawn<ContextWriter>();

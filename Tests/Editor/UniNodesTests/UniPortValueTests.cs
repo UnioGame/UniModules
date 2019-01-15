@@ -125,11 +125,11 @@ namespace UniNodesTests
         [Test]
         public void PortValueRemoveNullContextTest()
         {
+        
             var portValue1 = new UniPortValue();
             var context1 = new EntityObject();
                      
-            var result = portValue1.RemoveContext(context1);
-           
+            var result = portValue1.RemoveContext(context1);          
             Assert.That(result,Is.EqualTo(false));
 
         }

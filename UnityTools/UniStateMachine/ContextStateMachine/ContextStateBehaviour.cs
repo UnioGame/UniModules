@@ -92,7 +92,7 @@ namespace Assets.Tools.UnityTools.StateMachine.ContextStateMachine
 
         #endregion
 
-        private void Initialize()
+        protected void Initialize()
         {
             if (_initialized != false) return;
             

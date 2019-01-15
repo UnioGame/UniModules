@@ -3,14 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Modules.UnityToolsModule.Tools.UnityTools.DataFlow;
-using Assets.Tools.UnityTools.Common;
 using Assets.Tools.UnityTools.Interfaces;
 using Assets.Tools.UnityTools.ObjectPool.Scripts;
 using Assets.Tools.UnityTools.ProfilerTools;
 using Assets.Tools.UnityTools.StateMachine;
 using Assets.Tools.UnityTools.StateMachine.Interfaces;
 using Assets.Tools.UnityTools.UniRoutine;
-using UniStateMachine.NodeEditor.NodeExtensions;
 using UnityEngine;
 using XNode;
 
@@ -21,11 +19,14 @@ namespace UniStateMachine.Nodes
     {
 	    #region private properties
 
-	    private List<UniNode> _uniNodes;
-	    private List<UniGraphNode> _allNodes;
-	    
+	    [NonSerialized]
+	    private bool _isInitialized = false;
+
 	    [NonSerialized]
 	    private List<UniRootNode> _rootNodes;
+	    
+	    private List<UniNode> _uniNodes;
+	    private List<UniGraphNode> _allNodes;
 
 	    private IContextState<IEnumerator> _graphState;
 	    /// <summary>
@@ -33,34 +34,22 @@ namespace UniStateMachine.Nodes
 	    /// </summary>
 	    protected IContextData<IContext> _contextData;
 
-	    protected IContextState<IEnumerator> GraphState
-	    {
-		    get
-		    {
-			    if (_graphState == null)
-			    {
-				    var state = new ProxyStateBehaviour();
-				    state.Initialize(OnExecute,OnInitialize,OnExit);
-				    _graphState = state;
-			    }
-
-			    return _graphState;
-		    }
-	    }
-
-	    public List<UniRootNode> RootNodes
-	    {
-		    get
-		    {
-			    if (_rootNodes == null)
-			    {
-				    _rootNodes = nodes.OfType<UniRootNode>().ToList();
-			    }
-			    return _rootNodes;
-		    }   
-	    }
+	    public IReadOnlyList<UniRootNode> RootNodes => _rootNodes;
 
 	    #endregion
+
+	    public void Initialize()
+	    {
+		    if (_isInitialized)
+			    return;
+		    
+		    _isInitialized = true;
+		    _rootNodes = nodes.OfType<UniRootNode>().ToList();
+		    _graphState = GetBehaviour();
+		    
+		    InitializeNodes();
+		    
+	    }
 	    
 	    public bool IsActive(IContext context)
 		{
@@ -72,21 +61,20 @@ namespace UniStateMachine.Nodes
 
 		public ILifeTime GetLifeTime(IContext context)
 		{
-			return GraphState.GetLifeTime(context);
+			return _graphState.GetLifeTime(context);
 		}
 
 		public IEnumerator Execute(IContext context)
 		{
-
-			yield return GraphState.Execute(context);
+			Initialize();
+			
+			yield return _graphState.Execute(context);
 
 		}
 
 		public void Exit(IContext context)
 		{
-			
-			GraphState.Exit(context);
-
+			_graphState.Exit(context);
         }
 
 		public void Dispose()
@@ -130,24 +118,29 @@ namespace UniStateMachine.Nodes
 			
 	    }
 	    
-	    private void OnInitialize(IContextData<IContext> contextData)
+	    private void InitializeNodes()
 	    {
 		    _uniNodes = new List<UniNode>();
 		    _allNodes = new List<UniGraphNode>();
+		    
 		    foreach (var node in nodes)
 		    {
 			    if (!(node is UniGraphNode graphNode))
 			    {
 				    continue;
 			    }
+			    
+			    graphNode.Initialize();
+			    
 			    _allNodes.Add(graphNode);
 			    if(!(graphNode is UniNode uniNode))
 			    {
 				    continue;
 			    }
 			    _uniNodes.Add(uniNode);
+			    
 		    }
-		    _contextData = contextData;
+		    
 	    }
 	    
 	    private IEnumerator OnExecute(IContext context)
@@ -172,59 +165,113 @@ namespace UniStateMachine.Nodes
 
 	    }
 
+	    private UniPortValue UpdatePortValue(UniGraphNode node,NodePort nodePort)
+	    {
+
+		    if (nodePort.direction == NodePort.IO.Output)
+			    return null;
+		    
+		    var portValue = node.GetPortValue(nodePort.fieldName);
+		    if(portValue == null)
+			    return null;
+		    
+		    //cleanup port value
+		    portValue.Release();
+
+		    var connections = nodePort.GetConnections();
+
+		    //copy values from connected ports to input
+		    for (var i = 0; i < connections.Count; i++)
+		    {
+			    var connection = connections[i];
+			    var connectedNode = connection.node;
+			    
+			    if(!(connectedNode is UniGraphNode uniNode)) continue;
+
+			    var value = uniNode.GetPortValue(connection.fieldName);
+
+			    value?.CopyTo(portValue);
+		    }
+		    
+		    
+		    connections.DespawnCollection();
+
+		    return portValue;
+	    }
+
         private void UpdateNode(UniNode node)
 		{
 			
             GameProfiler.BeginSample("UpdateNodes");
 
 			var input = node.GetPort(UniNode.InputPortName);
-			
-			var connections = input.GetConnections();
-            var connectedContexts = ClassPool.Spawn<Dictionary<IContext, NodePort>>();
-		    var removedItems = ClassPool.Spawn<List<IContext>>();
+			var value = UpdatePortValue(node,input);
 
-		    //group contexts data from all connections
-		    for (var i = 0; i < connections.Count; i++)
-		    {
-			    var connection = connections[i];
-			    if (!(connection.node is UniGraphNode graphNode))
+			var contexts = ClassPool.Spawn<List<IContext>>();
+			contexts.AddRange(value.Contexts);
+			contexts.AddRange(node.Contexts);
+
+			for (int i = 0; i < contexts.Count; i++)
+			{
+				var context = contexts[i];
+				
+				if (!value.HasContext(context))
+				{
+					StopNode(node, context);
 					continue;
+				}
+				UpdateNode(node,context);
+				
+			}
 
-			    var portValue = graphNode.GetPortValue(connection);
-			    if(portValue == null) continue;
-
-			    var contexts = portValue.Contexts;
-			    foreach (var context in contexts)
-			    {
-				    var contextValue = portValue.Get<IContext>(context);
-				    if(contextValue == null)
-					    continue;
-				    
-				    connectedContexts[context] = connection;
-			    }
-		    }
-		    
-		    var activeContexts = node.Input.Contexts;
-		    foreach (var context in activeContexts)
-		    {
-			    if(!connectedContexts.ContainsKey(context))
-				    removedItems.Add(context);
-		    }
-		    
-            for (var i = 0; i < removedItems.Count; i++)
-            {
-	            var context = removedItems[i];
-	            StopNode(node, context);
-            }
-
-            foreach (var connection in connectedContexts)
-		    {
-                UpdateNode(node, connection.Key);
-		    }
-
-            connections.DespawnCollection();
-		    connectedContexts.DespawnDictionary();
-		    removedItems.DespawnCollection();
+			contexts.DespawnCollection();
+			
+//			var connections = input.GetConnections();
+//            var connectedContexts = ClassPool.Spawn<Dictionary<IContext, NodePort>>();
+//		    var removedItems = ClassPool.Spawn<List<IContext>>();
+//
+//		    //group contexts data from all connections
+//		    for (var i = 0; i < connections.Count; i++)
+//		    {
+//			    var connection = connections[i];
+//			    if (!(connection.node is UniGraphNode graphNode))
+//					continue;
+//
+//			    var portValue = graphNode.GetPortValue(connection);
+//			    if(portValue == null) continue;
+//
+//			    var contexts = portValue.Contexts;
+//			    foreach (var context in contexts)
+//			    {
+//				    var contextValue = portValue.Get<IContext>(context);
+//				    if(contextValue == null)
+//					    continue;
+//				    
+//				    connectedContexts[context] = connection;
+//			    }
+//		    }
+//		    
+//		    var activeContexts = node.Input.Contexts;
+//		    foreach (var context in activeContexts)
+//		    {
+//			    if(!connectedContexts.ContainsKey(context))
+//				    removedItems.Add(context);
+//		    }
+//		    
+//            for (var i = 0; i < removedItems.Count; i++)
+//            {
+//	            var context = removedItems[i];
+//	            StopNode(node, context);
+//            }
+//
+//            foreach (var connection in connectedContexts)
+//		    {
+//                UpdateNode(node, connection.Key);
+//		    }
+//
+//            connections.DespawnCollection();
+//		    connectedContexts.DespawnDictionary();
+//		    removedItems.DespawnCollection();
 
 		    GameProfiler.EndSample();
         }
@@ -282,6 +329,14 @@ namespace UniStateMachine.Nodes
 
             node.Exit(context);
 
+		}
+
+		protected virtual IContextState<IEnumerator> GetBehaviour()
+		{
+			var state = new ProxyStateBehaviour();
+			state.Initialize(OnExecute,x => 
+				_contextData = x,OnExit);
+			return state;
 		}
 
 		#endregion

@@ -16,7 +16,7 @@ namespace Assets.Tools.UnityTools.StateMachine {
         /// set state functions
         /// </summary>
         /// <param name="updateFunction"></param>
-        /// <param name="onInitialize">initialize action, call only once</param>
+        /// <param name="onInitialize">initialize action</param>
         /// <param name="onExit"></param>
 		public void Initialize(Func<IContext, IEnumerator> updateFunction,
 		    Action<IContextData<IContext>> onInitialize = null,
@@ -27,6 +27,8 @@ namespace Assets.Tools.UnityTools.StateMachine {
 		    _onInitialize = onInitialize;
 			_onExit = onExit;
 			_onPostExecute = onPostExecute;
+			
+			Initialize();
 		}
 
 		protected override void OnInitialize(IContextData<IContext> stateContext) {
