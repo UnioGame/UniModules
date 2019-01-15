@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UniEditorTools;
+using UniStateMachine.Nodes;
 using UnityEditor;
 using UnityEngine;
 
@@ -324,6 +325,17 @@ namespace XNodeEditor {
                 
             },GUILayout.Width(100));
 
+            EditorDrawerUtils.DrawVertialLayout(() =>
+            {
+                EditorDrawerUtils.DrawButton("Stop All", () =>
+                {
+                    foreach (var graph in NodeGraphs)
+                    {
+                        graph.Dispose();
+                    }
+                });
+            },GUILayout.Width(100));
+            
         }
         
         private void DrawNodes() {

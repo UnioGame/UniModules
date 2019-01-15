@@ -77,7 +77,7 @@ namespace UniStateMachine.Nodes
 			_graphState.Exit(context);
         }
 
-		public void Dispose()
+		public override void Dispose()
 		{
 		    if (_contextData == null)
 		        return;

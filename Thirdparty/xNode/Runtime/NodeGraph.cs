@@ -6,7 +6,7 @@ using UnityEngine;
 namespace XNode {
     /// <summary> Base class for all node graphs </summary>
     [Serializable]
-    public abstract class NodeGraph : ScriptableObject
+    public abstract class NodeGraph : ScriptableObject, IDisposable
     {
         [HideInInspector]
         [SerializeField]
@@ -88,6 +88,11 @@ namespace XNode {
         private void OnDestroy() {
             // Remove all nodes prior to graph destruction
             Clear();
+        }
+
+        public virtual void Dispose()
+        {
+            
         }
     }
 }
