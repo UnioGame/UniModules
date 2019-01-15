@@ -26,9 +26,17 @@ namespace UniStateMachine.Nodes
         public string Name;
         
         #endregion
+
+        public UniPortValue()
+        {
+            Initialize();
+        }
         
         #region private property
 
+        [NonSerialized]
+        private bool _initialized = false;
+        
         private Dictionary<IContext, IDataWriter> _writers;
 
         private ReactiveContextData<IContext> _data;
@@ -39,6 +47,8 @@ namespace UniStateMachine.Nodes
 
         public void Initialize()
         {
+            if (_initialized)
+                return;
             _data = new ReactiveContextData<IContext>();
             _writers = new Dictionary<IContext, IDataWriter>();
         }

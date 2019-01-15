@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
+using UnityTools.ProfilerTools;
 using Debug = UnityEngine.Debug;
 using Object = UnityEngine.Object;
 
@@ -9,231 +10,120 @@ namespace Assets.Tools.UnityTools.ProfilerTools
 {
     public static class GameLog
     {
-        private const string TraceTemplate = @"{0} / {1}";
-        private static Dictionary<string, string> _traces =
-            new Dictionary<string, string>();
 
-        public static bool Enabled = true;
+        private static IGameLogger _logger;
+        public static IGameLogger Logger
+        {
+            get
+            {
+                if(_logger == null)
+                    _logger = new GameLogger("GameLog",true);
+                return _logger;
+            }
 
+        }
+        
         [Conditional("LOGS_ENABLED")]
         public static void Log(string message, Object source = null)
         {
-            LogRuntime(message, source);
+            Logger.LogRuntime(message, source);
         }
-
         
         [Conditional("LOGS_ENABLED")]
         public static void LogFormatWithTrace(string template, params object[] values)
         {
-            LogFormat(template,values);
-            LogFormat("Stack Trace {0}", System.Environment.StackTrace);
+            Logger.LogFormatWithTrace(template, values);
         }
 
         [Conditional("LOGS_ENABLED")]
         public static void LogFormat(string template, Color color, params object[] values)
         {
-            var message = values == null || values.Length == 0 ? template :
-                string.Format(template, values);
-            Log(message, color);
+            Logger.LogFormat(template,color,values);
         }
 
         [Conditional("LOGS_ENABLED")]
         public static void Log(string message, Color color, Object source = null) {
-            LogRuntime(message, color, source);
+            Logger.LogRuntime(message, color, source);
         }
 
         [Conditional("LOGS_ENABLED")]
         public static void LogWarning(string message, Color color, Object source = null)
         {
-            if (!Enabled) return;
-            var colorMessage = GetColorTemplate(message, color);
-            LogWarning(colorMessage, source);
+            Logger.LogWarning(message,color, source);
         }
   
-
         [Conditional("RESOURCES_LOG_ENABLED")]
         public static void LogResource(string message)
         {
-            Debug.Log(message);
+            Logger.Log(message);
         }
 
 
         [Conditional("LOG_GAME_STATE")]
         public static void LogGameState(string message)
         {
-            Debug.Log(message);
+            Logger.Log(message);
         }
 
         [Conditional("UNITY_EDITOR")]
-        public static void EditorLogFormat(LogType logType,string format, params object[] objects) {
-            switch (logType) {
-
-                case LogType.Error:
-                case LogType.Assert:
-                case LogType.Exception:
-                    LogErrorFormat(format,objects);
-                    break;
-                case LogType.Warning:
-                    Debug.LogWarningFormat(format,objects);
-                    break;
-                case LogType.Log:
-                    Debug.LogFormat(format,objects);
-                    break;
-            }
+        public static void EditorLogFormat(LogType logType,string format, params object[] objects)
+        {
+            Logger.EditorLogFormat(logType, format, objects);
         }
         
         
         [Conditional("LOGS_ENABLED")]
         public static void LogWarning(string message, Object source = null)
         {
-            if (!Enabled) return;
-            if (source)
-            {
-                Debug.LogWarning(message, source);
-                return;
-            }
-            Debug.LogWarning(message);
+            Logger.LogWarning(message, source);
         }
 
         [Conditional("LOGS_ENABLED")]
         public static void LogWarningFormat(string template, params object[] values)
         {
-            if (!Enabled) return;
-            Debug.LogWarningFormat(template,values);
+            Logger.LogWarningFormat(template,values);
         }
 
         [Conditional("LOGS_ENABLED")]
         public static void LogFormat(string template, params object[] values)
         {
-            LogFormatRuntime(template, values);
+            Logger.LogFormatRuntime(template, values);
         }
 
         public static void LogError(string message, Object source = null)
         {
-            if (!Enabled) return;
-            if (source)
-            {
-                Debug.LogError(message, source);
-                return;
-            }
-            Debug.LogError(message);
+            Logger.LogError(message, source);
         }
 
         public static void LogError(Exception message, Object source = null)
         {
-            if (!Enabled) return;
-            if (source)
-            {
-                Debug.LogError(message, source);
-                return;
-            }
-            Debug.LogError(message);
+            Logger.LogError(message, source);
         }
 
         public static void LogErrorFormat(string message, params object[] objects)
         {
-            if (!Enabled) return;
-            Debug.LogErrorFormat(message, objects);
+            Logger.LogErrorFormat(message, objects);
         }
 
         public static void LogFormatRuntime(string template, params object[] values)
         {
-            var message = values == null || values.Length == 0 ? template :
-                string.Format(template, values);
-            LogRuntime(message);
+            Logger.LogFormatRuntime(template,values);
         }
         
         public static void LogRuntime(string message, Color color, Object source = null)
         {
-            if (!Enabled || string.IsNullOrEmpty(message)) return;
-            var colorMessage = GetColorTemplate(message, color);
-            LogRuntime(colorMessage, source);
+            Logger.LogRuntime(message,color, source);
         }
 
         public static string GetColorTemplate(string message, Color color)
         {
-            var colorMessage = string.Format("<color=#{0:X2}{1:X2}{2:X2}>{3}</color>",
-                (byte)(color.r * 255f), (byte)(color.g * 255f), (byte)(color.b * 255f),
-                message);
-            return colorMessage;
+            return Logger.GetColorTemplate(message, color);
         }
         
-              
         public static void LogRuntime(string message, Object source = null)
         {
-            if (!Enabled) return;
-            if (source)
-            {
-                Debug.Log(message, source);
-                return;
-            }
-            Debug.Log(message);
+            Logger.Log(message,source);
         }
 
-        #region extensions
-
-        [Conditional("LOGS_ENABLED")]
-        public static void Log(this MonoBehaviour behaviour, string message,
-            Color color)
-        {
-            if (!behaviour || !Enabled) return;
-            Log(message, color, behaviour);
-        }
-
-        [Conditional("LOGS_ENABLED")]
-        public static void Log(this MonoBehaviour behaviour, string message)
-        {
-            if (!behaviour || !Enabled) return;
-            Log(message, behaviour);
-        }
-
-        [Conditional("LOGS_ENABLED")]
-        public static void LogFormat(this MonoBehaviour behaviour,
-            string message, params object[] values)
-        {
-            if (!behaviour || !Enabled) return;
-            LogFormat(message, values);
-        }
-
-        [Conditional("LOGS_ENABLED")]
-        public static void LogFormat(this MonoBehaviour behaviour,
-            string message, Color color, params object[] values)
-        {
-            if (!behaviour || !Enabled) return;
-            LogFormat(message, color, values);
-        }
-
-        [Conditional("LOGS_ENABLED")]
-        public static void LogTrace(string traceKey, object traceNode)
-        {
-            if (!Enabled) return;
-            var message = SetTrace(traceKey, traceNode);
-            if (string.IsNullOrEmpty(message)) return;
-            Log(message);
-        }
-
-        [Conditional("LOGS_ENABLED")]
-        public static void LogTrace(string traceKey, object traceNode, Color color)
-        {
-            if (!Enabled) return;
-            var message = SetTrace(traceKey, traceNode);
-            if (string.IsNullOrEmpty(message)) return;
-            Log(message, color);
-        }
-
-        private static string SetTrace(string traceKey, object traceNode)
-        {
-            if (traceNode == null)
-            {
-                return null;
-            }
-            var message = _traces.ContainsKey(traceKey)
-                ? string.Format(TraceTemplate, _traces[traceKey], traceNode)
-                : traceNode.ToString();
-            _traces[traceKey] = message;
-            return message;
-        }
-
-        #endregion
     }
 }
