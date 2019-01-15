@@ -14,6 +14,8 @@ namespace UniStateMachine.CommonNodes
 
         public float LerpTime = 1f;
 
+        public Vector3 Velocity;
+        
         #endregion
 
         protected override IEnumerator ExecuteState(IContext context)
@@ -29,15 +31,20 @@ namespace UniStateMachine.CommonNodes
 
                 var rigidbody = context.Get<Rigidbody>();
 
-                if(!rigidbody)
+                if (!rigidbody)
+                {
                     continue;
+                }
 
                 activeTime = Time.realtimeSinceStartup - startTime;
 
                 var progress = Mathf.Approximately(LerpTime,0f) ? 1 :
                     activeTime / LerpTime;
 
-                Vector3.Lerp(MinVelocity, MaxVelocity, progress);
+                var velocity = Vector3.Lerp(MinVelocity, MaxVelocity, progress);
+                Velocity = velocity;
+                
+                rigidbody.AddForce(velocity,ForceMode.VelocityChange);
             }
             
         }

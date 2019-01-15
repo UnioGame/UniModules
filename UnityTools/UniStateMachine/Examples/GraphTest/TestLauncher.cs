@@ -9,12 +9,15 @@ using UnityEngine;
 public class TestLauncher : MonoBehaviour
 {
     private IDisposableItem _disposableItem;
-	public UniNodesGraph Graph;
+    private IContext _context;
+    
+    public UniNodesGraph Graph;
 	
 	// Use this for initialization
-	void Start () 
+	void Start ()
 	{
-	    _disposableItem = Graph.Execute(new EntityObject()).RunWithSubRoutines();
+		_context = new EntityObject();
+	    _disposableItem = Graph.Execute(_context).RunWithSubRoutines();
 	}
 
 	private void OnDisable()
@@ -22,5 +25,6 @@ public class TestLauncher : MonoBehaviour
 	    _disposableItem?.Dispose();
 	    _disposableItem = null;
         Graph.Dispose();
+        _context.Release();
 	}
 }

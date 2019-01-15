@@ -81,8 +81,11 @@ namespace UniStateMachine.Nodes
 		{
 		    if (_contextData == null)
 		        return;
+
+		    var contexts = ClassPool.Spawn<List<IContext>>();
+		    contexts.AddRange(_contextData.Contexts);
 		    
-			foreach (var context in _contextData.Contexts)
+			foreach (var context in contexts)
 			{
 				OnExit(context);
 				_contextData.RemoveContext(context);

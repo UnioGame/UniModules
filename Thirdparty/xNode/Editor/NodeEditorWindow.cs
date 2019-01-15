@@ -122,7 +122,12 @@ namespace XNodeEditor
         {
             current = this;
             graphEditor = NodeGraphEditor.GetEditor(graph);
-            if (graphEditor != null && NodeEditorPreferences.GetSettings().autoSave) AssetDatabase.SaveAssets();
+            var settings = NodeEditorPreferences.GetSettings();
+
+            if (graphEditor != null && settings.autoSave)
+            {
+                AssetDatabase.SaveAssets();
+            }
         }
 
         /// <summary> Create editor window </summary>
