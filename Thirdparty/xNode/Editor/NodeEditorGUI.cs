@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using UniEditorTools;
 using UnityEditor;
 using UnityEngine;
 
@@ -27,6 +28,8 @@ namespace XNodeEditor {
             DrawNodes();
             DrawSelectionBox();
             DrawTooltip();
+            DrawGraphsButtons();
+            
             graphEditor.OnGUI();
 
             GUI.matrix = m;
@@ -283,6 +286,46 @@ namespace XNodeEditor {
             if (Event.current.type != EventType.Layout && currentActivity == NodeActivity.DragGrid) selectedReroutes = selection;
         }
 
+        private Vector2 _nodeGraphScroll;
+        private bool _showGraphsList = false;
+        
+        private void DrawGraphsButtons()
+        {
+           
+            if (NodeGraphs == null)
+            {
+                UpdateEditorNodeGraphs();
+            }
+            
+            EditorDrawerUtils.DrawVertialLayout(() =>
+            {
+                EditorGUILayout.Separator();
+                EditorGUILayout.Space();
+                
+                EditorDrawerUtils.DrawButton(_showGraphsList ? "hide graphs" : "show graphs",
+                    () => _showGraphsList = !_showGraphsList);
+            
+                if (!_showGraphsList)
+                    return;
+            
+                EditorDrawerUtils.DrawButton("Update Graphs", UpdateEditorNodeGraphs, GUILayout.Width(100));
+            
+                EditorGUILayout.Separator();
+                EditorGUILayout.Space();
+            
+                EditorDrawerUtils.DrawScroll(_nodeGraphScroll, () =>
+                {
+                    foreach (var nodeGraph in NodeGraphs)
+                    {
+                        EditorDrawerUtils.DrawButton(nodeGraph.name,() => Open(nodeGraph), GUILayout.Width(100));
+                    }
+                }, GUILayout.ExpandWidth(true));
+
+                
+            },GUILayout.Width(100));
+
+        }
+        
         private void DrawNodes() {
             var e = Event.current;
             if (e.type == EventType.Layout) {

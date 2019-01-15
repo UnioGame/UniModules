@@ -2,7 +2,7 @@
 <ArrayOfDirective xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Directive>
     <name>UNITY_POST_PROCESSING_STACK_V2</name>
-    <targets>Standalone iOS Android WebGL Tizen PSP2 PS4 XboxOne N3DS WiiU tvOS</targets>
+    <targets>Standalone iOS Android WebGL PS4 XboxOne tvOS</targets>
     <enabled>true</enabled>
     <sortOrder>0</sortOrder>
   </Directive>
@@ -75,7 +75,7 @@
   <Directive>
     <name>ENABLE_MESSAGE_LOG</name>
     <targets>Standalone iOS Android WebGL Metro</targets>
-    <enabled>true</enabled>
+    <enabled>false</enabled>
     <sortOrder>12</sortOrder>
   </Directive>
 </ArrayOfDirective>

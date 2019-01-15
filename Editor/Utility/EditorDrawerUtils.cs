@@ -32,6 +32,16 @@ namespace UniEditorTools {
 
         public static GUIStyle BoxStyle = new GUIStyle(EditorStyles.helpBox);
 
+        public static bool DrawButton(string label,Action action,params GUILayoutOption[] options)
+        {
+            if (GUILayout.Button(label, options))
+            {
+                action?.Invoke();
+                return true;
+            }
+
+            return false;
+        }
         
         public static bool ActionDrawerSwitcher(bool selection,string label,Action selectedDrawer,Action unselectedDrawer)
         {
@@ -232,12 +242,12 @@ namespace UniEditorTools {
             second.IsOpen = open;
         }
         
-        public static Vector2 DrawScroll(Vector2 scroll,Action drawer) {
+        public static Vector2 DrawScroll(Vector2 scroll,Action drawer,params GUILayoutOption[] options) {
             
             if (drawer == null)
                 return scroll;
             
-            scroll = EditorGUILayout.BeginScrollView(scroll);
+            scroll = EditorGUILayout.BeginScrollView(scroll,options);
             
             drawer();
 
