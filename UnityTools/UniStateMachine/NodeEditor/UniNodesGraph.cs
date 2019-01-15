@@ -85,7 +85,9 @@ namespace UniStateMachine.Nodes
 			foreach (var context in _contextData.Contexts)
 			{
 				OnExit(context);
+				_contextData.RemoveContext(context);
 			}
+			
         }
 	    
 	    #region private
