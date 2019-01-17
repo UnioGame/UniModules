@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using Assets.Tools.UnityTools.ObjectPool.Scripts;
+using UniRx;
 using UnityTools.Common;
 using UnityTools.Interfaces;
 
 namespace Assets.Tools.UnityTools.Common
 {
-    public class TypeData : ITypeDataContainer, IDataWriter
+    public class TypeData : ITypeDataContainer, IMessagePublisher
     {
         /// <summary>
         /// registered components
@@ -47,6 +48,11 @@ namespace Assets.Tools.UnityTools.Common
             var data = GetData<TData>(true);
             data.SetValue(value);           
          
+        }
+
+        public void Publish<T>(T value)
+        {
+            Add(value);
         }
 
         public bool HasData<TData>()

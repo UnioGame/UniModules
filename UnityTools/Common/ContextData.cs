@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Assets.Modules.UnityToolsModule.Tools.UnityTools.DataFlow;
 using Assets.Tools.UnityTools.Interfaces;
 using Assets.Tools.UnityTools.ObjectPool.Scripts;
+using UniRx;
 using UnityTools.Common;
 using UnityTools.Interfaces;
 
@@ -92,7 +93,7 @@ namespace Assets.Tools.UnityTools.Common
             
         }
 
-        public void CopyTo(TContext context, IDataWriter target)
+        public void CopyTo(TContext context, IMessagePublisher target)
         {
             
             if (!_contexts.TryGetValue(context, out var contextData))
@@ -104,7 +105,6 @@ namespace Assets.Tools.UnityTools.Common
             {
                 value.CopyTo(target);
             }
-            
             
         }
         

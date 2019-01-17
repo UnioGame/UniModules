@@ -1,10 +1,11 @@
-﻿using UnityTools.Common;
+﻿using UniRx;
+using UnityTools.Common;
 
 namespace UnityTools.Interfaces
 {
     public interface IWritableValue
     {
-        void CopyTo(Common.IDataWriter target);
+        void CopyTo(IMessagePublisher target);
         
     }
 }

@@ -49,8 +49,8 @@ namespace UniNodesTests
             portValue1.UpdateValue(context1,testPortValue);
             portValue2.UpdateValue(context2,testPortValue2);
             
-            var writer = portValue2.GetWriter(context1);
-            var writer2 = portValue2.GetWriter(context2);
+            var writer = portValue2.GetPublisher(context1);
+            var writer2 = portValue2.GetPublisher(context2);
             
             portValue1.CopyTo(context1,writer);
             portValue1.CopyTo(context2,writer2);
@@ -77,7 +77,7 @@ namespace UniNodesTests
 
             portValue2.UpdateValue(context1,testPortValue3);
 
-            var writer2 = portValue2.GetWriter(context1);
+            var writer2 = portValue2.GetPublisher(context1);
             portValue1.CopyTo(context1,writer2);
             
             Assert.That(portValue2.Get<string>(context1),Is.EqualTo(testPortValue2));

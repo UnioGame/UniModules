@@ -50,7 +50,7 @@ namespace UniStateMachine
         {
             foreach (var context in from.Contexts)
             {
-                var writer = to.GetWriter(context);
+                var writer = to.GetPublisher(context);
                 from.CopyTo(context,writer);
             }
         }

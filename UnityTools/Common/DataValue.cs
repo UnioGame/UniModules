@@ -9,7 +9,8 @@ using UnityTools.RecycleRx;
 namespace Assets.Tools.UnityTools.Common
 {
     [Serializable]
-    public class ContextValue<TData> : IDataValue<TData>, 
+    public class ContextValue<TData> : 
+        IDataValue<TData>, 
         IWritableValue, 
         IObservable<TData>
     {
@@ -43,9 +44,9 @@ namespace Assets.Tools.UnityTools.Common
         
         #region IDataTransition
         
-        public void CopyTo(IDataWriter target)
+        public void CopyTo(IMessagePublisher target)
         {
-            target.Add(Value);
+            target.Publish(Value);
         }
         
         #endregion

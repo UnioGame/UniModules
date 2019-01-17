@@ -16,7 +16,7 @@ namespace UniStateMachine.Nodes
     [Serializable]
     public class UniPortValue : 
         IContextData<IContext>,
-        IContextWriterProvider<IContext>
+        IContextPublisherProvider<IContext>
     {
         #region serialized data
         
@@ -37,7 +37,7 @@ namespace UniStateMachine.Nodes
         [NonSerialized]
         private bool _initialized = false;
         
-        private Dictionary<IContext, IDataWriter> _writers;
+        private Dictionary<IContext, IMessagePublisher> _writers;
 
         private ReactiveContextData<IContext> _data;
 
@@ -52,10 +52,10 @@ namespace UniStateMachine.Nodes
             if (_initialized)
                 return;
             _data = new ReactiveContextData<IContext>();
-            _writers = new Dictionary<IContext, IDataWriter>();
+            _writers = new Dictionary<IContext, IMessagePublisher>();
         }
         
-        public void CopyTo(IContext context, IDataWriter writer )
+        public void CopyTo(IContext context, IMessagePublisher writer )
         {
             _data.CopyTo(context,writer);
         }
@@ -105,12 +105,12 @@ namespace UniStateMachine.Nodes
             _data.Release();
         }
         
-        public IDataWriter GetWriter(IContext context)
+        public IMessagePublisher GetPublisher(IContext context)
         {
             var writers = _writers;
             if (!writers.TryGetValue(context, out var writer))
             {
-                var contextWriter = ClassPool.Spawn<ContextWriter>();
+                var contextWriter = ClassPool.Spawn<ContextPublisher>();
                 contextWriter.Initialize(context,this);
                 
                 writer = contextWriter;

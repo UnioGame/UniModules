@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Assets.Tools.UnityTools.Interfaces;
 using UnityEngine;
 
@@ -6,17 +7,36 @@ namespace UniStateMachine.CommonNodes
 {
     public class RigidbodyVelocityLerpNode : UniNode
     {
+        [NonSerialized]
+        private Vector3 _normalizedDirection;
+
+        private float _maxSqrMagnitude;
+        private float _minSqrMagnitude;
+        
         #region inspector
 
-        public Vector3 MaxVelocity;
+        public Vector3 Direction;
+        
+        public float MaxVelocity;
 
-        public Vector3 MinVelocity;
+        public float MinVelocity;
 
         public float LerpTime = 1f;
 
+        
+        /// <summary>
+        /// test velocity work only for 1 context
+        /// </summary>
         public Vector3 Velocity;
         
         #endregion
+
+        protected override void OnInitialize(IContextData<IContext> localContext)
+        {
+            base.OnInitialize(localContext);
+
+            _normalizedDirection = Direction.normalized;
+        }
 
         protected override IEnumerator ExecuteState(IContext context)
         {
@@ -41,10 +61,14 @@ namespace UniStateMachine.CommonNodes
                 var progress = Mathf.Approximately(LerpTime,0f) ? 1 :
                     activeTime / LerpTime;
 
-                var velocity = Vector3.Lerp(MinVelocity, MaxVelocity, progress);
-                Velocity = velocity;
+                var velocity = Mathf.Lerp(MinVelocity, MaxVelocity, progress);
+
+                var velocityVector = _normalizedDirection * velocity;
                 
-                rigidbody.AddForce(velocity,ForceMode.VelocityChange);
+                rigidbody.AddForce(velocityVector,ForceMode.VelocityChange);
+                
+                Velocity = rigidbody.velocity;
+
             }
             
         }

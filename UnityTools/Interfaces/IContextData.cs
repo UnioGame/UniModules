@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Assets.Modules.UnityToolsModule.Tools.UnityTools.DataFlow;
 using Assets.Tools.UnityTools.ObjectPool.Scripts;
+using UniRx;
 using UnityTools.Common;
 
 namespace Assets.Tools.UnityTools.Interfaces
@@ -19,10 +20,10 @@ namespace Assets.Tools.UnityTools.Interfaces
 
     }
 
-    public interface IContextWriterProvider<TContext>
+    public interface IContextPublisherProvider<TContext>
     {
     
-        IDataWriter GetWriter(TContext context);
+        IMessagePublisher GetPublisher(TContext context);
 
     }
     
@@ -45,6 +46,6 @@ namespace Assets.Tools.UnityTools.Interfaces
         /// </summary>
         /// <param name="context">key context</param>
         /// <param name="writer">container writer</param>
-        void CopyTo(TContext context, IDataWriter writer);
+        void CopyTo(TContext context, IMessagePublisher writer);
     }
 }
