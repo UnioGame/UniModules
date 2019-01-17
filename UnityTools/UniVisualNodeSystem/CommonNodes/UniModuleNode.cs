@@ -55,27 +55,15 @@ namespace UniStateMachine.CommonNodes
         {
             yield return base.ExecuteState(context);
 
-            BindModule(context);
-            
+            var lifeTime = GetLifeTime(context);
+            _adapter.Bind(context,lifeTime);
+
             while (IsActive(context))
             {
                 yield return null;             
-                _adapter.Update(context);
+                _adapter.Update(context,lifeTime);
             }
         }    
 
-        /// <summary>
-        /// bind adapter to portvalues
-        /// </summary>
-        /// <param name="context">bind module to current context</param>
-        private void BindModule(IContext context)
-        {
-            
-            _adapter.Bind(context);
-            
-            var lifeTime = GetLifeTime(context);
-            lifeTime.AddCleanUpAction(() => _adapter.Release(context));
-
-        }
     }
 }

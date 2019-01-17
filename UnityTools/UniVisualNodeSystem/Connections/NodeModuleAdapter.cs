@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Assets.Modules.UnityToolsModule.Tools.UnityTools.DataFlow;
 using Assets.Tools.UnityTools.Interfaces;
 using UnityEngine;
 
 namespace UnityTools.UniNodeEditor.Connections
 {
-    public class NodeModuleAdapter : ScriptableObject, INodeModuleAdapter
+    public abstract class NodeModuleAdapter : ScriptableObject, INodeModuleAdapter
     {
         protected Dictionary<string, IContextData<IContext>> _values;
 
-        public IReadOnlyList<string> Ports => GetPorts();
+        public IReadOnlyCollection<string> Ports => GetPorts();
 
         public void Initialize()
         {
@@ -22,46 +22,14 @@ namespace UnityTools.UniNodeEditor.Connections
 
         public void BindValue(string key,IContextData<IContext> value)
         {
-            OnBindValue(key,value); 
-        }
-        
-        public void Bind(IContext context)
-        {
-            foreach (var data in _values)
-            {
-                OnBindAction(context, data.Key,data.Value);              
-            }
+            _values[key] = value;
         }
 
-        public void Update( IContext context)
-        {
-            foreach (var data in _values)
-            {
-                OnUpdate(context,data.Key, data.Value);
-            }
-        }
+        public abstract void Bind(IContext context, ILifeTime timeline);
+
+        public abstract void Update(IContext context, ILifeTime lifeTime);
 
         #region module methods
-        
-        public virtual void Release(IContext context)
-        {
-            
-        }
-        
-        protected virtual void OnBindAction(IContext context,string key, IContextData<IContext> value)
-        {
-            
-        }
-
-        protected virtual void OnBindValue(string key, IContextData<IContext> value)
-        {
-            
-        }
-
-        protected virtual void OnUpdate(IContext context,string key, IContextData<IContext> value)
-        {
-            
-        }
 
         protected virtual void OnInitialize(){}
 
@@ -69,9 +37,15 @@ namespace UnityTools.UniNodeEditor.Connections
         /// Get registered port names
         /// </summary>
         /// <returns></returns>
-        protected virtual List<string> GetPorts()
+        protected virtual IReadOnlyCollection<string> GetPorts()
         {
             return new List<string>();
+        }
+
+        protected IContextData<IContext> GetConnection(string key)
+        {
+            _values.TryGetValue(key, out var data);
+            return data;
         }
                     
         #endregion
