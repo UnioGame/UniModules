@@ -153,7 +153,7 @@ namespace UniStateMachine
             return true;
         }
 
-        public void Invalidate()
+        public virtual void Invalidate()
         {
             
             _portValues.RemoveAll(x => GetPort(x.Name) == null);

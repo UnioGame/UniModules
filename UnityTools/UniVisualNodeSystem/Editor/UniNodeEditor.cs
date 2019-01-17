@@ -44,6 +44,7 @@ namespace SubModules.Scripts.UniStateMachine.NodeEditor
 			
 			base.OnBodyGUI();
 			
+			//node.Invalidate();
 			node.UpdatePortsCache();
 
 			DrawPorts(node);

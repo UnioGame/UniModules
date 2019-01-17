@@ -5,26 +5,19 @@ using UnityEngine;
 
 namespace UnityTools.UniNodeEditor.Connections
 {
-    public class NodeModuleAdapter : ScriptableObject
+    public class NodeModuleAdapter : ScriptableObject, INodeModuleAdapter
     {
         protected Dictionary<string, IContextData<IContext>> _values;
-        protected List<string> _ports;
-        
-        public bool IsReady { get; protected set; }
 
-        public IReadOnlyList<string> Ports => _ports;
+        public IReadOnlyList<string> Ports => GetPorts();
 
         public void Initialize()
         {
-            if (IsReady)
-                return;
-            
-            _ports = GetPorts();
+
             _values = new Dictionary<string, IContextData<IContext>>();
 
             OnInitialize();
             
-            IsReady = true;
         }
 
         public void BindValue(string key,IContextData<IContext> value)
