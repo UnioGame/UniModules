@@ -15,7 +15,7 @@ namespace Assets.Tools.UnityTools.Common
         IPoolable
     {
 
-        private Dictionary<TContext, TypeData> _contexts = new Dictionary<TContext, TypeData>();
+        protected Dictionary<TContext, TypeData> _contexts = new Dictionary<TContext, TypeData>();
 
         public IReadOnlyCollection<TContext> Contexts => _contexts.Keys;
 

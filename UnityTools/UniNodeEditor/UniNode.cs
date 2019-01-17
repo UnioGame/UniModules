@@ -14,14 +14,7 @@ namespace UniStateMachine
     public class UniNode : UniGraphNode, IValidator<IContext>
     {
         public const string InputPortName = "Input";
-        
-        #region inspector data
 
-        [SerializeField]
-        private UniStateValidator _validator;
-        
-        #endregion
-        
         #region ports
 
         public UniPortValue Input => GetPortValue(InputPortName);
@@ -36,7 +29,7 @@ namespace UniStateMachine
 
         public virtual bool Validate(IContext context)
         {
-            return _validator ? _validator.Validate(context) : true;
+            return true;
         }
 
     }

@@ -7,6 +7,8 @@
     
     public interface IUpdatable<TData>
     {
-        void Update(TData data,float delta);
+        void Update(TData data);
     }
+    
+    
 }
