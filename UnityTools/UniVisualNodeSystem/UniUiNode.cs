@@ -14,8 +14,7 @@ namespace UniStateMachine
 {
     public class UniUiNode : UniNode
     {
-        public const string UiInputTriggerPrefix = "[in]";
-        
+
         #region inspector
 
         [HideInInspector]
@@ -98,8 +97,8 @@ namespace UniStateMachine
             {
                 
                 this.UpdatePortValue(handler.Name, PortIO.Output);
-                
-                var inputName = string.Format($"{UniUiNode.UiInputTriggerPrefix}{handler.Name}");
+
+                var inputName = GetFormatedInputName(handler.Name);
 
                 this.UpdatePortValue(inputName, PortIO.Input);
                 

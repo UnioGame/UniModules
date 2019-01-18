@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UniEditorTools;
 using UniStateMachine;
 using UniStateMachine.Nodes;
@@ -55,12 +56,31 @@ namespace SubModules.Scripts.UniStateMachine.NodeEditor
 			return base.GetBodyStyle();
 		}
 
-		public virtual void DrawPorts(UniGraphNode node)
+		private static Dictionary<string,NodePort> _drawedPorts = new Dictionary<string,NodePort>();
+		
+		public void DrawPorts(UniGraphNode node)
 		{
+			_drawedPorts.Clear();
+
+			var inputPort = node.GetPort(UniNode.InputPortName);
+			var outputPort = node.GetPort(UniGraphNode.OutputPortName);
+			DrawPortPair(inputPort,outputPort,_drawedPorts);
+			
+			foreach (var portValue in node.PortValues)
+			{
+				var portName = portValue.Name;
+				var formatedName = UniNode.GetFormatedInputName(portName);
+
+				DrawPortPair(node,portName,formatedName,_drawedPorts);
+
+			}
 
 			foreach (var portValue in node.PortValues)
 			{
-				
+				var portName = portValue.Name;
+				if(_drawedPorts.ContainsKey(portName))
+					continue;
+			
 				var port = node.GetPort(portValue.Name);
 				var portStyle = GetPortStyle(port);
 				
@@ -69,6 +89,32 @@ namespace SubModules.Scripts.UniStateMachine.NodeEditor
 			
 		}
 
+		private void DrawPortPair(UniGraphNode node,string inputPortName, string outputPortName,Dictionary<string,NodePort> ports)
+		{
+			if(_drawedPorts.ContainsKey(inputPortName))
+				return;	
+			
+			var outputPort = node.GetPort(inputPortName);
+			var inputPort = node.GetPort(outputPortName);
+
+			DrawPortPair(inputPort, outputPort,ports);
+		}
+		
+		private void DrawPortPair(NodePort inputPort, NodePort outputPort,Dictionary<string,NodePort> ports)
+		{
+			if (outputPort == null || inputPort == null)
+			{
+				return;
+			}
+			
+			var inputStyle = GetPortStyle(inputPort);
+			var outputStyle = GetPortStyle(outputPort);
+				
+			_drawedPorts[inputPort.fieldName] = inputPort;
+			_drawedPorts[outputPort.fieldName] = outputPort;
+
+			inputPort.DrawPortField(outputPort, inputStyle, outputStyle);
+		}
 
 		private NodeGuiLayoutStyle GetPortStyle(NodePort port)
 		{

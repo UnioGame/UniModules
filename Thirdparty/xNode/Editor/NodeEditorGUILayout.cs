@@ -300,6 +300,14 @@ namespace XNodeEditor {
             GUILayout.EndHorizontal();
         }
 
+        public static void PortPair(XNode.NodePort input, XNode.NodePort output,
+            NodeGuiLayoutStyle intputStyle,NodeGuiLayoutStyle outputStyle) {
+            GUILayout.BeginHorizontal();
+            PortField(input, intputStyle);
+            PortField(output,outputStyle);
+            GUILayout.EndHorizontal();
+        }
+        
         public static void DrawPortHandle(Rect rect, Color backgroundColor, Color typeColor) {
             var col = GUI.color;
             GUI.color = backgroundColor;

@@ -26,7 +26,15 @@ public static class UniNodeEditorExtensions
         return port;
 
     }
+    
+    public static void DrawPortField(this NodePort input, NodePort output, 
+        NodeGuiLayoutStyle intputStyle,NodeGuiLayoutStyle outputStyle)
+    {
 
+        NodeEditorGUILayout.PortPair(input, output,intputStyle,outputStyle);
+
+    }
+    
     public static NodePort DrawPortField(this NodePort port, GUILayoutOption[] options)
     {
 
