@@ -97,11 +97,11 @@ namespace UniStateMachine
             foreach (var handler in UiView.Triggers)
             {
                 
-                this.UpdatePortValue(handler.Name, NodePort.IO.Output);
+                this.UpdatePortValue(handler.Name, PortIO.Output);
                 
                 var inputName = string.Format($"{UniUiNode.UiInputTriggerPrefix}{handler.Name}");
 
-                this.UpdatePortValue(inputName, NodePort.IO.Input);
+                this.UpdatePortValue(inputName, PortIO.Input);
                 
             }
         }

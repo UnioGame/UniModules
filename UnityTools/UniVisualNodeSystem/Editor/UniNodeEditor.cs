@@ -88,7 +88,7 @@ namespace SubModules.Scripts.UniStateMachine.NodeEditor
 			{
 				portStyle.Name = port.fieldName;
 				portStyle.Background = Color.red;
-				portStyle.Color = port.direction  == NodePort.IO.Input ?
+				portStyle.Color = port.direction  == PortIO.Input ?
 					Color.green : Color.blue;
 			}
 			

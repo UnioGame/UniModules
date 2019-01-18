@@ -379,8 +379,8 @@ namespace XNodeEditor {
                     if (srcNode.graph != graph) continue; // ignore nodes selected in another graph
                     foreach (XNode.NodePort port in srcNode.Ports) {
                         for (int c = 0; c < port.ConnectionCount; c++) {
-                            XNode.NodePort inputPort = port.direction == XNode.NodePort.IO.Input ? port : port.GetConnection(c);
-                            XNode.NodePort outputPort = port.direction == XNode.NodePort.IO.Output ? port : port.GetConnection(c);
+                            XNode.NodePort inputPort = port.direction == XNode.PortIO.Input ? port : port.GetConnection(c);
+                            XNode.NodePort outputPort = port.direction == XNode.PortIO.Output ? port : port.GetConnection(c);
 
                             XNode.Node newNodeIn, newNodeOut;
                             if (substitutes.TryGetValue(inputPort.node, out newNodeIn) && substitutes.TryGetValue(outputPort.node, out newNodeOut)) {

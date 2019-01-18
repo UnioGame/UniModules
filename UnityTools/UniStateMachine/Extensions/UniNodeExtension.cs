@@ -91,7 +91,7 @@ namespace UniStateMachine
 
         
         public static (UniPortValue , NodePort) UpdatePortValue<TValue>(this UniGraphNode node, 
-            NodePort.IO direction = NodePort.IO.Output)
+            PortIO direction = PortIO.Output)
         {
             var type = typeof(TValue);
             var port = node.UpdatePort<UniPortValue>(type.Name, direction);
@@ -109,7 +109,7 @@ namespace UniStateMachine
         }
         
         public static (UniPortValue value, NodePort port) UpdatePortValue(this UniGraphNode node, 
-            string portName, NodePort.IO direction = NodePort.IO.Output)
+            string portName, PortIO direction = PortIO.Output)
         {
         
             var port = node.UpdatePort<UniPortValue>(portName, direction);
@@ -127,7 +127,7 @@ namespace UniStateMachine
         }
         
 
-        public static NodePort UpdatePort<TValue>(this Node node,string portName,NodePort.IO direction = NodePort.IO.Output)
+        public static NodePort UpdatePort<TValue>(this Node node,string portName,PortIO direction = PortIO.Output)
         {
         
             var nodePort = node.GetPort(portName);
@@ -146,7 +146,7 @@ namespace UniStateMachine
             {
                 var portType = typeof(TValue);
 
-                nodePort = direction == NodePort.IO.Output
+                nodePort = direction == PortIO.Output
                     ? node.AddInstanceOutput(portType, Node.ConnectionType.Multiple, portName)
                     : node.AddInstanceInput(portType, Node.ConnectionType.Multiple, portName);
             }

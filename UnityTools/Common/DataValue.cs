@@ -32,7 +32,7 @@ namespace Assets.Tools.UnityTools.Common
 
         public void Dispose()
         {
-            Release();
+            OnRelease();
             
             this.Despawn();
         }
@@ -51,7 +51,7 @@ namespace Assets.Tools.UnityTools.Common
         
         #endregion
         
-        private void Release()
+        protected virtual void OnRelease()
         {
             _reactiveValue.Release();
         }

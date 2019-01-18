@@ -42,7 +42,7 @@ namespace XNodeEditor {
                 var rect = new Rect();
 
                 // If property is an input, display a regular property field and put a port handle on the left side
-                if (port.direction == XNode.NodePort.IO.Input) {
+                if (port.direction == XNode.PortIO.Input) {
                     // Get data from [Input] attribute
                     var showBacking = XNode.Node.ShowBackingValue.Unconnected;
                     XNode.Node.InputAttribute inputAttribute;
@@ -78,7 +78,7 @@ namespace XNodeEditor {
                     rect = GUILayoutUtility.GetLastRect();
                     rect.position = rect.position - new Vector2(16, 0);
                     // If property is an output, display a text label and put a port handle on the right side
-                } else if (port.direction == XNode.NodePort.IO.Output) {
+                } else if (port.direction == XNode.PortIO.Output) {
                     // Get data from [Output] attribute
                     var showBacking = XNode.Node.ShowBackingValue.Unconnected;
                     XNode.Node.OutputAttribute outputAttribute;
@@ -169,7 +169,7 @@ namespace XNodeEditor {
                 new GUIContent(portStyle.Name);
 
             // If property is an input, display a regular property field and put a port handle on the left side
-            if (port.direction == XNode.NodePort.IO.Input) {
+            if (port.direction == XNode.PortIO.Input) {
                 // Display a label
                 EditorGUILayout.LabelField(portStyle.Label, portStyle.Options);
 
@@ -178,7 +178,7 @@ namespace XNodeEditor {
 
             }
             // If property is an output, display a text label and put a port handle on the right side
-            else if (port.direction == XNode.NodePort.IO.Output) {
+            else if (port.direction == XNode.PortIO.Output) {
                 
                 // Display a label
                 EditorGUILayout.LabelField(portStyle.Label, NodeEditorResources.OutputPort, portStyle.Options);
@@ -269,11 +269,11 @@ namespace XNodeEditor {
             var rect = new Rect();
 
             // If property is an input, display a regular property field and put a port handle on the left side
-            if (port.direction == XNode.NodePort.IO.Input) {
+            if (port.direction == XNode.PortIO.Input) {
                 rect = GUILayoutUtility.GetLastRect();
                 rect.position = rect.position - new Vector2(16, 0);
                 // If property is an output, display a text label and put a port handle on the right side
-            } else if (port.direction == XNode.NodePort.IO.Output) {
+            } else if (port.direction == XNode.PortIO.Output) {
                 rect = GUILayoutUtility.GetLastRect();
                 rect.position = rect.position + new Vector2(rect.width, 0);
             }
@@ -311,7 +311,7 @@ namespace XNodeEditor {
 
         [Obsolete("Use InstancePortList(string, Type, SerializedObject, NodePort.IO, Node.ConnectionType) instead")]
         public static void InstancePortList(string fieldName, Type type, SerializedObject serializedObject, XNode.Node.ConnectionType connectionType = XNode.Node.ConnectionType.Multiple) {
-            InstancePortList(fieldName, type, serializedObject, XNode.NodePort.IO.Output, connectionType);
+            InstancePortList(fieldName, type, serializedObject, XNode.PortIO.Output, connectionType);
         }
 
         /// <summary> Draw an editable list of instance ports. Port names are named as "[fieldName] [index]" </summary>
@@ -319,7 +319,7 @@ namespace XNodeEditor {
         /// <param name="type">Value type of added instance ports</param>
         /// <param name="serializedObject">The serializedObject of the node</param>
         /// <param name="connectionType">Connection type of added instance ports</param>
-        public static void InstancePortList(string fieldName, Type type, SerializedObject serializedObject, XNode.NodePort.IO io, XNode.Node.ConnectionType connectionType = XNode.Node.ConnectionType.Multiple) {
+        public static void InstancePortList(string fieldName, Type type, SerializedObject serializedObject, XNode.PortIO io, XNode.Node.ConnectionType connectionType = XNode.Node.ConnectionType.Multiple) {
             var node = serializedObject.targetObject as XNode.Node;
             var arrayData = serializedObject.FindProperty(fieldName);
 
@@ -347,7 +347,7 @@ namespace XNodeEditor {
             list.DoLayoutList();
         }
 
-        private static ReorderableList CreateReorderableList(List<XNode.NodePort> instancePorts, SerializedProperty arrayData, Type type, SerializedObject serializedObject, XNode.NodePort.IO io, string label, XNode.Node.ConnectionType connectionType = XNode.Node.ConnectionType.Multiple) {
+        private static ReorderableList CreateReorderableList(List<XNode.NodePort> instancePorts, SerializedProperty arrayData, Type type, SerializedObject serializedObject, XNode.PortIO io, string label, XNode.Node.ConnectionType connectionType = XNode.Node.ConnectionType.Multiple) {
             var hasArrayData = arrayData != null && arrayData.isArray;
             var arraySize = hasArrayData ? arrayData.arraySize : 0;
             var node = serializedObject.targetObject as XNode.Node;
@@ -430,7 +430,7 @@ namespace XNodeEditor {
                     var i = 0;
                     while (node.HasPort(newName)) newName = arrayData.name + " " + (++i);
 
-                    if (io == XNode.NodePort.IO.Output) node.AddInstanceOutput(type, connectionType, newName);
+                    if (io == XNode.PortIO.Output) node.AddInstanceOutput(type, connectionType, newName);
                     else node.AddInstanceInput(type, connectionType, newName);
                     serializedObject.Update();
                     EditorUtility.SetDirty(node);
@@ -477,7 +477,7 @@ namespace XNodeEditor {
                     var newName = arrayData.name + " 0";
                     var i = 0;
                     while (node.HasPort(newName)) newName = arrayData.name + " " + (++i);
-                    if (io == XNode.NodePort.IO.Output) node.AddInstanceOutput(type, connectionType, newName);
+                    if (io == XNode.PortIO.Output) node.AddInstanceOutput(type, connectionType, newName);
                     else node.AddInstanceInput(type, connectionType, newName);
                     EditorUtility.SetDirty(node);
                     instancePortCount++;

@@ -82,7 +82,7 @@ namespace UniStateMachine
         
         public virtual void UpdatePortsCache()
         {
-            this.UpdatePortValue(OutputPortName, NodePort.IO.Output);
+            this.UpdatePortValue(OutputPortName, PortIO.Output);
         }
         
         public bool IsActive(IContext context)

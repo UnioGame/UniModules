@@ -173,7 +173,7 @@ namespace UniStateMachine.Nodes
 	    private UniPortValue UpdatePortValue(UniGraphNode node,NodePort nodePort)
 	    {
 
-		    if (nodePort.direction == NodePort.IO.Output)
+		    if (nodePort.direction == PortIO.Output)
 			    return null;
 		    
 		    var portValue = node.GetPortValue(nodePort.fieldName);

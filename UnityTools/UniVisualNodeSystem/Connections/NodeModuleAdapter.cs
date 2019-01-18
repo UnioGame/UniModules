@@ -2,47 +2,60 @@
 using Assets.Modules.UnityToolsModule.Tools.UnityTools.DataFlow;
 using Assets.Tools.UnityTools.Interfaces;
 using UnityEngine;
+using UnityTools.UniVisualNodeSystem;
 
 namespace UnityTools.UniNodeEditor.Connections
 {
     public abstract class NodeModuleAdapter : ScriptableObject, INodeModuleAdapter
     {
-        protected Dictionary<string, IContextData<IContext>> _values;
+        #region inspector
 
-        public IReadOnlyCollection<string> Ports => GetPorts();
+        [SerializeField]
+        private List<PortDefinition> _portDefinitions;
+        
+        #endregion
+        
+        protected Dictionary<string, PortDefinition> _values;
+
+        public IReadOnlyCollection<PortDefinition> Ports { get; protected set; }
 
         public void Initialize()
         {
 
-            _values = new Dictionary<string, IContextData<IContext>>();
-
+            _values = new Dictionary<string, PortDefinition>();
+            
             OnInitialize();
             
-        }
+            _portDefinitions = GetPorts();
 
-        public void BindValue(string key,IContextData<IContext> value)
-        {
-            _values[key] = value;
+            foreach (var definition in _portDefinitions)
+            {
+                _values[definition.Name] = definition;
+            }
+
+            Ports = _portDefinitions;
+            
+            
         }
 
         public abstract void Bind(IContext context, ILifeTime timeline);
 
-        public abstract void Update(IContext context, ILifeTime lifeTime);
+        public abstract void Execute(IContext context, ILifeTime lifeTime);
 
         #region module methods
 
-        protected virtual void OnInitialize(){}
+        protected abstract void OnInitialize();
 
         /// <summary>
         /// Get registered port names
         /// </summary>
         /// <returns></returns>
-        protected virtual IReadOnlyCollection<string> GetPorts()
+        protected virtual List<PortDefinition> GetPorts()
         {
-            return new List<string>();
+            return new List<PortDefinition>();
         }
 
-        protected IContextData<IContext> GetConnection(string key)
+        protected PortDefinition GetConnection(string key)
         {
             _values.TryGetValue(key, out var data);
             return data;

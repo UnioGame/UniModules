@@ -23,7 +23,7 @@ namespace UniStateMachine
 
         public override void UpdatePortsCache()
         {
-            this.UpdatePortValue(InputPortName, NodePort.IO.Input);
+            this.UpdatePortValue(InputPortName, PortIO.Input);
             base.UpdatePortsCache();
         }
 

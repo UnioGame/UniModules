@@ -14,40 +14,21 @@ namespace UniStateMachine.CommonNodes
         /// <summary>
         /// target module adapter
         /// </summary>
-        [SerializeField]
-        private NodeModuleAdapter _adapter;
+        [SerializeField] private NodeModuleAdapter _adapter;
 
-        [HideInInspector]
-        [SerializeField]
-        private List<string> _modulePortValues = new List<string>();
+        [HideInInspector] [SerializeField] private List<string> _modulePortValues = new List<string>();
 
         public List<string> ModulePortValues => _modulePortValues;
 
         public INodeModuleAdapter Adapter => _adapter;
-        
+
         public override void UpdatePortsCache()
         {
             base.UpdatePortsCache();
 
-            //register all module ports
-            _modulePortValues.Clear();
-            
-            if (!_adapter)
-            {
-                return;
-            }
-            
-            _adapter.Initialize();
-            _modulePortValues.AddRange(_adapter.Ports);
-            
-            foreach (var port in _modulePortValues)
-            {
-                var item = this.UpdatePortValue(port);
-                _adapter.BindValue(port,item.value);
-            }
-
+            UpdateModulePorts();
         }
-        
+
         /// <summary>
         /// update adapter for target context
         /// </summary>
@@ -56,14 +37,33 @@ namespace UniStateMachine.CommonNodes
             yield return base.ExecuteState(context);
 
             var lifeTime = GetLifeTime(context);
-            _adapter.Bind(context,lifeTime);
+            _adapter.Bind(context, lifeTime);
 
             while (IsActive(context))
             {
-                yield return null;             
-                _adapter.Update(context,lifeTime);
+                yield return null;
+                _adapter.Execute(context, lifeTime);
             }
-        }    
+        }
 
+        private void UpdateModulePorts()
+        {
+            //register all module ports
+            _modulePortValues.Clear();
+
+            if (!_adapter)
+            {
+                return;
+            }
+
+            _adapter.Initialize();
+            _modulePortValues.AddRange(_adapter.Ports.Select(x => x.Name));
+
+            foreach (var port in _adapter.Ports)
+            {
+                var item = this.UpdatePortValue(port.Name,port.Direction);
+                port.Bind(item.value);
+            }
+        }
     }
 }

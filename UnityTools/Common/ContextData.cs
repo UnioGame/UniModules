@@ -9,9 +9,9 @@ using UnityTools.Interfaces;
 
 namespace Assets.Tools.UnityTools.Common
 {
+
     public class ContextData<TContext> : 
         IContextData<TContext>, 
-        ICopyableData<TContext>,
         IPoolable
     {
 
