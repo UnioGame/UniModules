@@ -1,25 +1,27 @@
 ﻿using System;
 using Assets.Tools.UnityTools.ProfilerTools;
 using UnityEngine;
+using UnityTools.ObjectPool.Scripts;
 using Object = UnityEngine.Object;
 
 namespace Assets.Tools.UnityTools.ObjectPool.Scripts
 {
 	public static class ClassPool {
 
-		private static ClassPoolContainer _persistentContainer;
-		private static ClassPoolContainer _container;
+		private static WeakReference<IPoolContainer> _persistentContainer = new WeakReference<IPoolContainer>(null);
+		private static WeakReference<IPoolContainer> _container = new WeakReference<IPoolContainer>(null);
 
-		private static ClassPoolContainer Container
+		private static IPoolContainer Container
 		{
 			get
 			{
-				if (!_container)
+				if (!_container.TryGetTarget(out var container) )
 				{
-					_container = CreateContainer(false);
+					container = CreateContainer(false);
+					_container.SetTarget(container);
 				}
 
-				return _container;
+				return container;
 			}
 		}
 
@@ -104,9 +106,12 @@ namespace Assets.Tools.UnityTools.ObjectPool.Scripts
 		}
 
 
-		private static ClassPoolContainer CreateContainer(bool persistent)
+		private static IPoolContainer CreateContainer(bool persistent)
 		{
 
+			if (!Application.isPlaying)
+				return new DummyPoolContainer();
+				
 			var container = new GameObject(persistent ? "ClassPool(Immortal)" : "ClassPool")
 				.AddComponent<ClassPoolContainer>();
 
