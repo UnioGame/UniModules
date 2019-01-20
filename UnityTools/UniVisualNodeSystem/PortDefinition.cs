@@ -10,11 +10,5 @@ namespace UnityTools.UniVisualNodeSystem
         public string Name;
         public PortIO Direction;
 
-        public IContextData<IContext> Value;
-
-        public void Bind(IContextData<IContext> value)
-        {
-            Value = value;
-        }
     }
 }

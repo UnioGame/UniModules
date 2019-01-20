@@ -1,7 +1,6 @@
+using System;
 using System.Collections.Generic;
-using Assets.Modules.UnityToolsModule.Tools.UnityTools.DataFlow;
 using Assets.Tools.UnityTools.Interfaces;
-using UnityEngine;
 using UnityTools.UniVisualNodeSystem;
 
 namespace UnityTools.UniNodeEditor.Connections
@@ -10,8 +9,8 @@ namespace UnityTools.UniNodeEditor.Connections
     {
         IReadOnlyCollection<PortDefinition> Ports { get; }
 
-        void Bind(IContext context, ILifeTime lifeTime);
+        IDisposable Bind(string portName,IContextData<IContext> portValue,IContext context);
         
-        void Execute( IContext context, ILifeTime lifeTime);
+        void Execute(string portName,IContextData<IContext> portValue, IContext context);
     }
 }

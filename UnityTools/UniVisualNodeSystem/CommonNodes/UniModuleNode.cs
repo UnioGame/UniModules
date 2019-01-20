@@ -37,12 +37,22 @@ namespace UniStateMachine.CommonNodes
             yield return base.ExecuteState(context);
 
             var lifeTime = GetLifeTime(context);
-            _adapter.Bind(context, lifeTime);
 
+            foreach (var value in PortValues)
+            {
+                var disposable = _adapter.Bind(value.Name,value,context);
+                lifeTime.AddDispose(disposable);
+            }
+           
             while (IsActive(context))
             {
                 yield return null;
-                _adapter.Execute(context, lifeTime);
+                
+                foreach (var value in PortValues)
+                {
+                    _adapter.Execute(value.Name,value,context);
+                }
+                
             }
         }
 
@@ -61,8 +71,7 @@ namespace UniStateMachine.CommonNodes
 
             foreach (var port in _adapter.Ports)
             {
-                var item = this.UpdatePortValue(port.Name,port.Direction);
-                port.Bind(item.value);
+                this.UpdatePortValue(port.Name,port.Direction);
             }
         }
     }
