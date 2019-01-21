@@ -59,7 +59,7 @@ namespace UniStateMachine.CommonNodes
                 var outputPort = _outputValues[i];
                 var inputPort = _inputValues[i];
                 
-                if (!isCombined)
+                if (isCombined)
                 {
                     outputPort.RemoveContext(context);
                 }

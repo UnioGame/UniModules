@@ -10,7 +10,7 @@ namespace Assets.Tools.UnityTools.Interfaces
 
     public interface IContextData<TContext> : IContextDataWriter<TContext>, ICopyableData<TContext>
     {
-        IReadOnlyCollection<TContext> Contexts { get; }
+        IList<TContext> Contexts { get; }
 
         TData Get<TData>(TContext context);
 

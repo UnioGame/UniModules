@@ -51,7 +51,7 @@ namespace UniStateMachine
 
         public IReadOnlyList<UniPortValue> PortValues => _portValues;
 
-        public IReadOnlyCollection<IContext> Contexts => _context?.Contexts;
+        public IList<IContext> Contexts => _context?.Contexts;
         
         #region public methods
 

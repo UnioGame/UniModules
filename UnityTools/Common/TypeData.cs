@@ -13,11 +13,12 @@ namespace Assets.Tools.UnityTools.Common
         /// registered components
         /// </summary>
         private Dictionary<Type, IWritableValue> _contextValues = new Dictionary<Type, IWritableValue>();
-
+        private List<IWritableValue> _writables = new List<IWritableValue>();
         private ITypeDataContainer _typeDataContainerImplementation;
 
-        public IReadOnlyCollection<IWritableValue> Values => _contextValues.Values;
-        
+        public IList<IWritableValue> WritableItems => _writables;
+
+
         public virtual TData Get<TData>()
         {
             
@@ -32,6 +33,8 @@ namespace Assets.Tools.UnityTools.Common
             
             if (_contextValues.TryGetValue(type, out var value))
             {
+                _writables.Remove(value);
+                
                 var typeValue = (ContextValue<TData>)value;
                 var removed = _contextValues.Remove(type);
 
@@ -80,6 +83,8 @@ namespace Assets.Tools.UnityTools.Common
                 var disposable = contextValue.Value as IDisposable;
                 disposable?.Dispose();
             }
+            
+            _writables.Clear();
             _contextValues.Clear();
 
         }
@@ -96,6 +101,7 @@ namespace Assets.Tools.UnityTools.Common
             {
                 data = ClassPool.Spawn<ContextValue<TValue>>();
                 _contextValues[type] = data;
+                _writables.Add(data);
             }
             else
             {

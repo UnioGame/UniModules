@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Assets.Modules.UnityToolsModule.Tools.UnityTools.DataFlow;
 using Assets.Tools.UnityTools.Interfaces;
 using Assets.Tools.UnityTools.ObjectPool.Scripts;
@@ -14,10 +15,10 @@ namespace Assets.Tools.UnityTools.Common
         IContextData<TContext>, 
         IPoolable
     {
-
+        private List<TContext> _contextsItems = new List<TContext>();
         protected Dictionary<TContext, TypeData> _contexts = new Dictionary<TContext, TypeData>();
 
-        public IReadOnlyCollection<TContext> Contexts => _contexts.Keys;
+        public IList<TContext> Contexts => _contextsItems;
 
         public int Count => _contexts.Count;
         
@@ -49,6 +50,7 @@ namespace Assets.Tools.UnityTools.Common
             {
                 contextData.Despawn();
                 _contexts.Remove(context);
+                _contextsItems.Remove(context);
                 return true;
             }
 
@@ -89,7 +91,9 @@ namespace Assets.Tools.UnityTools.Common
             }
             
             contexts.DespawnCollection();
+            
             _contexts.Clear();
+            _contextsItems.Clear();
             
         }
 
@@ -101,9 +105,11 @@ namespace Assets.Tools.UnityTools.Common
                 return;
             }
 
-            foreach (var value in contextData.Values)
+            var items = contextData.WritableItems;
+            for (int i = 0; i < items.Count(); i++)
             {
-                value.CopyTo(target);
+                var item = items[i];
+                item.CopyTo(target);
             }
             
         }
@@ -116,6 +122,7 @@ namespace Assets.Tools.UnityTools.Common
             {
                 contextData = ClassPool.Spawn<TypeData>();
                 _contexts[context] = contextData;
+                _contextsItems.Add(context);
             }
 
             return contextData;

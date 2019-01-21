@@ -46,12 +46,13 @@ namespace UniStateMachine
             
         }
 
-        public static void CopyTo(this UniPortValue from, UniPortValue to)
+        public static void CopyTo(this UniPortValue fromPort, UniPortValue toPort)
         {
-            foreach (var context in from.Contexts)
+            for (var i = 0; i < fromPort.Contexts.Count; i++)
             {
-                var writer = to.GetPublisher(context);
-                from.CopyTo(context,writer);
+                var context = fromPort.Contexts[i];
+                var writer = toPort.GetPublisher(context);
+                fromPort.CopyTo(context, writer);
             }
         }
         
