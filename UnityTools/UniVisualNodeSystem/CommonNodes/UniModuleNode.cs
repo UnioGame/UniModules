@@ -6,6 +6,8 @@ using Assets.Tools.UnityTools.Interfaces;
 using UniStateMachine.Nodes;
 using UnityEngine;
 using UnityTools.UniNodeEditor.Connections;
+using UnityTools.UniVisualNodeSystem;
+using XNode;
 
 namespace UniStateMachine.CommonNodes
 {
@@ -17,7 +19,9 @@ namespace UniStateMachine.CommonNodes
         [SerializeField] private NodeModuleAdapter _adapter;
 
         [HideInInspector] [SerializeField] private List<string> _modulePortValues = new List<string>();
-
+        [NonSerialized] private List<PortDefinition> _inputs;
+        [NonSerialized] private List<PortDefinition> _outputs;
+        
         public List<string> ModulePortValues => _modulePortValues;
 
         public INodeModuleAdapter Adapter => _adapter;
@@ -37,7 +41,7 @@ namespace UniStateMachine.CommonNodes
             yield return base.ExecuteState(context);
 
             var lifeTime = GetLifeTime(context);
-
+            
             foreach (var value in PortValues)
             {
                 var disposable = _adapter.Bind(value.Name,value,context);
@@ -47,20 +51,31 @@ namespace UniStateMachine.CommonNodes
             while (IsActive(context))
             {
                 yield return null;
+
+                ExecuteAdapterItems(_inputs, context);
                 
-                foreach (var value in PortValues)
-                {
-                    _adapter.Execute(value.Name,value,context);
-                }
+                ExecuteAdapterItems(_outputs, context);
                 
             }
         }
 
+        private void ExecuteAdapterItems(List<PortDefinition> items,IContext context)
+        {
+            for (int i = 0; i < items.Count; i++)
+            {
+                var item = items[i];
+                var value = GetPortValue(item.Name);
+                _adapter.Execute(item.Name,value,context);
+            }
+        }
+        
         private void UpdateModulePorts()
         {
             //register all module ports
             _modulePortValues.Clear();
-
+            _inputs = new List<PortDefinition>();
+            _outputs = new List<PortDefinition>();
+            
             if (!_adapter)
             {
                 return;
@@ -71,6 +86,14 @@ namespace UniStateMachine.CommonNodes
 
             foreach (var port in _adapter.Ports)
             {
+                if (port.Direction == PortIO.Input)
+                {
+                    _inputs.Add(port);
+                }
+                else
+                {
+                    _outputs.Add(port);
+                }
                 this.UpdatePortValue(port.Name,port.Direction);
             }
         }

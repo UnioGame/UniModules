@@ -39,8 +39,7 @@ namespace UnityTools.UniNodeEditor.Connections
             }
 
             Ports = _portDefinitions;
-            
-            
+
         }
 
         public IDisposable Bind(string portName,IContextData<IContext> portValue,IContext context)
