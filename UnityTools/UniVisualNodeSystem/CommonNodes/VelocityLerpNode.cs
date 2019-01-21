@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace UniStateMachine.CommonNodes
 {
-    public class RigidbodyVelocityLerpNode : UniNode
+    public class VelocityLerpNode : UniNode
     {
         [NonSerialized]
         private Vector3 _normalizedDirection;
