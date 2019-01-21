@@ -12,6 +12,9 @@ namespace SubModules.Scripts.UniStateMachine.NodeEditor
 	[CustomNodeEditor(typeof(UniGraphNode))]
 	public class UniNodeEditor : XNodeEditor.NodeEditor
 	{
+		
+		private static Dictionary<string,NodePort> _drawedPorts = new Dictionary<string,NodePort>();
+
 		public static Type UniPortValueType = typeof(UniPortValue);
 		
 		public bool IsSelected()
@@ -42,6 +45,7 @@ namespace SubModules.Scripts.UniStateMachine.NodeEditor
 		public override void OnBodyGUI()
 		{
 			var node = target as UniGraphNode;
+			node.Initialize();
 			
 			base.OnBodyGUI();
 			
@@ -56,8 +60,6 @@ namespace SubModules.Scripts.UniStateMachine.NodeEditor
 			return base.GetBodyStyle();
 		}
 
-		private static Dictionary<string,NodePort> _drawedPorts = new Dictionary<string,NodePort>();
-		
 		public void DrawPorts(UniGraphNode node)
 		{
 			_drawedPorts.Clear();
@@ -89,7 +91,7 @@ namespace SubModules.Scripts.UniStateMachine.NodeEditor
 			
 		}
 
-		private void DrawPortPair(UniGraphNode node,string inputPortName, string outputPortName,Dictionary<string,NodePort> ports)
+		public void DrawPortPair(UniGraphNode node,string inputPortName, string outputPortName,Dictionary<string,NodePort> ports)
 		{
 			if(_drawedPorts.ContainsKey(inputPortName))
 				return;	
@@ -100,7 +102,7 @@ namespace SubModules.Scripts.UniStateMachine.NodeEditor
 			DrawPortPair(inputPort, outputPort,ports);
 		}
 		
-		private void DrawPortPair(NodePort inputPort, NodePort outputPort,Dictionary<string,NodePort> ports)
+		public void DrawPortPair(NodePort inputPort, NodePort outputPort,Dictionary<string,NodePort> ports)
 		{
 			if (outputPort == null || inputPort == null)
 			{

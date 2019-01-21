@@ -26,9 +26,9 @@ namespace UniStateMachine.CommonNodes
 
         public INodeModuleAdapter Adapter => _adapter;
 
-        public override void UpdatePortsCache()
+        protected override void OnUpdatePortsCache()
         {
-            base.UpdatePortsCache();
+            base.OnUpdatePortsCache();
 
             UpdateModulePorts();
         }

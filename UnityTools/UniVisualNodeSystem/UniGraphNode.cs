@@ -20,39 +20,23 @@ namespace UniStateMachine
         public const string OutputPortName = "Output";
         
         #region private fields
+
+        [NonSerialized]
+        private bool _isInitialized;
         
         [NonSerialized] protected IContextData<IContext> _context;
        
         [NonSerialized] private Dictionary<string,UniPortValue> _portValuesMap;
 
-        protected Dictionary<string, UniPortValue> PortValuesMap
-        {
-            get
-            {
-                if (_portValuesMap == null)
-                {
-                    _portValuesMap = new Dictionary<string, UniPortValue>();
-                }
-
-                if (_portValuesMap.Count == 0)
-                {
-                    _portValues.ForEach(x => _portValuesMap.Add(x.Name,x));
-                }
-
-                return _portValuesMap;
-            }
-        }
-
         [NonSerialized]
         private IContextState<IEnumerator> _state;
+
+        [NonSerialized]
+        private List<UniPortValue> _portValues;
 
         #endregion
         
         #region serialized data
-
-        [HideInInspector]
-        [SerializeField]
-        private List<UniPortValue> _portValues = new List<UniPortValue>();
 
         [SerializeField]
         private RoutineType _routineType = RoutineType.UpdateStep;
@@ -73,16 +57,47 @@ namespace UniStateMachine
 
         public void Initialize()
         {
+            if (Application.isPlaying && _isInitialized)
+                return;
+            
+            _portValues = new List<UniPortValue>();
+            _portValuesMap = new Dictionary<string, UniPortValue>();           
             _state = CreateState();
+            
+            UpdatePortsCache();
+
             foreach (var portValue in _portValues)
             {
                 portValue.Initialize();
             }
+
+            _isInitialized = true;
         }
         
-        public virtual void UpdatePortsCache()
+        public void UpdatePortsCache()
         {
-            this.UpdatePortValue(OutputPortName, PortIO.Output);
+            
+            OnUpdatePortsCache();
+            
+            var removedPorts = ClassPool.Spawn<List<NodePort>>();
+            
+            foreach (var port in Ports)
+            {
+                if(port.IsStatic)
+                    continue;
+                var value = GetPortValue(port.fieldName);
+                if (value == null)
+                {
+                    removedPorts.Add(port);
+                }
+            }
+
+            foreach (var port in removedPorts)
+            {
+                RemoveInstancePort(port);
+            }
+
+            removedPorts.DespawnCollection();
         }
         
         public bool IsActive(IContext context)
@@ -124,9 +139,13 @@ namespace UniStateMachine
                 outputValue.Release();
             }
             _state?.Dispose();
-            Invalidate();
         }
 
+        protected virtual void OnUpdatePortsCache()
+        {
+            this.UpdatePortValue(OutputPortName, PortIO.Output);
+        }
+        
         public override object GetValue(NodePort port)
         {
             return GetPortValue(port);
@@ -141,27 +160,17 @@ namespace UniStateMachine
                 return false;
             }
             
-            if (PortValuesMap.ContainsKey(portValue.Name))
+            if (_portValuesMap.ContainsKey(portValue.Name))
             {
                 return false;
             }
-            
-            _portValues.Add(portValue);
 
-            Invalidate();
+            _portValuesMap[portValue.Name] = portValue;
+            _portValues.Add(portValue);
 
             return true;
         }
 
-        public virtual void Invalidate()
-        {
-            
-            _portValues.RemoveAll(x => GetPort(x.Name) == null);
-
-            PortValuesMap.Clear();
-            
-        }
-        
         public UniPortValue GetPortValue(NodePort port)
         {
             return GetPortValue(port.fieldName);
@@ -169,7 +178,7 @@ namespace UniStateMachine
 
         public UniPortValue GetPortValue(string portName)
         {
-            PortValuesMap.TryGetValue(portName, out var value);
+            _portValuesMap.TryGetValue(portName, out var value);
             return value;
         }
         
@@ -180,7 +189,6 @@ namespace UniStateMachine
         private void Initialize(IContextData<IContext> stateContext)
         {
             _context = stateContext;
-            UpdatePortsCache();
             OnInitialize(stateContext);
         }
 

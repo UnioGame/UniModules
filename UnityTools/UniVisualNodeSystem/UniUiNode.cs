@@ -81,9 +81,9 @@ namespace UniStateMachine
             return base.Validate(context);
         }
 
-        public override void UpdatePortsCache()
+        protected override void OnUpdatePortsCache()
         {
-            base.UpdatePortsCache();
+            base.OnUpdatePortsCache();
 
             if (!UiView)
             {

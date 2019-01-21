@@ -23,12 +23,6 @@ namespace UniStateMachine
 
         #endregion
 
-        public override void UpdatePortsCache()
-        {
-            this.UpdatePortValue(InputPortName, PortIO.Input);
-            base.UpdatePortsCache();
-        }
-
         public virtual bool Validate(IContext context)
         {
             return true;
@@ -40,5 +34,11 @@ namespace UniStateMachine
             return portName;
         }
         
+        
+        protected override void OnUpdatePortsCache()
+        {
+            this.UpdatePortValue(InputPortName, PortIO.Input);
+            base.OnUpdatePortsCache();
+        }
     }
 }
