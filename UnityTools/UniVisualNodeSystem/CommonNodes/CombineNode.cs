@@ -13,41 +13,75 @@ namespace UniStateMachine.CommonNodes
     {
         
         private const string _itemTemplate = "{0}{1}";
-        
+
         [SerializeField]
-        private string _inputPortName = "CombineItem";
+        private string _combinedOutputName = "Combined"; 
+        [SerializeField]
+        private string _inputPortName = "Item";
         [SerializeField]
         private int _inputPortsCount;
+       
         [NonSerialized]
         private List<UniPortValue> _inputValues;
+        [NonSerialized]
+        private List<UniPortValue> _outputValues;
         
         protected override IEnumerator ExecuteState(IContext context)
         {
+            yield return base.ExecuteState(context);
+
+            var combinedPort = GetPortValue(_combinedOutputName);
             
             while (IsActive(context))
             {
-                var isCombined = true;
-                
-                for (var i = 0; i < _inputValues.Count; i++)
+                var isCombined = IsCombined(context);
+
+                if (isCombined)
                 {
-                    var value = _inputValues[i];
-                    
-                    if (value.HasContext(context)) continue;
-                    
-                    var output = GetPortValue(OutputPortName);
-                    output.RemoveContext(context);
-                    
-                    isCombined = false;
-                    
-                    break;
+                    combinedPort.UpdateValue(context,context);
                 }
-               
-                if(isCombined)
-                    yield return base.ExecuteState(context);
+                else
+                {
+                    combinedPort.RemoveContext(context);
+                }
+
+                UpdatePorts(isCombined, context);
                 
                 yield return null;
             }
             
+        }
+
+        private void UpdatePorts(bool isCombined,IContext context)
+        {
+            for (int i = 0; i < _inputPortsCount; i++)
+            {
+                var outputPort = _outputValues[i];
+                var inputPort = _inputValues[i];
+                
+                if (!isCombined)
+                {
+                    outputPort.RemoveContext(context);
+                }
+                else if(inputPort.HasContext(context))
+                {
+                    inputPort.CopyTo(outputPort);
+                }
+            }
+        }
+        
+        private bool IsCombined(IContext context)
+        {
+  
+            for (var i = 0; i < _inputPortsCount; i++)
+            {
+                var value = _inputValues[i];
+                    
+                if (!value.HasContext(context)) 
+                    return false;
+            }
+
+            return true;
         }
 
         protected override void OnUpdatePortsCache()
@@ -55,13 +89,20 @@ namespace UniStateMachine.CommonNodes
             base.OnUpdatePortsCache();
 
             _inputValues = new List<UniPortValue>();
+            _outputValues = new List<UniPortValue>();
             
             for (int i = 0; i < _inputPortsCount; i++)
             {
-                var inputName = string.Format(_itemTemplate, _inputPortName, i + 1);
+                var outputName = string.Format(_itemTemplate, _inputPortName, i + 1);
+                var inputName = GetFormatedInputName(outputName);
+                
                 var value = this.UpdatePortValue(inputName, PortIO.Input);
                 _inputValues.Add(value.value);
+                value = this.UpdatePortValue(outputName, PortIO.Output);
+                _outputValues.Add(value.value);
             }
+
+            this.UpdatePortValue(_combinedOutputName, PortIO.Output);
         }
     }
 }
