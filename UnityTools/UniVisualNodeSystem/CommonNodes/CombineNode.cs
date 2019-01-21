@@ -67,6 +67,10 @@ namespace UniStateMachine.CommonNodes
                 {
                     inputPort.CopyTo(outputPort);
                 }
+                else
+                {
+                    outputPort.RemoveContext(context);
+                }
             }
         }
         
