@@ -2,32 +2,19 @@
 using System.Collections;
 using Assets.Tools.UnityTools.Interfaces;
 using UnityEngine;
+using UnityTools.UniVisualNodeSystem.NodeData;
 
 namespace UniStateMachine.CommonNodes
 {
     public class VelocityLerpNode : UniNode
     {
-        [NonSerialized]
         private Vector3 _normalizedDirection;
-
         private float _maxSqrMagnitude;
         private float _minSqrMagnitude;
         
         #region inspector
 
-        public Vector3 Direction;
-        
-        public float MaxVelocity;
-
-        public float MinVelocity;
-
-        public float LerpTime = 1f;
-
-        
-        /// <summary>
-        /// test velocity work only for 1 context
-        /// </summary>
-        public Vector3 Velocity;
+        public ForceNodeData ForceData = new ForceNodeData();
         
         #endregion
 
@@ -35,7 +22,9 @@ namespace UniStateMachine.CommonNodes
         {
             base.OnInitialize(localContext);
 
-            _normalizedDirection = Direction.normalized;
+            var direction = ForceData.Direction;
+            
+            _normalizedDirection = direction.normalized;
         }
 
         protected override IEnumerator ExecuteState(IContext context)
@@ -58,16 +47,14 @@ namespace UniStateMachine.CommonNodes
 
                 activeTime = Time.realtimeSinceStartup - startTime;
 
-                var progress = Mathf.Approximately(LerpTime,0f) ? 1 :
-                    activeTime / LerpTime;
+                var progress = Mathf.Approximately(ForceData.LerpTime,0f) ? 1 :
+                    activeTime / ForceData.LerpTime;
 
-                var velocity = Mathf.Lerp(MinVelocity, MaxVelocity, progress);
+                var velocity = Mathf.Lerp(ForceData.MinForce, ForceData.MaxForce, progress);
 
                 var velocityVector = _normalizedDirection * velocity;
                 
-                rigidbody.AddForce(velocityVector,ForceMode.VelocityChange);
-                
-                Velocity = rigidbody.velocity;
+                rigidbody.AddForce(velocityVector,ForceData.ForceMode);
 
             }
             
