@@ -48,6 +48,7 @@ namespace Assets.Tools.UnityTools.StateMachine.ContextStateMachine
                 return;
             
             OnExit(context);
+            
             //remove all local state data
             _contextData?.RemoveContext(context);
             

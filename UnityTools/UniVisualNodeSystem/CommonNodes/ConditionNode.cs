@@ -23,6 +23,7 @@ namespace UniStateMachine.CommonNodes
             while (IsActive(context))
             {
                 var result = MakeDecision(context);
+                
                 UpdateResultPort(_trueOuputValue, result, context);
                 UpdateResultPort(_falseOutputValue, !result, context);
 
@@ -33,7 +34,6 @@ namespace UniStateMachine.CommonNodes
 
         private void UpdateResultPort(UniPortValue portValue,bool result,IContext context)
         {
-            
             if (result)
             {
                 portValue.UpdateValue(context,context);

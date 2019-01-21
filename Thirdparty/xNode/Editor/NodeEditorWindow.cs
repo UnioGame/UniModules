@@ -235,7 +235,7 @@ namespace XNodeEditor
 
         public static bool Open(NodeGraph nodeGraph)
         {
-            var w = GetWindow(typeof(NodeEditorWindow), false, "xNode", true) as NodeEditorWindow;
+            var w = GetWindow(typeof(NodeEditorWindow), false, "UniNodes", true) as NodeEditorWindow;
 
             var nodeEditor = w as NodeEditorWindow;
             nodeEditor?.portConnectionPoints.Clear();
