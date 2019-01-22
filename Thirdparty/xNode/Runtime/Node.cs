@@ -27,6 +27,7 @@ namespace XNode {
     [Serializable]
     public abstract class Node : ScriptableObject
     {
+        [HideInInspector]
         [ReadOnlyValue]
         [SerializeField]
         private ulong _id;
