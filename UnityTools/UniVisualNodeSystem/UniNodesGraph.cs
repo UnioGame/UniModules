@@ -170,13 +170,12 @@ namespace UniStateMachine.Nodes
 
 	    }
 
-	    private UniPortValue UpdatePortValue(UniGraphNode node,NodePort nodePort)
+	    private UniPortValue UpdatePortValue(UniGraphNode node,UniPortValue portValue,NodePort nodePort)
 	    {
 
 		    if (nodePort.direction == PortIO.Output)
 			    return null;
 		    
-		    var portValue = node.GetPortValue(nodePort.fieldName);
 		    if(portValue == null)
 			    return null;
 		    
@@ -212,7 +211,9 @@ namespace UniStateMachine.Nodes
             GameProfiler.BeginSample("UpdateNodes");
 
 			var input = node.GetPort(UniNode.InputPortName);
-			var value = UpdatePortValue(node,input);
+			var value = node.GetPortValue(input);
+			
+			UpdatePortValue(node,value,input);
 
 			var contexts = ClassPool.Spawn<List<IContext>>();
 			contexts.AddRange(value.Contexts);
@@ -238,7 +239,7 @@ namespace UniStateMachine.Nodes
 					{
 						var portValue = values[j];
 						var port = node.GetPort(portValue.Name);
-						UpdatePortValue(node, port);
+						UpdatePortValue(node,portValue, port);
 					}
 				}
 				
