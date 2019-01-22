@@ -12,12 +12,12 @@ namespace Tests.GraphTest
 		private string _message;
 
 		[SerializeField]
-		private float _delay = 1f;
+		private float _delay = 0f;
 		
 		protected override IEnumerator ExecuteState(IContext context)
 		{
-
-			yield return this.WaitForSecond(_delay);
+			if(_delay > 0)
+				yield return this.WaitForSecond(_delay);
 			
 			Debug.LogFormat("TestLogNode {0} at {1}",_message,Time.realtimeSinceStartup);
 			

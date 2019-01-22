@@ -57,14 +57,13 @@ namespace UniStateMachine.Nodes
         
         public IMessagePublisher GetPublisher(IContext context)
         {
-            var writers = _writers;
-            if (!writers.TryGetValue(context, out var writer))
+            if (!_writers.TryGetValue(context, out var writer))
             {
                 var contextWriter = ClassPool.Spawn<ContextPublisher>();
                 contextWriter.Initialize(context,this);
                 
                 writer = contextWriter;
-                writers[context] = writer;
+                _writers[context] = writer;
             }
 
             return writer;

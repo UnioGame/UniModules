@@ -1,12 +1,36 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using Assets.Tools.UnityTools.Interfaces;
 using NUnit.Framework;
 using UniStateMachine.Nodes;
 using UnityEngine;
+using UniRx;
 using UnityTools.ActorEntityModel;
+using UnityTools.RecycleRx;
 
 public class UniPortValueRxTests
 {
+    
+    [Test]
+    public void PortSubscriptionContextTest()
+    {
+        var portValue = new UniPortValue();
+        var context1 = new EntityObject();
+        IContext result = null;
+        
+        var observer = new RecycleActionObserver<IContext>();
+        observer.Initialize(x => { result = x; });
+        
+        var disposable = portValue.SubscribeOnContext(observer);
+
+        portValue.UpdateValue(context1, "Test");
+
+        Assert.That(result, Is.EqualTo(context1));
+
+        disposable.Dispose();
+    }
+    
 //    [Test]
 //    public void PortSubscriptionClassTest()
 //    {

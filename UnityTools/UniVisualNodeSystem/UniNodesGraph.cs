@@ -21,7 +21,6 @@ namespace UniStateMachine.Nodes
 
 	    [NonSerialized]
 	    private bool _isInitialized = false;
-
 	    [NonSerialized]
 	    private List<UniRootNode> _rootNodes;
 	    
@@ -66,6 +65,7 @@ namespace UniStateMachine.Nodes
 
 		public IEnumerator Execute(IContext context)
 		{
+			
 			Initialize();
 			
 			yield return _graphState.Execute(context);
@@ -99,7 +99,7 @@ namespace UniStateMachine.Nodes
 	    {
 		    if (_allNodes == null) return;
 
-		    for (int i = 0; i < _allNodes.Count; i++)
+		    for (var i = 0; i < _allNodes.Count; i++)
 		    {
 			    var node = _allNodes[i];
 			    node.Exit(context);

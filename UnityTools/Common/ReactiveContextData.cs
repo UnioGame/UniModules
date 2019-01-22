@@ -19,6 +19,11 @@ namespace UnityTools.Common
             return container.Subscribe<TData>(observer);
         }
         
+        public IDisposable SubscribeOnContext(IObserver<TContext> observer)
+        {
+            return Disposable.Empty;
+        }
+        
         #endregion
 
     }
