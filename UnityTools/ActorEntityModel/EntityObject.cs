@@ -5,15 +5,17 @@ using Assets.Tools.UnityTools.Interfaces;
 using Assets.Tools.UnityTools.ObjectPool.Scripts;
 using Assets.Tools.UnityTools.ProfilerTools;
 using UniRx;
+using UnityEngine;
+using UnityTools.ProfilerTools;
 
 namespace UnityTools.ActorEntityModel
 {
     public class EntityObject : IContext
     {
         private IMessageBroker _broker;
-        private ContextData _contextData;
+        private TypeData _typeData;
         private LifeTimeDefinition _lifeTimeDefinition;
-        
+
         #region public properties
 
         public ILifeTime LifeTime => _lifeTimeDefinition.LifeTime;
@@ -23,7 +25,7 @@ namespace UnityTools.ActorEntityModel
         public EntityObject()
         {
             //context data container
-            _contextData = new ContextData();
+            _typeData = new TypeData();
             //create local message context
             _broker = MessageBroker.Default;
             //context lifetime
@@ -34,23 +36,23 @@ namespace UnityTools.ActorEntityModel
 
         public virtual TData Get<TData>()
         {
-            return _contextData.Get<TData>();
+            return _typeData.Get<TData>();
         }
 
         public bool Remove<TData>()
         {
-            return _contextData.Remove<TData>();
+            return _typeData.Remove<TData>();
         }
 
         public void Add<TData>(TData data)
         {
-            _contextData.Add(data);
+            _typeData.Add(data);
             Publish(data);
         }
 
         public void Release()
         {
-            _contextData.Release();
+            _typeData.Release();
             _lifeTimeDefinition.Release();
         }
 
@@ -58,7 +60,7 @@ namespace UnityTools.ActorEntityModel
                 
         public void Publish<T>(T message)
         {
-            GameLog.LogFormat("ENTITY {0} PUBLISH MESSAGE: {1}",GetType().Name,message.GetType().Name);
+            GameLog.LogMessage("ENTITY {0} PUBLISH: {1}",GetType().Name,message.GetType().Name);
             _broker.Publish(message);
         }
 

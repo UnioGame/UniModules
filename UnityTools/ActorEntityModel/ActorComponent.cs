@@ -58,7 +58,7 @@ namespace UnityTools.ActorEntityModel
 
             var state = model?.Behaviour == null ?
                 parameterBehaviour:
-                model.Behaviour.Value;
+                model.Behaviour;
 
             return state;
 

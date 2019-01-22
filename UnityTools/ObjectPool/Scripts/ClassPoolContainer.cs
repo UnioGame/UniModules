@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Assets.Tools.UnityTools.ObjectPool.Scripts
 {
-    public class ClassPoolContainer : MonoBehaviour
+    public class ClassPoolContainer : MonoBehaviour, IPoolContainer
     {
         private Dictionary<Type, int> _typeIndexes = new Dictionary<Type, int>();
 		

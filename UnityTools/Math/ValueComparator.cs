@@ -37,6 +37,27 @@ namespace Assets.Tools.UnityTools.Math {
 		}
 
 
+		public static bool Compare<T>(T x, T y, CompareTypes options)
+			where  T : struct
+		{
+			var comparer = Comparer<T>.Default;
+
+			if ((options & CompareTypes.Any) > 0)
+				return true;
+			
+			var compareResult = comparer.Compare(x, y);
+
+			if ((options & CompareTypes.Equal) > 0 && compareResult==0)
+				return true;
+			if ((options & CompareTypes.More) > 0 && compareResult>0)
+				return true;
+			if ((options & CompareTypes.Less) > 0 && compareResult<0)
+				return true;
+			
+			return false;
+
+		}
+		
 		public static bool IsInRange(float value, float from, float to) {
 
 			if (value >= from && value <= to)

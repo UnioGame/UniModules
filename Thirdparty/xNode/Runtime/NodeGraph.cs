@@ -6,7 +6,7 @@ using UnityEngine;
 namespace XNode {
     /// <summary> Base class for all node graphs </summary>
     [Serializable]
-    public abstract class NodeGraph : ScriptableObject
+    public abstract class NodeGraph : ScriptableObject, IDisposable
     {
         [HideInInspector]
         [SerializeField]
@@ -37,6 +37,7 @@ namespace XNode {
         /// <summary> Creates a copy of the original node in the graph </summary>
         public virtual Node CopyNode(Node original) {
             Node node = ScriptableObject.Instantiate(original);
+            node.UpdateId();
             node.ClearConnections();
             nodes.Add(node);
             node.graph = this;
@@ -87,6 +88,11 @@ namespace XNode {
         private void OnDestroy() {
             // Remove all nodes prior to graph destruction
             Clear();
+        }
+
+        public virtual void Dispose()
+        {
+            
         }
     }
 }

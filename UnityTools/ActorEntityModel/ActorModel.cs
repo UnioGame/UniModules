@@ -9,13 +9,12 @@ using UniRx;
 public class ActorModel : IPoolable
 {
     public string Name;
-    
-    public ReactiveProperty<IContextState<IEnumerator>> Behaviour = 
-        new ReactiveProperty<IContextState<IEnumerator>>();
+
+    public IContextState<IEnumerator> Behaviour;
     
     public virtual void Release()
     {
-        Behaviour.Value = null;
+        Behaviour = null;
     }
 
     public virtual void RegisterContext(IContext context)

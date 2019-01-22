@@ -3,7 +3,7 @@ using Assets.Tools.UnityTools.ObjectPool.Scripts;
 
 namespace Assets.Tools.UnityTools.Common
 {
-    public class DisposableAction : IDisposable
+    public class DisposableAction : IDisposable, IPoolable
     {
         private Action _onDisposed;
     
@@ -21,9 +21,15 @@ namespace Assets.Tools.UnityTools.Common
             IsDisposed = true;
             
             _onDisposed?.Invoke();
-            _onDisposed = null;
+            
+            Release();
         
             ClassPool.Despawn(this);
+        }
+
+        public void Release()
+        {
+            _onDisposed = null;
         }
     }
 }

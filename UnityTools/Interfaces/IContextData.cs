@@ -1,20 +1,51 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Assets.Modules.UnityToolsModule.Tools.UnityTools.DataFlow;
 using Assets.Tools.UnityTools.ObjectPool.Scripts;
+using UniRx;
+using UnityTools.Common;
 
 namespace Assets.Tools.UnityTools.Interfaces
 {
 
-    public interface IContextData<TContext> : IPoolable
+    public interface IContextData<TContext> : IContextDataWriter<TContext>, ICopyableData<TContext>
     {
-        IReadOnlyCollection<TContext> Contexts { get; }
+        IList<TContext> Contexts { get; }
 
         TData Get<TData>(TContext context);
 
-        void RemoveContext(TContext context);
-        void Remove<TData>(TContext context);
-        void AddValue<TData>(TContext context, TData value);
-        bool HasContext(TContext context);
+        bool RemoveContext(TContext context);
+        
+        bool Remove<TData>(TContext context);
 
+    }
+
+    public interface IContextPublisherProvider<TContext>
+    {
+    
+        IMessagePublisher GetPublisher(TContext context);
+
+    }
+    
+    public interface IContextDataWriter<TContext>
+    {
+        bool HasValue(TContext context,Type type);
+        
+        bool HasValue<TValue>(TContext context);
+             
+        bool HasContext(TContext context);
+   
+        void UpdateValue<TData>(TContext context, TData value);
+
+    }
+
+    public interface ICopyableData<TContext>
+    {
+        /// <summary>
+        /// copy context values to new container
+        /// </summary>
+        /// <param name="context">key context</param>
+        /// <param name="writer">container writer</param>
+        void CopyTo(TContext context, IMessagePublisher writer);
     }
 }

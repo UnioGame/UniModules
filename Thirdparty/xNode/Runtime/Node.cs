@@ -37,7 +37,7 @@ namespace XNode {
             {
                 if (_id == 0)
                 {
-                    _id = graph.GetId();
+                    UpdateId();
                 }
 
                 return _id;
@@ -52,6 +52,16 @@ namespace XNode {
             Unconnected,
             /// <summary> Always show the backing value </summary>
             Always
+        }
+
+        public void UpdateId()
+        {
+            _id = graph.GetId();
+            foreach (var portPair in ports)
+            {
+                var port = portPair.Value;
+                port.UpdateId();
+            }
         }
 
         public enum ConnectionType {
@@ -129,20 +139,20 @@ namespace XNode {
         /// <seealso cref="AddInstancePort"/>
         /// <seealso cref="AddInstanceOutput"/>
         public NodePort AddInstanceInput(Type type, Node.ConnectionType connectionType = Node.ConnectionType.Multiple, string fieldName = null) {
-            return AddInstancePort(type, NodePort.IO.Input, connectionType, fieldName);
+            return AddInstancePort(type, PortIO.Input, connectionType, fieldName);
         }
 
         /// <summary> Convenience function. </summary>
         /// <seealso cref="AddInstancePort"/>
         /// <seealso cref="AddInstanceInput"/>
         public NodePort AddInstanceOutput(Type type, Node.ConnectionType connectionType = Node.ConnectionType.Multiple, string fieldName = null) {
-            return AddInstancePort(type, NodePort.IO.Output, connectionType, fieldName);
+            return AddInstancePort(type, PortIO.Output, connectionType, fieldName);
         }
 
         /// <summary> Add a dynamic, serialized port to this node. </summary>
         /// <seealso cref="AddInstanceInput"/>
         /// <seealso cref="AddInstanceOutput"/>
-        private NodePort AddInstancePort(Type type, NodePort.IO direction, Node.ConnectionType connectionType = Node.ConnectionType.Multiple, string fieldName = null) {
+        private NodePort AddInstancePort(Type type, PortIO direction, Node.ConnectionType connectionType = Node.ConnectionType.Multiple, string fieldName = null) {
             if (fieldName == null) {
                 fieldName = "instanceInput_0";
                 int i = 0;
@@ -183,14 +193,14 @@ namespace XNode {
         /// <summary> Returns output port which matches fieldName </summary>
         public NodePort GetOutputPort(string fieldName) {
             NodePort port = GetPort(fieldName);
-            if (port == null || port.direction != NodePort.IO.Output) return null;
+            if (port == null || port.direction != PortIO.Output) return null;
             else return port;
         }
 
         /// <summary> Returns input port which matches fieldName </summary>
         public NodePort GetInputPort(string fieldName) {
             NodePort port = GetPort(fieldName);
-            if (port == null || port.direction != NodePort.IO.Input) return null;
+            if (port == null || port.direction != PortIO.Input) return null;
             else return port;
         }
 

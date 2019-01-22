@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Assets.Tools.UnityTools.Moduls
 {
-    [CreateAssetMenu(menuName = "GamemModules/ModuleDefinition", fileName = "ModuleDefinition")]
+    [CreateAssetMenu(menuName = "GameModules/ModuleDefinition", fileName = "ModuleDefinition")]
     public class ModulesDefinition : ScriptableObject
     {
         

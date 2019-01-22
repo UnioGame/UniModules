@@ -32,7 +32,7 @@ namespace UnityTools.ActorEntityModel
 
             _model = model;
             _model.RegisterContext(_entity);
-            _stateBehaviour = _model.Behaviour.Value;
+            _stateBehaviour = _model.Behaviour;
 
         }
       

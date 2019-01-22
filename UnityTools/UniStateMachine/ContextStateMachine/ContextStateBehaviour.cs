@@ -19,7 +19,7 @@ namespace Assets.Tools.UnityTools.StateMachine.ContextStateMachine
         /// <summary>
         /// state local context data
         /// </summary>
-        protected IContextData<IContext> _contextData;
+        protected ContextData<IContext> _contextData;
 
         #region public methods
 
@@ -34,7 +34,7 @@ namespace Assets.Tools.UnityTools.StateMachine.ContextStateMachine
                 yield break;
             }
 
-            _contextData.AddValue(context,true);
+            _contextData.UpdateValue(context,true);
             
             yield return ExecuteState(context);
 
@@ -48,6 +48,7 @@ namespace Assets.Tools.UnityTools.StateMachine.ContextStateMachine
                 return;
             
             OnExit(context);
+            
             //remove all local state data
             _contextData?.RemoveContext(context);
             
@@ -92,12 +93,12 @@ namespace Assets.Tools.UnityTools.StateMachine.ContextStateMachine
 
         #endregion
 
-        private void Initialize()
+        protected void Initialize()
         {
             if (_initialized != false) return;
             
             _initialized = true;
-            _contextData = new ContextDataProvider<IContext>();
+            _contextData = new ContextData<IContext>();
             _lifeTimes = new Dictionary<IContext, LifeTimeDefinition>();
             OnInitialize(_contextData);
         }

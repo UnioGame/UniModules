@@ -6,6 +6,9 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace XNode {
+    
+    public enum PortIO { Input, Output }
+
     [Serializable]
     public class NodePort
     {
@@ -19,15 +22,18 @@ namespace XNode {
             {
                 if (_id == 0)
                 {
-                    _id = node.graph.GetId();
+                    UpdateId();
                 }
 
                 return _id;
             }
         }
 
-        public enum IO { Input, Output }
-        
+        public void UpdateId()
+        {
+            _id = node.graph.GetId();
+        }
+
         public int ConnectionCount { get { return connections.Count; } }
         /// <summary> Return the first non-null connection </summary>
         public NodePort Connection {
@@ -39,13 +45,13 @@ namespace XNode {
             }
         }
 
-        public IO direction { get { return _direction; } }
+        public PortIO direction { get { return _direction; } }
         public Node.ConnectionType connectionType { get { return _connectionType; } }
 
         /// <summary> Is this port connected to anytihng? </summary>
         public bool IsConnected { get { return connections.Count != 0; } }
-        public bool IsInput { get { return direction == IO.Input; } }
-        public bool IsOutput { get { return direction == IO.Output; } }
+        public bool IsInput { get { return direction == PortIO.Input; } }
+        public bool IsOutput { get { return direction == PortIO.Output; } }
 
         public string fieldName { get { return _fieldName; } }
 
@@ -82,7 +88,7 @@ namespace XNode {
         [SerializeField] private Node _node;
         [SerializeField] private string _typeQualifiedName;
         [SerializeField] private List<PortConnection> connections = new List<PortConnection>();
-        [SerializeField] private IO _direction;
+        [SerializeField] private PortIO _direction;
         [SerializeField] private Node.ConnectionType _connectionType;
         [SerializeField] private bool _dynamic;
 
@@ -94,10 +100,10 @@ namespace XNode {
             var attribs = fieldInfo.GetCustomAttributes(false);
             for (var i = 0; i < attribs.Length; i++) {
                 if (attribs[i] is Node.InputAttribute) {
-                    _direction = IO.Input;
+                    _direction = PortIO.Input;
                     _connectionType = (attribs[i] as Node.InputAttribute).connectionType;
                 } else if (attribs[i] is Node.OutputAttribute) {
-                    _direction = IO.Output;
+                    _direction = PortIO.Output;
                     _connectionType = (attribs[i] as Node.OutputAttribute).connectionType;
                 }
             }
@@ -114,7 +120,7 @@ namespace XNode {
         }
 
         /// <summary> Construct a dynamic port. Dynamic ports are not forgotten on reimport, and is ideal for runtime-created ports. </summary>
-        public NodePort(string fieldName, Type type, IO direction, Node.ConnectionType connectionType, Node node) {
+        public NodePort(string fieldName, Type type, PortIO direction, Node.ConnectionType connectionType, Node node) {
             _fieldName = fieldName;
             this.ValueType = type;
             _direction = direction;
@@ -137,7 +143,7 @@ namespace XNode {
         /// <summary> Return the output value of this node through its parent nodes GetValue override method. </summary>
         /// <returns> <see cref="Node.GetValue(NodePort)"/> </returns>
         public object GetOutputValue() {
-            if (direction == IO.Input) return null;
+            if (direction == PortIO.Input) return null;
             return node.GetValue(this);
         }
 
@@ -227,7 +233,7 @@ namespace XNode {
             if (port == null) { Debug.LogWarning("Cannot connect to null port"); return; }
             if (port == this) { Debug.LogWarning("Cannot connect port to self."); return; }
             if (IsConnectedTo(port)) { Debug.LogWarning("Port already connected. "); return; }
-            if (direction == port.direction) { Debug.LogWarning("Cannot connect two " + (direction == IO.Input ? "input" : "output") + " connections"); return; }
+            if (direction == port.direction) { Debug.LogWarning("Cannot connect two " + (direction == PortIO.Input ? "input" : "output") + " connections"); return; }
             if (port.connectionType == Node.ConnectionType.Override && port.ConnectionCount != 0) { port.ClearConnections(); }
             if (connectionType == Node.ConnectionType.Override && ConnectionCount != 0) { ClearConnections(); }
             connections.Add(new PortConnection(port));
