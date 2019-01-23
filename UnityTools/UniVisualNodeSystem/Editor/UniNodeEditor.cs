@@ -120,15 +120,19 @@ namespace SubModules.Scripts.UniStateMachine.NodeEditor
 
 		private NodeGuiLayoutStyle GetPortStyle(NodePort port)
 		{
-			var portStyle = NodeEditorGUILayout.GetDefaultPortStyle(port);
+            var portStyle = NodeEditorGUILayout.GetDefaultPortStyle(port);
 
 			if (port == null)
 				return portStyle;
+
+			var uniNode = port.node as UniGraphNode;
+			var portValue = uniNode.GetPortValue(port.fieldName);
+			var hasData = portValue != null && portValue.Count > 0;
 			
   			if (port.fieldName == UniNode.OutputPortName || port.fieldName == UniNode.InputPortName)
 			{
 				portStyle.Background = Color.blue;
-				portStyle.Color = Color.white;
+				portStyle.Color = hasData ? Color.red : Color.white;
 				return portStyle;
 			}
 			
@@ -137,7 +141,8 @@ namespace SubModules.Scripts.UniStateMachine.NodeEditor
 				portStyle.Name = port.fieldName;
 				portStyle.Background = Color.red;
 				portStyle.Color = port.direction  == PortIO.Input ?
-					Color.green : Color.blue;
+					hasData ? new Color(128,128,0) : Color.green : 
+					hasData ? new Color(128,128,0) : Color.blue;
 			}
 			
 			return portStyle;
