@@ -12,6 +12,9 @@ namespace UnityTools.UniNodeEditor.Connections
     public abstract class NodeModuleAdapter : ScriptableObject, INodeModuleAdapter
     {
 
+        [NonSerialized]
+        private bool _initialized;
+        
         [SerializeField]
         private List<PortDefinition> _portDefinitions;
         [NonSerialized]
@@ -24,6 +27,8 @@ namespace UnityTools.UniNodeEditor.Connections
 
         public void Initialize()
         {
+            if (_initialized)
+                return;
             
             _values = new Dictionary<string, PortDefinition>();
             _bindActions = new Dictionary<string, Func<IContextData<IContext>, IContext, IDisposable>>();
@@ -40,6 +45,7 @@ namespace UnityTools.UniNodeEditor.Connections
 
             Ports = _portDefinitions;
 
+            _initialized = true;
         }
 
         public IDisposable Bind(string portName,IContextData<IContext> portValue,IContext context)
