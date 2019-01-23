@@ -11,14 +11,11 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 782945db79ce44748b3f294e0edf364e, type: 3}
   m_Name: TestGraph
-  m_EditorClassIdentifier: Assembly-CSharp:UniStateMachine.Nodes:UniNodesGraph
-  _uniqueId: 38
+  m_EditorClassIdentifier: 
+  _uniqueId: 2
   nodes:
-  - {fileID: 114869383943184032}
-  - {fileID: 114909621994522182}
-  - {fileID: 114877665994090538}
-  - {fileID: 114038453852449550}
---- !u!114 &114038453852449550
+  - {fileID: 114987808798597042}
+--- !u!114 &114987808798597042
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -30,188 +27,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07d0c7065aa6e1e46be96a27eb24c3cc, type: 3}
   m_Name: Uni Root Node
   m_EditorClassIdentifier: 
-  _id: 37
+  _id: 1
   _graph: {fileID: 11400000}
-  position: {x: -104, y: -968}
+  position: {x: -104, y: -872}
   ports:
     keys:
     - Output
     values:
-    - _id: 38
+    - _id: 2
       _fieldName: Output
-      _node: {fileID: 114038453852449550}
-      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: Input
-        node: {fileID: 114869383943184032}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 0
-      _dynamic: 1
-  _outputs: []
-  _routineType: 0
-  Output:
-    PortId: 0
-    Name: Output
---- !u!114 &114869383943184032
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a0c11ecb9072b144a5d90d091947c70, type: 3}
-  m_Name: Test Log Node
-  m_EditorClassIdentifier: 
-  _id: 26
-  _graph: {fileID: 11400000}
-  position: {x: 200, y: -968}
-  ports:
-    keys:
-    - Input
-    - Output
-    values:
-    - _id: 28
-      _fieldName: Input
-      _node: {fileID: 114869383943184032}
-      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: Output
-        node: {fileID: 114038453852449550}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _dynamic: 0
-    - _id: 27
-      _fieldName: Output
-      _node: {fileID: 114869383943184032}
-      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: Input
-        node: {fileID: 114877665994090538}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 0
-      _dynamic: 1
-  _outputs: []
-  _routineType: 0
-  Output:
-    PortId: 0
-    Name: Output
-  _validator: {fileID: 0}
-  Input:
-    PortId: 0
-    Name: 
-  _message: 11111111
-  _delay: 1
---- !u!114 &114877665994090538
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6752418799316404ebd6d31a6a8ac129, type: 3}
-  m_Name: Validate Test Node
-  m_EditorClassIdentifier: 
-  _id: 32
-  _graph: {fileID: 11400000}
-  position: {x: 472, y: -904}
-  ports:
-    keys:
-    - Input
-    - Output
-    values:
-    - _id: 34
-      _fieldName: Input
-      _node: {fileID: 114877665994090538}
-      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: Output
-        node: {fileID: 114869383943184032}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _dynamic: 0
-    - _id: 33
-      _fieldName: Output
-      _node: {fileID: 114877665994090538}
-      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: Input
-        node: {fileID: 114909621994522182}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 0
-      _dynamic: 1
-  _outputs: []
-  _routineType: 0
-  Output:
-    PortId: 0
-    Name: Output
-  _validator: {fileID: 0}
-  Input:
-    PortId: 0
-    Name: 
-  _validateResult: 0
---- !u!114 &114909621994522182
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a0c11ecb9072b144a5d90d091947c70, type: 3}
-  m_Name: Test Log Node
-  m_EditorClassIdentifier: 
-  _id: 29
-  _graph: {fileID: 11400000}
-  position: {x: 664, y: -728}
-  ports:
-    keys:
-    - Input
-    - Output
-    values:
-    - _id: 31
-      _fieldName: Input
-      _node: {fileID: 114909621994522182}
-      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: Output
-        node: {fileID: 114877665994090538}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _dynamic: 0
-    - _id: 30
-      _fieldName: Output
-      _node: {fileID: 114909621994522182}
+      _node: {fileID: 114987808798597042}
       _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections: []
       _direction: 1
       _connectionType: 0
       _dynamic: 1
-  _outputs: []
   _routineType: 0
-  Output:
-    PortId: 0
-    Name: Output
-  _validator: {fileID: 0}
-  Input:
-    PortId: 0
-    Name: 
-  _message: 2222222
-  _delay: 1

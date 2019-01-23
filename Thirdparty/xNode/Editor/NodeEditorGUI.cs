@@ -316,10 +316,12 @@ namespace XNodeEditor {
             
                 EditorDrawerUtils.DrawScroll(_nodeGraphScroll, () =>
                 {
+                    NodeGraphs.RemoveAll(x => !x);
                     foreach (var nodeGraph in NodeGraphs)
                     {
                         EditorDrawerUtils.DrawButton(nodeGraph.name,() => Open(nodeGraph), GUILayout.Width(100));
                     }
+                    
                 }, GUILayout.ExpandWidth(true));
 
                 
