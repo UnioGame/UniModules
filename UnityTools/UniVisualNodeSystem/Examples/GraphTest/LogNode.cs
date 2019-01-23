@@ -19,7 +19,7 @@ namespace Tests.GraphTest
 			if(_delay > 0)
 				yield return this.WaitForSecond(_delay);
 			
-			Debug.LogFormat("TestLogNode {0} at {1}",_message,Time.realtimeSinceStartup);
+			Debug.LogFormat("LOG: {0} at {1}",_message,Time.realtimeSinceStartup);
 			
 			yield return base.ExecuteState(context);
 			

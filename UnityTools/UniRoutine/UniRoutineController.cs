@@ -27,13 +27,15 @@ namespace Assets.Tools.UnityTools.UniRoutine
 			
 		};
 
-		public static IDisposableItem AddWithSubRoutines(IEnumerator enumerator, RoutineType routineType = RoutineType.UpdateStep)
+		public static IDisposableItem AddWithSubRoutines(IEnumerator enumerator, 
+			RoutineType routineType = RoutineType.UpdateStep)
 		{
 			
 			//get routine
 			var routine = _uniRoutines[routineType];
 			//add enumerator to routines
-			var result = routine.Value.AddRoutine(enumerator);
+			var routineItem = routine.Value;
+			var result = routineItem.AddRoutine(enumerator);
 			return result;
 
 		}

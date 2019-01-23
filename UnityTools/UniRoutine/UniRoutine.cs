@@ -23,7 +23,7 @@ namespace Assets.Tools.UnityTools.UniRoutine {
 			var routine = ClassPool.Spawn<UniRoutineTask>();
 			var disposable = ClassPool.Spawn<DisposableAction<int>>();
 
-			routine.Initialize(enumerator);
+			routine.Initialize(enumerator,true);
 
 			var slotIndex = _routines.Count;
 			

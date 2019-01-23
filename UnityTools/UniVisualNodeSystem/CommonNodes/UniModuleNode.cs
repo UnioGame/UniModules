@@ -50,12 +50,13 @@ namespace UniStateMachine.CommonNodes
            
             while (IsActive(context))
             {
-                yield return null;
 
                 ExecuteAdapterItems(_inputs, context);
                 
                 ExecuteAdapterItems(_outputs, context);
                 
+                yield return null;
+
             }
         }
 

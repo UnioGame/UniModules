@@ -15,34 +15,29 @@ namespace Assets.Tools.UnityTools.Common
         IContextData<TContext>, 
         IPoolable
     {
-        private List<TContext> _contextsItems = new List<TContext>();
+        protected List<TContext> _contextsItems = new List<TContext>();
         protected Dictionary<TContext, TypeData> _contexts = new Dictionary<TContext, TypeData>();
 
-        public IList<TContext> Contexts => _contextsItems;
+        public IReadOnlyList<TContext> Contexts => _contextsItems;
 
         public int Count => _contexts.Count;
         
         #region public methods
 
-        public TData Get<TData>(TContext context)
-        {
-            var container = GetTypeData(context);
-            return container.Get<TData>();
+        public void UpdateValue<TData>(TContext context, TData value)
+        {          
+            var container = GetTypeData(context,true);
+            container.Add(value);
         }
 
-        public void UpdateValue<TData>(TContext context, TData value)
-        {
-            
+        public bool Remove<TData>(TContext context)
+        {            
             var container = GetTypeData(context);
-            container.Add<TData>(value);
-
+            if (container == null)
+                return false;
+            return container.Remove<TData>();
         }
         
-        public bool HasContext(TContext context)
-        {
-            return context != null && _contexts.ContainsKey(context);
-        }
-
         public bool RemoveContext(TContext context)
         {
 
@@ -56,27 +51,27 @@ namespace Assets.Tools.UnityTools.Common
 
             return false;
         }
+        
+        public TData Get<TData>(TContext context)
+        {
+            var container = GetTypeData(context);
+            return container.Get<TData>();
+        }
+
+        public bool HasContext(TContext context)
+        {
+            return context != null && _contexts.ContainsKey(context);
+        }
 
         public bool HasValue<TValue>(TContext context)
         {
-            
-            var container = GetTypeData(context);
-            return container.HasData<TValue>();
-            
+            return HasValue(context, typeof(TValue));
         }
 
         public bool HasValue(TContext context,Type type)
         {
             var container = GetTypeData(context);
-            return container.HasData(type);
-        }
-
-        public bool Remove<TData>(TContext context)
-        {
-            
-            var container = GetTypeData(context);
-            return container.Remove<TData>();
-
+            return container != null && container.HasData(type);
         }
 
         public void Release()
@@ -116,9 +111,9 @@ namespace Assets.Tools.UnityTools.Common
         
         #endregion
 
-        protected TypeData GetTypeData(TContext context)
+        protected TypeData GetTypeData(TContext context, bool createIfEmpty = false)
         {
-            if (!_contexts.TryGetValue(context, out var contextData))
+            if (!_contexts.TryGetValue(context, out var contextData) && createIfEmpty)
             {
                 contextData = ClassPool.Spawn<TypeData>();
                 _contexts[context] = contextData;

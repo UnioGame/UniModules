@@ -10,27 +10,7 @@ using UnityTools.ActorEntityModel;
 using UnityTools.RecycleRx;
 
 public class UniPortValueRxTests
-{
-    
-    [Test]
-    public void PortSubscriptionContextTest()
-    {
-        var portValue = new UniPortValue();
-        var context1 = new EntityObject();
-        IContext result = null;
-        
-        var observer = new RecycleActionObserver<IContext>();
-        observer.Initialize(x => { result = x; });
-        
-        var disposable = portValue.SubscribeOnContext(observer);
-
-        portValue.UpdateValue(context1, "Test");
-
-        Assert.That(result, Is.EqualTo(context1));
-
-        disposable.Dispose();
-    }
-    
+{   
 //    [Test]
 //    public void PortSubscriptionClassTest()
 //    {

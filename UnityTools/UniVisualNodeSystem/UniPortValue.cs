@@ -15,7 +15,7 @@ namespace UniStateMachine.Nodes
 {
     [Serializable]
     public class UniPortValue : 
-        ReactiveContextData<IContext>,
+        ContextData<IContext>,
         IContextPublisherProvider<IContext>
     {
         #region serialized data
@@ -46,8 +46,9 @@ namespace UniStateMachine.Nodes
             if (_initialized)
                 return;
             
-            _contexts = new Dictionary<IContext, TypeData>();
             _writers = new Dictionary<IContext, IMessagePublisher>();
+            _contextsItems = new List<IContext>();
+            _contexts = new Dictionary<IContext, TypeData>();
         }
 
         public void ConnectToPort(NodePort port)
