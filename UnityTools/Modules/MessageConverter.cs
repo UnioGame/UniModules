@@ -1,8 +1,8 @@
 ﻿using System;
-using Assets.Tools.UnityTools.Interfaces;
+using UniModule.UnityTools.Interfaces;
 using UniRx;
 
-namespace Assets.Modules.UnityToolsModule.Tools.UnityTools.Modules
+namespace UniModule.UnityTools.Modules
 {
 
     public abstract class MessageConverter

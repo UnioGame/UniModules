@@ -1,4 +1,4 @@
-﻿namespace Modules.UnityToolsModule.Tools.UnityTools.Modules
+﻿namespace UniModule.UnityTools.Modules
 {
     public class IMessageProvider 
     {

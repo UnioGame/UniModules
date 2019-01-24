@@ -1,7 +1,7 @@
 ﻿using System;
-using Assets.Tools.UnityTools.ObjectPool.Scripts;
+using UniModule.UnityTools.ObjectPool.Scripts;
 
-namespace Assets.Tools.UnityTools.Common
+namespace UniModule.UnityTools.Common
 {
     public class DisposableAction : IDisposable, IPoolable
     {

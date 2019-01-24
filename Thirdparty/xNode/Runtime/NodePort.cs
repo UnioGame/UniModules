@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Assets.Tools.UnityTools.ObjectPool.Scripts;
+using UniModule.UnityTools.Attributes;
+using UniModule.UnityTools.ObjectPool.Scripts;
 using UnityEngine;
 using UnityEngine.Serialization;
 

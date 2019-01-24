@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Assets.Tools.UnityTools.AssetBundleManager.AssetBundleResources;
+using UniModule.UnityTools.AssetBundleManager.AssetBundleResources;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Assets.Tools.UnityTools.AssetBundleManager.Interfaces
+namespace UniModule.UnityTools.AssetBundleManager.Interfaces
 {
     public interface IAssetBundleManager 
     {

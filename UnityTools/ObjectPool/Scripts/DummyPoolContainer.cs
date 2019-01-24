@@ -1,7 +1,6 @@
 ﻿using System;
-using Assets.Tools.UnityTools.ObjectPool.Scripts;
 
-namespace UnityTools.ObjectPool.Scripts
+namespace UniModule.UnityTools.ObjectPool.Scripts
 {
     public class DummyPoolContainer : IPoolContainer
     {

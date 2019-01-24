@@ -1,4 +1,4 @@
-﻿namespace UnityTools.ActorEntityModel.Interfaces
+﻿namespace UniModule.UnityTools.ActorEntityModel.Interfaces
 {
     public interface IEntityBehaciour {
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Tools.UnityTools.Math {
+namespace UniModule.UnityTools.Math {
 
 	[Flags]
 	public enum CompareTypes

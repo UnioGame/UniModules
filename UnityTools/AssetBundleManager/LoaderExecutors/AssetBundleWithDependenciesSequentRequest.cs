@@ -1,7 +1,7 @@
 ﻿using System.Collections;
-using Assets.Tools.UnityTools.AssetBundleManager.Interfaces;
+using UniModule.UnityTools.AssetBundleManager.Interfaces;
 
-namespace Assets.Tools.UnityTools.AssetBundleManager.LoaderExecutors
+namespace UniModule.UnityTools.AssetBundleManager.LoaderExecutors
 {
 
     public class AssetBundleWithDependenciesSequentRequest : AssetBundleWithDependenciesBaseRequest

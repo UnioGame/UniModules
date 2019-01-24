@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using Assets.Tools.UnityTools.AssetBundleManager.Interfaces;
-using Assets.Tools.UnityTools.AssetBundleManager.LoaderExecutors;
-using Assets.Tools.UnityTools.ObjectPool.Scripts;
+using UniModule.UnityTools.AssetBundleManager.Interfaces;
+using UniModule.UnityTools.AssetBundleManager.LoaderExecutors;
+using UniModule.UnityTools.ObjectPool.Scripts;
 using UnityEngine;
 
-namespace Assets.Tools.UnityTools.AssetBundleManager
+namespace UniModule.UnityTools.AssetBundleManager
 {
     public class BundleRequestOperationFactory : IBundleRequestFactory
     {

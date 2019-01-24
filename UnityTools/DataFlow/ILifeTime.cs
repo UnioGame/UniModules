@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Assets.Modules.UnityToolsModule.Tools.UnityTools.DataFlow
+namespace UniModule.UnityTools.DataFlow
 {
     public interface ILifeTime
     {

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Assets.Tools.UnityTools.Interfaces;
+using UniModule.UnityTools.Interfaces;
 using UnityEngine;
 
-namespace Assets.Tools.UnityTools.UniRoutine
+namespace UniModule.UnityTools.UniRoutine
 {
 	public enum RoutineType : byte
 	{

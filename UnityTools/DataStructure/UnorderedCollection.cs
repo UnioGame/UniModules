@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
-namespace SubModules.UnityTools.DataStructure
+namespace UniModule.UnityTools.DataStructure
 {
 	public class UnorderedUniqueCollection<T> 
 		where T:class

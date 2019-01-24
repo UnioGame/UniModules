@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections;
-using Assets.Tools.UnityTools.CoroutineTools;
+using UniModule.UnityTools.CoroutineTools;
 using UnityEngine;
 
-namespace Assets.Tools.UnityTools
+namespace UniModule.UnityTools.Utils
 {
     public class MemoryUtils
     {

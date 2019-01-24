@@ -1,6 +1,7 @@
-﻿using Modules.UnityToolsModule.Tools.UnityTools.Modules;
+﻿namespace UniModule.UnityTools.Modules
+{
+    public class MessageProvider : IMessageProvider {
 
-public class MessageProvider : IMessageProvider {
 
-
+    }
 }

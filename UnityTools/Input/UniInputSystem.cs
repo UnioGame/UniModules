@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Assets.Tools.UnityTools.Input {
+namespace UniModule.UnityTools.Input {
 	
 	public class UniInputSystem  {
 

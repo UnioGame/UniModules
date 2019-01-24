@@ -1,11 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Assets.Tools.UnityTools.Interfaces;
+using UniModule.UnityTools.Interfaces;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Assets.Tools.UnityTools.AssetBundleManager.Old.AssetBundleManager_Old
+namespace UniModule.UnityTools.AssetBundleManager.Old.AssetBundleManager_Old
 {
     public interface IAssetProvider : ICommandRoutine
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Tools.UnityTools.ObjectPool.Scripts
+namespace UniModule.UnityTools.ObjectPool.Scripts
 {
     [Serializable]
     public class ClassPoolItem

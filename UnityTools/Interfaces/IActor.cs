@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Assets.Tools.UnityTools.Interfaces
+namespace UniModule.UnityTools.Interfaces
 {
 	public class IActor : MonoBehaviour {
 

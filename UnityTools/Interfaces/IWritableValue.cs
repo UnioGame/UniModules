@@ -1,7 +1,6 @@
 ﻿using UniRx;
-using UnityTools.Common;
 
-namespace UnityTools.Interfaces
+namespace UniModule.UnityTools.Interfaces
 {
     public interface IWritableValue
     {

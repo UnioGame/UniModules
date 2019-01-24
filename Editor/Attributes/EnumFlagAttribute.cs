@@ -1,4 +1,4 @@
-﻿using Assets.Tools.UnityTools.Attributes;
+﻿using UniModule.UnityTools.Attributes;
 using UnityEditor;
 using UnityEngine;
 

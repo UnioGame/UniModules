@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Assets.Tools.UnityTools.ObjectPool.Scripts;
+using UniModule.UnityTools.ObjectPool.Scripts;
 using UniRx;
 
-namespace Assets.Tools.UnityTools.CoroutineTools
+namespace UniModule.UnityTools.CoroutineTools
 {
     public static class CoroutineTools {
 

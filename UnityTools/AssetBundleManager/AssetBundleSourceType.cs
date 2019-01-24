@@ -1,4 +1,4 @@
-﻿namespace Assets.Tools.UnityTools.AssetBundleManager
+﻿namespace UniModule.UnityTools.AssetBundleManager
 {
 
     public enum AssetBundleSourceType {

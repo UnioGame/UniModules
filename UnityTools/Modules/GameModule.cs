@@ -1,8 +1,8 @@
 ﻿using System.Collections;
-using Assets.Tools.UnityTools.Interfaces;
 using Assets.Tools.UnityTools.StateMachine.ContextStateMachine;
+using UniModule.UnityTools.Interfaces;
 
-namespace Assets.Tools.UnityTools.Moduls {
+namespace UniModule.UnityTools.Modules {
 	
 	
 	public class GameModule : ContextStateBehaviour, IGameModule 

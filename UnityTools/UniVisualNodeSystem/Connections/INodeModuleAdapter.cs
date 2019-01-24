@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Assets.Tools.UnityTools.Interfaces;
+using UniModule.UnityTools.Interfaces;
 using UnityTools.UniVisualNodeSystem;
 
 namespace UnityTools.UniNodeEditor.Connections

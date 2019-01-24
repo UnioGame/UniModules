@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AssetBundlesModule;
-using Assets.Tools.UnityTools.AssetBundleManager.Utils;
+using UniModule.UnityTools.AssetBundleManager.Utils;
 using UnityEditor;
 using UnityEngine;
 

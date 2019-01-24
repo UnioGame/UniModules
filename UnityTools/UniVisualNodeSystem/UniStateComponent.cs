@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Assets.Modules.UnityToolsModule.Tools.UnityTools.DataFlow;
-using Assets.Tools.UnityTools.Extension;
-using Assets.Tools.UnityTools.Interfaces;
 using Assets.Tools.UnityTools.StateMachine;
 using Assets.Tools.UnityTools.StateMachine.Interfaces;
+using UniModule.UnityTools.DataFlow;
+using UniModule.UnityTools.Extension;
+using UniModule.UnityTools.Interfaces;
 using UnityEngine;
 
 namespace UniStateMachine 

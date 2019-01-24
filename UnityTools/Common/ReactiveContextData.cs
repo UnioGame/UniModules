@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using Assets.Tools.UnityTools.Common;
-using Assets.Tools.UnityTools.Interfaces;
-using Assets.Tools.UnityTools.ObjectPool.Scripts;
+using UniModule.UnityTools.Interfaces;
+using UniModule.UnityTools.ObjectPool.Scripts;
 using UniRx;
-using UnityEngine;
 
-namespace UnityTools.Common
+namespace UniModule.UnityTools.Common
 {
     public class ReactiveContextData<TContext> : 
         IContextData<TContext>, 

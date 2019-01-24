@@ -1,6 +1,8 @@
-﻿using Assets.Tools.UnityTools.AssetBundleManager.Interfaces;
+﻿using Assets.Tools.UnityTools;
+using UniModule.UnityTools.AssetBundleManager.Interfaces;
+using UniModule.UnityTools.Utils;
 
-namespace Assets.Tools.UnityTools.AssetBundleManager
+namespace UniModule.UnityTools.AssetBundleManager
 {
     public class AssetBundleConfiguration : IAssetBundleConfiguration {
 

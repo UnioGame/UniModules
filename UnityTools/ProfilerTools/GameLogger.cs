@@ -4,7 +4,7 @@ using UnityEngine;
 using Debug = UnityEngine.Debug;
 using Object = UnityEngine.Object;
 
-namespace UnityTools.ProfilerTools
+namespace UniModule.UnityTools.ProfilerTools
 {
     public class GameLogger : IGameLogger
     {

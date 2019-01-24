@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Assets.Tools.UnityTools.ObjectPool.Scripts
+namespace UniModule.UnityTools.ObjectPool.Scripts
 {
     public static class ObjectPoolExtension
     {

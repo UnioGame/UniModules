@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Assets.Tools.UnityTools.ObjectPool.Scripts;
+using UniModule.UnityTools.ObjectPool.Scripts;
 
-namespace Assets.Modules.UnityToolsModule.Tools.UnityTools.DataFlow
+namespace UniModule.UnityTools.DataFlow
 {
     public class LifeTime : ILifeTime, IPoolable
     {

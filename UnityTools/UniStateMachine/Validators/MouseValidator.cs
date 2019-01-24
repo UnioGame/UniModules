@@ -1,7 +1,7 @@
-﻿using Assets.Tools.UnityTools.Attributes;
-using Assets.Tools.UnityTools.Extension;
-using Assets.Tools.UnityTools.Input;
-using Assets.Tools.UnityTools.Interfaces;
+﻿using UniModule.UnityTools.Attributes;
+using UniModule.UnityTools.Extension;
+using UniModule.UnityTools.Input;
+using UniModule.UnityTools.Interfaces;
 using UniStateMachine;
 using UnityEngine;
 

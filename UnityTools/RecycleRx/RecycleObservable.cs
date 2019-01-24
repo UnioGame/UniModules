@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Assets.Tools.UnityTools.Common;
-using Assets.Tools.UnityTools.Interfaces;
-using Assets.Tools.UnityTools.ObjectPool.Scripts;
-using UniRx;
+using UniModule.UnityTools.Common;
+using UniModule.UnityTools.ObjectPool.Scripts;
 
-namespace UnityTools.RecycleRx
+namespace UniModule.UnityTools.RecycleRx
 {
     public class RecycleObservable<T> : IObservable<T>,IPoolable
     {

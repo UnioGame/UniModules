@@ -1,7 +1,7 @@
 ﻿using System.Collections;
-using Assets.Tools.UnityTools.Interfaces;
+using UniModule.UnityTools.Interfaces;
 
-namespace Assets.Tools.UnityTools.UniRoutine
+namespace UniModule.UnityTools.UniRoutine
 {
     public interface IUniRoutine
     {

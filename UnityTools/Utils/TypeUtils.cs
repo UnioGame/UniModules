@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Assets.Tools.UnityTools {
+namespace UniModule.UnityTools.Utils {
 	
 	public static class TypeUtils {
 

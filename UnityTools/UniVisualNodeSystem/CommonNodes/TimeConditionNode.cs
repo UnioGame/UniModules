@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Assets.Tools.UnityTools.Attributes;
-using Assets.Tools.UnityTools.Interfaces;
-using Assets.Tools.UnityTools.Math;
+using UniModule.UnityTools.Attributes;
+using UniModule.UnityTools.Interfaces;
+using UniModule.UnityTools.Math;
 using UniStateMachine.CommonNodes;
 using UnityEngine;
 

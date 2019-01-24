@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Assets.Tools.UnityTools.UniRoutine {
+namespace UniModule.UnityTools.UniRoutine {
 
     public class UniRoutineManager : MonoBehaviour {
 

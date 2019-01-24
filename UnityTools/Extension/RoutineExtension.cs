@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections;
-using Assets.Tools.UnityTools.Interfaces;
+using UniModule.UnityTools.Interfaces;
 using UnityEngine;
 
-namespace Assets.Tools.UnityTools.Extension
+namespace UniModule.UnityTools.Extension
 {
     public static class RoutineExtension
     {
@@ -35,18 +35,18 @@ namespace Assets.Tools.UnityTools.Extension
             while (time < delay)
             {
                 yield return null;
-                time += Time.deltaTime;
+                time += UnityEngine.Time.deltaTime;
             }
         }
         
         public static IEnumerator WaitForSecondUnscaled(this object source,float delay)
         {
-            var time = Time.realtimeSinceStartup;
+            var time = UnityEngine.Time.realtimeSinceStartup;
             var endOfAwait = time + delay;
             while (time < endOfAwait)
             {
                 yield return null;
-                time = Time.realtimeSinceStartup;
+                time = UnityEngine.Time.realtimeSinceStartup;
             }
         }
         

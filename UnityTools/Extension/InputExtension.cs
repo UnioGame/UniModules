@@ -1,47 +1,46 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Assets.Tools.UnityTools.Extension;
-using Assets.Tools.UnityTools.Input;
+﻿using UniModule.UnityTools.Input;
 using UnityEngine;
 
-public static class InputExtension
+namespace UniModule.UnityTools.Extension
 {
-
-    public static bool IsKeyInState(this KeyCode keyCode, KeyStates keyState)
+    public static class InputExtension
     {
 
-        var values = UniInputSystem.KeyStatesValues;
-        var states = UniInputSystem.KeyStatesItems;
-        
-        var keyStateValue = (long)keyState;
-
-        for (int i = 0; i < values.Length; i++)
+        public static bool IsKeyInState(this KeyCode keyCode, KeyStates keyState)
         {
-            var value = values[i];
-            var state = states[i];
-            
-            if(!keyStateValue.IsFlagSet(value))
-                continue;
 
-            switch (state)
+            var values = UniInputSystem.KeyStatesValues;
+            var states = UniInputSystem.KeyStatesItems;
+        
+            var keyStateValue = (long)keyState;
+
+            for (int i = 0; i < values.Length; i++)
             {
-                case KeyStates.Down:
-                    if (Input.GetKeyDown(keyCode))
-                        return true;
-                    break;
-                case KeyStates.Up:
-                    if (Input.GetKeyUp(keyCode))
-                        return true;
-                    break;
-                case KeyStates.Pressed:
-                    if (Input.GetKey(keyCode))
-                        return true;
-                    break;
-            }
-        }
+                var value = values[i];
+                var state = states[i];
+            
+                if(!keyStateValue.IsFlagSet(value))
+                    continue;
 
-        return false;
-    }
+                switch (state)
+                {
+                    case KeyStates.Down:
+                        if (UnityEngine.Input.GetKeyDown(keyCode))
+                            return true;
+                        break;
+                    case KeyStates.Up:
+                        if (UnityEngine.Input.GetKeyUp(keyCode))
+                            return true;
+                        break;
+                    case KeyStates.Pressed:
+                        if (UnityEngine.Input.GetKey(keyCode))
+                            return true;
+                        break;
+                }
+            }
+
+            return false;
+        }
     
+    }
 }

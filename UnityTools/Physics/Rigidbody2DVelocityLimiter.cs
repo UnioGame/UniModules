@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Assets.Tools.UnityTools.Physics
+namespace UniModule.UnityTools.Physics
 {
     public class Rigidbody2DVelocityLimiter : MonoBehaviour
     {

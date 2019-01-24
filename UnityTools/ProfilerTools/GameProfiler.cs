@@ -4,7 +4,7 @@ using System.Diagnostics;
 using UnityEngine.Profiling;
 using Debug = UnityEngine.Debug;
 
-namespace Assets.Tools.UnityTools.ProfilerTools
+namespace UniModule.UnityTools.ProfilerTools
 {
     public static class GameProfiler {
 

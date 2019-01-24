@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Assets.Modules.UnityToolsModule.Tools.UnityTools.DataFlow;
-using Assets.Tools.UnityTools.Interfaces;
+using UniModule.UnityTools.Interfaces;
 using UniRx;
 using UniStateMachine.Nodes;
 using UnityEngine;

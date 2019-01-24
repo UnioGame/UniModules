@@ -1,9 +1,8 @@
-﻿using System;
-using Assets.Modules.UnityToolsModule.Tools.UnityTools.DataFlow;
-using Assets.Tools.UnityTools.ObjectPool.Scripts;
+﻿using UniModule.UnityTools.DataFlow;
+using UniModule.UnityTools.ObjectPool.Scripts;
 using UniRx;
 
-namespace Assets.Tools.UnityTools.Interfaces
+namespace UniModule.UnityTools.Interfaces
 {
     public interface IContext : IMessageBroker,IPoolable
     {

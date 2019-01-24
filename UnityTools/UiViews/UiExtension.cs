@@ -1,7 +1,6 @@
 ﻿using TMPro;
-using UnityEngine;
 
-namespace Assets.SubModules.UnityTools.UiViews
+namespace UniModule.UnityTools.UiViews
 {
     public static class UiExtension
     {

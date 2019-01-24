@@ -1,14 +1,11 @@
 ﻿using System;
-using Assets.Modules.UnityToolsModule.Tools.UnityTools.DataFlow;
-using Assets.Tools.UnityTools.Common;
-using Assets.Tools.UnityTools.Interfaces;
-using Assets.Tools.UnityTools.ObjectPool.Scripts;
-using Assets.Tools.UnityTools.ProfilerTools;
+using UniModule.UnityTools.Common;
+using UniModule.UnityTools.DataFlow;
+using UniModule.UnityTools.Interfaces;
+using UniModule.UnityTools.ProfilerTools;
 using UniRx;
-using UnityEngine;
-using UnityTools.ProfilerTools;
 
-namespace UnityTools.ActorEntityModel
+namespace UniModule.UnityTools.ActorEntityModel
 {
     public class EntityObject : IContext
     {

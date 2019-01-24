@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using Assets.Tools.UnityTools.AssetBundleManager;
-using Assets.Tools.UnityTools.AssetBundleManager.AssetBundleResources;
+using UniModule.UnityTools.AssetBundleManager;
+using UniModule.UnityTools.AssetBundleManager.AssetBundleResources;
 using UnityEditor;
 using UnityEngine;
 

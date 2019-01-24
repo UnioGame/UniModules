@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Assets.Tools.UnityTools.Interfaces
+namespace UniModule.UnityTools.Interfaces
 {
 	public interface IDataValue<TData> : IDisposable, IReadonlyDataValue<TData>
 	{

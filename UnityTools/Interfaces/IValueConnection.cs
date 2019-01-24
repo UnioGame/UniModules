@@ -1,8 +1,7 @@
-﻿using Assets.Tools.UnityTools.Interfaces;
-using Assets.Tools.UnityTools.ObjectPool.Scripts;
+﻿using UniModule.UnityTools.ObjectPool.Scripts;
 using XNode;
 
-namespace UnityTools.Interfaces
+namespace UniModule.UnityTools.Interfaces
 {
     public interface IValueConnection<TValue>  : IDataValue<TValue>,IPoolable
     {

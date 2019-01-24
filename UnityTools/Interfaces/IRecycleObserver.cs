@@ -1,7 +1,7 @@
 ﻿using System;
-using Assets.Tools.UnityTools.ObjectPool.Scripts;
+using UniModule.UnityTools.ObjectPool.Scripts;
 
-namespace UnityTools.Interfaces
+namespace UniModule.UnityTools.Interfaces
 {
     public interface IRecycleObserver<T> : IObserver<T>, IPoolable
     {

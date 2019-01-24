@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Assets.Tools.UnityTools.Physics.PlayerPhysicsMotion {
+namespace UniModule.UnityTools.Physics.PlayerPhysicsMotion {
 
     [Serializable]
     public struct BallisticsMotionData {

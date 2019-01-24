@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Assets.SubModules.UnityTools.DataStructure
+namespace UniModule.UnityTools.DataStructure
 {
     public class DoubleKeyDictionary<TKey,TSubKey,TValue>
     {

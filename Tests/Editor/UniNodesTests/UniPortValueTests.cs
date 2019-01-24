@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
+using UniModule.UnityTools.ActorEntityModel;
 using UniStateMachine.Nodes;
-using UnityTools.ActorEntityModel;
 
 namespace UniNodesTests
 {

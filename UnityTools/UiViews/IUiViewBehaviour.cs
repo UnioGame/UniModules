@@ -1,11 +1,11 @@
 using System;
-using Assets.Modules.UnityToolsModule.Tools.UnityTools.DataFlow;
-using Assets.Tools.UnityTools.Interfaces;
-using Assets.Tools.UnityTools.ObjectPool.Scripts;
+using UniModule.UnityTools.DataFlow;
+using UniModule.UnityTools.Interfaces;
+using UniModule.UnityTools.ObjectPool.Scripts;
 using UniStateMachine.NodeEditor.UiNodes;
 using UnityEngine;
 
-namespace UnityTools.UiViews {
+namespace UniModule.UnityTools.UiViews {
     public interface IUiViewBehaviour : IPoolable
     {
         IObservable<IInteractionTrigger> InteractionObservable { get; }

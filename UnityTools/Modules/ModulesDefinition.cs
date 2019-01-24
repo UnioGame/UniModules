@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
-using Assets.Modules.UnityToolsModule.Tools.UnityTools.Modules;
-using Assets.Tools.UnityTools.Interfaces;
+using UniModule.UnityTools.Interfaces;
 using UniRx;
 using UnityEngine;
 
-namespace Assets.Tools.UnityTools.Moduls
+namespace UniModule.UnityTools.Modules
 {
     [CreateAssetMenu(menuName = "GameModules/ModuleDefinition", fileName = "ModuleDefinition")]
     public class ModulesDefinition : ScriptableObject

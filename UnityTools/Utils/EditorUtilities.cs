@@ -3,7 +3,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-namespace Assets.Tools.UnityTools
+namespace UniModule.UnityTools.Utils
 {
     public class EditorUtilities
     {

@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Assets.Tools.UnityTools.AssetBundleManager.AssetBundleResources;
-using Assets.Tools.UnityTools.AssetBundleManager.Interfaces;
-using Assets.Tools.UnityTools.ObjectPool.Scripts;
-using Assets.Tools.UnityTools.ProfilerTools;
+using UniModule.UnityTools.AssetBundleManager.AssetBundleResources;
+using UniModule.UnityTools.AssetBundleManager.Interfaces;
+using UniModule.UnityTools.ObjectPool.Scripts;
+using UniModule.UnityTools.ProfilerTools;
 
-namespace Assets.Tools.UnityTools.AssetBundleManager
+namespace UniModule.UnityTools.AssetBundleManager
 {
 
     public class AssetBundleResourceMap : IAssetBundleResourceMap {

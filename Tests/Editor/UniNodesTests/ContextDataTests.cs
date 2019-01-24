@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Assets.Tools.UnityTools.Common;
-using Assets.Tools.UnityTools.Interfaces;
 using NUnit.Framework;
+using UniModule.UnityTools.ActorEntityModel;
+using UniModule.UnityTools.Common;
+using UniModule.UnityTools.Interfaces;
 using UnityEngine;
 using UnityEngine.TestTools;
-using UnityTools.ActorEntityModel;
 
 namespace Tests
 {

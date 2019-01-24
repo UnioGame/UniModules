@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using Assets.Tools.UnityTools.Interfaces;
+using UniModule.UnityTools.Interfaces;
 using UniStateMachine;
 using UnityEngine;
 

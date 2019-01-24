@@ -1,5 +1,5 @@
 ﻿
-namespace Assets.Tools.UnityTools.AssetBundleManager
+namespace UniModule.UnityTools.AssetBundleManager
 {
     public static class AssetBundleManagerExtension  {
 

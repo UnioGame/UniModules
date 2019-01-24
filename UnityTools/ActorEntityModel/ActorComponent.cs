@@ -1,11 +1,11 @@
 ﻿using System.Collections;
-using Assets.Tools.UnityTools.ObjectPool.Scripts;
 using Assets.Tools.UnityTools.StateMachine.Interfaces;
+using UniModule.UnityTools.ObjectPool.Scripts;
 using UniStateMachine;
 using UniStateMachine.Nodes;
 using UnityEngine;
 
-namespace UnityTools.ActorEntityModel
+namespace UniModule.UnityTools.ActorEntityModel
 {
     public class ActorComponent : EntityComponent, IPoolable {
 		

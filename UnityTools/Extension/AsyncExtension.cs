@@ -1,9 +1,9 @@
 ﻿using System;
-using Assets.Tools.UnityTools.Interfaces;
+using UniModule.UnityTools.Interfaces;
 using UniRx.Async;
 using UnityEngine;
 
-namespace Assets.Tools.UnityTools.Extension
+namespace UniModule.UnityTools.Extension
 {
     public static class AsyncExtension
     {

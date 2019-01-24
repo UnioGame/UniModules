@@ -22,7 +22,7 @@ SOFTWARE.*/
 
 using UnityEngine;
 
-namespace Assets.Tools.UnityTools.ReorderableInspector
+namespace UniModule.UnityTools.ReorderableInspector
 {
 	/// <summary>
 	/// Display a List/Array as a sortable list in the inspector

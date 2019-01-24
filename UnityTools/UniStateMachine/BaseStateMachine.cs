@@ -1,5 +1,5 @@
-﻿using Assets.Tools.UnityTools.ProfilerTools;
-using Assets.Tools.UnityTools.StateMachine.Interfaces;
+﻿using Assets.Tools.UnityTools.StateMachine.Interfaces;
+using UniModule.UnityTools.ProfilerTools;
 
 namespace Assets.Tools.UnityTools.StateMachine
 {

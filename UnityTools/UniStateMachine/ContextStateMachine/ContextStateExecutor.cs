@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections;
-using Assets.Tools.UnityTools.Interfaces;
 using Assets.Tools.UnityTools.StateMachine.Interfaces;
-using Assets.Tools.UnityTools.UniRoutine;
+using UniModule.UnityTools.Interfaces;
+using UniModule.UnityTools.UniRoutine;
 
 namespace Assets.Tools.UnityTools.StateMachine.ContextStateMachine
 {

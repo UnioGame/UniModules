@@ -1,6 +1,6 @@
 using System;
 
-namespace Assets.Tools.UnityTools.ObjectPool.Scripts
+namespace UniModule.UnityTools.ObjectPool.Scripts
 {
     public interface IPoolContainer
     {

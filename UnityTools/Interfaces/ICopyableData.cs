@@ -1,6 +1,6 @@
 using UniRx;
 
-namespace Assets.Tools.UnityTools.Interfaces
+namespace UniModule.UnityTools.Interfaces
 {
     public interface ICopyableData<TContext>
     {

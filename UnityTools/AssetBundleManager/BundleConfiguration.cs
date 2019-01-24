@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Assets.Tools.UnityTools.AssetBundleManager
+namespace UniModule.UnityTools.AssetBundleManager
 {
     [Serializable]
     public class BundleConfiguration {

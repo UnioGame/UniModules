@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using Assets.Tools.UnityTools.ProfilerTools;
+using UniModule.UnityTools.ProfilerTools;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Assets.Tools.UnityTools.ObjectPool.Scripts
+namespace UniModule.UnityTools.ObjectPool.Scripts
 {
     // This component allows you to pool Unity objects for fast instantiation and destruction
     [AddComponentMenu("Utils/ObjectPool/Pool")]

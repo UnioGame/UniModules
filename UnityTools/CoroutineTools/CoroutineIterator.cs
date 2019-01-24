@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Assets.Tools.UnityTools.ObjectPool.Scripts;
+using UniModule.UnityTools.ObjectPool.Scripts;
 
-namespace Assets.Tools.UnityTools.CoroutineTools
+namespace UniModule.UnityTools.CoroutineTools
 {
     public class CoroutineIterator : IPoolable
     {

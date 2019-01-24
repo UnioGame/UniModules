@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Modules.UnityToolsModule.Tools.UnityTools.Physics
+namespace UniModule.UnityTools.Physics
 {
 
     public static class PhysicsRaycasts 

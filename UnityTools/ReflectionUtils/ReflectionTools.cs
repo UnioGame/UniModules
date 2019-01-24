@@ -7,7 +7,7 @@ using UnityEngine;
 using Assembly = System.Reflection.Assembly;
 using Object = UnityEngine.Object;
 
-namespace Assets.Tools.UnityTools.ReflectionUtils
+namespace UniModule.UnityTools.ReflectionUtils
 {
 
     public static class ReflectionTools

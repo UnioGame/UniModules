@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using Assets.Tools.UnityTools.Physics.PlayerPhysicsMotion;
+using UniModule.UnityTools.Physics.PlayerPhysicsMotion;
 using UnityEngine;
 
-namespace Assets.Tools.UnityTools.Physics
+namespace UniModule.UnityTools.Physics
 {
 
     public class BallisticsMotion : MonoBehaviour
@@ -82,7 +82,7 @@ namespace Assets.Tools.UnityTools.Physics
             
             for (int i = 0; i < pointCount; i++) {
                 
-                Data.Time = (_timeShift * i) * Time.fixedDeltaTime;
+                Data.Time = (_timeShift * i) * UnityEngine.Time.fixedDeltaTime;
                 
                 var position = _calculator.GetPosition(Data);
 

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections;
-using Assets.Tools.UnityTools.Interfaces;
 using Assets.Tools.UnityTools.StateMachine.Interfaces;
+using UniModule.UnityTools.Interfaces;
 using UniStateMachine;
 using UniStateMachine.Nodes;
 using UnityEngine;
 
-namespace UnityTools.ActorEntityModel
+namespace UniModule.UnityTools.ActorEntityModel
 {
     [Serializable]
 	public abstract class ActorInfo : 

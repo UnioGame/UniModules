@@ -1,8 +1,7 @@
 ﻿using System;
-using Assets.Tools.UnityTools.ObjectPool.Scripts;
-using UnityTools.Interfaces;
+using UniModule.UnityTools.Interfaces;
 
-namespace UnityTools.RecycleRx
+namespace UniModule.UnityTools.RecycleRx
 {
     public class RecycleActionObserver<T> : IRecycleObserver<T>
     {

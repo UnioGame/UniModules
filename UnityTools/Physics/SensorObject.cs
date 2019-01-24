@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace Assets.Tools.UnityTools.Physics
+namespace UniModule.UnityTools.Physics
 {
-    [RequireComponent(typeof(Collider))]
+    [RequireComponent(typeof(UnityEngine.Collider))]
     public class SensorObject : MonoBehaviour, ISensorObject
     {
         protected BoolReactiveProperty _triggerConnectionChanged = new BoolReactiveProperty(false);
@@ -14,8 +13,8 @@ namespace Assets.Tools.UnityTools.Physics
         
         protected Dictionary<Transform, Collision> collisions =
             new Dictionary<Transform, Collision>();
-        protected Dictionary<Transform, Collider> triggerColliders =
-            new Dictionary<Transform, Collider>();
+        protected Dictionary<Transform, UnityEngine.Collider> triggerColliders =
+            new Dictionary<Transform, UnityEngine.Collider>();
 
         #region inspector data
 
@@ -26,7 +25,7 @@ namespace Assets.Tools.UnityTools.Physics
         protected bool disableOnStayCollisions;
 
         [SerializeField]
-        protected Collider _collider;
+        protected UnityEngine.Collider _collider;
     
         #endregion
 
@@ -34,13 +33,13 @@ namespace Assets.Tools.UnityTools.Physics
 
         public IReadOnlyCollection<Collision> CollisionData => collisions.Values;
 
-        public IReadOnlyCollection<Collider> TriggersData => triggerColliders.Values;
+        public IReadOnlyCollection<UnityEngine.Collider> TriggersData => triggerColliders.Values;
 
-        public Collider LastTriggerObject { get; protected set; }
+        public UnityEngine.Collider LastTriggerObject { get; protected set; }
 
         public Collision LastCollisionObject { get; protected set; }
 
-        public Collider Collider => _collider;
+        public UnityEngine.Collider Collider => _collider;
 
         public LayerMask CollisionMask => collisionMask;
 
@@ -95,19 +94,19 @@ namespace Assets.Tools.UnityTools.Physics
             RemoveCollision(collision);
         }
 
-        void OnTriggerExit(Collider other)
+        void OnTriggerExit(UnityEngine.Collider other)
         {
             RemoveTriggerCollision(other);
         }
 
-        void OnTriggerStay(Collider other)
+        void OnTriggerStay(UnityEngine.Collider other)
         {
             if (disableOnStayCollisions)
                 return;
             UpdateTriggerCollision(other);
         }
 
-        private void OnTriggerEnter(Collider other)
+        private void OnTriggerEnter(UnityEngine.Collider other)
         {
             UpdateTriggerCollision(other);
         }
@@ -135,7 +134,7 @@ namespace Assets.Tools.UnityTools.Physics
             _collisionConnectionChanged.Value = collisions.Count > 0;
         }
 
-        private void RemoveTriggerCollision(Collider collider)
+        private void RemoveTriggerCollision(UnityEngine.Collider collider)
         {
             if (LastTriggerObject != null
                 && LastTriggerObject.transform == collider.transform)
@@ -147,7 +146,7 @@ namespace Assets.Tools.UnityTools.Physics
             _triggerConnectionChanged.Value = triggerColliders.Count > 0;
         }
 
-        private void UpdateTriggerCollision(Collider collision)
+        private void UpdateTriggerCollision(UnityEngine.Collider collision)
         {
             if (!ValidateCollision(collision.gameObject.layer))
                 return;

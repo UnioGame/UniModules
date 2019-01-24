@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
-using Assets.Tools.UnityTools.Extension;
 using Assets.Tools.UnityTools.StateMachine.Interfaces;
+using UniModule.UnityTools.Extension;
 using UniRx;
 
 namespace Assets.Tools.UnityTools.StateMachine

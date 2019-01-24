@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
-using UnityTools.ProfilerTools;
-using Debug = UnityEngine.Debug;
 using Object = UnityEngine.Object;
 
-namespace Assets.Tools.UnityTools.ProfilerTools
+namespace UniModule.UnityTools.ProfilerTools
 {
     public static class GameLog
     {

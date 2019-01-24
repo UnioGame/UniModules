@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace UnityTools.ProfilerTools
+namespace UniModule.UnityTools.ProfilerTools
 {
     public interface IGameLogger
     {

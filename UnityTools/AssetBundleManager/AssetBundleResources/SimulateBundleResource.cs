@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using Assets.Tools.UnityTools.ProfilerTools;
+using UniModule.UnityTools.ProfilerTools;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
 
-namespace Assets.Tools.UnityTools.AssetBundleManager.AssetBundleResources
+namespace UniModule.UnityTools.AssetBundleManager.AssetBundleResources
 {
 
     public class SimulateBundleResource : IAssetBundleResource

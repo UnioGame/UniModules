@@ -22,7 +22,7 @@ SOFTWARE.*/
 
 using UnityEngine;
 
-namespace Assets.Tools.UnityTools.ReorderableInspector
+namespace UniModule.UnityTools.ReorderableInspector
 {
 	/// <summary>
 	/// Display a ScriptableObject field with an inline editor

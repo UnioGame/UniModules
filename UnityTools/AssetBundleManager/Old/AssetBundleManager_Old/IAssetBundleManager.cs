@@ -1,4 +1,4 @@
-namespace Assets.Tools.UnityTools.AssetBundleManager.Old.AssetBundleManager_Old{
+namespace UniModule.UnityTools.AssetBundleManager.Old.AssetBundleManager_Old{
 
     public interface IAssetBundleManager
     {

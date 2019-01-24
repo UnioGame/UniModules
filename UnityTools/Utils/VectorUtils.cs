@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Tools.UnityTools.Utils
+namespace UniModule.UnityTools.Utils
 {
     public static class VectorUtils  {
 

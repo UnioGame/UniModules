@@ -1,4 +1,4 @@
-﻿namespace Assets.Tools.UnityTools.Extension
+﻿namespace UniModule.UnityTools.Extension
 {
     public static class EnumFlagExtension  {
 

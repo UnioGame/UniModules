@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace UnityTools.ResourceSystem
+namespace UniModule.UnityTools.ResourceSystem
 {
     [Serializable]
     public class ResourceItem {

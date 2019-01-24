@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Assets.Tools.UnityTools.Extension;
 using Assets.Tools.UnityTools.StateMachine.Interfaces;
+using UniModule.UnityTools.Extension;
 
 namespace Assets.Tools.UnityTools.StateMachine
 {

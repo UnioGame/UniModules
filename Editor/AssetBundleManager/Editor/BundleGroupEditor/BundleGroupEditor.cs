@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using AssetBundlesModule;
-using Assets.Tools.UnityTools.AssetBundleManager;
+using UniModule.UnityTools.AssetBundleManager;
 using UnityEditor;
 using UnityEngine;
 

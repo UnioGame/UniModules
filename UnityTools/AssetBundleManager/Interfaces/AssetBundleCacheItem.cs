@@ -1,4 +1,4 @@
-﻿namespace Assets.Tools.UnityTools.AssetBundleManager.Interfaces {
+﻿namespace UniModule.UnityTools.AssetBundleManager.Interfaces {
 
 	public class AssetBundleCacheItem {
 

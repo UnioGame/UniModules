@@ -2,7 +2,7 @@
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace Assets.Tools.UnityTools.ProfilerTools
+namespace UniModule.UnityTools.ProfilerTools
 {
     public class ProfilerUtils
     {

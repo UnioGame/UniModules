@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Assets.Tools.UnityTools.AssetBundleManager.Interfaces
+namespace UniModule.UnityTools.AssetBundleManager.Interfaces
 {
     public interface IBundleRequestFactory {
 

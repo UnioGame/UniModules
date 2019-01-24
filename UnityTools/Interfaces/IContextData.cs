@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Assets.Modules.UnityToolsModule.Tools.UnityTools.DataFlow;
-using Assets.Tools.UnityTools.ObjectPool.Scripts;
-using UnityTools.Common;
 
-namespace Assets.Tools.UnityTools.Interfaces
+namespace UniModule.UnityTools.Interfaces
 {
 
     public interface IContextData<TContext> : IContextDataWriter<TContext>, ICopyableData<TContext>

@@ -2,13 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Assets.Tools.UnityTools.AssetBundleManager;
-using Assets.Tools.UnityTools.ProfilerTools;
+using UniModule.UnityTools.AssetBundleManager;
+using UniModule.UnityTools.ProfilerTools;
 using UniRx;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Assets.Tools.UnityTools.ResourceSystem
+namespace UniModule.UnityTools.ResourceSystem
 {
 
     [System.Serializable]

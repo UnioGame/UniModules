@@ -1,8 +1,8 @@
 ﻿using System;
-using Assets.Tools.UnityTools.Interfaces;
-using Assets.Tools.UnityTools.ObjectPool.Scripts;
+using UniModule.UnityTools.Interfaces;
+using UniModule.UnityTools.ObjectPool.Scripts;
 
-namespace Modules.Tools.UnityTools.Extension
+namespace UniModule.UnityTools.Extension
 {
     public static class ContextDataExtension 
     {

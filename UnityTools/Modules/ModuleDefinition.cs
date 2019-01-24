@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 
-public class ModuleDefinishion : MonoBehaviour
+namespace UniModule.UnityTools.Modules
 {
+    public class ModuleDefinishion : MonoBehaviour
+    {
 
 
+    }
 }

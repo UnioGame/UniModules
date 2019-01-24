@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
-using Assets.Tools.UnityTools.AssetBundleManager.Interfaces;
-using Assets.Tools.UnityTools.CoroutineTools;
-using Assets.Tools.UnityTools.ObjectPool.Scripts;
-using Assets.Tools.UnityTools.ProfilerTools;
+using UniModule.UnityTools.AssetBundleManager.Interfaces;
+using UniModule.UnityTools.CoroutineTools;
+using UniModule.UnityTools.ObjectPool.Scripts;
+using UniModule.UnityTools.ProfilerTools;
 using UnityEngine;
 
-namespace Assets.Tools.UnityTools.AssetBundleManager
+namespace UniModule.UnityTools.AssetBundleManager
 {
     public class AssetsBundleLoader : IAssetsBundleLoader {
 

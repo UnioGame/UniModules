@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Assets.Tools.UnityTools.Interfaces;
 using NUnit.Framework;
 using UniStateMachine.Nodes;
 using UnityEngine;
 using UniRx;
-using UnityTools.ActorEntityModel;
-using UnityTools.RecycleRx;
 
 public class UniPortValueRxTests
 {   

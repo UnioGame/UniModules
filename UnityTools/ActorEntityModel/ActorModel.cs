@@ -1,28 +1,30 @@
 ﻿using System;
 using System.Collections;
-using Assets.Tools.UnityTools.Interfaces;
-using Assets.Tools.UnityTools.ObjectPool.Scripts;
 using Assets.Tools.UnityTools.StateMachine.Interfaces;
-using UniRx;
+using UniModule.UnityTools.Interfaces;
+using UniModule.UnityTools.ObjectPool.Scripts;
 
-[Serializable]
-public class ActorModel : IPoolable
+namespace UniModule.UnityTools.ActorEntityModel
 {
-    public string Name;
+    [Serializable]
+    public class ActorModel : IPoolable
+    {
+        public string Name;
 
-    public IContextState<IEnumerator> Behaviour;
+        public IContextState<IEnumerator> Behaviour;
     
-    public virtual void Release()
-    {
-        Behaviour = null;
+        public virtual void Release()
+        {
+            Behaviour = null;
+        }
+
+        public virtual void RegisterContext(IContext context)
+        {
+
+            context.Add(this);
+
+        }
+
+
     }
-
-    public virtual void RegisterContext(IContext context)
-    {
-
-        context.Add(this);
-
-    }
-
-
 }

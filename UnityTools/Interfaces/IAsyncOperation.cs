@@ -1,6 +1,6 @@
-﻿using Assets.Tools.UnityTools.ObjectPool.Scripts;
+﻿using UniModule.UnityTools.ObjectPool.Scripts;
 
-namespace Assets.Tools.UnityTools.Interfaces
+namespace UniModule.UnityTools.Interfaces
 {
     public interface IAsyncOperation : IPoolable, ICommandRoutine
     {

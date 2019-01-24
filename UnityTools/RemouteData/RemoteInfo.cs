@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Assets.Tools.UnityTools.RemouteData
+namespace UniModule.UnityTools.RemouteData
 {
     public class RemoteInfo : ScriptableObject
     {

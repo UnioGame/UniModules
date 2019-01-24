@@ -3,7 +3,7 @@ using UnityEditor;
 
 #endif
 
-namespace Assets.Tools.UnityTools
+namespace UniModule.UnityTools.Utils
 {
     public class EditorSettingsProperty
     {

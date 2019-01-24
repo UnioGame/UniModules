@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using UnityEditor;
 using UnityEngine;
+
 #if UNITY_EDITOR
 
 #endif
 
-namespace Assets.Tools.UnityTools.AssetBundleManager.Old.AssetBundleManager_Old{
+namespace UniModule.UnityTools.AssetBundleManager.Old.AssetBundleManager_Old{
 
     public class AssetLevelSimulationOperation : AssetOperation
     {

@@ -1,5 +1,4 @@
 ﻿using System;
-using Assets.Tools.UnityTools.Interfaces;
 using XNode;
 
 namespace UnityTools.UniVisualNodeSystem

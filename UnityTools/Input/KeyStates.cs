@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Assets.Tools.UnityTools.Input {
+namespace UniModule.UnityTools.Input {
 	
 	[Flags]
 	public enum KeyStates {

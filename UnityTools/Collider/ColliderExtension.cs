@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public static class ColliderExtension
+﻿namespace UniModule.UnityTools.Collider
 {
+	public static class ColliderExtension
+	{
 
 	
+	}
 }

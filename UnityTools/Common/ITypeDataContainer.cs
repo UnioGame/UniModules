@@ -1,4 +1,4 @@
-namespace Assets.Tools.UnityTools.Common
+namespace UniModule.UnityTools.Common
 {
     public interface ITypeDataContainer
     {

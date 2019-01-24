@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using Assets.Tools.UnityTools.StateMachine.Interfaces;
 
-namespace Assets.Tools.UnityTools.Moduls
+namespace UniModule.UnityTools.Modules
 {
     public interface IGameModule : IContextState<IEnumerator>
     {

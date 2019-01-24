@@ -1,6 +1,6 @@
-﻿using Assets.Tools.UnityTools.Interfaces;
+﻿using UniModule.UnityTools.Interfaces;
 
-namespace UnityTools.ActorEntityModel.Interfaces
+namespace UniModule.UnityTools.ActorEntityModel.Interfaces
 {
     public interface IEntityFactory : IFactory<IEntity> {}
 }

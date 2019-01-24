@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Assets.Tools.UnityTools.ScriptableObjects
+namespace UniModule.UnityTools.ScriptableObjects
 {
     public class InitializedScriptableObject : MonoBehaviour {
 

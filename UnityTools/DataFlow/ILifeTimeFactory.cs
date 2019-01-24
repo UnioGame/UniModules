@@ -1,4 +1,4 @@
-﻿namespace Assets.SubModules.UnityTools.DataFlow
+﻿namespace UniModule.UnityTools.DataFlow
 {
     public interface ILifeTimeFactory
     {

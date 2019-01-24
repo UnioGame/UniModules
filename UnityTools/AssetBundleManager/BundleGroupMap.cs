@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Assets.Tools.UnityTools.AssetBundleManager {
+namespace UniModule.UnityTools.AssetBundleManager {
 
     public enum ResourceGroupTag {
 

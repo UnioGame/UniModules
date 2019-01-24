@@ -1,4 +1,4 @@
-﻿namespace Assets.Modules.UnityToolsModule.Tools.UnityTools.DataFlow
+﻿namespace UniModule.UnityTools.DataFlow
 {
     public class LifeTimeDefinition
     {

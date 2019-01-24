@@ -2,20 +2,20 @@
 using UniRx;
 using UnityEngine;
 
-namespace Assets.Tools.UnityTools.Physics
+namespace UniModule.UnityTools.Physics
 {
     public interface ISensorObject
     {
         IReadOnlyCollection<Collision> CollisionData { get; }
-        IReadOnlyCollection<Collider> TriggersData { get; }
+        IReadOnlyCollection<UnityEngine.Collider> TriggersData { get; }
         
         LayerMask CollisionMask { get; }
         
         IReadOnlyReactiveProperty<bool> TriggerConnectionChanged { get;  }
         IReadOnlyReactiveProperty<bool> CollisionConnectionChanged { get;  }
         
-        Collider Collider { get; }
-        Collider LastTriggerObject { get;  }
+        UnityEngine.Collider Collider { get; }
+        UnityEngine.Collider LastTriggerObject { get;  }
         Collision LastCollisionObject { get;}
         
         Vector3 Position { get; }

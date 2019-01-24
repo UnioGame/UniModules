@@ -5,12 +5,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Assets.Tools.UnityTools.ProfilerTools;
+using UniModule.UnityTools.ProfilerTools;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Assets.Tools.UnityTools.AssetBundleManager.Old.AssetBundleManager_Old
+namespace UniModule.UnityTools.AssetBundleManager.Old.AssetBundleManager_Old
 {
     public class AssetBundleOperationSimulation : IAssetProvider {
 

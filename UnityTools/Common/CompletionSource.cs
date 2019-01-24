@@ -1,6 +1,6 @@
-﻿using Assets.Tools.UnityTools.Interfaces;
+﻿using UniModule.UnityTools.Interfaces;
 
-namespace Assets.Tools.UnityTools.Common
+namespace UniModule.UnityTools.Common
 {
     public class CompletionSource : ICompletionSource
     {

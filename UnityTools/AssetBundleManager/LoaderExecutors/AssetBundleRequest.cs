@@ -1,8 +1,8 @@
-﻿using Assets.Tools.UnityTools.AssetBundleManager.AssetBundleResources;
-using Assets.Tools.UnityTools.AssetBundleManager.Interfaces;
-using Assets.Tools.UnityTools.AsyncOperations;
+﻿using UniModule.UnityTools.AssetBundleManager.AssetBundleResources;
+using UniModule.UnityTools.AssetBundleManager.Interfaces;
+using UniModule.UnityTools.AsyncOperations;
 
-namespace Assets.Tools.UnityTools.AssetBundleManager.LoaderExecutors
+namespace UniModule.UnityTools.AssetBundleManager.LoaderExecutors
 {
     public abstract class AssetBundleRequest : AsyncRequestOperation, IAssetBundleRequest {
 

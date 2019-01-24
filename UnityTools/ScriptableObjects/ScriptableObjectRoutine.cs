@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections;
-using Assets.Tools.UnityTools.Interfaces;
+using UniModule.UnityTools.Interfaces;
 using UnityEngine;
 
-namespace Assets.Tools.UnityTools.ScriptableObjects
+namespace UniModule.UnityTools.ScriptableObjects
 {
     public abstract class ScriptableObjectRoutine<TContext> : 
         ScriptableObject ,IRoutine<TContext,IEnumerator>

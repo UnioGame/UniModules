@@ -1,9 +1,9 @@
 ﻿using System.Collections;
-using Assets.Tools.UnityTools.AssetBundleManager.AssetBundleResources;
-using Assets.Tools.UnityTools.ObjectPool.Scripts;
+using UniModule.UnityTools.AssetBundleManager.AssetBundleResources;
+using UniModule.UnityTools.ObjectPool.Scripts;
 using UnityEngine;
 
-namespace Assets.Tools.UnityTools.AssetBundleManager.LoaderExecutors
+namespace UniModule.UnityTools.AssetBundleManager.LoaderExecutors
 {
     public class AssetBundleLocalFileRequest : AssetBundleRequest
     {

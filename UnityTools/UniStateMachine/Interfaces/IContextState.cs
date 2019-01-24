@@ -1,6 +1,6 @@
 ﻿using System;
-using Assets.Modules.UnityToolsModule.Tools.UnityTools.DataFlow;
-using Assets.Tools.UnityTools.Interfaces;
+using UniModule.UnityTools.DataFlow;
+using UniModule.UnityTools.Interfaces;
 
 namespace Assets.Tools.UnityTools.StateMachine.Interfaces
 {

@@ -1,7 +1,7 @@
 ﻿using System.Collections;
-using Assets.Tools.UnityTools.AssetBundleManager.AssetBundleResources;
+using UniModule.UnityTools.AssetBundleManager.AssetBundleResources;
 
-namespace Assets.Tools.UnityTools.AssetBundleManager.LoaderExecutors
+namespace UniModule.UnityTools.AssetBundleManager.LoaderExecutors
 {
     public interface BundleLoadExecutor {
 

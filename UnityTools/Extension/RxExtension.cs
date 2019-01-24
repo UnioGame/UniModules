@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Assets.Tools.UnityTools.ObjectPool.Scripts;
-using UniRx;
-using UnityTools.Interfaces;
-using UnityTools.RecycleRx;
+using UniModule.UnityTools.Interfaces;
+using UniModule.UnityTools.ObjectPool.Scripts;
+using UniModule.UnityTools.RecycleRx;
 
-namespace Assets.Tools.UnityTools.Extension
+namespace UniModule.UnityTools.Extension
 {
     public static class RxExtension
     {

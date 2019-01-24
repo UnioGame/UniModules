@@ -1,10 +1,10 @@
 ﻿using System.Collections;
-using Assets.Tools.UnityTools.AssetBundleManager.AssetBundleResources;
-using Assets.Tools.UnityTools.ObjectPool.Scripts;
-using Assets.Tools.UnityTools.ProfilerTools;
+using UniModule.UnityTools.AssetBundleManager.AssetBundleResources;
+using UniModule.UnityTools.ObjectPool.Scripts;
+using UniModule.UnityTools.ProfilerTools;
 using UnityEngine;
 
-namespace Assets.Tools.UnityTools.AssetBundleManager.LoaderExecutors
+namespace UniModule.UnityTools.AssetBundleManager.LoaderExecutors
 {
 
     public class AssetBundleWwwRequest : AssetBundleRequest

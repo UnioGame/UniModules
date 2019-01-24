@@ -1,10 +1,9 @@
 ﻿using System;
-using Assets.Tools.UnityTools.ProfilerTools;
+using UniModule.UnityTools.ProfilerTools;
 using UnityEngine;
-using UnityTools.ObjectPool.Scripts;
 using Object = UnityEngine.Object;
 
-namespace Assets.Tools.UnityTools.ObjectPool.Scripts
+namespace UniModule.UnityTools.ObjectPool.Scripts
 {
 	public static class ClassPool {
 

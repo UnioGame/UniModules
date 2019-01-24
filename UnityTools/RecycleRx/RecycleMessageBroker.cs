@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Assets.Tools.UnityTools.ObjectPool.Scripts;
+using UniModule.UnityTools.ObjectPool.Scripts;
 using UniRx;
 
-namespace Modules.UnityToolsModule.Tools.UnityTools.RecycleRx
+namespace UniModule.UnityTools.RecycleRx
 {
 	public class RecycleMessageBrocker : IMessageBroker, IPoolable
 	{

@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using Assets.Tools.UnityTools.ProfilerTools;
+using UniModule.UnityTools.ProfilerTools;
 using UnityEngine;
 
 namespace Assets.Tools.UnityTools.StateMachine
