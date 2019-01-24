@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections;
-using Assets.Tools.UnityTools.StateMachine.Interfaces;
 using UniModule.UnityTools.Interfaces;
 using UniModule.UnityTools.UniRoutine;
+using UniModule.UnityTools.UniStateMachine.Interfaces;
 
-namespace Assets.Tools.UnityTools.StateMachine.ContextStateMachine
+namespace UniModule.UnityTools.UniStateMachine.ContextStateMachine
 {
     public class ContextStateExecutor : IContextStateExecutor<IEnumerator>
     {

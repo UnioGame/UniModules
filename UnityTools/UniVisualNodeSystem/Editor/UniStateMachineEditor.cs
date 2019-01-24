@@ -1,5 +1,5 @@
-﻿using Assets.UI.Windows.Tools.Editor;
-using UniEditorTools;
+﻿using UniEditorTools;
+using UniModule.UnityTools.EditorTools;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;

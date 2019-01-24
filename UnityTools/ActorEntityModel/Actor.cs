@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections;
-using Assets.Tools.UnityTools.StateMachine.Interfaces;
 using UniModule.UnityTools.Interfaces;
 using UniModule.UnityTools.ObjectPool.Scripts;
 using UniModule.UnityTools.UniRoutine;
+using UniModule.UnityTools.UniStateMachine.Interfaces;
 
 namespace UniModule.UnityTools.ActorEntityModel
 {

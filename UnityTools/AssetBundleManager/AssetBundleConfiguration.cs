@@ -1,5 +1,4 @@
-﻿using Assets.Tools.UnityTools;
-using UniModule.UnityTools.AssetBundleManager.Interfaces;
+﻿using UniModule.UnityTools.AssetBundleManager.Interfaces;
 using UniModule.UnityTools.Utils;
 
 namespace UniModule.UnityTools.AssetBundleManager

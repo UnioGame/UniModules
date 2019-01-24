@@ -5,7 +5,7 @@ using UniStateMachine;
 using UniStateMachine.CommonNodes;
 using XNodeEditor;
 
-namespace Modules.Tools.UnityTools
+namespace UniModule.UnityTools.UniNodesEditorSystem
 {
     [NodeEditor.CustomNodeEditorAttribute(typeof(UniModuleNode))]
     public class ModuleNodeEditor : UniNodeEditor

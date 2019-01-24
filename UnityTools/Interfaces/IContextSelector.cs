@@ -1,4 +1,4 @@
-﻿using Assets.Tools.UnityTools.StateMachine.Interfaces;
+﻿using UniModule.UnityTools.UniStateMachine.Interfaces;
 
 namespace UniModule.UnityTools.Interfaces
 {

@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using Assets.Tools.UnityTools.StateMachine.Interfaces;
 using UniModule.UnityTools.Common;
 using UniModule.UnityTools.DataFlow;
 using UniModule.UnityTools.Extension;
 using UniModule.UnityTools.Interfaces;
 using UniModule.UnityTools.ObjectPool.Scripts;
+using UniModule.UnityTools.UniStateMachine.Interfaces;
 
-namespace Assets.Tools.UnityTools.StateMachine.ContextStateMachine
+namespace UniModule.UnityTools.UniStateMachine.ContextStateMachine
 {
     public abstract class ContextStateBehaviour : IContextState<IEnumerator>
     {

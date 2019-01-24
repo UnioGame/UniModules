@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class DrawAtParentAttribute  {
+﻿namespace UniModule.UnityTools.UniStateMachine.Attributes
+{
+    public class DrawAtParentAttribute  {
 
 
+    }
 }

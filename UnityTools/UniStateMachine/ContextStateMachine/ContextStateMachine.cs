@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Assets.Tools.UnityTools.StateMachine.Interfaces;
 using UniModule.UnityTools.Extension;
 using UniModule.UnityTools.Interfaces;
+using UniModule.UnityTools.UniStateMachine.Interfaces;
 
-namespace Assets.Tools.UnityTools.StateMachine.ContextStateMachine
+namespace UniModule.UnityTools.UniStateMachine.ContextStateMachine
 {
     /// <summary>
     /// FSM for supports states with context data

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Assets.Tools.UnityTools.StateMachine;
-using Assets.Tools.UnityTools.StateMachine.Interfaces;
 using UniModule.UnityTools.DataFlow;
 using UniModule.UnityTools.Interfaces;
 using UniModule.UnityTools.ObjectPool.Scripts;
 using UniModule.UnityTools.UniRoutine;
+using UniModule.UnityTools.UniStateMachine;
+using UniModule.UnityTools.UniStateMachine.Extensions;
+using UniModule.UnityTools.UniStateMachine.Interfaces;
 using UniStateMachine.Nodes;
 using UnityEngine;
 using XNode;

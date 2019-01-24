@@ -1,7 +1,7 @@
 using System.IO;
 using System.Linq;
-using Assets.UI.Windows.Tools.Editor;
 using UniModule.UnityTools.AssetBundleManager;
+using UniModule.UnityTools.EditorTools;
 using UniModule.UnityTools.ProfilerTools;
 using UnityEditor;
 using UnityEngine;

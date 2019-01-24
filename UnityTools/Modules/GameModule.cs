@@ -1,6 +1,6 @@
 ﻿using System.Collections;
-using Assets.Tools.UnityTools.StateMachine.ContextStateMachine;
 using UniModule.UnityTools.Interfaces;
+using UniModule.UnityTools.UniStateMachine.ContextStateMachine;
 
 namespace UniModule.UnityTools.Modules {
 	

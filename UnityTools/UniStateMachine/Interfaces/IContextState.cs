@@ -2,7 +2,7 @@
 using UniModule.UnityTools.DataFlow;
 using UniModule.UnityTools.Interfaces;
 
-namespace Assets.Tools.UnityTools.StateMachine.Interfaces
+namespace UniModule.UnityTools.UniStateMachine.Interfaces
 {
     public interface IContextState<out TAwaiter> : 
         IStateBehaviour<IContext, TAwaiter>,

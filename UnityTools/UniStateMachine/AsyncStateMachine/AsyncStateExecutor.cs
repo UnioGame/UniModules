@@ -1,10 +1,10 @@
 ﻿using System;
-using Assets.Tools.UnityTools.StateMachine.Interfaces;
 using UniModule.UnityTools.Extension;
+using UniModule.UnityTools.UniStateMachine.Interfaces;
 using UniRx;
 using UniRx.Async;
 
-namespace Assets.Tools.UnityTools.StateMachine.AsyncStateMachine
+namespace UniModule.UnityTools.UniStateMachine.AsyncStateMachine
 {
   
     public class AsyncStateExecutor : IStateExecutor<UniTask>

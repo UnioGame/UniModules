@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Assets.Tools.UnityTools.StateMachine;
 using UniModule.UnityTools.Interfaces;
 using UniModule.UnityTools.ReorderableInspector;
+using UniModule.UnityTools.UniStateMachine;
 using UnityEngine;
 
 namespace UniStateMachine

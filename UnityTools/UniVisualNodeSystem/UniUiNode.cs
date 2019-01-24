@@ -5,6 +5,7 @@ using System.Linq;
 using UniModule.UnityTools.Interfaces;
 using UniModule.UnityTools.ObjectPool.Scripts;
 using UniModule.UnityTools.UiViews;
+using UniModule.UnityTools.UniStateMachine.Extensions;
 using UniStateMachine.NodeEditor.UiNodes;
 using UnityEngine;
 using UniRx;

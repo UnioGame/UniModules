@@ -1,4 +1,4 @@
-﻿namespace Assets.Tools.UnityTools.StateMachine.Interfaces
+﻿namespace UniModule.UnityTools.UniStateMachine.Interfaces
 {
     public interface IStateFactory<TStateType, TResult>
     {

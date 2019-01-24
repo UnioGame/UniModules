@@ -1,6 +1,7 @@
 ﻿using System.Collections;
-using Assets.Tools.UnityTools.StateMachine.Interfaces;
 using UniModule.UnityTools.Interfaces;
+using UniModule.UnityTools.UniStateMachine;
+using UniModule.UnityTools.UniStateMachine.Interfaces;
 using UnityEngine;
 
 namespace UniStateMachine

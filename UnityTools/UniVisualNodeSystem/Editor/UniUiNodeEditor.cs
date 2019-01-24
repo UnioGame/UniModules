@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Assets.UI.Windows.Tools.Editor;
 using UniEditorTools;
 using UniModule.UnityTools.UiViews;
 using UniStateMachine;
@@ -8,11 +7,6 @@ using UniStateMachine.NodeEditor.UiNodes;
 using UniStateMachine.Nodes;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.Experimental.UIElements;
-using XNode;
-using Button = UnityEngine.UI.Button;
-using Object = System.Object;
 
 namespace SubModules.Scripts.UniStateMachine.NodeEditor {
     [CustomNodeEditor(typeof(UniUiNode))]

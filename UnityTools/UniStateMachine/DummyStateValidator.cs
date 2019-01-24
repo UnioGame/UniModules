@@ -1,6 +1,6 @@
-﻿using Assets.Tools.UnityTools.StateMachine.Interfaces;
+﻿using UniModule.UnityTools.UniStateMachine.Interfaces;
 
-namespace Assets.Tools.UnityTools.StateMachine {
+namespace UniModule.UnityTools.UniStateMachine {
 
 
     public class DummyStateValidator<TState> : IStateValidator<TState>

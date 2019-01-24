@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using UniModule.UnityTools.ObjectPool.Scripts;
+using UniStateMachine;
 using UniStateMachine.Nodes;
 using XNode;
 
-namespace UniStateMachine
+namespace UniModule.UnityTools.UniStateMachine.Extensions
 {
     public static class UniNodeExtension
     {

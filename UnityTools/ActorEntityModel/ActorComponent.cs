@@ -1,6 +1,6 @@
 ﻿using System.Collections;
-using Assets.Tools.UnityTools.StateMachine.Interfaces;
 using UniModule.UnityTools.ObjectPool.Scripts;
+using UniModule.UnityTools.UniStateMachine.Interfaces;
 using UniStateMachine;
 using UniStateMachine.Nodes;
 using UnityEngine;

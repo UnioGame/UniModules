@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UniModule.UnityTools.Interfaces;
+using UniModule.UnityTools.UniStateMachine.Extensions;
 using UniStateMachine.Nodes;
 using UnityEngine;
 using XNode;

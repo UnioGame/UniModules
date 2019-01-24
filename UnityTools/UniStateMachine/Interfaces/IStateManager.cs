@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Assets.Tools.UnityTools.StateMachine.Interfaces
+namespace UniModule.UnityTools.UniStateMachine.Interfaces
 {
     public interface IStateManager<TStateType> : IDisposable
     {

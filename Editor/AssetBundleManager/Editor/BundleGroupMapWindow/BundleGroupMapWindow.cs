@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using AssetBundlesModule;
-using Assets.UI.Windows.Tools.Editor;
 using UniModule.UnityTools.AssetBundleManager;
+using UniModule.UnityTools.EditorTools;
 using UnityEditor;
 using UnityEngine;
 

@@ -1,8 +1,7 @@
 ﻿using UnityEditor;
 
-namespace Assets.UI.Windows.AddonsDefault.WindowSystemResources.Tools.AssetBundleManager.Editor.AssetBundleReferenceViewer
+namespace UniModule.UnityTools.EditorTools
 {
-
     public class AssetBundleReferenceWindow : UnityEditor.EditorWindow {
 
         private static AssetBundleReferenceWindow _window;

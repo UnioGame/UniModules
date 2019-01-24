@@ -1,5 +1,5 @@
 ﻿
-namespace Assets.Tools.UnityTools.StateMachine.Interfaces
+namespace UniModule.UnityTools.UniStateMachine.Interfaces
 {
     public interface IStateExecutor<TState>
     {

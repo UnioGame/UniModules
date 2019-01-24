@@ -1,8 +1,8 @@
 ﻿using System.Collections;
-using Assets.Tools.UnityTools.StateMachine.Interfaces;
 using UniModule.UnityTools.Interfaces;
+using UniModule.UnityTools.UniStateMachine.Interfaces;
 
-namespace UniStateMachine
+namespace UniModule.UnityTools.UniStateMachine
 {
     public interface IUniStateTransition : IValidator<IContext>
     {

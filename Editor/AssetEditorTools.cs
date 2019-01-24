@@ -9,7 +9,7 @@ using UnityEngine;
 using UnityEngine.Experimental.UIElements;
 using Object = UnityEngine.Object;
 
-namespace Assets.UI.Windows.Tools.Editor
+namespace UniModule.UnityTools.EditorTools
 {
 
     public struct ProgressData

@@ -3,28 +3,31 @@ using UniModule.UnityTools.Interfaces;
 using UniStateMachine;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "States/Validators/TimeDelayValidator", fileName = "TimeDelayValidator")]
-public class TimeDelayValidator : UniTransitionValidator 
+namespace UniModule.UnityTools.UniStateMachine.Validators
 {
-	[NonSerialized]
-	private float _lastValidationTime;
-	
-	[SerializeField]
-	private float DelayBeforeTransition = 0.2f;
-
-	protected override bool ValidateNode(IContext context) 
+	[CreateAssetMenu(menuName = "States/Validators/TimeDelayValidator", fileName = "TimeDelayValidator")]
+	public class TimeDelayValidator : UniTransitionValidator 
 	{
-		var timePassed =  Time.realtimeSinceStartup - _lastValidationTime;
-		_lastValidationTime = Time.realtimeSinceStartup;
-		
-		if (timePassed < DelayBeforeTransition || _lastValidationTime<=0) {
-			return false;
-		}
+		[NonSerialized]
+		private float _lastValidationTime;
+	
+		[SerializeField]
+		private float DelayBeforeTransition = 0.2f;
 
-		//reset time
-		_lastValidationTime = 0f;
+		protected override bool ValidateNode(IContext context) 
+		{
+			var timePassed =  UnityEngine.Time.realtimeSinceStartup - _lastValidationTime;
+			_lastValidationTime = UnityEngine.Time.realtimeSinceStartup;
 		
-		return true;
+			if (timePassed < DelayBeforeTransition || _lastValidationTime<=0) {
+				return false;
+			}
+
+			//reset time
+			_lastValidationTime = 0f;
 		
+			return true;
+		
+		}
 	}
 }
