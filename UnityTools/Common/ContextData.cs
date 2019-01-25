@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UniModule.UnityTools.Interfaces;
 using UniModule.UnityTools.ObjectPool.Scripts;
+using UniModule.UnityTools.ProfilerTools;
 using UniRx;
 
 namespace UniModule.UnityTools.Common
@@ -91,11 +92,13 @@ namespace UniModule.UnityTools.Common
 
         public void CopyTo(TContext context, IMessagePublisher target)
         {
-            
+
             if (!_contexts.TryGetValue(context, out var contextData))
             {
                 return;
             }
+            
+            GameProfiler.BeginSample("ContextDataCopyTo");
 
             var items = contextData.WritableItems;
             for (int i = 0; i < items.Count(); i++)
@@ -104,6 +107,7 @@ namespace UniModule.UnityTools.Common
                 item.CopyTo(target);
             }
             
+            GameProfiler.EndSample();
         }
         
         #endregion

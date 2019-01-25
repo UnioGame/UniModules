@@ -69,7 +69,7 @@
   <Directive>
     <name>ENABLE_UNITY_PROFILING</name>
     <targets>Standalone iOS Android WebGL Metro</targets>
-    <enabled>false</enabled>
+    <enabled>true</enabled>
     <sortOrder>11</sortOrder>
   </Directive>
   <Directive>
