@@ -1,6 +1,7 @@
 ﻿using System;
 using UniModule.UnityTools.Interfaces;
 using UniModule.UnityTools.ObjectPool.Scripts;
+using UniModule.UnityTools.ProfilerTools;
 using UniModule.UnityTools.RecycleRx;
 using UniRx;
 
@@ -44,7 +45,11 @@ namespace UniModule.UnityTools.Common
         
         public void CopyTo(IMessagePublisher target)
         {
+            GameProfiler.BeginSample("DataValue_CopyTo");
+            
             target.Publish(Value);
+            
+            GameProfiler.EndSample();
         }
         
         #endregion
