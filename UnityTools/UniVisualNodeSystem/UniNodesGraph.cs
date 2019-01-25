@@ -16,7 +16,7 @@ using XNode;
 namespace UniStateMachine.Nodes
 {
     [CreateAssetMenu(fileName = "UniGraph", menuName = "UniStateMachine/UniGraph")]
-	public class UniNodesGraph : NodeGraph, IContextState<IEnumerator>
+	public class UniNodesGraph : NodeGraph, IContextState<IEnumerator>, INodeExecutor<IContext>
     {
 	    #region private properties
 
@@ -27,14 +27,13 @@ namespace UniStateMachine.Nodes
 	    
 	    private List<UniNode> _uniNodes;
 	    private List<UniGraphNode> _allNodes;
+	    private IGraphNodesUpdater _updater;
 
 	    private IContextState<IEnumerator> _graphState;
 	    /// <summary>
 	    /// state local context data
 	    /// </summary>
 	    protected IContextData<IContext> _contextData;
-
-	    public IReadOnlyList<UniRootNode> RootNodes => _rootNodes;
 
 	    #endregion
 
@@ -44,6 +43,7 @@ namespace UniStateMachine.Nodes
 			    return;
 		    
 		    _isInitialized = true;
+		    _updater = new GraphNodesUpdater(this);
 		    _rootNodes = nodes.OfType<UniRootNode>().ToList();
 		    _graphState = GetBehaviour();
 		    
@@ -93,6 +93,39 @@ namespace UniStateMachine.Nodes
 			}
 			
         }
+		
+		
+		public void Execute(UniNode node, IContext context)
+		{
+			if (node.IsActive(context))
+				return;
+
+			StateLogger.LogState($"GRAPH NODE {node.name} : STARTED", node);
+
+			var inputValue = node.Input;
+			inputValue.UpdateValue(context,context);
+            
+			var awaiter = node.Execute(context);
+			var disposable = awaiter.RunWithSubRoutines(node.RoutineType);
+            
+			//cleanup actions
+			var lifeTime = node.GetLifeTime(context);
+			lifeTime.AddDispose(disposable);
+
+		}
+
+		public void Stop(UniNode node, IContext context)
+		{
+			//node already active for this context
+			if (!node.IsActive(context))
+				return;
+
+			StateLogger.LogState($"GRAPH NODE {node.name} : STOPED", node);
+
+			node.Exit(context);
+
+		}
+
 	    
 	    #region private
 
@@ -116,7 +149,7 @@ namespace UniStateMachine.Nodes
 			    for (var i = 0; i < _uniNodes.Count; i++)
 			    {
 				    var node = _uniNodes[i];
-				    UpdateNode(node);
+				    _updater.UpdateNode(node);
 			    }
 				
 			    yield return null;
@@ -151,8 +184,7 @@ namespace UniStateMachine.Nodes
 	    
 	    private IEnumerator OnExecute(IContext context)
 	    {
-		    var roots = RootNodes;
-		    if (roots == null || roots.Count == 0)
+		    if (_rootNodes == null || _rootNodes.Count == 0)
 		    {
 			    Debug.LogErrorFormat("Graph root nodes not found");
 			    yield break;
@@ -160,152 +192,17 @@ namespace UniStateMachine.Nodes
 
 		    var lifeTime = GetLifeTime(context);
 
-		    foreach (var rootNode in roots)
+		    for (var i = 0; i < _rootNodes.Count; i++)
 		    {
+			    var rootNode = _rootNodes[i];
 			    var rootDisposableItem = rootNode.Execute(context).RunWithSubRoutines();
 			    lifeTime.AddDispose(rootDisposableItem);
 		    }
-		    
+
 		    var disposable = UpdateGraph(context).RunWithSubRoutines();
 		    lifeTime.AddDispose(disposable);
 
 	    }
-
-	    private UniPortValue UpdatePortValue(UniGraphNode node,UniPortValue portValue,NodePort nodePort)
-	    {
-
-		    if (nodePort.direction == PortIO.Output)
-			    return null;
-		    
-		    if(portValue == null)
-			    return null;
-		    
-		    //cleanup port value
-		    portValue.Release();
-
-		    var connections = nodePort.GetConnections();
-
-		    //copy values from connected ports to input
-		    for (var i = 0; i < connections.Count; i++)
-		    {
-			    var connection = connections[i];
-			    var connectedNode = connection.node;
-			    
-			    if(!(connectedNode is UniGraphNode uniNode)) continue;
-
-			    var value = uniNode.GetPortValue(connection.fieldName);
-			    if(value.Count == 0)
-				    continue;
-			    
-			    value?.CopyTo(portValue);
-		    }
-		    
-		    
-		    connections.DespawnCollection();
-
-		    return portValue;
-	    }
-
-        private void UpdateNode(UniNode node)
-		{
-			
-            GameProfiler.BeginSample("UpdateNodes");
-
-			var input = node.GetPort(UniNode.InputPortName);
-			var value = node.GetPortValue(input);
-			
-			UpdatePortValue(node,value,input);
-
-			var contexts = ClassPool.Spawn<List<IContext>>();
-			contexts.AddRange(value.Contexts);
-			contexts.AddRange(node.Contexts);
-
-			for (int i = 0; i < contexts.Count; i++)
-			{
-				
-				var context = contexts[i];
-				
-				if (!value.HasContext(context))
-				{
-					StopNode(node, context);
-					continue;
-				}
-				
-				UpdateNode(node,context);
-
-				if (node.IsActive(context))
-				{
-					var values = node.PortValues;
-					for (var j = 0; j < values.Count; j++)
-					{
-						var portValue = values[j];
-						var port = node.GetPort(portValue.Name);
-						UpdatePortValue(node,portValue, port);
-					}
-				}
-				
-			}
-			
-
-			contexts.DespawnCollection();
-
-		    GameProfiler.EndSample();
-        }
-
-		private void UpdateNode(UniNode node, IContext context)
-		{
-
-            if (node.Validate(context))
-		    {
-		        LaunchNode(node, context);
-		    }
-		    else
-		    {
-		        StopNode(node, context);
-		    }
-        
-		}
-
-		private void LaunchNode(UniNode node, IContext context)
-		{
-		    if (node.IsActive(context))
-		        return;
-
-		    StateLogger.LogState($"GRAPH NODE {node.name} : STARTED", node);
-
-		    var inputValue = node.Input;
-		    inputValue.UpdateValue(context,context);
-            
-		    var awaiter = node.Execute(context);
-		    var disposable = awaiter.RunWithSubRoutines(node.RoutineType);
-            
-		    //cleanup actions
-		    var lifeTime = node.GetLifeTime(context);
-		    lifeTime.AddDispose(disposable);
-
-		}
-
-		private void UpdateInputsValues(UniNode node, IContext context)
-		{
-			var values = node.PortValues;
-			for (int i = 0; i < values.Count; i++)
-			{
-				var value = values[i];
-				
-			}
-		}
-		
-		private void StopNode(UniNode node, IContext context)
-		{
-            //node already active for this context
-		    if (!node.IsActive(context))
-		        return;
-
-            StateLogger.LogState($"GRAPH NODE {node.name} : STOPED", node);
-
-            node.Exit(context);
-
-		}
 
 		protected virtual IContextState<IEnumerator> GetBehaviour()
 		{

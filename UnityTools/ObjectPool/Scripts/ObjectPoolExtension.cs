@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UniModule.UnityTools.ProfilerTools;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -99,6 +100,8 @@ namespace UniModule.UnityTools.ObjectPool.Scripts
 
             if (data == null) return;
 
+            GameProfiler.BeginSample("PoolExtension_Despawn");
+            
             var component = data as Component;
             if (component != null)
             {
@@ -112,6 +115,8 @@ namespace UniModule.UnityTools.ObjectPool.Scripts
             {
                 ClassPool.Despawn(data);
             }
+            
+            GameProfiler.EndSample();
             
         }
     }
