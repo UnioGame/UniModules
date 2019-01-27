@@ -13,13 +13,10 @@ namespace UniStateMachine.Nodes
     {
         private readonly INodeExecutor<IContext> _executor;
         private readonly List<IContext> _updateContext;
-        private readonly Dictionary<UniPortValue, NodePort> _activeNodesPorts;
 
         public GraphNodesUpdater(INodeExecutor<IContext> executor)
         {
             _updateContext = new List<IContext>();
-            _activeNodesPorts = new Dictionary<UniPortValue, NodePort>();
-            
             _executor = executor;
         }
         
@@ -30,27 +27,22 @@ namespace UniStateMachine.Nodes
 
             var input = node.GetPort(UniNode.InputPortName);
             var inputPortValue = node.GetPortValue(input);
-			
-            UpdatePortValue(inputPortValue,input);
 
-            _updateContext.AddRange(inputPortValue.Contexts);
-            _updateContext.AddRange(node.Contexts);
+            UpdateNodeState(node,inputPortValue);
 
-            UpdateNodeState(node,inputPortValue,_updateContext);
-
-            _updateContext.Clear();
-            _activeNodesPorts.Clear();
-            
             GameProfiler.EndSample();
+            
         }
 
-        private void UpdateNodeState(UniNode node,IContextData<IContext> input,List<IContext> contexts)
+        private void UpdateNodeState(UniNode node,UniPortValue input)
         {
+            _updateContext.AddRange(node.Contexts);
+            _updateContext.AddRange(input.Contexts);
             
-            for (int i = 0; i < contexts.Count; i++)
+            for (int i = 0; i < _updateContext.Count; i++)
             {
 
-                var context = contexts[i];
+                var context = _updateContext[i];
 				
                 if (!input.HasContext(context))
                 {
@@ -61,23 +53,12 @@ namespace UniStateMachine.Nodes
                 GameProfiler.BeginSample("Graph_UpdateNodeState");
 
                 UpdateNode(node,context);
-
-                if (node.IsActive(context))
-                {
-                    var values = node.PortValues;
-                    for (var j = 0; j < values.Count; j++)
-                    {
-                        var portValue = values[j];
-                        var port = node.GetPort(portValue.Name);
-
-                        UpdatePortValue(portValue, port);
-                    }
-                }
 				
                 GameProfiler.EndSample();
 				
-            }	
-
+            }	         
+            
+            _updateContext.Clear();
         }
         
         private void UpdateNode(UniNode node, IContext context)
@@ -85,51 +66,16 @@ namespace UniStateMachine.Nodes
 
             if (node.Validate(context))
             {
+                if (node.IsActive(context))
+                    return;
                 _executor.Execute(node, context);
             }
             else
             {
-                _executor.Execute(node, context);
+                _executor.Stop(node, context);
             }
         
         }
-        
-        
-        private void UpdatePortValue(UniPortValue portValue,NodePort nodePort)
-        {           		    
-            //if port value already updated => skip port
-            if (_activeNodesPorts.ContainsKey(portValue))
-                return;
-                
-            if (nodePort.direction == PortIO.Output)
-                return;
-
-            //cleanup port value
-            portValue.Release();
-
-            var connections = nodePort.GetConnections();
-
-            //copy values from connected ports to input
-            for (var i = 0; i < connections.Count; i++)
-            {
-                var connection = connections[i];
-                var connectedNode = connection.node;
-			    
-                if(!(connectedNode is UniGraphNode uniNode)) continue;
-
-                var value = uniNode.GetPortValue(connection.fieldName);
-                if(value.Count == 0)
-                    continue;
-			    
-                value?.CopyTo(portValue);
-            }
-		    
-            connections.DespawnCollection();
-
-            _activeNodesPorts[portValue] = nodePort;
-            
-        }
-        
         
     }
 }

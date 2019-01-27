@@ -10,6 +10,7 @@ using UniModule.UnityTools.UniRoutine;
 using UniModule.UnityTools.UniStateMachine;
 using UniModule.UnityTools.UniStateMachine.Extensions;
 using UniModule.UnityTools.UniStateMachine.Interfaces;
+using UniModule.UnityTools.UniVisualNodeSystem.Connections;
 using UnityEngine;
 using XNode;
 
@@ -24,8 +25,10 @@ namespace UniStateMachine.Nodes
 	    private bool _isInitialized = false;
 	    [NonSerialized]
 	    private List<UniRootNode> _rootNodes;
+	    [NonSerialized]
+	    private Dictionary<UniPortValue, IContextDataWriter<IContext>> _connections;
 	    
-	    private List<UniNode> _uniNodes;
+	    private List<UniNode> _uniNodes; 
 	    private List<UniGraphNode> _allNodes;
 	    private IGraphNodesUpdater _updater;
 
@@ -43,11 +46,18 @@ namespace UniStateMachine.Nodes
 			    return;
 		    
 		    _isInitialized = true;
+		    
+		    _connections = new Dictionary<UniPortValue, IContextDataWriter<IContext>>();
 		    _updater = new GraphNodesUpdater(this);
 		    _rootNodes = nodes.OfType<UniRootNode>().ToList();
-		    _graphState = GetBehaviour();
 		    
+		    var stateBehaviour = new ProxyStateBehaviour();
+		    stateBehaviour.Initialize(OnExecute,x => 
+			    _contextData = x,OnExit);
+		    _graphState = stateBehaviour;
+			    
 		    InitializeNodes();
+		    InitializePortConnections();
 		    
 	    }
 	    
@@ -161,22 +171,76 @@ namespace UniStateMachine.Nodes
 	    {
 		    _uniNodes = new List<UniNode>();
 		    _allNodes = new List<UniGraphNode>();
-		    
-		    foreach (var node in nodes)
+
+		    for (var i = 0; i < nodes.Count; i++)
 		    {
+			    var node = nodes[i];
 			    if (!(node is UniGraphNode graphNode))
 			    {
 				    continue;
 			    }
-			    
+
 			    graphNode.Initialize();
-			    
+
 			    _allNodes.Add(graphNode);
-			    if(!(graphNode is UniNode uniNode))
+			    if (!(graphNode is UniNode uniNode))
 			    {
 				    continue;
 			    }
+
 			    _uniNodes.Add(uniNode);
+		    }
+		    
+		    
+	    }
+
+	    /// <summary>
+	    /// create bindings between portvalues
+	    /// </summary>
+	    private void InitializePortConnections()
+	    {
+
+		    for (var i = 0; i < _uniNodes.Count; i++)
+		    {
+			    var node = _uniNodes[i];
+			    var values = node.PortValues;
+
+			    for (var j = 0; j < values.Count; j++)
+			    {
+				    var value = values[j];
+				    var port = node.GetPort(value.Name);
+				    
+					//take only input ports
+				    if(port.direction == PortIO.Output)
+					    continue;
+				    
+				    var connection = new PortValueConnection();
+				    connection.Initialize(value);
+				    _connections[value] = connection;
+
+				    BindWithOutputs(connection, port);
+
+			    }
+			    
+		    }
+		    
+	    }
+
+	    private void BindWithOutputs(IContextDataWriter<IContext> inputConnection,NodePort port)
+	    {
+		    var connections = port.GetConnections();
+
+		    for (int i = 0; i < connections.Count; i++)
+		    {
+			    var connection = connections[i];
+			    var connectedNode = connection.node;
+			    
+			    if(!(connectedNode is UniGraphNode node))
+				    continue;
+
+			    //register connection with target input 
+			    var connectedValue = node.GetPortValue(connection.fieldName);
+			    connectedValue.Add(inputConnection);
 			    
 		    }
 		    
@@ -203,14 +267,6 @@ namespace UniStateMachine.Nodes
 		    lifeTime.AddDispose(disposable);
 
 	    }
-
-		protected virtual IContextState<IEnumerator> GetBehaviour()
-		{
-			var state = new ProxyStateBehaviour();
-			state.Initialize(OnExecute,x => 
-				_contextData = x,OnExit);
-			return state;
-		}
 
 		#endregion
 	}

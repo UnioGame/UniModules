@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace UniModule.UnityTools.Interfaces
 {
 
-    public interface IContextData<TContext> : IContextDataWriter<TContext>, ICopyableData<TContext>
+    public interface IContextData<TContext> : IContextDataWriter<TContext>
     {
         IReadOnlyList<TContext> Contexts { get; }
 
@@ -18,9 +18,6 @@ namespace UniModule.UnityTools.Interfaces
         
         TData Get<TData>(TContext context);
 
-        bool RemoveContext(TContext context);
-        
-        bool Remove<TData>(TContext context);
 
     }
 }

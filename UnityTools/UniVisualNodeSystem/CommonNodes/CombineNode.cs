@@ -66,7 +66,7 @@ namespace UniStateMachine.CommonNodes
                 }
                 else if(inputPort.HasContext(context))
                 {
-                    inputPort.CopyTo(outputPort);
+                    outputPort.UpdateValue(context,context);
                 }
                 else
                 {
