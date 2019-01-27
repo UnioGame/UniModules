@@ -5,6 +5,7 @@ using UniModule.UnityTools.DataFlow;
 using UniModule.UnityTools.Extension;
 using UniModule.UnityTools.Interfaces;
 using UniModule.UnityTools.ObjectPool.Scripts;
+using UniModule.UnityTools.ProfilerTools;
 using UniModule.UnityTools.UniStateMachine.Interfaces;
 
 namespace UniModule.UnityTools.UniStateMachine.ContextStateMachine
@@ -74,7 +75,13 @@ namespace UniModule.UnityTools.UniStateMachine.ContextStateMachine
 
         public virtual bool IsActive(IContext context)
         {
-            return _contextData?.HasContext(context) ?? false;
+            GameProfiler.BeginSample("Context_IsActive");
+            
+            var isActive = _contextData?.HasContext(context) ?? false;
+
+            GameProfiler.EndSample();
+            
+            return isActive;
         }
 
         public ILifeTime GetLifeTime(IContext context)
