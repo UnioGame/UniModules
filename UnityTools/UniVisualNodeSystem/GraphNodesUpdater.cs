@@ -13,21 +13,29 @@ namespace UniStateMachine.Nodes
     {
         private readonly INodeExecutor<IContext> _executor;
         private readonly List<IContext> _updateContext;
+        private readonly Dictionary<IContext, UniNode> _cacheNodes;
 
         public GraphNodesUpdater(INodeExecutor<IContext> executor)
         {
             _updateContext = new List<IContext>();
+            _cacheNodes = new Dictionary<IContext, UniNode>();
+            
             _executor = executor;
         }
         
         public void UpdateNode(UniNode node)
         {
 
-            GameProfiler.BeginSample("UpdateNodes");
-
+            GameProfiler.BeginSample("GraphUpdater_GetData");
+            
             var input = node.GetPort(UniNode.InputPortName);
+            
             var inputPortValue = node.GetPortValue(input);
 
+            GameProfiler.EndSample();
+            
+            GameProfiler.BeginSample("GraphUpdater_UpdateNodes");
+            
             UpdateNodeState(node,inputPortValue);
 
             GameProfiler.EndSample();
@@ -63,7 +71,7 @@ namespace UniStateMachine.Nodes
         
         private void UpdateNode(UniNode node, IContext context)
         {
-
+							
             if (node.Validate(context))
             {
                 if (node.IsActive(context))

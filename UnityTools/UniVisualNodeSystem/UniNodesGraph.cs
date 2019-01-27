@@ -30,7 +30,6 @@ namespace UniStateMachine.Nodes
 	    
 	    private List<UniNode> _uniNodes; 
 	    private List<UniGraphNode> _allNodes;
-	    private IGraphNodesUpdater _updater;
 
 	    private IContextState<IEnumerator> _graphState;
 	    /// <summary>
@@ -48,7 +47,6 @@ namespace UniStateMachine.Nodes
 		    _isInitialized = true;
 		    
 		    _connections = new Dictionary<UniPortValue, IContextDataWriter<IContext>>();
-		    _updater = new GraphNodesUpdater(this);
 		    _rootNodes = nodes.OfType<UniRootNode>().ToList();
 		    
 		    var stateBehaviour = new ProxyStateBehaviour();
@@ -159,7 +157,6 @@ namespace UniStateMachine.Nodes
 			    for (var i = 0; i < _uniNodes.Count; i++)
 			    {
 				    var node = _uniNodes[i];
-				    _updater.UpdateNode(node);
 			    }
 				
 			    yield return null;
@@ -213,9 +210,11 @@ namespace UniStateMachine.Nodes
 					//take only input ports
 				    if(port.direction == PortIO.Output)
 					    continue;
+
+				    var connection = node.Input == value ?
+					    new InputPortConnection(this,node,value) : 
+					    new PortValueConnection(value);
 				    
-				    var connection = new PortValueConnection();
-				    connection.Initialize(value);
 				    _connections[value] = connection;
 
 				    BindWithOutputs(connection, port);

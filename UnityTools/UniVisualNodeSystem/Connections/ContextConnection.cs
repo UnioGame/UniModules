@@ -4,12 +4,12 @@ using System.Collections.Generic;
 
 namespace UniModule.UnityTools.UniVisualNodeSystem.Connections
 {
-    public abstract class ContextConnection<TContext> : IContextDataWriter<TContext>, IPoolable
+    public abstract class ContextConnection<TContext> : IContextDataWriter<TContext>
     {
         protected IContextData<TContext> _target;
         protected List<IContextData<TContext>> _connections = new List<IContextData<TContext>>();
         
-        public void Initialize(IContextData<TContext> target)
+        public ContextConnection(IContextData<TContext> target)
         {
             _target = target;
         }
@@ -22,12 +22,6 @@ namespace UniModule.UnityTools.UniVisualNodeSystem.Connections
         public void Disconnect(IContextData<TContext> connectedContext)
         {
             _connections.Remove(connectedContext);
-        }
-
-        public void Release()
-        {
-            _target = null;
-            _connections.Clear();
         }
 
         public abstract void UpdateValue<TData>(TContext context, TData value);

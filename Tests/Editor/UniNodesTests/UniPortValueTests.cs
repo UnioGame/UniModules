@@ -75,8 +75,7 @@ namespace UniNodesTests
         {
             var portValue1 = new UniPortValue();
             var portValue2 = new UniPortValue();
-            var port2Connection = new PortValueConnection();
-            port2Connection.Initialize(portValue2);
+            var port2Connection = new PortValueConnection(portValue2);
             
             var context1 = new EntityObject();
             
@@ -96,9 +95,7 @@ namespace UniNodesTests
         {
             var portValue1 = new UniPortValue();
             var portValue2 = new UniPortValue();
-            var port2Connection = new PortValueConnection();
-            
-            port2Connection.Initialize(portValue2);
+            var port2Connection = new PortValueConnection(portValue2);
             
             var context1 = new EntityObject();
             
@@ -120,8 +117,7 @@ namespace UniNodesTests
         {
             var portValue1 = new UniPortValue();
             var portValue2 = new UniPortValue();
-            var port2Connection = new PortValueConnection();
-            port2Connection.Initialize(portValue2);
+            var port2Connection = new PortValueConnection(portValue2);
             
             var context1 = new EntityObject();
             

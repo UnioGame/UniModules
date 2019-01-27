@@ -1,13 +1,20 @@
 ﻿using UniModule.UnityTools.Interfaces;
+using UniModule.UnityTools.ProfilerTools;
 
 namespace UniModule.UnityTools.UniVisualNodeSystem.Connections
 {
     public class PortValueConnection : ContextConnection<IContext>
     {
 
+        public PortValueConnection(IContextData<IContext> target) : base(target){}
+        
         public override void UpdateValue<TData>(IContext context, TData value)
         {
+            GameProfiler.BeginSample("Connection_UpdateValue");
+            
             _target.UpdateValue(context,value);
+            
+            GameProfiler.EndSample();
         }
 
         public override bool RemoveContext(IContext context)
@@ -43,5 +50,6 @@ namespace UniModule.UnityTools.UniVisualNodeSystem.Connections
 
             return result;
         }
+
     }
 }
