@@ -16,7 +16,7 @@ namespace UniStateMachine.CommonNodes
 
         protected override IEnumerator ExecuteState(IContext context)
         {
-            while (IsActive(context))
+            while (true)
             {
                 var isFire = false;
 

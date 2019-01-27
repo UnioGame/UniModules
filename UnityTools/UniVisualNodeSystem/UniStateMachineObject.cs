@@ -44,7 +44,7 @@ namespace UniStateMachine
 			IContextState<IEnumerator> activeState = null;
 			IDisposableItem disposableItem = null;
 			
-			while (IsActive(context)) {
+			while (true) {
 
 				var state = _stateSelector.SelectState(context);
 

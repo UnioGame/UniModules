@@ -148,22 +148,6 @@ namespace UniStateMachine.Nodes
 		    }
 	    }
 	    
-	    protected virtual IEnumerator UpdateGraph(IContext context)
-	    {
-
-		    while (IsActive(context))
-		    {
-
-			    for (var i = 0; i < _uniNodes.Count; i++)
-			    {
-				    var node = _uniNodes[i];
-			    }
-				
-			    yield return null;
-		    }
-			
-	    }
-	    
 	    private void InitializeNodes()
 	    {
 		    _uniNodes = new List<UniNode>();
@@ -261,9 +245,6 @@ namespace UniStateMachine.Nodes
 			    var rootDisposableItem = rootNode.Execute(context).RunWithSubRoutines();
 			    lifeTime.AddDispose(rootDisposableItem);
 		    }
-
-		    var disposable = UpdateGraph(context).RunWithSubRoutines();
-		    lifeTime.AddDispose(disposable);
 
 	    }
 

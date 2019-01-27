@@ -22,7 +22,7 @@ namespace UniStateMachine {
         {
             yield return base.ExecuteState(context);
 
-            while (IsActive(context)) {
+            while (true) {
                 
                 var data = Restart.Get<IContext>(context);
                 //here should be same unique id for all context line

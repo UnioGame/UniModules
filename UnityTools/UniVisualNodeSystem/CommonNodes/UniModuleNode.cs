@@ -49,7 +49,7 @@ namespace UniStateMachine.CommonNodes
                 lifeTime.AddDispose(disposable);
             }
            
-            while (IsActive(context))
+            while (true)
             {
 
                 ExecuteAdapterItems(_inputs, context);

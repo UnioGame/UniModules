@@ -33,7 +33,7 @@ namespace UniStateMachine.CommonNodes
 
             var combinedPort = GetPortValue(_combinedOutputName);
             
-            while (IsActive(context))
+            while (true)
             {
                 var isCombined = IsCombined(context);
 
