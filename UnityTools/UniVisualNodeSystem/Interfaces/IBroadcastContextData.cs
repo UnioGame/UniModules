@@ -1,7 +1,9 @@
+using System;
 using UniModule.UnityTools.Interfaces;
 
 namespace UniModule.UnityTools.UniVisualNodeSystem.Connections
 {
+    
     public interface IBroadcastContextData<TContext> : IContextDataWriter<TContext>
     {
         

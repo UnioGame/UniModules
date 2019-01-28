@@ -1,66 +1,70 @@
 ﻿using System.Collections.Generic;
+using UniModule.UnityTools.ObjectPool.Scripts;
 
 namespace UniModule.UnityTools.DataStructure
 {
-	public class UnorderedUniqueCollection<T> 
+	public class UnorderedCollection<T> : IPoolable
 		where T:class
 	{
+		private int _count;
 		private List<T> _items = new List<T>();
 		private Queue<int> _unusedSlots = new Queue<int>();
-		private Dictionary<T, int> _indexes = new Dictionary<T, int>();
 
-		public int Count => _indexes.Count;
+		public int Count => _count;
 
-		public IReadOnlyCollection<T> Items => _indexes.Keys;
-
-		public bool Add(T item)
+		public IEnumerable<T> GetItems()
 		{
-			if (_indexes.ContainsKey(item))
-				return false;
-			
+			for (int i = 0; i < _items.Count; i++)
+			{
+				var item = _items[i];
+				if(item == null)
+					continue;
+				yield return item;
+			}
+		}
+		
+		/// <summary>
+		/// add item to collection and return unique id
+		/// </summary>
+		/// <param name="item"></param>
+		/// <returns></returns>
+		public int Add(T item)
+		{
 			var index = _items.Count;
+			
+			_count++;
 			
 			if (_unusedSlots.Count > 0)
 			{
 				index = _unusedSlots.Dequeue();
 				_items[index] = item;
+				return index;
 			}
-
-			_indexes[item] = index;
 			
-			return true;
+			_items.Add(item);
+
+			return index;
 		}
 
-		public bool Remove(T item)
+		public T Remove(int itemId)
 		{
+			var item = _items[itemId];
 			
-			if (_indexes.TryGetValue(item, out var index))
-			{
-				_indexes.Remove(item);
-				_items[index] = null;
-				_unusedSlots.Enqueue(index);
-			}
-
-			return false;
-
+			_unusedSlots.Enqueue(itemId);
+			_items[itemId] = null;
+			
+			return item;
 		}
 
 		public void Clear()
 		{
-			
 			_items.Clear();
-			_unusedSlots.Clear();
-			_indexes.Clear();
-			
+			_unusedSlots.Clear();	
 		}
 
-		public void AddRange(IEnumerable<T> items)
+		public void Release()
 		{
-			foreach (var item in items)
-			{
-				Add(item);
-			}
+			Clear();
 		}
-
 	}
 }

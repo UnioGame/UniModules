@@ -16,5 +16,6 @@ namespace UniStateMachine.NodeEditor.UiNodes
          {
              SetState(false);
          }
+         
      }
  }

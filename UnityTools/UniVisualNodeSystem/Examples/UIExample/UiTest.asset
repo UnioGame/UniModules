@@ -12,17 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 782945db79ce44748b3f294e0edf364e, type: 3}
   m_Name: UiTest
   m_EditorClassIdentifier: 
-  _uniqueId: 41
+  _uniqueId: 149
   nodes:
   - {fileID: 114013383984677558}
-  - {fileID: 114276117189744126}
   - {fileID: 114128620806229224}
-  - {fileID: 114089375455398000}
-  - {fileID: 114262114877083148}
   - {fileID: 114681967939865214}
-  - {fileID: 114419537567273756}
-  - {fileID: 114221089802391594}
   - {fileID: 114121977522464554}
+  - {fileID: 114092431651953848}
+  - {fileID: 114338699136661098}
+  - {fileID: 114824277847952454}
 --- !u!114 &114013383984677558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42,23 +40,20 @@ MonoBehaviour:
     keys:
     - Output
     values:
-    - _id: 2
+    - _id: 42
       _fieldName: Output
       _node: {fileID: 114013383984677558}
       _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: Input
-        node: {fileID: 114276117189744126}
+        node: {fileID: 114128620806229224}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
-      _dynamic: 0
-  _outputs: []
-  Output:
-    PortId: 0
-    Name: Output
---- !u!114 &114089375455398000
+      _dynamic: 1
+  _routineType: 0
+--- !u!114 &114092431651953848
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -67,51 +62,109 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6752418799316404ebd6d31a6a8ac129, type: 3}
-  m_Name: Validate Test Node
+  m_Script: {fileID: 11500000, guid: 2998dc7ebf4686240832bf795ef96102, type: 3}
+  m_Name: Uni Ui Node
   m_EditorClassIdentifier: 
-  _id: 11
+  _id: 87
   _graph: {fileID: 11400000}
-  position: {x: 504, y: -536}
+  position: {x: 408, y: -40}
   ports:
     keys:
     - Input
     - Output
+    - Button1
+    - '[in]Button1'
+    - Button2
+    - '[in]Button2'
+    - Button3
+    - '[in]Button3'
     values:
-    - _id: 15
+    - _id: 89
       _fieldName: Input
-      _node: {fileID: 114089375455398000}
+      _node: {fileID: 114092431651953848}
       _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections:
-      - fieldName: Button1
-        node: {fileID: 114128620806229224}
+      - fieldName: Button3
+        node: {fileID: 114681967939865214}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
-      _dynamic: 0
-    - _id: 12
+      _dynamic: 1
+    - _id: 88
       _fieldName: Output
-      _node: {fileID: 114089375455398000}
+      _node: {fileID: 114092431651953848}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _dynamic: 1
+    - _id: 126
+      _fieldName: Button1
+      _node: {fileID: 114092431651953848}
       _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections:
-      - fieldName: Input
+      - fieldName: '[in]Button3'
         node: {fileID: 114681967939865214}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
-      _dynamic: 0
-  _outputs: []
-  Output:
-    PortId: 0
-    Name: Output
+      _dynamic: 1
+    - _id: 141
+      _fieldName: '[in]Button1'
+      _node: {fileID: 114092431651953848}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 1
+    - _id: 127
+      _fieldName: Button2
+      _node: {fileID: 114092431651953848}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _dynamic: 1
+    - _id: 142
+      _fieldName: '[in]Button2'
+      _node: {fileID: 114092431651953848}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 1
+    - _id: 128
+      _fieldName: Button3
+      _node: {fileID: 114092431651953848}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 114121977522464554}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _dynamic: 1
+    - _id: 143
+      _fieldName: '[in]Button3'
+      _node: {fileID: 114092431651953848}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: Button1
+        node: {fileID: 114121977522464554}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 1
   _routineType: 0
-  _validator: {fileID: 0}
-  Input:
-    PortId: 0
-    Name: 
-  _validateResult: 1
+  UiView: {fileID: 7977651464442743630, guid: 8d86b7dfeae2f2245a0b14c515a861c1, type: 3}
 --- !u!114 &114121977522464554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,27 +179,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 32
   _graph: {fileID: 11400000}
-  position: {x: 856, y: 88}
+  position: {x: 648, y: 72}
   ports:
     keys:
-    - Input
     - Output
+    - Input
     - Button1
+    - '[in]Button1'
     - Button2
+    - '[in]Button2'
+    - Button3
+    - '[in]Button3'
     values:
-    - _id: 36
-      _fieldName: Input
-      _node: {fileID: 114121977522464554}
-      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: Output
-        node: {fileID: 114262114877083148}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _dynamic: 0
-    - _id: 33
+    - _id: 54
       _fieldName: Output
       _node: {fileID: 114121977522464554}
       _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
@@ -154,17 +199,41 @@ MonoBehaviour:
       connections: []
       _direction: 1
       _connectionType: 0
-      _dynamic: 0
-    - _id: 34
+      _dynamic: 1
+    - _id: 58
+      _fieldName: Input
+      _node: {fileID: 114121977522464554}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: Button3
+        node: {fileID: 114092431651953848}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 1
+    - _id: 123
       _fieldName: Button1
       _node: {fileID: 114121977522464554}
       _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
-      connections: []
+      connections:
+      - fieldName: '[in]Button3'
+        node: {fileID: 114092431651953848}
+        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _dynamic: 1
-    - _id: 35
+    - _id: 138
+      _fieldName: '[in]Button1'
+      _node: {fileID: 114121977522464554}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 1
+    - _id: 124
       _fieldName: Button2
       _node: {fileID: 114121977522464554}
       _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
@@ -173,20 +242,41 @@ MonoBehaviour:
       _direction: 1
       _connectionType: 0
       _dynamic: 1
-  _outputs:
-  - PortId: 34
-    Name: Button1
-  - PortId: 35
-    Name: Button2
-  Output:
-    PortId: 0
-    Name: Output
+    - _id: 139
+      _fieldName: '[in]Button2'
+      _node: {fileID: 114121977522464554}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 1
+    - _id: 125
+      _fieldName: Button3
+      _node: {fileID: 114121977522464554}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 114338699136661098}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _dynamic: 1
+    - _id: 140
+      _fieldName: '[in]Button3'
+      _node: {fileID: 114121977522464554}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: Button1
+        node: {fileID: 114338699136661098}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 1
   _routineType: 0
-  _validator: {fileID: 0}
-  Input:
-    PortId: 0
-    Name: 
-  UiView: {fileID: 7977651464442743630, guid: c7abd093ee4bf2947ae40f8db59c9a57, type: 3}
+  UiView: {fileID: 7977651464442743630, guid: a6844adcd6abe104794338b19e9bf754, type: 3}
 --- !u!114 &114128620806229224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,27 +291,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 5
   _graph: {fileID: 11400000}
-  position: {x: 120, y: -440}
+  position: {x: -216, y: -328}
   ports:
     keys:
-    - Input
     - Output
+    - Input
     - Button1
+    - '[in]Button1'
     - Button2
+    - '[in]Button2'
+    - Button3
+    - '[in]Button3'
     values:
-    - _id: 10
-      _fieldName: Input
-      _node: {fileID: 114128620806229224}
-      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: Output
-        node: {fileID: 114276117189744126}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _dynamic: 0
-    - _id: 6
+    - _id: 45
       _fieldName: Output
       _node: {fileID: 114128620806229224}
       _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
@@ -229,197 +311,10 @@ MonoBehaviour:
       connections: []
       _direction: 1
       _connectionType: 0
-      _dynamic: 0
-    - _id: 8
-      _fieldName: Button1
+      _dynamic: 1
+    - _id: 46
+      _fieldName: Input
       _node: {fileID: 114128620806229224}
-      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: Input
-        node: {fileID: 114089375455398000}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 0
-      _dynamic: 1
-    - _id: 9
-      _fieldName: Button2
-      _node: {fileID: 114128620806229224}
-      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: Input
-        node: {fileID: 114262114877083148}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 0
-      _dynamic: 1
-  _outputs:
-  - PortId: 8
-    Name: Button1
-  - PortId: 9
-    Name: Button2
-  Output:
-    PortId: 0
-    Name: Output
-  _routineType: 0
-  _validator: {fileID: 0}
-  Input:
-    PortId: 0
-    Name: 
-  UiView: {fileID: 7977651464442743630, guid: 1771a3a9b8c75554ebb2cf8a1f5fe980, type: 3}
---- !u!114 &114221089802391594
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2998dc7ebf4686240832bf795ef96102, type: 3}
-  m_Name: Uni Ui Node
-  m_EditorClassIdentifier: 
-  _id: 27
-  _graph: {fileID: 11400000}
-  position: {x: 1224, y: -152}
-  ports:
-    keys:
-    - Input
-    - Output
-    - Button1
-    - Button2
-    values:
-    - _id: 31
-      _fieldName: Input
-      _node: {fileID: 114221089802391594}
-      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: Button2
-        node: {fileID: 114681967939865214}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _dynamic: 0
-    - _id: 28
-      _fieldName: Output
-      _node: {fileID: 114221089802391594}
-      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _dynamic: 0
-    - _id: 29
-      _fieldName: Button1
-      _node: {fileID: 114221089802391594}
-      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _dynamic: 1
-    - _id: 30
-      _fieldName: Button2
-      _node: {fileID: 114221089802391594}
-      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _dynamic: 1
-  _outputs:
-  - PortId: 29
-    Name: Button1
-  - PortId: 30
-    Name: Button2
-  Output:
-    PortId: 0
-    Name: Output
-  _routineType: 0
-  _validator: {fileID: 0}
-  Input:
-    PortId: 0
-    Name: 
-  UiView: {fileID: 7977651464442743630, guid: 1771a3a9b8c75554ebb2cf8a1f5fe980, type: 3}
---- !u!114 &114262114877083148
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6752418799316404ebd6d31a6a8ac129, type: 3}
-  m_Name: Validate Test Node
-  m_EditorClassIdentifier: 
-  _id: 13
-  _graph: {fileID: 11400000}
-  position: {x: 488, y: -40}
-  ports:
-    keys:
-    - Input
-    - Output
-    values:
-    - _id: 18
-      _fieldName: Input
-      _node: {fileID: 114262114877083148}
-      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: Button2
-        node: {fileID: 114128620806229224}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _dynamic: 0
-    - _id: 14
-      _fieldName: Output
-      _node: {fileID: 114262114877083148}
-      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: Input
-        node: {fileID: 114121977522464554}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 0
-      _dynamic: 0
-  _outputs: []
-  Output:
-    PortId: 0
-    Name: Output
-  _routineType: 0
-  _validator: {fileID: 0}
-  Input:
-    PortId: 0
-    Name: 
-  _validateResult: 1
---- !u!114 &114276117189744126
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6752418799316404ebd6d31a6a8ac129, type: 3}
-  m_Name: Validate Test Node
-  m_EditorClassIdentifier: 
-  _id: 3
-  _graph: {fileID: 11400000}
-  position: {x: -184, y: -216}
-  ports:
-    keys:
-    - Input
-    - Output
-    values:
-    - _id: 7
-      _fieldName: Input
-      _node: {fileID: 114276117189744126}
       _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections:
@@ -428,30 +323,70 @@ MonoBehaviour:
         reroutePoints: []
       _direction: 0
       _connectionType: 0
-      _dynamic: 0
-    - _id: 4
-      _fieldName: Output
-      _node: {fileID: 114276117189744126}
+      _dynamic: 1
+    - _id: 105
+      _fieldName: Button1
+      _node: {fileID: 114128620806229224}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _dynamic: 1
+    - _id: 108
+      _fieldName: '[in]Button1'
+      _node: {fileID: 114128620806229224}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 1
+    - _id: 106
+      _fieldName: Button2
+      _node: {fileID: 114128620806229224}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _dynamic: 1
+    - _id: 109
+      _fieldName: '[in]Button2'
+      _node: {fileID: 114128620806229224}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 1
+    - _id: 107
+      _fieldName: Button3
+      _node: {fileID: 114128620806229224}
       _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: Input
-        node: {fileID: 114128620806229224}
+        node: {fileID: 114681967939865214}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
-      _dynamic: 0
-  _outputs: []
-  Output:
-    PortId: 0
-    Name: Output
+      _dynamic: 1
+    - _id: 110
+      _fieldName: '[in]Button3'
+      _node: {fileID: 114128620806229224}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: Button1
+        node: {fileID: 114681967939865214}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 1
   _routineType: 0
-  _validator: {fileID: 0}
-  Input:
-    PortId: 0
-    Name: 
-  _validateResult: 1
---- !u!114 &114419537567273756
+  UiView: {fileID: 7977651464442743630, guid: 1771a3a9b8c75554ebb2cf8a1f5fe980, type: 3}
+--- !u!114 &114338699136661098
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -463,69 +398,100 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2998dc7ebf4686240832bf795ef96102, type: 3}
   m_Name: Uni Ui Node
   m_EditorClassIdentifier: 
-  _id: 22
+  _id: 96
   _graph: {fileID: 11400000}
-  position: {x: 1224, y: -456}
+  position: {x: 888, y: 152}
   ports:
     keys:
-    - Input
     - Output
+    - Input
     - Button1
+    - '[in]Button1'
     - Button2
+    - '[in]Button2'
+    - Button3
+    - '[in]Button3'
     values:
-    - _id: 26
+    - _id: 97
+      _fieldName: Output
+      _node: {fileID: 114338699136661098}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _dynamic: 1
+    - _id: 98
       _fieldName: Input
-      _node: {fileID: 114419537567273756}
+      _node: {fileID: 114338699136661098}
       _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections:
-      - fieldName: Button1
-        node: {fileID: 114681967939865214}
+      - fieldName: Button3
+        node: {fileID: 114121977522464554}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
-      _dynamic: 0
-    - _id: 23
-      _fieldName: Output
-      _node: {fileID: 114419537567273756}
-      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _dynamic: 0
-    - _id: 24
+      _dynamic: 1
+    - _id: 129
       _fieldName: Button1
-      _node: {fileID: 114419537567273756}
+      _node: {fileID: 114338699136661098}
       _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
-      connections: []
+      connections:
+      - fieldName: '[in]Button3'
+        node: {fileID: 114121977522464554}
+        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _dynamic: 1
-    - _id: 25
+    - _id: 144
+      _fieldName: '[in]Button1'
+      _node: {fileID: 114338699136661098}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 1
+    - _id: 130
       _fieldName: Button2
-      _node: {fileID: 114419537567273756}
+      _node: {fileID: 114338699136661098}
       _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections: []
       _direction: 1
       _connectionType: 0
       _dynamic: 1
-  _outputs:
-  - PortId: 24
-    Name: Button1
-  - PortId: 25
-    Name: Button2
-  Output:
-    PortId: 0
-    Name: Output
+    - _id: 145
+      _fieldName: '[in]Button2'
+      _node: {fileID: 114338699136661098}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 1
+    - _id: 131
+      _fieldName: Button3
+      _node: {fileID: 114338699136661098}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _dynamic: 1
+    - _id: 146
+      _fieldName: '[in]Button3'
+      _node: {fileID: 114338699136661098}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 1
   _routineType: 0
-  _validator: {fileID: 0}
-  Input:
-    PortId: 0
-    Name: 
-  UiView: {fileID: 7977651464442743630, guid: c7abd093ee4bf2947ae40f8db59c9a57, type: 3}
+  UiView: {fileID: 7977651464442743630, guid: f2586b0a83d3dae4793c1799d0085a93, type: 3}
 --- !u!114 &114681967939865214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -540,27 +506,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 16
   _graph: {fileID: 11400000}
-  position: {x: 856, y: -376}
+  position: {x: 88, y: -184}
   ports:
     keys:
-    - Input
     - Output
+    - Input
     - Button1
+    - '[in]Button1'
     - Button2
+    - '[in]Button2'
+    - Button3
+    - '[in]Button3'
     values:
-    - _id: 21
-      _fieldName: Input
-      _node: {fileID: 114681967939865214}
-      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: Output
-        node: {fileID: 114089375455398000}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _dynamic: 0
-    - _id: 17
+    - _id: 53
       _fieldName: Output
       _node: {fileID: 114681967939865214}
       _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
@@ -568,42 +526,187 @@ MonoBehaviour:
       connections: []
       _direction: 1
       _connectionType: 0
-      _dynamic: 0
-    - _id: 19
+      _dynamic: 1
+    - _id: 55
+      _fieldName: Input
+      _node: {fileID: 114681967939865214}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: Button3
+        node: {fileID: 114128620806229224}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 1
+    - _id: 120
       _fieldName: Button1
       _node: {fileID: 114681967939865214}
       _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections:
-      - fieldName: Input
-        node: {fileID: 114419537567273756}
+      - fieldName: '[in]Button3'
+        node: {fileID: 114128620806229224}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
       _dynamic: 1
-    - _id: 20
+    - _id: 135
+      _fieldName: '[in]Button1'
+      _node: {fileID: 114681967939865214}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 1
+    - _id: 121
       _fieldName: Button2
       _node: {fileID: 114681967939865214}
       _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: Input
-        node: {fileID: 114221089802391594}
+        node: {fileID: 114824277847952454}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
       _dynamic: 1
-  _outputs:
-  - PortId: 19
-    Name: Button1
-  - PortId: 20
-    Name: Button2
-  Output:
-    PortId: 0
-    Name: Output
+    - _id: 136
+      _fieldName: '[in]Button2'
+      _node: {fileID: 114681967939865214}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 1
+    - _id: 122
+      _fieldName: Button3
+      _node: {fileID: 114681967939865214}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 114092431651953848}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _dynamic: 1
+    - _id: 137
+      _fieldName: '[in]Button3'
+      _node: {fileID: 114681967939865214}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: Button1
+        node: {fileID: 114092431651953848}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 1
   _routineType: 0
-  _validator: {fileID: 0}
-  Input:
-    PortId: 0
-    Name: 
-  UiView: {fileID: 7977651464442743630, guid: bfa7b7b6cc032ea42836cf7476d8d3f6, type: 3}
+  UiView: {fileID: 7977651464442743630, guid: 530c19873a525f54c859b36d4b59c1ad, type: 3}
+--- !u!114 &114824277847952454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2998dc7ebf4686240832bf795ef96102, type: 3}
+  m_Name: Uni Ui Node
+  m_EditorClassIdentifier: 
+  _id: 111
+  _graph: {fileID: 11400000}
+  position: {x: 408, y: -280}
+  ports:
+    keys:
+    - Output
+    - Input
+    - Button1
+    - '[in]Button1'
+    - Button2
+    - '[in]Button2'
+    - Button3
+    - '[in]Button3'
+    values:
+    - _id: 112
+      _fieldName: Output
+      _node: {fileID: 114824277847952454}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _dynamic: 1
+    - _id: 113
+      _fieldName: Input
+      _node: {fileID: 114824277847952454}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: Button2
+        node: {fileID: 114681967939865214}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 1
+    - _id: 132
+      _fieldName: Button1
+      _node: {fileID: 114824277847952454}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _dynamic: 1
+    - _id: 147
+      _fieldName: '[in]Button1'
+      _node: {fileID: 114824277847952454}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 1
+    - _id: 133
+      _fieldName: Button2
+      _node: {fileID: 114824277847952454}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _dynamic: 1
+    - _id: 148
+      _fieldName: '[in]Button2'
+      _node: {fileID: 114824277847952454}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 1
+    - _id: 134
+      _fieldName: Button3
+      _node: {fileID: 114824277847952454}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _dynamic: 1
+    - _id: 149
+      _fieldName: '[in]Button3'
+      _node: {fileID: 114824277847952454}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 1
+  _routineType: 0
+  UiView: {fileID: 7977651464442743630, guid: a6844adcd6abe104794338b19e9bf754, type: 3}

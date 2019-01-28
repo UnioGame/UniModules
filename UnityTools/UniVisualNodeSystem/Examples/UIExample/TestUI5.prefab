@@ -145,7 +145,7 @@ GameObject:
   - component: {fileID: 3566175755758563313}
   - component: {fileID: 7977651464442743630}
   m_Layer: 5
-  m_Name: TestUI3
+  m_Name: TestUI5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -551,7 +551,7 @@ GameObject:
   - component: {fileID: 4422974492835201713}
   - component: {fileID: 7191413831793245310}
   - component: {fileID: 969289065320045457}
-  - component: {fileID: 6478320350650425361}
+  - component: {fileID: 263328945199305944}
   m_Layer: 5
   m_Name: Button3
   m_TagString: Untagged
@@ -658,7 +658,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &6478320350650425361
+--- !u!114 &263328945199305944
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -708,7 +708,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -200}
+  m_AnchoredPosition: {x: 0, y: -400}
   m_SizeDelta: {x: 0, y: 100}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &2788524105100107417

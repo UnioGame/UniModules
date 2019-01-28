@@ -6,15 +6,19 @@ using UniModule.UnityTools.Interfaces;
 using UniModule.UnityTools.ObjectPool.Scripts;
 using UniModule.UnityTools.UiViews;
 using UniModule.UnityTools.UniStateMachine.Extensions;
+using UniModule.UnityTools.UniVisualNodeSystem.Connections;
 using UniStateMachine.NodeEditor.UiNodes;
 using UnityEngine;
 using UniRx;
+using UniStateMachine.Nodes;
 using XNode;
 
 namespace UniStateMachine
 {
     public class UniUiNode : UniNode
     {
+        private List<UniPortValue> _uiInputs;
+        private List<UniPortValue> _uiOutputs;
 
         #region inspector
 
@@ -32,7 +36,7 @@ namespace UniStateMachine
 
             _context.UpdateValue<IUiViewBehaviour>(context,uiView);
 
-            var interactionsDisposable = uiView.InteractionObservable.
+            var interactionsDisposable = uiView.Interactions.
                 Subscribe(x => OnUiTriggerAction(x,context));
             
             lifetime.AddDispose(interactionsDisposable);
@@ -86,6 +90,9 @@ namespace UniStateMachine
         {
             base.OnUpdatePortsCache();
 
+            _uiInputs = new List<UniPortValue>();
+            _uiOutputs = new List<UniPortValue>();
+            
             if (!UiView)
             {
                 //todo remove ui ports
@@ -97,13 +104,31 @@ namespace UniStateMachine
             foreach (var handler in UiView.Triggers)
             {
                 
-                this.UpdatePortValue(handler.Name, PortIO.Output);
-
+                var outputPort = this.UpdatePortValue(handler.Name, PortIO.Output);
+                _uiOutputs.Add(outputPort.value);
+                
                 var inputName = GetFormatedInputName(handler.Name);
 
-                this.UpdatePortValue(inputName, PortIO.Input);
-                
+                var port = this.UpdatePortValue(inputName, PortIO.Input);
+                var portValue = port.value;
+                _uiInputs.Add(portValue);
+
+                BindInputOutputValues(portValue, outputPort.value);
             }
+            
+        }
+
+        private void BindInputOutputValues(UniPortValue input, UniPortValue output)
+        {
+            var contextObservable = new ContextObservable<IContext>();
+            
+            contextObservable.SubscribeOnContextChanged(x =>
+            {
+                output.RemoveContext(x);
+                input.RemoveContext(x);
+            });
+            
+            input.Add(contextObservable);
         }
     }
 }

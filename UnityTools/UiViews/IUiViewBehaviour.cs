@@ -8,7 +8,7 @@ using UnityEngine;
 namespace UniModule.UnityTools.UiViews {
     public interface IUiViewBehaviour : IPoolable
     {
-        IObservable<IInteractionTrigger> InteractionObservable { get; }
+        IObservable<IInteractionTrigger> Interactions { get; }
         
         ILifeTime LifeTime { get; }
         

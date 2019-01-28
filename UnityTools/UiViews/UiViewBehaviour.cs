@@ -15,7 +15,7 @@ namespace UniModule.UnityTools.UiViews
     {
         private LifeTimeDefinition _lifeTimeDefinition = new LifeTimeDefinition();
         private EntityObject _context = new EntityObject();
-        private Subject<IInteractionTrigger> _interactionSubject = new Subject<IInteractionTrigger>();
+        private Subject<IInteractionTrigger> _interactionsSubject = new Subject<IInteractionTrigger>();
         
         private IDisposableItem _updateDisposableItem;
         
@@ -33,7 +33,7 @@ namespace UniModule.UnityTools.UiViews
 
         #endregion
 
-        public IObservable<IInteractionTrigger> InteractionObservable => _interactionSubject;
+        public IObservable<IInteractionTrigger> Interactions => _interactionsSubject;
         
         public ILifeTime LifeTime => _lifeTimeDefinition.LifeTime;
         
@@ -155,7 +155,7 @@ namespace UniModule.UnityTools.UiViews
 
             foreach (var interactionTrigger in _triggers)
             {
-                var disposable = interactionTrigger.Subscribe(x => _interactionSubject.OnNext(interactionTrigger));
+                var disposable = interactionTrigger.Subscribe(x => _interactionsSubject.OnNext(interactionTrigger));
                 LifeTime.AddDispose(disposable);
             }
             
