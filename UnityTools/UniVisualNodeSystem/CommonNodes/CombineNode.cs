@@ -33,7 +33,7 @@ namespace UniStateMachine.CommonNodes
 
             var combinedPort = GetPortValue(_combinedOutputName);
             
-            while (IsActive(context))
+            while (true)
             {
                 var isCombined = IsCombined(context);
 
@@ -66,7 +66,7 @@ namespace UniStateMachine.CommonNodes
                 }
                 else if(inputPort.HasContext(context))
                 {
-                    inputPort.CopyTo(outputPort);
+                    outputPort.UpdateValue(context,context);
                 }
                 else
                 {

@@ -5,6 +5,7 @@ using UniModule.UnityTools.Interfaces;
 using UniModule.UnityTools.ObjectPool.Scripts;
 using UniModule.UnityTools.ProfilerTools;
 using UniRx;
+using UnityEngine.Profiling;
 
 namespace UniModule.UnityTools.Common
 {
@@ -22,13 +23,13 @@ namespace UniModule.UnityTools.Common
         
         #region public methods
 
-        public void UpdateValue<TData>(TContext context, TData value)
+        public virtual void UpdateValue<TData>(TContext context, TData value)
         {          
             var container = GetTypeData(context,true);
             container.Add(value);
         }
 
-        public bool Remove<TData>(TContext context)
+        public virtual bool Remove<TData>(TContext context)
         {            
             var container = GetTypeData(context);
             if (container == null)
@@ -36,7 +37,7 @@ namespace UniModule.UnityTools.Common
             return container.Remove<TData>();
         }
         
-        public bool RemoveContext(TContext context)
+        public virtual  bool RemoveContext(TContext context)
         {
 
             if (_contexts.TryGetValue(context, out var contextData))
@@ -87,29 +88,10 @@ namespace UniModule.UnityTools.Common
             
             _contexts.Clear();
             _contextsItems.Clear();
-            
+
+            OnRelease();
         }
 
-        public void CopyTo(TContext context, IMessagePublisher target)
-        {
-
-            if (!_contexts.TryGetValue(context, out var contextData))
-            {
-                return;
-            }
-            
-            GameProfiler.BeginSample("ContextDataCopyTo");
-
-            var items = contextData.WritableItems;
-            for (int i = 0; i < items.Count(); i++)
-            {
-                var item = items[i];
-                item.CopyTo(target);
-            }
-            
-            GameProfiler.EndSample();
-        }
-        
         #endregion
 
         protected TypeData GetTypeData(TContext context, bool createIfEmpty = false)
@@ -122,6 +104,11 @@ namespace UniModule.UnityTools.Common
             }
 
             return contextData;
+        }
+
+        protected virtual void OnRelease()
+        {
+            
         }
         
     }

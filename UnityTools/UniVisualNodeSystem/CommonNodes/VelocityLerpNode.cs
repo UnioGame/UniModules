@@ -34,7 +34,7 @@ namespace UniStateMachine.CommonNodes
             var activeTime = 0f;
             var startTime = Time.realtimeSinceStartup;
             
-            while (IsActive(context))
+            while (true)
             {                              
                 yield return null;
 

@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using UniModule.UnityTools.ActorEntityModel;
+using UniModule.UnityTools.UniVisualNodeSystem.Connections;
 using UniStateMachine.Nodes;
 
 namespace UniNodesTests
@@ -30,56 +31,6 @@ namespace UniNodesTests
             
         }
 
-   
-        [Test]
-        public void PortValueCopyTest()
-        {
-            var portValue1 = new UniPortValue();
-            var portValue2 = new UniPortValue();
-            
-            var context1 = new EntityObject();
-            var context2 = new EntityObject();
-            
-            var testPortValue = "TestPortValue";
-            var testPortValue2 = "TestPortValue";
-            
-            portValue1.UpdateValue(context1,testPortValue);
-            portValue2.UpdateValue(context2,testPortValue2);
-            
-            var writer = portValue2.GetPublisher(context1);
-            var writer2 = portValue2.GetPublisher(context2);
-            
-            portValue1.CopyTo(context1,writer);
-            portValue1.CopyTo(context2,writer2);
-            
-            Assert.That(portValue2.Get<string>(context1),Is.EqualTo(testPortValue));
-            Assert.That(portValue2.Get<string>(context2),Is.EqualTo(testPortValue2));
-            
-        }
-        
-        [Test]
-        public void PortValueCopyToExistsTest()
-        {
-            var portValue1 = new UniPortValue();
-            var portValue2 = new UniPortValue();
-            
-            var context1 = new EntityObject();
-            
-            var testPortValue2 = "TestPortValue22";
-            var testPortValue3 = "TestPortValue33";
-            var testPortValue4 = 444;
-                        
-            portValue1.UpdateValue(context1,testPortValue2);
-            portValue1.UpdateValue(context1,testPortValue4);
-
-            portValue2.UpdateValue(context1,testPortValue3);
-
-            var writer2 = portValue2.GetPublisher(context1);
-            portValue1.CopyTo(context1,writer2);
-            
-            Assert.That(portValue2.Get<string>(context1),Is.EqualTo(testPortValue2));
-            Assert.That(portValue2.Get<int>(context1),Is.EqualTo(testPortValue4));
-        }
         
         [Test]
         public void PortValueRemoveTest()
@@ -97,6 +48,87 @@ namespace UniNodesTests
             Assert.That(result,Is.EqualTo(true));
             Assert.That(portValue1.HasValue(context1,typeof(string)),Is.EqualTo(false));
             Assert.That(portValue1.HasValue<string>(context1),Is.EqualTo(false));
+            
+        }
+        
+        [Test]
+        public void PortDependenciesTest()
+        {
+            var portValue1 = new UniPortValue();
+            var portValue2 = new UniPortValue();
+            
+            var context1 = new EntityObject();
+            
+            var testPortValue = "TestPortValue";
+            
+            portValue1.Add(portValue2);
+            
+            portValue1.UpdateValue(context1,testPortValue);
+
+            Assert.That(portValue1.Get<string>(context1),Is.EqualTo(testPortValue));
+            Assert.That(portValue2.Get<string>(context1),Is.EqualTo(testPortValue));
+            
+        }
+        
+        [Test]
+        public void PortConnectionDependenciesTest()
+        {
+            var portValue1 = new UniPortValue();
+            var portValue2 = new UniPortValue();
+            var port2Connection = new PortValueConnection(portValue2);
+            
+            var context1 = new EntityObject();
+            
+            var testPortValue = "TestPortValue";
+            
+            portValue1.Add(port2Connection);
+            
+            portValue1.UpdateValue(context1,testPortValue);
+
+            Assert.That(portValue1.Get<string>(context1),Is.EqualTo(testPortValue));
+            Assert.That(portValue2.Get<string>(context1),Is.EqualTo(testPortValue));
+            
+        }
+        
+        [Test]
+        public void PortConnectionDependenciesChangesTest()
+        {
+            var portValue1 = new UniPortValue();
+            var portValue2 = new UniPortValue();
+            var port2Connection = new PortValueConnection(portValue2);
+            
+            var context1 = new EntityObject();
+            
+            var testPortValue = "TestPortValue";
+            var testPortValue2 = "TestPortValue2";
+            
+            portValue1.Add(port2Connection);
+            
+            portValue1.UpdateValue(context1,testPortValue);
+            portValue1.UpdateValue(context1,testPortValue2);
+
+            Assert.That(portValue1.Get<string>(context1),Is.EqualTo(testPortValue2));
+            Assert.That(portValue2.Get<string>(context1),Is.EqualTo(testPortValue2));
+            
+        }
+        
+        [Test]
+        public void PortDependenciesRemoveTest()
+        {
+            var portValue1 = new UniPortValue();
+            var portValue2 = new UniPortValue();
+            var port2Connection = new PortValueConnection(portValue2);
+            
+            var context1 = new EntityObject();
+            
+            var testPortValue = "TestPortValue";
+            
+            portValue1.Add(port2Connection);
+            
+            portValue1.UpdateValue(context1,testPortValue);
+
+            Assert.That(portValue1.Get<string>(context1),Is.EqualTo(testPortValue));
+            Assert.That(portValue2.Get<string>(context1),Is.EqualTo(testPortValue));
             
         }
         

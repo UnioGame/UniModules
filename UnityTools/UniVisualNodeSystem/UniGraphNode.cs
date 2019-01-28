@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UniModule.UnityTools.DataFlow;
 using UniModule.UnityTools.Interfaces;
 using UniModule.UnityTools.ObjectPool.Scripts;
+using UniModule.UnityTools.ProfilerTools;
 using UniModule.UnityTools.UniRoutine;
 using UniModule.UnityTools.UniStateMachine;
 using UniModule.UnityTools.UniStateMachine.Extensions;
@@ -102,7 +103,9 @@ namespace UniStateMachine
         
         public bool IsActive(IContext context)
         {
+  
             return _state.IsActive(context);
+
         }
 
         public ILifeTime GetLifeTime(IContext context)

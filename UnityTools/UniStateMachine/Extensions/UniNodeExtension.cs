@@ -48,20 +48,6 @@ namespace UniModule.UnityTools.UniStateMachine.Extensions
             return items;
             
         }
-
-        public static void CopyTo(this UniPortValue fromPort, UniPortValue toPort)
-        {
-            GameProfiler.BeginSample("PortValueCopyTo");
-            
-            for (var i = 0; i < fromPort.Contexts.Count; i++)
-            {
-                var context = fromPort.Contexts[i];
-                var writer = toPort.GetPublisher(context);
-                fromPort.CopyTo(context, writer);
-            }
-            
-            GameProfiler.EndSample();
-        }
         
         public static List<TTarget> GetConnectedNodes<TTarget>(this NodePort port)
             where TTarget :Node

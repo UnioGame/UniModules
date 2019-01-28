@@ -13,7 +13,7 @@ namespace Tests.GraphTest
         protected override IEnumerator ExecuteState(IContext context)
         {
 
-            while (IsActive(context))
+            while (true)
             {
                 yield return null;
 

@@ -6,7 +6,7 @@ using UniRx;
 
 namespace UniModule.UnityTools.Common
 {
-    public class TypeData : ITypeDataContainer, IMessagePublisher
+    public class TypeData : ITypeDataContainer
     {
         /// <summary>
         /// registered components
@@ -50,11 +50,6 @@ namespace UniModule.UnityTools.Common
             var data = GetData<TData>(true);
             data.SetValue(value);           
          
-        }
-
-        public void Publish<T>(T value)
-        {
-            Add(value);
         }
 
         public bool HasData<TData>()

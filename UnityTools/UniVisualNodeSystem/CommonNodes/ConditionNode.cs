@@ -21,7 +21,7 @@ namespace UniStateMachine.CommonNodes
             
             yield return base.ExecuteState(context);
 
-            while (IsActive(context))
+            while (true)
             {
                 var result = MakeDecision(context);
                 
