@@ -11,6 +11,7 @@ using UniStateMachine.NodeEditor.UiNodes;
 using UnityEngine;
 using UniRx;
 using UniStateMachine.Nodes;
+using UnityEngine.AddressableAssets;
 using XNode;
 
 namespace UniStateMachine
@@ -25,6 +26,8 @@ namespace UniStateMachine
         [HideInInspector]
         public UiViewBehaviour UiView;
 
+        public AssetLabelReference UiViewLabel;
+        
         #endregion
 
         protected override IEnumerator ExecuteState(IContext context)
