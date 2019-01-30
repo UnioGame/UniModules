@@ -27,6 +27,8 @@ namespace UniStateMachine
         public UiViewBehaviour UiView;
 
         public AssetLabelReference UiViewLabel;
+
+        public AssetReference ViewReference;
         
         #endregion
 

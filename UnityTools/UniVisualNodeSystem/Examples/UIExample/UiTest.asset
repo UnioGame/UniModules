@@ -165,6 +165,11 @@ MonoBehaviour:
       _dynamic: 1
   _routineType: 0
   UiView: {fileID: 7977651464442743630, guid: 8d86b7dfeae2f2245a0b14c515a861c1, type: 3}
+  UiViewLabel:
+    m_LabelString: 
+  ViewReference:
+    m_AssetGUID: 
+    m_CachedAsset: {fileID: 0}
 --- !u!114 &114121977522464554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,6 +282,11 @@ MonoBehaviour:
       _dynamic: 1
   _routineType: 0
   UiView: {fileID: 7977651464442743630, guid: a6844adcd6abe104794338b19e9bf754, type: 3}
+  UiViewLabel:
+    m_LabelString: 
+  ViewReference:
+    m_AssetGUID: 
+    m_CachedAsset: {fileID: 0}
 --- !u!114 &114128620806229224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -386,6 +396,12 @@ MonoBehaviour:
       _dynamic: 1
   _routineType: 0
   UiView: {fileID: 7977651464442743630, guid: 1771a3a9b8c75554ebb2cf8a1f5fe980, type: 3}
+  UiViewLabel:
+    m_LabelString: uiscreens
+  ViewReference:
+    m_AssetGUID: 1771a3a9b8c75554ebb2cf8a1f5fe980
+    m_CachedAsset: {fileID: 2108455427392497723, guid: 1771a3a9b8c75554ebb2cf8a1f5fe980,
+      type: 3}
 --- !u!114 &114338699136661098
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -492,6 +508,11 @@ MonoBehaviour:
       _dynamic: 1
   _routineType: 0
   UiView: {fileID: 7977651464442743630, guid: f2586b0a83d3dae4793c1799d0085a93, type: 3}
+  UiViewLabel:
+    m_LabelString: 
+  ViewReference:
+    m_AssetGUID: 
+    m_CachedAsset: {fileID: 0}
 --- !u!114 &114681967939865214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -607,6 +628,11 @@ MonoBehaviour:
       _dynamic: 1
   _routineType: 0
   UiView: {fileID: 7977651464442743630, guid: 530c19873a525f54c859b36d4b59c1ad, type: 3}
+  UiViewLabel:
+    m_LabelString: 
+  ViewReference:
+    m_AssetGUID: 
+    m_CachedAsset: {fileID: 0}
 --- !u!114 &114824277847952454
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -710,3 +736,8 @@ MonoBehaviour:
       _dynamic: 1
   _routineType: 0
   UiView: {fileID: 7977651464442743630, guid: a6844adcd6abe104794338b19e9bf754, type: 3}
+  UiViewLabel:
+    m_LabelString: 
+  ViewReference:
+    m_AssetGUID: 
+    m_CachedAsset: {fileID: 0}
