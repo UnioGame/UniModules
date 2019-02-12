@@ -3,6 +3,7 @@ using UniModule.UnityTools.EditorTools;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;
+using UniTools.UniNodeSystem;
 using XNode;
 
 namespace XNodeEditor 
@@ -11,7 +12,7 @@ namespace XNodeEditor
     [InitializeOnLoad]
     public partial class NodeEditorWindow : EditorWindow
     {
-        public static List<XNode.NodeGraph> NodeGraphs;
+        public static List<UniGraphAsset> NodeGraphs;
         public static NodeEditorWindow current;
 
         private Dictionary<ulong, XNode.NodePort> _portsIds = new Dictionary<ulong, XNode.NodePort>();
@@ -25,29 +26,6 @@ namespace XNodeEditor
 
         [SerializeField] private NodePortReference[] _references = new NodePortReference[0];
         [SerializeField] private Rect[] _rects = new Rect[0];
-
-        [System.Serializable]
-        private class NodePortReference
-        {
-            [SerializeField] private XNode.Node _node;
-            [SerializeField] private string _name;
-
-            public NodePortReference(XNode.NodePort nodePort)
-            {
-                _node = nodePort.node;
-                _name = nodePort.fieldName;
-            }
-
-            public XNode.NodePort GetNodePort()
-            {
-                if (_node == null)
-                {
-                    return null;
-                }
-
-                return _node.GetPort(_name);
-            }
-        }
 
         private void OnDisable()
         {
@@ -248,7 +226,7 @@ namespace XNodeEditor
 
         public static void UpdateEditorNodeGraphs()
         {
-            NodeGraphs = AssetEditorTools.GetAssets<NodeGraph>();
+            NodeGraphs = AssetEditorTools.GetAssets<UniGraphAsset>();
         }
 
         /// <summary> Repaint all open NodeEditorWindows. </summary>

@@ -26,7 +26,7 @@ namespace XNode {
     /// </code>
     /// </example>
     [Serializable]
-    public abstract class Node : ScriptableObject
+    public abstract class Node : MonoBehaviour
     {
         [HideInInspector]
         [ReadOnlyValue]

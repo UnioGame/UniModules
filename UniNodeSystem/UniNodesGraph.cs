@@ -16,7 +16,6 @@ using XNode;
 
 namespace UniStateMachine.Nodes
 {
-    [CreateAssetMenu(fileName = "UniGraph", menuName = "UniStateMachine/UniGraph")]
 	public class UniNodesGraph : NodeGraph, IContextState<IEnumerator>, INodeExecutor<IContext>
     {
 	    #region private properties
