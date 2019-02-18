@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace UniTools.UniNodeSystem
 {
-    [CreateAssetMenu(menuName = "Assets/UniGraph/GraphAsset", fileName = "GraphAsset")]
+    [CreateAssetMenu(menuName = "UniGraph/GraphAsset", fileName = "GraphAsset")]
     public class UniGraphAsset : ScriptableObject
     {
 
