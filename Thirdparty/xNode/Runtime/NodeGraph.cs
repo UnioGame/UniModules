@@ -6,7 +6,7 @@ using UnityEngine;
 namespace XNode {
     /// <summary> Base class for all node graphs </summary>
     [Serializable]
-    public abstract class NodeGraph : ScriptableObject, IDisposable
+    public abstract class NodeGraph : MonoBehaviour, IDisposable
     {
         [HideInInspector]
         [SerializeField]
@@ -27,8 +27,17 @@ namespace XNode {
         }
 
         /// <summary> Add a node to the graph by type </summary>
-        public virtual Node AddNode(Type type) {
-            Node node = ScriptableObject.CreateInstance(type) as Node;
+        public virtual Node AddNode(Type type)
+        {
+            var childNode = new GameObject();
+            childNode.transform.parent = transform;
+            
+            var node = childNode.AddComponent(type) as Node;
+            if (!node)
+            {
+                DestroyImmediate(childNode);
+            }
+            
             nodes.Add(node);
             node.graph = this;
             return node;

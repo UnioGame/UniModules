@@ -15,7 +15,8 @@ namespace XNodeEditor {
 
         public virtual void OnGUI() { }
 
-        public virtual Texture2D GetGridTexture() {
+        public virtual Texture2D GetGridTexture() 
+        {
             return NodeEditorPreferences.GetSettings().gridTexture;
         }
 
@@ -59,7 +60,7 @@ namespace XNodeEditor {
         }
 
         [AttributeUsage(AttributeTargets.Class)]
-        public class CustomNodeGraphEditorAttribute : Attribute,
+        public class CustomNodeGraphEditorAttribute : Attribute, 
             XNodeEditor.Internal.NodeEditorBase<NodeGraphEditor, NodeGraphEditor.CustomNodeGraphEditorAttribute, XNode.NodeGraph>.INodeEditorAttrib {
             private Type inspectedType;
             public string editorPrefsKey;

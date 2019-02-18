@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using GameAnalyticsSDK.Setup;
 using UniModule.UnityTools.ReflectionUtils;
 using UnityEditor;
 using UnityEngine;
@@ -70,7 +71,44 @@ namespace UniModule.UnityTools.EditorTools
             return asset;
 
         }
+        
+        public static TAsset SaveAsset<TAsset>(TAsset asset,string name, string folder)
+            where  TAsset : Object
+        {
+            if (folder.IndexOf('\\', folder.Length - 1)>=0)
+            {
+                folder = folder.Remove(folder.Length - 1);
+            }
 
+                        
+            var skinTypePath = folder + "\\" + name + "." + GetAssetExtension(asset);
+            var itemPath = AssetDatabase.GenerateUniqueAssetPath(skinTypePath);  
+            
+            
+            var gameObjectAsset = asset as GameObject;
+            if (gameObjectAsset!= null)
+            {
+                gameObjectAsset.name = name;
+                return PrefabUtility.
+                    SaveAsPrefabAssetAndConnect(gameObjectAsset,itemPath,InteractionMode.AutomatedAction) as TAsset;
+            }
+            
+            AssetDatabase.CreateAsset(asset, itemPath);
+            AssetDatabase.SaveAssets();
+            return AssetDatabase.LoadAssetAtPath<TAsset>(itemPath);
+        }
+
+
+        public static string GetAssetExtension(Object asset)
+        {
+            if (asset is GameObject)
+                return "prefab";
+            if (asset is ScriptableObject)
+                return "asset";
+            return string.Empty;
+        }
+        
+        
         public static bool SaveAssetAsNested(Object child, Object root, string name = null)
         {
             var assetPath = AssetDatabase.GetAssetPath(root);
@@ -462,14 +500,15 @@ namespace UniModule.UnityTools.EditorTools
         public static void ShowActionProgress(IEnumerator<ProgressData> awaiter)
         {
 
-            EditorUtility.DisplayProgressBar(string.Empty, string.Empty, 0);
+            var isCanceled = EditorUtility.DisplayCancelableProgressBar(string.Empty, string.Empty, 0);
 
-            while (awaiter.MoveNext())
+            while (isCanceled == false && awaiter.MoveNext())
             {
 
                 var progress = awaiter.Current;
-                EditorUtility.DisplayProgressBar(progress.Title, progress.Content, progress.Progress);
-
+                isCanceled = EditorUtility.DisplayCancelableProgressBar(progress.Title, progress.Content, progress.Progress);
+                if (isCanceled)
+                    break;
             }
 
             EditorUtility.ClearProgressBar();
@@ -591,6 +630,11 @@ namespace UniModule.UnityTools.EditorTools
             if (string.IsNullOrEmpty(path) == true) return string.Empty;
             var abName = AssetDatabase.GetImplicitAssetBundleName(path);
             return string.IsNullOrEmpty(abName) ? string.Empty : abName;
+        }
+
+        public static string GetUniqueAssetName(string path)
+        {
+            return AssetDatabase.GenerateUniqueAssetPath(path);
         }
 
         public static bool IsInBundle(Object asset)

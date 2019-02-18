@@ -317,9 +317,11 @@ namespace XNodeEditor {
                 EditorDrawerUtils.DrawScroll(_nodeGraphScroll, () =>
                 {
                     NodeGraphs.RemoveAll(x => !x);
-                    foreach (var nodeGraph in NodeGraphs)
+                    foreach (var graphAsset in NodeGraphs)
                     {
-                        EditorDrawerUtils.DrawButton(nodeGraph.name,() => Open(nodeGraph), GUILayout.Width(100));
+                        var nodeGraph = graphAsset.Graph;
+                        EditorDrawerUtils.DrawButton(nodeGraph.name,
+                            () => Open(nodeGraph), GUILayout.Width(100));
                     }
                     
                 }, GUILayout.ExpandWidth(true));
@@ -331,9 +333,11 @@ namespace XNodeEditor {
             {
                 EditorDrawerUtils.DrawButton("Stop All", () =>
                 {
-                    foreach (var graph in NodeGraphs)
+                    if(graph) graph.Dispose();
+                    foreach (var graphAsset in NodeGraphs)
                     {
-                        graph.Dispose();
+                        var item = graphAsset.Graph;
+                        item.Dispose();
                     }
                 });
             },GUILayout.Width(100));

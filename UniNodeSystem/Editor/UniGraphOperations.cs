@@ -1,9 +1,12 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using Boo.Lang;
 using UniEditorTools;
+using UniModule.UnityTools.EditorTools;
 using UniStateMachine.Nodes;
 using UnityEditor;
 using UnityEngine;
+using UniTools.UniNodeSystem;
 using XNode;
 
 namespace UniStateMachine.EditorTools
@@ -21,6 +24,23 @@ namespace UniStateMachine.EditorTools
 				if(selection is UniNodesGraph graph)
 					CleanUpUniGraph(graph);
 			}
+		}
+
+		[MenuItem("Assets/UniGraph/Create UniGraph")]
+		public static void CreateGraph()
+		{
+			
+			var graphAsset = ScriptableObject.CreateInstance<UniGraphAsset>();
+			var graph = new GameObject().AddComponent<UniNodesGraph>();
+			var activePath = EditorUtility.GetAssetPath(Selection.activeObject);
+			
+			var assetFolder = Directory.Exists(activePath) ? activePath :
+				Path.GetDirectoryName(activePath);
+			
+			var asset = AssetEditorTools.SaveAsset(graph.gameObject, "UniGraph", assetFolder);
+			graphAsset.Graph = asset.GetComponent<UniNodesGraph>();
+
+			AssetEditorTools.SaveAsset(graphAsset, "GraphAsset", assetFolder);
 		}
 		
 		[MenuItem("Assets/UniGraph/Stop UniGraph")]
