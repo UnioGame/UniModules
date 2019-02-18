@@ -98,7 +98,7 @@ namespace Assets.Editor.Utility
             }
         }
 
-        public static Object SaveAsset(Object asset,string path,string name)
+        public static Object SaveAsset(Object asset,string path,string name,string extension = "")
         {
             var type = asset.GetType();
             if (path == "")
@@ -111,7 +111,8 @@ namespace Assets.Editor.Utility
                     GetAssetPath(Selection.activeObject)), "");
             }
             var fileName = string.IsNullOrEmpty(name) ? type.Name : name;
-            var resultPath = $"{path}/{fileName}.asset";
+            var fileExtension = string.IsNullOrEmpty(extension) ? "asset" : extension;
+            var resultPath = $"{path}/{fileName}.{fileExtension}";
             var assetPathAndName =
                 AssetDatabase.GenerateUniqueAssetPath(resultPath);
             var message = string.Format("SAVE asset {0} as PATH : {1}", 
