@@ -1,8 +1,34 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class UiScreen : MonoBehaviour
+namespace UniTools.UniUiSystem
 {
+    public class UiScreen : UiModule
+    {
+        #region inspector
 
+        [SerializeField]
+        protected Canvas _canvas;
+        [SerializeField]
+        protected CanvasGroup _canvasGroup;        
+
+        #endregion      
+        
+        public Canvas Canvas => _canvas;
+
+        public CanvasGroup CanvasGroup => _canvasGroup;
+
+        
+        protected override void OnInitialize()
+        {
+            base.OnInitialize();
+
+            if (!_canvas)
+                _canvas = GetComponent<Canvas>();
+            if (!_rectTransform)
+                _rectTransform = GetComponent<RectTransform>();
+            if (!_canvasGroup)
+                _canvasGroup = GetComponent<CanvasGroup>();
+
+        }
+    }
 }

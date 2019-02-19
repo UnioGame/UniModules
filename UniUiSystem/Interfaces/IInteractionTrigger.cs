@@ -1,7 +1,6 @@
 using System;
-using Object = UnityEngine.Object;
 
-namespace UniStateMachine.NodeEditor.UiNodes
+namespace UniTools.UniUiSystem
 {
     public interface IInteractionTrigger : IObservable<IInteractionTrigger>
     {

@@ -12,11 +12,7 @@ namespace UniModule.UnityTools.UiViews {
 
         IContext Context { get; }
         
-        Canvas Canvas { get; }
-        
         RectTransform RectTransform { get; }
-        
-        CanvasGroup CanvasGroup { get; }
         
         void UpdateView();
         

@@ -12,6 +12,7 @@ using UnityEngine;
 using UniRx;
 using UniStateMachine.Nodes;
 using UnityEngine.AddressableAssets;
+using UniTools.UniUiSystem;
 using XNode;
 
 namespace UniStateMachine
@@ -134,6 +135,16 @@ namespace UniStateMachine
             });
             
             input.Add(contextObservable);
+        }
+
+        private void UpdateTriggers()
+        {
+            
+        }
+
+        private void UpdateModules()
+        {
+            
         }
     }
 }

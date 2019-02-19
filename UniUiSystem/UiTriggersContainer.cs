@@ -1,48 +1,47 @@
 ﻿using System;
-using System.Collections.Generic;
-using UniModule.UnityTools.DataFlow;
 using UniRx;
-using UniStateMachine.NodeEditor.UiNodes;
-using UnityEngine;
 
 namespace UniTools.UniUiSystem
 {
-    public class UiTriggersContainer : MonoBehaviour
+    public class UiTriggersContainer : 
+        AdapterContainer<InteractionTrigger,IInteractionTrigger>, 
+        ITriggersContainer
     {
         #region private property
-        
+      
         private Subject<IInteractionTrigger> _interactionsSubject = new Subject<IInteractionTrigger>();
 
-        [SerializeField]
-        private List<InteractionTrigger> _triggers = new List<InteractionTrigger>();
-
         #endregion
         
-        #region public properties
-        
-        public List<InteractionTrigger> Triggers => _triggers;
-                
+        #region public properties                
+
         public IObservable<IInteractionTrigger> Interactions => _interactionsSubject;
-
+        
         #endregion
+
+        public void Initialize()
+        {
+            UpdateCollection();
+        }
         
         /// <summary>
         /// collect all child trigger,
         /// this method should be called from inspector only
         /// </summary>
-        public virtual void UpdateTriggers()
+        public virtual void CollectTriggers()
         {
             
-            GetComponentsInChildren<InteractionTrigger>(true, _triggers);
-
+            GetComponentsInChildren(true, _items);
+            UpdateCollection();
+            
         }
         
         protected void Awake()
         {
-            foreach (var interactionTrigger in _triggers)
+            foreach (var interactionTrigger in _items)
             {
-                interactionTrigger.
-                    Subscribe(x => _interactionsSubject.OnNext(interactionTrigger));
+                interactionTrigger.Subscribe(x => 
+                    _interactionsSubject.OnNext(interactionTrigger));
             }
         }
     }

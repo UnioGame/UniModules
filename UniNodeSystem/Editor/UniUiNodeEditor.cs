@@ -7,6 +7,7 @@ using UniStateMachine.NodeEditor.UiNodes;
 using UniStateMachine.Nodes;
 using UnityEditor;
 using UnityEngine;
+using UniTools.UniUiSystem;
 
 namespace SubModules.Scripts.UniStateMachine.NodeEditor {
     [CustomNodeEditor(typeof(UniUiNode))]

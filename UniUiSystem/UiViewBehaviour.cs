@@ -17,29 +17,19 @@ namespace UniModule.UnityTools.UiViews
         private IDisposableItem _updateDisposable;
 
         #region inspector
-
-        [SerializeField]
-        protected Canvas _canvas;
+     
         [SerializeField]
         protected RectTransform _rectTransform;
-        [SerializeField]
-        protected CanvasGroup _canvasGroup;
 
         #endregion
 
         #region public property
 
-        public ILifeTime LifeTime => _context.LifeTime;
-        
         public bool IsActive { get; protected set; }
 
         public IContext Context => _context;
 
-        public Canvas Canvas => _canvas;
-
         public RectTransform RectTransform => _rectTransform;
-
-        public CanvasGroup CanvasGroup => _canvasGroup;
 
         #endregion
         
@@ -140,13 +130,6 @@ namespace UniModule.UnityTools.UiViews
 
         protected void Awake()
         {
-            if (!_canvas)
-                _canvas = GetComponent<Canvas>();
-            if (!_rectTransform)
-                _rectTransform = GetComponent<RectTransform>();
-            if (!_canvasGroup)
-                _canvasGroup = GetComponent<CanvasGroup>();
-
             OnInitialize();
         }
     }
