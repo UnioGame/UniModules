@@ -9,7 +9,7 @@ namespace UniModule.UnityTools.UniRoutine
             RoutineType routineType = RoutineType.UpdateStep)
         {
 		
-            return UniRoutineController.AddWithSubRoutines(enumerator,routineType);
+            return UniRoutineController.RunWithSubRoutines(enumerator,routineType);
 		
         }
 	

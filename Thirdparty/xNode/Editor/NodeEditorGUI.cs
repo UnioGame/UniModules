@@ -304,7 +304,7 @@ namespace XNodeEditor {
                 EditorGUILayout.Space();
                 
                 EditorDrawerUtils.DrawButton(_showGraphsList ? "hide graphs" : "show graphs",
-                    () => _showGraphsList = !_showGraphsList);
+                    () => _showGraphsList = !_showGraphsList,GUILayout.Width(100));
             
                 if (!_showGraphsList)
                     return;

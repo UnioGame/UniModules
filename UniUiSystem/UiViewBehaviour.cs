@@ -13,14 +13,8 @@ namespace UniModule.UnityTools.UiViews
 {
     public class UiViewBehaviour : MonoBehaviour, IUiViewBehaviour
     {
-        private LifeTimeDefinition _lifeTimeDefinition = new LifeTimeDefinition();
         private EntityObject _context = new EntityObject();
-        private Subject<IInteractionTrigger> _interactionsSubject = new Subject<IInteractionTrigger>();
-        
-        private IDisposableItem _updateDisposableItem;
-        
-        [SerializeField]
-        private List<InteractionTrigger> _triggers = new List<InteractionTrigger>();
+        private IDisposableItem _updateDisposable;
 
         #region inspector
 
@@ -33,9 +27,9 @@ namespace UniModule.UnityTools.UiViews
 
         #endregion
 
-        public IObservable<IInteractionTrigger> Interactions => _interactionsSubject;
-        
-        public ILifeTime LifeTime => _lifeTimeDefinition.LifeTime;
+        #region public property
+
+        public ILifeTime LifeTime => _context.LifeTime;
         
         public bool IsActive { get; protected set; }
 
@@ -47,23 +41,28 @@ namespace UniModule.UnityTools.UiViews
 
         public CanvasGroup CanvasGroup => _canvasGroup;
 
-        public List<InteractionTrigger> Triggers => _triggers;
-
+        #endregion
+        
+        #region public methods
+        
         public void UpdateView()
         {
             //is update already scheduled?
-            if (_updateDisposableItem != null)
+            if (_updateDisposable != null && _updateDisposable?.IsDisposed == false)
                 return;
 
+            //release dispose items
+            _updateDisposable?.Dispose();
+            
             //check validation step
             var validationResult = Validate();
             if (!validationResult)
                 return;
 
             //schedule single ui update at next EndOfFrame call
-            var routine = OnScheduledUpdate().RunWithSubRoutines(RoutineType.EndOfFrame);
-            Context.LifeTime.AddDispose(routine);
-
+            _updateDisposable = OnScheduledUpdate().
+                RunWithSubRoutines(RoutineType.EndOfFrame);
+            
         }
 
         public void SetState(bool active)
@@ -80,21 +79,17 @@ namespace UniModule.UnityTools.UiViews
                 Deactivate();
             }
         }
-
-        public virtual void UpdateTriggers()
-        {
-            
-            GetComponentsInChildren<InteractionTrigger>(true, _triggers);
-
-        }
         
         public void Release()
         {
             Deactivate();
+            _updateDisposable?.Dispose();
             _context.Release();
             OnReleased();
         }
 
+        #endregion
+        
         protected virtual void OnReleased()
         {
 
@@ -140,7 +135,6 @@ namespace UniModule.UnityTools.UiViews
 
         protected virtual void OnDestroy()
         {
-            _lifeTimeDefinition.Terminate();
             Release();
         }
 
@@ -153,12 +147,6 @@ namespace UniModule.UnityTools.UiViews
             if (!_canvasGroup)
                 _canvasGroup = GetComponent<CanvasGroup>();
 
-            foreach (var interactionTrigger in _triggers)
-            {
-                var disposable = interactionTrigger.Subscribe(x => _interactionsSubject.OnNext(interactionTrigger));
-                LifeTime.AddDispose(disposable);
-            }
-            
             OnInitialize();
         }
     }

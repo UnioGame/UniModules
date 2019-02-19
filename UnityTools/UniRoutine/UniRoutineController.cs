@@ -27,7 +27,7 @@ namespace UniModule.UnityTools.UniRoutine
 			
 		};
 
-		public static IDisposableItem AddWithSubRoutines(IEnumerator enumerator, 
+		public static IDisposableItem RunWithSubRoutines(IEnumerator enumerator, 
 			RoutineType routineType = RoutineType.UpdateStep)
 		{
 			

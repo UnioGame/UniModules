@@ -8,18 +8,17 @@ using UnityEngine;
 namespace UniModule.UnityTools.UiViews {
     public interface IUiViewBehaviour : IPoolable
     {
-        IObservable<IInteractionTrigger> Interactions { get; }
-        
-        ILifeTime LifeTime { get; }
-        
         bool IsActive { get; }
-        IContext Context { get; }
-        Canvas Canvas { get; }
-        RectTransform RectTransform { get; }
-        CanvasGroup CanvasGroup { get; }
-        void UpdateView();
 
-        void UpdateTriggers();
+        IContext Context { get; }
+        
+        Canvas Canvas { get; }
+        
+        RectTransform RectTransform { get; }
+        
+        CanvasGroup CanvasGroup { get; }
+        
+        void UpdateView();
         
         void SetState(bool active);
         
