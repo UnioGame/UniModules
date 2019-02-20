@@ -65,9 +65,6 @@ namespace XNodeEditor {
 
             var sourceGraph = PrefabUtility.GetCorrespondingObjectFromSource(target);
             var sourceNode = PrefabUtility.GetCorrespondingObjectFromSource(node);
-            
-            Debug.Log("GRAPH : " + sourceGraph);
-            Debug.Log("NODE : " + sourceNode);
 
             var removedAsset = sourceNode != null ? (Object)sourceNode.gameObject : node;
             var targetGraph = sourceGraph ? sourceGraph : target;

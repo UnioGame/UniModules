@@ -29,7 +29,7 @@ namespace UniTools.UniUiSystem
             DrawUiNode(uiNode);
         }
 
-        public static void DrawUiNode(UniUiNode node) 
+        public void DrawUiNode(UniUiNode node) 
         {
             var oldView = node.UiView;
             var uiView = node.UiView.DrawObjectLayout("View");
@@ -50,6 +50,8 @@ namespace UniTools.UniUiSystem
             {
                 return;
             }
+
+            CollectUiData(uiView);
             
             node.UiView = PrefabUtility.SavePrefabAsset(uiView.gameObject).GetComponent<UiScreen>();
             
@@ -57,5 +59,33 @@ namespace UniTools.UniUiSystem
 
         }
 
+        private void CollectUiData(UiScreen screen)
+        {
+            CollectSlots(screen);
+            CollectTriggers(screen);
+        }
+        
+        public void CollectSlots(UiModule module)
+        {
+            module.Slots.Release();
+            CollectItems<IUiModuleSlot>(module.gameObject, module.AddSlot);
+        }
+    
+        public void CollectTriggers(UiModule module)
+        {
+            module.Triggers.Release();
+            CollectItems<IInteractionTrigger>(module.gameObject, module.AddTrigger);
+        }
+
+        private void CollectItems<TData>(GameObject target, Action<TData> action)
+        {
+            var items = new List<TData>();
+            target.GetComponentsInChildren<TData>(true,items);
+
+            foreach (var slot in items)
+            {
+                action(slot);
+            }
+        }
     }
 }

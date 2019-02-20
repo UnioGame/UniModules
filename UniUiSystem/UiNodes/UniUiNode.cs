@@ -106,6 +106,7 @@ namespace UniUiSystem
                 return;
             
             UiView.Initialize();
+            
             var triggers = UiView.Triggers;
             
             foreach (var handler in triggers.Items)

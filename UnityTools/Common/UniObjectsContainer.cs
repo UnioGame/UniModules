@@ -9,7 +9,7 @@ namespace UniTools.UniUiSystem
 {
     [Serializable]
     public class UniObjectsContainer<TSource,TTarget> : 
-        IContainer<TTarget>, IPoolable
+        IContainer<TTarget>
         where TSource : class,TTarget
     {
         #region inspector
@@ -44,7 +44,7 @@ namespace UniTools.UniUiSystem
         {
             var sourceItem = item as TSource;
             
-            Assert.IsNull(sourceItem,$"{this.GetType()}.ADD Type Missmatch {item.GetType()} instead of {typeof(TSource)}");
+            Assert.IsNotNull(sourceItem,$"{this.GetType()}.ADD Type Missmatch {item.GetType()} instead of {typeof(TSource)}");
 
             _items.Add(sourceItem);
         }
