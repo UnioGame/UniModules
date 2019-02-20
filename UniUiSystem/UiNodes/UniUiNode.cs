@@ -20,10 +20,13 @@ namespace UniUiSystem
         private List<UniPortValue> _uiInputs;
         private List<UniPortValue> _uiOutputs;
 
+        private List<UniPortValue> _slotPorts;
+        private List<UniPortValue> _triggersPorts;
+
         #region inspector
 
         [HideInInspector]
-        public UiScreen UiView;
+        public UiModule UiView;
 
         public AssetLabelReference UiViewLabel;
 

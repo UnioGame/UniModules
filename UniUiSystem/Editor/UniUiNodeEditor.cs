@@ -59,7 +59,7 @@ namespace UniTools.UniUiSystem
 
         }
 
-        private void CollectUiData(UiScreen screen)
+        private void CollectUiData(UiModule screen)
         {
             CollectSlots(screen);
             CollectTriggers(screen);
