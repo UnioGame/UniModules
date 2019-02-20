@@ -1,21 +1,19 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UniModule.UnityTools.Interfaces;
 using UniModule.UnityTools.ObjectPool.Scripts;
-using UniModule.UnityTools.UiViews;
 using UniModule.UnityTools.UniStateMachine.Extensions;
 using UniModule.UnityTools.UniVisualNodeSystem.Connections;
-using UniStateMachine.NodeEditor.UiNodes;
-using UnityEngine;
-using UniRx;
+using UniStateMachine;
 using UniStateMachine.Nodes;
+using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UniTools.UniUiSystem;
 using XNode;
+using UniRx;
+using UnityEngine.Assertions;
+using UniTools.UniUiSystem;
 
-namespace UniStateMachine
+namespace UniUiSystem
 {
     public class UniUiNode : UniNode
     {
@@ -25,7 +23,7 @@ namespace UniStateMachine
         #region inspector
 
         [HideInInspector]
-        public UiViewBehaviour UiView;
+        public UiScreen UiView;
 
         public AssetLabelReference UiViewLabel;
 
@@ -42,7 +40,9 @@ namespace UniStateMachine
 
             _context.UpdateValue<IUiViewBehaviour>(context,uiView);
 
-            var interactionsDisposable = uiView.Interactions.
+            var triggers = uiView.Triggers;
+            
+            var interactionsDisposable = triggers.TriggersObservable.
                 Subscribe(x => OnUiTriggerAction(x,context));
             
             lifetime.AddDispose(interactionsDisposable);
@@ -98,16 +98,17 @@ namespace UniStateMachine
 
             _uiInputs = new List<UniPortValue>();
             _uiOutputs = new List<UniPortValue>();
-            
+
+            if(Application.isPlaying)
+                Assert.IsFalse(UiView,$"UiNode {name} UiView is EMPTY");
+
             if (!UiView)
-            {
-                //todo remove ui ports
                 return;
-            }
             
-            UiView.UpdateTriggers();
+            UiView.Initialize();
+            var triggers = UiView.Triggers;
             
-            foreach (var handler in UiView.Triggers)
+            foreach (var handler in triggers.Items)
             {
                 
                 var outputPort = this.UpdatePortValue(handler.Name, PortIO.Output);

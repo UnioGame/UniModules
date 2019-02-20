@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
-using UniStateMachine.NodeEditor.UiNodes;
+using UniTools.UniUiSystem;
 
-namespace UniTools.UniUiSystem
+namespace UniUiSystem
 {
     public interface ITriggersContainer : IContainer<IInteractionTrigger>
     {
-        IObservable<IInteractionTrigger> Interactions { get; }
+        IObservable<IInteractionTrigger> TriggersObservable { get; }
         void Initialize();
     }
 }

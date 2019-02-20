@@ -315,12 +315,19 @@ namespace XNodeEditor {
             panOffset = Vector2.zero;
         }
 
-        public void CreateNode(Type type, Vector2 position) {
-            XNode.Node node = graph.AddNode(type);
+        public void CreateNode(Type type, Vector2 position) 
+        {
+            var node = graph.AddNode(type);
             node.position = position;
-            node.name = UnityEditor.ObjectNames.NicifyVariableName(type.Name);
-            AssetDatabase.AddObjectToAsset(node, graph);
-            if (NodeEditorPreferences.GetSettings().autoSave) AssetDatabase.SaveAssets();
+            node.name = ObjectNames.NicifyVariableName(type.Name);
+            node.transform.parent = graph.transform;
+
+            if (NodeEditorPreferences.GetSettings().autoSave)
+            {
+                PrefabUtility.ApplyPrefabInstance(graph.gameObject,InteractionMode.AutomatedAction);
+                //AssetDatabase.SaveAssets();
+            }
+            
             Repaint();
         }
 

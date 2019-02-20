@@ -1,48 +1,50 @@
 ﻿using System;
 using UniRx;
+using UniTools.UniUiSystem;
 
-namespace UniTools.UniUiSystem
+namespace UniUiSystem
 {
+    [Serializable]
     public class UiTriggersContainer : 
-        AdapterContainer<InteractionTrigger,IInteractionTrigger>, 
+        UniObjectsContainer<InteractionTrigger,IInteractionTrigger>, 
         ITriggersContainer
     {
         #region private property
       
-        private Subject<IInteractionTrigger> _interactionsSubject = new Subject<IInteractionTrigger>();
+        private Subject<IInteractionTrigger> _interactionsSubject;
 
         #endregion
         
         #region public properties                
 
-        public IObservable<IInteractionTrigger> Interactions => _interactionsSubject;
+        public IObservable<IInteractionTrigger> TriggersObservable => _interactionsSubject;
         
         #endregion
+
+        public override void Release()
+        {
+            _interactionsSubject?.Dispose();
+            base.Release();
+        }
 
         public void Initialize()
         {
             UpdateCollection();
+            
+            _interactionsSubject = CreateInteractionObservable();
         }
         
-        /// <summary>
-        /// collect all child trigger,
-        /// this method should be called from inspector only
-        /// </summary>
-        public virtual void CollectTriggers()
+        protected Subject<IInteractionTrigger> CreateInteractionObservable()
         {
+            var observable = new Subject<IInteractionTrigger>();
             
-            GetComponentsInChildren(true, _items);
-            UpdateCollection();
-            
-        }
-        
-        protected void Awake()
-        {
             foreach (var interactionTrigger in _items)
             {
                 interactionTrigger.Subscribe(x => 
                     _interactionsSubject.OnNext(interactionTrigger));
             }
+
+            return observable;
         }
     }
 }

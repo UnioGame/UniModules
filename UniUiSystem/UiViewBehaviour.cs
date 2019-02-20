@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UniModule.UnityTools.ActorEntityModel;
-using UniModule.UnityTools.DataFlow;
 using UniModule.UnityTools.Interfaces;
 using UniModule.UnityTools.UniRoutine;
-using UniRx;
-using UniStateMachine.NodeEditor.UiNodes;
 using UnityEngine;
 
-namespace UniModule.UnityTools.UiViews
+namespace UniUiSystem
 {
     public class UiViewBehaviour : MonoBehaviour, IUiViewBehaviour
     {
@@ -34,6 +29,11 @@ namespace UniModule.UnityTools.UiViews
         #endregion
         
         #region public methods
+
+        public void Initialize()
+        {
+            OnInitialize();
+        }
         
         public void UpdateView()
         {
@@ -128,9 +128,5 @@ namespace UniModule.UnityTools.UiViews
             Release();
         }
 
-        protected void Awake()
-        {
-            OnInitialize();
-        }
     }
 }

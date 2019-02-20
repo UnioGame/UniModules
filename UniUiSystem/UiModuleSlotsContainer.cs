@@ -1,6 +1,10 @@
-﻿namespace UniTools.UniUiSystem
+﻿using System;
+using UniTools.UniUiSystem;
+
+namespace UniUiSystem
 {
-    public class UiModuleSlotsContainer : AdapterContainer<InteractionTrigger,IInteractionTrigger> 
+    [Serializable]
+    public class UiModuleSlotsContainer : UniObjectsContainer<UiModuleSlot,IUiModuleSlot> 
     {
 
     }

@@ -1,48 +1,46 @@
 ﻿using System.Collections.Generic;
-using UniModule.UnityTools.UiViews;
 using UnityEngine;
+using UniTools.UniUiSystem;
 
-namespace UniTools.UniUiSystem
+namespace UniUiSystem
 {
     public class UiModule : UiViewBehaviour
     {
         #region inspector data
         
         [SerializeField]
-        private List<UiModuleSlot> _slots;
+        private UiModuleSlotsContainer _slots = new UiModuleSlotsContainer();
 
         [SerializeField]
-        private UiTriggersContainer _triggers;
+        private UiTriggersContainer _triggers = new UiTriggersContainer();
 
         #endregion
-
-        public void Initialize()
-        {
-            
-        }
-        
+    
         #region public properties
 
-        public List<UiModuleSlot> Slots => 
+        public IContainer<IUiModuleSlot> Slots => _slots;
         
-        public ITriggersContainer TriggersContainer => _triggers;
-        
-        #endregion
-        
-        #region editor only methods
-
-        public void CollectModuleSlots()
-        {
-            gameObject.GetComponentsInChildren<UiModuleSlot>(true, Slots);
-        }
-
-        public void CollectTriggers()
-        {
-            UiTriggers = GetComponentInChildren<UiTriggersContainer>();
-            UiTriggers.CollectTriggers();
-        }
+        public ITriggersContainer Triggers => _triggers;
         
         #endregion
+
+        #region public methods
+
+        public void AddTrigger(IInteractionTrigger trigger)
+        {
+            _triggers.Add(trigger);
+        }
+
+        public void AddSlot(IUiModuleSlot slot)
+        {
+            _slots.Add(slot);
+        }
         
+        #endregion
+
+        protected override void OnInitialize()
+        {
+            _triggers.Initialize();
+        }
     }
 }

@@ -10,7 +10,6 @@ using UnityEngine;
 namespace UniStateMachine
 {
 	[Serializable]
-	[CreateAssetMenu(menuName = "UniStateMachine/States/StateMachine", fileName = "StateMachine")]
 	public class UniStateMachineObject :
 		UniGraphNode 
 	{

@@ -1,6 +1,6 @@
 using System;
 
-namespace UniTools.UniUiSystem
+namespace UniUiSystem
 {
     public interface IInteractionTrigger : IObservable<IInteractionTrigger>
     {

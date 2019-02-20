@@ -1,11 +1,9 @@
-using System;
-using UniModule.UnityTools.DataFlow;
 using UniModule.UnityTools.Interfaces;
 using UniModule.UnityTools.ObjectPool.Scripts;
-using UniStateMachine.NodeEditor.UiNodes;
 using UnityEngine;
 
-namespace UniModule.UnityTools.UiViews {
+namespace UniUiSystem {
+    
     public interface IUiViewBehaviour : IPoolable
     {
         bool IsActive { get; }

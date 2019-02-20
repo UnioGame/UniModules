@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using SubModules.Scripts.UniStateMachine.NodeEditor;
 using UniEditorTools;
-using UniModule.UnityTools.UiViews;
-using UniStateMachine;
-using UniStateMachine.NodeEditor.UiNodes;
 using UniStateMachine.Nodes;
 using UnityEditor;
 using UnityEngine;
-using UniTools.UniUiSystem;
+using UniUiSystem;
 
-namespace SubModules.Scripts.UniStateMachine.NodeEditor {
+namespace UniTools.UniUiSystem
+{
+    
     [CustomNodeEditor(typeof(UniUiNode))]
     public class UniUiNodeEditor : UniNodeEditor 
     {
@@ -51,7 +51,7 @@ namespace SubModules.Scripts.UniStateMachine.NodeEditor {
                 return;
             }
             
-            node.UiView = PrefabUtility.SavePrefabAsset(uiView.gameObject).GetComponent<UiViewBehaviour>();
+            node.UiView = PrefabUtility.SavePrefabAsset(uiView.gameObject).GetComponent<UiScreen>();
             
             EditorUtility.SetDirty(node.graph);
 

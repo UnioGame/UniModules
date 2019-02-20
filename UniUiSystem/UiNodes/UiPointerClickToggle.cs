@@ -1,8 +1,6 @@
-﻿using UniStateMachine.NodeEditor.UiNodes;
-using UnityEngine.EventSystems;
-using UniTools.UniNodeSystem.UiNodes;
+﻿using UnityEngine.EventSystems;
 
-namespace UniModule.UnityTools.UniVisualNodeSystem.UiNodes
+namespace UniUiSystem
 {
     public class UiPointerClickToggle : InteractionTrigger, IPointerDownHandler
     {

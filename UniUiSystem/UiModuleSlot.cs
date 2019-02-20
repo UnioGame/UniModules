@@ -1,6 +1,6 @@
 ﻿using UnityEngine.EventSystems;
 
-namespace UniTools.UniUiSystem
+namespace UniUiSystem
 {
     /// <summary>
     /// Ui module container

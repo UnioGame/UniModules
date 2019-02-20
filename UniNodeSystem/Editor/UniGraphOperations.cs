@@ -32,7 +32,7 @@ namespace UniStateMachine.EditorTools
 			
 			var graphAsset = ScriptableObject.CreateInstance<UniGraphAsset>();
 			var graph = new GameObject().AddComponent<UniNodesGraph>();
-			var activePath = EditorUtility.GetAssetPath(Selection.activeObject);
+			var activePath = AssetDatabase.GetAssetPath(Selection.activeObject);
 			
 			var assetFolder = Directory.Exists(activePath) ? activePath :
 				Path.GetDirectoryName(activePath);

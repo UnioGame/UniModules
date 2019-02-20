@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace XNodeEditor {
     /// <summary> Base class to derive custom Node Graph editors from. Use this to override how graphs are drawn in the editor. </summary>
@@ -48,15 +49,41 @@ namespace XNodeEditor {
             XNode.Node node = target.CopyNode(original);
             node.name = original.name;
             AssetDatabase.AddObjectToAsset(node, target);
-            if (NodeEditorPreferences.GetSettings().autoSave) AssetDatabase.SaveAssets();
+
+            if (NodeEditorPreferences.GetSettings().autoSave)
+            {
+                AssetDatabase.SaveAssets();
+            }
+            
             return node;
         }
 
         /// <summary> Safely remove a node and all its connections. </summary>
-        public void RemoveNode(XNode.Node node) {
-            UnityEngine.Object.DestroyImmediate(node, true);
-            target.RemoveNode(node);
-            if (NodeEditorPreferences.GetSettings().autoSave) AssetDatabase.SaveAssets();
+        public void RemoveNode(XNode.Node node)
+        {
+            var graph = node.graph;
+
+            var sourceGraph = PrefabUtility.GetCorrespondingObjectFromSource(target);
+            var sourceNode = PrefabUtility.GetCorrespondingObjectFromSource(node);
+            
+            Debug.Log("GRAPH : " + sourceGraph);
+            Debug.Log("NODE : " + sourceNode);
+
+            var removedAsset = sourceNode != null ? (Object)sourceNode.gameObject : node;
+            var targetGraph = sourceGraph ? sourceGraph : target;
+
+            var targetNode = sourceNode ? sourceNode : node;
+            targetGraph.RemoveNode(targetNode);
+
+            Object.DestroyImmediate(removedAsset,true);
+
+            AssetDatabase.SaveAssets();
+
+            if (sourceGraph)
+            {
+                PrefabUtility.ApplyPrefabInstance(targetGraph.gameObject,InteractionMode.AutomatedAction);
+            }
+            
         }
 
         [AttributeUsage(AttributeTargets.Class)]

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace UniTools.UniUiSystem
+namespace UniUiSystem
 {
     public class UiScreen : UiModule
     {

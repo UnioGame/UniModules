@@ -1,10 +1,6 @@
-﻿using UniRx;
-using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
-using UniTools.UniNodeSystem.UiNodes;
+﻿using UnityEngine.EventSystems;
 
-namespace UniStateMachine.NodeEditor.UiNodes
+namespace UniUiSystem
  {
      public class UiPointerClickTrigger : InteractionTrigger, IPointerDownHandler, IPointerUpHandler
      {

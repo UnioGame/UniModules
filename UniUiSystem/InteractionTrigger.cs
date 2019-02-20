@@ -1,9 +1,8 @@
 ﻿using System;
 using UniRx;
-using UniStateMachine.NodeEditor.UiNodes;
 using UnityEngine;
 
-namespace UniTools.UniUiSystem
+namespace UniUiSystem
 {
     public class InteractionTrigger : MonoBehaviour, IInteractionTrigger
     {

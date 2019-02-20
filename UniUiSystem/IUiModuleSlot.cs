@@ -1,4 +1,4 @@
-namespace UniTools.UniUiSystem
+namespace UniUiSystem
 {
     public interface IUiModuleSlot
     {
