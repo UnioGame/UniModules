@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UniModule.UnityTools.DataFlow;
 using UniModule.UnityTools.Interfaces;
 using UniModule.UnityTools.ObjectPool.Scripts;
 using UniModule.UnityTools.UniStateMachine.Extensions;
@@ -37,30 +38,10 @@ namespace UniUiSystem
         protected override IEnumerator ExecuteState(IContext context)
         {
             var lifetime = GetLifeTime(context);
-            var uiView = ObjectPool.Spawn(UiView);
-            
-            lifetime.AddCleanUpAction(uiView.Release);
 
-            _context.UpdateValue<IUiViewBehaviour>(context,uiView);
-
-            var triggers = uiView.Triggers;
-            
-            var interactionsDisposable = triggers.TriggersObservable.
-                Subscribe(x => OnUiTriggerAction(x,context));
-            
-            lifetime.AddDispose(interactionsDisposable);
-            
-            uiView.gameObject.SetActive(true);
-            uiView.SetState(true);
+            CreateView(lifetime);
 
             return base.ExecuteState(context);
-        }
-
-        protected override void OnExit(IContext context)
-        {
-            var view = _context.Get<IUiViewBehaviour>(context);
-            view?.Despawn();
-            base.OnExit(context);
         }
 
         /// <summary>
@@ -71,8 +52,7 @@ namespace UniUiSystem
         protected void OnUiTriggerAction(IInteractionTrigger trigger,IContext context)
         {
 
-            var port = GetPort(trigger.Name);
-            var portValue = GetPortValue(port);
+            var portValue = GetPortValue(trigger.Name);
             
             if (trigger.IsActive)
             {
@@ -142,6 +122,24 @@ namespace UniUiSystem
             input.Add(contextObservable);
         }
 
+        private UiModule CreateView(ILifeTime lifetime)
+        {
+                        
+            var uiView = ObjectPool.Spawn(UiView);
+            
+            lifetime.AddCleanUpAction(() => uiView?.Despawn());
+
+            var triggers = uiView.Triggers;           
+            var interactionsDisposable = triggers.TriggersObservable.
+                Subscribe(x => OnUiTriggerAction(x,context));
+            
+            lifetime.AddDispose(interactionsDisposable);
+            
+            uiView.gameObject.SetActive(true);
+            uiView.SetState(true);
+
+        }
+        
         private void UpdateTriggers()
         {
             
