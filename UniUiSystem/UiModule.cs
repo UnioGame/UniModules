@@ -44,10 +44,11 @@ namespace UniUiSystem
         
         #endregion
 
-        public virtual void OnValidate()
+        protected override void OnInitialize()
         {
             _triggers.Initialize();
             _slots.UpdateCollection();
+            base.OnInitialize();
         }
     }
 }

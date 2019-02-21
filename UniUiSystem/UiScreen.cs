@@ -17,9 +17,8 @@ namespace UniUiSystem
 
         public CanvasGroup CanvasGroup => _canvasGroup;
 
-        public override void OnValidate()
+        public void OnValidate()
         {
-            base.OnValidate();
             if (!_canvas)
                 _canvas = GetComponent<Canvas>();
             if (!_canvasGroup)

@@ -71,10 +71,10 @@ namespace UniTools.UniUiSystem
                 return;
             }
             
-            uiView.Initialize();
-            
             CollectUiData(uiView);
 
+            uiView.Initialize();
+            
             node.UiView = PrefabUtility.SavePrefabAsset(uiView.gameObject).GetComponent<UiModule>();
 
         }
