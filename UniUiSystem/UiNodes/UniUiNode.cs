@@ -39,8 +39,14 @@ namespace UniUiSystem
         {
             var lifetime = GetLifeTime(context);
 
-            CreateView(lifetime);
-
+            var view = CreateView(lifetime,context);
+            
+            var triggers = view.Triggers;           
+            var interactionsDisposable = triggers.TriggersObservable.
+                Subscribe(x => OnUiTriggerAction(x,context));
+            
+            lifetime.AddDispose(interactionsDisposable);
+            
             return base.ExecuteState(context);
         }
 
@@ -122,21 +128,17 @@ namespace UniUiSystem
             input.Add(contextObservable);
         }
 
-        private UiModule CreateView(ILifeTime lifetime)
+        private UiModule CreateView(ILifeTime lifetime, IContext context)
         {
                         
             var uiView = ObjectPool.Spawn(UiView);
             
             lifetime.AddCleanUpAction(() => uiView?.Despawn());
-
-            var triggers = uiView.Triggers;           
-            var interactionsDisposable = triggers.TriggersObservable.
-                Subscribe(x => OnUiTriggerAction(x,context));
-            
-            lifetime.AddDispose(interactionsDisposable);
             
             uiView.gameObject.SetActive(true);
             uiView.SetState(true);
+
+            return uiView;
 
         }
         
