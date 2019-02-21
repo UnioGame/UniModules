@@ -55,7 +55,7 @@ namespace UniUiSystem
         /// <param name="context"></param>
         protected void OnUiTriggerAction(IInteractionTrigger trigger, IContext context)
         {
-            var portValue = GetPortValue(trigger.Name);
+            var portValue = GetPortValue(trigger.ItemName);
 
             if (trigger.IsActive)
             {
@@ -87,7 +87,6 @@ namespace UniUiSystem
 
             if (!UiView)
             {
-                Debug.LogError($"UiNode {name} UiView is EMPTY", this);
                 return;
             }
 
@@ -160,10 +159,10 @@ namespace UniUiSystem
 
             foreach (var handler in triggers.Items)
             {
-                var outputPort = this.UpdatePortValue(handler.Name, PortIO.Output);
+                var outputPort = this.UpdatePortValue(handler.ItemName, PortIO.Output);
                 _uiOutputs.Add(outputPort.value);
 
-                var inputName = GetFormatedInputName(handler.Name);
+                var inputName = GetFormatedInputName(handler.ItemName);
 
                 var port = this.UpdatePortValue(inputName, PortIO.Input);
                 var portValue = port.value;

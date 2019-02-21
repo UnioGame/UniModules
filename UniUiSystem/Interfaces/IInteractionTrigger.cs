@@ -2,13 +2,12 @@ using System;
 
 namespace UniUiSystem
 {
-    public interface IInteractionTrigger : IObservable<IInteractionTrigger>
+    public interface IInteractionTrigger : IObservable<IInteractionTrigger>, INamedItem
     {
         
-        string Name { get; }
-
         bool IsActive { get; }
         
         void SetState(bool active);
+        
     }
 }

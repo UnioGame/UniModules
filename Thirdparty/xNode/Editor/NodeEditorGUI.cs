@@ -331,7 +331,14 @@ namespace XNodeEditor {
 
             EditorDrawerUtils.DrawVertialLayout(() =>
             {
-                EditorDrawerUtils.DrawButton("Stop All", () =>
+                EditorDrawerUtils.DrawButton("save", () =>
+                {
+                    if (!graph)
+                        return;
+                    PrefabUtility.ApplyPrefabInstance(graph.gameObject,InteractionMode.AutomatedAction);
+                });
+                
+                EditorDrawerUtils.DrawButton("stop all", () =>
                 {
                     if(graph) graph.Dispose();
                     foreach (var graphAsset in NodeGraphs)
@@ -340,6 +347,7 @@ namespace XNodeEditor {
                         item.Dispose();
                     }
                 });
+                
             },GUILayout.Width(100));
             
         }

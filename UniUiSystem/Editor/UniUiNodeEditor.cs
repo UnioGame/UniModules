@@ -74,7 +74,11 @@ namespace UniTools.UniUiSystem
         public void CollectTriggers(UiModule module)
         {
             module.Triggers.Release();
-            CollectItems<IInteractionTrigger>(module.gameObject, module.AddTrigger);
+            CollectItems<InteractionTrigger>(module.gameObject, x =>
+            {
+                x.SetName(x.name);
+                module.AddTrigger(x);
+            });
         }
 
         private void CollectItems<TData>(GameObject target, Action<TData> action)

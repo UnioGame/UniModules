@@ -6,14 +6,21 @@ namespace UniUiSystem
 {
     public class InteractionTrigger : MonoBehaviour, IInteractionTrigger
     {
+        private string _name;
+        
         private Subject<IInteractionTrigger> _subject = new Subject<IInteractionTrigger>();
 
-        public string Name => name;
+        public string ItemName => _name;
 
         public bool IsActive { get; protected set; } = false;
 
         public IObservable<IInteractionTrigger> InteractionObservable => _subject;
 
+        public void SetName(string itemName)
+        {
+            _name = name;
+        }
+        
         public void SetState(bool active)
         {
             IsActive = active;
