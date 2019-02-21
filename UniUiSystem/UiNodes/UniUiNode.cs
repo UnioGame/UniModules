@@ -29,9 +29,9 @@ namespace UniUiSystem
 
         public UiModule UiView;
 
-        public AssetLabelReference UiViewLabel;
-
-        public AssetReference ViewReference;
+//        public AssetLabelReference UiViewLabel;
+//
+//        public AssetReference ViewReference;
 
         #endregion
 
