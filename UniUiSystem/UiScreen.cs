@@ -24,8 +24,6 @@ namespace UniUiSystem
 
             if (!_canvas)
                 _canvas = GetComponent<Canvas>();
-            if (!_rectTransform)
-                _rectTransform = GetComponent<RectTransform>();
             if (!_canvasGroup)
                 _canvasGroup = GetComponent<CanvasGroup>();
 

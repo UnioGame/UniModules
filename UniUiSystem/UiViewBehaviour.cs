@@ -11,20 +11,13 @@ namespace UniUiSystem
         private EntityObject _context = new EntityObject();
         private IDisposableItem _updateDisposable;
 
-        #region inspector
-     
-        [SerializeField]
-        protected RectTransform _rectTransform;
-
-        #endregion
-
         #region public property
 
         public bool IsActive { get; protected set; }
 
         public IContext Context => _context;
 
-        public RectTransform RectTransform => _rectTransform;
+        public RectTransform RectTransform => transform as RectTransform;
 
         #endregion
         

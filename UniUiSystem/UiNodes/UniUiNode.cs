@@ -27,27 +27,24 @@ namespace UniUiSystem
 
         #region inspector
 
-        [HideInInspector]
-        public UiModule UiView;
+        [HideInInspector] public UiModule UiView;
 
         public AssetLabelReference UiViewLabel;
 
         public AssetReference ViewReference;
-        
+
         #endregion
 
         protected override IEnumerator ExecuteState(IContext context)
         {
             var lifetime = GetLifeTime(context);
 
-            var view = CreateView(lifetime,context);
-            
-            var triggers = view.Triggers;           
-            var interactionsDisposable = triggers.TriggersObservable.
-                Subscribe(x => OnUiTriggerAction(x,context));
-            
-            lifetime.AddDispose(interactionsDisposable);
-            
+            var view = CreateView(lifetime, context);
+
+            CreateModules(view, lifetime, context);
+
+            BindTriggers(view, lifetime, context);
+
             return base.ExecuteState(context);
         }
 
@@ -56,29 +53,28 @@ namespace UniUiSystem
         /// </summary>
         /// <param name="trigger"></param>
         /// <param name="context"></param>
-        protected void OnUiTriggerAction(IInteractionTrigger trigger,IContext context)
+        protected void OnUiTriggerAction(IInteractionTrigger trigger, IContext context)
         {
-
             var portValue = GetPortValue(trigger.Name);
-            
+
             if (trigger.IsActive)
             {
-                portValue.UpdateValue(context,context);
+                portValue.UpdateValue(context, context);
             }
             else
             {
                 portValue.RemoveContext(context);
             }
-
         }
-        
+
         public override bool Validate(IContext context)
         {
             if (!UiView)
             {
-                Debug.LogErrorFormat("NULL UI VIEW {0} {1}",UiView,this);
+                Debug.LogErrorFormat("NULL UI VIEW {0} {1}", UiView, this);
                 return false;
             }
+
             return base.Validate(context);
         }
 
@@ -89,12 +85,12 @@ namespace UniUiSystem
             _uiInputs = new List<UniPortValue>();
             _uiOutputs = new List<UniPortValue>();
 
-            if(Application.isPlaying)
-                Assert.IsFalse(UiView,$"UiNode {name} UiView is EMPTY");
-
             if (!UiView)
+            {
+                Debug.LogError($"UiNode {name} UiView is EMPTY", this);
                 return;
-            
+            }
+
             UiView.Initialize();
 
             UpdateTriggers(UiView);
@@ -104,51 +100,69 @@ namespace UniUiSystem
         private void BindInputOutputValues(UniPortValue input, UniPortValue output)
         {
             var contextObservable = new ContextObservable<IContext>();
-            
+
             contextObservable.SubscribeOnContextChanged(x =>
             {
                 output.RemoveContext(x);
                 input.RemoveContext(x);
             });
-            
+
             input.Add(contextObservable);
         }
 
         private UiModule CreateView(ILifeTime lifetime, IContext context)
         {
             //get view context settings
-            var viewSettings = context.Get<UniUiModuleData>();
-                        
+            var viewSettings = Input.Get<UniUiModuleData>(context);
+
             var uiView = ObjectPool.Spawn(UiView);
             uiView.Initialize();
-            
+
             if (viewSettings != null)
             {
                 var parentDisposable = viewSettings.Transform.
-                    Subscribe(uiView.RectTransform.SetParent);
+                    Subscribe(uiView.SetParent);
                 lifetime.AddDispose(parentDisposable);
             }
-            
+
             lifetime.AddCleanUpAction(() => uiView?.Despawn());
-            
+
             uiView.gameObject.SetActive(true);
             uiView.SetState(true);
 
             return uiView;
-
         }
-        
+
+        private void CreateModules(IUiModule view, ILifeTime lifetime, IContext context)
+        {
+            var slotContainer = view.Slots;
+            var slots = slotContainer.Items;
+            for (int i = 0; i < slots.Count; i++)
+            {
+                var slot = slots[i];
+                var portValue = GetPortValue(slot.SlotName);
+
+                slot.ApplySlotData(context, portValue, lifetime);
+            }
+        }
+
+        private void BindTriggers(IUiModule view, ILifeTime lifetime, IContext context)
+        {
+            var triggers = view.Triggers;
+            var interactionsDisposable = triggers.TriggersObservable.Subscribe(x => OnUiTriggerAction(x, context));
+
+            lifetime.AddDispose(interactionsDisposable);
+        }
+
         private void UpdateTriggers(IUiModule view)
         {
-                        
             var triggers = view.Triggers;
-            
+
             foreach (var handler in triggers.Items)
             {
-                
                 var outputPort = this.UpdatePortValue(handler.Name, PortIO.Output);
                 _uiOutputs.Add(outputPort.value);
-                
+
                 var inputName = GetFormatedInputName(handler.Name);
 
                 var port = this.UpdatePortValue(inputName, PortIO.Input);
@@ -157,7 +171,6 @@ namespace UniUiSystem
 
                 BindInputOutputValues(portValue, outputPort.value);
             }
-
         }
 
         private void UpdateModulesSlots(IUiModule view)
@@ -167,7 +180,7 @@ namespace UniUiSystem
             for (var i = 0; i < slots.Count; i++)
             {
                 var slot = slots[i];
-                
+
                 var outputPort = this.UpdatePortValue(slot.SlotName, PortIO.Output);
                 _uiOutputs.Add(outputPort.value);
             }

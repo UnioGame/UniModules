@@ -26,6 +26,12 @@ namespace UniUiSystem
 
         #region public methods
 
+        public void SetParent(RectTransform parent)
+        {
+            var rectTransform = RectTransform;
+            rectTransform.SetParent(parent,false);
+        }
+        
         public void AddTrigger(IInteractionTrigger trigger)
         {
             _triggers.Add(trigger);
