@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace UniUiSystem.Models
 {
-    public class UniUiModulData : IPoolable
+    public class UniUiModuleData : IPoolable
     {
         public ReactiveProperty<RectTransform> Transform = new ReactiveProperty<RectTransform>();
         

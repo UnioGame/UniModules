@@ -1,4 +1,5 @@
-﻿using UnityEngine.EventSystems;
+﻿using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace UniUiSystem
 {
@@ -7,6 +8,11 @@ namespace UniUiSystem
     /// </summary>
     public class UiModuleSlot : UIBehaviour, IUiModuleSlot
     {
+
+        public string SlotName => name;
+        
+        public RectTransform Transform => transform as RectTransform;
+
         
     }
     

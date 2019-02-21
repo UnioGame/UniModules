@@ -13,6 +13,7 @@ using XNode;
 using UniRx;
 using UnityEngine.Assertions;
 using UniTools.UniUiSystem;
+using UniUiSystem.Models;
 
 namespace UniUiSystem
 {
@@ -130,8 +131,18 @@ namespace UniUiSystem
 
         private UiModule CreateView(ILifeTime lifetime, IContext context)
         {
+            //get view context settings
+            var viewSettings = context.Get<UniUiModuleData>();
                         
             var uiView = ObjectPool.Spawn(UiView);
+            uiView.Initialize();
+            
+            if (viewSettings != null)
+            {
+                var parentDisposable = viewSettings.Transform.
+                    Subscribe(uiView.RectTransform.SetParent);
+                lifetime.AddDispose(parentDisposable);
+            }
             
             lifetime.AddCleanUpAction(() => uiView?.Despawn());
             
