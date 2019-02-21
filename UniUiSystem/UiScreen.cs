@@ -17,16 +17,13 @@ namespace UniUiSystem
 
         public CanvasGroup CanvasGroup => _canvasGroup;
 
-        
-        protected override void OnInitialize()
+        public override void OnValidate()
         {
-            base.OnInitialize();
-
+            base.OnValidate();
             if (!_canvas)
                 _canvas = GetComponent<Canvas>();
             if (!_canvasGroup)
                 _canvasGroup = GetComponent<CanvasGroup>();
-
         }
     }
 }

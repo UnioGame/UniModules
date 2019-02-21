@@ -265,13 +265,15 @@ namespace UniEditorTools {
             
         }
 
-        public static T DrawObjectLayout<T>(this T target, string label,bool drawRemove = true)
+        public static T DrawObjectLayout<T>(this T target, 
+            string label,bool drawRemove = true, 
+            bool allowSceneObjects = false)
             where T : Object {
             
             EditorGUILayout.BeginVertical();
             EditorGUILayout.BeginHorizontal();
             
-            var asset = EditorGUILayout.ObjectField(label, target, typeof(T), false) as T;
+            var asset = EditorGUILayout.ObjectField(label, target, typeof(T), allowSceneObjects) as T;
             if (drawRemove && GUILayout.Button("-",EditorStyles.miniButtonRight, GUILayout.Width(20f))) {
                 return null;
             }

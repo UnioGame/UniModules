@@ -44,7 +44,7 @@ namespace UniUiSystem
         
         #endregion
 
-        protected override void OnInitialize()
+        public virtual void OnValidate()
         {
             _triggers.Initialize();
             _slots.UpdateCollection();

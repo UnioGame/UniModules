@@ -7,21 +7,22 @@ using UniStateMachine.Nodes;
 using UnityEditor;
 using UnityEngine;
 using UniUiSystem;
-using Object = UnityEngine.Object;
 
 namespace UniTools.UniUiSystem
 {
     [CustomNodeEditor(typeof(UniUiNode))]
     public class UniUiNodeEditor : UniNodeEditor
     {
+        private UiModule _moduleView;
+        
         public static Type UniPortType = typeof(UniPortValue);
 
         private static List<IInteractionTrigger> _buttons = new List<IInteractionTrigger>();
 
         public override void OnBodyGUI()
         {           
-            if (!(target is UniUiNode uiNode))
-                return;
+            var uiNode = target as UniUiNode;
+            _moduleView = uiNode.UiView;
 
             base.OnBodyGUI();
 
@@ -30,6 +31,9 @@ namespace UniTools.UniUiSystem
             {
                 UpdateUiData(uiNode,uiNode.UiView);
             }
+            
+            EditorUtility.SetDirty(uiNode.graph.gameObject);
+            serializedObject.ApplyModifiedPropertiesWithoutUndo();
         }
 
         public override void UpdateData(UniGraphNode node)
@@ -48,9 +52,8 @@ namespace UniTools.UniUiSystem
 
         public bool DrawUiNode(UniUiNode node)
         {
-            var oldView = node.UiView;
-            var uiView = node.UiView.DrawObjectLayout("View");
-            node.UiView = uiView;
+            var oldView = _moduleView;
+            var uiView = node.UiView;
 
             var isChanged = uiView != oldView;
 
@@ -68,12 +71,13 @@ namespace UniTools.UniUiSystem
             {
                 return;
             }
-
+            
+            uiView.Initialize();
+            
             CollectUiData(uiView);
 
-            //node.UiView = PrefabUtility.SavePrefabAsset(uiView.gameObject).GetComponent<UiModule>();
+            node.UiView = PrefabUtility.SavePrefabAsset(uiView.gameObject).GetComponent<UiModule>();
 
-            EditorUtility.SetDirty(node.graph);
         }
 
         private bool Validate(UiModule view)

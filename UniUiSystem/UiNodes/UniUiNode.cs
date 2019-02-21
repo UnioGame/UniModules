@@ -27,7 +27,7 @@ namespace UniUiSystem
 
         #region inspector
 
-        [HideInInspector] public UiModule UiView;
+        public UiModule UiView;
 
         public AssetLabelReference UiViewLabel;
 
