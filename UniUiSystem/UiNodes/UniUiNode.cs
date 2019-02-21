@@ -96,23 +96,9 @@ namespace UniUiSystem
                 return;
             
             UiView.Initialize();
-            
-            var triggers = UiView.Triggers;
-            
-            foreach (var handler in triggers.Items)
-            {
-                
-                var outputPort = this.UpdatePortValue(handler.Name, PortIO.Output);
-                _uiOutputs.Add(outputPort.value);
-                
-                var inputName = GetFormatedInputName(handler.Name);
 
-                var port = this.UpdatePortValue(inputName, PortIO.Input);
-                var portValue = port.value;
-                _uiInputs.Add(portValue);
-
-                BindInputOutputValues(portValue, outputPort.value);
-            }
+            UpdateTriggers();
+            
             
         }
 
@@ -155,7 +141,24 @@ namespace UniUiSystem
         
         private void UpdateTriggers()
         {
+                        
+            var triggers = UiView.Triggers;
             
+            foreach (var handler in triggers.Items)
+            {
+                
+                var outputPort = this.UpdatePortValue(handler.Name, PortIO.Output);
+                _uiOutputs.Add(outputPort.value);
+                
+                var inputName = GetFormatedInputName(handler.Name);
+
+                var port = this.UpdatePortValue(inputName, PortIO.Input);
+                var portValue = port.value;
+                _uiInputs.Add(portValue);
+
+                BindInputOutputValues(portValue, outputPort.value);
+            }
+
         }
 
         private void UpdateModules()
