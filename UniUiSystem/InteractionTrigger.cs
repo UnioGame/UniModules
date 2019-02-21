@@ -6,19 +6,20 @@ namespace UniUiSystem
 {
     public class InteractionTrigger : MonoBehaviour, IInteractionTrigger
     {
-        private string _name;
+        [SerializeField]
+        private string _triggerName;
         
         private Subject<IInteractionTrigger> _subject = new Subject<IInteractionTrigger>();
 
-        public string ItemName => _name;
+        public string ItemName  => _triggerName;
 
         public bool IsActive { get; protected set; } = false;
 
         public IObservable<IInteractionTrigger> InteractionObservable => _subject;
 
-        public void SetName(string itemName)
+        public void ApplyName(string itemName)
         {
-            _name = name;
+            _triggerName = name;
         }
         
         public void SetState(bool active)

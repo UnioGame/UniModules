@@ -46,13 +46,20 @@ namespace SubModules.Scripts.UniStateMachine.NodeEditor
 		{
 			var node = target as UniGraphNode;
 			node.Initialize();
+
+			UpdateData(node);
 			
 			base.OnBodyGUI();
 			
-			//node.Invalidate();
-			node.UpdatePortsCache();
-
 			DrawPorts(node);
+					
+			serializedObject.ApplyModifiedPropertiesWithoutUndo();
+
+		}
+
+		public virtual void UpdateData(UniGraphNode node)
+		{
+			node.UpdatePortsCache();
 		}
 
 		public override GUIStyle GetBodyStyle()
