@@ -43,8 +43,12 @@ namespace UniTools.UniUiSystem
         public void Add(TTarget item)
         {
             var sourceItem = item as TSource;
-            
-            Assert.IsNotNull(sourceItem,$"{this.GetType()}.ADD Type Missmatch {item.GetType()} instead of {typeof(TSource)}");
+
+            if (sourceItem == null)
+            {
+                Debug.LogError($"{this.GetType()}.ADD Type Missmatch {item.GetType()} instead of {typeof(TSource)}");
+                return;
+            }
 
             _items.Add(sourceItem);
         }

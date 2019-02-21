@@ -53,7 +53,7 @@ namespace UniTools.UniUiSystem
 
             CollectUiData(uiView);
             
-            node.UiView = PrefabUtility.SavePrefabAsset(uiView.gameObject).GetComponent<UiScreen>();
+            node.UiView = PrefabUtility.SavePrefabAsset(uiView.gameObject).GetComponent<UiModule>();
             
             EditorUtility.SetDirty(node.graph);
 

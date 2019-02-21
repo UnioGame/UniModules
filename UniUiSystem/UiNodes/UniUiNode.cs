@@ -97,9 +97,8 @@ namespace UniUiSystem
             
             UiView.Initialize();
 
-            UpdateTriggers();
-            
-            
+            UpdateTriggers(UiView);
+            UpdateModulesSlots(UiView);
         }
 
         private void BindInputOutputValues(UniPortValue input, UniPortValue output)
@@ -139,10 +138,10 @@ namespace UniUiSystem
 
         }
         
-        private void UpdateTriggers()
+        private void UpdateTriggers(IUiModule view)
         {
                         
-            var triggers = UiView.Triggers;
+            var triggers = view.Triggers;
             
             foreach (var handler in triggers.Items)
             {
@@ -161,9 +160,17 @@ namespace UniUiSystem
 
         }
 
-        private void UpdateModules()
+        private void UpdateModulesSlots(IUiModule view)
         {
-            
+            var slots = view.Slots.Items;
+
+            for (var i = 0; i < slots.Count; i++)
+            {
+                var slot = slots[i];
+                
+                var outputPort = this.UpdatePortValue(slot.SlotName, PortIO.Output);
+                _uiOutputs.Add(outputPort.value);
+            }
         }
     }
 }

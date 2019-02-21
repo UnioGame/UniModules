@@ -4,7 +4,7 @@ using UniTools.UniUiSystem;
 
 namespace UniUiSystem
 {
-    public class UiModule : UiViewBehaviour
+    public class UiModule : UiViewBehaviour, IUiModule
     {
         #region inspector data
         
@@ -41,6 +41,7 @@ namespace UniUiSystem
         protected override void OnInitialize()
         {
             _triggers.Initialize();
+            _slots.UpdateCollection();
         }
     }
 }
