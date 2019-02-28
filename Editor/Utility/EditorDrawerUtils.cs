@@ -167,6 +167,20 @@ namespace UniEditorTools {
             
         }
 
+        public static bool DrawFoldout(bool visibility,string label,Action drawer)
+        {
+
+            visibility = EditorGUILayout.Foldout(visibility, label);
+
+            if (visibility)
+            {
+                drawer();
+            }
+            
+            return visibility;
+            
+        }
+
         public static void DrawListItems<TItem>(List<EditorValueItem<TItem>> items, 
             Action<int,EditorValueItem<TItem>> itemDrawer = null, Action<int,EditorValueItem<TItem>> onRemoveItem = null)
         {

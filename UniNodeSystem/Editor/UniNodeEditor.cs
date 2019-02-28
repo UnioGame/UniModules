@@ -45,6 +45,7 @@ namespace SubModules.Scripts.UniStateMachine.NodeEditor
 		public override void OnBodyGUI()
 		{
 			var node = target as UniGraphNode;
+			
 			node.Initialize();
 
 			UpdateData(node);

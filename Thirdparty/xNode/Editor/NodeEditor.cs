@@ -8,7 +8,7 @@ namespace XNodeEditor {
     /// <summary> Base class to derive custom Node editors from. Use this to create your own custom inspectors and editors for your nodes. </summary>
 
     [CustomNodeEditor(typeof(XNode.Node))]
-    public class NodeEditor : XNodeEditor.Internal.NodeEditorBase<NodeEditor, NodeEditor.CustomNodeEditorAttribute, XNode.Node> {
+    public partial class NodeEditor : XNodeEditor.Internal.NodeEditorBase<NodeEditor, NodeEditor.CustomNodeEditorAttribute, XNode.Node> {
 
         /// <summary> Fires every whenever a node was modified through the editor </summary>
         public static Action<XNode.Node> onUpdateNode;
@@ -79,22 +79,6 @@ namespace XNodeEditor {
         public void Rename(string newName) {
             target.name = newName;
             AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(target));
-        }
-
-        [AttributeUsage(AttributeTargets.Class)]
-        public class CustomNodeEditorAttribute : Attribute,
-        XNodeEditor.Internal.NodeEditorBase<NodeEditor, NodeEditor.CustomNodeEditorAttribute, XNode.Node>.INodeEditorAttrib {
-            private Type inspectedType;
-            /// <summary> Tells a NodeEditor which Node type it is an editor for </summary>
-            /// <param name="inspectedType">Type that this editor can edit</param>
-            /// <param name="contextMenuName">Path to the node</param>
-            public CustomNodeEditorAttribute(Type inspectedType) {
-                this.inspectedType = inspectedType;
-            }
-
-            public Type GetInspectedType() {
-                return inspectedType;
-            }
         }
     }
 }
