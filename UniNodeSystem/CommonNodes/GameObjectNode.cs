@@ -8,11 +8,9 @@ using XNode;
 namespace UniStateMachine.CommonNodes
 {
     
-    public class UniGameObjectNode : UniNode
+    public class GameObjectNode : AssetNode<GameObject>
     {
         private string _optionsPortName;
-        
-        public GameObject Target;
 
         public bool CreateInstance;
        

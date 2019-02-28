@@ -1,35 +1,24 @@
 ﻿using System.Collections.Generic;
+using Modules.UniTools.UniNodeSystem.Editor.Drawers;
+using Modules.UniTools.UniNodeSystem.Editor.Nodes;
 using SubModules.Scripts.UniStateMachine.NodeEditor;
 using UniEditorTools;
 using UniStateMachine.CommonNodes;
-using UnityEditor;
 using UnityEngine;
 
 namespace Modules.UniTools.UniNodeSystem.Editor
 {
-    [CustomNodeEditor(typeof(UniGameObjectNode))]
-    public class UniGameObjectNodeEditor : UniNodeEditor
+    [CustomNodeEditor(typeof(GameObjectNode))]
+    public class UniGameObjectNodeEditor : UniAssetNodeEditor<GameObject>
     {
         private List<Component> _components = new List<Component>();
         private bool _isComponentsShown = false;
         
-        public override void OnHeaderGUI()
-        {
-            var node = target as UniGameObjectNode;
-            var targetAsset = node.Target;
-            if (node.Target)
-            {
-                target.name = targetAsset.name;
-            }
-            
-            base.OnHeaderGUI();
-        }
-
         public override void OnBodyGUI()
         {
             base.OnBodyGUI();
             
-            var gameObjectNode = target as UniGameObjectNode;
+            var gameObjectNode = target as GameObjectNode;
             var targetAsset = gameObjectNode.Target;
             
             if (targetAsset)
