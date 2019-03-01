@@ -19,11 +19,18 @@ public class UniNodesGraphEditor : Editor
         GUILayout.Space(10);
         GUILayout.BeginHorizontal();
 
+        GUILayout.BeginVertical();
+        
         if (GUILayout.Button("Show Graph", GUILayout.Height(26)))
         {
-            //UnityGraphWindow.Show(graph);
             NodeEditorWindow.Open(graph);
         }
+        if (GUILayout.Button("Show Unity Graph", GUILayout.Height(26)))
+        {
+            UnityGraphWindow.Show(graph);
+        }
+        
+        GUILayout.EndVertical();
         
         GUILayout.EndHorizontal();
         GUILayout.Space(10);

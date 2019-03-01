@@ -49,8 +49,8 @@ namespace UniStateMachine.Nodes
 		    _rootNodes = nodes.OfType<UniRootNode>().ToList();
 		    
 		    var stateBehaviour = new ProxyStateBehaviour();
-		    stateBehaviour.Initialize(OnExecute,x => 
-			    _contextData = x,OnExit);
+		    stateBehaviour.Initialize(OnExecute,
+			    x => _contextData = x,OnExit);
 		    _graphState = stateBehaviour;
 			    
 		    InitializeNodes();

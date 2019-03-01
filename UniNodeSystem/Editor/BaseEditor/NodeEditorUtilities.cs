@@ -97,7 +97,7 @@ namespace UniNodeSystemEditor {
         /// <summary>Creates a new C# Class.</summary>
         [MenuItem("Assets/Create/UniNodeSystem/Node C# Script", false, 89)]
         private static void CreateNode() {
-            string[] guids = AssetDatabase.FindAssets("UniNodeSystem_NodeTemplate.cs");
+            string[] guids = AssetDatabase.FindAssets("Node_NodeTemplate.cs");
             if (guids.Length == 0) {
                 Debug.LogWarning("UniNodeSystem_NodeTemplate.cs.txt not found in asset database");
                 return;
@@ -112,7 +112,7 @@ namespace UniNodeSystemEditor {
         /// <summary>Creates a new C# Class.</summary>
         [MenuItem("Assets/Create/UniNodeSystem/NodeGraph C# Script", false, 89)]
         private static void CreateGraph() {
-            string[] guids = AssetDatabase.FindAssets("UniNodeSystem_NodeGraphTemplate.cs");
+            string[] guids = AssetDatabase.FindAssets("Node_NodeGraphTemplate.cs");
             if (guids.Length == 0) {
                 Debug.LogWarning("UniNodeSystem_NodeGraphTemplate.cs.txt not found in asset database");
                 return;

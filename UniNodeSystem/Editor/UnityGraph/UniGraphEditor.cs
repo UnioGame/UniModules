@@ -39,7 +39,7 @@ namespace Modules.UniTools.UniNodeSystem.Editor.UnityGraph
             
             _graphGui = CreateInstance<UniGraphGuiEditor>();
             _graphGui.Initialize(_uniGraph,this);
-            _graphGui.hideFlags = HideFlags.HideAndDontSave;
+            _graphGui.hideFlags = HideFlags.None;
             return _graphGui;
             
         }
@@ -50,7 +50,7 @@ namespace Modules.UniTools.UniNodeSystem.Editor.UnityGraph
         {
             foreach (var graphNode in uniGraph.nodes)
             {
-                var editorNode = UniUnityGraphNodeEditor.Create(graphNode);
+                var editorNode = UnityGraphUniNode.Create(graphNode);
                 _uniNodes.Add(editorNode);
                 AddNode(editorNode);
             }

@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using UniEditorTools;
+using UniNodeSystem;
 using UniStateMachine.Nodes;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace UniNodeSystemEditor
 {
@@ -25,7 +27,7 @@ namespace UniNodeSystemEditor
             var e = Event.current;
             var m = GUI.matrix;
             if (graph == null) return;
-            
+
             graphEditor = NodeGraphEditor.GetEditor(graph);
             graphEditor.position = position;
 
@@ -434,134 +436,21 @@ namespace UniNodeSystemEditor
 
             var selectionBox = new Rect(boxStartPos, boxSize);
 
-            //Save guiColor so we can revert it
-            var guiColor = GUI.color;
+            if (e.type == EventType.Layout) culledNodes = new List<UniBaseNode>();
 
-            if (e.type == EventType.Layout) culledNodes = new List<UniNodeSystem.UniBaseNode>();
             for (var n = 0; n < graph.nodes.Count; n++)
             {
                 // Skip null nodes. The user could be in the process of renaming scripts, so removing them at this point is not advisable.
                 if (graph.nodes[n] == null) continue;
                 if (n >= graph.nodes.Count) return;
                 var node = graph.nodes[n];
-
-                // Culling
-                if (e.type == EventType.Layout)
-                {
-                    // Cull unselected nodes outside view
-                    if (!Selection.Contains(node) && ShouldBeCulled(node))
-                    {
-                        culledNodes.Add(node);
-                        continue;
-                    }
-                }
-                else if (culledNodes.Contains(node)) continue;
-
-                if (e.type == EventType.Repaint)
-                {
-                    _portConnectionPoints = _portConnectionPoints.Where(x => x.Key.node != node)
-                        .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-                }
-
-                var nodeEditor = NodeEditor.GetEditor(node);
-
-                NodeEditor.PortPositions = new Dictionary<UniNodeSystem.NodePort, Vector2>();
-
-                //Get node position
-                var nodePos = GridToWindowPositionNoClipped(node.position);
-
-                GUILayout.BeginArea(new Rect(nodePos, new Vector2(nodeEditor.GetWidth(), 4000)));
-
-                var selected = selectionCache.Contains(graph.nodes[n]);
-
-                if (selected)
-                {
-                    var style = new GUIStyle(nodeEditor.GetBodyStyle());
-                    var highlightStyle = new GUIStyle(NodeEditorResources.styles.nodeHighlight);
-                    highlightStyle.padding = style.padding;
-                    style.padding = new RectOffset();
-                    GUI.color = nodeEditor.GetTint();
-                    GUILayout.BeginVertical(style);
-                    GUI.color = NodeEditorPreferences.GetSettings().highlightColor;
-                    GUILayout.BeginVertical(new GUIStyle(highlightStyle));
-                }
-                else
-                {
-                    var style = new GUIStyle(nodeEditor.GetBodyStyle());
-                    GUI.color = nodeEditor.GetTint();
-                    GUILayout.BeginVertical(style);
-                }
+                
+                //Save guiColor so we can revert it
+                var guiColor = GUI.color;
+                
+                DrawNode(node,e,mousePos,preSelection);
 
                 GUI.color = guiColor;
-                EditorGUI.BeginChangeCheck();
-
-                //Draw node contents
-                nodeEditor.OnHeaderGUI();
-                nodeEditor.OnBodyGUI();
-
-                //If user changed a value, notify other scripts through onUpdateNode
-                if (EditorGUI.EndChangeCheck())
-                {
-                    if (NodeEditor.OnUpdateNode != null) NodeEditor.OnUpdateNode(node);
-                    EditorUtility.SetDirty(node);
-                    nodeEditor.serializedObject.ApplyModifiedProperties();
-                }
-
-                GUILayout.EndVertical();
-
-                //Cache data about the node for next frame
-                if (e.type == EventType.Repaint)
-                {
-                    var size = GUILayoutUtility.GetLastRect().size;
-                    if (nodeSizes.ContainsKey(node)) nodeSizes[node] = size;
-                    else nodeSizes.Add(node, size);
-
-                    foreach (var kvp in NodeEditor.PortPositions)
-                    {
-                        var portHandlePos = kvp.Value;
-                        portHandlePos += node.position;
-                        var rect = new Rect(portHandlePos.x - 8, portHandlePos.y - 8, 16, 16);
-                        if (portConnectionPoints.ContainsKey(kvp.Key)) portConnectionPoints[kvp.Key] = rect;
-                        else portConnectionPoints.Add(kvp.Key, rect);
-                    }
-                }
-
-                if (selected) GUILayout.EndVertical();
-
-                if (e.type != EventType.Layout)
-                {
-                    //Check if we are hovering this node
-                    var nodeSize = GUILayoutUtility.GetLastRect().size;
-                    var windowRect = new Rect(nodePos, nodeSize);
-                    if (windowRect.Contains(mousePos)) hoveredNode = node;
-
-                    //If dragging a selection box, add nodes inside to selection
-                    if (currentActivity == NodeActivity.DragGrid)
-                    {
-                        if (windowRect.Overlaps(selectionBox)) preSelection.Add(node);
-                    }
-
-                    //Check if we are hovering any of this nodes ports
-                    //Check input ports
-                    foreach (var input in node.Inputs)
-                    {
-                        //Check if port rect is available
-                        if (!portConnectionPoints.ContainsKey(input)) continue;
-                        var r = GridToWindowRectNoClipped(portConnectionPoints[input]);
-                        if (r.Contains(mousePos)) hoveredPort = input;
-                    }
-
-                    //Check all output ports
-                    foreach (var output in node.Outputs)
-                    {
-                        //Check if port rect is available
-                        if (!portConnectionPoints.ContainsKey(output)) continue;
-                        var r = GridToWindowRectNoClipped(portConnectionPoints[output]);
-                        if (r.Contains(mousePos)) hoveredPort = output;
-                    }
-                }
-
-                GUILayout.EndArea();
             }
 
             if (e.type != EventType.Layout && currentActivity == NodeActivity.DragGrid)
@@ -576,6 +465,129 @@ namespace UniNodeSystemEditor
                 if (onValidate != null && nodeHash != Selection.activeObject.GetHashCode())
                     onValidate.Invoke(Selection.activeObject, null);
             }
+        }
+
+        private void DrawNode(UniBaseNode node, Event currentEvent,Vector2 mousePos,List<Object> preSelection)
+        {
+            var guiColor = GUI.color;
+
+            // Culling
+            if (currentEvent.type == EventType.Layout)
+            {
+                // Cull unselected nodes outside view
+                if (!Selection.Contains(node) && ShouldBeCulled(node))
+                {
+                    culledNodes.Add(node);
+                    return;
+                }
+            }
+            else if (culledNodes.Contains(node)) return;
+
+            if (currentEvent.type == EventType.Repaint)
+            {
+                _portConnectionPoints = _portConnectionPoints.Where(x => x.Key.node != node)
+                    .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+            }
+
+            var nodeEditor = NodeEditor.GetEditor(node);
+
+            NodeEditor.PortPositions = new Dictionary<UniNodeSystem.NodePort, Vector2>();
+
+            //Get node position
+            var nodePos = GridToWindowPositionNoClipped(node.position);
+
+            GUILayout.BeginArea(new Rect(nodePos, new Vector2(nodeEditor.GetWidth(), 4000)));
+
+            var selected = selectionCache.Contains(node);
+
+            if (selected)
+            {
+                var style = new GUIStyle(nodeEditor.GetBodyStyle());
+                var highlightStyle = new GUIStyle(NodeEditorResources.styles.nodeHighlight);
+                highlightStyle.padding = style.padding;
+                style.padding = new RectOffset();
+                GUI.color = nodeEditor.GetTint();
+                GUILayout.BeginVertical(style);
+                GUI.color = NodeEditorPreferences.GetSettings().highlightColor;
+                GUILayout.BeginVertical(new GUIStyle(highlightStyle));
+            }
+            else
+            {
+                var style = new GUIStyle(nodeEditor.GetBodyStyle());
+                GUI.color = nodeEditor.GetTint();
+                GUILayout.BeginVertical(style);
+            }
+
+            GUI.color = guiColor;
+            EditorGUI.BeginChangeCheck();
+
+            //Draw node contents
+            nodeEditor.OnHeaderGUI();
+            nodeEditor.OnBodyGUI();
+
+            //If user changed a value, notify other scripts through onUpdateNode
+            if (EditorGUI.EndChangeCheck())
+            {
+                if (NodeEditor.OnUpdateNode != null) NodeEditor.OnUpdateNode(node);
+                EditorUtility.SetDirty(node);
+                nodeEditor.serializedObject.ApplyModifiedProperties();
+            }
+
+            GUILayout.EndVertical();
+
+            //Cache data about the node for next frame
+            if (currentEvent.type == EventType.Repaint)
+            {
+                var size = GUILayoutUtility.GetLastRect().size;
+                if (nodeSizes.ContainsKey(node)) nodeSizes[node] = size;
+                else nodeSizes.Add(node, size);
+
+                foreach (var kvp in NodeEditor.PortPositions)
+                {
+                    var portHandlePos = kvp.Value;
+                    portHandlePos += node.position;
+                    var rect = new Rect(portHandlePos.x - 8, portHandlePos.y - 8, 16, 16);
+                    if (portConnectionPoints.ContainsKey(kvp.Key)) portConnectionPoints[kvp.Key] = rect;
+                    else portConnectionPoints.Add(kvp.Key, rect);
+                }
+            }
+
+            if (selected) GUILayout.EndVertical();
+
+            if (currentEvent.type != EventType.Layout)
+            {
+                //Check if we are hovering this node
+                var nodeSize = GUILayoutUtility.GetLastRect().size;
+                var windowRect = new Rect(nodePos, nodeSize);
+                if (windowRect.Contains(mousePos)) hoveredNode = node;
+
+                //If dragging a selection box, add nodes inside to selection
+                if (currentActivity == NodeActivity.DragGrid)
+                {
+                    if (windowRect.Overlaps(selectionBox)) preSelection.Add(node);
+                }
+
+                //Check if we are hovering any of this nodes ports
+                //Check input ports
+                foreach (var input in node.Inputs)
+                {
+                    //Check if port rect is available
+                    if (!portConnectionPoints.ContainsKey(input)) continue;
+                    var r = GridToWindowRectNoClipped(portConnectionPoints[input]);
+                    if (r.Contains(mousePos)) hoveredPort = input;
+                }
+
+                //Check all output ports
+                foreach (var output in node.Outputs)
+                {
+                    //Check if port rect is available
+                    if (!portConnectionPoints.ContainsKey(output)) continue;
+                    var r = GridToWindowRectNoClipped(portConnectionPoints[output]);
+                    if (r.Contains(mousePos)) hoveredPort = output;
+                }
+            }
+
+            GUILayout.EndArea();
         }
 
         private bool ShouldBeCulled(UniNodeSystem.UniBaseNode node)

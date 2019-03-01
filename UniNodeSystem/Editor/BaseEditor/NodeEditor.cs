@@ -29,6 +29,7 @@ namespace UniNodeSystemEditor
 
         public sealed override void OnEnable()
         {
+            
             _bodyDrawers = new List<INodeEditorDrawer>();
             _headerDrawers = new List<INodeEditorDrawer>();
             
@@ -46,7 +47,9 @@ namespace UniNodeSystemEditor
         
         public virtual void OnHeaderGUI()
         {
+            
             Draw(_headerDrawers);
+            
         }
 
         /// <summary> Draws standard field editors for all public fields </summary>

@@ -14,11 +14,10 @@ namespace Modules.UniTools.UniNodeSystem.Editor.UnityGraph
         
         public static void Show(UniGraph graph)
         {
-            var window = EditorWindow.GetWindow<UnityGraphWindow>("UniGraph");
+            var window = GetWindow<UnityGraphWindow>(graph.name);
             window.Initialize(graph);
             window.Show();
         }
-
 
         public void Initialize(UniGraph graph)
         {

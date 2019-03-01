@@ -9,6 +9,7 @@ namespace UniStateMachine.CommonNodes
     {
         public override void OnBodyGUI()
         {
+            
             var graphNode = target as GraphNode;
             var graph = graphNode.Target;
             

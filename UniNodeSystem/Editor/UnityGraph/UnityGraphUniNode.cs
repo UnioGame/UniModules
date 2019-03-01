@@ -3,14 +3,14 @@ using Node = UnityEditor.Graphs.Node;
 
 namespace Modules.UniTools.UniNodeSystem.Editor.UnityGraph
 {
-    public class UniUnityGraphNodeEditor : Node
+    public class UnityGraphUniNode : Node
     {
     
         #region factory methods
 
         public static Node Create(UniBaseNode graphNode)
         {
-            var node = CreateInstance<UniUnityGraphNodeEditor>();
+            var node = CreateInstance<UnityGraphUniNode>();
             node.Initialize(graphNode);
             return node;
         }
