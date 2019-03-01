@@ -1,6 +1,7 @@
 ﻿using SubModules.Scripts.UniStateMachine.NodeEditor;
 using UniEditorTools;
 using UniNodeSystemEditor;
+using UniStateMachine.Nodes;
 
 namespace UniStateMachine.CommonNodes
 {
@@ -11,10 +12,13 @@ namespace UniStateMachine.CommonNodes
         {
             
             var graphNode = target as GraphNode;
-            var graph = graphNode.Target;
+            var graph = graphNode.Graph.Load<UniGraph>();
             
             base.OnBodyGUI();
 
+            if (!graph)
+                return;
+            
             EditorDrawerUtils.DrawButton("show graph", 
                 () => { NodeEditorWindow.Open(graph); });
 

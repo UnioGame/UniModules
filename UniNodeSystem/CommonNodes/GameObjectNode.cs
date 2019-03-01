@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UniModule.UnityTools.Interfaces;
 using UniModule.UnityTools.ObjectPool.Scripts;
+using UniModule.UnityTools.ResourceSystem;
 using UniModule.UnityTools.UniStateMachine.Extensions;
 using UnityEngine;
 using UniNodeSystem;
@@ -12,8 +13,8 @@ namespace UniStateMachine.CommonNodes
     {
         private string _optionsPortName;
 
-        public GameObject Target;
-        
+        public ResourceItem Asset;
+
         public bool CreateInstance;
        
         public ObjectInstanceData Options;
@@ -22,7 +23,8 @@ namespace UniStateMachine.CommonNodes
 
         public override string GetName()
         {
-            return Target ? Target.name : name;
+            var assetName = Asset.ItemName;
+            return string.IsNullOrEmpty(assetName) ? name : assetName;
         }
 
         protected override IEnumerator ExecuteState(IContext context)
@@ -45,16 +47,17 @@ namespace UniStateMachine.CommonNodes
 
         private GameObject CreateTarget(IContext context)
         {
+            var assetTarget = Asset.Load<GameObject>();
             
-            if (!CreateInstance) return Target;
-            if (!Target) return Target;
+            if (!CreateInstance) return assetTarget;
+            if (!assetTarget) return assetTarget;
 
             var optionsValue = GetPortValue(_optionsPortName);
             var options = optionsValue.HasValue<ObjectInstanceData>(context) ? 
                 optionsValue.Get<ObjectInstanceData>(context):
                 Options;
             
-            var target = ObjectPool.Spawn(Target,options.Position,
+            var target = ObjectPool.Spawn(assetTarget,options.Position,
                 Quaternion.identity,options.Parent,
                 options.StayAtWorld);
             
