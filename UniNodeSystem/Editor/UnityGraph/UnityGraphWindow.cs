@@ -29,6 +29,9 @@ namespace Modules.UniTools.UniNodeSystem.Editor.UnityGraph
 
         private void OnGUI()
         {
+            if (_graphGuiEditor == null)
+                return;
+            
             var width = position.width;
             var height = position.height;
             // Main graph area
