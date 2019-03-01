@@ -1,10 +1,10 @@
 ﻿using UniStateMachine.Nodes;
 using UnityEngine;
-using XNodeEditor;
+using UniNodeSystemEditor;
 
 namespace UnityTools.UniStateMachine.NodeEditor
 {
-	[CustomNodeGraphEditor(typeof(UniNodesGraph))]
+	[CustomNodeGraphEditor(typeof(UniGraph))]
 	public class UniGraphEditor : NodeGraphEditor  {
 
 		public override void OnEnable()

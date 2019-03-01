@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UniModule.UnityTools.Interfaces;
+using UniNodeSystem;
 using UniStateMachine;
 using UniStateMachine.Nodes;
 using UnityEngine;
@@ -13,7 +14,7 @@ namespace UniStateMachine {
         
         #region port
         
-        [Input(ShowBackingValue.Always, ConnectionType.Multiple)]
+        [NodeInput(ShowBackingValue.Always, ConnectionType.Multiple)]
         public UniPortValue Restart;
         
         #endregion

@@ -1,10 +1,14 @@
 using UniStateMachine;
+using UniStateMachine.NodeEditor;
+using UniNodeSystem;
+using UniNodeSystemEditor;
 
 namespace Modules.UniTools.UniNodeSystem.Editor.Drawers
 {
     public interface INodeEditorDrawer
     {
-        UniNode DrawNodeBody(UniNode node);
-        UniNode DrawNodeHeader(UniNode node);
+        
+        bool Draw(INodeEditor editor,UniBaseNode node);
+        
     }
 }

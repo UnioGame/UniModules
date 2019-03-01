@@ -6,7 +6,7 @@ using UniModule.UnityTools.ObjectPool.Scripts;
 using UniModule.UnityTools.UniVisualNodeSystem.Connections;
 using UniRx;
 using UnityEngine;
-using XNode;
+using UniNodeSystem;
 
 namespace UniStateMachine.Nodes
 {

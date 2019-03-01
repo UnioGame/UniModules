@@ -12,7 +12,7 @@ namespace Modules.UniTools.UniNodeSystem.Editor.UnityGraph
         private UniGraphEditor _graphEditor;
         private GraphGUI _graphGuiEditor;
         
-        public static void Show(UniNodesGraph graph)
+        public static void Show(UniGraph graph)
         {
             var window = EditorWindow.GetWindow<UnityGraphWindow>("UniGraph");
             window.Initialize(graph);
@@ -20,7 +20,7 @@ namespace Modules.UniTools.UniNodeSystem.Editor.UnityGraph
         }
 
 
-        public void Initialize(UniNodesGraph graph)
+        public void Initialize(UniGraph graph)
         {
             _graphEditor = UniGraphEditor.Create(graph);
             _graphGuiEditor = _graphEditor.GetEditor();

@@ -7,12 +7,12 @@ namespace Modules.UniTools.UniNodeSystem.Editor.UnityGraph
     public class UniGraphGuiEditor : GraphGUI
     {
         
-        private UniNodesGraph _uniGraph;
+        private UniGraph _uniGraph;
         private UniGraphEditor _graphEditor;
         
         #region public methods
 
-        public void Initialize(UniNodesGraph uniGraph,UniGraphEditor graphEditor)
+        public void Initialize(UniGraph uniGraph,UniGraphEditor graphEditor)
         {
             _uniGraph = uniGraph;
             graph = graphEditor;

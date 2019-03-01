@@ -11,12 +11,12 @@ using UniModule.UnityTools.UniStateMachine.Extensions;
 using UniModule.UnityTools.UniStateMachine.Interfaces;
 using UniStateMachine.Nodes;
 using UnityEngine;
-using XNode;
+using UniNodeSystem;
 
 namespace UniStateMachine
 {
     [Serializable]
-    public abstract class UniGraphNode : Node , IContextState<IEnumerator>
+    public abstract class UniGraphNode : UniBaseNode , IContextState<IEnumerator>
     {
         public const string OutputPortName = "Output";
         

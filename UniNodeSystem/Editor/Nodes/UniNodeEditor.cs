@@ -1,160 +1,171 @@
 ﻿using System;
 using System.Collections.Generic;
+using Modules.UniTools.UniNodeSystem.Editor.Drawers;
 using UniEditorTools;
 using UniStateMachine;
+using UniStateMachine.NodeEditor;
 using UniStateMachine.Nodes;
 using UnityEngine;
-using XNode;
-using XNodeEditor;
+using UniNodeSystem;
+using UniNodeSystemEditor;
 
 namespace SubModules.Scripts.UniStateMachine.NodeEditor
 {
-	[CustomNodeEditor(typeof(UniGraphNode))]
-	public class UniNodeEditor : XNodeEditor.NodeEditor
-	{
-		
-		private static Dictionary<string,NodePort> _drawedPorts = new Dictionary<string,NodePort>();
+    [CustomNodeEditor(typeof(UniGraphNode))]
+    public class UniNodeEditor : UniNodeSystemEditor.NodeEditor, IUniNodeEditor
+    {
 
-		public static Type UniPortValueType = typeof(UniPortValue);
-		
-		public bool IsSelected()
-		{
-			var node = target as UniGraphNode;
-			if (!node)
-				return false;
-			return node.IsAnyActive;
-		}
-		
-		private static GUIStyle SelectedHeaderStyle = 
-			new GUIStyle()
-		{
-			alignment = TextAnchor.MiddleCenter,
-			fontStyle = FontStyle.Bold,		
-		};
+        #region static data
+        
+        private static GUIStyle SelectedHeaderStyle = new GUIStyle()
+        {
+            alignment = TextAnchor.MiddleCenter,
+            fontStyle = FontStyle.Bold,
+        };
 
-		public override void OnHeaderGUI()
-		{
-			if (IsSelected())
-			{
-				EditorDrawerUtils.DrawWithContentColor(Color.red, base.OnHeaderGUI);
-				return;
-			}
-			base.OnHeaderGUI();
-		}
+        private static Dictionary<string, NodePort> _drawedPorts = new Dictionary<string, NodePort>();
+        
+        #endregion
 
-		public override void OnBodyGUI()
-		{
-			var node = target as UniGraphNode;
-			
-			node.Initialize();
+        protected List<INodeEditorDrawer> _bodyDrawers = new List<INodeEditorDrawer>();
+        protected List<INodeEditorDrawer> _headerDrawers = new List<INodeEditorDrawer>();
+        
+        public override bool IsSelected()
+        {
+            var node = target as UniGraphNode;
+            if (!node)
+                return false;
+            return node.IsAnyActive;
+        }
 
-			UpdateData(node);
-			
-			base.OnBodyGUI();
-			
-			DrawPorts(node);
-					
-			serializedObject.ApplyModifiedPropertiesWithoutUndo();
 
-		}
+        public override void OnHeaderGUI()
+        {
+            if (IsSelected())
+            {
+                EditorDrawerUtils.DrawWithContentColor(Color.red, base.OnHeaderGUI);
+                return;
+            }
+            
+            base.OnHeaderGUI();
+        }
 
-		public virtual void UpdateData(UniGraphNode node)
-		{
-			node.UpdatePortsCache();
-		}
+        public override void OnBodyGUI()
+        {
+            var node = target as UniGraphNode;
 
-		public override GUIStyle GetBodyStyle()
-		{
-			return base.GetBodyStyle();
-		}
+            node.Initialize();
 
-		public void DrawPorts(UniGraphNode node)
-		{
-			_drawedPorts.Clear();
+            UpdateData(node);
 
-			var inputPort = node.GetPort(UniNode.InputPortName);
-			var outputPort = node.GetPort(UniGraphNode.OutputPortName);
-			DrawPortPair(inputPort,outputPort,_drawedPorts);
-			
-			foreach (var portValue in node.PortValues)
-			{
-				var portName = portValue.Name;
-				var formatedName = UniNode.GetFormatedInputName(portName);
+            base.OnBodyGUI();
 
-				DrawPortPair(node,portName,formatedName,_drawedPorts);
+            DrawPorts(node);
 
-			}
+            serializedObject.ApplyModifiedPropertiesWithoutUndo();
+        }
 
-			foreach (var portValue in node.PortValues)
-			{
-				var portName = portValue.Name;
-				if(_drawedPorts.ContainsKey(portName))
-					continue;
-			
-				var port = node.GetPort(portValue.Name);
-				var portStyle = GetPortStyle(port);
-				
-				port.DrawPortField(portStyle);
-			}
-			
-		}
+        public virtual void UpdateData(UniGraphNode node)
+        {
+            node.UpdatePortsCache();
+        }
 
-		public void DrawPortPair(UniGraphNode node,string inputPortName, string outputPortName,Dictionary<string,NodePort> ports)
-		{
-			if(_drawedPorts.ContainsKey(inputPortName))
-				return;	
-			
-			var outputPort = node.GetPort(inputPortName);
-			var inputPort = node.GetPort(outputPortName);
+        public void DrawPorts(UniGraphNode node)
+        {
+            _drawedPorts.Clear();
 
-			DrawPortPair(inputPort, outputPort,ports);
-		}
-		
-		public void DrawPortPair(NodePort inputPort, NodePort outputPort,Dictionary<string,NodePort> ports)
-		{
-			if (outputPort == null || inputPort == null)
-			{
-				return;
-			}
-			
-			var inputStyle = GetPortStyle(inputPort);
-			var outputStyle = GetPortStyle(outputPort);
-				
-			_drawedPorts[inputPort.fieldName] = inputPort;
-			_drawedPorts[outputPort.fieldName] = outputPort;
+            var inputPort = node.GetPort(UniNode.InputPortName);
+            var outputPort = node.GetPort(UniGraphNode.OutputPortName);
+            DrawPortPair(inputPort, outputPort, _drawedPorts);
 
-			inputPort.DrawPortField(outputPort, inputStyle, outputStyle);
-		}
+            foreach (var portValue in node.PortValues)
+            {
+                var portName = portValue.Name;
+                var formatedName = UniNode.GetFormatedInputName(portName);
 
-		private NodeGuiLayoutStyle GetPortStyle(NodePort port)
-		{
+                DrawPortPair(node, portName, formatedName, _drawedPorts);
+            }
+
+            foreach (var portValue in node.PortValues)
+            {
+                var portName = portValue.Name;
+                if (_drawedPorts.ContainsKey(portName))
+                    continue;
+
+                var port = node.GetPort(portValue.Name);
+                var portStyle = GetPortStyle(port);
+
+                port.DrawPortField(portStyle);
+            }
+        }
+
+        public void DrawPortPair(UniGraphNode node, string inputPortName, string outputPortName,
+            Dictionary<string, NodePort> ports)
+        {
+            if (_drawedPorts.ContainsKey(inputPortName))
+                return;
+
+            var outputPort = node.GetPort(inputPortName);
+            var inputPort = node.GetPort(outputPortName);
+
+            DrawPortPair(inputPort, outputPort, ports);
+        }
+
+        public void DrawPortPair(NodePort inputPort, NodePort outputPort, Dictionary<string, NodePort> ports)
+        {
+            if (outputPort == null || inputPort == null)
+            {
+                return;
+            }
+
+            var inputStyle = GetPortStyle(inputPort);
+            var outputStyle = GetPortStyle(outputPort);
+
+            _drawedPorts[inputPort.fieldName] = inputPort;
+            _drawedPorts[outputPort.fieldName] = outputPort;
+
+            inputPort.DrawPortField(outputPort, inputStyle, outputStyle);
+        }
+
+        public NodeGuiLayoutStyle GetPortStyle(NodePort port)
+        {
             var portStyle = NodeEditorGUILayout.GetDefaultPortStyle(port);
 
-			if (port == null)
-				return portStyle;
+            if (port == null)
+                return portStyle;
 
-			var uniNode = port.node as UniGraphNode;
-			var portValue = uniNode.GetPortValue(port.fieldName);
-			var hasData = portValue != null && portValue.Count > 0;
-			
-  			if (port.fieldName == UniNode.OutputPortName || port.fieldName == UniNode.InputPortName)
-			{
-				portStyle.Background = Color.blue;
-				portStyle.Color = hasData ? Color.red : Color.white;
-				return portStyle;
-			}
-			
-			if (port.IsDynamic)
-			{
-				portStyle.Name = port.fieldName;
-				portStyle.Background = Color.red;
-				portStyle.Color = port.direction  == PortIO.Input ?
-					hasData ? new Color(128,128,0) : Color.green : 
-					hasData ? new Color(128,128,0) : Color.blue;
-			}
-			
-			return portStyle;
-		}
-		
-	}
+            var uniNode = port.node as UniGraphNode;
+            var portValue = uniNode.GetPortValue(port.fieldName);
+            var hasData = portValue != null && portValue.Count > 0;
+
+            if (port.fieldName == UniNode.OutputPortName || port.fieldName == UniNode.InputPortName)
+            {
+                portStyle.Background = Color.blue;
+                portStyle.Color = hasData ? Color.red : Color.white;
+                return portStyle;
+            }
+
+            if (port.IsDynamic)
+            {
+                portStyle.Name = port.fieldName;
+                portStyle.Background = Color.red;
+                portStyle.Color = port.direction == PortIO.Input ? hasData ? new Color(128, 128, 0) : Color.green :
+                    hasData ? new Color(128, 128, 0) : Color.blue;
+            }
+
+            return portStyle;
+        }
+
+        private void ApplyDrawers(List<INodeEditorDrawer> drawers)
+        {
+
+            for (int i = 0; i < drawers.Count; i++)
+            {
+                var drawer = drawers[i];
+                var continuation = drawer.Draw(this, target as UniNode);
+                if(continuation == false) break;
+            }
+            
+        }
+    }
 }

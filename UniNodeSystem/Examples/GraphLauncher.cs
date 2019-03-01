@@ -10,7 +10,7 @@ public class GraphLauncher : MonoBehaviour
     private IDisposable _disposable;
     
     [SerializeField]
-    private UniNodesGraph _graph;
+    private UniGraph _graph;
     
     // Start is called before the first frame update
     private void Start()

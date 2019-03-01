@@ -6,7 +6,7 @@ using UniModule.UnityTools.UniStateMachine.Extensions;
 using UniStateMachine;
 using UniStateMachine.Nodes;
 using UnityEngine;
-using XNode;
+using UniNodeSystem;
 
 namespace UniStateMachine.CommonNodes
 {

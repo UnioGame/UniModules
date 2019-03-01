@@ -1,18 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using UniStateMachine;
 using UnityEngine;
 
-public class CameraNode : MonoBehaviour
+namespace Modules.UniTools.UniNodeSystem.CommonNodes
 {
-    // Start is called before the first frame update
-    void Start()
+    public class CameraNode : UniNode
     {
+    
         
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+    
     }
 }

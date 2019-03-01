@@ -11,7 +11,7 @@ public class TestLauncher : MonoBehaviour
     private IDisposableItem _disposableItem;
     private IContext _context;
     
-    public UniNodesGraph Graph;
+    public UniGraph Graph;
 	
 	// Use this for initialization
 	void Start ()

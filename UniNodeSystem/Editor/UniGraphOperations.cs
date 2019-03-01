@@ -7,7 +7,7 @@ using UniStateMachine.Nodes;
 using UnityEditor;
 using UnityEngine;
 using UniTools.UniNodeSystem;
-using XNode;
+using UniNodeSystem;
 
 namespace UniStateMachine.EditorTools
 {
@@ -21,7 +21,7 @@ namespace UniStateMachine.EditorTools
 			var selections = Selection.objects;
 			foreach (var selection in selections)
 			{
-				if(selection is UniNodesGraph graph)
+				if(selection is UniGraph graph)
 					CleanUpUniGraph(graph);
 			}
 		}
@@ -31,14 +31,14 @@ namespace UniStateMachine.EditorTools
 		{
 			
 			var graphAsset = ScriptableObject.CreateInstance<UniGraphAsset>();
-			var graph = new GameObject().AddComponent<UniNodesGraph>();
+			var graph = new GameObject().AddComponent<UniGraph>();
 			var activePath = AssetDatabase.GetAssetPath(Selection.activeObject);
 			
 			var assetFolder = Directory.Exists(activePath) ? activePath :
 				Path.GetDirectoryName(activePath);
 			
 			var asset = AssetEditorTools.SaveAsset(graph.gameObject, "UniGraph", assetFolder);
-			graphAsset.Graph = asset.GetComponent<UniNodesGraph>();
+			graphAsset.Graph = asset.GetComponent<UniGraph>();
 
 			AssetEditorTools.SaveAsset(graphAsset, "GraphAsset", assetFolder);
 		}
@@ -49,12 +49,12 @@ namespace UniStateMachine.EditorTools
 			var selections = Selection.objects;
 			foreach (var selection in selections)
 			{
-				if(selection is UniNodesGraph graph)
+				if(selection is UniGraph graph)
 					graph.Dispose();
 			}
 		}
 
-		public static void CleanUpUniGraph(UniNodesGraph graph)
+		public static void CleanUpUniGraph(UniGraph graph)
 		{
 
 			var assetPath = AssetDatabase.GetAssetPath(graph);
@@ -66,7 +66,7 @@ namespace UniStateMachine.EditorTools
 			
 			assets.Remove(graph);
 
-			var itemsToRemove = new List<Node>();
+			var itemsToRemove = new List<UniBaseNode>();
 			
 			foreach (var node in nodes)
 			{
@@ -83,7 +83,7 @@ namespace UniStateMachine.EditorTools
 			{
 				if (!asset || !nodes.Contains(asset))
 				{
-					nodes.Remove(asset as Node);
+					nodes.Remove(asset as UniBaseNode);
 					asset.DestroyNestedAsset();
 					continue;
 				}

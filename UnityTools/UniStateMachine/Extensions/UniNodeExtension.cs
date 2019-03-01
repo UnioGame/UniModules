@@ -4,15 +4,15 @@ using UniModule.UnityTools.ProfilerTools;
 using UniStateMachine;
 using UniStateMachine.Nodes;
 using UnityEngine.Profiling;
-using XNode;
+using UniNodeSystem;
 
 namespace UniModule.UnityTools.UniStateMachine.Extensions
 {
     public static class UniNodeExtension
     {
         
-        public static List<TTarget> GetOutputConnections<TTarget>(this Node node)
-            where TTarget :Node
+        public static List<TTarget> GetOutputConnections<TTarget>(this UniBaseNode node)
+            where TTarget :UniBaseNode
         {
             var items = ClassPool.Spawn<List<TTarget>>();
             
@@ -28,7 +28,7 @@ namespace UniModule.UnityTools.UniStateMachine.Extensions
         }
 
         public static List<NodePort> GetConnectionToNodes<TTarget>(this NodePort port)
-            where TTarget :Node
+            where TTarget :UniBaseNode
         {
             
             var items = ClassPool.Spawn<List<NodePort>>();
@@ -50,7 +50,7 @@ namespace UniModule.UnityTools.UniStateMachine.Extensions
         }
         
         public static List<TTarget> GetConnectedNodes<TTarget>(this NodePort port)
-            where TTarget :Node
+            where TTarget :UniBaseNode
         {
             var items = ClassPool.Spawn<List<TTarget>>();
             
@@ -69,7 +69,7 @@ namespace UniModule.UnityTools.UniStateMachine.Extensions
         }
 
         public static TValue GetConnectedNode<TValue>(this NodePort port)
-            where TValue :Node
+            where TValue :UniBaseNode
         {
             if (port == null || !port.IsConnected)
             {
@@ -121,7 +121,7 @@ namespace UniModule.UnityTools.UniStateMachine.Extensions
         }
         
 
-        public static NodePort UpdatePort<TValue>(this Node node,string portName,PortIO direction = PortIO.Output)
+        public static NodePort UpdatePort<TValue>(this UniBaseNode node,string portName,PortIO direction = PortIO.Output)
         {
         
             var nodePort = node.GetPort(portName);
@@ -141,8 +141,8 @@ namespace UniModule.UnityTools.UniStateMachine.Extensions
                 var portType = typeof(TValue);
 
                 nodePort = direction == PortIO.Output
-                    ? node.AddInstanceOutput(portType, Node.ConnectionType.Multiple, portName)
-                    : node.AddInstanceInput(portType, Node.ConnectionType.Multiple, portName);
+                    ? node.AddInstanceOutput(portType, ConnectionType.Multiple, portName)
+                    : node.AddInstanceInput(portType, ConnectionType.Multiple, portName);
             }
 
             return nodePort;

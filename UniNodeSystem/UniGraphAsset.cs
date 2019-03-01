@@ -7,7 +7,7 @@ namespace UniTools.UniNodeSystem
     public class UniGraphAsset : ScriptableObject
     {
 
-        public UniNodesGraph Graph;
+        public UniGraph Graph;
 
     }
 }

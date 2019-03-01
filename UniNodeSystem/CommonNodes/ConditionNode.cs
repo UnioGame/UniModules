@@ -4,7 +4,7 @@ using UniModule.UnityTools.Interfaces;
 using UniModule.UnityTools.UniStateMachine.Extensions;
 using UniStateMachine.Nodes;
 using UnityEngine;
-using XNode;
+using UniNodeSystem;
 
 namespace UniStateMachine.CommonNodes
 {

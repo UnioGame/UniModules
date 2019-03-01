@@ -3,11 +3,11 @@ using System.Linq;
 using SubModules.Scripts.UniStateMachine.NodeEditor;
 using UniStateMachine;
 using UniStateMachine.CommonNodes;
-using XNodeEditor;
+using UniNodeSystemEditor;
 
 namespace UniModule.UnityTools.UniNodesEditorSystem
 {
-    [NodeEditor.CustomNodeEditorAttribute(typeof(UniModuleNode))]
+    [CustomNodeEditorAttribute(typeof(UniModuleNode))]
     public class ModuleNodeEditor : UniNodeEditor
     {
         public override void OnBodyGUI()

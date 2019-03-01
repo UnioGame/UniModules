@@ -1,4 +1,5 @@
-﻿using UnityEditor.Graphs;
+﻿using UniNodeSystem;
+using Node = UnityEditor.Graphs.Node;
 
 namespace Modules.UniTools.UniNodeSystem.Editor.UnityGraph
 {
@@ -7,7 +8,7 @@ namespace Modules.UniTools.UniNodeSystem.Editor.UnityGraph
     
         #region factory methods
 
-        public static Node Create(XNode.Node graphNode)
+        public static Node Create(UniBaseNode graphNode)
         {
             var node = CreateInstance<UniUnityGraphNodeEditor>();
             node.Initialize(graphNode);
@@ -16,9 +17,9 @@ namespace Modules.UniTools.UniNodeSystem.Editor.UnityGraph
         
         #endregion
 
-        private XNode.Node _node;
+        private UniBaseNode _node;
         
-        public void Initialize(XNode.Node graphNode)
+        public void Initialize(UniBaseNode graphNode)
         {
             _node = graphNode;
         }

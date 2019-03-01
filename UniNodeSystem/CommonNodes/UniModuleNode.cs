@@ -8,7 +8,7 @@ using UniStateMachine.Nodes;
 using UnityEngine;
 using UnityTools.UniNodeEditor.Connections;
 using UnityTools.UniVisualNodeSystem;
-using XNode;
+using UniNodeSystem;
 
 namespace UniStateMachine.CommonNodes
 {

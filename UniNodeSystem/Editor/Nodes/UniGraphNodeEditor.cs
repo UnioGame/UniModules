@@ -1,16 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Modules.UniTools.UniNodeSystem.Editor.Nodes;
-using SubModules.Scripts.UniStateMachine.NodeEditor;
+﻿using SubModules.Scripts.UniStateMachine.NodeEditor;
 using UniEditorTools;
-using UniStateMachine.Nodes;
-using UnityEngine;
-using XNodeEditor;
+using UniNodeSystemEditor;
 
 namespace UniStateMachine.CommonNodes
 {
-    [NodeEditor.CustomNodeEditorAttribute(typeof(GraphNode))]
-    public class UniGraphNodeEditor : UniAssetNodeEditor<UniNodesGraph>
+    [CustomNodeEditorAttribute(typeof(GraphNode))]
+    public class UniGraphNodeEditor : UniNodeEditor
     {
         public override void OnBodyGUI()
         {

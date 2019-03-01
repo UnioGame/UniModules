@@ -3,22 +3,28 @@ using UniModule.UnityTools.Interfaces;
 using UniModule.UnityTools.ObjectPool.Scripts;
 using UniModule.UnityTools.UniStateMachine.Extensions;
 using UnityEngine;
-using XNode;
+using UniNodeSystem;
 
 namespace UniStateMachine.CommonNodes
 {
     
-    public class GameObjectNode : AssetNode<GameObject>
+    public class GameObjectNode : UniNode
     {
         private string _optionsPortName;
 
+        public GameObject Target;
+        
         public bool CreateInstance;
        
         public ObjectInstanceData Options;
                        
         //public UnityEvent Action;
-        
-        
+
+        public override string GetName()
+        {
+            return Target ? Target.name : name;
+        }
+
         protected override IEnumerator ExecuteState(IContext context)
         {
             var target = CreateTarget(context);

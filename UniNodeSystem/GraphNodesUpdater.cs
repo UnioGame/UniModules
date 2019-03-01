@@ -5,7 +5,7 @@ using UniModule.UnityTools.ObjectPool.Scripts;
 using UniModule.UnityTools.ProfilerTools;
 using UniModule.UnityTools.UniStateMachine.Extensions;
 using UnityEngine;
-using XNode;
+using UniNodeSystem;
 
 namespace UniStateMachine.Nodes
 {

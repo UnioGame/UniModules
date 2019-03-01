@@ -20,7 +20,7 @@ namespace UniModule.UnityTools.ActorEntityModel
         /// behaviour SO
         /// </summary>
         [SerializeField]
-        private UniNodesGraph _stateObject;
+        private UniGraph _stateObject;
 
         /// <summary>
         /// behaviour component

@@ -1,5 +1,5 @@
 ﻿using System;
-using XNode;
+using UniNodeSystem;
 
 namespace UnityTools.UniVisualNodeSystem
 {
