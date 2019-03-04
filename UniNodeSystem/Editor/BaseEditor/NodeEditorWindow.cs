@@ -222,15 +222,6 @@ namespace UniNodeSystemEditor
             nodeEditor?.portConnectionPoints.Clear();
            
             var targetGraph = UpdateGraphHistory(nodeGraph);
-
-            if (PrefabUtility.IsPartOfPrefabAsset(targetGraph))
-            {
-                Debug.Log("THIS IS IsPartOfPrefabAsset");
-            }
-            else if(PrefabUtility.IsPartOfPrefabInstance(targetGraph))
-            {
-                Debug.Log("THIS IS IsPartOfPrefabInstance");
-            }
             
             w.wantsMouseMove = true;
             w.graph = targetGraph;        

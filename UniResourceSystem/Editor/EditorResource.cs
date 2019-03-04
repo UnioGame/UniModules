@@ -1,6 +1,7 @@
 ﻿using UniModule.UnityTools.ResourceSystem;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 namespace Modules.UniTools.UniResourceSystem
 {
@@ -15,24 +16,22 @@ namespace Modules.UniTools.UniResourceSystem
         protected override void OnUpdateAsset(Object targetAsset)
         {
 
+            
             assetPath =  AssetDatabase.GetAssetPath(targetAsset);
 
-            if (string.IsNullOrEmpty(assetPath))
-            {
-                if (targetAsset is GameObject targetGameObject)
-                {
-                    var isPrefabAsset = PrefabUtility.IsPartOfPrefabAsset(targetGameObject);
-                    
-                    var graphAssetPath = isPrefabAsset
-                        ? AssetDatabase.GetAssetPath(targetGameObject)
-                        : PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(targetGameObject);
+            if (!string.IsNullOrEmpty(assetPath)) return;
 
-                    var originParent = PrefabUtility.GetCorrespondingObjectFromSource(targetGameObject);
-                    assetPath = graphAssetPath;
-                    asset = originParent;
-                }   
-            }
+            if (!(targetAsset is GameObject targetGameObject)) return;
             
+            var isPrefabAsset = PrefabUtility.IsPartOfPrefabAsset(targetGameObject);
+                    
+            var graphAssetPath = isPrefabAsset
+                ? AssetDatabase.GetAssetPath(targetGameObject)
+                : PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(targetGameObject);
+
+            var originParent = PrefabUtility.GetCorrespondingObjectFromSource(targetGameObject);
+            assetPath = graphAssetPath;
+            asset = originParent;
         }
 
         protected override TResult LoadAsset<TResult>()
