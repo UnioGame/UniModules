@@ -143,15 +143,22 @@ namespace UniStateMachine
             }
             _state?.Dispose();
         }
-
-        protected virtual void OnUpdatePortsCache()
-        {
-            this.UpdatePortValue(OutputPortName, PortIO.Output);
-        }
         
         public override object GetValue(NodePort port)
         {
             return GetPortValue(port);
+        }
+        
+
+        public UniPortValue GetPortValue(NodePort port)
+        {
+            return GetPortValue(port.fieldName);
+        }
+
+        public UniPortValue GetPortValue(string portName)
+        {
+            _portValuesMap.TryGetValue(portName, out var value);
+            return value;
         }
 
         public bool AddPortValue(UniPortValue portValue)
@@ -174,18 +181,12 @@ namespace UniStateMachine
             return true;
         }
 
-        public UniPortValue GetPortValue(NodePort port)
-        {
-            return GetPortValue(port.fieldName);
-        }
-
-        public UniPortValue GetPortValue(string portName)
-        {
-            _portValuesMap.TryGetValue(portName, out var value);
-            return value;
-        }
-        
         #endregion
+
+        protected virtual void OnUpdatePortsCache()
+        {
+            this.UpdatePortValue(OutputPortName, PortIO.Output);
+        }
 
         #region state behaviour methods
 

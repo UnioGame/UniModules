@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UniModule.UnityTools.Interfaces;
+using UniModule.UnityTools.UniRoutine;
 using UnityEngine;
 
 namespace UniModule.UnityTools.Extension
@@ -64,7 +65,7 @@ namespace UniModule.UnityTools.Extension
         public static IEnumerator WaitWhile(this object source, Func<bool> completeFunc)
         {
 
-            if (source == null || completeFunc == null) yield break;
+            if (completeFunc == null) yield break;
             while (completeFunc())
             {
                 yield return null;
@@ -72,6 +73,42 @@ namespace UniModule.UnityTools.Extension
 
         }
 
+        public static IEnumerator ExecuteWhile(this object target, Func<IEnumerator> sequence, Func<bool> condition)
+        {
+            
+            if(sequence == null || condition == null)yield break;
+
+            while (condition())
+            {
+                yield return sequence();
+                yield return null;
+            }
+            
+        }
+
+        public static IDisposable ExecuteWithCondition(this object target,Action action, Func<bool> condition,
+            RoutineType routineType = RoutineType.UpdateStep)
+        {
+            
+            var enumerator = ExecuteWhile(target,action, condition);
+            var disposable = enumerator.RunWithSubRoutines(routineType);
+            return disposable;
+            
+        }
+        
+        public static IEnumerator ExecuteWhile(this object target, Action action, Func<bool> condition)
+        {
+            
+            if(action == null || condition == null)yield break;
+
+            while (condition())
+            {
+                action();
+                yield return null;
+            }
+            
+        }
+        
         public static IEnumerator RoutineWaitUntil(this AsyncOperation operation) {
 
             if(operation == null)yield break;
