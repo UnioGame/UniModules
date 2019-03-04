@@ -13,6 +13,7 @@ namespace UniTools.UniUiSystem
     [CustomNodeEditor(typeof(UniUiNode))]
     public class UniUiNodeEditor : UniNodeEditor
     {
+        
         private UiModule _moduleView;
         
         public static Type UniPortType = typeof(UniPortValue);
@@ -75,8 +76,10 @@ namespace UniTools.UniUiSystem
             CollectUiData(uiView);
 
             uiView.Initialize();
+
+            var view = PrefabUtility.SavePrefabAsset(uiView.gameObject);
             
-            node.UiView = PrefabUtility.SavePrefabAsset(uiView.gameObject).GetComponent<UiModule>();
+            node.UiResource.Update(view);
 
         }
 

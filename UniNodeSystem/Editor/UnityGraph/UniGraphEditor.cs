@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Modules.UniTools.UniNodeSystem.Editor.UnityGraph
 {
-    public class UniGraphEditor : UnityEditor.Graphs.Graph
+    public class UniGraphEditor : Graph
     {
 
         #region factory methods

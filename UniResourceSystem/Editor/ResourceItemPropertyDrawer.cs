@@ -1,6 +1,11 @@
-﻿using UniModule.UnityTools.ResourceSystem;
+﻿using System;
+using System.Linq;
+using Modules.UniTools.UnityTools.Attributes;
+using SubjectNerd.Utilities;
+using UniModule.UnityTools.ResourceSystem;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Modules.UniTools.UniResourceSystem.Editor
 {
@@ -15,18 +20,19 @@ namespace Modules.UniTools.UniResourceSystem.Editor
             EditorGUI.BeginProperty(position, label, property);
 
             var assetProperty = property.FindPropertyRelative("asset");
+            
+            var typeAttribute = property.GetAttributes<TargetTypeAttribute>().FirstOrDefault() as TargetTypeAttribute;
 
-            changed = EditorGUILayout.PropertyField(assetProperty) || changed;
+            var type = typeAttribute != null ? typeAttribute.TargetType : typeof(Object);
+            
+            assetProperty.objectReferenceValue = 
+                EditorGUILayout.ObjectField("Target",assetProperty.objectReferenceValue,type,true);
             
             EditorGUILayout.Separator();
             
             EditorGUI.EndProperty();
 
-            if (changed)
-            {
-                property.serializedObject.ApplyModifiedPropertiesWithoutUndo();
-            }
-
+            property.serializedObject.ApplyModifiedPropertiesWithoutUndo();
         }
     }
 }

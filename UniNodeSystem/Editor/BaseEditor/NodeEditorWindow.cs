@@ -1,25 +1,28 @@
 using System.Collections.Generic;
+using System.Linq;
+using Modules.UniTools.UniResourceSystem;
 using UniModule.UnityTools.EditorTools;
+using UniNodeSystem;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;
 using UniTools.UniNodeSystem;
-using UniNodeSystem;
 
-namespace UniNodeSystemEditor 
+namespace UniNodeSystemEditor
 {
-
     [InitializeOnLoad]
     public partial class NodeEditorWindow : EditorWindow
     {
         public static List<UniGraphAsset> NodeGraphs;
+        public static List<EditorResource> GraphsHistory;
+
         public static NodeEditorWindow current;
 
-        private Dictionary<ulong, UniNodeSystem.NodePort> _portsIds = new Dictionary<ulong, UniNodeSystem.NodePort>();
-        private Dictionary<UniNodeSystem.NodePort, Rect> _portConnectionPoints = new Dictionary<UniNodeSystem.NodePort, Rect>();
+        private Dictionary<ulong, NodePort> _portsIds = new Dictionary<ulong, NodePort>();
+        private Dictionary<NodePort, Rect> _portConnectionPoints = new Dictionary<NodePort, Rect>();
 
         /// <summary> Stores node positions for all nodePorts. </summary>
-        public Dictionary<UniNodeSystem.NodePort, Rect> portConnectionPoints
+        public Dictionary<NodePort, Rect> portConnectionPoints
         {
             get { return _portConnectionPoints; }
         }
@@ -44,7 +47,11 @@ namespace UniNodeSystemEditor
 
         private void OnEnable()
         {
-
+            if(GraphsHistory == null)
+                GraphsHistory = new List<EditorResource>();
+            if(NodeGraphs == null)
+                NodeGraphs = new List<UniGraphAsset>();
+            
             // Reload portConnectionPoints if there are any
             var length = _references.Length;
             if (length == _rects.Length)
@@ -61,16 +68,15 @@ namespace UniNodeSystemEditor
             }
 
             graphEditor?.OnEnable();
-
         }
 
-        public Dictionary<UniNodeSystem.UniBaseNode, Vector2> nodeSizes
+        public Dictionary<UniBaseNode, Vector2> nodeSizes
         {
             get { return _nodeSizes; }
         }
 
-        private Dictionary<UniNodeSystem.UniBaseNode, Vector2> _nodeSizes = new Dictionary<UniNodeSystem.UniBaseNode, Vector2>();
-        public UniNodeSystem.NodeGraph graph;
+        private Dictionary<UniBaseNode, Vector2> _nodeSizes = new Dictionary<UniBaseNode, Vector2>();
+        public NodeGraph graph;
 
         public Vector2 panOffset
         {
@@ -139,14 +145,11 @@ namespace UniNodeSystemEditor
         {
             var path = EditorUtility.SaveFilePanelInProject("Save NodeGraph", "NewNodeGraph", "asset", "");
             if (string.IsNullOrEmpty(path)) return;
-            else
-            {
-                var existingGraph = AssetDatabase.LoadAssetAtPath<UniNodeSystem.NodeGraph>(path);
-                if (existingGraph != null) AssetDatabase.DeleteAsset(path);
-                AssetDatabase.CreateAsset(graph, path);
-                EditorUtility.SetDirty(graph);
-                if (NodeEditorPreferences.GetSettings().autoSave) AssetDatabase.SaveAssets();
-            }
+            var existingGraph = AssetDatabase.LoadAssetAtPath<NodeGraph>(path);
+            if (existingGraph != null) AssetDatabase.DeleteAsset(path);
+            AssetDatabase.CreateAsset(graph, path);
+            EditorUtility.SetDirty(graph);
+            if (NodeEditorPreferences.GetSettings().autoSave) AssetDatabase.SaveAssets();
         }
 
         private void DraggableWindow(int windowID)
@@ -185,7 +188,7 @@ namespace UniNodeSystemEditor
             return new Vector2(xOffset, yOffset);
         }
 
-        public void SelectNode(UniNodeSystem.UniBaseNode node, bool add)
+        public void SelectNode(UniBaseNode node, bool add)
         {
             if (add)
             {
@@ -196,7 +199,7 @@ namespace UniNodeSystemEditor
             else Selection.objects = new Object[] {node};
         }
 
-        public void DeselectNode(UniNodeSystem.UniBaseNode node)
+        public void DeselectNode(UniBaseNode node)
         {
             var selection = new List<Object>(Selection.objects);
             selection.Remove(node);
@@ -206,8 +209,7 @@ namespace UniNodeSystemEditor
         [OnOpenAsset(0)]
         public static bool OnOpen(int instanceID, int line)
         {
-
-            var nodeGraph = EditorUtility.InstanceIDToObject(instanceID) as UniNodeSystem.NodeGraph;
+            var nodeGraph = EditorUtility.InstanceIDToObject(instanceID) as NodeGraph;
             return nodeGraph != null && Open(nodeGraph);
         }
 
@@ -215,11 +217,13 @@ namespace UniNodeSystemEditor
         {
             var w = GetWindow(typeof(NodeEditorWindow), false, "UniNodes", true) as NodeEditorWindow;
 
-            var nodeEditor = w as NodeEditorWindow;
+            var nodeEditor = w;
             nodeEditor?.portConnectionPoints.Clear();
-
+           
+            var targetGraph = UpdateGraphHistory(nodeGraph);
+            
             w.wantsMouseMove = true;
-            w.graph = nodeGraph;
+            w.graph = targetGraph;        
             
             return true;
         }
@@ -230,12 +234,37 @@ namespace UniNodeSystemEditor
         }
 
         /// <summary> Repaint all open NodeEditorWindows. </summary>
-        public static void RepaintAll() 
+        public static void RepaintAll()
         {
             var windows = Resources.FindObjectsOfTypeAll<NodeEditorWindow>();
-            for (var i = 0; i < windows.Length; i++) {
+            for (var i = 0; i < windows.Length; i++)
+            {
                 windows[i].Repaint();
             }
+        }
+
+        private static NodeGraph UpdateGraphHistory(NodeGraph targetGraph)
+        {
+
+            if (!targetGraph) return targetGraph;
+
+            var targetItem = GraphsHistory.FirstOrDefault(x => x.Target == targetGraph.gameObject);
+
+            if (targetItem != null)
+            {
+                GraphsHistory.Remove(targetItem);
+            }
+
+            var targetObject = UniPrefabUtility.LoadPrefabContents(targetGraph.gameObject);
+            
+            var resourceItem = new EditorResource();
+            resourceItem.Update(targetObject);
+            
+            targetGraph = targetObject.GetComponent<NodeGraph>();
+           
+            GraphsHistory.Add(resourceItem);
+
+            return targetGraph;
         }
     }
 }

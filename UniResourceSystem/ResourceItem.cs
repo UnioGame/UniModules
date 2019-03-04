@@ -7,21 +7,21 @@ using Object = UnityEngine.Object;
 namespace UniModule.UnityTools.ResourceSystem
 {
     [Serializable]
-    public class ResourceItem : INamedItem
+    public class ResourceItem : IResource
     {
         [NonSerialized]
-        private Object _loadedItem;
+        protected Object _loadedItem;
         
         [HideInInspector]
         [SerializeField]
-        private string assetPath;
+        protected string assetPath;
         
         [HideInInspector]
         [SerializeField]
-        private string guid;
+        protected string guid;
 
         [SerializeField]
-        private Object asset;
+        protected Object asset;
 
 
         public string ItemName
@@ -39,40 +39,80 @@ namespace UniModule.UnityTools.ResourceSystem
         public T Load<T>()
             where T : Object
         {
-            if (_loadedItem is T cached)
-                return cached;
-            
-            var result = asset as T;
-            if (result)
+            T result = null;
+            if (_loadedItem != null)
             {
-                return ApplyResource(result);
+                
+                if (_loadedItem is T cached)
+                    return cached;
+
+                result = GetTargetFromSource<T>(_loadedItem);
+
+            }
+            else if (asset)
+            {
+                result = GetTargetFromSource<T>(asset);
+            }
+            else
+            {
+                result = LoadAsset<T>();
             }
 
-            if (asset is GameObject gameObject)
-            {
-                result = gameObject.GetComponent<T>();
-                if (result)
-                {
-                    return ApplyResource(result);
-                }
-            }
-
-            Debug.LogError("LOAD NULL ASSET FROM ResourceItem");
+            ApplyResource(result);
             
-            return null;
+            if(Application.isPlaying && !result)
+                Debug.LogError("LOAD NULL ASSET FROM ResourceItem");
+
+            return result;
         }
         
-        public void Update(Object asset)
+        public void Update(Object target)
         {
-            this.asset = asset;
+            this.asset = target;
+            OnUpdateAsset(this.asset);
         }
 
         public void Update() {
+            
+            if (this.asset)
+            {
+                Update(this.asset);
+                return;
+            }
 
+            var target = Load<Object>();
+            if(target)
+            {
+                Update(target);
+            }
+            
         }
 
         #endregion
 
+        protected T GetTargetFromSource<T>(Object source)
+            where  T : Object
+        {
+                        
+            var result = source as T;
+            if (result)
+            {
+                return result;
+            }
+
+            if (source is GameObject gameObject)
+            {
+                result = gameObject.GetComponent<T>();
+                if (result)
+                {
+                    return result;
+                }
+            }
+
+            return result;
+            
+        }
+        
         private T ApplyResource<T>(T resource)
             where T : Object
         {
@@ -80,6 +120,16 @@ namespace UniModule.UnityTools.ResourceSystem
             return resource;
         }
 
+        protected virtual TResult LoadAsset<TResult>()
+            where TResult : Object
+        {
+            return null;
+        }
+
+        protected virtual void OnUpdateAsset(Object targetAsset)
+        {
+            
+        }
         
     }
 }

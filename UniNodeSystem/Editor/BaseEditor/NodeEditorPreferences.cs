@@ -2,20 +2,21 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace UniNodeSystemEditor {
     public static class NodeEditorPreferences {
         public enum NoodleType { Curve, Line, Angled }
 
         /// <summary> The last editor we checked. This should be the one we modify </summary>
-        private static UniNodeSystemEditor.NodeGraphEditor lastEditor;
+        private static NodeGraphEditor lastEditor;
         /// <summary> The last key we checked. This should be the one we modify </summary>
         private static string lastKey = "UniNodeSystem.Settings";
 
         private static Dictionary<string, Color> typeColors = new Dictionary<string, Color>();
         private static Dictionary<string, Settings> settings = new Dictionary<string, Settings>();
 
-        [System.Serializable]
+        [Serializable]
         public class Settings : ISerializationCallbackReceiver {
             [SerializeField] private Color32 _gridLineColor = new Color(0.45f, 0.45f, 0.45f);
             public Color32 gridLineColor { get { return _gridLineColor; } set { _gridLineColor = value; _gridTexture = null; _crossTexture = null; } }
@@ -48,7 +49,7 @@ namespace UniNodeSystemEditor {
             public void OnAfterDeserialize() {
                 // Deserialize typeColorsData
                 typeColors = new Dictionary<string, Color>();
-                string[] data = typeColorsData.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                string[] data = typeColorsData.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < data.Length; i += 2) {
                     Color col;
                     if (ColorUtility.TryParseHtmlString("#" + data[i + 1], out col)) {
@@ -68,12 +69,12 @@ namespace UniNodeSystemEditor {
 
         /// <summary> Get settings of current active editor </summary>
         public static Settings GetSettings() {
-            if (lastEditor != UniNodeSystemEditor.NodeEditorWindow.current.graphEditor) {
-                object[] attribs = UniNodeSystemEditor.NodeEditorWindow.current.graphEditor.GetType().
-                    GetCustomAttributes(typeof(UniNodeSystemEditor.NodeGraphEditor.CustomNodeGraphEditorAttribute), true);
+            if (lastEditor != NodeEditorWindow.current.graphEditor) {
+                object[] attribs = NodeEditorWindow.current.graphEditor.GetType().
+                    GetCustomAttributes(typeof(NodeGraphEditor.CustomNodeGraphEditorAttribute), true);
                 if (attribs.Length == 1) {
-                    UniNodeSystemEditor.NodeGraphEditor.CustomNodeGraphEditorAttribute attrib = attribs[0] as UniNodeSystemEditor.NodeGraphEditor.CustomNodeGraphEditorAttribute;
-                    lastEditor = UniNodeSystemEditor.NodeEditorWindow.current.graphEditor;
+                    NodeGraphEditor.CustomNodeGraphEditorAttribute attrib = attribs[0] as NodeGraphEditor.CustomNodeGraphEditorAttribute;
+                    lastEditor = NodeEditorWindow.current.graphEditor;
                     lastKey = attrib.editorPrefsKey;
                 } else return null;
             }
@@ -122,7 +123,7 @@ namespace UniNodeSystemEditor {
             //Label
             EditorGUILayout.LabelField("Node", EditorStyles.boldLabel);
             settings.highlightColor = EditorGUILayout.ColorField("Selection", settings.highlightColor);
-            settings.noodleType = (NoodleType) EditorGUILayout.EnumPopup("Noodle type", (Enum) settings.noodleType);
+            settings.noodleType = (NoodleType) EditorGUILayout.EnumPopup("Noodle type", settings.noodleType);
             if (GUI.changed) {
                 SavePrefs(key, settings);
                 NodeEditorWindow.RepaintAll();
@@ -182,7 +183,7 @@ namespace UniNodeSystemEditor {
         }
 
         /// <summary> Return color based on type </summary>
-        public static Color GetTypeColor(System.Type type) {
+        public static Color GetTypeColor(Type type) {
             VerifyLoaded();
             if (type == null) return Color.gray;
             string typeName = type.PrettyName();
@@ -190,11 +191,11 @@ namespace UniNodeSystemEditor {
                 if (settings[lastKey].typeColors.ContainsKey(typeName)) typeColors.Add(typeName, settings[lastKey].typeColors[typeName]);
                 else {
 #if UNITY_5_4_OR_NEWER
-                    UnityEngine.Random.InitState(typeName.GetHashCode());
+                    Random.InitState(typeName.GetHashCode());
 #else
                     UnityEngine.Random.seed = typeName.GetHashCode();
 #endif
-                    typeColors.Add(typeName, new Color(UnityEngine.Random.value, UnityEngine.Random.value, UnityEngine.Random.value));
+                    typeColors.Add(typeName, new Color(Random.value, Random.value, Random.value));
                 }
             }
             return typeColors[typeName];

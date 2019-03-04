@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Modules.UniTools.UnityTools.Attributes;
 using UniModule.UnityTools.DataFlow;
 using UniModule.UnityTools.Interfaces;
 using UniModule.UnityTools.ObjectPool.Scripts;
+using UniModule.UnityTools.ResourceSystem;
 using UniModule.UnityTools.UniStateMachine.Extensions;
 using UniModule.UnityTools.UniVisualNodeSystem.Connections;
 using UniStateMachine;
@@ -19,6 +21,7 @@ namespace UniUiSystem
 {
     public class UniUiNode : UniNode
     {
+        
         private List<UniPortValue> _uiInputs;
         private List<UniPortValue> _uiOutputs;
 
@@ -27,14 +30,38 @@ namespace UniUiSystem
 
         #region inspector
 
-        public UiModule UiView;
+        public ObjectInstanceData Options;
 
+        [TargetType(typeof(UiModule))]
+        public ResourceItem UiResource;
 //        public AssetLabelReference UiViewLabel;
 //
 //        public AssetReference ViewReference;
 
         #endregion
 
+        public UiModule UiView
+        {
+            get { return UiResource.Load<UiModule>(); }
+        }
+
+        public override string GetName()
+        {
+            var targetName = UiResource.ItemName;
+            return string.IsNullOrEmpty(targetName) ? name : targetName;
+        }
+
+        public override bool Validate(IContext context)
+        {
+            if (!UiView)
+            {
+                Debug.LogErrorFormat("NULL UI VIEW {0} {1}", UiView, this);
+                return false;
+            }
+
+            return base.Validate(context);
+        }
+        
         protected override IEnumerator ExecuteState(IContext context)
         {
             var lifetime = GetLifeTime(context);
@@ -65,17 +92,6 @@ namespace UniUiSystem
             {
                 portValue.RemoveContext(context);
             }
-        }
-
-        public override bool Validate(IContext context)
-        {
-            if (!UiView)
-            {
-                Debug.LogErrorFormat("NULL UI VIEW {0} {1}", UiView, this);
-                return false;
-            }
-
-            return base.Validate(context);
         }
 
         protected override void OnUpdatePortsCache()
@@ -114,7 +130,12 @@ namespace UniUiSystem
             //get view context settings
             var viewSettings = Input.Get<UniUiModuleData>(context);
 
-            var uiView = ObjectPool.Spawn(UiView);
+            var uiView = ObjectPool.Spawn(UiView,Options.Position,Quaternion.identity,Options.Parent,Options.StayAtWorld);
+            if (Options.Immortal)
+            {
+                DontDestroyOnLoad(uiView);
+            }
+            
             uiView.Initialize();
 
             if (viewSettings != null)

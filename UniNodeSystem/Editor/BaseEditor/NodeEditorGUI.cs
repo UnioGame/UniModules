@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Modules.UniTools.UniResourceSystem;
 using UniEditorTools;
 using UniNodeSystem;
 using UniStateMachine.Nodes;
@@ -338,7 +339,14 @@ namespace UniNodeSystemEditor
             {
                 UpdateEditorNodeGraphs();
             }
+            
+            DrawTopButtons();
 
+            DrawGraphsHistory();
+        }
+
+        private void DrawTopButtons()
+        {
             EditorDrawerUtils.DrawVertialLayout(() =>
             {
                 EditorGUILayout.Separator();
@@ -369,12 +377,7 @@ namespace UniNodeSystemEditor
 
             EditorDrawerUtils.DrawVertialLayout(() =>
             {
-                EditorDrawerUtils.DrawButton("save", () =>
-                {
-                    if (!graph)
-                        return;
-                    PrefabUtility.ApplyPrefabInstance(graph.gameObject, InteractionMode.AutomatedAction);
-                });
+                EditorDrawerUtils.DrawButton("save", () => Save(graph));
 
                 EditorDrawerUtils.DrawButton("stop all", () =>
                 {
@@ -386,8 +389,79 @@ namespace UniNodeSystemEditor
                     }
                 });
             }, GUILayout.Width(100));
+
         }
 
+        private void Save(NodeGraph nodeGraph)
+        {
+            if (!nodeGraph)
+                return;
+            
+            PrefabUtility.ApplyPrefabInstance(nodeGraph.gameObject, InteractionMode.AutomatedAction);
+            
+        }
+
+        private void Save(EditorResource graphResource)
+        {
+            
+            var target = graphResource.Target as GameObject;
+            var isInstance = PrefabUtility.IsPartOfPrefabInstance(target);
+            if (isInstance)
+            {
+                Debug.Log("This is instance");
+                PrefabUtility.ApplyPrefabInstance(target, InteractionMode.AutomatedAction); 
+            }
+            else
+            {
+                var path = AssetDatabase.GetAssetPath(target);
+                if (string.IsNullOrEmpty(path))
+                    return;
+                
+                Debug.Log("This is not instance");
+                var graphObject = PrefabUtility.SaveAsPrefabAssetAndConnect(target.gameObject, path, InteractionMode.AutomatedAction);
+                graphResource.Update(graphObject);
+            }
+                       
+        }
+
+        private Vector2 _historyPosition;
+        private List<int> _removedIndexes = new List<int>();
+        private void DrawGraphsHistory()
+        {
+            GUILayout.FlexibleSpace();
+            
+            EditorDrawerUtils.DrawHorizontalLayout(() =>
+            {
+                GUILayout.ExpandWidth(true);
+                _removedIndexes.Clear();
+                var count = GraphsHistory.Count;
+                for (var i = count-1; i >= 0 ; i--)
+                {
+                    var historyGraph = GraphsHistory[i];
+                    if (!historyGraph.Target)
+                    {
+                        _removedIndexes.Add(i);
+                        continue;
+                    }
+
+                    EditorDrawerUtils.DrawButton(historyGraph.ItemName, () =>
+                    {
+                        
+                        Save(historyGraph);
+                        var targetGraph = historyGraph.Load<NodeGraph>();
+                        Open(targetGraph);
+                        
+                    },GUILayout.Height(50));
+                }
+
+                for (var i = 0; i < _removedIndexes.Count; i++)
+                {
+                    GraphsHistory.RemoveAt(_removedIndexes[i]);
+                }
+            });
+            
+        }
+        
         private void DrawNodes()
         {
             var e = Event.current;
