@@ -27,9 +27,13 @@ namespace UniNodeSystemEditor
             get { return _portConnectionPoints; }
         }
 
+        public NodeGraph graph;
+
         [SerializeField] private NodePortReference[] _references = new NodePortReference[0];
         [SerializeField] private Rect[] _rects = new Rect[0];
 
+        private Dictionary<UniBaseNode, Vector2> _nodeSizes = new Dictionary<UniBaseNode, Vector2>();
+        
         private void OnDisable()
         {
             // Cache portConnectionPoints before serialization starts
@@ -74,9 +78,6 @@ namespace UniNodeSystemEditor
         {
             get { return _nodeSizes; }
         }
-
-        private Dictionary<UniBaseNode, Vector2> _nodeSizes = new Dictionary<UniBaseNode, Vector2>();
-        public NodeGraph graph;
 
         public Vector2 panOffset
         {
@@ -221,6 +222,15 @@ namespace UniNodeSystemEditor
             nodeEditor?.portConnectionPoints.Clear();
            
             var targetGraph = UpdateGraphHistory(nodeGraph);
+
+            if (PrefabUtility.IsPartOfPrefabAsset(targetGraph))
+            {
+                Debug.Log("THIS IS IsPartOfPrefabAsset");
+            }
+            else if(PrefabUtility.IsPartOfPrefabInstance(targetGraph))
+            {
+                Debug.Log("THIS IS IsPartOfPrefabInstance");
+            }
             
             w.wantsMouseMove = true;
             w.graph = targetGraph;        
@@ -248,23 +258,22 @@ namespace UniNodeSystemEditor
 
             if (!targetGraph) return targetGraph;
 
-            var targetItem = GraphsHistory.FirstOrDefault(x => x.Target == targetGraph.gameObject);
-
+            var resourceItem = new EditorResource();
+            resourceItem.Update(targetGraph.gameObject);
+            
+            var targetItem = GraphsHistory.FirstOrDefault(x => x.AssetPath == resourceItem.AssetPath);
             if (targetItem != null)
             {
                 GraphsHistory.Remove(targetItem);
             }
 
-            var targetObject = UniPrefabUtility.LoadPrefabContents(targetGraph.gameObject);
-            
-            var resourceItem = new EditorResource();
-            resourceItem.Update(targetObject);
-            
-            targetGraph = targetObject.GetComponent<NodeGraph>();
+            var loadedGraphObject = PrefabUtility.LoadPrefabContents(resourceItem.AssetPath);
+            targetGraph = loadedGraphObject.GetComponent<NodeGraph>();
            
             GraphsHistory.Add(resourceItem);
 
             return targetGraph;
+            
         }
     }
 }

@@ -15,14 +15,20 @@ namespace Modules.UniTools.UniResourceSystem
         protected override void OnUpdateAsset(Object targetAsset)
         {
 
-            assetPath = AssetDatabase.GetAssetPath(targetAsset);
+            assetPath =  AssetDatabase.GetAssetPath(targetAsset);
 
             if (string.IsNullOrEmpty(assetPath))
             {
                 if (targetAsset is GameObject targetGameObject)
                 {
+                    var isPrefabAsset = PrefabUtility.IsPartOfPrefabAsset(targetGameObject);
+                    
+                    var graphAssetPath = isPrefabAsset
+                        ? AssetDatabase.GetAssetPath(targetGameObject)
+                        : PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(targetGameObject);
+
                     var originParent = PrefabUtility.GetCorrespondingObjectFromSource(targetGameObject);
-                    assetPath = AssetDatabase.GetAssetPath(originParent);
+                    assetPath = graphAssetPath;
                     asset = originParent;
                 }   
             }

@@ -396,32 +396,16 @@ namespace UniNodeSystemEditor
         {
             if (!nodeGraph)
                 return;
-            
-            PrefabUtility.ApplyPrefabInstance(nodeGraph.gameObject, InteractionMode.AutomatedAction);
-            
-        }
 
-        private void Save(EditorResource graphResource)
-        {
-            
-            var target = graphResource.Target as GameObject;
-            var isInstance = PrefabUtility.IsPartOfPrefabInstance(target);
-            if (isInstance)
+            if (PrefabUtility.IsPartOfPrefabInstance(nodeGraph))
             {
-                Debug.Log("This is instance");
-                PrefabUtility.ApplyPrefabInstance(target, InteractionMode.AutomatedAction); 
+                PrefabUtility.ApplyPrefabInstance(nodeGraph.gameObject, InteractionMode.AutomatedAction);
             }
             else
             {
-                var path = AssetDatabase.GetAssetPath(target);
-                if (string.IsNullOrEmpty(path))
-                    return;
                 
-                Debug.Log("This is not instance");
-                var graphObject = PrefabUtility.SaveAsPrefabAssetAndConnect(target.gameObject, path, InteractionMode.AutomatedAction);
-                graphResource.Update(graphObject);
             }
-                       
+            
         }
 
         private Vector2 _historyPosition;
@@ -447,7 +431,7 @@ namespace UniNodeSystemEditor
                     EditorDrawerUtils.DrawButton(historyGraph.ItemName, () =>
                     {
                         
-                        Save(historyGraph);
+                        Save(graph);
                         var targetGraph = historyGraph.Load<NodeGraph>();
                         Open(targetGraph);
                         
