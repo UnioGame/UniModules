@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Modules.UniTools.UniNodeSystem.Editor.Drawers;
+﻿using System.Collections.Generic;
+using Modules.UniTools.UniNodeSystem.Drawers;
 using UniEditorTools;
 using UniStateMachine;
 using UniStateMachine.NodeEditor;
-using UniStateMachine.Nodes;
 using UnityEngine;
 using UniNodeSystem;
 using UniNodeSystemEditor;
@@ -27,9 +25,6 @@ namespace SubModules.Scripts.UniStateMachine.NodeEditor
         
         #endregion
 
-        protected List<INodeEditorDrawer> _bodyDrawers = new List<INodeEditorDrawer>();
-        protected List<INodeEditorDrawer> _headerDrawers = new List<INodeEditorDrawer>();
-        
         public override bool IsSelected()
         {
             var node = target as UniGraphNode;
@@ -46,7 +41,6 @@ namespace SubModules.Scripts.UniStateMachine.NodeEditor
                 EditorDrawerUtils.DrawWithContentColor(Color.red, base.OnHeaderGUI);
                 return;
             }
-            
             base.OnHeaderGUI();
         }
 

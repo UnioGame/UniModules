@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Modules.UniTools.UniNodeSystem.Editor.Drawers;
+using Modules.UniTools.UniNodeSystem.Drawers;
 using UniNodeSystem;
 using UnityEditor;
 using UnityEngine;
@@ -67,8 +67,10 @@ namespace UniNodeSystemEditor
         public virtual int GetWidth()
         {
             var type = target.GetType();
-            int width;
-            if (NodeEditorWindow.nodeWidth.TryGetValue(type, out width)) return width;
+
+            if (NodeEditorWindow.nodeWidth.TryGetValue(type, out var width)) 
+                return width;
+            
             return 208;
         }
 

@@ -69,7 +69,7 @@ namespace UniNodeSystem
 
         public virtual string GetName()
         {
-            return name;
+            return gameObject.name;
         }
         
         public IReadOnlyDictionary<ulong, NodePort> PortsMap

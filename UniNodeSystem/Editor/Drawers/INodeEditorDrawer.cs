@@ -3,7 +3,7 @@ using UniStateMachine.NodeEditor;
 using UniNodeSystem;
 using UniNodeSystemEditor;
 
-namespace Modules.UniTools.UniNodeSystem.Editor.Drawers
+namespace Modules.UniTools.UniNodeSystem.Drawers
 {
     public interface INodeEditorDrawer
     {

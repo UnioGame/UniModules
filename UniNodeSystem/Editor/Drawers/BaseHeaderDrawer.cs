@@ -1,12 +1,9 @@
-﻿using UniEditorTools;
-using UniNodeSystem;
+﻿using UniNodeSystem;
 using UniNodeSystemEditor;
-using UniStateMachine;
-using UniStateMachine.NodeEditor;
 using UnityEditor;
 using UnityEngine;
 
-namespace Modules.UniTools.UniNodeSystem.Editor.Drawers
+namespace Modules.UniTools.UniNodeSystem.Drawers
 {
     public class BaseHeaderDrawer : INodeEditorDrawer
     {

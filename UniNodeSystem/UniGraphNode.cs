@@ -56,6 +56,7 @@ namespace UniStateMachine
         
         #region public methods
 
+
         public void Initialize()
         {
             if (Application.isPlaying && _isInitialized)

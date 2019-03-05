@@ -51,6 +51,7 @@ namespace UniNodeSystemEditor
             GUIUtility.ScaleAroundPivot(Vector2.one / zoom, rect.size * 0.5f);
             var padding = new Vector4(0, topPadding, 0, 0);
             padding *= zoom;
+
             GUI.BeginClip(new Rect(-((rect.width * zoom) - rect.width) * 0.5f,
                 -(((rect.height * zoom) - rect.height) * 0.5f) + (topPadding * zoom),
                 rect.width * zoom,
@@ -386,7 +387,6 @@ namespace UniNodeSystemEditor
                     }
                 });
             }, GUILayout.Width(100));
-
         }
 
         private void Save(NodeGraph nodeGraph)
@@ -423,11 +423,9 @@ namespace UniNodeSystemEditor
 
                     EditorDrawerUtils.DrawButton(historyGraph.ItemName, () =>
                     {
-
                         Save(graph);
                         var targetGraph = historyGraph.Load<NodeGraph>();
                         Open(targetGraph);
-
                     }, GUILayout.Height(50));
                 }
 
@@ -436,7 +434,6 @@ namespace UniNodeSystemEditor
                     GraphsHistory.RemoveAt(_removedIndexes[i]);
                 }
             });
-
         }
 
         private void DrawNodes()
@@ -456,57 +453,61 @@ namespace UniNodeSystemEditor
                 if (onValidate != null) nodeHash = Selection.activeObject.GetHashCode();
             }
 
-            BeginZoomed(position, zoom, topPadding);
-
-            var mousePos = Event.current.mousePosition;
-
-            if (e.type != EventType.Layout)
+            EditorDrawerUtils.DrawZoom(() =>
             {
-                hoveredNode = null;
-                hoveredPort = null;
-            }
+                var mousePos = Event.current.mousePosition;
 
-            var preSelection = preBoxSelection != null
-                ? new List<Object>(preBoxSelection)
-                : new List<Object>();
+                if (e.type != EventType.Layout)
+                {
+                    hoveredNode = null;
+                    hoveredPort = null;
+                }
 
-            // Selection box stuff
-            var boxStartPos = GridToWindowPositionNoClipped(dragBoxStart);
-            var boxSize = mousePos - boxStartPos;
-            if (boxSize.x < 0)
-            {
-                boxStartPos.x += boxSize.x;
-                boxSize.x = Mathf.Abs(boxSize.x);
-            }
+                var preSelection = preBoxSelection != null
+                    ? new List<Object>(preBoxSelection)
+                    : new List<Object>();
 
-            if (boxSize.y < 0)
-            {
-                boxStartPos.y += boxSize.y;
-                boxSize.y = Mathf.Abs(boxSize.y);
-            }
+                // Selection box stuff
+                var boxStartPos = GridToWindowPositionNoClipped(dragBoxStart);
+                
+                var boxSize = mousePos - boxStartPos;
+                if (boxSize.x < 0)
+                {
+                    boxStartPos.x += boxSize.x;
+                    boxSize.x = Mathf.Abs(boxSize.x);
+                }
 
-            var selectionBox = new Rect(boxStartPos, boxSize);
+                if (boxSize.y < 0)
+                {
+                    boxStartPos.y += boxSize.y;
+                    boxSize.y = Mathf.Abs(boxSize.y);
+                }
 
-            if (e.type == EventType.Layout) culledNodes = new List<UniBaseNode>();
+                var selectionBox = new Rect(boxStartPos, boxSize);
 
-            for (var n = 0; n < graph.nodes.Count; n++)
-            {
-                // Skip null nodes. The user could be in the process of renaming scripts, so removing them at this point is not advisable.
-                if (graph.nodes[n] == null) continue;
-                if (n >= graph.nodes.Count) return;
-                var node = graph.nodes[n];
+                if (e.type == EventType.Layout) 
+                    culledNodes = new List<UniBaseNode>();
 
-                //Save guiColor so we can revert it
-                var guiColor = GUI.color;
+                EditorDrawerUtils.DrawAndRevertColor(() =>
+                {
+                    for (var n = 0; n < graph.nodes.Count; n++)
+                    {
+                        // Skip null nodes. The user could be in the process of renaming scripts, so removing them at this point is not advisable.
+                        if (graph.nodes[n] == null) continue;
+                        if (n >= graph.nodes.Count) return;
+                        var node = graph.nodes[n];
 
-                DrawNode(node, e, mousePos, preSelection);
+                        EditorDrawerUtils.DrawAndRevertColor(() =>
+                        {
+                            DrawNode(node, e, mousePos, preSelection);
+                        });
+                    }
+                });
 
-                GUI.color = guiColor;
-            }
-
-            if (e.type != EventType.Layout && currentActivity == NodeActivity.DragGrid)
-                Selection.objects = preSelection.ToArray();
-            EndZoomed(position, zoom, topPadding);
+                if (e.type != EventType.Layout && currentActivity == NodeActivity.DragGrid)
+                    Selection.objects = preSelection.ToArray();
+                
+            }, position, zoom, topPadding);
 
             //If a change in hash is detected in the selected node, call OnValidate method. 
             //This is done through reflection because OnValidate is only relevant in editor, 
@@ -518,10 +519,8 @@ namespace UniNodeSystemEditor
             }
         }
 
-        private void DrawNode(UniBaseNode node, Event currentEvent,Vector2 mousePos,List<Object> preSelection)
+        private void DrawNode(UniBaseNode node, Event currentEvent, Vector2 mousePos, List<Object> preSelection)
         {
-            var guiColor = GUI.color;
-
             // Culling
             if (currentEvent.type == EventType.Layout)
             {
@@ -532,7 +531,8 @@ namespace UniNodeSystemEditor
                     return;
                 }
             }
-            else if (culledNodes.Contains(node)) return;
+            else if (culledNodes.Contains(node))
+                return;
 
             if (currentEvent.type == EventType.Repaint)
             {
@@ -542,68 +542,16 @@ namespace UniNodeSystemEditor
 
             var nodeEditor = NodeEditor.GetEditor(node);
 
-            NodeEditor.PortPositions = new Dictionary<UniNodeSystem.NodePort, Vector2>();
+            NodeEditor.PortPositions = new Dictionary<NodePort, Vector2>();
 
             //Get node position
             var nodePos = GridToWindowPositionNoClipped(node.position);
 
-            GUILayout.BeginArea(new Rect(nodePos, new Vector2(nodeEditor.GetWidth(), 4000)));
+            var rectArea = new Rect(nodePos, new Vector2(nodeEditor.GetWidth(), 4000));
 
-            var selected = selectionCache.Contains(node);
+            GUILayout.BeginArea(rectArea);
 
-            if (selected)
-            {
-                var style = new GUIStyle(nodeEditor.GetBodyStyle());
-                var highlightStyle = new GUIStyle(NodeEditorResources.styles.nodeHighlight);
-                highlightStyle.padding = style.padding;
-                style.padding = new RectOffset();
-                GUI.color = nodeEditor.GetTint();
-                GUILayout.BeginVertical(style);
-                GUI.color = NodeEditorPreferences.GetSettings().highlightColor;
-                GUILayout.BeginVertical(new GUIStyle(highlightStyle));
-            }
-            else
-            {
-                var style = new GUIStyle(nodeEditor.GetBodyStyle());
-                GUI.color = nodeEditor.GetTint();
-                GUILayout.BeginVertical(style);
-            }
-
-            GUI.color = guiColor;
-            EditorGUI.BeginChangeCheck();
-
-            //Draw node contents
-            nodeEditor.OnHeaderGUI();
-            nodeEditor.OnBodyGUI();
-
-            //If user changed a value, notify other scripts through onUpdateNode
-            if (EditorGUI.EndChangeCheck())
-            {
-                if (NodeEditor.OnUpdateNode != null) NodeEditor.OnUpdateNode(node);
-                EditorUtility.SetDirty(node);
-                nodeEditor.serializedObject.ApplyModifiedProperties();
-            }
-
-            GUILayout.EndVertical();
-
-            //Cache data about the node for next frame
-            if (currentEvent.type == EventType.Repaint)
-            {
-                var size = GUILayoutUtility.GetLastRect().size;
-                if (nodeSizes.ContainsKey(node)) nodeSizes[node] = size;
-                else nodeSizes.Add(node, size);
-
-                foreach (var kvp in NodeEditor.PortPositions)
-                {
-                    var portHandlePos = kvp.Value;
-                    portHandlePos += node.position;
-                    var rect = new Rect(portHandlePos.x - 8, portHandlePos.y - 8, 16, 16);
-                    if (portConnectionPoints.ContainsKey(kvp.Key)) portConnectionPoints[kvp.Key] = rect;
-                    else portConnectionPoints.Add(kvp.Key, rect);
-                }
-            }
-
-            if (selected) GUILayout.EndVertical();
+            DrawNodeArea(nodeEditor, node, currentEvent);
 
             if (currentEvent.type != EventType.Layout)
             {
@@ -639,6 +587,68 @@ namespace UniNodeSystemEditor
             }
 
             GUILayout.EndArea();
+        }
+
+        private void DrawNodeArea(NodeEditor nodeEditor, UniBaseNode node, Event currentEvent)
+        {
+            var guiColor = GUI.color;
+
+            var selected = selectionCache.Contains(node);
+
+            if (selected)
+            {
+                var style = new GUIStyle(nodeEditor.GetBodyStyle());
+                var highlightStyle = new GUIStyle(NodeEditorResources.styles.nodeHighlight);
+                highlightStyle.padding = style.padding;
+                style.padding = new RectOffset();
+                GUI.color = nodeEditor.GetTint();
+                GUILayout.BeginVertical(style);
+                GUI.color = NodeEditorPreferences.GetSettings().highlightColor;
+                GUILayout.BeginVertical(new GUIStyle(highlightStyle));
+            }
+            else
+            {
+                var style = new GUIStyle(nodeEditor.GetBodyStyle());
+                GUI.color = nodeEditor.GetTint();
+                GUILayout.BeginVertical(style);
+            }
+
+            GUI.color = guiColor;
+            
+            EditorGUI.BeginChangeCheck();
+
+            //Draw node contents
+            nodeEditor.OnHeaderGUI();
+            nodeEditor.OnBodyGUI();
+
+            //If user changed a value, notify other scripts through onUpdateNode
+            if (EditorGUI.EndChangeCheck())
+            {
+                if (NodeEditor.OnUpdateNode != null) NodeEditor.OnUpdateNode(node);
+                EditorUtility.SetDirty(node);
+                nodeEditor.serializedObject.ApplyModifiedProperties();
+            }
+
+            GUILayout.EndVertical();
+
+            //Cache data about the node for next frame
+            if (currentEvent.type == EventType.Repaint)
+            {
+                var size = GUILayoutUtility.GetLastRect().size;
+                if (nodeSizes.ContainsKey(node)) nodeSizes[node] = size;
+                else nodeSizes.Add(node, size);
+
+                foreach (var kvp in NodeEditor.PortPositions)
+                {
+                    var portHandlePos = kvp.Value;
+                    portHandlePos += node.position;
+                    var rect = new Rect(portHandlePos.x - 8, portHandlePos.y - 8, 16, 16);
+                    if (portConnectionPoints.ContainsKey(kvp.Key)) portConnectionPoints[kvp.Key] = rect;
+                    else portConnectionPoints.Add(kvp.Key, rect);
+                }
+            }
+
+            if (selected) GUILayout.EndVertical();
         }
 
         private bool ShouldBeCulled(UniBaseNode node)

@@ -138,6 +138,39 @@ namespace UniEditorTools {
             
         }
 
+        public static void DrawZoom(Action action,Rect rect, float zoom, float topPadding)
+        {
+            BeginZoom(rect, zoom, topPadding);
+
+            action?.Invoke();
+
+            EndZoom(rect, zoom, topPadding);
+        }
+
+        public static void BeginZoom(Rect rect, float zoom, float topPadding)
+        {
+            GUI.EndClip();
+
+            GUIUtility.ScaleAroundPivot(Vector2.one / zoom, rect.size * 0.5f);
+            var padding = new Vector4(0, topPadding, 0, 0);
+            padding *= zoom;
+            
+            GUI.BeginClip(new Rect(-((rect.width * zoom) - rect.width) * 0.5f,
+                -(((rect.height * zoom) - rect.height) * 0.5f) + (topPadding * zoom),
+                rect.width * zoom,
+                rect.height * zoom));
+        }
+
+        public static void EndZoom(Rect rect, float zoom, float topPadding)
+        {
+            GUIUtility.ScaleAroundPivot(Vector2.one * zoom, rect.size * 0.5f);
+            var offset = new Vector3(
+                (((rect.width * zoom) - rect.width) * 0.5f),
+                (((rect.height * zoom) - rect.height) * 0.5f) + (-topPadding * zoom) + topPadding,
+                0);
+            GUI.matrix = Matrix4x4.TRS(offset, Quaternion.identity, Vector3.one);
+        }
+        
         public static void DrawAndRevertColor(Action action) {
             var defaultBackColor = GUI.backgroundColor;
             var defaultGuiColor = GUI.color;

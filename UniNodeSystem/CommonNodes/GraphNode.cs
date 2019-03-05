@@ -35,7 +35,8 @@ namespace UniStateMachine.CommonNodes
         
         public override string GetName()
         {
-            return Graph.HasValue() ? Graph.ItemName : name;
+            var asset = Graph.Load<Object>();
+            return asset ? asset.name : base.GetName();
         }
         
         protected override IEnumerator ExecuteState(IContext context)

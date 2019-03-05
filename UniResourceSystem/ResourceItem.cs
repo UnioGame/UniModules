@@ -27,7 +27,6 @@ namespace UniModule.UnityTools.ResourceSystem
         [SerializeField]
         protected Object asset;
 
-
         public string ItemName => assetName;
         
         #region public methods
