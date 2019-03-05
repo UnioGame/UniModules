@@ -14,8 +14,8 @@ namespace UniNodeSystemEditor
     [InitializeOnLoad]
     public partial class NodeEditorWindow : EditorWindow
     {
-        public static List<UniGraphAsset> NodeGraphs;
-        public static List<EditorResource> GraphsHistory;
+        public static List<UniGraphAsset> NodeGraphs = new List<UniGraphAsset>();
+        public static List<EditorResource> GraphsHistory = new List<EditorResource>();
         public static NodeEditorWindow current;
        
         private Dictionary<ulong, NodePort> _portsIds = new Dictionary<ulong, NodePort>();
@@ -224,9 +224,7 @@ namespace UniNodeSystemEditor
 
             if(GraphsHistory == null)
                 GraphsHistory = new List<EditorResource>();
-            
-            GraphsHistory.RemoveAll(x => x == null);
-            
+
             var w = GetWindow(typeof(NodeEditorWindow), false, "UniNodes", true) as NodeEditorWindow;
 
             var nodeEditor = w;
@@ -271,10 +269,15 @@ namespace UniNodeSystemEditor
 
         private static EditorResource GetGraphResource(NodeGraph targetGraph)
         {
+                        
+            GraphsHistory.RemoveAll(x => x == null);
+
             var resourceItem = new EditorResource();
             resourceItem.Update(targetGraph.gameObject);
             
-            var targetItem = GraphsHistory.FirstOrDefault(x => x.AssetPath == resourceItem.AssetPath);
+            var targetItem = GraphsHistory.
+                FirstOrDefault(x => x.AssetPath == resourceItem.AssetPath);
+            
             if (targetItem != null)
             {
                 GraphsHistory.Remove(targetItem);
