@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Modules.UniTools.UniResourceSystem;
 using UniEditorTools;
 using UniNodeSystem;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace UniNodeSystemEditor
 {
@@ -375,7 +378,7 @@ namespace UniNodeSystemEditor
 
             EditorDrawerUtils.DrawVertialLayout(() =>
             {
-                EditorDrawerUtils.DrawButton("save", () => Save(graph));
+                EditorDrawerUtils.DrawButton("save", () => Save(graph,graphResource));
 
                 EditorDrawerUtils.DrawButton("stop all", () =>
                 {
@@ -389,15 +392,25 @@ namespace UniNodeSystemEditor
             }, GUILayout.Width(100));
         }
 
-        private void Save(NodeGraph nodeGraph)
+        private void Save(NodeGraph nodeGraph, EditorResource resource)
         {
             if (!nodeGraph)
                 return;
 
-            if (PrefabUtility.IsPartOfPrefabInstance(nodeGraph))
+            var targetGameObject = nodeGraph.gameObject;
+
+            var assetType = PrefabUtility.GetPrefabAssetType(nodeGraph);
+
+            if (PrefabUtility.IsPartOfPrefabInstance(targetGameObject))
             {
-                PrefabUtility.ApplyPrefabInstance(nodeGraph.gameObject, InteractionMode.AutomatedAction);
+                PrefabUtility.ApplyPrefabInstance(targetGameObject, InteractionMode.AutomatedAction);
             }
+            else if(resource != null)
+            {
+                PrefabUtility.ReplacePrefab(nodeGraph.gameObject, resource.Target);
+            }
+            
+
         }
 
         private Vector2 _historyPosition;
@@ -423,7 +436,7 @@ namespace UniNodeSystemEditor
 
                     EditorDrawerUtils.DrawButton(historyGraph.ItemName, () =>
                     {
-                        Save(graph);
+                        Save(graph,graphResource);
                         var targetGraph = historyGraph.Load<NodeGraph>();
                         Open(targetGraph);
                     }, GUILayout.Height(50));

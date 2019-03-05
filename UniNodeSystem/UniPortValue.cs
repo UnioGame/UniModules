@@ -47,9 +47,9 @@ namespace UniStateMachine.Nodes
 
         }
         
-        public void ConnectToPort(NodePort port)
+        public void ConnectToPort(string portName)
         {
-            Name = port.fieldName;
+            Name = portName;
         }
 
         public override bool Remove<TData>(IContext context)

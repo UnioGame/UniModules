@@ -26,7 +26,7 @@ namespace UniNodeSystemEditor {
 
             public Color32 highlightColor = new Color32(255, 255, 255, 255);
             public bool gridSnap = true;
-            public bool autoSave = true;
+            public bool autoSave = false;
             [SerializeField] private string typeColorsData = "";
             [NonSerialized] public Dictionary<string, Color> typeColors = new Dictionary<string, Color>();
             public NoodleType noodleType = NoodleType.Curve;

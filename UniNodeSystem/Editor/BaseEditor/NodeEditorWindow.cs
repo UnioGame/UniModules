@@ -15,11 +15,14 @@ namespace UniNodeSystemEditor
     {
         public static List<UniGraphAsset> NodeGraphs;
         public static List<EditorResource> GraphsHistory;
-
         public static NodeEditorWindow current;
-
+       
         private Dictionary<ulong, NodePort> _portsIds = new Dictionary<ulong, NodePort>();
         private Dictionary<NodePort, Rect> _portConnectionPoints = new Dictionary<NodePort, Rect>();
+        private Dictionary<UniBaseNode, Vector2> _nodeSizes = new Dictionary<UniBaseNode, Vector2>();
+
+        [SerializeField] private NodePortReference[] _references = new NodePortReference[0];
+        [SerializeField] private Rect[] _rects = new Rect[0];
 
         /// <summary> Stores node positions for all nodePorts. </summary>
         public Dictionary<NodePort, Rect> portConnectionPoints
@@ -28,11 +31,7 @@ namespace UniNodeSystemEditor
         }
 
         public NodeGraph graph;
-
-        [SerializeField] private NodePortReference[] _references = new NodePortReference[0];
-        [SerializeField] private Rect[] _rects = new Rect[0];
-
-        private Dictionary<UniBaseNode, Vector2> _nodeSizes = new Dictionary<UniBaseNode, Vector2>();
+        public EditorResource graphResource;
         
         private void OnDisable()
         {
@@ -221,10 +220,18 @@ namespace UniNodeSystemEditor
             var nodeEditor = w;
             nodeEditor?.portConnectionPoints.Clear();
            
-            var targetGraph = UpdateGraphHistory(nodeGraph);
+            if (!nodeGraph) return false;
+           
+            var assetType = PrefabUtility.GetPrefabAssetType(nodeGraph);
+            
+            var targetResource = GetGraphResource(nodeGraph);
+            var targetGraph = GetGraphItem(targetResource.AssetPath);
+            
+            assetType = PrefabUtility.GetPrefabAssetType(targetGraph);
             
             w.wantsMouseMove = true;
-            w.graph = targetGraph;        
+            w.graph = targetGraph;
+            w.graphResource = targetResource;
             
             return true;
         }
@@ -244,11 +251,18 @@ namespace UniNodeSystemEditor
             }
         }
 
-        private static NodeGraph UpdateGraphHistory(NodeGraph targetGraph)
+        private static NodeGraph GetGraphItem(string assetPath)
         {
 
-            if (!targetGraph) return targetGraph;
+            //var loadedGraphObject = AssetDatabase.LoadAssetAtPath<GameObject>(assetPath);
+            var loadedGraphObject = PrefabUtility.LoadPrefabContents(assetPath);
+            var targetGraph = loadedGraphObject.GetComponent<NodeGraph>();
+            return targetGraph;
+            
+        }
 
+        private static EditorResource GetGraphResource(NodeGraph targetGraph)
+        {
             var resourceItem = new EditorResource();
             resourceItem.Update(targetGraph.gameObject);
             
@@ -257,14 +271,10 @@ namespace UniNodeSystemEditor
             {
                 GraphsHistory.Remove(targetItem);
             }
-
-            var loadedGraphObject = PrefabUtility.LoadPrefabContents(resourceItem.AssetPath);
-            targetGraph = loadedGraphObject.GetComponent<NodeGraph>();
-           
+            
             GraphsHistory.Add(resourceItem);
 
-            return targetGraph;
-            
+            return resourceItem;
         }
     }
 }

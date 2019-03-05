@@ -94,7 +94,7 @@ namespace UniModule.UnityTools.UniStateMachine.Extensions
             if (portValue == null)
             {
                 portValue = new UniPortValue();
-                portValue.ConnectToPort(port);
+                portValue.ConnectToPort(port.fieldName);
                 node.AddPortValue(portValue);
             }
 
@@ -112,13 +112,14 @@ namespace UniModule.UnityTools.UniStateMachine.Extensions
             if (portValue == null)
             {
                 portValue = new UniPortValue();
-                portValue.ConnectToPort(port);
+                portValue.ConnectToPort(port.fieldName);
                 node.AddPortValue(portValue);
             }
 
             return (portValue,port);
         
         }
+        
         
 
         public static NodePort UpdatePort<TValue>(this UniBaseNode node,string portName,PortIO direction = PortIO.Output)

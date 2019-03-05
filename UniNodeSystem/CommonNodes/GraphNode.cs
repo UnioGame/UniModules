@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Modules.UniTools.UnityTools.Attributes;
 using UniModule.UnityTools.Interfaces;
 using UniModule.UnityTools.ResourceSystem;
+using UniModule.UnityTools.UniStateMachine.Extensions;
+using UniNodeSystem;
 using UniStateMachine.Nodes;
 using UnityEngine;
 
@@ -13,29 +15,30 @@ namespace UniStateMachine.CommonNodes
         #region private properties
 
         /// <summary>
-        /// graph output node cache
+        /// target node graph
         /// </summary>
-        private List<GraphOuputNode> _graphOutputs = new List<GraphOuputNode>();
+        protected UniGraph UniGraph => Graph.Load<UniGraph>();
 
-        /// <summary>
-        /// graph input nodes cache
-        /// </summary>
-        private List<GraphInputNode> _graphInputs = new List<GraphInputNode>();
-        
         #endregion
         
         #region inspector data
         
+        /// <summary>
+        /// target graph resource
+        /// </summary>
         [TargetType(typeof(UniGraph))]
         public ResourceItem Graph;
         
+        /// <summary>
+        /// Wait target graph execution
+        /// </summary>
         public bool WaitGraph = true;
 
         #endregion
         
         public override string GetName()
         {
-            var asset = Graph.Load<Object>();
+            var asset = UniGraph;
             return asset ? asset.name : base.GetName();
         }
         
@@ -47,7 +50,7 @@ namespace UniStateMachine.CommonNodes
                 yield return base.ExecuteState(context);
             }
             
-            var targetGraph = Graph.Load<UniGraph>();
+            var targetGraph = UniGraph;
             if (targetGraph)
             {
                 yield return targetGraph.Execute(context);
@@ -63,10 +66,33 @@ namespace UniStateMachine.CommonNodes
         protected override void OnUpdatePortsCache()
         {
             base.OnUpdatePortsCache();
+
+            var graphAsset = UniGraph;
+
+            if (graphAsset == null)
+                return;
             
-            _graphOutputs = new List<GraphOuputNode>();
-            _graphInputs = new List<GraphInputNode>();
-            
+            var nodes = graphAsset.nodes;
+            foreach (var node in nodes)
+            {
+                if(!(node is UniNode uniNode))
+                    continue;
+                
+                uniNode.Initialize();
+                
+                if (node is IGraphPortNode outputNode)
+                {
+                    RegisterGraphPort(node.GetName(),outputNode.PortValue,outputNode.Direction);
+                }
+
+            }
+
+        }
+
+        private void RegisterGraphPort(string portName,UniPortValue value,PortIO direction)
+        {
+            var portPair = this.UpdatePortValue(portName, direction);
+            portPair.value.Add(value);
         }
     }
     
