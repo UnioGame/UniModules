@@ -166,7 +166,49 @@ namespace UniEditorTools {
             });
             
         }
+        
+        public static void DrawWithBackgroundColor(Color color,Action action) {
 
+            if (action == null) return;
+
+            DrawAndRevertColor(() => {
+                
+                GUI.backgroundColor = color;
+                action();
+
+            });
+            
+        }
+        
+        public static void DrawWithGuiColor(Color color,Action action) {
+
+            if (action == null) return;
+
+            DrawAndRevertColor(() => {
+                
+                GUI.color = color;
+                action();
+
+            });
+            
+        }
+
+        public static void DrawWithColors(Color color,Color background, Color content,Action action) {
+
+            if (action == null) return;
+
+            DrawAndRevertColor(() => {
+                
+                GUI.color = color;
+                GUI.backgroundColor = background;
+                GUI.contentColor = content;
+                
+                action();
+
+            });
+            
+        }
+        
         public static bool DrawFoldout(bool visibility,string label,Action drawer)
         {
 

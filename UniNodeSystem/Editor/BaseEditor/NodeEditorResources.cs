@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace UniNodeSystemEditor
 {
-    public static class NodeEditorResources
+    public static partial class NodeEditorResources
     {
         // Textures
         public static Texture2D dot
@@ -43,48 +43,16 @@ namespace UniNodeSystemEditor
         private static Texture2D _nodeHighlight;
 
         // Styles
-        public static Styles styles
+        public static NodeEditorStyles styles
         {
-            get { return _styles != null ? _styles : _styles = new Styles(); }
+            get { return _styles != null ? _styles : _styles = new NodeEditorStyles(); }
         }
 
-        public static Styles _styles = null;
+        public static NodeEditorStyles _styles = null;
 
         public static GUIStyle OutputPort
         {
             get { return new GUIStyle(EditorStyles.label) {alignment = TextAnchor.UpperRight}; }
-        }
-
-        public class Styles
-        {
-            public GUIStyle inputPort, nodeHeader, nodeBody, tooltip, nodeHighlight;
-
-            public Styles()
-            {
-                GUIStyle baseStyle = new GUIStyle("Label");
-                baseStyle.fixedHeight = 18;
-
-                inputPort = new GUIStyle(baseStyle);
-                inputPort.alignment = TextAnchor.UpperLeft;
-                inputPort.padding.left = 10;
-
-                nodeHeader = new GUIStyle();
-                nodeHeader.alignment = TextAnchor.MiddleCenter;
-                nodeHeader.fontStyle = FontStyle.Bold;
-                nodeHeader.normal.textColor = Color.white;
-
-                nodeBody = new GUIStyle();
-                nodeBody.normal.background = NodeEditorResources.nodeBody;
-                nodeBody.border = new RectOffset(32, 32, 32, 32);
-                nodeBody.padding = new RectOffset(16, 16, 4, 16);
-
-                nodeHighlight = new GUIStyle();
-                nodeHighlight.normal.background = NodeEditorResources.nodeHighlight;
-                nodeHighlight.border = new RectOffset(32, 32, 32, 32);
-
-                tooltip = new GUIStyle("helpBox");
-                tooltip.alignment = TextAnchor.MiddleCenter;
-            }
         }
 
         public static Texture2D GenerateGridTexture(Color line, Color bg)

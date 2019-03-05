@@ -20,15 +20,16 @@ namespace UniModule.UnityTools.ResourceSystem
         [SerializeField]
         protected string guid;
 
+        [HideInInspector]
+        [SerializeField]
+        protected string assetName;
+        
         [SerializeField]
         protected Object asset;
 
 
-        public string ItemName
-        {
-            get { return asset ? asset.name : string.Empty; }
-        }
-
+        public string ItemName => assetName;
+        
         #region public methods
 
         public bool HasValue()
@@ -69,6 +70,8 @@ namespace UniModule.UnityTools.ResourceSystem
         public void Update(Object target)
         {
             this.asset = target;
+            assetName = target.name;
+            
             OnUpdateAsset(this.asset);
         }
 

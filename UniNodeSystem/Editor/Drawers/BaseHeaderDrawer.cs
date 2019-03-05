@@ -14,12 +14,12 @@ namespace Modules.UniTools.UniNodeSystem.Editor.Drawers
         {
             var target = node;
             var title = target.GetName();
-            var Renaming = NodeEditor.Renaming;
+            var renaming = NodeEditor.Renaming;
 
             if (NodeEditor.Renaming != 0 && Selection.Contains(target))
             {
                 int controlId = GUIUtility.GetControlID(FocusType.Keyboard) + 1;
-                if (Renaming == 1)
+                if (renaming == 1)
                 {
                     GUIUtility.keyboardControl = controlId;
                     EditorGUIUtility.editingTextField = true;

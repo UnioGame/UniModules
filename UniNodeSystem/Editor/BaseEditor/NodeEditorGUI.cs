@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Modules.UniTools.UniResourceSystem;
+using System.Reflection;
 using UniEditorTools;
 using UniNodeSystem;
-using UniStateMachine.Nodes;
 using UnityEditor;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace UniNodeSystemEditor
 {
@@ -15,8 +12,8 @@ namespace UniNodeSystemEditor
     public partial class NodeEditorWindow
     {
         public NodeGraphEditor graphEditor;
-        private List<UnityEngine.Object> selectionCache;
-        private List<UniNodeSystem.UniBaseNode> culledNodes;
+        private List<Object> selectionCache;
+        private List<UniBaseNode> culledNodes;
 
         private int topPadding
         {
@@ -123,7 +120,7 @@ namespace UniNodeSystemEditor
         }
 
         /// <summary> Show right-click context menu for hovered port </summary>
-        void ShowPortContextMenu(UniNodeSystem.NodePort hoveredPort)
+        void ShowPortContextMenu(NodePort hoveredPort)
         {
             var contextMenu = new GenericMenu();
             contextMenu.AddItem(new GUIContent("Clear Connections"), false, () => hoveredPort.ClearConnections());
@@ -136,9 +133,9 @@ namespace UniNodeSystemEditor
         {
             var contextMenu = new GenericMenu();
             // If only one node is selected
-            if (Selection.objects.Length == 1 && Selection.activeObject is UniNodeSystem.UniBaseNode)
+            if (Selection.objects.Length == 1 && Selection.activeObject is UniBaseNode)
             {
-                var node = Selection.activeObject as UniNodeSystem.UniBaseNode;
+                var node = Selection.activeObject as UniBaseNode;
                 contextMenu.AddItem(new GUIContent("Move To Top"), false, () => MoveNodeToTop(node));
                 contextMenu.AddItem(new GUIContent("Rename"), false, RenameSelectedNode);
             }
@@ -147,9 +144,9 @@ namespace UniNodeSystemEditor
             contextMenu.AddItem(new GUIContent("Remove"), false, RemoveSelectedNodes);
 
             // If only one node is selected
-            if (Selection.objects.Length == 1 && Selection.activeObject is UniNodeSystem.UniBaseNode)
+            if (Selection.objects.Length == 1 && Selection.activeObject is UniBaseNode)
             {
-                var node = Selection.activeObject as UniNodeSystem.UniBaseNode;
+                var node = Selection.activeObject as UniBaseNode;
                 AddCustomContextMenuItems(contextMenu, node);
             }
 
@@ -331,7 +328,7 @@ namespace UniNodeSystemEditor
         }
 
         private Vector2 _nodeGraphScroll;
-        private bool _showGraphsList = false;
+        private bool _showGraphsList;
 
         private void DrawGraphsButtons()
         {
@@ -339,7 +336,7 @@ namespace UniNodeSystemEditor
             {
                 UpdateEditorNodeGraphs();
             }
-            
+
             DrawTopButtons();
 
             DrawGraphsHistory();
@@ -401,28 +398,24 @@ namespace UniNodeSystemEditor
             {
                 PrefabUtility.ApplyPrefabInstance(nodeGraph.gameObject, InteractionMode.AutomatedAction);
             }
-            else
-            {
-                
-            }
-            
         }
 
         private Vector2 _historyPosition;
         private List<int> _removedIndexes = new List<int>();
+
         private void DrawGraphsHistory()
         {
             GUILayout.FlexibleSpace();
-            
+
             EditorDrawerUtils.DrawHorizontalLayout(() =>
             {
                 GUILayout.ExpandWidth(true);
                 _removedIndexes.Clear();
                 var count = GraphsHistory.Count;
-                for (var i = count-1; i >= 0 ; i--)
+                for (var i = count - 1; i >= 0; i--)
                 {
                     var historyGraph = GraphsHistory[i];
-                    if (!historyGraph.Target)
+                    if (historyGraph == null)
                     {
                         _removedIndexes.Add(i);
                         continue;
@@ -430,12 +423,12 @@ namespace UniNodeSystemEditor
 
                     EditorDrawerUtils.DrawButton(historyGraph.ItemName, () =>
                     {
-                        
+
                         Save(graph);
                         var targetGraph = historyGraph.Load<NodeGraph>();
                         Open(targetGraph);
-                        
-                    },GUILayout.Height(50));
+
+                    }, GUILayout.Height(50));
                 }
 
                 for (var i = 0; i < _removedIndexes.Count; i++)
@@ -443,21 +436,21 @@ namespace UniNodeSystemEditor
                     GraphsHistory.RemoveAt(_removedIndexes[i]);
                 }
             });
-            
+
         }
-        
+
         private void DrawNodes()
         {
             var e = Event.current;
             if (e.type == EventType.Layout)
             {
-                selectionCache = new List<UnityEngine.Object>(Selection.objects);
+                selectionCache = new List<Object>(Selection.objects);
             }
 
             //Active node is hashed before and after node GUI to detect changes
             var nodeHash = 0;
-            System.Reflection.MethodInfo onValidate = null;
-            if (Selection.activeObject != null && Selection.activeObject is UniNodeSystem.UniBaseNode)
+            MethodInfo onValidate = null;
+            if (Selection.activeObject != null && Selection.activeObject is UniBaseNode)
             {
                 onValidate = Selection.activeObject.GetType().GetMethod("OnValidate");
                 if (onValidate != null) nodeHash = Selection.activeObject.GetHashCode();
@@ -474,8 +467,8 @@ namespace UniNodeSystemEditor
             }
 
             var preSelection = preBoxSelection != null
-                ? new List<UnityEngine.Object>(preBoxSelection)
-                : new List<UnityEngine.Object>();
+                ? new List<Object>(preBoxSelection)
+                : new List<Object>();
 
             // Selection box stuff
             var boxStartPos = GridToWindowPositionNoClipped(dragBoxStart);
@@ -502,11 +495,11 @@ namespace UniNodeSystemEditor
                 if (graph.nodes[n] == null) continue;
                 if (n >= graph.nodes.Count) return;
                 var node = graph.nodes[n];
-                
+
                 //Save guiColor so we can revert it
                 var guiColor = GUI.color;
-                
-                DrawNode(node,e,mousePos,preSelection);
+
+                DrawNode(node, e, mousePos, preSelection);
 
                 GUI.color = guiColor;
             }
@@ -648,16 +641,16 @@ namespace UniNodeSystemEditor
             GUILayout.EndArea();
         }
 
-        private bool ShouldBeCulled(UniNodeSystem.UniBaseNode node)
+        private bool ShouldBeCulled(UniBaseNode node)
         {
             var nodePos = GridToWindowPositionNoClipped(node.position);
             if (nodePos.x / _zoom > position.width) return true; // Right
-            else if (nodePos.y / _zoom > position.height) return true; // Bottom
-            else if (nodeSizes.ContainsKey(node))
+            if (nodePos.y / _zoom > position.height) return true; // Bottom
+            if (nodeSizes.ContainsKey(node))
             {
                 var size = nodeSizes[node];
                 if (nodePos.x + size.x < 0) return true; // Left
-                else if (nodePos.y + size.y < 0) return true; // Top
+                if (nodePos.y + size.y < 0) return true; // Top
             }
 
             return false;
