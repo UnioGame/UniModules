@@ -6,6 +6,7 @@ using UniNodeSystem;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;
+using UnityEngine.Profiling;
 using UniTools.UniNodeSystem;
 
 namespace UniNodeSystemEditor
@@ -108,8 +109,14 @@ namespace UniNodeSystemEditor
             graphEditor = NodeGraphEditor.GetEditor(graph);
             var settings = NodeEditorPreferences.GetSettings();
 
+            if (GraphsHistory.Count == 0)
+            {
+                GraphsHistory.Add(graphResource);
+            }
+            
             if (graphEditor != null && settings.autoSave)
             {
+                return;
                 AssetDatabase.SaveAssets();
             }
         }
@@ -126,12 +133,7 @@ namespace UniNodeSystemEditor
 
         public void Save()
         {
-            if (AssetDatabase.Contains(graph))
-            {
-                EditorUtility.SetDirty(graph);
-                if (NodeEditorPreferences.GetSettings().autoSave) AssetDatabase.SaveAssets();
-            }
-            else SaveAs();
+            Save(graph,graphResource);
         }
 
         public void OnInspectorUpdate()
@@ -215,19 +217,25 @@ namespace UniNodeSystemEditor
 
         public static bool Open(NodeGraph nodeGraph)
         {
+            if (current != null)
+            {
+                current.Save();
+            }
+
+            if(GraphsHistory == null)
+                GraphsHistory = new List<EditorResource>();
+            
+            GraphsHistory.RemoveAll(x => x == null);
+            
             var w = GetWindow(typeof(NodeEditorWindow), false, "UniNodes", true) as NodeEditorWindow;
 
             var nodeEditor = w;
             nodeEditor?.portConnectionPoints.Clear();
            
             if (!nodeGraph) return false;
-           
-            var assetType = PrefabUtility.GetPrefabAssetType(nodeGraph);
-            
+
             var targetResource = GetGraphResource(nodeGraph);
             var targetGraph = GetGraphItem(targetResource.AssetPath);
-            
-            assetType = PrefabUtility.GetPrefabAssetType(targetGraph);
             
             w.wantsMouseMove = true;
             w.graph = targetGraph;
@@ -273,8 +281,9 @@ namespace UniNodeSystemEditor
             }
             
             GraphsHistory.Add(resourceItem);
-
+            
             return resourceItem;
+            
         }
     }
 }

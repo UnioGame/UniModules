@@ -499,6 +499,7 @@ namespace UniNodeSystemEditor
                     serializedObject.ApplyModifiedProperties();
                     serializedObject.Update();
                     NodeEditorWindow.current.Repaint();
+                    
                     EditorApplication.delayCall += NodeEditorWindow.current.Repaint;
                 };
             list.onAddCallback =

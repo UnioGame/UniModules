@@ -26,8 +26,9 @@ namespace UniNodeSystemEditor {
         }
 
         /// <summary> Return default settings for this graph type. This is the settings the user will load if no previous settings have been saved. </summary>
-        public virtual NodeEditorPreferences.Settings GetDefaultPreferences() {
-            return new NodeEditorPreferences.Settings();
+        public virtual NodeEditorSettings GetDefaultPreferences() 
+        {
+            return new NodeEditorSettings();
         }
 
         /// <summary> Returns context node menu path. Null or empty strings for hidden nodes. </summary>

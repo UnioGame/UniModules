@@ -201,7 +201,7 @@ namespace UniNodeSystemEditor
 
             switch (NodeEditorPreferences.GetSettings().noodleType)
             {
-                case NodeEditorPreferences.NoodleType.Curve:
+                case NodeEditorNoodleType.Curve:
                     var startTangent = startPoint;
                     if (startPoint.x < endPoint.x) startTangent.x = Mathf.LerpUnclamped(startPoint.x, endPoint.x, 0.7f);
                     else startTangent.x = Mathf.LerpUnclamped(startPoint.x, endPoint.x, -0.7f);
@@ -211,11 +211,11 @@ namespace UniNodeSystemEditor
                     else endTangent.x = Mathf.LerpUnclamped(endPoint.x, startPoint.x, 0.7f);
                     Handles.DrawBezier(startPoint, endPoint, startTangent, endTangent, col, null, 4);
                     break;
-                case NodeEditorPreferences.NoodleType.Line:
+                case NodeEditorNoodleType.Line:
                     Handles.color = col;
                     Handles.DrawAAPolyLine(5, startPoint, endPoint);
                     break;
-                case NodeEditorPreferences.NoodleType.Angled:
+                case NodeEditorNoodleType.Angled:
                     Handles.color = col;
                     if (startPoint.x <= endPoint.x - (50 / zoom))
                     {
@@ -378,7 +378,7 @@ namespace UniNodeSystemEditor
 
             EditorDrawerUtils.DrawVertialLayout(() =>
             {
-                EditorDrawerUtils.DrawButton("save", () => Save(graph,graphResource));
+                EditorDrawerUtils.DrawButton("save", () => Save(graph, graphResource));
 
                 EditorDrawerUtils.DrawButton("stop all", () =>
                 {
@@ -394,7 +394,7 @@ namespace UniNodeSystemEditor
 
         private void Save(NodeGraph nodeGraph, EditorResource resource)
         {
-            if (!nodeGraph)
+            if (!nodeGraph || resource == null)
                 return;
 
             var targetGameObject = nodeGraph.gameObject;
@@ -405,12 +405,10 @@ namespace UniNodeSystemEditor
             {
                 PrefabUtility.ApplyPrefabInstance(targetGameObject, InteractionMode.AutomatedAction);
             }
-            else if(resource != null)
+            else
             {
                 PrefabUtility.ReplacePrefab(nodeGraph.gameObject, resource.Target);
             }
-            
-
         }
 
         private Vector2 _historyPosition;
@@ -436,7 +434,7 @@ namespace UniNodeSystemEditor
 
                     EditorDrawerUtils.DrawButton(historyGraph.ItemName, () =>
                     {
-                        Save(graph,graphResource);
+                        Save(graph, graphResource);
                         var targetGraph = historyGraph.Load<NodeGraph>();
                         Open(targetGraph);
                     }, GUILayout.Height(50));
@@ -445,6 +443,11 @@ namespace UniNodeSystemEditor
                 for (var i = 0; i < _removedIndexes.Count; i++)
                 {
                     GraphsHistory.RemoveAt(_removedIndexes[i]);
+                }
+
+                if (GraphsHistory.Count == 0)
+                {
+                    GraphsHistory.Add(graphResource);
                 }
             });
         }
@@ -482,7 +485,7 @@ namespace UniNodeSystemEditor
 
                 // Selection box stuff
                 var boxStartPos = GridToWindowPositionNoClipped(dragBoxStart);
-                
+
                 var boxSize = mousePos - boxStartPos;
                 if (boxSize.x < 0)
                 {
@@ -498,7 +501,7 @@ namespace UniNodeSystemEditor
 
                 var selectionBox = new Rect(boxStartPos, boxSize);
 
-                if (e.type == EventType.Layout) 
+                if (e.type == EventType.Layout)
                     culledNodes = new List<UniBaseNode>();
 
                 EditorDrawerUtils.DrawAndRevertColor(() =>
@@ -510,16 +513,12 @@ namespace UniNodeSystemEditor
                         if (n >= graph.nodes.Count) return;
                         var node = graph.nodes[n];
 
-                        EditorDrawerUtils.DrawAndRevertColor(() =>
-                        {
-                            DrawNode(node, e, mousePos, preSelection);
-                        });
+                        EditorDrawerUtils.DrawAndRevertColor(() => { DrawNode(node, e, mousePos, preSelection); });
                     }
                 });
 
                 if (e.type != EventType.Layout && currentActivity == NodeActivity.DragGrid)
                     Selection.objects = preSelection.ToArray();
-                
             }, position, zoom, topPadding);
 
             //If a change in hash is detected in the selected node, call OnValidate method. 
@@ -627,7 +626,7 @@ namespace UniNodeSystemEditor
             }
 
             GUI.color = guiColor;
-            
+
             EditorGUI.BeginChangeCheck();
 
             //Draw node contents
