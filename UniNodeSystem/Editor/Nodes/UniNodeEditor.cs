@@ -75,7 +75,7 @@ namespace SubModules.Scripts.UniStateMachine.NodeEditor
             foreach (var portValue in node.PortValues)
             {
                 var portName = portValue.Name;
-                var formatedName = UniNode.GetFormatedInputName(portName);
+                var formatedName = node.GetFormatedInputName(portName);
 
                 DrawPortPair(node, portName, formatedName, _drawedPorts);
             }

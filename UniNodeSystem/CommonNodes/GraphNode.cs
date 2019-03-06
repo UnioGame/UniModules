@@ -28,11 +28,6 @@ namespace UniStateMachine.CommonNodes
         /// </summary>
         [TargetType(typeof(UniGraph))]
         public ResourceItem Graph;
-        
-        /// <summary>
-        /// Wait target graph execution
-        /// </summary>
-        public bool WaitGraph = true;
 
         #endregion
         
@@ -45,10 +40,7 @@ namespace UniStateMachine.CommonNodes
         protected override IEnumerator ExecuteState(IContext context)
         {
 
-            if (!WaitGraph)
-            {
-                yield return base.ExecuteState(context);
-            }
+            yield return base.ExecuteState(context);
             
             var targetGraph = UniGraph;
             if (targetGraph)
@@ -56,11 +48,6 @@ namespace UniStateMachine.CommonNodes
                 yield return targetGraph.Execute(context);
             }
 
-            if (WaitGraph)
-            {
-                yield return base.ExecuteState(context);
-            }
-            
         }
 
         protected override void OnUpdatePortsCache()

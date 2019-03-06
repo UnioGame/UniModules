@@ -13,7 +13,6 @@ namespace UniStateMachine
 {
     public class UniNode : UniGraphNode, IValidator<IContext>
     {
-        public const string InputTriggerPrefix = "[in]";
 
         public const string InputPortName = "Input";
 
@@ -27,13 +26,6 @@ namespace UniStateMachine
         {
             return true;
         }
-
-        public static string GetFormatedInputName(string portName)
-        {
-            portName = string.Format($"{UniNode.InputTriggerPrefix}{portName}");
-            return portName;
-        }
-        
         
         protected override void OnUpdatePortsCache()
         {

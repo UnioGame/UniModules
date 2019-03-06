@@ -29,6 +29,8 @@ namespace UniNodeSystem
     [Serializable]
     public abstract class UniBaseNode : MonoBehaviour, INode
     {
+        public const string InputTriggerPrefix = "[in]";
+
         [HideInInspector] [ReadOnlyValue] [SerializeField]
         private ulong _id;
 
@@ -67,6 +69,13 @@ namespace UniNodeSystem
             }
         }
 
+        public virtual string GetFormatedInputName(string portName)
+        {
+            portName = string.Format($"{InputTriggerPrefix}{portName}");
+            return portName;
+        }
+
+        
         public virtual string GetName()
         {
             return gameObject.name;

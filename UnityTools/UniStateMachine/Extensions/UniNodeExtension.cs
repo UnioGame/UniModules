@@ -27,6 +27,23 @@ namespace UniModule.UnityTools.UniStateMachine.Extensions
             return items;
         }
 
+            
+        public static (UniPortValue inputValue, UniPortValue outputValue) CreatePortPair(this UniNode node, string outputPortName, bool connectInOut = false)
+        {
+            var inputName = node.GetFormatedInputName(outputPortName);
+            var inputPortPair = node.UpdatePortValue(inputName, PortIO.Input);
+            var outputPortPair = node.UpdatePortValue(outputPortName, PortIO.Output);
+                
+            var inputValue = inputPortPair.value;
+            var outputValue = outputPortPair.value;
+            
+            if(connectInOut)
+                inputValue.Add(outputValue);
+        
+            return (inputValue,outputValue);
+        }
+
+        
         public static List<NodePort> GetConnectionToNodes<TTarget>(this NodePort port)
             where TTarget :UniBaseNode
         {
@@ -119,7 +136,6 @@ namespace UniModule.UnityTools.UniStateMachine.Extensions
             return (portValue,port);
         
         }
-        
         
 
         public static NodePort UpdatePort<TValue>(this UniBaseNode node,string portName,PortIO direction = PortIO.Output)
