@@ -120,7 +120,8 @@ namespace UniNodeSystemEditor
             var contextMenu = new GenericMenu();
             contextMenu.AddItem(new GUIContent("Remove"), false, () => reroute.RemovePoint());
             contextMenu.DropDown(new Rect(Event.current.mousePosition, Vector2.zero));
-            if (NodeEditorPreferences.GetSettings().autoSave) AssetDatabase.SaveAssets();
+            
+            //if (NodeEditorPreferences.GetSettings().autoSave) AssetDatabase.SaveAssets();
         }
 
         /// <summary> Show right-click context menu for hovered port </summary>
@@ -129,7 +130,7 @@ namespace UniNodeSystemEditor
             var contextMenu = new GenericMenu();
             contextMenu.AddItem(new GUIContent("Clear Connections"), false, () => hoveredPort.ClearConnections());
             contextMenu.DropDown(new Rect(Event.current.mousePosition, Vector2.zero));
-            if (NodeEditorPreferences.GetSettings().autoSave) AssetDatabase.SaveAssets();
+            //if (NodeEditorPreferences.GetSettings().autoSave) AssetDatabase.SaveAssets();
         }
 
         /// <summary> Show right-click context menu for selected nodes </summary>
