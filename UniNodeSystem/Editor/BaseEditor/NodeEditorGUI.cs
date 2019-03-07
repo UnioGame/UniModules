@@ -393,11 +393,40 @@ namespace UniNodeSystemEditor
             }, GUILayout.Width(100));
         }
 
+        private EditorResource ActializeActiveGraphAsset(NodeGraph nodeGraph,EditorResource resource)
+        {
+            
+            if (resource == null)
+            {
+                var  activePath = EditorPrefs.GetString(ActiveGraphPath);
+                if (string.IsNullOrEmpty(activePath))
+                {
+                    Debug.LogError("EMPTY Graph Path");
+                    return null;
+                }
+
+                var asset = AssetDatabase.LoadAssetAtPath<GameObject>(activePath);
+                if (!asset || asset.name != nodeGraph.gameObject.name)
+                {
+                    Debug.LogError("WRONG Target Graph Path");
+                    return null;
+                }
+                resource = new EditorResource();
+                resource.Update(asset);
+
+                return UpdateGraphResource(resource);
+            }
+
+            return resource;
+        }
+        
         private void Save(NodeGraph nodeGraph, EditorResource resource)
         {
-            if (!nodeGraph || resource == null)
+            if (!nodeGraph)
                 return;
 
+            resource = ActializeActiveGraphAsset(nodeGraph, resource);
+            
             var targetGameObject = nodeGraph.gameObject;
 
             var assetType = PrefabUtility.GetPrefabAssetType(nodeGraph);
@@ -406,7 +435,7 @@ namespace UniNodeSystemEditor
             {
                 PrefabUtility.ApplyPrefabInstance(targetGameObject, InteractionMode.AutomatedAction);
             }
-            else
+            else if(resource!=null)
             {
                 PrefabUtility.ReplacePrefab(nodeGraph.gameObject, resource.Target);
             }

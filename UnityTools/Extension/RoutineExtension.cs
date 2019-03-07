@@ -86,7 +86,21 @@ namespace UniModule.UnityTools.Extension
             
         }
 
-        public static IDisposable ExecuteWithCondition(this object target,Action action, Func<bool> condition,
+        
+        public static IDisposable ExecuteWithCondition(this object target, 
+            Action action, Func<bool> condition,
+            Func<bool> awaiter,
+            RoutineType routineType = RoutineType.UpdateStep)
+        {
+            
+            var enumerator = ExecuteWhen(target,action, condition,awaiter);
+            var disposable = enumerator.RunWithSubRoutines(routineType);
+            return disposable;
+            
+        }
+
+        public static IDisposable ExecuteWithCondition(this object target, 
+            Action action, Func<bool> condition,
             RoutineType routineType = RoutineType.UpdateStep)
         {
             
@@ -96,10 +110,36 @@ namespace UniModule.UnityTools.Extension
             
         }
         
+        /// <summary>
+        /// execute target action when condition is true, repeat until awaiter is true
+        /// </summary>
+        /// <param name="target">target object</param>
+        /// <param name="action">target action</param>
+        /// <param name="condition">action condition</param>
+        /// <param name="awaiter">awaiter</param>
+        /// <returns>progress awaiter</returns>
+        public static IEnumerator ExecuteWhen(this object target, Action action, Func<bool> condition,
+            Func<bool> awaiter)
+        {
+                        
+            while (awaiter())
+            {
+                if (condition())
+                {
+                    action();
+                }
+                yield return null;
+            }
+
+        }
+        
+        
+        /// <summary>
+        /// repeat target action until condition is true
+        /// </summary>
+        /// <returns>progress enumerator</returns>
         public static IEnumerator ExecuteWhile(this object target, Action action, Func<bool> condition)
         {
-            
-            if(action == null || condition == null)yield break;
 
             while (condition())
             {

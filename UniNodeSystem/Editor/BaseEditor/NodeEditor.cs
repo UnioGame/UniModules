@@ -33,8 +33,8 @@ namespace UniNodeSystemEditor
             _bodyDrawers = new List<INodeEditorDrawer>();
             _headerDrawers = new List<INodeEditorDrawer>();
             
-            InitializedBodyDrawers();
-            InitializeHeaderDrawers();
+            _bodyDrawers = InitializedBodyDrawers();
+            _headerDrawers = InitializeHeaderDrawers();
             
             OnEditorEnabled();
             
@@ -99,14 +99,16 @@ namespace UniNodeSystemEditor
         
         #region private methods
 
-        protected virtual void InitializeHeaderDrawers()
+        protected virtual List<INodeEditorDrawer> InitializeHeaderDrawers()
         {
             _headerDrawers.Add(new BaseHeaderDrawer());
+            return _headerDrawers;
         }
 
-        protected virtual void InitializedBodyDrawers()
+        protected virtual List<INodeEditorDrawer> InitializedBodyDrawers()
         {
             _bodyDrawers.Add(new BaseBodyDrawer());
+            return _bodyDrawers;
         }
 
         protected virtual void OnEditorEnabled(){}

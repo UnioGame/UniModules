@@ -16,9 +16,9 @@ namespace UniStateMachine.CommonNodes
         protected Dictionary<UniPortValue,UniPortValue> _portValueMap = new Dictionary<UniPortValue,UniPortValue>();
         protected List<BroadcastActionContextData<IContext>> _portActions = new List<BroadcastActionContextData<IContext>>();
         protected List<UniPortValue> _messageOutputValues = new List<UniPortValue>();
-        
-        public List<string> PortNames = new List<string>();
 
+        public List<string> PortNames = new List<string>();
+        
         protected override IEnumerator ExecuteState(IContext context)
         {
             yield return base.ExecuteState(context);
@@ -43,6 +43,8 @@ namespace UniStateMachine.CommonNodes
 
             _portValueMap.Clear();
             _portActions.DisposeItems();
+
+            PortNames = GetNodeApiNames();
             
             var count = PortNames.Count;
 
@@ -59,6 +61,11 @@ namespace UniStateMachine.CommonNodes
                 BindPorts(ports.inputValue, ports.outputValue, i);                
             }
             
+        }
+        
+        protected virtual List<string> GetNodeApiNames()
+        {
+            return PortNames;
         }
 
         protected virtual void BindPorts(UniPortValue input, UniPortValue output, int index)

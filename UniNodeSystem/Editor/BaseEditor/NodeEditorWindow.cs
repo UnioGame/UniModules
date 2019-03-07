@@ -3,6 +3,7 @@ using System.Linq;
 using Modules.UniTools.UniResourceSystem;
 using UniModule.UnityTools.EditorTools;
 using UniNodeSystem;
+using UniStateMachine.Nodes;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;
@@ -14,10 +15,14 @@ namespace UniNodeSystemEditor
     [InitializeOnLoad]
     public partial class NodeEditorWindow : EditorWindow
     {
+        public const string ActiveGraphPath = "ActiveGraphPath";
+        
         public static List<UniGraphAsset> NodeGraphs = new List<UniGraphAsset>();
         public static List<EditorResource> GraphsHistory = new List<EditorResource>();
         public static NodeEditorWindow current;
-       
+        public static EditorResource ActiveGraphResource;
+        public static NodeGraph ActiveGraph;
+        
         private Dictionary<ulong, NodePort> _portsIds = new Dictionary<ulong, NodePort>();
         private Dictionary<NodePort, Rect> _portConnectionPoints = new Dictionary<NodePort, Rect>();
         private Dictionary<UniBaseNode, Vector2> _nodeSizes = new Dictionary<UniBaseNode, Vector2>();
@@ -33,6 +38,7 @@ namespace UniNodeSystemEditor
 
         public NodeGraph graph;
         public EditorResource graphResource;
+        public string currentAssetPath;
         
         private void OnDisable()
         {
@@ -234,7 +240,13 @@ namespace UniNodeSystemEditor
 
             var targetResource = GetGraphResource(nodeGraph);
             var targetGraph = GetGraphItem(targetResource.AssetPath);
+
+            ActiveGraph = targetGraph;
+            ActiveGraphResource = targetResource;
             
+            EditorPrefs.SetString(ActiveGraphPath,targetResource.AssetPath);
+            
+            w.currentAssetPath = targetResource.AssetPath;
             w.wantsMouseMove = true;
             w.graph = targetGraph;
             w.graphResource = targetResource;
@@ -274,19 +286,19 @@ namespace UniNodeSystemEditor
 
             var resourceItem = new EditorResource();
             resourceItem.Update(targetGraph.gameObject);
+
+            return UpdateGraphResource(resourceItem);
             
-            var targetItem = GraphsHistory.
-                FirstOrDefault(x => x.AssetPath == resourceItem.AssetPath);
+        }
+
+        private static EditorResource UpdateGraphResource(EditorResource resource)
+        {;
+            GraphsHistory.
+                RemoveAll(x => x == null ||  x.AssetPath == resource.AssetPath);
             
-            if (targetItem != null)
-            {
-                GraphsHistory.Remove(targetItem);
-            }
+            GraphsHistory.Add(resource);
             
-            GraphsHistory.Add(resourceItem);
-            
-            return resourceItem;
-            
+            return resource;
         }
     }
 }

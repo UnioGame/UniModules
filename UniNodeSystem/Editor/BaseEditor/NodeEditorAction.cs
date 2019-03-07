@@ -468,15 +468,19 @@ namespace UniNodeSystemEditor
 
         public void CreateNode(Type type, Vector2 position)
         {
+            CreateNode(type,ObjectNames.NicifyVariableName(type.Name), position);
+        }
+        
+        public void CreateNode(Type type,string nodeName, Vector2 position)
+        {
             var node = graph.AddNode(type);
             node.position = position;
-            node.name = ObjectNames.NicifyVariableName(type.Name);
+            node.name = nodeName;
             node.transform.parent = graph.transform;
 
             if (NodeEditorPreferences.GetSettings().autoSave)
             {
-                PrefabUtility.ApplyPrefabInstance(graph.gameObject, InteractionMode.AutomatedAction);
-                //AssetDatabase.SaveAssets();
+                Save();
             }
 
             Repaint();
