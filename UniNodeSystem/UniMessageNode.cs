@@ -88,6 +88,7 @@ namespace UniStateMachine.CommonNodes
         protected virtual void OnMessagePortValue(IContext context,UniPortValue portValue, TValue value)
         {
             portValue.UpdateValue(context,value);
+            portValue.UpdateValue(context,context);
         }
     }
     

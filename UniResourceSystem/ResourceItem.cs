@@ -59,9 +59,6 @@ namespace UniModule.UnityTools.ResourceSystem
             }
 
             ApplyResource(result);
-            
-            if(Application.isPlaying && !result)
-                Debug.LogError("LOAD NULL ASSET FROM ResourceItem");
 
             return result;
         }

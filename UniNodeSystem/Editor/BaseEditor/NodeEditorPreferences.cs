@@ -23,11 +23,11 @@ namespace UniNodeSystemEditor
         {
             if (lastEditor != NodeEditorWindow.current.graphEditor)
             {
-                object[] attribs = NodeEditorWindow.current.graphEditor.GetType()
+                var attribs = NodeEditorWindow.current.graphEditor.GetType()
                     .GetCustomAttributes(typeof(NodeGraphEditor.CustomNodeGraphEditorAttribute), true);
                 if (attribs.Length == 1)
                 {
-                    NodeGraphEditor.CustomNodeGraphEditorAttribute attrib =
+                    var attrib =
                         attribs[0] as NodeGraphEditor.CustomNodeGraphEditorAttribute;
                     lastEditor = NodeEditorWindow.current.graphEditor;
                     lastKey = attrib.editorPrefsKey;
@@ -43,7 +43,7 @@ namespace UniNodeSystemEditor
         private static void PreferencesGUI()
         {
             VerifyLoaded();
-            NodeEditorSettings settings = NodeEditorPreferences.settings[lastKey];
+            var settings = NodeEditorPreferences.settings[lastKey];
 
             NodeSettingsGUI(lastKey, settings);
             GridSettingsGUI(lastKey, settings);
@@ -106,10 +106,10 @@ namespace UniNodeSystemEditor
             EditorGUILayout.LabelField("Types", EditorStyles.boldLabel);
 
             //Display type colors. Save them if they are edited by the user
-            List<string> typeColorKeys = new List<string>(typeColors.Keys);
-            foreach (string typeColorKey in typeColorKeys)
+            var typeColorKeys = new List<string>(typeColors.Keys);
+            foreach (var typeColorKey in typeColorKeys)
             {
-                Color col = typeColors[typeColorKey];
+                var col = typeColors[typeColorKey];
                 EditorGUI.BeginChangeCheck();
                 EditorGUILayout.BeginHorizontal();
                 col = EditorGUILayout.ColorField(typeColorKey, col);
@@ -166,7 +166,7 @@ namespace UniNodeSystemEditor
         {
             VerifyLoaded();
             if (type == null) return Color.gray;
-            string typeName = type.PrettyName();
+            var typeName = type.PrettyName();
             if (!typeColors.ContainsKey(typeName))
             {
                 if (settings[lastKey].typeColors.ContainsKey(typeName))

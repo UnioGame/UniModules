@@ -51,6 +51,8 @@ namespace UniNodeSystemEditor
             Draw(_headerDrawers);
             
         }
+        
+        
 
         /// <summary> Draws standard field editors for all public fields </summary>
         public virtual void OnBodyGUI()
@@ -113,7 +115,7 @@ namespace UniNodeSystemEditor
 
         protected virtual void OnEditorEnabled(){}
 
-        private void Draw(List<INodeEditorDrawer> drawers)
+        protected void Draw(List<INodeEditorDrawer> drawers)
         {
             for (var i = 0; i < drawers.Count; i++)
             {

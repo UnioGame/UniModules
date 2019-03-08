@@ -12,14 +12,7 @@ namespace UniStateMachine.CommonNodes
 {
     public class GraphNode : UniNode
     {
-        #region private properties
-
-        /// <summary>
-        /// target node graph
-        /// </summary>
-        protected UniGraph UniGraph => Graph.Load<UniGraph>();
-
-        #endregion
+        private UniGraph _nodeGraph;
         
         #region inspector data
         
@@ -33,7 +26,7 @@ namespace UniStateMachine.CommonNodes
         
         public override string GetName()
         {
-            var asset = UniGraph;
+            var asset = GetGraph();
             return asset ? asset.name : base.GetName();
         }
         
@@ -42,7 +35,7 @@ namespace UniStateMachine.CommonNodes
 
             yield return base.ExecuteState(context);
             
-            var targetGraph = UniGraph;
+            var targetGraph = GetGraph();
             if (targetGraph)
             {
                 yield return targetGraph.Execute(context);
@@ -54,7 +47,7 @@ namespace UniStateMachine.CommonNodes
         {
             base.OnUpdatePortsCache();
 
-            var graphAsset = UniGraph;
+            var graphAsset = GetGraph();
 
             if (graphAsset == null)
                 return;
@@ -80,6 +73,26 @@ namespace UniStateMachine.CommonNodes
         {
             var portPair = this.UpdatePortValue(portName, direction);
             portPair.value.Add(value);
+        }
+
+        private UniGraph GetGraph()
+        {
+            if (_nodeGraph)
+                return _nodeGraph;
+            
+            var resourceGraph = Graph.Load<UniGraph>();
+            if (resourceGraph == null)
+                return null;
+            
+            _nodeGraph = resourceGraph;
+            
+            if (Application.isPlaying)
+            {
+                var resourceInstance = Instantiate(resourceGraph.gameObject,transform);
+                _nodeGraph = resourceInstance.GetComponent<UniGraph>();
+            }
+
+            return _nodeGraph;
         }
     }
     

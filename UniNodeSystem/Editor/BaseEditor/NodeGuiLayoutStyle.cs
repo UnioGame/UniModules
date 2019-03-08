@@ -1,13 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public struct NodeGuiLayoutStyle
+namespace Modules.UniTools.UniNodeSystem.Editor.BaseEditor
 {
-    public string Name;
-    public GUIContent Label;
-    public GUILayoutOption[] Options;
-    public Color Background;
-    public Color Color;
+    public struct NodeGuiLayoutStyle
+    {
+        public string Name;
+        public GUIContent Label;
+        public GUILayoutOption[] Options;
+        public Color Background;
+        public Color Color;
 
+    }
 }

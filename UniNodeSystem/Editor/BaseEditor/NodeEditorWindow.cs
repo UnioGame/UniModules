@@ -239,7 +239,9 @@ namespace UniNodeSystemEditor
             if (!nodeGraph) return false;
 
             var targetResource = GetGraphResource(nodeGraph);
-            var targetGraph = GetGraphItem(targetResource.AssetPath);
+            var targetGraph = Application.isPlaying ? 
+                nodeGraph : 
+                GetGraphItem(targetResource.AssetPath);
 
             ActiveGraph = targetGraph;
             ActiveGraphResource = targetResource;
@@ -282,8 +284,6 @@ namespace UniNodeSystemEditor
         private static EditorResource GetGraphResource(NodeGraph targetGraph)
         {
                         
-            GraphsHistory.RemoveAll(x => x == null);
-
             var resourceItem = new EditorResource();
             resourceItem.Update(targetGraph.gameObject);
 
@@ -293,8 +293,7 @@ namespace UniNodeSystemEditor
 
         private static EditorResource UpdateGraphResource(EditorResource resource)
         {;
-            GraphsHistory.
-                RemoveAll(x => x == null ||  x.AssetPath == resource.AssetPath);
+            GraphsHistory.RemoveAll(x => x == null ||  x.AssetPath == resource.AssetPath);
             
             GraphsHistory.Add(resource);
             

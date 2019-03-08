@@ -422,6 +422,9 @@ namespace UniNodeSystemEditor
         
         private void Save(NodeGraph nodeGraph, EditorResource resource)
         {
+            if (Application.isPlaying)
+                return;
+            
             if (!nodeGraph)
                 return;
 
