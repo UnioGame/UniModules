@@ -30,7 +30,11 @@ namespace UniStateMachine.Nodes
 	    private List<UniNode> _uniNodes; 
 	    private List<UniGraphNode> _allNodes;
 
+	    /// <summary>
+	    /// private graph state executor
+	    /// </summary>
 	    private IContextState<IEnumerator> _graphState;
+	    
 	    /// <summary>
 	    /// state local context data
 	    /// </summary>

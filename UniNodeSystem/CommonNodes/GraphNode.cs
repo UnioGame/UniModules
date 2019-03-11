@@ -30,6 +30,26 @@ namespace UniStateMachine.CommonNodes
             return asset ? asset.name : base.GetName();
         }
         
+        public UniGraph GetGraph()
+        {
+            if (_nodeGraph)
+                return _nodeGraph;
+            
+            var resourceGraph = Graph.Load<UniGraph>();
+            if (resourceGraph == null)
+                return null;
+            
+            _nodeGraph = resourceGraph;
+            
+            if (Application.isPlaying)
+            {
+                var resourceInstance = Instantiate(resourceGraph.gameObject,transform);
+                _nodeGraph = resourceInstance.GetComponent<UniGraph>();
+            }
+
+            return _nodeGraph;
+        }
+        
         protected override IEnumerator ExecuteState(IContext context)
         {
 
@@ -60,9 +80,10 @@ namespace UniStateMachine.CommonNodes
                 
                 uniNode.Initialize();
                 
-                if (node is IGraphPortNode outputNode)
+                if (node is IGraphPortNode graphNode)
                 {
-                    RegisterGraphPort(node.GetName(),outputNode.PortValue,outputNode.Direction);
+                    var nodeName = node.GetName();
+                    RegisterGraphPort(nodeName,graphNode.PortValue,graphNode.Direction);
                 }
 
             }
@@ -72,28 +93,20 @@ namespace UniStateMachine.CommonNodes
         private void RegisterGraphPort(string portName,UniPortValue value,PortIO direction)
         {
             var portPair = this.UpdatePortValue(portName, direction);
-            portPair.value.Add(value);
-        }
-
-        private UniGraph GetGraph()
-        {
-            if (_nodeGraph)
-                return _nodeGraph;
             
-            var resourceGraph = Graph.Load<UniGraph>();
-            if (resourceGraph == null)
-                return null;
-            
-            _nodeGraph = resourceGraph;
-            
-            if (Application.isPlaying)
+            //register node portvalue to inner graph node
+            if (direction == PortIO.Input)
             {
-                var resourceInstance = Instantiate(resourceGraph.gameObject,transform);
-                _nodeGraph = resourceInstance.GetComponent<UniGraph>();
+                portPair.value.Add(value);
             }
-
-            return _nodeGraph;
+            else
+            {
+                value.Add(portPair.value);
+            }
+            
+            
         }
+
     }
     
 }

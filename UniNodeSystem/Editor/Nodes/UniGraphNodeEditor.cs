@@ -12,7 +12,7 @@ namespace UniStateMachine.CommonNodes
         {
             
             var graphNode = target as GraphNode;
-            var graph = graphNode.Graph.Load<UniGraph>();
+            var graph = graphNode.GetGraph();
             
             base.OnBodyGUI();
 
