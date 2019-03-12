@@ -14,6 +14,12 @@ namespace UniStateMachine.SubGraph
         {
             return GetFormatedInputName(base.GetName());
         }
+
+        protected override void OnUpdatePortsCache()
+        {
+            base.OnUpdatePortsCache();
+            PortValue.Add(Output);
+        }
     }
     
 }
