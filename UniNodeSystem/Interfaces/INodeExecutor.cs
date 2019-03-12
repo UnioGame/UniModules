@@ -8,9 +8,9 @@ namespace UniStateMachine.Nodes
     public interface INodeExecutor<in TContext>
     {
         
-        void Execute(UniNode node, TContext context);
+        void Execute(UniGraphNode node, TContext context);
 
-        void Stop(UniNode node, TContext context);
+        void Stop(UniGraphNode node, TContext context);
         
     }
 }

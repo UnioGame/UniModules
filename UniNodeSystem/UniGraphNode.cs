@@ -16,10 +16,18 @@ using UniNodeSystem;
 namespace UniStateMachine
 {
     [Serializable]
-    public abstract class UniGraphNode : UniBaseNode , IContextState<IEnumerator>
+    public abstract class UniGraphNode : UniBaseNode , IValidator<IContext>, IContextState<IEnumerator>
     {
+        /// <summary>
+        /// output port name
+        /// </summary>
         public const string OutputPortName = "Output";
         
+        /// <summary>
+        /// input port name
+        /// </summary>
+        public const string InputPortName = "Input";
+
         #region private fields
 
         [NonSerialized]
@@ -44,6 +52,8 @@ namespace UniStateMachine
 
         #endregion
         
+        public UniPortValue Input => GetPortValue(InputPortName);
+
         public UniPortValue Output => GetPortValue(OutputPortName);
         
         public RoutineType RoutineType => _routineType;
@@ -55,7 +65,12 @@ namespace UniStateMachine
         public IReadOnlyList<IContext> Contexts => _context?.Contexts;
         
         #region public methods
-
+        
+        public virtual bool Validate(IContext context)
+        {
+            return true;
+        }
+        
         public void Initialize()
         {
             if (Application.isPlaying && _isInitialized)
@@ -186,8 +201,8 @@ namespace UniStateMachine
         protected virtual void OnUpdatePortsCache()
         {
             this.UpdatePortValue(OutputPortName, PortIO.Output);
+            this.UpdatePortValue(InputPortName, PortIO.Input);
         }
-        
         
 
         #region state behaviour methods

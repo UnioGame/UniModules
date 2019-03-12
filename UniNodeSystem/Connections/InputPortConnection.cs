@@ -9,9 +9,9 @@ namespace UniModule.UnityTools.UniVisualNodeSystem.Connections
     public class InputPortConnection : PortValueConnection
     {
         private readonly INodeExecutor<IContext> _nodeExecutor;
-        private readonly UniNode _node;
+        private readonly UniGraphNode _node;
 
-        public InputPortConnection(INodeExecutor<IContext> nodeExecutor,UniNode node, 
+        public InputPortConnection(INodeExecutor<IContext> nodeExecutor,UniGraphNode node, 
             IContextData<IContext> target) : 
             base(target)
         {

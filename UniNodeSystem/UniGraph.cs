@@ -13,6 +13,7 @@ using UniModule.UnityTools.UniStateMachine.Interfaces;
 using UniModule.UnityTools.UniVisualNodeSystem.Connections;
 using UnityEngine;
 using UniNodeSystem;
+using UniStateMachine.CommonNodes;
 
 namespace UniStateMachine.Nodes
 {
@@ -23,11 +24,10 @@ namespace UniStateMachine.Nodes
 	    [NonSerialized]
 	    private bool _isInitialized = false;
 	    [NonSerialized]
-	    private List<UniRootNode> _rootNodes;
+	    private List<IGraphPortNode> _rootNodes;
 	    [NonSerialized]
 	    private Dictionary<UniPortValue, IContextDataWriter<IContext>> _connections;
 	    
-	    private List<UniNode> _uniNodes; 
 	    private List<UniGraphNode> _allNodes;
 
 	    /// <summary>
@@ -50,7 +50,8 @@ namespace UniStateMachine.Nodes
 		    _isInitialized = true;
 		    
 		    _connections = new Dictionary<UniPortValue, IContextDataWriter<IContext>>();
-		    _rootNodes = nodes.OfType<UniRootNode>().ToList();
+		    _rootNodes = nodes.OfType<IGraphPortNode>().
+			    Where(x => x.Direction == PortIO.Input).ToList();
 		    
 		    var stateBehaviour = new ProxyStateBehaviour();
 		    stateBehaviour.Initialize(OnExecute,
@@ -106,7 +107,7 @@ namespace UniStateMachine.Nodes
         }
 		
 		
-		public void Execute(UniNode node, IContext context)
+		public void Execute(UniGraphNode node, IContext context)
 		{
 			if (node.IsActive(context))
 				return;
@@ -125,7 +126,7 @@ namespace UniStateMachine.Nodes
 
 		}
 
-		public void Stop(UniNode node, IContext context)
+		public void Stop(UniGraphNode node, IContext context)
 		{
 			//node already active for this context
 			if (!node.IsActive(context))
@@ -153,7 +154,6 @@ namespace UniStateMachine.Nodes
 	    
 	    private void InitializeNodes()
 	    {
-		    _uniNodes = new List<UniNode>();
 		    _allNodes = new List<UniGraphNode>();
 
 		    for (var i = 0; i < nodes.Count; i++)
@@ -167,12 +167,7 @@ namespace UniStateMachine.Nodes
 			    graphNode.Initialize();
 
 			    _allNodes.Add(graphNode);
-			    if (!(graphNode is UniNode uniNode))
-			    {
-				    continue;
-			    }
 
-			    _uniNodes.Add(uniNode);
 		    }
 		    
 		    
@@ -184,9 +179,9 @@ namespace UniStateMachine.Nodes
 	    private void InitializePortConnections()
 	    {
 
-		    for (var i = 0; i < _uniNodes.Count; i++)
+		    for (var i = 0; i < _allNodes.Count; i++)
 		    {
-			    var node = _uniNodes[i];
+			    var node = _allNodes[i];
 			    var values = node.PortValues;
 
 			    for (var j = 0; j < values.Count; j++)

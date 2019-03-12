@@ -14,23 +14,6 @@ namespace UniStateMachine
     public class UniNode : UniGraphNode, IValidator<IContext>
     {
 
-        public const string InputPortName = "Input";
 
-        #region ports
-
-        public UniPortValue Input => GetPortValue(InputPortName);
-
-        #endregion
-
-        public virtual bool Validate(IContext context)
-        {
-            return true;
-        }
-        
-        protected override void OnUpdatePortsCache()
-        {
-            this.UpdatePortValue(InputPortName, PortIO.Input);
-            base.OnUpdatePortsCache();
-        }
     }
 }
