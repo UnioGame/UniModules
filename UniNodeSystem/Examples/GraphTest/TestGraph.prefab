@@ -1,5 +1,244 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &607650852763583364
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 237602925947301948}
+  - component: {fileID: 5784792106314776490}
+  m_Layer: 0
+  m_Name: Graph Node
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &237602925947301948
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 607650852763583364}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 746443390683335481}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5784792106314776490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 607650852763583364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 538a13cb7abd81f42b12bf543a3a3d75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _id: 3
+  position: {x: -360, y: -24}
+  ports:
+    keys:
+    - Input
+    - Output
+    - '[in]IN'
+    - OUT
+    values:
+    - _id: 5
+      _fieldName: Input
+      _node: {fileID: 5784792106314776490}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 1
+    - _id: 4
+      _fieldName: Output
+      _node: {fileID: 5784792106314776490}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _dynamic: 1
+    - _id: 7
+      _fieldName: '[in]IN'
+      _node: {fileID: 5784792106314776490}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 2290603098906721920}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 1
+    - _id: 6
+      _fieldName: OUT
+      _node: {fileID: 5784792106314776490}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 3338740780959731131}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _dynamic: 1
+  _graph: {fileID: 3170544543189816929}
+  _routineType: 0
+  Graph:
+    assetPath: 
+    guid: 
+    assetName: 
+    asset: {fileID: 8418181234605512759, guid: bd00501f2a8794144ba40a1a6faa5f99, type: 3}
+--- !u!1 &1455640009431151096
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2044646488849169673}
+  - component: {fileID: 351616065025536807}
+  m_Layer: 0
+  m_Name: Uni Root Node
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2044646488849169673
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1455640009431151096}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 746443390683335481}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &351616065025536807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1455640009431151096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07d0c7065aa6e1e46be96a27eb24c3cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _id: 1
+  position: {x: -872, y: 56}
+  ports:
+    keys:
+    - Output
+    values:
+    - _id: 2
+      _fieldName: Output
+      _node: {fileID: 351616065025536807}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 2290603098906721920}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _dynamic: 1
+  _graph: {fileID: 3170544543189816929}
+  _routineType: 0
+--- !u!1 &1692965121203005389
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8844397386034060242}
+  - component: {fileID: 9016063710034538061}
+  m_Layer: 0
+  m_Name: Log Node
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8844397386034060242
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1692965121203005389}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 746443390683335481}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9016063710034538061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1692965121203005389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a0c11ecb9072b144a5d90d091947c70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _id: 14
+  position: {x: 264, y: 88}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _id: 16
+      _fieldName: Input
+      _node: {fileID: 9016063710034538061}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 3338740780959731131}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 1
+    - _id: 15
+      _fieldName: Output
+      _node: {fileID: 9016063710034538061}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _dynamic: 1
+  _graph: {fileID: 3170544543189816929}
+  _routineType: 0
+  _message: GRAPH END
+  _delay: 0
 --- !u!1 &2892368094943376937
 GameObject:
   m_ObjectHideFlags: 0
@@ -11,7 +250,7 @@ GameObject:
   - component: {fileID: 746443390683335481}
   - component: {fileID: 3170544543189816929}
   m_Layer: 0
-  m_Name: UniGraph
+  m_Name: TestGraph
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27,7 +266,12 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 2044646488849169673}
+  - {fileID: 237602925947301948}
+  - {fileID: 8258676469199305561}
+  - {fileID: 3758156473533462833}
+  - {fileID: 8844397386034060242}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -43,5 +287,166 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 782945db79ce44748b3f294e0edf364e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _uniqueId: 0
-  nodes: []
+  _uniqueId: 16
+  nodes:
+  - {fileID: 351616065025536807}
+  - {fileID: 5784792106314776490}
+  - {fileID: 3338740780959731131}
+  - {fileID: 2290603098906721920}
+  - {fileID: 9016063710034538061}
+--- !u!1 &5218936943334886713
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8258676469199305561}
+  - component: {fileID: 3338740780959731131}
+  m_Layer: 0
+  m_Name: Log Node
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8258676469199305561
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5218936943334886713}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 746443390683335481}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3338740780959731131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5218936943334886713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a0c11ecb9072b144a5d90d091947c70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _id: 8
+  position: {x: -40, y: 104}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _id: 10
+      _fieldName: Input
+      _node: {fileID: 3338740780959731131}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: OUT
+        node: {fileID: 5784792106314776490}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 1
+    - _id: 9
+      _fieldName: Output
+      _node: {fileID: 3338740780959731131}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 9016063710034538061}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _dynamic: 1
+  _graph: {fileID: 3170544543189816929}
+  _routineType: 0
+  _message: ON OUT
+  _delay: 0
+--- !u!1 &5701528249872374025
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3758156473533462833}
+  - component: {fileID: 2290603098906721920}
+  m_Layer: 0
+  m_Name: Log Node
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3758156473533462833
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5701528249872374025}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 746443390683335481}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2290603098906721920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5701528249872374025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a0c11ecb9072b144a5d90d091947c70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _id: 11
+  position: {x: -616, y: 168}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _id: 13
+      _fieldName: Input
+      _node: {fileID: 2290603098906721920}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 351616065025536807}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 1
+    - _id: 12
+      _fieldName: Output
+      _node: {fileID: 2290603098906721920}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: '[in]IN'
+        node: {fileID: 5784792106314776490}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _dynamic: 1
+  _graph: {fileID: 3170544543189816929}
+  _routineType: 0
+  _message: GRAPH START
+  _delay: 0

@@ -32,13 +32,18 @@ namespace UniStateMachine.EditorTools
 			
 			var graphAsset = ScriptableObject.CreateInstance<UniGraphAsset>();
 			var graph = new GameObject().AddComponent<UniGraph>();
+			
+			//add main root node
+			graph.AddNode<UniRootNode>();
+			
 			var activePath = AssetDatabase.GetAssetPath(Selection.activeObject);
 			
 			var assetFolder = Directory.Exists(activePath) ? activePath :
 				Path.GetDirectoryName(activePath);
 			
 			var asset = AssetEditorTools.SaveAsset(graph.gameObject, "UniGraph", assetFolder);
-			graphAsset.Graph = asset.GetComponent<UniGraph>();
+			var graphComponent = asset.GetComponent<UniGraph>();
+			graphAsset.Graph = graphComponent;
 
 			AssetEditorTools.SaveAsset(graphAsset, "GraphAsset", assetFolder);
 		}
