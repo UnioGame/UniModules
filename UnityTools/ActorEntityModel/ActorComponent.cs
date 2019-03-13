@@ -26,7 +26,7 @@ namespace UniModule.UnityTools.ActorEntityModel
         /// behaviour component
         /// </summary>
         [SerializeField]
-        private UniStateComponent _stateComponent;
+        private IContextState<IEnumerator> _stateComponent;
 
         /// <summary>
         /// actor model data

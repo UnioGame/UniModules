@@ -64,7 +64,7 @@ namespace UniUiSystem
         
         protected override IEnumerator ExecuteState(IContext context)
         {
-            var lifetime = GetLifeTime(context);
+            var lifetime = LifeTime;
 
             var view = CreateView(lifetime, context);
 

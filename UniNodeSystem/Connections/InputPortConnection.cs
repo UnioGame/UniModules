@@ -24,7 +24,7 @@ namespace UniModule.UnityTools.UniVisualNodeSystem.Connections
             GameProfiler.BeginSample("InputConnection_RemoveContext");
             
             var result = base.RemoveContext(context);
-            if (result && _node.IsActive(context))
+            if (result && _node.IsActive)
             {
                 _nodeExecutor.Stop(_node,context);
             }

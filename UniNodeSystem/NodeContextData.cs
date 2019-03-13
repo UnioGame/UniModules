@@ -23,7 +23,7 @@ namespace UniStateMachine.Nodes
         public void Release()
         {
             Node?.Input.RemoveContext(Context);
-            Node?.Exit(Context);
+            Node?.Exit();
             Node = null;
             Context = null;
         }

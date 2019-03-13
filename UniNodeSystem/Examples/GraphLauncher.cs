@@ -27,7 +27,7 @@ public class GraphLauncher : MonoBehaviour
     {
         
         if (!_graph) return;
-        _graph.Exit(_context);
+        _graph.Exit();
         _disposable.Dispose();
         
     }

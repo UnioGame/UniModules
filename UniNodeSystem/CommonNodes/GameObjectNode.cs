@@ -31,7 +31,7 @@ namespace UniStateMachine.CommonNodes
         {
             var target = CreateTarget(context);
 
-            var lifeTime = GetLifeTime(context);
+            var lifeTime = LifeTime;
             lifeTime.AddCleanUpAction(() => { RemoveTarget(target, context); });
             
             return base.ExecuteState(context);

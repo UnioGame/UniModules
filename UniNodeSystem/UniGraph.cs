@@ -17,235 +17,215 @@ using UniStateMachine.CommonNodes;
 
 namespace UniStateMachine.Nodes
 {
-	public class UniGraph : NodeGraph, IContextState<IEnumerator>, INodeExecutor<IContext>
+    public class UniGraph : NodeGraph, IContextState<IEnumerator>, INodeExecutor<IContext>
     {
-	    #region private properties
+        #region private properties
 
-	    [NonSerialized]
-	    private bool _isInitialized = false;
-	    [NonSerialized]
-	    private List<IGraphPortNode> _rootNodes;
-	    [NonSerialized]
-	    private Dictionary<UniPortValue, IContextDataWriter<IContext>> _connections;
-	    
-	    private List<UniGraphNode> _allNodes;
+        [NonSerialized] private bool _isInitialized = false;
 
-	    /// <summary>
-	    /// private graph state executor
-	    /// </summary>
-	    private IContextState<IEnumerator> _graphState;
-	    
-	    /// <summary>
-	    /// state local context data
-	    /// </summary>
-	    protected IContextData<IContext> _contextData;
+        /// <summary>
+        /// graph roots
+        /// </summary>
+        [NonSerialized] private List<UniRootNode> _rootNodes;
 
-	    #endregion
+        /// <summary>
+        /// all child nodes
+        /// </summary>
+        [NonSerialized] private List<UniGraphNode> _allNodes;
 
-	    public void Initialize()
-	    {
-		    if (_isInitialized)
-			    return;
-		    
-		    _isInitialized = true;
-		    
-		    _connections = new Dictionary<UniPortValue, IContextDataWriter<IContext>>();
-		    _rootNodes = nodes.OfType<IGraphPortNode>().
-			    Where(x => x.Direction == PortIO.Input).ToList();
-		    
-		    var stateBehaviour = new ProxyStateBehaviour();
-		    stateBehaviour.Initialize(OnExecute,
-			    x => _contextData = x,OnExit);
-		    _graphState = stateBehaviour;
-			    
-		    InitializeNodes();
-		    InitializePortConnections();
-		    
-	    }
-	    
-	    public bool IsActive(IContext context)
-		{
+        /// <summary>
+        /// private graph state executor
+        /// </summary>
+        private IContextState<IEnumerator> _graphState;
 
-		    return _contextData!=null &&
-		           _contextData.HasContext(context);
+        /// <summary>
+        /// state local context data
+        /// </summary>
+        protected IContext _contextData;
         
-		}
 
-		public ILifeTime GetLifeTime(IContext context)
-		{
-			return _graphState.GetLifeTime(context);
-		}
+        #endregion
+        
+        #region public properties
 
-		public IEnumerator Execute(IContext context)
-		{
-			
-			Initialize();
-			
-			yield return _graphState.Execute(context);
+        public ILifeTime LifeTime => _graphState == null ? null : _graphState.LifeTime;
 
-		}
 
-		public void Exit(IContext context)
-		{
-			_graphState.Exit(context);
+        public bool IsActive => _graphState == null ? false : _graphState.IsActive;
+        
+        #endregion
+
+        public void Initialize()
+        {
+            if (_isInitialized)
+                return;
+
+            _isInitialized = true;
+
+            _rootNodes = nodes.OfType<UniRootNode>().ToList();
+            _graphState = CreateState();
+
+            InitializeNodes();
+            InitializePortConnections();
         }
 
-		public override void Dispose()
-		{
-		    if (_contextData == null)
-		        return;
+        public IEnumerator Execute(IContext context)
+        {
+            Initialize();
 
-		    var contexts = ClassPool.Spawn<List<IContext>>();
-		    contexts.AddRange(_contextData.Contexts);
-		    
-			foreach (var context in contexts)
-			{
-				OnExit(context);
-				_contextData.RemoveContext(context);
-			}
-			
+            yield return _graphState.Execute(context);
         }
-		
-		
-		public void Execute(UniGraphNode node, IContext context)
-		{
-			if (node.IsActive(context))
-				return;
 
-			StateLogger.LogState($"GRAPH NODE {node.name} : STARTED", node);
+        public void Exit()
+        {
+            _graphState?.Exit();
+        }
 
-			var inputValue = node.Input;
-			inputValue.UpdateValue(context,context);
+        #region INodeExecutor
+
+        public void Execute(UniGraphNode node, IContext context)
+        {
+            if (node.IsActive)
+                return;
+
+            StateLogger.LogState($"GRAPH NODE {node.name} : STARTED", node);
+
+            var inputValue = node.Input;
+            inputValue.UpdateValue(context, context);
+
+            var awaiter = node.Execute(context);
+            var disposable = awaiter.RunWithSubRoutines(node.RoutineType);
+
+            //cleanup actions
+            var lifeTime = node.LifeTime;
+            lifeTime.AddDispose(disposable);
+        }
+
+        public void Stop(UniGraphNode node, IContext context)
+        {
+            //node already active for this context
+            if (!node.IsActive)
+                return;
+
+            StateLogger.LogState($"GRAPH NODE {node.name} : STOPED", node);
+
+            node.Exit();
+        }
+
+        #endregion
+
+        #region private
+
+        protected void OnExit(IContext context)
+        {
             
-			var awaiter = node.Execute(context);
-			var disposable = awaiter.RunWithSubRoutines(node.RoutineType);
+            _contextData = null;
             
-			//cleanup actions
-			var lifeTime = node.GetLifeTime(context);
-			lifeTime.AddDispose(disposable);
+            if (_allNodes == null) return;
 
-		}
+            for (var i = 0; i < _allNodes.Count; i++)
+            {
+                var node = _allNodes[i];
+                node.Exit();
+            }
 
-		public void Stop(UniGraphNode node, IContext context)
-		{
-			//node already active for this context
-			if (!node.IsActive(context))
-				return;
+        }
 
-			StateLogger.LogState($"GRAPH NODE {node.name} : STOPED", node);
+        private IContextState<IEnumerator> CreateState()
+        {
+            var stateBehaviour = new ProxyState();
+            stateBehaviour.Initialize(OnExecute, x => _contextData = x, OnExit);
+            return stateBehaviour;
+        }
+        
+        private void InitializeNodes()
+        {
+            _allNodes = new List<UniGraphNode>();
 
-			node.Exit(context);
+            for (var i = 0; i < nodes.Count; i++)
+            {
+                var node = nodes[i];
+                if (!(node is UniGraphNode graphNode))
+                {
+                    continue;
+                }
 
-		}
+                graphNode.Initialize();
 
-	    
-	    #region private
+                _allNodes.Add(graphNode);
+            }
+        }
 
-	    protected void OnExit(IContext context)
-	    {
-		    if (_allNodes == null) return;
+        /// <summary>
+        /// create bindings between portvalues
+        /// </summary>
+        private void InitializePortConnections()
+        {
+            for (var i = 0; i < _allNodes.Count; i++)
+            {
+                var node = _allNodes[i];
+                var values = node.PortValues;
 
-		    for (var i = 0; i < _allNodes.Count; i++)
-		    {
-			    var node = _allNodes[i];
-			    node.Exit(context);
-		    }
-	    }
-	    
-	    private void InitializeNodes()
-	    {
-		    _allNodes = new List<UniGraphNode>();
+                for (var j = 0; j < values.Count; j++)
+                {
+                    var value = values[j];
+                    var port = node.GetPort(value.Name);
 
-		    for (var i = 0; i < nodes.Count; i++)
-		    {
-			    var node = nodes[i];
-			    if (!(node is UniGraphNode graphNode))
-			    {
-				    continue;
-			    }
+                    //take only input ports
+                    if (port.direction == PortIO.Output)
+                        continue;
 
-			    graphNode.Initialize();
+                    var connection = node.Input == value
+                        ? new InputPortConnection(this, node, value)
+                        : new PortValueConnection(value);
 
-			    _allNodes.Add(graphNode);
+                    BindWithOutputs(connection, port);
+                }
+            }
+        }
 
-		    }
-		    
-		    
-	    }
+        private void BindWithOutputs(IContextDataWriter<IContext> inputConnection, NodePort port)
+        {
+            var connections = port.GetConnections();
 
-	    /// <summary>
-	    /// create bindings between portvalues
-	    /// </summary>
-	    private void InitializePortConnections()
-	    {
+            for (int i = 0; i < connections.Count; i++)
+            {
+                var connection = connections[i];
+                var connectedNode = connection.node;
 
-		    for (var i = 0; i < _allNodes.Count; i++)
-		    {
-			    var node = _allNodes[i];
-			    var values = node.PortValues;
+                if (!(connectedNode is UniGraphNode node))
+                    continue;
 
-			    for (var j = 0; j < values.Count; j++)
-			    {
-				    var value = values[j];
-				    var port = node.GetPort(value.Name);
-				    
-					//take only input ports
-				    if(port.direction == PortIO.Output)
-					    continue;
+                //register connection with target input 
+                var connectedValue = node.GetPortValue(connection.fieldName);
+                connectedValue.Add(inputConnection);
+            }
+        }
 
-				    var connection = node.Input == value ?
-					    new InputPortConnection(this,node,value) : 
-					    new PortValueConnection(value);
-				    
-				    _connections[value] = connection;
+        private IEnumerator OnExecute(IContext context)
+        {
+            if (_rootNodes == null || _rootNodes.Count == 0)
+            {
+                Debug.LogErrorFormat("Graph root nodes not found");
+                yield break;
+            }
 
-				    BindWithOutputs(connection, port);
+            var lifeTime = LifeTime;
 
-			    }
-			    
-		    }
-		    
-	    }
+            for (var i = 0; i < _rootNodes.Count; i++)
+            {
+                var rootNode = _rootNodes[i];
+                var rootDisposableItem = rootNode.Execute(context).RunWithSubRoutines();
+                lifeTime.AddDispose(rootDisposableItem);
+            }
 
-	    private void BindWithOutputs(IContextDataWriter<IContext> inputConnection,NodePort port)
-	    {
-		    var connections = port.GetConnections();
+        }
 
-		    for (int i = 0; i < connections.Count; i++)
-		    {
-			    var connection = connections[i];
-			    var connectedNode = connection.node;
-			    
-			    if(!(connectedNode is UniGraphNode node))
-				    continue;
+        #endregion
 
-			    //register connection with target input 
-			    var connectedValue = node.GetPortValue(connection.fieldName);
-			    connectedValue.Add(inputConnection);
-			    
-		    }
-		    
-	    }
-	    
-	    private IEnumerator OnExecute(IContext context)
-	    {
-		    if (_rootNodes == null || _rootNodes.Count == 0)
-		    {
-			    Debug.LogErrorFormat("Graph root nodes not found");
-			    yield break;
-		    }
-
-		    var lifeTime = GetLifeTime(context);
-
-		    for (var i = 0; i < _rootNodes.Count; i++)
-		    {
-			    var rootNode = _rootNodes[i];
-			    var rootDisposableItem = rootNode.Execute(context).RunWithSubRoutines();
-			    lifeTime.AddDispose(rootDisposableItem);
-		    }
-
-	    }
-
-		#endregion
-	}
+        public void Release()
+        {
+            Exit();
+        }
+    }
 }

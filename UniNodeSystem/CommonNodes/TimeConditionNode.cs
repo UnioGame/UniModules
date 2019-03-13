@@ -23,7 +23,8 @@ namespace UniStateMachine.CommonNodes
         protected override IEnumerator ExecuteState(IContext context)
         {
             var realTime = Time.realtimeSinceStartup;
-            _context.UpdateValue(context,realTime);
+            
+            _context.Add(realTime);
             
             yield return base.ExecuteState(context);
         }
@@ -32,7 +33,7 @@ namespace UniStateMachine.CommonNodes
         {
             var realTime = Time.realtimeSinceStartup;
 
-            var timePassed = _context.Get<float>(context);
+            var timePassed = _context.Get<float>();
             timePassed = realTime - timePassed;
 
             var result = ValueComparator.Compare(timePassed, _timeInterval, CompareType);

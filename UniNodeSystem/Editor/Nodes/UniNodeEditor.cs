@@ -31,9 +31,8 @@ namespace SubModules.Scripts.UniStateMachine.NodeEditor
             var node = target as UniGraphNode;
             if (!node)
                 return false;
-            return node.IsAnyActive;
+            return node.IsActive;
         }
-
 
         public override void OnHeaderGUI()
         {

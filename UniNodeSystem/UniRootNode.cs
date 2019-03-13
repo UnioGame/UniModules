@@ -7,15 +7,6 @@ namespace UniStateMachine
 {
     public class UniRootNode : UniGraphNode
     {
-        protected override IEnumerator ExecuteState(IContext context)
-        {
-            
-            while (true)
-            {
-                yield return base.ExecuteState(context);
-                yield return null;
-            }
-           
-        }
+
     }
 }

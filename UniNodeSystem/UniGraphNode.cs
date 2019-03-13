@@ -30,10 +30,9 @@ namespace UniStateMachine
 
         #region private fields
 
-        [NonSerialized]
-        private bool _isInitialized;
+        [NonSerialized] private bool _isInitialized;
         
-        [NonSerialized] protected IContextData<IContext> _context;
+        [NonSerialized] protected IContext _context;
        
         [NonSerialized] private Dictionary<string,UniPortValue> _portValuesMap;
 
@@ -58,11 +57,11 @@ namespace UniStateMachine
         
         public RoutineType RoutineType => _routineType;
 
-        public bool IsAnyActive => _context?.Contexts.Count > 0;
-
         public IReadOnlyList<UniPortValue> PortValues => _portValues;
 
-        public IReadOnlyList<IContext> Contexts => _context?.Contexts;
+        public bool IsActive => _isInitialized && _state.IsActive;
+
+        public ILifeTime LifeTime => _isInitialized ? _state.LifeTime : null;
         
         #region public methods
         
@@ -99,8 +98,8 @@ namespace UniStateMachine
             
             foreach (var port in Ports)
             {
-                if(port.IsStatic)
-                    continue;
+                if(port.IsStatic) continue;
+                
                 var value = GetPortValue(port.fieldName);
                 if (value == null)
                 {
@@ -116,25 +115,14 @@ namespace UniStateMachine
             removedPorts.DespawnCollection();
         }
         
-        public bool IsActive(IContext context)
+        public void Exit()
         {
-  
-            return _state.IsActive(context);
-
+            _state?.Exit();
         }
-
-        public ILifeTime GetLifeTime(IContext context)
+        
+        public void Release()
         {
-            return _state.GetLifeTime(context);
-        }
- 
-        public void Exit(IContext context)
-        {
-            _state.Exit(context);
-            foreach (var output in PortValues)
-            {
-                output.RemoveContext(context);
-            }
+            Exit();
         }
         
         public IEnumerator Execute(IContext context)
@@ -146,25 +134,11 @@ namespace UniStateMachine
             
         }
         
-        /// <summary>
-        /// stop ay execution of state
-        /// release all resources
-        /// </summary>
-        public virtual void Dispose()
-        {
-            foreach (var outputValue in PortValues)
-            {
-                outputValue.Release();
-            }
-            _state?.Dispose();
-        }
-        
         public override object GetValue(NodePort port)
         {
             return GetPortValue(port);
         }
         
-
         public UniPortValue GetPortValue(NodePort port)
         {
             return GetPortValue(port.fieldName);
@@ -204,12 +178,14 @@ namespace UniStateMachine
             this.UpdatePortValue(InputPortName, PortIO.Input);
         }
         
-
         #region state behaviour methods
 
-        private void Initialize(IContextData<IContext> stateContext)
+        private void Initialize(IContext stateContext)
         {
             _context = stateContext;
+         
+            LifeTime.AddCleanUpAction(CleanUpAction);
+            
             OnInitialize(stateContext);
         }
 
@@ -227,21 +203,27 @@ namespace UniStateMachine
                 var portValue = _portValues[i];
                 portValue.RemoveContext(context);
             }
-            _context?.RemoveContext(context);
         }
 
-        protected virtual void OnInitialize(IContextData<IContext> localContext)
-        {
-            
-        }
+        protected virtual void OnInitialize(IContext context){}
         
         protected virtual void OnPostExecute(IContext context){}
 
-        protected virtual IContextState<IEnumerator> CreateState()
+        protected IContextState<IEnumerator> CreateState()
         {
-            var behaviour = new ProxyStateBehaviour();
+            var behaviour = new ProxyState();
             behaviour.Initialize(ExecuteState, Initialize, OnExit, OnPostExecute);
             return behaviour;
+        }
+
+        private void CleanUpAction()
+        {
+            foreach (var portValue in PortValues)
+            {
+                portValue.Release();
+            }
+
+            _context = null;
         }
         
         #endregion

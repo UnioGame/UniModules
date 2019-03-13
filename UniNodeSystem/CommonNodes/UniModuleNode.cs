@@ -41,7 +41,7 @@ namespace UniStateMachine.CommonNodes
         {
             yield return base.ExecuteState(context);
 
-            var lifeTime = GetLifeTime(context);
+            var lifeTime = LifeTime;
             
             foreach (var value in PortValues)
             {
