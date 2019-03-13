@@ -1,4 +1,5 @@
-﻿using UniModule.UnityTools.Interfaces;
+﻿using UniModule.UnityTools.Common;
+using UniModule.UnityTools.Interfaces;
 using UniModule.UnityTools.ProfilerTools;
 using UniStateMachine;
 using UniStateMachine.Nodes;
@@ -11,8 +12,9 @@ namespace UniModule.UnityTools.UniVisualNodeSystem.Connections
         private readonly INodeExecutor<IContext> _nodeExecutor;
         private readonly UniGraphNode _node;
 
-        public InputPortConnection(INodeExecutor<IContext> nodeExecutor,UniGraphNode node, 
-            IContextData<IContext> target) : 
+        public InputPortConnection(INodeExecutor<IContext> nodeExecutor,
+            UniGraphNode node, 
+            ITypeDataContainer target) : 
             base(target)
         {
             _nodeExecutor = nodeExecutor;

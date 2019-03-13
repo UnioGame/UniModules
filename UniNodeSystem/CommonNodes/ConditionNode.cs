@@ -37,7 +37,7 @@ namespace UniStateMachine.CommonNodes
         {
             if (result)
             {
-                portValue.UpdateValue(context,context);
+                portValue.SetValue(context,context);
             }
             else
             {

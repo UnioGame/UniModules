@@ -38,7 +38,7 @@ namespace UniModule.UnityTools.UniStateMachine.Extensions
             var outputValue = outputPortPair.value;
             
             if(connectInOut)
-                inputValue.Add(outputValue);
+                inputValue.Connect(outputValue);
         
             return (inputValue,outputValue);
         }

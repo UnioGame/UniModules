@@ -11,12 +11,9 @@ namespace UniModule.UnityTools.Common
         /// <summary>
         /// registered components
         /// </summary>
-        private Dictionary<Type, IWritableValue> _contextValues = new Dictionary<Type, IWritableValue>();
-        private List<IWritableValue> _writables = new List<IWritableValue>();
+        private Dictionary<Type, object> _contextValues = new Dictionary<Type, object>();
+
         private ITypeDataContainer _typeDataContainerImplementation;
-
-        public IList<IWritableValue> WritableItems => _writables;
-
 
         public virtual TData Get<TData>()
         {
@@ -28,20 +25,22 @@ namespace UniModule.UnityTools.Common
 
         public bool Remove<TData>()
         {
-            var type = typeof(TData);
             
-            if (_contextValues.TryGetValue(type, out var value))
-            {
-                _writables.Remove(value);
-                
-                var typeValue = (ContextValue<TData>)value;
-                var removed = _contextValues.Remove(type);
+            var type = typeof(TData);
+            return Remove(type);
 
-                typeValue.Dispose();
-                return removed;
-            }
+        }
 
-            return false;
+        public bool Remove(Type type)
+        {
+            if (!_contextValues.TryGetValue(type, out var value)) return false;
+            
+            var typeValue = (IDisposable) value;
+            var removed = _contextValues.Remove(type);
+
+            typeValue.Dispose();
+            return removed;
+
         }
 
         public void Add<TData>(TData value)
@@ -52,13 +51,13 @@ namespace UniModule.UnityTools.Common
          
         }
 
-        public bool HasData<TData>()
+        public bool Contains<TData>()
         {
             var type = typeof(TData);
             return _contextValues.ContainsKey(type);
         }
 
-        public bool HasData(Type type)
+        public bool Contains(Type type)
         {
             return _contextValues.ContainsKey(type);
         }
@@ -78,7 +77,6 @@ namespace UniModule.UnityTools.Common
                 disposable?.Dispose();
             }
             
-            _writables.Clear();
             _contextValues.Clear();
 
         }
@@ -95,7 +93,6 @@ namespace UniModule.UnityTools.Common
             {
                 data = ClassPool.Spawn<ContextValue<TValue>>();
                 _contextValues[type] = data;
-                _writables.Add(data);
             }
             else
             {

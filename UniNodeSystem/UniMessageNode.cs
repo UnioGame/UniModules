@@ -73,7 +73,7 @@ namespace UniStateMachine.CommonNodes
             var broadCastAction = ClassPool.Spawn<BroadcastActionContextData<IContext>>();
             broadCastAction.Initialize(x => OnInputPortUpdate(x,output,index));
 
-            input.Add(broadCastAction);
+            input.Connect(broadCastAction);
         }
 
         private void OnInputPortUpdate(IContext context,UniPortValue output,int index)
@@ -87,8 +87,8 @@ namespace UniStateMachine.CommonNodes
 
         protected virtual void OnMessagePortValue(IContext context,UniPortValue portValue, TValue value)
         {
-            portValue.UpdateValue(context,value);
-            portValue.UpdateValue(context,context);
+            portValue.SetValue(context,value);
+            portValue.SetValue(context,context);
         }
     }
     

@@ -1,13 +1,14 @@
 ﻿using System;
 using UniModule.UnityTools.Common;
 using UniModule.UnityTools.DataStructure;
-using UniModule.UnityTools.Interfaces;
 using UniModule.UnityTools.ObjectPool.Scripts;
 
 namespace UniModule.UnityTools.UniVisualNodeSystem.Connections
 {
-    public class ContextObservable<TContext> : IContextDataWriter<TContext>,
-        IContextObservable<TContext>, IPoolable
+    public class ContextObservable<TContext> : 
+        ITypeDataContainer,
+        IContextObservable<TContext>, 
+        IPoolable
     {
         
         private UnorderedCollection<Action<TContext>> _onChangedCollection = 
@@ -33,33 +34,43 @@ namespace UniModule.UnityTools.UniVisualNodeSystem.Connections
             return disposable;
         }
 
-        public void UpdateValue<TData>(TContext context, TData value)
+        public void Add<TData>(TData value)
         {
             foreach (var item in _onChangedCollection.GetItems())
             {
-                item(context);
+                //item(context);
             }
-        }
-
-        public bool RemoveContext(TContext context)
-        {
-            foreach (var item in _onRemovedCollection.GetItems())
-            {
-                item(context);
-            }
-
-            return true;
-        }
-
-        public bool Remove<TData>(TContext context)
-        {
-            return true;
         }
 
         public void Release()
         {
             _onChangedCollection.Release();
             _onRemovedCollection.Release();
+        }
+
+        public bool Remove<TData>()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Remove(Type type)
+        {
+            return true;
+        }
+
+        public TData Get<TData>()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Contains<TData>()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Contains(Type type)
+        {
+            throw new NotImplementedException();
         }
     }
 }

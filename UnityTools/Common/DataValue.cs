@@ -9,8 +9,7 @@ namespace UniModule.UnityTools.Common
 {
     [Serializable]
     public class ContextValue<TData> : 
-        IDataValue<TData>, 
-        IWritableValue, 
+        IDataValue<TData>,
         IObservable<TData>
     {
         protected RecycleObservable<TData> _reactiveValue = new RecycleObservable<TData>();

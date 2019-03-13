@@ -1,29 +1,48 @@
 ﻿using System.Collections;
 using UniModule.UnityTools.Extension;
 using UniModule.UnityTools.Interfaces;
+using UniModule.UnityTools.UniStateMachine.Extensions;
+using UniNodeSystem;
 using UniStateMachine;
+using UniStateMachine.Nodes;
 using UnityEngine;
 
 namespace Tests.GraphTest
 {
 	public class LogNode : UniNode
 	{
+		private UniPortValue _messageValue;
+		
+		#region inspector
+		
 		[SerializeField]
-		private string _message;
+		private string message;
 
 		[SerializeField]
-		private float _delay = 0f;
+		private float delay = 0f;
+		
+		#endregion
 		
 		protected override IEnumerator ExecuteState(IContext context)
 		{
-			if(_delay > 0)
-				yield return this.WaitForSecond(_delay);
+			if(delay > 0)
+				yield return this.WaitForSecond(delay);
 			
-			Debug.LogFormat("LOG: {0} at {1}",_message,Time.realtimeSinceStartup);
+			Debug.LogFormat("LOG: {0} at {1}",message,Time.realtimeSinceStartup);
 			
 			yield return base.ExecuteState(context);
 			
+			
+			
 		}
-		
+
+		protected override void OnUpdatePortsCache()
+		{
+			
+			base.OnUpdatePortsCache();
+			var portValue = this.UpdatePortValue(nameof(message), PortIO.Output);
+			_messageValue = portValue.value;
+			
+		}
 	}
 }

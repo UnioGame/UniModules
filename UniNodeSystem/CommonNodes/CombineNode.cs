@@ -39,7 +39,7 @@ namespace UniStateMachine.CommonNodes
 
                 if (isCombined)
                 {
-                    combinedPort.UpdateValue(context,context);
+                    combinedPort.SetValue(context,context);
                 }
                 else
                 {
@@ -66,7 +66,7 @@ namespace UniStateMachine.CommonNodes
                 }
                 else if(inputPort.HasContext(context))
                 {
-                    outputPort.UpdateValue(context,context);
+                    outputPort.SetValue(context,context);
                 }
                 else
                 {

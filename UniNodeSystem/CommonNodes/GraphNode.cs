@@ -97,11 +97,11 @@ namespace UniStateMachine.CommonNodes
             //register node portvalue to inner graph node
             if (direction == PortIO.Input)
             {
-                portPair.value.Add(value);
+                portPair.value.Connect(value);
             }
             else
             {
-                value.Add(portPair.value);
+                value.Connect(portPair.value);
             }
             
             

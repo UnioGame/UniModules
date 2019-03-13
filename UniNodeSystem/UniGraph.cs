@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UniModule.UnityTools.Common;
 using UniModule.UnityTools.DataFlow;
 using UniModule.UnityTools.Interfaces;
 using UniModule.UnityTools.ObjectPool.Scripts;
@@ -91,7 +92,7 @@ namespace UniStateMachine.Nodes
             StateLogger.LogState($"GRAPH NODE {node.name} : STARTED", node);
 
             var inputValue = node.Input;
-            inputValue.UpdateValue(context, context);
+            inputValue.SetValue(context, context);
 
             var awaiter = node.Execute(context);
             var disposable = awaiter.RunWithSubRoutines(node.RoutineType);
@@ -184,7 +185,7 @@ namespace UniStateMachine.Nodes
             }
         }
 
-        private void BindWithOutputs(IContextDataWriter<IContext> inputConnection, NodePort port)
+        private void BindWithOutputs(ITypeDataContainer inputConnection, NodePort port)
         {
             var connections = port.GetConnections();
 
@@ -198,7 +199,7 @@ namespace UniStateMachine.Nodes
 
                 //register connection with target input 
                 var connectedValue = node.GetPortValue(connection.fieldName);
-                connectedValue.Add(inputConnection);
+                connectedValue.Connect(inputConnection);
             }
         }
 

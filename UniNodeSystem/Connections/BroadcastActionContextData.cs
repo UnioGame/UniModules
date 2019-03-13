@@ -4,7 +4,7 @@ using UniModule.UnityTools.ObjectPool.Scripts;
 
 namespace Modules.UniTools.UniNodeSystem.Connections
 {
-    public class BroadcastActionContextData<TContext> : IDisposable, IPoolable, IContextDataWriter<TContext>
+    public class BroadcastActionContextData<TContext> : IDisposable, IPoolable, ITypeDataContainer
     {
         private Action<TContext> _onRemoveDataAction;
         private Action<TContext> _onUpdate;

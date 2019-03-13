@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using UniModule.UnityTools.Common;
-using UniModule.UnityTools.Interfaces;
-using UniModule.UnityTools.ObjectPool.Scripts;
 using UniModule.UnityTools.UniVisualNodeSystem.Connections;
-using UniRx;
-using UnityEngine;
-using UniNodeSystem;
 
 namespace UniStateMachine.Nodes
 {
     [Serializable]
-    public class UniPortValue : ContextData<IContext>, IBroadcastContextData<IContext>
+    public class UniPortValue : 
+        ITypeDataContainer, 
+        IConnector<ITypeDataContainer>
     {
         #region serialized data
         
@@ -24,10 +20,11 @@ namespace UniStateMachine.Nodes
         
         #region private property
 
-        [NonSerialized]
-        private bool _initialized = false;
+        [NonSerialized] private TypeData _typeData;
+        
+        [NonSerialized] private bool _initialized = false;
 
-        private BroadcastContextData<IContext> _broadcastContext;
+        private BroadcastTypeData _broadcastContext;
 
         #endregion
 
@@ -41,10 +38,10 @@ namespace UniStateMachine.Nodes
             if (_initialized)
                 return;
 
-            _contextsItems = new List<IContext>();
-            _contexts = new Dictionary<IContext, TypeData>();
-            _broadcastContext = new BroadcastContextData<IContext>();
-
+            _typeData = new TypeData();
+            _broadcastContext = new BroadcastTypeData();
+            
+            _initialized = true;
         }
         
         public void ConnectToPort(string portName)
@@ -52,42 +49,56 @@ namespace UniStateMachine.Nodes
             Name = portName;
         }
 
-        public override bool Remove<TData>(IContext context)
+        public bool Remove<TData>()
         {
-            var result = base.Remove<TData>(context);
+            var result = _typeData.Remove<TData>();
             if (result)
             {
-                _broadcastContext.Remove<TData>(context);
+                _broadcastContext.Remove<TData>();
             }
 
             return result;
         }
 
-        public override bool RemoveContext(IContext context)
+        public bool Remove(Type type)
         {
-            var result = base.RemoveContext(context);
-            if (result)
-            {
-                _broadcastContext.RemoveContext(context);
-            }
-
-            return result;
+            return _typeData.Remove(type);
         }
 
-        public override void UpdateValue<TData>(IContext context, TData value)
+        public void Add<TData>(TData value)
         {
-            base.UpdateValue(context, value);
-            _broadcastContext.UpdateValue(context,value);
+            _typeData.Add(value);
+            _broadcastContext.Add(value);
         }
 
-        public void Add(IContextDataWriter<IContext> contextData)
+        #region broadcast
+
+        public void Connect(ITypeDataContainer contextData)
         {
-            _broadcastContext.Add(contextData);
+            _broadcastContext.Connect(contextData);
         }
 
-        public void Remove(IContextDataWriter<IContext> contextData)
+        public void Remove(ITypeDataContainer contextData)
         {
             _broadcastContext.Remove(contextData);
+        }
+
+        #endregion
+
+
+        public TData Get<TData>()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Contains<TData>()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Contains(Type type)
+        {
+            throw new NotImplementedException();
         }
     }
 }

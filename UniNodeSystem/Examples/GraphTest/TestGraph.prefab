@@ -149,6 +149,7 @@ MonoBehaviour:
   ports:
     keys:
     - Output
+    - Input
     values:
     - _id: 2
       _fieldName: Output
@@ -160,6 +161,15 @@ MonoBehaviour:
         node: {fileID: 2290603098906721920}
         reroutePoints: []
       _direction: 1
+      _connectionType: 0
+      _dynamic: 1
+    - _id: 0
+      _fieldName: Input
+      _node: {fileID: 351616065025536807}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
       _connectionType: 0
       _dynamic: 1
   _graph: {fileID: 3170544543189816929}

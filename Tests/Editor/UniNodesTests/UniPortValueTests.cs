@@ -17,13 +17,13 @@ namespace UniNodesTests
             var value1 = "value1";
             var value2 = "value2";
             
-            portValue.UpdateValue(context1,value1);
+            portValue.SetValue(context1,value1);
             
             var value =portValue.Get<string>(context1);
             
             Assert.That(value,Is.EqualTo(value1));
             
-            portValue.UpdateValue(context1,value2);
+            portValue.SetValue(context1,value2);
 
             value = portValue.Get<string>(context1);
 
@@ -41,8 +41,8 @@ namespace UniNodesTests
             var testPortValue = "TestPortValue";
             var testPortValue2 = 222;
             
-            portValue1.UpdateValue(context1,testPortValue);
-            portValue1.UpdateValue(context1,testPortValue2);
+            portValue1.SetValue(context1,testPortValue);
+            portValue1.SetValue(context1,testPortValue2);
             var result = portValue1.Remove<string>(context1);
            
             Assert.That(result,Is.EqualTo(true));
@@ -61,9 +61,9 @@ namespace UniNodesTests
             
             var testPortValue = "TestPortValue";
             
-            portValue1.Add(portValue2);
+            portValue1.Connect(portValue2);
             
-            portValue1.UpdateValue(context1,testPortValue);
+            portValue1.SetValue(context1,testPortValue);
 
             Assert.That(portValue1.Get<string>(context1),Is.EqualTo(testPortValue));
             Assert.That(portValue2.Get<string>(context1),Is.EqualTo(testPortValue));
@@ -81,9 +81,9 @@ namespace UniNodesTests
             
             var testPortValue = "TestPortValue";
             
-            portValue1.Add(port2Connection);
+            portValue1.Connect(port2Connection);
             
-            portValue1.UpdateValue(context1,testPortValue);
+            portValue1.SetValue(context1,testPortValue);
 
             Assert.That(portValue1.Get<string>(context1),Is.EqualTo(testPortValue));
             Assert.That(portValue2.Get<string>(context1),Is.EqualTo(testPortValue));
@@ -102,10 +102,10 @@ namespace UniNodesTests
             var testPortValue = "TestPortValue";
             var testPortValue2 = "TestPortValue2";
             
-            portValue1.Add(port2Connection);
+            portValue1.Connect(port2Connection);
             
-            portValue1.UpdateValue(context1,testPortValue);
-            portValue1.UpdateValue(context1,testPortValue2);
+            portValue1.SetValue(context1,testPortValue);
+            portValue1.SetValue(context1,testPortValue2);
 
             Assert.That(portValue1.Get<string>(context1),Is.EqualTo(testPortValue2));
             Assert.That(portValue2.Get<string>(context1),Is.EqualTo(testPortValue2));
@@ -123,9 +123,9 @@ namespace UniNodesTests
             
             var testPortValue = "TestPortValue";
             
-            portValue1.Add(port2Connection);
+            portValue1.Connect(port2Connection);
             
-            portValue1.UpdateValue(context1,testPortValue);
+            portValue1.SetValue(context1,testPortValue);
 
             Assert.That(portValue1.Get<string>(context1),Is.EqualTo(testPortValue));
             Assert.That(portValue2.Get<string>(context1),Is.EqualTo(testPortValue));
@@ -141,8 +141,8 @@ namespace UniNodesTests
             var testPortValue = "TestPortValue";
             var testPortValue2 = 222;
             
-            portValue1.UpdateValue(context1,testPortValue);
-            portValue1.UpdateValue(context1,testPortValue2);
+            portValue1.SetValue(context1,testPortValue);
+            portValue1.SetValue(context1,testPortValue2);
             var result = portValue1.RemoveContext(context1);
            
             Assert.That(result,Is.EqualTo(true));

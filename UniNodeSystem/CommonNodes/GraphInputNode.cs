@@ -18,7 +18,7 @@ namespace UniStateMachine.SubGraph
         protected override void OnUpdatePortsCache()
         {
             base.OnUpdatePortsCache();
-            PortValue.Add(Output);
+            PortValue.Connect(Output);
         }
     }
     

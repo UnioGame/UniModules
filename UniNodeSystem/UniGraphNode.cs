@@ -192,7 +192,7 @@ namespace UniStateMachine
         protected virtual IEnumerator ExecuteState(IContext context)
         {
             var output = GetPortValue(OutputPortName);
-            output.UpdateValue(context, context);
+            output.SetValue(context, context);
             yield break;
         }
 

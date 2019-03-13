@@ -1,3 +1,4 @@
+using UniModule.UnityTools.Common;
 using UniModule.UnityTools.DataFlow;
 using UniModule.UnityTools.Interfaces;
 using UnityEngine;
@@ -10,6 +11,6 @@ namespace UniUiSystem
         
         RectTransform Transform { get; }
 
-        void ApplySlotData(IContext context,IContextData<IContext> container,ILifeTime lifeTime);
+        void ApplySlotData(IContext context,ITypeDataContainer container,ILifeTime lifeTime);
     }
 }

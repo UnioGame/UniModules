@@ -53,8 +53,8 @@ namespace UniStateMachine.CommonNodes
             if (!assetTarget) return assetTarget;
 
             var optionsValue = GetPortValue(_optionsPortName);
-            var options = optionsValue.HasValue<ObjectInstanceData>(context) ? 
-                optionsValue.Get<ObjectInstanceData>(context):
+            var options = optionsValue.Contains<ObjectInstanceData>() ? 
+                optionsValue.Get<ObjectInstanceData>():
                 Options;
             
             var target = ObjectPool.Spawn(assetTarget,options.Position,

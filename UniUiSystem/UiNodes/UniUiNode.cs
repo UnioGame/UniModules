@@ -86,11 +86,11 @@ namespace UniUiSystem
 
             if (trigger.IsActive)
             {
-                portValue.UpdateValue(context, context);
+                portValue.Add(context);
             }
             else
             {
-                portValue.RemoveContext(context);
+                portValue.Remove<IContext>();
             }
         }
 
@@ -118,17 +118,17 @@ namespace UniUiSystem
 
             contextObservable.SubscribeOnContextChanged(x =>
             {
-                output.RemoveContext(x);
-                input.RemoveContext(x);
+                output.Remove<IContext>();
+                input.Remove<IContext>();
             });
 
-            input.Add(contextObservable);
+            input.Connect(contextObservable);
         }
 
         private UiModule CreateView(ILifeTime lifetime, IContext context)
         {
             //get view context settings
-            var viewSettings = Input.Get<UniUiModuleData>(context);
+            var viewSettings = Input.Get<UniUiModuleData>();
 
             var uiView = ObjectPool.Spawn(UiView,Options.Position,Quaternion.identity,Options.Parent,Options.StayAtWorld);
             if (Options.Immortal)

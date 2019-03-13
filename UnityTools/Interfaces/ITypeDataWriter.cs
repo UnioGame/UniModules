@@ -1,11 +1,11 @@
+using System;
+
 namespace UniModule.UnityTools.Common
 {
-    public interface ITypeDataContainer
+    public interface ITypeDataWriter
     {
-        TData Get<TData>();
         bool Remove<TData>();
+        bool Remove(Type type);
         void Add<TData>(TData data);
-
-        bool HasData<TData>();
     }
 }
