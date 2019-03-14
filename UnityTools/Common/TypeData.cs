@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using UniModule.UnityTools.Interfaces;
-using UniModule.UnityTools.ObjectPool.Scripts;
-using UniRx;
-
-namespace UniModule.UnityTools.Common
+﻿namespace UniModule.UnityTools.Common
 {
+    using System;
+    using System.Collections.Generic;
+    using Interfaces;
+    using ObjectPool.Scripts;
+    using UniRx;
+    
     public class TypeData : ITypeDataContainer
     {
         /// <summary>

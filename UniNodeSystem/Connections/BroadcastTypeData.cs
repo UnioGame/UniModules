@@ -1,24 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using UniModule.UnityTools.Common;
-using UniModule.UnityTools.ObjectPool.Scripts;
-
+﻿
 namespace UniModule.UnityTools.UniVisualNodeSystem.Connections
 {
-    
+    using System;
+    using System.Collections.Generic;
+    using UniModule.UnityTools.Common;
+    using UniModule.UnityTools.ObjectPool.Scripts;
+
     public class BroadcastTypeData : 
         IPoolable, 
-        IBroadcastTypeData, 
         ITypeDataWriter
     {
-        private List<ITypeDataContainer> _registeredItems = new List<ITypeDataContainer>();
+        private List<ITypeDataWriter> _registeredItems = new List<ITypeDataWriter>();
 
-        public void Connect(ITypeDataContainer contextData)
-        {
-            _registeredItems.Add(contextData);
-        }
-
-        public void Remove(ITypeDataContainer contextData)
+        public void Remove(ITypeDataWriter contextData)
         {
             _registeredItems.Remove(contextData);
         }

@@ -49,7 +49,7 @@ namespace UniModule.UnityTools.UniVisualNodeSystem.Connections
             _connections.Add(connection);
         }
 
-        public void Remove(ITypeDataContainer connection)
+        public void Disconnect(ITypeDataContainer connection)
         {
             _connections.Remove(connection);
         }

@@ -7,7 +7,8 @@ namespace UniStateMachine.Nodes
     [Serializable]
     public class UniPortValue : 
         ITypeDataContainer, 
-        IConnector<ITypeDataContainer>
+        ITypeValueObservable,
+        IConnector<ITypeDataWriter>
     {
         #region serialized data
         
@@ -24,7 +25,7 @@ namespace UniStateMachine.Nodes
         
         [NonSerialized] private bool _initialized = false;
 
-        private BroadcastTypeData _broadcastContext;
+        [NonSerialized] private BroadcastTypeData _broadcastContext;
 
         #endregion
 
@@ -51,7 +52,7 @@ namespace UniStateMachine.Nodes
 
         public bool Remove<TData>()
         {
-
+            return Remove(typeof(TData));
         }
 
         public bool Remove(Type type)
@@ -73,12 +74,13 @@ namespace UniStateMachine.Nodes
 
         #region broadcast
 
-        public void Connect(ITypeDataContainer contextData)
+        public ITypeDataWriter Connect(ITypeDataWriter contextData)
         {
             _broadcastContext.Connect(contextData);
+            return this;
         }
 
-        public void Remove(ITypeDataContainer contextData)
+        public void Disconnect(ITypeDataWriter contextData)
         {
             _broadcastContext.Remove(contextData);
         }

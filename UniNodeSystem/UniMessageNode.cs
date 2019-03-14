@@ -39,13 +39,19 @@ namespace UniStateMachine.CommonNodes
         protected override void OnUpdatePortsCache()
         {
             
-            base.OnUpdatePortsCache();
-
             _portValueMap.Clear();
             _portActions.DisposeItems();
 
+            base.OnUpdatePortsCache();
+
             PortNames = GetNodeApiNames();
-            
+
+        }
+
+
+        private void CreatePortsConnections(IContext context)
+        {
+                        
             var count = PortNames.Count;
 
             for (var i = 0; i < count; i++)
@@ -60,7 +66,7 @@ namespace UniStateMachine.CommonNodes
                 
                 BindPorts(ports.inputValue, ports.outputValue, i);                
             }
-            
+
         }
         
         protected virtual List<string> GetNodeApiNames()
@@ -68,7 +74,7 @@ namespace UniStateMachine.CommonNodes
             return PortNames;
         }
 
-        protected virtual void BindPorts(UniPortValue input, UniPortValue output, int index)
+        protected virtual void BindInputPorts(UniPortValue input, UniPortValue output, int index)
         {
             var broadCastAction = ClassPool.Spawn<BroadcastActionContextData<IContext>>();
             broadCastAction.Initialize(x => OnInputPortUpdate(x,output,index));
@@ -87,8 +93,8 @@ namespace UniStateMachine.CommonNodes
 
         protected virtual void OnMessagePortValue(IContext context,UniPortValue portValue, TValue value)
         {
-            portValue.SetValue(context,value);
-            portValue.SetValue(context,context);
+            portValue.Add(value);
+            portValue.Add(context);
         }
     }
     

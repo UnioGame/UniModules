@@ -1,10 +1,14 @@
 ﻿using System;
+using UniModule.UnityTools.Common;
 using UniModule.UnityTools.Interfaces;
 using UniModule.UnityTools.ObjectPool.Scripts;
 
 namespace Modules.UniTools.UniNodeSystem.Connections
 {
-    public class BroadcastActionContextData<TContext> : IDisposable, IPoolable, ITypeDataContainer
+    public class BroadcastActionContextData<TContext> : 
+        IDisposable, 
+        IPoolable, 
+        ITypeDataWriter
     {
         private Action<TContext> _onRemoveDataAction;
         private Action<TContext> _onUpdate;
@@ -27,9 +31,9 @@ namespace Modules.UniTools.UniNodeSystem.Connections
             _onRemoveDataAction = null;
         }
 
-        public void UpdateValue<TData>(TContext context, TData value)
+        public void Add<TData>(TData value)
         {
-            _onUpdate?.Invoke(context);
+            _onUpdate?.Invoke(value);
         }
 
         public bool RemoveContext(TContext context)
