@@ -51,18 +51,18 @@ namespace UniStateMachine.Nodes
 
         public bool Remove<TData>()
         {
-            var result = _typeData.Remove<TData>();
-            if (result)
-            {
-                _broadcastContext.Remove<TData>();
-            }
 
-            return result;
         }
 
         public bool Remove(Type type)
         {
-            return _typeData.Remove(type);
+            var result = _typeData.Remove(type);
+            if (result)
+            {
+                _broadcastContext.Remove(type);
+            }
+
+            return result;
         }
 
         public void Add<TData>(TData value)
@@ -85,20 +85,29 @@ namespace UniStateMachine.Nodes
 
         #endregion
 
+        #region reader
 
         public TData Get<TData>()
         {
-            throw new NotImplementedException();
+            return _typeData.Get<TData>();
         }
 
         public bool Contains<TData>()
         {
-            throw new NotImplementedException();
+            return _typeData.Contains<TData>();
         }
 
         public bool Contains(Type type)
         {
-            throw new NotImplementedException();
+            return _typeData.Contains(type);
         }
+        
+        public bool HasValue()
+        {
+            return _typeData.HasValue();
+        }
+        
+        #endregion
+
     }
 }

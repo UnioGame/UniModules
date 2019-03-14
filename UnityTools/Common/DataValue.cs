@@ -1,4 +1,5 @@
 ﻿using System;
+using UniModule.UnityTools.DataFlow;
 using UniModule.UnityTools.Interfaces;
 using UniModule.UnityTools.ObjectPool.Scripts;
 using UniModule.UnityTools.ProfilerTools;
@@ -8,28 +9,34 @@ using UniRx;
 namespace UniModule.UnityTools.Common
 {
     [Serializable]
-    public class ContextValue<TData> : 
-        IDataValue<TData>,
-        IObservable<TData>
+    public class ContextValue<TData> : IDataValue<TData>
     {
+        private bool _hasValue = false;
+        
         protected RecycleObservable<TData> _reactiveValue = new RecycleObservable<TData>();
 
         public TData Value
         {
             get => _reactiveValue.Value;
-            protected set
-            {
-                _reactiveValue.SetValue(value);
-            }
+            private set => _reactiveValue.SetValue(value);
         }
 
+        public bool HasValue()
+        {
+            return _hasValue;
+        }
+        
         public void SetValue(TData value)
         {
+            _hasValue = true;
             Value = value;
         }
 
         public void Dispose()
         {
+            _hasValue = false;
+            _reactiveValue.Release();
+            
             OnRelease();
             
             this.Despawn();
@@ -39,24 +46,8 @@ namespace UniModule.UnityTools.Common
         {
             return _reactiveValue.Subscribe(action);
         }
-        
-        #region IDataTransition
-        
-        public void CopyTo(IMessagePublisher target)
-        {
-            GameProfiler.BeginSample("DataValue_CopyTo");
-            
-            target.Publish(Value);
-            
-            GameProfiler.EndSample();
-        }
-        
-        #endregion
-        
-        protected virtual void OnRelease()
-        {
-            _reactiveValue.Release();
-        }
+               
+        protected virtual void OnRelease(){}
 
     }
 }

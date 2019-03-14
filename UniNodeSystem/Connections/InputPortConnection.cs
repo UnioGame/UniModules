@@ -21,19 +21,18 @@ namespace UniModule.UnityTools.UniVisualNodeSystem.Connections
             _node = node;
         }
 
-        public override bool RemoveContext(IContext context)
+        public override bool Remove<TData>()
         {
-            GameProfiler.BeginSample("InputConnection_RemoveContext");
             
-            var result = base.RemoveContext(context);
-            if (result && _node.IsActive)
+            var result = base.Remove<TData>();
+            if (!result || !_node.IsActive) return result;
+            
+            if (_target.HasValue())
             {
-                _nodeExecutor.Stop(_node,context);
+                _nodeExecutor.Stop(_node);     
             }
-
-            GameProfiler.EndSample();
-            
             return result;
+            
         }
 
         public override void UpdateValue<TData>(IContext context, TData value)

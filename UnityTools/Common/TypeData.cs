@@ -11,24 +11,14 @@ namespace UniModule.UnityTools.Common
         /// <summary>
         /// registered components
         /// </summary>
-        private Dictionary<Type, object> _contextValues = new Dictionary<Type, object>();
+        private Dictionary<Type, IDataValueParameters> _contextValues = new Dictionary<Type, IDataValueParameters>();
 
-        private ITypeDataContainer _typeDataContainerImplementation;
-
-        public virtual TData Get<TData>()
-        {
-            
-            var data = GetData<TData>();
-            return data == null ? default(TData) : data.Value;
-
-        }
-
+        #region writer methods
+        
         public bool Remove<TData>()
-        {
-            
+        {           
             var type = typeof(TData);
             return Remove(type);
-
         }
 
         public bool Remove(Type type)
@@ -39,16 +29,33 @@ namespace UniModule.UnityTools.Common
             var removed = _contextValues.Remove(type);
 
             typeValue.Dispose();
+
             return removed;
 
         }
 
         public void Add<TData>(TData value)
         {
-
             var data = GetData<TData>(true);
             data.SetValue(value);           
-         
+        }
+
+        #endregion
+        
+        public bool HasValue()
+        {
+            foreach (var value in _contextValues)
+            {
+                if (value.Value.HasValue())
+                    return true;
+            }
+            return false;
+        }
+        
+        public virtual TData Get<TData>()
+        {
+            var data = GetData<TData>();
+            return data == null ? default(TData) : data.Value;
         }
 
         public bool Contains<TData>()
@@ -70,7 +77,6 @@ namespace UniModule.UnityTools.Common
         
         public void Release()
         {
-
             foreach (var contextValue in _contextValues)
             {
                 var disposable = contextValue.Value as IDisposable;
@@ -78,13 +84,11 @@ namespace UniModule.UnityTools.Common
             }
             
             _contextValues.Clear();
-
         }
 
 
         protected ContextValue<TValue> GetData<TValue>(bool isCreateIfEmpty = false)
         {
-            
             ContextValue<TValue> data = null;
             
             var type = typeof(TValue);
@@ -102,6 +106,6 @@ namespace UniModule.UnityTools.Common
             return data;
 
         }
-        
+
     }
 }

@@ -92,7 +92,7 @@ namespace UniStateMachine.Nodes
             StateLogger.LogState($"GRAPH NODE {node.name} : STARTED", node);
 
             var inputValue = node.Input;
-            inputValue.SetValue(context, context);
+            inputValue.Add(context);
 
             var awaiter = node.Execute(context);
             var disposable = awaiter.RunWithSubRoutines(node.RoutineType);
@@ -104,7 +104,7 @@ namespace UniStateMachine.Nodes
 
         public void Stop(UniGraphNode node, IContext context)
         {
-            //node already active for this context
+            //node already stoped
             if (!node.IsActive)
                 return;
 
@@ -185,7 +185,7 @@ namespace UniStateMachine.Nodes
             }
         }
 
-        private void BindWithOutputs(ITypeDataContainer inputConnection, NodePort port)
+        private void BindWithOutputs(ITypeDataWriter inputConnection, NodePort port)
         {
             var connections = port.GetConnections();
 

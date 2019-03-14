@@ -5,23 +5,23 @@ using UniModule.UnityTools.ProfilerTools;
 namespace UniModule.UnityTools.UniVisualNodeSystem.Connections
 {
     public class PortValueConnection : 
-        ITypeDataContainer,
+        ITypeDataWriter,
         IConnector<ITypeDataContainer>
     {
-        private readonly List<ITypeDataContainer> _connections;
-        private readonly ITypeDataContainer _target;
+        protected readonly List<ITypeDataContainer> _connections;
+        protected readonly ITypeDataContainer _target;
 
         public PortValueConnection(ITypeDataContainer target)
         {
             _target = target;
             _connections = new List<ITypeDataContainer>();
         }
-        
-        public void SetValue<TData>(TData value)
+
+        public void Add<TData>(TData value)
         {
             GameProfiler.BeginSample("Connection_UpdateValue");
             
-            _target.SetValue(value);
+            _target.Add(value);
             
             GameProfiler.EndSample();
         }
@@ -32,10 +32,10 @@ namespace UniModule.UnityTools.UniVisualNodeSystem.Connections
             for (int i = 0; i < _connections.Count; i++)
             {
                 var connection = _connections[i];
-                if (connection.HasValue<TData>(context))
+                if (connection.Contains<TData>())
                 {
-                    var value = connection.Get<TData>(context);
-                    _target.UpdateValue(context,value);
+                    var value = connection.Get<TData>();
+                    _target.Add(value);
                     return false;
                 }
             }
@@ -53,5 +53,6 @@ namespace UniModule.UnityTools.UniVisualNodeSystem.Connections
         {
             _connections.Remove(connection);
         }
+
     }
 }

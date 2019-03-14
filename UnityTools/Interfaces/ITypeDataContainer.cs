@@ -1,8 +1,12 @@
 using System;
+using UniModule.UnityTools.Interfaces;
+using UniRx;
 
 namespace UniModule.UnityTools.Common
 {
-    public interface ITypeDataContainer : ITypeDataWriter
+    public interface ITypeDataContainer : 
+        ITypeDataWriter,
+        IDataValueParameters
     {
         TData Get<TData>();
 
