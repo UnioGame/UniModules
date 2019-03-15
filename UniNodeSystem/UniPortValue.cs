@@ -8,7 +8,7 @@ namespace UniStateMachine.Nodes
     public class UniPortValue : 
         ITypeDataContainer, 
         ITypeValueObservable,
-        IConnector<ITypeDataWriter>
+        IConnector<IContextWriter>
     {
         #region serialized data
         
@@ -27,6 +27,19 @@ namespace UniStateMachine.Nodes
 
         [NonSerialized] private BroadcastTypeData _broadcastContext;
 
+        [NonSerialized] private TypeValueObservable<UniPortValue> _valueObservable;
+
+        #endregion
+        
+        
+        #region observable
+
+        public IObservable<TypeValueUnit> UpdateValueObservable => _valueObservable.UpdateValueObservable;
+
+        public IObservable<TypeValueUnit> DataRemoveObservable => _valueObservable.DataRemoveObservable;
+
+        public IObservable<ITypeDataContainer> EmptyDataObservable => _valueObservable.EmptyDataObservable;
+        
         #endregion
 
         public UniPortValue()
@@ -39,6 +52,7 @@ namespace UniStateMachine.Nodes
             if (_initialized)
                 return;
 
+            _valueObservable = new TypeValueObservable<UniPortValue>(this);
             _typeData = new TypeData();
             _broadcastContext = new BroadcastTypeData();
             
@@ -52,17 +66,11 @@ namespace UniStateMachine.Nodes
 
         public bool Remove<TData>()
         {
-            return Remove(typeof(TData));
-        }
-
-        public bool Remove(Type type)
-        {
-            var result = _typeData.Remove(type);
+            var result = _typeData.Remove<TData>();
             if (result)
             {
-                _broadcastContext.Remove(type);
+                _broadcastContext.Remove<TData>();
             }
-
             return result;
         }
 
@@ -74,25 +82,33 @@ namespace UniStateMachine.Nodes
 
         #region broadcast
 
-        public ITypeDataWriter Connect(ITypeDataWriter contextData)
+        public IConnector<IContextWriter> Connect(IContextWriter contextData)
         {
             _broadcastContext.Connect(contextData);
             return this;
         }
 
-        public void Disconnect(ITypeDataWriter contextData)
+        public void Disconnect(IContextWriter contextData)
         {
             _broadcastContext.Remove(contextData);
         }
 
         #endregion
 
-        #region reader
-
+                
+        public bool HasValue()
+        {
+            return _typeData.HasValue();
+        }
+        
+        
         public TData Get<TData>()
         {
             return _typeData.Get<TData>();
         }
+
+        
+        #region connector
 
         public bool Contains<TData>()
         {
@@ -104,12 +120,8 @@ namespace UniStateMachine.Nodes
             return _typeData.Contains(type);
         }
         
-        public bool HasValue()
-        {
-            return _typeData.HasValue();
-        }
-        
         #endregion
+
 
     }
 }

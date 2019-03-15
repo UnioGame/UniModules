@@ -61,12 +61,16 @@
         public bool Contains<TData>()
         {
             var type = typeof(TData);
-            return _contextValues.ContainsKey(type);
+            return Contains(type);
         }
 
         public bool Contains(Type type)
         {
-            return _contextValues.ContainsKey(type);
+            if (_contextValues.TryGetValue(type, out var value))
+            {
+                return value.HasValue();
+            }
+            return false;
         }
 
         public IDisposable Subscribe<TData>(IObserver<TData> observer)

@@ -2,12 +2,10 @@ using System;
 
 namespace UniModule.UnityTools.Common
 {
-    public interface ITypeDataWriter
+    public interface IContextWriter
     {
         bool Remove<TData>();
 
-        bool Remove(Type type);
-        
         void Add<TData>(TData data);
     }
 }

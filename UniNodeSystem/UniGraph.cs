@@ -18,7 +18,7 @@ using UniStateMachine.CommonNodes;
 
 namespace UniStateMachine.Nodes
 {
-    public class UniGraph : NodeGraph, IContextState<IEnumerator>, INodeExecutor<IContext>
+    public class UniGraph : NodeGraph, IContextState<IEnumerator>
     {
         #region private properties
 
@@ -42,7 +42,12 @@ namespace UniStateMachine.Nodes
         /// <summary>
         /// state local context data
         /// </summary>
-        protected IContext _contextData;
+        protected IContext _localContext;
+
+        /// <summary>
+        /// node executor
+        /// </summary>
+        private INodeExecutor<IContext> _nodeExecutor;
         
 
         #endregion
@@ -50,7 +55,6 @@ namespace UniStateMachine.Nodes
         #region public properties
 
         public ILifeTime LifeTime => _graphState == null ? null : _graphState.LifeTime;
-
 
         public bool IsActive => _graphState == null ? false : _graphState.IsActive;
         
@@ -82,50 +86,16 @@ namespace UniStateMachine.Nodes
             _graphState?.Exit();
         }
 
-        #region INodeExecutor
-
-        public void Execute(UniGraphNode node, IContext context)
-        {
-            if (node.IsActive)
-                return;
-
-            StateLogger.LogState($"GRAPH NODE {node.name} : STARTED", node);
-
-            var inputValue = node.Input;
-            inputValue.Add(context);
-
-            var awaiter = node.Execute(context);
-            var disposable = awaiter.RunWithSubRoutines(node.RoutineType);
-
-            //cleanup actions
-            var lifeTime = node.LifeTime;
-            lifeTime.AddDispose(disposable);
-        }
-
-        public void Stop(UniGraphNode node, IContext context)
-        {
-            //node already stoped
-            if (!node.IsActive)
-                return;
-
-            StateLogger.LogState($"GRAPH NODE {node.name} : STOPED", node);
-
-            node.Exit();
-        }
-
-        #endregion
-
         #region private
 
         protected void OnExit(IContext context)
         {
             
-            _contextData = null;
+            _localContext = null;
             
             if (_allNodes == null) return;
 
-            for (var i = 0; i < _allNodes.Count; i++)
-            {
+            for (var i = 0; i < _allNodes.Count; i++) {
                 var node = _allNodes[i];
                 node.Exit();
             }
@@ -135,7 +105,7 @@ namespace UniStateMachine.Nodes
         private IContextState<IEnumerator> CreateState()
         {
             var stateBehaviour = new ProxyState();
-            stateBehaviour.Initialize(OnExecute, x => _contextData = x, OnExit);
+            stateBehaviour.Initialize(OnExecute, x => _localContext = x, OnExit);
             return stateBehaviour;
         }
         
@@ -177,7 +147,7 @@ namespace UniStateMachine.Nodes
                         continue;
 
                     var connection = node.Input == value
-                        ? new InputPortConnection(this, node, value)
+                        ? new InputPortConnection(node, value,_nodeExecutor)
                         : new PortValueConnection(value);
 
                     BindWithOutputs(connection, port);
@@ -185,7 +155,7 @@ namespace UniStateMachine.Nodes
             }
         }
 
-        private void BindWithOutputs(ITypeDataWriter inputConnection, NodePort port)
+        private void BindWithOutputs(IContextWriter inputConnection, NodePort port)
         {
             var connections = port.GetConnections();
 

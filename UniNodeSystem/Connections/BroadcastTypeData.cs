@@ -8,11 +8,12 @@ namespace UniModule.UnityTools.UniVisualNodeSystem.Connections
 
     public class BroadcastTypeData : 
         IPoolable, 
-        ITypeDataWriter
+        IContextWriter,
+        IConnector<IContextWriter>
     {
-        private List<ITypeDataWriter> _registeredItems = new List<ITypeDataWriter>();
+        private List<IContextWriter> _registeredItems = new List<IContextWriter>();
 
-        public void Remove(ITypeDataWriter contextData)
+        public void Remove(IContextWriter contextData)
         {
             _registeredItems.Remove(contextData);
         }
@@ -26,18 +27,14 @@ namespace UniModule.UnityTools.UniVisualNodeSystem.Connections
 
         public virtual bool Remove<TData>()
         {
-            return Remove(typeof(TData));            
-        }
-
-        public bool Remove(Type type)
-        {
+            
             for (var i = 0; i < _registeredItems.Count; i++)
             {
                 var item = _registeredItems[i];
-                item.Remove(type);
+                item.Remove<TData>();
             }
             
-            return true;
+            return true;          
         }
 
         public virtual void Add<TData>(TData value)
@@ -50,6 +47,18 @@ namespace UniModule.UnityTools.UniVisualNodeSystem.Connections
         }
 
         #endregion
+
+        public IConnector<IContextWriter> Connect(IContextWriter connection)
+        {
+            _registeredItems.Add(connection);
+            return this;
+        }
+
+        public void Disconnect(IContextWriter connection)
+        {
+            _registeredItems.Remove(connection);
+        }
+        
     }
     
 }

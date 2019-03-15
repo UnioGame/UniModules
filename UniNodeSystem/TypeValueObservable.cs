@@ -1,5 +1,7 @@
 ﻿
 
+using UniModule.UnityTools.ObjectPool.Scripts;
+
 namespace UniStateMachine.Nodes
 {
     using System;
@@ -8,17 +10,19 @@ namespace UniStateMachine.Nodes
     using UniRx;
 
     public class TypeValueObservable<TTarget> : 
-        ITypeDataWriter, 
+        IContextWriter, 
         ITypeValueObservable
-        where TTarget : ITypeDataContainer, IConnector<ITypeDataWriter>
+    
+        where TTarget : class,
+        ITypeDataContainer, 
+        IConnector<IContextWriter>
     {
         private TTarget _target;
         
-        private ReactiveProperty<TypeValueUnit> _dataUpdate = new ReactiveProperty<TypeValueUnit>();
-        private ReactiveProperty<TypeValueUnit> _dataRemove = new ReactiveProperty<TypeValueUnit>();
-        private Subject<ITypeDataContainer> _emptyDataObservable = new Subject<ITypeDataContainer>();
+        private readonly ReactiveProperty<TypeValueUnit> _dataUpdate;
+        private readonly ReactiveProperty<TypeValueUnit> _dataRemove;
+        private readonly Subject<ITypeDataContainer> _emptyDataObservable;
 
-        
         public IObservable<TypeValueUnit> UpdateValueObservable => _dataUpdate;
 
         public IObservable<TypeValueUnit> DataRemoveObservable => _dataRemove;
@@ -26,10 +30,15 @@ namespace UniStateMachine.Nodes
         public IObservable<ITypeDataContainer> EmptyDataObservable => _emptyDataObservable;
 
         
-        public void Initialize(TTarget target)
+        public TypeValueObservable(TTarget target)
         {
             _target = target;
             _target.Connect(this);
+            
+            _dataUpdate = new ReactiveProperty<TypeValueUnit>();
+            _dataRemove = new ReactiveProperty<TypeValueUnit>();
+            _emptyDataObservable = new Subject<ITypeDataContainer>();
+            
         }
 
         public bool Remove<TData>()

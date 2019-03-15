@@ -1,4 +1,5 @@
 ﻿using System;
+using UniModule.UnityTools.Common;
 using UniModule.UnityTools.DataFlow;
 using UniModule.UnityTools.ObjectPool.Scripts;
 using UniModule.UnityTools.UniStateMachine.Interfaces;
@@ -11,19 +12,10 @@ namespace UniModule.UnityTools.Interfaces
         IPoolable, 
         IReadOnlyContext,
         IDisposable,
-        ILifeTimeContext
+        ILifeTimeContext,
+        IContextWriter
     {
         
-        /// <summary>
-        /// remove data from context
-        /// </summary>
-        bool Remove<TData>();
-        
-        /// <summary>
-        /// add data to context
-        /// </summary>
-        void Add<TData>(TData data);       
-
         
     }
 }

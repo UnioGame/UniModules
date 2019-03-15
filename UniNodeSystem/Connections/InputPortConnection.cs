@@ -12,13 +12,13 @@ namespace UniModule.UnityTools.UniVisualNodeSystem.Connections
         private readonly INodeExecutor<IContext> _nodeExecutor;
         private readonly UniGraphNode _node;
 
-        public InputPortConnection(INodeExecutor<IContext> nodeExecutor,
-            UniGraphNode node, 
-            ITypeDataContainer target) : 
+        public InputPortConnection(UniGraphNode node, 
+            ITypeDataContainer target,
+            INodeExecutor<IContext> nodeExecutor) : 
             base(target)
         {
-            _nodeExecutor = nodeExecutor;
             _node = node;
+            _nodeExecutor = nodeExecutor;
         }
 
         public override bool Remove<TData>()
@@ -35,15 +35,16 @@ namespace UniModule.UnityTools.UniVisualNodeSystem.Connections
             
         }
 
-        public override void UpdateValue<TData>(IContext context, TData value)
+        public override void Add<TData>(TData value)
         {
+            
             GameProfiler.BeginSample("InputConnection_UpdateValue");
             
-            var isContextExists = _target.HasContext(context);
-            base.UpdateValue(context, value);
-            if (isContextExists == false && _target.HasContext(context))
+            base.Add(value);
+            
+            if (_node.IsActive == false && _target.HasValue())
             {
-                _nodeExecutor.Execute(_node,context);
+                _nodeExecutor.Execute(_node,_target);
             }
             
             GameProfiler.EndSample();

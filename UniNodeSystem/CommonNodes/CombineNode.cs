@@ -33,17 +33,17 @@ namespace UniStateMachine.CommonNodes
 
             var combinedPort = GetPortValue(_combinedOutputName);
             
-            while (true)
+            while (IsActive)
             {
                 var isCombined = IsCombined(context);
 
                 if (isCombined)
                 {
-                    combinedPort.SetValue(context,context);
+                    combinedPort.Add(context);
                 }
                 else
                 {
-                    combinedPort.RemoveContext(context);
+                    combinedPort.Remove<IContext>();
                 }
 
                 UpdatePorts(isCombined, context);
@@ -62,15 +62,15 @@ namespace UniStateMachine.CommonNodes
                 
                 if (isCombined)
                 {
-                    outputPort.RemoveContext(context);
+                    outputPort.Remove<IContext>();
                 }
-                else if(inputPort.HasContext(context))
+                else if(inputPort.HasValue())
                 {
-                    outputPort.SetValue(context,context);
+                    outputPort.Add(context);
                 }
                 else
                 {
-                    outputPort.RemoveContext(context);
+                    outputPort.Remove<IContext>();
                 }
             }
         }
@@ -82,7 +82,7 @@ namespace UniStateMachine.CommonNodes
             {
                 var value = _inputValues[i];
                     
-                if (!value.HasContext(context)) 
+                if (!value.HasValue()) 
                     return false;
             }
 

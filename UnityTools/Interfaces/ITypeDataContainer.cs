@@ -5,13 +5,13 @@ using UniRx;
 namespace UniModule.UnityTools.Common
 {
     public interface ITypeDataContainer : 
-        ITypeDataWriter,
+        IContextWriter,
         IDataValueParameters
     {
+        
         TData Get<TData>();
 
         bool Contains<TData>();
-
-        bool Contains(Type type);
+        
     }
 }

@@ -4,7 +4,7 @@ namespace UniModule.UnityTools.UniVisualNodeSystem.Connections
 {
     public interface IConnector<T>
     {
-        T Connect(T connection);
+        IConnector<T> Connect(T connection);
         void Disconnect(T connection);
     }
 }

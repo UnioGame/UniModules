@@ -1,5 +1,3 @@
-using UniModule.UnityTools.DataFlow;
-
 namespace UniModule.UnityTools.Interfaces
 {
     public interface IReadOnlyContext
@@ -8,5 +6,13 @@ namespace UniModule.UnityTools.Interfaces
         /// get data from context object
         /// </summary>
         TData Get<TData>();
+        
+        /// <summary>
+        /// is context contain target data
+        /// </summary>
+        /// <typeparam name="TData"></typeparam>
+        /// <returns>is content found</returns>
+        bool Contains<TData>();
+
     }
 }

@@ -5,7 +5,7 @@ using UniModule.UnityTools.ProfilerTools;
 namespace UniModule.UnityTools.UniVisualNodeSystem.Connections
 {
     public class PortValueConnection : 
-        ITypeDataWriter,
+        IContextWriter,
         IConnector<ITypeDataContainer>
     {
         protected readonly List<ITypeDataContainer> _connections;
@@ -29,7 +29,7 @@ namespace UniModule.UnityTools.UniVisualNodeSystem.Connections
         public virtual bool Remove<TData>()
         {
 
-            for (int i = 0; i < _connections.Count; i++)
+            for (var i = 0; i < _connections.Count; i++)
             {
                 var connection = _connections[i];
                 if (connection.Contains<TData>())
@@ -39,14 +39,15 @@ namespace UniModule.UnityTools.UniVisualNodeSystem.Connections
                     return false;
                 }
             }
+            
             var result = _target.Remove<TData>();
-
             return result;
         }
 
-        public void Connect(ITypeDataContainer connection)
+        public IConnector<ITypeDataContainer> Connect(ITypeDataContainer connection)
         {
             _connections.Add(connection);
+            return this;
         }
 
         public void Disconnect(ITypeDataContainer connection)
