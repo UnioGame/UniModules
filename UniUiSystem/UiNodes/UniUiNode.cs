@@ -112,19 +112,6 @@ namespace UniUiSystem
             UpdateModulesSlots(UiView);
         }
 
-        private void BindInputOutputValues(UniPortValue input, UniPortValue output)
-        {
-            var contextObservable = new ContextObservable<IContext>();
-
-            contextObservable.SubscribeOnContextChanged(x =>
-            {
-                output.Remove<IContext>();
-                input.Remove<IContext>();
-            });
-
-            input.Connect(contextObservable);
-        }
-
         private UiModule CreateView(ILifeTime lifetime, IContext context)
         {
             //get view context settings
@@ -180,16 +167,12 @@ namespace UniUiSystem
 
             foreach (var handler in triggers.Items)
             {
-                var outputPort = this.UpdatePortValue(handler.ItemName, PortIO.Output);
-                _uiOutputs.Add(outputPort.value);
 
-                var inputName = GetFormatedInputName(handler.ItemName);
+                var values =this.CreatePortPair(handler.ItemName, true);
 
-                var port = this.UpdatePortValue(inputName, PortIO.Input);
-                var portValue = port.value;
-                _uiInputs.Add(portValue);
-
-                BindInputOutputValues(portValue, outputPort.value);
+                _uiOutputs.Add(values.outputValue);
+                _uiInputs.Add(values.inputValue);
+                
             }
         }
 

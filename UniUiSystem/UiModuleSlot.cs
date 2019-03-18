@@ -1,12 +1,15 @@
-﻿using UniModule.UnityTools.DataFlow;
-using UniModule.UnityTools.Interfaces;
-using UniModule.UnityTools.ObjectPool.Scripts;
-using UnityEngine;
-using UnityEngine.EventSystems;
-using UniUiSystem.Models;
+﻿
+using UniModule.UnityTools.Common;
 
 namespace UniUiSystem
 {
+    using UniModule.UnityTools.DataFlow;
+    using UniModule.UnityTools.Interfaces;
+    using UniModule.UnityTools.ObjectPool.Scripts;
+    using UnityEngine;
+    using UnityEngine.EventSystems;
+    using UniUiSystem.Models;
+
     /// <summary>
     /// Ui module container
     /// </summary>
@@ -16,13 +19,13 @@ namespace UniUiSystem
         
         public RectTransform Transform => transform as RectTransform;
         
-        public void ApplySlotData(IContext context,IContextData<IContext> container,ILifeTime lifeTime)
+        public void ApplySlotData(IContext context,ITypeData container,ILifeTime lifeTime)
         {
             
             var moduleData = CreateModuleData(context);
            
             lifeTime.AddCleanUpAction(() => moduleData.Despawn());
-            container.UpdateValue(context,moduleData);
+            container.Add(moduleData);
 
             UpdateContext(container,lifeTime);
             
@@ -41,7 +44,7 @@ namespace UniUiSystem
         }
 
         //update slot context data object
-        protected virtual void UpdateContext(IContextData<IContext> container, ILifeTime lifeTime){}
+        protected virtual void UpdateContext(ITypeData container, ILifeTime lifeTime){}
     }
     
 }

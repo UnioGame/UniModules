@@ -28,7 +28,8 @@ namespace UniModule.UnityTools.UniStateMachine.Extensions
         }
 
             
-        public static (UniPortValue inputValue, UniPortValue outputValue) CreatePortPair(this UniNode node, string outputPortName, bool connectInOut = false)
+        public static (UniPortValue inputValue, UniPortValue outputValue) 
+            CreatePortPair(this UniNode node, string outputPortName, bool connectInOut = false)
         {
             var inputName = node.GetFormatedInputName(outputPortName);
             var inputPortPair = node.UpdatePortValue(inputName, PortIO.Input);

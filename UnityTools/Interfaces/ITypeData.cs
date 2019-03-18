@@ -4,7 +4,7 @@ using UniRx;
 
 namespace UniModule.UnityTools.Common
 {
-    public interface ITypeDataContainer : 
+    public interface ITypeData : 
         IContextWriter,
         IDataValueParameters
     {

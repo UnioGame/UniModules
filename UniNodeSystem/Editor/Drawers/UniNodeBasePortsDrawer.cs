@@ -90,7 +90,7 @@ namespace Modules.UniTools.UniNodeSystem.Drawers
 
             var uniNode = port.node as UniGraphNode;
             var portValue = uniNode.GetPortValue(port.fieldName);
-            var hasData = portValue != null && portValue.Count > 0;
+            var hasData = portValue != null && portValue.HasValue();
 
             if (port.fieldName == UniNode.OutputPortName || port.fieldName == UniNode.InputPortName)
             {

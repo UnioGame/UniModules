@@ -26,7 +26,7 @@
             lifeTime.AddDispose(disposable);
         }
 
-        public void Stop(UniGraphNode node, IContext context)
+        public void Stop(UniGraphNode node)
         {
             //node already stoped
             if (!node.IsActive)

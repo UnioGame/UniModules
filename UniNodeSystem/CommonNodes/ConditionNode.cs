@@ -37,11 +37,11 @@ namespace UniStateMachine.CommonNodes
         {
             if (result)
             {
-                portValue.SetValue(context,context);
+                portValue.Add(context);
             }
             else
             {
-                portValue.RemoveContext(context);
+                portValue.RemoveAll();
             }
 
         }

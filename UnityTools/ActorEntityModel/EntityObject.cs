@@ -32,6 +32,11 @@ namespace UniModule.UnityTools.ActorEntityModel
        
         #region public methods
 
+        public bool Contains<TData>()
+        {
+            return _typeData.Contains<TData>();
+        }
+        
         public virtual TData Get<TData>()
         {
             return _typeData.Get<TData>();
@@ -42,6 +47,11 @@ namespace UniModule.UnityTools.ActorEntityModel
             return _typeData.Remove<TData>();
         }
 
+        public void RemoveAll()
+        {
+            _typeData.RemoveAll();
+        }
+        
         public void Add<TData>(TData data)
         {
             _typeData.Add(data);
@@ -75,7 +85,6 @@ namespace UniModule.UnityTools.ActorEntityModel
         }
 
         #endregion
-
 
         #endregion
 

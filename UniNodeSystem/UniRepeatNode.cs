@@ -25,7 +25,7 @@ namespace UniStateMachine {
 
             while (true) {
                 
-                var data = Restart.Get<IContext>(context);
+                var data = Restart.Get<IContext>();
                 //here should be same unique id for all context line
                 yield return null;
 

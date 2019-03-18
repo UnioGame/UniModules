@@ -1,12 +1,12 @@
-using System;
-using System.Collections.Generic;
-using Modules.UniTools.UniNodeSystem.Drawers;
-using UniNodeSystem;
-using UnityEditor;
-using UnityEngine;
-
 namespace UniNodeSystemEditor
 {
+    using System;
+    using System.Collections.Generic;
+    using Modules.UniTools.UniNodeSystem.Drawers;
+    using UniNodeSystem;
+    using UnityEditor;
+    using UnityEngine;
+    
     /// <summary> Base class to derive custom Node editors from. Use this to create your own custom inspectors and editors for your nodes. </summary>
     [CustomNodeEditor(typeof(UniBaseNode))]
     public class NodeEditor : NodeEditorBase<NodeEditor, CustomNodeEditorAttribute, UniBaseNode>, INodeEditor

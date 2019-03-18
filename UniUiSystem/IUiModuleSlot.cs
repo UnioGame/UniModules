@@ -11,6 +11,6 @@ namespace UniUiSystem
         
         RectTransform Transform { get; }
 
-        void ApplySlotData(IContext context,ITypeDataContainer container,ILifeTime lifeTime);
+        void ApplySlotData(IContext context,ITypeData container,ILifeTime lifeTime);
     }
 }

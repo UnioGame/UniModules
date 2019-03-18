@@ -37,7 +37,7 @@ namespace UniStateMachine.CommonNodes
                 }
                 else
                 {
-                    Output.RemoveContext(context);
+                    Output.RemoveAll();
                 }
 
                 yield return null;

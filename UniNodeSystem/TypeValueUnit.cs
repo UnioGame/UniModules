@@ -6,6 +6,6 @@ namespace UniStateMachine.Nodes
     public struct TypeValueUnit
     {
         public Type ValueType;
-        public ITypeDataContainer Container;
+        public ITypeData Container;
     }
 }

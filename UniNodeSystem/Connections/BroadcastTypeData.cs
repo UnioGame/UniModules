@@ -13,37 +13,31 @@ namespace UniModule.UnityTools.UniVisualNodeSystem.Connections
     {
         private List<IContextWriter> _registeredItems = new List<IContextWriter>();
 
-        public void Remove(IContextWriter contextData)
-        {
-            _registeredItems.Remove(contextData);
-        }
-
+        #region ipoolable
+        
         public virtual void Release()
         {
             _registeredItems.Clear();
         }
         
+        #endregion
+        
         #region IContextData interface
 
+        public void RemoveAll()
+        {
+            BroadcastAction(x => x.RemoveAll());
+        }
+        
         public virtual bool Remove<TData>()
         {
-            
-            for (var i = 0; i < _registeredItems.Count; i++)
-            {
-                var item = _registeredItems[i];
-                item.Remove<TData>();
-            }
-            
+            BroadcastAction(x => x.Remove<TData>());
             return true;          
         }
 
-        public virtual void Add<TData>(TData value)
+        public void Add<TData>(TData value)
         {
-            for (var i = 0; i < _registeredItems.Count; i++)
-            {
-                var context = _registeredItems[i];
-                context.Add(value);
-            }
+            BroadcastAction(x => x.Add(value));
         }
 
         #endregion
@@ -57,6 +51,15 @@ namespace UniModule.UnityTools.UniVisualNodeSystem.Connections
         public void Disconnect(IContextWriter connection)
         {
             _registeredItems.Remove(connection);
+        }
+
+        private void BroadcastAction(Action<IContextWriter> action)
+        {
+            for (var i = 0; i < _registeredItems.Count; i++)
+            {
+                var context = _registeredItems[i];
+                action(context);
+            }
         }
         
     }

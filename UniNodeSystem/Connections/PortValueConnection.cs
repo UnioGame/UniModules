@@ -1,23 +1,24 @@
-﻿using System.Collections.Generic;
-using UniModule.UnityTools.Common;
-using UniModule.UnityTools.ProfilerTools;
-
+﻿
 namespace UniModule.UnityTools.UniVisualNodeSystem.Connections
 {
+    using System.Collections.Generic;
+    using UniModule.UnityTools.Common;
+    using UniModule.UnityTools.ProfilerTools;
+
     public class PortValueConnection : 
         IContextWriter,
-        IConnector<ITypeDataContainer>
+        IConnector<ITypeData>
     {
-        protected readonly List<ITypeDataContainer> _connections;
-        protected readonly ITypeDataContainer _target;
+        protected readonly List<ITypeData> _connections;
+        protected readonly ITypeData _target;
 
-        public PortValueConnection(ITypeDataContainer target)
+        public PortValueConnection(ITypeData target)
         {
             _target = target;
-            _connections = new List<ITypeDataContainer>();
+            _connections = new List<ITypeData>();
         }
 
-        public void Add<TData>(TData value)
+        public virtual void Add<TData>(TData value)
         {
             GameProfiler.BeginSample("Connection_UpdateValue");
             
@@ -26,6 +27,11 @@ namespace UniModule.UnityTools.UniVisualNodeSystem.Connections
             GameProfiler.EndSample();
         }
 
+        public virtual void RemoveAll()
+        {
+            _target.RemoveAll();
+        }
+        
         public virtual bool Remove<TData>()
         {
 
@@ -44,13 +50,13 @@ namespace UniModule.UnityTools.UniVisualNodeSystem.Connections
             return result;
         }
 
-        public IConnector<ITypeDataContainer> Connect(ITypeDataContainer connection)
+        public IConnector<ITypeData> Connect(ITypeData connection)
         {
             _connections.Add(connection);
             return this;
         }
 
-        public void Disconnect(ITypeDataContainer connection)
+        public void Disconnect(ITypeData connection)
         {
             _connections.Remove(connection);
         }

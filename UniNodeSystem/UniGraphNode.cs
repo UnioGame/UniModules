@@ -189,20 +189,20 @@ namespace UniStateMachine
             OnInitialize(stateContext);
         }
 
+        /// <summary>
+        /// base logic realization
+        /// transfer context data to output port value
+        /// </summary>
         protected virtual IEnumerator ExecuteState(IContext context)
         {
-            var output = GetPortValue(OutputPortName);
-            output.SetValue(context, context);
+            var output = Output;
+            output.Add(context);
             yield break;
         }
 
         protected virtual void OnExit(IContext context)
         {
-            for (int i = 0; i < _portValues.Count; i++)
-            {
-                var portValue = _portValues[i];
-                portValue.RemoveContext(context);
-            }
+            CleanUpAction();
         }
 
         protected virtual void OnInitialize(IContext context){}
@@ -218,9 +218,10 @@ namespace UniStateMachine
 
         private void CleanUpAction()
         {
-            foreach (var portValue in PortValues)
+            for (var i = 0; i < PortValues.Count; i++)
             {
-                portValue.Release();
+                var portValue = PortValues[i];
+                portValue.RemoveAll();
             }
 
             _context = null;

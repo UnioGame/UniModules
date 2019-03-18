@@ -10,7 +10,7 @@ namespace UniStateMachine.Nodes
         
         void Execute(UniGraphNode node, TContext context);
 
-        void Stop(UniGraphNode node, TContext context);
+        void Stop(UniGraphNode node);
         
     }
 }

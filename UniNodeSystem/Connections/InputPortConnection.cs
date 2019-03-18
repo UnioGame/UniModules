@@ -13,7 +13,7 @@ namespace UniModule.UnityTools.UniVisualNodeSystem.Connections
         private readonly UniGraphNode _node;
 
         public InputPortConnection(UniGraphNode node, 
-            ITypeDataContainer target,
+            ITypeData target,
             INodeExecutor<IContext> nodeExecutor) : 
             base(target)
         {
@@ -25,14 +25,23 @@ namespace UniModule.UnityTools.UniVisualNodeSystem.Connections
         {
             
             var result = base.Remove<TData>();
+            
+            //is node should be stoped
             if (!result || !_node.IsActive) return result;
             
-            if (_target.HasValue())
+            if (_target.HasValue() == false)
             {
                 _nodeExecutor.Stop(_node);     
             }
-            return result;
             
+            return true;
+            
+        }
+
+        public override void RemoveAll()
+        {
+            base.RemoveAll();
+            _nodeExecutor.Stop(_node);   
         }
 
         public override void Add<TData>(TData value)
@@ -41,10 +50,12 @@ namespace UniModule.UnityTools.UniVisualNodeSystem.Connections
             GameProfiler.BeginSample("InputConnection_UpdateValue");
             
             base.Add(value);
-            
-            if (_node.IsActive == false && _target.HasValue())
+
+            if (_node.IsActive == false)
             {
-                _nodeExecutor.Execute(_node,_target);
+                var context = _target.Get<IContext>();
+                if(context != null)
+                    _nodeExecutor.Execute(_node,context);
             }
             
             GameProfiler.EndSample();

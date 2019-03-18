@@ -1,46 +1,37 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Modules.UniTools.UniNodeSystem.Connections;
-using Modules.UniTools.UnityTools.Extension;
-using UniModule.UnityTools.Interfaces;
-using UniModule.UnityTools.ObjectPool.Scripts;
-using UniModule.UnityTools.UniStateMachine.Extensions;
-using UniRx;
-using UniStateMachine.Nodes;
-
+﻿
 namespace UniStateMachine.CommonNodes
 {
+    using System.Collections;
+    using System.Collections.Generic;
+    using UniModule.UnityTools.Interfaces;
+    using UniModule.UnityTools.ObjectPool.Scripts;
+    using UniModule.UnityTools.UniStateMachine.Extensions;
+    using UniRx;
+    using UniStateMachine.Nodes;
+
     public abstract class UniMessageNode<TValue> : UniNode
     {
         protected Dictionary<UniPortValue,UniPortValue> _portValueMap = new Dictionary<UniPortValue,UniPortValue>();
-        protected List<BroadcastActionContextData<IContext>> _portActions = new List<BroadcastActionContextData<IContext>>();
         protected List<UniPortValue> _messageOutputValues = new List<UniPortValue>();
-
+        protected List<UniPortValue> _messageInputValues = new List<UniPortValue>();
+        
         public List<string> PortNames = new List<string>();
         
         protected override IEnumerator ExecuteState(IContext context)
         {
+            
             yield return base.ExecuteState(context);
 
-            var lifeTime = LifeTime;
+            BindMessageOutputs(context);
             
-            foreach (var portValuePair in _portValueMap)
-            {
-                var outputPortValue = portValuePair.Value;
-                var disposable = MessageBroker.Default.Receive<TValue>().
-                    Subscribe(x => OnMessagePortValue(context,outputPortValue,x));
-
-                lifeTime.AddDispose(disposable);
-            }
-            
+            BindMessageInputs(context);
+      
         }
 
         protected override void OnUpdatePortsCache()
         {
             
             _portValueMap.Clear();
-            _portActions.DisposeItems();
 
             base.OnUpdatePortsCache();
 
@@ -58,38 +49,70 @@ namespace UniStateMachine.CommonNodes
             {               
                 var portName = PortNames[i];
                 var ports = this.CreatePortPair(portName, false);
+                
                 var inputValue = ports.inputValue;
                 var outputValue = ports.outputValue;
 
                 _portValueMap[inputValue] = outputValue;
-                _messageOutputValues.Add(outputValue);
                 
-                BindPorts(ports.inputValue, ports.outputValue, i);                
+                _messageInputValues.Add(inputValue);
+                _messageOutputValues.Add(outputValue);
+                           
             }
 
         }
+
+        protected void BindMessageInputs(IContext context)
+        {
+        
+            var lifeTime = LifeTime;
+
+            for (var i = 0; i < _messageInputValues.Count; i++)
+            {
+                var index = i;
+                var portValue = _messageOutputValues[i];
+                var disposable = portValue.UpdateValueObservable.Subscribe(x =>
+                    OnInputPortUpdate(context, index));
+                lifeTime.AddDispose(disposable);
+            }
+            
+        }
+
+        protected void BindMessageOutputs(IContext context)
+        {
+            var lifeTime = LifeTime;
+
+            for (var i = 0; i < _messageOutputValues.Count; i++)
+            {
+                var portValue = _messageOutputValues[i];
+                var disposable = context.Receive<TValue>()
+                    .Subscribe(x => OnMessagePortValue(context, portValue, x));
+
+                lifeTime.AddDispose(disposable);
+            }
+            
+        }   
         
         protected virtual List<string> GetNodeApiNames()
         {
             return PortNames;
         }
 
-        protected virtual void BindInputPorts(UniPortValue input, UniPortValue output, int index)
+        private void OnInputPortUpdate(IContext context,int index)
         {
-            var broadCastAction = ClassPool.Spawn<BroadcastActionContextData<IContext>>();
-            broadCastAction.Initialize(x => OnInputPortUpdate(x,output,index));
 
-            input.Connect(broadCastAction);
-        }
-
-        private void OnInputPortUpdate(IContext context,UniPortValue output,int index)
-        {
-            var messageName = PortNames[index];
-            var message = GetMessage(index, messageName);
-            MessageBroker.Default.Publish(message);
+            var messageData = new NodeMessageData()
+            {
+                Name = PortNames[index],
+                Input = _messageInputValues[index],
+                Output = _messageOutputValues[index],
+            };
+            
+            var message = GetMessage(context, messageData);
+            context.Publish(message);
         }
         
-        protected abstract TValue GetMessage(int id, string messageName);
+        protected abstract TValue GetMessage(IContext context,NodeMessageData messageData);
 
         protected virtual void OnMessagePortValue(IContext context,UniPortValue portValue, TValue value)
         {
@@ -97,5 +120,4 @@ namespace UniStateMachine.CommonNodes
             portValue.Add(context);
         }
     }
-    
 }

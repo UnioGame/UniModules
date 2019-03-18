@@ -7,6 +7,6 @@ namespace UniStateMachine.Nodes
     {
         IObservable<TypeValueUnit> UpdateValueObservable { get; }
         IObservable<TypeValueUnit> DataRemoveObservable { get; }
-        IObservable<ITypeDataContainer> EmptyDataObservable { get; }
+        IObservable<ITypeData> EmptyDataObservable { get; }
     }
 }

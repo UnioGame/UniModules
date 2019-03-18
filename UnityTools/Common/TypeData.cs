@@ -6,7 +6,7 @@
     using ObjectPool.Scripts;
     using UniRx;
     
-    public class TypeData : ITypeDataContainer
+    public class TypeData : ITypeData
     {
         /// <summary>
         /// registered components
@@ -19,6 +19,11 @@
         {           
             var type = typeof(TData);
             return Remove(type);
+        }
+
+        public void RemoveAll()
+        {
+            Release();
         }
 
         public bool Remove(Type type)
@@ -83,8 +88,8 @@
         {
             foreach (var contextValue in _contextValues)
             {
-                var disposable = contextValue.Value as IDisposable;
-                disposable?.Dispose();
+                if(contextValue.Value is IDisposable disposable)
+                    disposable.Dispose();
             }
             
             _contextValues.Clear();
