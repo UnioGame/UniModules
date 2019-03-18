@@ -123,7 +123,10 @@ MonoBehaviour:
       _node: {fileID: 2106905936890787385}
       _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
-      connections: []
+      connections:
+      - fieldName: Input
+        node: {fileID: 682493928381039726}
+        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _dynamic: 1
@@ -183,7 +186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 782945db79ce44748b3f294e0edf364e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _uniqueId: 20
+  _uniqueId: 23
   nodes:
   - {fileID: 2766635489462221022}
   - {fileID: 2229738874113849491}
@@ -327,8 +330,41 @@ MonoBehaviour:
   _id: 20
   position: {x: 1222, y: -24}
   ports:
-    keys: []
-    values: []
+    keys:
+    - Output
+    - Input
+    - message
+    values:
+    - _id: 21
+      _fieldName: Output
+      _node: {fileID: 682493928381039726}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _dynamic: 1
+    - _id: 23
+      _fieldName: Input
+      _node: {fileID: 682493928381039726}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: OUT
+        node: {fileID: 2106905936890787385}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 1
+    - _id: 22
+      _fieldName: message
+      _node: {fileID: 682493928381039726}
+      _typeQualifiedName: UniStateMachine.Nodes.UniPortValue, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _dynamic: 1
   _graph: {fileID: 5895840327775923560}
   _routineType: 0
   message: 

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Modules.UniTools.UniNodeSystem;
 using UniModule.UnityTools.Common;
 using UniModule.UnityTools.DataFlow;
 using UniModule.UnityTools.Interfaces;
@@ -66,6 +67,8 @@ namespace UniStateMachine.Nodes
                 return;
 
             _isInitialized = true;
+
+            _nodeExecutor = new NodeRoutineExecutor();
 
             _rootNodes = nodes.OfType<UniRootNode>().ToList();
             _graphState = CreateState();
