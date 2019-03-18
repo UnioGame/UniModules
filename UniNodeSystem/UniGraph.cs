@@ -21,6 +21,12 @@ namespace UniStateMachine.Nodes
 {
     public class UniGraph : NodeGraph, IContextState<IEnumerator>
     {
+        #region static data
+
+        public static List<UniGraph> ActiveGraphs = new List<UniGraph>();
+
+        #endregion
+        
         #region private properties
 
         [NonSerialized] private bool _isInitialized = false;
@@ -77,19 +83,31 @@ namespace UniStateMachine.Nodes
             InitializePortConnections();
         }
 
+        #region context state
+        
+        public void Release()
+        {
+            Exit();
+        }
+        
         public IEnumerator Execute(IContext context)
         {
             Initialize();
 
+            ActiveGraphs.Add(this);
+            
             yield return _graphState.Execute(context);
         }
 
         public void Exit()
         {
             _graphState?.Exit();
+            ActiveGraphs.Remove(this);
         }
 
-        #region private
+        #endregion
+        
+        #region private methods
 
         protected void OnExit(IContext context)
         {
@@ -195,11 +213,12 @@ namespace UniStateMachine.Nodes
 
         }
 
-        #endregion
-
-        public void Release()
+        private void OnDisable()
         {
             Exit();
         }
+
+        #endregion
+
     }
 }
