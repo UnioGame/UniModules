@@ -1,15 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Modules.UniTools.UnityTools.Attributes;
-using UniModule.UnityTools.Interfaces;
-using UniModule.UnityTools.ResourceSystem;
-using UniModule.UnityTools.UniStateMachine.Extensions;
-using UniNodeSystem;
-using UniStateMachine.Nodes;
-using UnityEngine;
-
-namespace UniStateMachine.CommonNodes
+﻿
+namespace UniStateMachine.SubGraph
 {
+    using System.Collections;
+    using System.Collections.Generic;
+    using Modules.UniTools.UnityTools.Attributes;
+    using UniModule.UnityTools.Interfaces;
+    using UniModule.UnityTools.ResourceSystem;
+    using UniModule.UnityTools.UniStateMachine.Extensions;
+    using UniNodeSystem;
+    using UniStateMachine.Nodes;
+    using UnityEngine;
+    using UniStateMachine.CommonNodes;
+
     public class GraphNode : UniNode
     {
         private UniGraph _nodeGraph;

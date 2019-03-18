@@ -31,8 +31,16 @@ namespace UniNodeSystemEditor {
             return false;
         }
 
-        public static bool GetAttrib<T>(Type classType, string fieldName, out T attribOut) where T : Attribute {
-            object[] attribs = classType.GetField(fieldName).GetCustomAttributes(typeof(T), false);
+        public static bool GetAttrib<T>(Type classType, string fieldName, out T attribOut) where T : Attribute
+        {
+            var field = classType.GetField(fieldName);
+            if (field == null)
+            {
+                attribOut = null;
+                return false;
+            }
+            
+            var attribs = field.GetCustomAttributes(typeof(T), false);
             return GetAttrib(attribs, out attribOut);
         }
 

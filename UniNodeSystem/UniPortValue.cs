@@ -30,9 +30,9 @@ namespace UniStateMachine.Nodes
         
         #region observable
 
-        public IObservable<TypeValueUnit> UpdateValueObservable => _valueObservable.UpdateValueObservable;
+        public IObservable<TypeDataChanged> UpdateValueObservable => _valueObservable.UpdateValueObservable;
 
-        public IObservable<TypeValueUnit> DataRemoveObservable => _valueObservable.DataRemoveObservable;
+        public IObservable<TypeDataChanged> DataRemoveObservable => _valueObservable.DataRemoveObservable;
 
         public IObservable<ITypeData> EmptyDataObservable => _valueObservable.EmptyDataObservable;
         
@@ -48,12 +48,13 @@ namespace UniStateMachine.Nodes
             if (_initialized)
                 return;
 
-            _valueObservable = new TypeValueObservable<UniPortValue>(this);
             _typeData = new TypeData();
             _broadcastContext = new BroadcastTypeData();
             
+            _valueObservable = new TypeValueObservable<UniPortValue>();
+            _valueObservable.Initialize(this);
             //register observable as broadcast target
-            _broadcastContext.Add(_valueObservable);
+            _broadcastContext.Connect(_valueObservable);
             
             //mark as initialized
             _initialized = true;

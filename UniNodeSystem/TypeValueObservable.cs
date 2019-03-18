@@ -1,4 +1,6 @@
-﻿namespace UniStateMachine.Nodes
+﻿using UniModule.UnityTools.ObjectPool.Scripts;
+
+namespace UniStateMachine.Nodes
 {
     using System;
     using UniModule.UnityTools.Common;
@@ -7,7 +9,9 @@
 
     public class TypeValueObservable<TTarget> : 
         IContextWriter, 
-        ITypeValueObservable
+        ITypeValueObservable,
+        IPoolable,
+        IDisposable
     
         where TTarget : class,
         ITypeData, 
@@ -15,36 +19,33 @@
     {
         private TTarget _target;
         
-        private readonly ReactiveProperty<TypeValueUnit> _dataUpdate;
-        private readonly ReactiveProperty<TypeValueUnit> _dataRemove;
-        private readonly Subject<ITypeData> _emptyDataObservable;
+        private ReactiveProperty<TypeDataChanged> _dataUpdate;
+        private ReactiveProperty<TypeDataChanged> _dataRemove;
+        private Subject<ITypeData> _emptyDataObservable;
 
-        public TypeValueObservable(TTarget target)
+        public void Initialize(TTarget target)
         {
+            
+            Release();
             _target = target;
-            _target.Connect(this);
-            
-            _dataUpdate = new ReactiveProperty<TypeValueUnit>();
-            _dataRemove = new ReactiveProperty<TypeValueUnit>();
-            _emptyDataObservable = new Subject<ITypeData>();
-            
+ 
         }
 
-#region public properties
+        #region public properties
   
-        public IObservable<TypeValueUnit> UpdateValueObservable => _dataUpdate;
+        public IObservable<TypeDataChanged> UpdateValueObservable => _dataUpdate;
 
-        public IObservable<TypeValueUnit> DataRemoveObservable => _dataRemove;
+        public IObservable<TypeDataChanged> DataRemoveObservable => _dataRemove;
 
         public IObservable<ITypeData> EmptyDataObservable => _emptyDataObservable;
 
-#endregion
+        #endregion
         
         #region icontext wirter
         
         public bool Remove<TData>()
         {
-            _dataRemove.Value = new TypeValueUnit()
+            _dataRemove.Value = new TypeDataChanged()
             {
                 Container = _target,
                 ValueType = typeof(TData),
@@ -60,7 +61,7 @@
 
         public void Add<TData>(TData data)
         {
-            _dataUpdate.Value = (new TypeValueUnit()
+            _dataUpdate.Value = (new TypeDataChanged()
             {
                 Container = _target,
                 ValueType = typeof(TData),
@@ -73,5 +74,24 @@
         }
         
         #endregion
+
+        public void Release()
+        {
+            _dataUpdate?.Dispose(); 
+            _dataRemove?.Dispose();
+            _emptyDataObservable?.Dispose();
+
+            _target = null;
+            
+            _dataUpdate = new ReactiveProperty<TypeDataChanged>();
+            _dataRemove = new ReactiveProperty<TypeDataChanged>();
+            _emptyDataObservable = new Subject<ITypeData>();
+        }
+
+        public void Dispose()
+        {
+            Release();
+            this.Despawn();
+        }
     }
 }

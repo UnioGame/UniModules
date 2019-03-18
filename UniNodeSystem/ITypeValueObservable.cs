@@ -5,8 +5,8 @@ namespace UniStateMachine.Nodes
 {
     public interface ITypeValueObservable
     {
-        IObservable<TypeValueUnit> UpdateValueObservable { get; }
-        IObservable<TypeValueUnit> DataRemoveObservable { get; }
+        IObservable<TypeDataChanged> UpdateValueObservable { get; }
+        IObservable<TypeDataChanged> DataRemoveObservable { get; }
         IObservable<ITypeData> EmptyDataObservable { get; }
     }
 }
