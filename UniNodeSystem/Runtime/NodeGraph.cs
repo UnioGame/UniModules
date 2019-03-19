@@ -8,6 +8,12 @@ namespace UniNodeSystem {
     [Serializable]
     public abstract class NodeGraph : MonoBehaviour, IDisposable
     {
+        #region static data
+
+        public static List<NodeGraph> ActiveGraphs { get; } = new List<NodeGraph>();
+
+        #endregion
+        
         [HideInInspector]
         [SerializeField]
         private ulong _uniqueId;
@@ -30,6 +36,7 @@ namespace UniNodeSystem {
         public virtual UniBaseNode AddNode(Type type)
         {
             var childNode = new GameObject();
+            childNode.name = nameof(type);
             childNode.transform.parent = transform;
             
             var node = childNode.AddComponent(type) as UniBaseNode;

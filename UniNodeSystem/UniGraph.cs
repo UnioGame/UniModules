@@ -21,12 +21,7 @@ namespace UniStateMachine.Nodes
 {
     public class UniGraph : NodeGraph, IContextState<IEnumerator>
     {
-        #region static data
-
-        public static List<UniGraph> ActiveGraphs = new List<UniGraph>();
-
-        #endregion
-        
+       
         #region private properties
 
         [NonSerialized] private bool _isInitialized = false;

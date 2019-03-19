@@ -1,3 +1,5 @@
+using System;
+using UniStateMachine.SubGraph;
 
 namespace UniNodeSystemEditor
 {
@@ -13,17 +15,18 @@ namespace UniNodeSystemEditor
     using UnityEngine.Profiling;
     using UniTools.UniNodeSystem;
 
-    
+
     [InitializeOnLoad]
     public partial class NodeEditorWindow : EditorWindow
     {
         public const string ActiveGraphPath = "ActiveGraphPath";
-        
+
         public static List<UniGraphAsset> NodeGraphs = new List<UniGraphAsset>();
         public static List<EditorResource> GraphsHistory = new List<EditorResource>();
         public static NodeEditorWindow current;
         public static EditorResource ActiveGraphResource;
         public static NodeGraph ActiveGraph;
+        public static NodeGraph LastEditorGraph;
         
         private Dictionary<ulong, NodePort> _portsIds = new Dictionary<ulong, NodePort>();
         private Dictionary<NodePort, Rect> _portConnectionPoints = new Dictionary<NodePort, Rect>();
@@ -41,46 +44,6 @@ namespace UniNodeSystemEditor
         public NodeGraph graph;
         public EditorResource graphResource;
         public string currentAssetPath;
-        
-        private void OnDisable()
-        {
-            // Cache portConnectionPoints before serialization starts
-            var count = portConnectionPoints.Count;
-            _references = new NodePortReference[count];
-            _rects = new Rect[count];
-            var index = 0;
-            foreach (var portConnectionPoint in portConnectionPoints)
-            {
-                _references[index] = new NodePortReference(portConnectionPoint.Key);
-                _rects[index] = portConnectionPoint.Value;
-                index++;
-            }
-        }
-
-        private void OnEnable()
-        {
-            if(GraphsHistory == null)
-                GraphsHistory = new List<EditorResource>();
-            if(NodeGraphs == null)
-                NodeGraphs = new List<UniGraphAsset>();
-            
-            // Reload portConnectionPoints if there are any
-            var length = _references.Length;
-            if (length == _rects.Length)
-            {
-                for (var i = 0; i < length; i++)
-                {
-                    var nodePort = _references[i].GetNodePort();
-                    if (nodePort != null)
-                    {
-                        _portsIds[nodePort.Id] = nodePort;
-                        _portConnectionPoints.Add(nodePort, _rects[i]);
-                    }
-                }
-            }
-
-            graphEditor?.OnEnable();
-        }
 
         public Dictionary<UniBaseNode, Vector2> nodeSizes
         {
@@ -111,21 +74,60 @@ namespace UniNodeSystemEditor
 
         private float _zoom = 1;
 
-        void OnFocus()
+        #region public static methods
+        
+        [OnOpenAsset(0)]
+        public static bool OnOpen(int instanceID, int line)
         {
-            current = this;
-            graphEditor = NodeGraphEditor.GetEditor(graph);
-            var settings = NodeEditorPreferences.GetSettings();
+            var nodeGraph = EditorUtility.InstanceIDToObject(instanceID) as NodeGraph;
+            return nodeGraph != null && Open(nodeGraph);
+        }
 
-            if (GraphsHistory.Count == 0)
+        public static bool Open(NodeGraph nodeGraph)
+        {
+            if (current != null)
             {
-                GraphsHistory.Add(graphResource);
+                current.Save();
             }
-            
-            if (graphEditor != null && settings.autoSave)
+
+            if (GraphsHistory == null)
+                GraphsHistory = new List<EditorResource>();
+
+            var w = GetWindow(typeof(NodeEditorWindow), false, "UniNodes", true) as NodeEditorWindow;
+
+            var nodeEditor = w;
+            nodeEditor?.portConnectionPoints.Clear();
+
+            if (!nodeGraph) return false;
+
+            var targetResource = GetGraphResource(nodeGraph);
+            var targetGraph = Application.isPlaying ? nodeGraph : GetGraphItem(targetResource.AssetPath);
+
+            ActiveGraph = targetGraph;
+            ActiveGraphResource = targetResource;
+
+            EditorPrefs.SetString(ActiveGraphPath, targetResource.AssetPath);
+
+            w.currentAssetPath = targetResource.AssetPath;
+            w.wantsMouseMove = true;
+            w.graph = targetGraph;
+            w.graphResource = targetResource;
+
+            return true;
+        }
+
+        public static void UpdateEditorNodeGraphs()
+        {
+            NodeGraphs = AssetEditorTools.GetAssets<UniGraphAsset>();
+        }
+
+        /// <summary> Repaint all open NodeEditorWindows. </summary>
+        public static void RepaintAll()
+        {
+            var windows = Resources.FindObjectsOfTypeAll<NodeEditorWindow>();
+            for (var i = 0; i < windows.Length; i++)
             {
-                return;
-                AssetDatabase.SaveAssets();
+                windows[i].Repaint();
             }
         }
 
@@ -138,10 +140,12 @@ namespace UniNodeSystemEditor
             w.Show();
             return w;
         }
+        
+        #endregion
 
         public void Save()
         {
-            Save(graph,graphResource);
+            Save(graph, graphResource);
         }
 
         public void OnInspectorUpdate()
@@ -160,11 +164,6 @@ namespace UniNodeSystemEditor
             AssetDatabase.CreateAsset(graph, path);
             EditorUtility.SetDirty(graph);
             if (NodeEditorPreferences.GetSettings().autoSave) AssetDatabase.SaveAssets();
-        }
-
-        private void DraggableWindow(int windowID)
-        {
-            GUI.DragWindow();
         }
 
         public Vector2 WindowToGridPosition(Vector2 windowPosition)
@@ -216,90 +215,115 @@ namespace UniNodeSystemEditor
             Selection.objects = selection.ToArray();
         }
 
-        [OnOpenAsset(0)]
-        public static bool OnOpen(int instanceID, int line)
-        {
-            var nodeGraph = EditorUtility.InstanceIDToObject(instanceID) as NodeGraph;
-            return nodeGraph != null && Open(nodeGraph);
-        }
-
-        public static bool Open(NodeGraph nodeGraph)
-        {
-            if (current != null)
-            {
-                current.Save();
-            }
-
-            if(GraphsHistory == null)
-                GraphsHistory = new List<EditorResource>();
-
-            var w = GetWindow(typeof(NodeEditorWindow), false, "UniNodes", true) as NodeEditorWindow;
-
-            var nodeEditor = w;
-            nodeEditor?.portConnectionPoints.Clear();
-           
-            if (!nodeGraph) return false;
-
-            var targetResource = GetGraphResource(nodeGraph);
-            var targetGraph = Application.isPlaying ? 
-                nodeGraph : 
-                GetGraphItem(targetResource.AssetPath);
-
-            ActiveGraph = targetGraph;
-            ActiveGraphResource = targetResource;
-            
-            EditorPrefs.SetString(ActiveGraphPath,targetResource.AssetPath);
-            
-            w.currentAssetPath = targetResource.AssetPath;
-            w.wantsMouseMove = true;
-            w.graph = targetGraph;
-            w.graphResource = targetResource;
-            
-            return true;
-        }
-
-        public static void UpdateEditorNodeGraphs()
-        {
-            NodeGraphs = AssetEditorTools.GetAssets<UniGraphAsset>();
-        }
-
-        /// <summary> Repaint all open NodeEditorWindows. </summary>
-        public static void RepaintAll()
-        {
-            var windows = Resources.FindObjectsOfTypeAll<NodeEditorWindow>();
-            for (var i = 0; i < windows.Length; i++)
-            {
-                windows[i].Repaint();
-            }
-        }
-
         private static NodeGraph GetGraphItem(string assetPath)
         {
-
             //var loadedGraphObject = AssetDatabase.LoadAssetAtPath<GameObject>(assetPath);
             var loadedGraphObject = PrefabUtility.LoadPrefabContents(assetPath);
             var targetGraph = loadedGraphObject.GetComponent<NodeGraph>();
             return targetGraph;
-            
         }
 
         private static EditorResource GetGraphResource(NodeGraph targetGraph)
         {
-                        
             var resourceItem = new EditorResource();
             resourceItem.Update(targetGraph.gameObject);
 
             return UpdateGraphResource(resourceItem);
-            
         }
 
         private static EditorResource UpdateGraphResource(EditorResource resource)
-        {;
-            GraphsHistory.RemoveAll(x => x == null ||  x.AssetPath == resource.AssetPath);
-            
+        {
+            GraphsHistory.RemoveAll(x => x == null || x.AssetPath == resource.AssetPath);
+
             GraphsHistory.Add(resource);
-            
+
             return resource;
+        }
+        
+        private void DraggableWindow(int windowID)
+        {
+            GUI.DragWindow();
+        }
+
+        private void OnFocus()
+        {
+            current = this;
+            graphEditor = NodeGraphEditor.GetEditor(graph);
+            var settings = NodeEditorPreferences.GetSettings();
+
+            if (GraphsHistory.Count == 0)
+            {
+                GraphsHistory.Add(graphResource);
+            }
+
+            if (graphEditor != null && settings.autoSave)
+            {
+                return;
+                AssetDatabase.SaveAssets();
+            }
+        }
+
+        private void OnDisable()
+        {
+            EditorApplication.playModeStateChanged -= OnPlayModeChanged;
+            // Cache portConnectionPoints before serialization starts
+            var count = portConnectionPoints.Count;
+            _references = new NodePortReference[count];
+            _rects = new Rect[count];
+            var index = 0;
+            foreach (var portConnectionPoint in portConnectionPoints)
+            {
+                _references[index] = new NodePortReference(portConnectionPoint.Key);
+                _rects[index] = portConnectionPoint.Value;
+                index++;
+            }
+        }
+
+        private void OnEnable()
+        {
+            EditorApplication.playModeStateChanged += OnPlayModeChanged;
+            
+            if (GraphsHistory == null)
+                GraphsHistory = new List<EditorResource>();
+            if (NodeGraphs == null)
+                NodeGraphs = new List<UniGraphAsset>();
+
+            // Reload portConnectionPoints if there are any
+            var length = _references.Length;
+            if (length == _rects.Length)
+            {
+                for (var i = 0; i < length; i++)
+                {
+                    var nodePort = _references[i].GetNodePort();
+                    if (nodePort != null)
+                    {
+                        _portsIds[nodePort.Id] = nodePort;
+                        _portConnectionPoints.Add(nodePort, _rects[i]);
+                    }
+                }
+            }
+
+            graphEditor?.OnEnable();
+        }
+
+        private void OnPlayModeChanged(PlayModeStateChange modeStateChange)
+        {
+            switch (modeStateChange)
+            {
+                case PlayModeStateChange.EnteredEditMode:
+                    if (LastEditorGraph)
+                    {
+                        Open(LastEditorGraph);
+                    }
+                    LastEditorGraph = null;
+                    break;
+                case PlayModeStateChange.ExitingPlayMode:
+                    LastEditorGraph = graph;
+                    graph = null;
+                    var activeGraph = NodeGraph.ActiveGraphs.FirstOrDefault();
+                    Open(activeGraph);
+                    break;
+            }
         }
     }
 }

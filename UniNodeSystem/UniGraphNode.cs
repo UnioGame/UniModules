@@ -51,6 +51,8 @@ namespace UniStateMachine
 
         #endregion
         
+        #region public properties
+        
         public UniPortValue Input => GetPortValue(InputPortName);
 
         public UniPortValue Output => GetPortValue(OutputPortName);
@@ -62,6 +64,8 @@ namespace UniStateMachine
         public bool IsActive => _isInitialized && _state.IsActive;
 
         public ILifeTime LifeTime => _isInitialized ? _state.LifeTime : null;
+        
+        #endregion
         
         #region public methods
         

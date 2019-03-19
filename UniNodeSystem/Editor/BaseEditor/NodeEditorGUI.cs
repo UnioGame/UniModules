@@ -5,6 +5,7 @@ using System.Reflection;
 using Modules.UniTools.UniResourceSystem;
 using UniEditorTools;
 using UniNodeSystem;
+using UniStateMachine.Nodes;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -18,6 +19,7 @@ namespace UniNodeSystemEditor
         private List<Object> selectionCache;
         private List<UniBaseNode> culledNodes;
 
+        
         private int topPadding
         {
             get { return isDocked() ? 19 : 22; }
@@ -27,7 +29,14 @@ namespace UniNodeSystemEditor
         {
             var e = Event.current;
             var m = GUI.matrix;
-            if (graph == null) return;
+            if (graph == null)
+            {
+                if (NodeGraph.ActiveGraphs.Count > 0)
+                {
+                    Open(NodeGraph.ActiveGraphs.FirstOrDefault());
+                }
+                return;
+            }
 
             graphEditor = NodeGraphEditor.GetEditor(graph);
             graphEditor.position = position;
@@ -37,7 +46,7 @@ namespace UniNodeSystemEditor
             DrawGrid(position, zoom, panOffset);
             DrawConnections();
             DrawDraggedConnection();
-            DrawNodes();
+            DrawZoomedNodes();
             DrawSelectionBox();
             DrawTooltip();
             DrawGraphsButtons();
@@ -345,8 +354,37 @@ namespace UniNodeSystemEditor
             DrawTopButtons();
 
             DrawGraphsHistory();
+
+            DrawActiveGraphs();
         }
 
+        private Vector2 _activeGraphsScroll;
+        private void DrawActiveGraphs()
+        {
+            EditorDrawerUtils.DrawHorizontalLayout(() =>
+            {
+                _activeGraphsScroll = EditorDrawerUtils.DrawScroll(_activeGraphsScroll, () =>
+                {
+                    EditorGUILayout.BeginHorizontal();
+                    
+                    var activeGraphs = NodeGraph.ActiveGraphs;
+                    for (var i = 0; i < activeGraphs.Count; i++)
+                    {
+                        var graph = activeGraphs[i];
+                        if(!graph)continue;
+
+                        EditorDrawerUtils.DrawButton(graph.name, () =>
+                        {
+                            Open(graph);
+                        },GUILayout.Height(30),GUILayout.MaxWidth(200));
+                    }
+                    
+                    EditorGUILayout.EndHorizontal();
+                },GUILayout.ExpandWidth(true));
+
+            },GUILayout.Height(50),GUILayout.ExpandWidth(true));
+        }
+        
         private void DrawTopButtons()
         {
             EditorDrawerUtils.DrawVertialLayout(() =>
@@ -470,7 +508,7 @@ namespace UniNodeSystemEditor
                         Save(graph, graphResource);
                         var targetGraph = historyGraph.Load<NodeGraph>();
                         Open(targetGraph);
-                    }, GUILayout.Height(50));
+                    },GUILayout.Width(100), GUILayout.Height(30));
                 }
 
                 for (var i = 0; i < _removedIndexes.Count; i++)
@@ -485,7 +523,86 @@ namespace UniNodeSystemEditor
             });
         }
 
-        private void DrawNodes()
+        private List<UniBaseNode> _regularNodes = new List<UniBaseNode>();
+        private List<UniBaseNode> _selectedNodes = new List<UniBaseNode>();
+        
+        private void DrawNodes(Event activeEvent)
+        {
+            var mousePos = Event.current.mousePosition;
+
+            if (activeEvent.type != EventType.Layout)
+            {
+                hoveredNode = null;
+                hoveredPort = null;
+            }
+
+            var preSelection = preBoxSelection != null
+                ? new List<Object>(preBoxSelection)
+                : new List<Object>();
+
+            // Selection box stuff
+            var boxStartPos = GridToWindowPositionNoClipped(dragBoxStart);
+
+            var boxSize = mousePos - boxStartPos;
+            if (boxSize.x < 0)
+            {
+                boxStartPos.x += boxSize.x;
+                boxSize.x = Mathf.Abs(boxSize.x);
+            }
+
+            if (boxSize.y < 0)
+            {
+                boxStartPos.y += boxSize.y;
+                boxSize.y = Mathf.Abs(boxSize.y);
+            }
+
+            var selectionBox = new Rect(boxStartPos, boxSize);
+
+            if (activeEvent.type == EventType.Layout)
+                culledNodes = new List<UniBaseNode>();
+
+            var nodes = graph.nodes;
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                var node = nodes[i];
+                if (Selection.Contains(node))
+                {
+                    _selectedNodes.Add(node);
+                    continue;
+                }
+                _regularNodes.Add(node);
+            }
+            
+            EditorDrawerUtils.DrawAndRevertColor(() =>
+            {
+                DrawNodes(_regularNodes, activeEvent, mousePos, preSelection);
+                DrawNodes(_selectedNodes, activeEvent, mousePos, preSelection);
+            });
+
+            _regularNodes.Clear();
+            _selectedNodes.Clear();
+
+            if (activeEvent.type != EventType.Layout && currentActivity == NodeActivity.DragGrid)
+                Selection.objects = preSelection.ToArray();
+        }
+
+        private void DrawNodes(List<UniBaseNode> nodes,Event activeEvent,Vector3 mousePos, List<Object> preSelection)
+        {
+            for (var n = 0; n < nodes.Count; n++)
+            {
+                // Skip null nodes. The user could be in the process of renaming scripts, so removing them at this point is not advisable.
+                if (nodes[n] == null) continue;
+                if (n >= nodes.Count) return;
+                var node = nodes[n];
+
+                EditorDrawerUtils.DrawAndRevertColor(() =>
+                {
+                    DrawNode(node, activeEvent, mousePos, preSelection);
+                });
+            }
+        }
+
+        private void DrawZoomedNodes()
         {
             var e = Event.current;
             if (e.type == EventType.Layout)
@@ -502,57 +619,7 @@ namespace UniNodeSystemEditor
                 if (onValidate != null) nodeHash = Selection.activeObject.GetHashCode();
             }
 
-            EditorDrawerUtils.DrawZoom(() =>
-            {
-                var mousePos = Event.current.mousePosition;
-
-                if (e.type != EventType.Layout)
-                {
-                    hoveredNode = null;
-                    hoveredPort = null;
-                }
-
-                var preSelection = preBoxSelection != null
-                    ? new List<Object>(preBoxSelection)
-                    : new List<Object>();
-
-                // Selection box stuff
-                var boxStartPos = GridToWindowPositionNoClipped(dragBoxStart);
-
-                var boxSize = mousePos - boxStartPos;
-                if (boxSize.x < 0)
-                {
-                    boxStartPos.x += boxSize.x;
-                    boxSize.x = Mathf.Abs(boxSize.x);
-                }
-
-                if (boxSize.y < 0)
-                {
-                    boxStartPos.y += boxSize.y;
-                    boxSize.y = Mathf.Abs(boxSize.y);
-                }
-
-                var selectionBox = new Rect(boxStartPos, boxSize);
-
-                if (e.type == EventType.Layout)
-                    culledNodes = new List<UniBaseNode>();
-
-                EditorDrawerUtils.DrawAndRevertColor(() =>
-                {
-                    for (var n = 0; n < graph.nodes.Count; n++)
-                    {
-                        // Skip null nodes. The user could be in the process of renaming scripts, so removing them at this point is not advisable.
-                        if (graph.nodes[n] == null) continue;
-                        if (n >= graph.nodes.Count) return;
-                        var node = graph.nodes[n];
-
-                        EditorDrawerUtils.DrawAndRevertColor(() => { DrawNode(node, e, mousePos, preSelection); });
-                    }
-                });
-
-                if (e.type != EventType.Layout && currentActivity == NodeActivity.DragGrid)
-                    Selection.objects = preSelection.ToArray();
-            }, position, zoom, topPadding);
+            EditorDrawerUtils.DrawZoom(() => DrawNodes(e), position, zoom, topPadding);
 
             //If a change in hash is detected in the selected node, call OnValidate method. 
             //This is done through reflection because OnValidate is only relevant in editor, 
