@@ -19,6 +19,8 @@ namespace UniNodeSystemEditor
         private List<Object> selectionCache;
         private List<UniBaseNode> culledNodes;
 
+        private List<UniBaseNode> _regularNodes = new List<UniBaseNode>();
+        private List<UniBaseNode> _selectedNodes = new List<UniBaseNode>();
         
         private int topPadding
         {
@@ -523,9 +525,6 @@ namespace UniNodeSystemEditor
             });
         }
 
-        private List<UniBaseNode> _regularNodes = new List<UniBaseNode>();
-        private List<UniBaseNode> _selectedNodes = new List<UniBaseNode>();
-        
         private void DrawNodes(Event activeEvent)
         {
             var mousePos = Event.current.mousePosition;
@@ -542,7 +541,7 @@ namespace UniNodeSystemEditor
 
             // Selection box stuff
             var boxStartPos = GridToWindowPositionNoClipped(dragBoxStart);
-
+    
             var boxSize = mousePos - boxStartPos;
             if (boxSize.x < 0)
             {

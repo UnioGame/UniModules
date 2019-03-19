@@ -11,6 +11,8 @@ namespace Tests.GraphTest
 {
 	public class LogNode : UniNode
 	{
+		private const string LogMessageName = "log message";
+		
 		private UniPortValue _messageValue;
 		
 		#region inspector
@@ -30,17 +32,17 @@ namespace Tests.GraphTest
 			
 			Debug.LogFormat("LOG: {0} at {1}",message,Time.realtimeSinceStartup);
 			
+			_messageValue.Add(message);
+			
 			yield return base.ExecuteState(context);
 			
-			
-			
 		}
-
+		
 		protected override void OnUpdatePortsCache()
 		{
 			
 			base.OnUpdatePortsCache();
-			var portValue = this.UpdatePortValue(nameof(message), PortIO.Output);
+			var portValue = this.UpdatePortValue(LogMessageName, PortIO.Output);
 			_messageValue = portValue.value;
 			
 		}
