@@ -23,8 +23,12 @@ namespace UniNodeSystemEditor
         {
             if (lastEditor != NodeEditorWindow.current.graphEditor)
             {
-                var attribs = NodeEditorWindow.current.graphEditor.GetType()
+                var currentEditor = NodeEditorWindow.current;
+                var graphEditor = currentEditor.graphEditor;
+                
+                var attribs = graphEditor.GetType()
                     .GetCustomAttributes(typeof(NodeGraphEditor.CustomNodeGraphEditorAttribute), true);
+                
                 if (attribs.Length == 1)
                 {
                     var attrib =
