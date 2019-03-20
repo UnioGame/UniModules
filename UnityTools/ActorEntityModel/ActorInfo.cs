@@ -18,7 +18,7 @@ namespace UniModule.UnityTools.ActorEntityModel
         protected string _name;
 
 	    [SerializeField]
-	    protected UniNodesGraph _statesGraph;
+	    protected UniGraph _statesGraph;
 
 	    /// <summary>
 	    /// behaviour SO

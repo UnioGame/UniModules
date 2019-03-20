@@ -6,13 +6,6 @@ using UnityEngine;
 
 namespace UniModule.UnityTools.UniRoutine
 {
-	public enum RoutineType : byte
-	{
-		UpdateStep = 0,
-		EndOfFrame = 1,
-		FixedUpdate,
-	}
-	
 	public static class UniRoutineController
 	{
 		
@@ -27,7 +20,7 @@ namespace UniModule.UnityTools.UniRoutine
 			
 		};
 
-		public static IDisposableItem AddWithSubRoutines(IEnumerator enumerator, 
+		public static IDisposableItem RunWithSubRoutines(IEnumerator enumerator, 
 			RoutineType routineType = RoutineType.UpdateStep)
 		{
 			

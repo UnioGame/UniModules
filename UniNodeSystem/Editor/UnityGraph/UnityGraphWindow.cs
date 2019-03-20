@@ -12,15 +12,14 @@ namespace Modules.UniTools.UniNodeSystem.Editor.UnityGraph
         private UniGraphEditor _graphEditor;
         private GraphGUI _graphGuiEditor;
         
-        public static void Show(UniNodesGraph graph)
+        public static void Show(UniGraph graph)
         {
-            var window = EditorWindow.GetWindow<UnityGraphWindow>("UniGraph");
+            var window = GetWindow<UnityGraphWindow>(graph.name);
             window.Initialize(graph);
             window.Show();
         }
 
-
-        public void Initialize(UniNodesGraph graph)
+        public void Initialize(UniGraph graph)
         {
             _graphEditor = UniGraphEditor.Create(graph);
             _graphGuiEditor = _graphEditor.GetEditor();
@@ -30,6 +29,9 @@ namespace Modules.UniTools.UniNodeSystem.Editor.UnityGraph
 
         private void OnGUI()
         {
+            if (_graphGuiEditor == null)
+                return;
+            
             var width = position.width;
             var height = position.height;
             // Main graph area

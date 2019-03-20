@@ -1,66 +1,81 @@
-﻿using System;
-using System.Collections.Generic;
-using UniModule.UnityTools.Interfaces;
-using UniModule.UnityTools.ObjectPool.Scripts;
-using UniRx;
-
-namespace UniModule.UnityTools.Common
+﻿namespace UniModule.UnityTools.Common
 {
-    public class TypeData : ITypeDataContainer
+    using System;
+    using System.Collections.Generic;
+    using Interfaces;
+    using ObjectPool.Scripts;
+    using UniRx;
+    
+    public class TypeData : ITypeData
     {
         /// <summary>
         /// registered components
         /// </summary>
-        private Dictionary<Type, IWritableValue> _contextValues = new Dictionary<Type, IWritableValue>();
-        private List<IWritableValue> _writables = new List<IWritableValue>();
-        private ITypeDataContainer _typeDataContainerImplementation;
+        private Dictionary<Type, IDataValueParameters> _contextValues = new Dictionary<Type, IDataValueParameters>();
 
-        public IList<IWritableValue> WritableItems => _writables;
-
-
-        public virtual TData Get<TData>()
-        {
-            
-            var data = GetData<TData>();
-            return data == null ? default(TData) : data.Value;
-
+        #region writer methods
+        
+        public bool Remove<TData>()
+        {           
+            var type = typeof(TData);
+            return Remove(type);
         }
 
-        public bool Remove<TData>()
+        public void RemoveAll()
         {
-            var type = typeof(TData);
+            Release();
+        }
+
+        public bool Remove(Type type)
+        {
+            if (!_contextValues.TryGetValue(type, out var value)) return false;
             
-            if (_contextValues.TryGetValue(type, out var value))
-            {
-                _writables.Remove(value);
-                
-                var typeValue = (ContextValue<TData>)value;
-                var removed = _contextValues.Remove(type);
+            var typeValue = (IDisposable) value;
+            var removed = _contextValues.Remove(type);
 
-                typeValue.Dispose();
-                return removed;
-            }
+            typeValue.Dispose();
 
-            return false;
+            return removed;
+
         }
 
         public void Add<TData>(TData value)
         {
-
             var data = GetData<TData>(true);
             data.SetValue(value);           
-         
         }
 
-        public bool HasData<TData>()
+        #endregion
+        
+        public bool HasValue()
+        {
+            foreach (var value in _contextValues)
+            {
+                if (value.Value.HasValue())
+                    return true;
+            }
+            return false;
+        }
+        
+        public virtual TData Get<TData>()
+        {
+            var data = GetData<TData>();
+            return data == null ? default(TData) : data.Value;
+        }
+
+        public bool Contains<TData>()
         {
             var type = typeof(TData);
-            return _contextValues.ContainsKey(type);
+            return Contains(type);
         }
 
-        public bool HasData(Type type)
+        public bool Contains(Type type)
         {
-            return _contextValues.ContainsKey(type);
+            if (_contextValues.TryGetValue(type, out var value))
+            {
+                return value.HasValue();
+            }
+            return false;
         }
 
         public IDisposable Subscribe<TData>(IObserver<TData> observer)
@@ -71,22 +86,18 @@ namespace UniModule.UnityTools.Common
         
         public void Release()
         {
-
             foreach (var contextValue in _contextValues)
             {
-                var disposable = contextValue.Value as IDisposable;
-                disposable?.Dispose();
+                if(contextValue.Value is IDisposable disposable)
+                    disposable.Dispose();
             }
             
-            _writables.Clear();
             _contextValues.Clear();
-
         }
 
 
         protected ContextValue<TValue> GetData<TValue>(bool isCreateIfEmpty = false)
         {
-            
             ContextValue<TValue> data = null;
             
             var type = typeof(TValue);
@@ -95,7 +106,6 @@ namespace UniModule.UnityTools.Common
             {
                 data = ClassPool.Spawn<ContextValue<TValue>>();
                 _contextValues[type] = data;
-                _writables.Add(data);
             }
             else
             {
@@ -105,6 +115,6 @@ namespace UniModule.UnityTools.Common
             return data;
 
         }
-        
+
     }
 }

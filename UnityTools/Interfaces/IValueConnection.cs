@@ -1,5 +1,5 @@
 ﻿using UniModule.UnityTools.ObjectPool.Scripts;
-using XNode;
+using UniNodeSystem;
 
 namespace UniModule.UnityTools.Interfaces
 {

@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using UniModule.UnityTools.Common;
-using UniModule.UnityTools.Interfaces;
-using UniModule.UnityTools.ObjectPool.Scripts;
 using UniModule.UnityTools.UniVisualNodeSystem.Connections;
-using UniRx;
-using UnityEngine;
-using XNode;
 
 namespace UniStateMachine.Nodes
 {
     [Serializable]
-    public class UniPortValue : ContextData<IContext>, IBroadcastContextData<IContext>
+    public class UniPortValue : IPortValue
     {
         #region serialized data
         
@@ -24,11 +18,24 @@ namespace UniStateMachine.Nodes
         
         #region private property
 
-        [NonSerialized]
-        private bool _initialized = false;
+        [NonSerialized] private TypeData _typeData;
+        
+        [NonSerialized] private bool _initialized = false;
 
-        private BroadcastContextData<IContext> _broadcastContext;
+        [NonSerialized] private BroadcastTypeData _broadcastContext;
 
+        [NonSerialized] private TypeValueObservable<UniPortValue> _valueObservable;
+
+        #endregion       
+        
+        #region observable
+
+        public IObservable<TypeDataChanged> UpdateValueObservable => _valueObservable.UpdateValueObservable;
+
+        public IObservable<TypeDataChanged> DataRemoveObservable => _valueObservable.DataRemoveObservable;
+
+        public IObservable<ITypeData> EmptyDataObservable => _valueObservable.EmptyDataObservable;
+        
         #endregion
 
         public UniPortValue()
@@ -41,53 +48,79 @@ namespace UniStateMachine.Nodes
             if (_initialized)
                 return;
 
-            _contextsItems = new List<IContext>();
-            _contexts = new Dictionary<IContext, TypeData>();
-            _broadcastContext = new BroadcastContextData<IContext>();
-
+            _typeData = new TypeData();
+            _broadcastContext = new BroadcastTypeData();
+            
+            _valueObservable = new TypeValueObservable<UniPortValue>();
+            _valueObservable.Initialize(this);
+            //register observable as broadcast target
+            _broadcastContext.Connect(_valueObservable);
+            
+            //mark as initialized
+            _initialized = true;
         }
         
-        public void ConnectToPort(NodePort port)
+        public void ConnectToPort(string portName)
         {
-            Name = port.fieldName;
+            Name = portName;
         }
 
-        public override bool Remove<TData>(IContext context)
+        #region type data container
+        
+        public bool Remove<TData>()
         {
-            var result = base.Remove<TData>(context);
+            var result = _typeData.Remove<TData>();
             if (result)
             {
-                _broadcastContext.Remove<TData>(context);
+                _broadcastContext.Remove<TData>();
             }
-
             return result;
         }
 
-        public override bool RemoveContext(IContext context)
+        public void Add<TData>(TData value)
         {
-            var result = base.RemoveContext(context);
-            if (result)
-            {
-                _broadcastContext.RemoveContext(context);
-            }
-
-            return result;
+            _typeData.Add(value);
+            _broadcastContext.Add(value);
         }
 
-        public override void UpdateValue<TData>(IContext context, TData value)
+        public void RemoveAll()
         {
-            base.UpdateValue(context, value);
-            _broadcastContext.UpdateValue(context,value);
+            _typeData.RemoveAll();
+            _broadcastContext.RemoveAll();
+        }
+                       
+        public bool HasValue()
+        {
+            return _typeData.HasValue();
+        }
+        
+        public TData Get<TData>()
+        {
+            return _typeData.Get<TData>();
         }
 
-        public void Add(IContextDataWriter<IContext> contextData)
+        public bool Contains<TData>()
         {
-            _broadcastContext.Add(contextData);
+            return _typeData.Contains<TData>();
+        }
+        
+        #endregion
+        
+      
+        #region connector
+        
+        public IConnector<IContextWriter> Connect(IContextWriter contextData)
+        {
+            _broadcastContext.Connect(contextData);
+            return this;
         }
 
-        public void Remove(IContextDataWriter<IContext> contextData)
+        public void Disconnect(IContextWriter contextData)
         {
-            _broadcastContext.Remove(contextData);
+            _broadcastContext.Disconnect(contextData);
         }
+
+        #endregion
+
     }
 }

@@ -2,8 +2,9 @@
 
 namespace UniModule.UnityTools.Interfaces
 {
-	public interface IDataValue<TData> : IDisposable, IReadonlyDataValue<TData>
+	public interface IDataValue<TData> : IObservableDataValue<TData>
 	{
+		
 		void SetValue(TData value);
 		
 	}

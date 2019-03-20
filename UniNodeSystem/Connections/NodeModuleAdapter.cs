@@ -16,6 +16,7 @@ namespace UnityTools.UniNodeEditor.Connections
         
         [SerializeField]
         private List<PortDefinition> _portDefinitions;
+        
         [NonSerialized]
         private Dictionary<string, Func<IContextData<IContext>, IContext, IDisposable>> _bindActions;
         private Dictionary<string, Action<string,IContextData<IContext>, IContext>> _runtimeActions;

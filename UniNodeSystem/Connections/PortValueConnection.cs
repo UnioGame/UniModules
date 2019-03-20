@@ -1,54 +1,64 @@
-﻿using UniModule.UnityTools.Interfaces;
-using UniModule.UnityTools.ProfilerTools;
-
+﻿
 namespace UniModule.UnityTools.UniVisualNodeSystem.Connections
 {
-    public class PortValueConnection : ContextConnection<IContext>
-    {
+    using System.Collections.Generic;
+    using UniModule.UnityTools.Common;
+    using UniModule.UnityTools.ProfilerTools;
 
-        public PortValueConnection(IContextData<IContext> target) : base(target){}
-        
-        public override void UpdateValue<TData>(IContext context, TData value)
+    public class PortValueConnection : 
+        IContextWriter,
+        IConnector<ITypeData>
+    {
+        protected readonly List<ITypeData> _connections;
+        protected readonly ITypeData _target;
+
+        public PortValueConnection(ITypeData target)
+        {
+            _target = target;
+            _connections = new List<ITypeData>();
+        }
+
+        public virtual void Add<TData>(TData value)
         {
             GameProfiler.BeginSample("Connection_UpdateValue");
             
-            _target.UpdateValue(context,value);
+            _target.Add(value);
             
             GameProfiler.EndSample();
         }
 
-        public override bool RemoveContext(IContext context)
+        public virtual void RemoveAll()
         {
-            
-            for (int i = 0; i < _connections.Count; i++)
+            _target.RemoveAll();
+        }
+        
+        public virtual bool Remove<TData>()
+        {
+
+            for (var i = 0; i < _connections.Count; i++)
             {
                 var connection = _connections[i];
-                if (connection.HasContext(context))
+                if (connection.Contains<TData>())
                 {
+                    var value = connection.Get<TData>();
+                    _target.Add(value);
                     return false;
                 }
             }
             
-            return _target.RemoveContext(context);
-            
+            var result = _target.Remove<TData>();
+            return result;
         }
 
-        public override bool Remove<TData>(IContext context)
+        public IConnector<ITypeData> Connect(ITypeData connection)
         {
-            var result = _target.Remove<TData>(context);
-            
-            for (int i = 0; i < _connections.Count; i++)
-            {
-                var connection = _connections[i];
-                if (connection.HasValue<TData>(context))
-                {
-                    var value = connection.Get<TData>(context);
-                    _target.UpdateValue(context,value);
-                    return false;
-                }
-            }
+            _connections.Add(connection);
+            return this;
+        }
 
-            return result;
+        public void Disconnect(ITypeData connection)
+        {
+            _connections.Remove(connection);
         }
 
     }

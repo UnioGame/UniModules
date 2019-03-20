@@ -2,6 +2,7 @@
 using UniModule.UnityTools.Common;
 using UniModule.UnityTools.DataFlow;
 using UniModule.UnityTools.Interfaces;
+using UniModule.UnityTools.ObjectPool.Scripts;
 using UniModule.UnityTools.ProfilerTools;
 using UniRx;
 
@@ -31,6 +32,11 @@ namespace UniModule.UnityTools.ActorEntityModel
        
         #region public methods
 
+        public bool Contains<TData>()
+        {
+            return _typeData.Contains<TData>();
+        }
+        
         public virtual TData Get<TData>()
         {
             return _typeData.Get<TData>();
@@ -41,6 +47,11 @@ namespace UniModule.UnityTools.ActorEntityModel
             return _typeData.Remove<TData>();
         }
 
+        public void RemoveAll()
+        {
+            _typeData.RemoveAll();
+        }
+        
         public void Add<TData>(TData data)
         {
             _typeData.Add(data);
@@ -51,6 +62,12 @@ namespace UniModule.UnityTools.ActorEntityModel
         {
             _typeData.Release();
             _lifeTimeDefinition.Release();
+        }
+
+        public virtual void Dispose()
+        {
+            Release();
+            this.Despawn();
         }
 
         #region rx 
@@ -68,7 +85,6 @@ namespace UniModule.UnityTools.ActorEntityModel
         }
 
         #endregion
-
 
         #endregion
 

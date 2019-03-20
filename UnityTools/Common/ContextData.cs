@@ -70,7 +70,7 @@ namespace UniModule.UnityTools.Common
         public bool HasValue(TContext context,Type type)
         {
             var container = GetTypeData(context);
-            return container != null && container.HasData(type);
+            return container != null && container.Contains(type);
         }
 
         public void Release()

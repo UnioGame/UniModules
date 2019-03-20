@@ -11,21 +11,28 @@ using UniModule.UnityTools.UniStateMachine.Extensions;
 using UniModule.UnityTools.UniStateMachine.Interfaces;
 using UniStateMachine.Nodes;
 using UnityEngine;
-using XNode;
+using UniNodeSystem;
 
 namespace UniStateMachine
 {
     [Serializable]
-    public abstract class UniGraphNode : Node , IContextState<IEnumerator>
+    public abstract class UniGraphNode : UniBaseNode , IValidator<IContext>, IContextState<IEnumerator>
     {
+        /// <summary>
+        /// output port name
+        /// </summary>
         public const string OutputPortName = "Output";
         
+        /// <summary>
+        /// input port name
+        /// </summary>
+        public const string InputPortName = "Input";
+
         #region private fields
 
-        [NonSerialized]
-        private bool _isInitialized;
+        [NonSerialized] private bool _isInitialized;
         
-        [NonSerialized] protected IContextData<IContext> _context;
+        [NonSerialized] protected IContext _context;
        
         [NonSerialized] private Dictionary<string,UniPortValue> _portValuesMap;
 
@@ -44,18 +51,29 @@ namespace UniStateMachine
 
         #endregion
         
+        #region public properties
+        
+        public UniPortValue Input => GetPortValue(InputPortName);
+
         public UniPortValue Output => GetPortValue(OutputPortName);
         
         public RoutineType RoutineType => _routineType;
 
-        public bool IsAnyActive => _context?.Contexts.Count > 0;
-
         public IReadOnlyList<UniPortValue> PortValues => _portValues;
 
-        public IReadOnlyList<IContext> Contexts => _context?.Contexts;
+        public bool IsActive => _isInitialized && _state.IsActive;
+
+        public ILifeTime LifeTime => _isInitialized ? _state.LifeTime : null;
+        
+        #endregion
         
         #region public methods
-
+        
+        public virtual bool Validate(IContext context)
+        {
+            return true;
+        }
+        
         public void Initialize()
         {
             if (Application.isPlaying && _isInitialized)
@@ -84,8 +102,8 @@ namespace UniStateMachine
             
             foreach (var port in Ports)
             {
-                if(port.IsStatic)
-                    continue;
+                if(port.IsStatic) continue;
+                
                 var value = GetPortValue(port.fieldName);
                 if (value == null)
                 {
@@ -101,25 +119,14 @@ namespace UniStateMachine
             removedPorts.DespawnCollection();
         }
         
-        public bool IsActive(IContext context)
+        public void Exit()
         {
-  
-            return _state.IsActive(context);
-
+            _state?.Exit();
         }
-
-        public ILifeTime GetLifeTime(IContext context)
+        
+        public void Release()
         {
-            return _state.GetLifeTime(context);
-        }
- 
-        public void Exit(IContext context)
-        {
-            _state.Exit(context);
-            foreach (var output in PortValues)
-            {
-                output.RemoveContext(context);
-            }
+            Exit();
         }
         
         public IEnumerator Execute(IContext context)
@@ -131,27 +138,20 @@ namespace UniStateMachine
             
         }
         
-        /// <summary>
-        /// stop ay execution of state
-        /// release all resources
-        /// </summary>
-        public virtual void Dispose()
-        {
-            foreach (var outputValue in PortValues)
-            {
-                outputValue.Release();
-            }
-            _state?.Dispose();
-        }
-
-        protected virtual void OnUpdatePortsCache()
-        {
-            this.UpdatePortValue(OutputPortName, PortIO.Output);
-        }
-        
         public override object GetValue(NodePort port)
         {
             return GetPortValue(port);
+        }
+        
+        public UniPortValue GetPortValue(NodePort port)
+        {
+            return GetPortValue(port.fieldName);
+        }
+
+        public UniPortValue GetPortValue(string portName)
+        {
+            _portValuesMap.TryGetValue(portName, out var value);
+            return value;
         }
 
         public bool AddPortValue(UniPortValue portValue)
@@ -174,56 +174,61 @@ namespace UniStateMachine
             return true;
         }
 
-        public UniPortValue GetPortValue(NodePort port)
-        {
-            return GetPortValue(port.fieldName);
-        }
-
-        public UniPortValue GetPortValue(string portName)
-        {
-            _portValuesMap.TryGetValue(portName, out var value);
-            return value;
-        }
-        
         #endregion
 
+        protected virtual void OnUpdatePortsCache()
+        {
+            this.UpdatePortValue(OutputPortName, PortIO.Output);
+            this.UpdatePortValue(InputPortName, PortIO.Input);
+        }
+        
         #region state behaviour methods
 
-        private void Initialize(IContextData<IContext> stateContext)
+        private void Initialize(IContext stateContext)
         {
             _context = stateContext;
+         
+            LifeTime.AddCleanUpAction(CleanUpAction);
+            
             OnInitialize(stateContext);
         }
 
+        /// <summary>
+        /// base logic realization
+        /// transfer context data to output port value
+        /// </summary>
         protected virtual IEnumerator ExecuteState(IContext context)
         {
-            var output = GetPortValue(OutputPortName);
-            output.UpdateValue(context, context);
+            var output = Output;
+            output.Add(context);
             yield break;
         }
 
         protected virtual void OnExit(IContext context)
         {
-            for (int i = 0; i < _portValues.Count; i++)
-            {
-                var portValue = _portValues[i];
-                portValue.RemoveContext(context);
-            }
-            _context?.RemoveContext(context);
+            CleanUpAction();
         }
 
-        protected virtual void OnInitialize(IContextData<IContext> localContext)
-        {
-            
-        }
+        protected virtual void OnInitialize(IContext context){}
         
         protected virtual void OnPostExecute(IContext context){}
 
-        protected virtual IContextState<IEnumerator> CreateState()
+        protected IContextState<IEnumerator> CreateState()
         {
-            var behaviour = new ProxyStateBehaviour();
+            var behaviour = new ProxyState();
             behaviour.Initialize(ExecuteState, Initialize, OnExit, OnPostExecute);
             return behaviour;
+        }
+
+        private void CleanUpAction()
+        {
+            for (var i = 0; i < PortValues.Count; i++)
+            {
+                var portValue = PortValues[i];
+                portValue.RemoveAll();
+            }
+
+            _context = null;
         }
         
         #endregion

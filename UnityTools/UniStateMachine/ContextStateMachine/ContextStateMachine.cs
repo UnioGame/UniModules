@@ -91,7 +91,7 @@ namespace UniModule.UnityTools.UniStateMachine.ContextStateMachine
         private void StopActiveState()
         {
             _stateExecution?.Dispose();
-            ActiveState?.Exit(Context);
+            ActiveState?.Exit();
             
             ActiveState = null;
             Context = null;

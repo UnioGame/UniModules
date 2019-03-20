@@ -53,7 +53,7 @@ namespace UniModule.UnityTools.ActorEntityModel
         protected void SetBehaviourState(bool activate)
         {
             if (_stateBehaviour == null || 
-                _stateBehaviour.IsActive(_entity) == activate)
+                _stateBehaviour.IsActive == activate)
                 return;
             
             if (activate == false)
@@ -70,7 +70,7 @@ namespace UniModule.UnityTools.ActorEntityModel
 
         private void StopBehaviour()
         {
-            _stateBehaviour?.Exit(_entity);
+            _stateBehaviour?.Exit();
             //release current routine
             _routineDisposable?.Despawn();
             _routineDisposable = null;

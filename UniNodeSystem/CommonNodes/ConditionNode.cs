@@ -4,7 +4,7 @@ using UniModule.UnityTools.Interfaces;
 using UniModule.UnityTools.UniStateMachine.Extensions;
 using UniStateMachine.Nodes;
 using UnityEngine;
-using XNode;
+using UniNodeSystem;
 
 namespace UniStateMachine.CommonNodes
 {
@@ -37,11 +37,11 @@ namespace UniStateMachine.CommonNodes
         {
             if (result)
             {
-                portValue.UpdateValue(context,context);
+                portValue.Add(context);
             }
             else
             {
-                portValue.RemoveContext(context);
+                portValue.RemoveAll();
             }
 
         }

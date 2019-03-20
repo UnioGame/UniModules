@@ -20,11 +20,11 @@ namespace Tests.GraphTest
                 _isMouseDown = UnityEngine.Input.GetMouseButton(0);
                 if (_isMouseDown)
                 {
-                    Output.UpdateValue(context,context);
+                    Output.Add(context);
                 }
                 else
                 {
-                    Output.RemoveContext(context);
+                    Output.Remove<IContext>();
                 }
 
             }

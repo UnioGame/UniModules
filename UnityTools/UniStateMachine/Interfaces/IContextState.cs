@@ -1,15 +1,13 @@
-﻿using System;
-using UniModule.UnityTools.DataFlow;
-using UniModule.UnityTools.Interfaces;
+﻿using UniModule.UnityTools.Interfaces;
+using UniModule.UnityTools.ObjectPool.Scripts;
 
 namespace UniModule.UnityTools.UniStateMachine.Interfaces
 {
     public interface IContextState<out TAwaiter> : 
         IStateBehaviour<IContext, TAwaiter>,
-        IDisposable
+        ILifeTimeContext,
+        IPoolable
     {
-        bool IsActive(IContext context);
-
-        ILifeTime GetLifeTime(IContext context);
+        bool IsActive { get; }
     }
 }

@@ -18,7 +18,7 @@ namespace UniStateMachine.CommonNodes
         
         #endregion
 
-        protected override void OnInitialize(IContextData<IContext> localContext)
+        protected override void OnInitialize(IContext localContext)
         {
             base.OnInitialize(localContext);
 
