@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UniModule.UnityTools.Interfaces;
-using UniModule.UnityTools.ObjectPool.Scripts;
+using UniModule.UnityTools.UniPool.Scripts;
 using UniModule.UnityTools.RecycleRx;
 
 namespace UniModule.UnityTools.Extension

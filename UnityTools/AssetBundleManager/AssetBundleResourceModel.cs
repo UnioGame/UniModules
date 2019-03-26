@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using UniModule.UnityTools.AssetBundleManager.AssetBundleResources;
-using UniModule.UnityTools.ObjectPool.Scripts;
+using UniModule.UnityTools.UniPool.Scripts;
 
 namespace UniModule.UnityTools.AssetBundleManager
 {

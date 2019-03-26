@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UniModule.UnityTools.Common;
-using UniModule.UnityTools.ObjectPool.Scripts;
+using UniModule.UnityTools.UniPool.Scripts;
 
 namespace UniModule.UnityTools.RecycleRx
 {

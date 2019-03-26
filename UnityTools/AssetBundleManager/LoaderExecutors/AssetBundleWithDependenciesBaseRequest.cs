@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UniModule.UnityTools.AssetBundleManager.Interfaces;
-using UniModule.UnityTools.ObjectPool.Scripts;
+using UniModule.UnityTools.UniPool.Scripts;
 
 namespace UniModule.UnityTools.AssetBundleManager.LoaderExecutors {
     public class AssetBundleWithDependenciesBaseRequest : AssetBundleRequest, IAssetBundleAggregateRequest {

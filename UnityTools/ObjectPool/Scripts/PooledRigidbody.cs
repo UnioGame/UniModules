@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace UniModule.UnityTools.ObjectPool.Scripts
+namespace UniModule.UnityTools.UniPool.Scripts
 {
 	// This component will automatically reset a Rigidbody when it gets spawned/despawned
 	[RequireComponent(typeof(Rigidbody))]

@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using UniModule.UnityTools.AssetBundleManager.AssetBundleResources;
-using UniModule.UnityTools.ObjectPool.Scripts;
+using UniModule.UnityTools.UniPool.Scripts;
 using UnityEngine;
 
 namespace UniModule.UnityTools.AssetBundleManager.LoaderExecutors

@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using Interfaces;
-    using ObjectPool.Scripts;
+    using UniPool.Scripts;
     using UniRx;
     
     public class TypeData : ITypeData

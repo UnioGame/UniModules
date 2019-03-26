@@ -1,4 +1,4 @@
-﻿namespace UniModule.UnityTools.ObjectPool.Scripts
+﻿namespace UniModule.UnityTools.UniPool.Scripts
 {
     public interface IPoolable
     {

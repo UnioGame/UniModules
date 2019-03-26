@@ -10,38 +10,16 @@ namespace UniModule.UnityTools.ActorEntityModel
 {
     [Serializable]
 	public abstract class ActorInfo : 
-		ScriptableObject, IFactory<ActorModel>
+		ScriptableObject, IFactory<IActorModel>
 	{
-        #region inspector
 
-        [SerializeField]
-        protected string _name;
-
-	    [SerializeField]
-	    protected UniGraph _statesGraph;
-
-	    /// <summary>
-	    /// behaviour SO
-	    /// </summary>
-	    [SerializeField]
-	    protected UniNode _stateObject;
-
-        #endregion
-
-        public string InfoName => _name;
-
-        public IContextState<IEnumerator> Behaviour => _statesGraph ? _statesGraph : 
-	        (IContextState<IEnumerator>)_stateObject;
-
-
-        public ActorModel Create()
+		public IActorModel Create()
         {
-	        var model = CreateModel();
-	        model.Behaviour = Behaviour;
+	        var model = CreateDataSource();
 	        return model;
         }
 
-        protected abstract ActorModel CreateModel();
+        protected abstract IActorModel CreateDataSource();
 
 	}
 }

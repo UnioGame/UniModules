@@ -371,7 +371,7 @@ namespace UniModule.UnityTools.AssetBundleManager.AssetBundleResources
                 var go = component != null ? component.gameObject : targetObject;
                 var position = go.transform.position;
                 var rotation = go.transform.rotation;
-                var resultGameObject = ObjectPool.Scripts.ObjectPool.Spawn(go, position, rotation, false);
+                var resultGameObject = UniPool.Scripts.ObjectPool.Spawn(go, position, rotation, false);
 
                 AssetsInstanceMap.Register(resultGameObject, go);
 

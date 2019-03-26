@@ -1,30 +1,34 @@
 ﻿using System;
 using System.Collections;
 using UniModule.UnityTools.Interfaces;
-using UniModule.UnityTools.ObjectPool.Scripts;
+using UniModule.UnityTools.UniPool.Scripts;
 using UniModule.UnityTools.UniStateMachine.Interfaces;
 
 namespace UniModule.UnityTools.ActorEntityModel
 {
     [Serializable]
-    public class ActorModel : IPoolable
+    public class ActorModel<TSource> : IActorModel
+        where TSource : class
     {
-        public string Name;
+        protected TSource _sourceData;
 
-        public IContextState<IEnumerator> Behaviour;
-    
+        #region public methods
+
+        public void Initialize(TSource source)
+        {
+            _sourceData = source;
+        }
+
         public virtual void Release()
         {
-            Behaviour = null;
+            _sourceData = null;          
         }
 
-        public virtual void RegisterContext(IContext context)
+        public virtual void Register(IContext context)
         {
-
             context.Add(this);
-
         }
 
-
+        #endregion
     }
 }

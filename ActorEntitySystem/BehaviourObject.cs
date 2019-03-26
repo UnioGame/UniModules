@@ -29,7 +29,6 @@ namespace UniModule.UnityTools.ActorEntityModel
         
         public void Release()
         {
-            
             SetEnabled(false);
             OnReleased();
         }

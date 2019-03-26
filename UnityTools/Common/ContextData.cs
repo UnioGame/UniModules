@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UniModule.UnityTools.Interfaces;
-using UniModule.UnityTools.ObjectPool.Scripts;
+using UniModule.UnityTools.UniPool.Scripts;
 using UniModule.UnityTools.ProfilerTools;
 using UniRx;
 using UnityEngine.Profiling;

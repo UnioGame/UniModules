@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UniModule.UnityTools.AssetBundleManager.Interfaces;
 using UniModule.UnityTools.AssetBundleManager.LoaderExecutors;
-using UniModule.UnityTools.ObjectPool.Scripts;
+using UniModule.UnityTools.UniPool.Scripts;
 using UnityEngine;
 
 namespace UniModule.UnityTools.AssetBundleManager

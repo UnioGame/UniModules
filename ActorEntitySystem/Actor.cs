@@ -1,37 +1,47 @@
 ﻿using System;
 using System.Collections;
 using UniModule.UnityTools.Interfaces;
-using UniModule.UnityTools.ObjectPool.Scripts;
+using UniModule.UnityTools.UniPool.Scripts;
 using UniModule.UnityTools.UniRoutine;
 using UniModule.UnityTools.UniStateMachine.Interfaces;
 
 namespace UniModule.UnityTools.ActorEntityModel
 {
-    public class Actor : BehaviourObject
+    public class Actor : BehaviourObject, IActor
     {
-        private IDisposable _routineDisposable;
-        private ActorModel _model;
+        /// <summary>
+        /// data container
+        /// </summary>
         private EntityObject _entity = new EntityObject();
 
-        protected IContextState<IEnumerator> _stateBehaviour;
+        /// <summary>
+        /// context data source
+        /// </summary>
+        private IContextDataSource _dataSource;
+        
+        /// <summary>
+        /// active actor behaviour
+        /// </summary>
+        protected IContextState<IEnumerator> _behaviour;
 
-        public IContextState<IEnumerator> State => _stateBehaviour;
+        #region public properties
+        
+        public IContextState<IEnumerator> State => _behaviour;
 
         public IContext Context => _entity;
 
+        #endregion
+        
         #region public methods
 
-        public void SetModel(ActorModel model)
+        public void Initialize(IActorModel model, IContextState<IEnumerator> behaviour)
         {
 
-            if (_model != null)
-            {
-                Release();
-            }
+            Release();
 
-            _model = model;
-            _model.RegisterContext(_entity);
-            _stateBehaviour = _model.Behaviour;
+            _dataSource = model;
+            _dataSource.Register(_entity);
+            _behaviour = behaviour;
 
         }
       
@@ -41,19 +51,19 @@ namespace UniModule.UnityTools.ActorEntityModel
 
         protected override void OnReleased()
         {
-
-            _model?.Despawn();
-            _model = null;
-            
+   
             _entity.Release();
-            _stateBehaviour = null;
+            _behaviour = null;
+
+            _dataSource?.Despawn();
+            _dataSource = null;
 
         }
         
         protected void SetBehaviourState(bool activate)
         {
-            if (_stateBehaviour == null || 
-                _stateBehaviour.IsActive == activate)
+            if (_behaviour == null || 
+                _behaviour.IsActive == activate)
                 return;
             
             if (activate == false)
@@ -61,20 +71,20 @@ namespace UniModule.UnityTools.ActorEntityModel
                 StopBehaviour();
                 return;
             }
-  
+
+            var lifeTime = _entity.LifeTime;
             //activate state
-            var routine = _stateBehaviour.Execute(_entity);
-            _routineDisposable = routine.RunWithSubRoutines();
+            var routine = _behaviour.Execute(_entity);
+            var disposableItem = routine.RunWithSubRoutines();
+            
+            lifeTime.AddDispose(disposableItem);
+            lifeTime.AddCleanUpAction(_behaviour.Exit);
 
         }
 
         private void StopBehaviour()
         {
-            _stateBehaviour?.Exit();
-            //release current routine
-            _routineDisposable?.Despawn();
-            _routineDisposable = null;
-
+            _entity.Release();
         }
 
         protected override void Deactivate()

@@ -3,7 +3,7 @@ using UniModule.UnityTools.ProfilerTools;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace UniModule.UnityTools.ObjectPool.Scripts
+namespace UniModule.UnityTools.UniPool.Scripts
 {
 	public static class ClassPool {
 

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace UniModule.UnityTools.ObjectPool.Test
+namespace UniModule.UnityTools.UniPool.Test
 {
     [Serializable]
     public class LoadPoolsAsset
