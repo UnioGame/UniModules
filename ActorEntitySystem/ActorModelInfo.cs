@@ -1,4 +1,6 @@
 ﻿
+using UniModule.UnityTools.Interfaces;
+
 namespace Modules.UniTools.ActorEntitySystem
 {
     using UniModule.UnityTools.ActorEntityModel;
@@ -7,7 +9,8 @@ namespace Modules.UniTools.ActorEntitySystem
 
     public class ActorModelInfo<TModel> : 
         ActorInfo
-        where TModel : class,IActorModel,new()
+        where TModel : class,IActorModel,
+            IInitializable<TModel>,new()
     {
  
         [SerializeField] private TModel sourceModel;
@@ -15,10 +18,9 @@ namespace Modules.UniTools.ActorEntitySystem
         protected override IActorModel CreateDataSource()
         {
             var model = ClassPool.Spawn<TModel>();
-            SetUpData(ref model,sourceModel);
+            model.Initialize(sourceModel);
             return model;
         }
 
-        protected virtual void SetUpData(ref TModel data,TModel source){}
     }
 }
