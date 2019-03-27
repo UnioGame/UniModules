@@ -7,28 +7,19 @@ using UniModule.UnityTools.UniStateMachine.Interfaces;
 namespace UniModule.UnityTools.ActorEntityModel
 {
     [Serializable]
-    public class ActorModel<TSource> : IActorModel
-        where TSource : class
+    public class ActorModel : IActorModel
     {
-        protected TSource _sourceData;
-
         #region public methods
 
-        public void Initialize(TSource source)
-        {
-            _sourceData = source;
-        }
-
-        public virtual void Release()
-        {
-            _sourceData = null;          
-        }
+        public virtual void Release(){}
 
         public virtual void Register(IContext context)
         {
             context.Add(this);
         }
-
+        
         #endregion
+
+ 
     }
 }

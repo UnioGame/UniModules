@@ -1,15 +1,19 @@
-﻿using System.Collections;
-using UniModule.UnityTools.Interfaces;
-using UniModule.UnityTools.UniPool.Scripts;
-using UniModule.UnityTools.UniStateMachine.Interfaces;
-using UniStateMachine;
+﻿
 using UniStateMachine.Nodes;
-using UnityEngine;
 
 namespace UniModule.UnityTools.ActorEntityModel
 {
-    public class ActorComponent : MonoBehaviour, IActor
+    using System.Collections;
+    using Sirenix.OdinInspector;
+    using UniModule.UnityTools.Interfaces;
+    using UniModule.UnityTools.UniPool.Scripts;
+    using UniModule.UnityTools.UniStateMachine.Interfaces;
+    using UniStateMachine;
+    using UnityEngine;
+
+    public class ActorComponent : SerializedMonoBehaviour, IActor
     {
+
         /// <summary>
         /// is actor component ready
         /// </summary>
@@ -31,6 +35,11 @@ namespace UniModule.UnityTools.ActorEntityModel
         private Actor _actor = new Actor();
 
         #region inspector data
+
+        /// <summary>
+        /// is activate actor on onenable
+        /// </summary>
+        [SerializeField] private bool activateOnStart;
 
         /// <summary>
         /// behaviour SO
@@ -66,6 +75,10 @@ namespace UniModule.UnityTools.ActorEntityModel
         private void OnEnable()
         {
             Initialize();
+            if (activateOnStart)
+            {
+                SetEnabled(true);
+            }
         }
 
         private void Initialize()
@@ -77,9 +90,7 @@ namespace UniModule.UnityTools.ActorEntityModel
             
             behaviour = GetBehaviour();
             actorModel = GetModel();
-            
-            InitializeContext();
-            
+                       
             _actor.Initialize(actorModel,behaviour);
         }
 
@@ -95,11 +106,6 @@ namespace UniModule.UnityTools.ActorEntityModel
             model?.Register(Context);
             return model;
         }
-        
-        protected virtual void InitializeContext()
-        {
-        }
-
 
     }
 }
