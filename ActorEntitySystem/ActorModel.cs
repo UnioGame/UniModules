@@ -9,6 +9,7 @@ namespace UniModule.UnityTools.ActorEntityModel
     [Serializable]
     public class ActorModel : IActorModel
     {
+        
         #region public methods
 
         public virtual void Release(){}
