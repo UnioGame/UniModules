@@ -11,7 +11,7 @@ using UniNodeSystem;
 
 namespace UniStateMachine
 {
-    public class UniNode : UniGraphNode, IValidator<IContext>
+    public class UniNode : UniGraphNode
     {
 
 
