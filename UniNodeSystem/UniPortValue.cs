@@ -1,6 +1,7 @@
 ﻿using System;
 using UniModule.UnityTools.Common;
 using UniModule.UnityTools.UniVisualNodeSystem.Connections;
+using UniRx;
 
 namespace UniStateMachine.Nodes
 {
@@ -12,29 +13,31 @@ namespace UniStateMachine.Nodes
         /// <summary>
         /// port value Name
         /// </summary>
-        public string Name;
+        public string name;
         
         #endregion
         
         #region private property
 
-        [NonSerialized] private TypeData _typeData;
+        [NonSerialized] private MessageBroker messageBroker;
         
-        [NonSerialized] private bool _initialized = false;
+        [NonSerialized] private TypeData typeData;
+        
+        [NonSerialized] private bool initialized = false;
 
-        [NonSerialized] private BroadcastTypeData _broadcastContext;
+        [NonSerialized] private BroadcastTypeData broadcastContext;
 
-        [NonSerialized] private TypeValueObservable<UniPortValue> _valueObservable;
+        [NonSerialized] private TypeValueObservable<UniPortValue> valueObservable;
 
         #endregion       
         
         #region observable
 
-        public IObservable<TypeDataChanged> UpdateValueObservable => _valueObservable.UpdateValueObservable;
+        public IObservable<TypeDataChanged> UpdateValueObservable => valueObservable.UpdateValueObservable;
 
-        public IObservable<TypeDataChanged> DataRemoveObservable => _valueObservable.DataRemoveObservable;
+        public IObservable<TypeDataChanged> DataRemoveObservable => valueObservable.DataRemoveObservable;
 
-        public IObservable<ITypeData> EmptyDataObservable => _valueObservable.EmptyDataObservable;
+        public IObservable<ITypeData> EmptyDataObservable => valueObservable.EmptyDataObservable;
         
         #endregion
 
@@ -45,63 +48,65 @@ namespace UniStateMachine.Nodes
 
         public void Initialize()
         {
-            if (_initialized)
+            if (initialized)
                 return;
 
-            _typeData = new TypeData();
-            _broadcastContext = new BroadcastTypeData();
+            messageBroker = new MessageBroker();
+            typeData = new TypeData();
+            broadcastContext = new BroadcastTypeData();
             
-            _valueObservable = new TypeValueObservable<UniPortValue>();
-            _valueObservable.Initialize(this);
+            valueObservable = new TypeValueObservable<UniPortValue>();
+            valueObservable.Initialize(this);
             //register observable as broadcast target
-            _broadcastContext.Connect(_valueObservable);
+            broadcastContext.Connect(valueObservable);
             
             //mark as initialized
-            _initialized = true;
+            initialized = true;
         }
         
         public void ConnectToPort(string portName)
         {
-            Name = portName;
+            name = portName;
         }
 
         #region type data container
         
         public bool Remove<TData>()
         {
-            var result = _typeData.Remove<TData>();
+            var result = typeData.Remove<TData>();
             if (result)
             {
-                _broadcastContext.Remove<TData>();
+                broadcastContext.Remove<TData>();
             }
             return result;
         }
 
         public void Add<TData>(TData value)
         {
-            _typeData.Add(value);
-            _broadcastContext.Add(value);
+            typeData.Add(value);
+            broadcastContext.Add(value);
+            messageBroker.Publish(value);
         }
 
         public void RemoveAll()
         {
-            _typeData.RemoveAll();
-            _broadcastContext.RemoveAll();
+            typeData.RemoveAll();
+            broadcastContext.RemoveAll();
         }
                        
         public bool HasValue()
         {
-            return _typeData.HasValue();
+            return typeData.HasValue();
         }
         
         public TData Get<TData>()
         {
-            return _typeData.Get<TData>();
+            return typeData.Get<TData>();
         }
 
         public bool Contains<TData>()
         {
-            return _typeData.Contains<TData>();
+            return typeData.Contains<TData>();
         }
         
         #endregion       
@@ -110,16 +115,24 @@ namespace UniStateMachine.Nodes
         
         public IConnector<IContextWriter> Connect(IContextWriter contextData)
         {
-            _broadcastContext.Connect(contextData);
+            broadcastContext.Connect(contextData);
             return this;
         }
 
         public void Disconnect(IContextWriter contextData)
         {
-            _broadcastContext.Disconnect(contextData);
+            broadcastContext.Disconnect(contextData);
         }
 
         #endregion
 
+        #region message receiver
+        
+        public IObservable<T> Receive<T>()
+        {
+            return messageBroker.Receive<T>();
+        }
+        
+        #endregion
     }
 }

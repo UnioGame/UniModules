@@ -29,7 +29,7 @@ namespace Modules.UniTools.UniNodeSystem.Drawers
 
             foreach (var portValue in node.PortValues)
             {
-                var portName = portValue.Name;
+                var portName = portValue.name;
                 var formatedName = node.GetFormatedInputName(portName);
 
                 DrawPortPair(node, portName, formatedName, _drawedPorts);
@@ -37,11 +37,11 @@ namespace Modules.UniTools.UniNodeSystem.Drawers
 
             foreach (var portValue in node.PortValues)
             {
-                var portName = portValue.Name;
+                var portName = portValue.name;
                 if (_drawedPorts.ContainsKey(portName))
                     continue;
 
-                var port = node.GetPort(portValue.Name);
+                var port = node.GetPort(portValue.name);
                 var portStyle = GetPortStyle(port);
 
                 port.DrawPortField(portStyle);

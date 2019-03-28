@@ -163,12 +163,12 @@ namespace UniStateMachine
                 return false;
             }
             
-            if (_portValuesMap.ContainsKey(portValue.Name))
+            if (_portValuesMap.ContainsKey(portValue.name))
             {
                 return false;
             }
 
-            _portValuesMap[portValue.Name] = portValue;
+            _portValuesMap[portValue.name] = portValue;
             _portValues.Add(portValue);
 
             return true;

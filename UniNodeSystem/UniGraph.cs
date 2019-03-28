@@ -156,7 +156,7 @@ namespace UniStateMachine.Nodes
                 for (var j = 0; j < values.Count; j++)
                 {
                     var value = values[j];
-                    var port = node.GetPort(value.Name);
+                    var port = node.GetPort(value.name);
 
                     //take only input ports
                     if (port.direction == PortIO.Output)
