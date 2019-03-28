@@ -44,5 +44,14 @@ namespace UniModule.UnityTools.Extension
             return point + 2 * projectionPoint;
 
         }
+        
+        public static float AbsAngle(this Vector3 pivot, Vector3 firstPoint, Vector3 secondPoint)
+        {
+            Vector2 origin = firstPoint - pivot;
+            Vector2 to = secondPoint - pivot;
+            var angle = Vector2.Angle(origin, to);
+            angle = Mathf.Abs(angle);
+            return angle;
+        }
     }
 }

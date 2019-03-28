@@ -104,8 +104,7 @@ namespace UniStateMachine.Nodes
             return _typeData.Contains<TData>();
         }
         
-        #endregion
-        
+        #endregion       
       
         #region connector
         

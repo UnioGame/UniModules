@@ -1,24 +1,22 @@
 ﻿
-using UniModule.UnityTools.Interfaces;
 
 namespace Modules.UniTools.ActorEntitySystem
 {
     using UniModule.UnityTools.ActorEntityModel;
-    using UniModule.UnityTools.UniPool.Scripts;
+    using UniModule.UnityTools.Interfaces;
     using UnityEngine;
 
     public class ActorModelInfo<TModel> : 
         ActorInfo
         where TModel : class,IActorModel,
-            IInitializable<TModel>,new()
+            IFactory<TModel>,new()
     {
  
         [SerializeField] private TModel sourceModel;
 
         protected override IActorModel CreateDataSource()
         {
-            var model = ClassPool.Spawn<TModel>();
-            model.Initialize(sourceModel);
+            var model = sourceModel.Create();
             return model;
         }
 

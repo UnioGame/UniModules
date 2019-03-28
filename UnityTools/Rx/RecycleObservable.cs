@@ -15,7 +15,6 @@ namespace UniModule.UnityTools.RecycleRx
     
         public IDisposable Subscribe(IObserver<T> observer)
         {
-            
             var disposeAction = ClassPool.Spawn<DisposableAction>();
             disposeAction.Initialize(() => Remove(observer));
 
