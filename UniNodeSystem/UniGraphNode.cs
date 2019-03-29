@@ -36,11 +36,9 @@ namespace UniStateMachine
        
         [NonSerialized] private Dictionary<string,UniPortValue> _portValuesMap;
 
-        [NonSerialized]
-        private IContextState<IEnumerator> _state;
+        [NonSerialized] private IContextState<IEnumerator> _state;
 
-        [NonSerialized]
-        private List<UniPortValue> _portValues;
+        [NonSerialized] private List<UniPortValue> _portValues;
 
         #endregion
         

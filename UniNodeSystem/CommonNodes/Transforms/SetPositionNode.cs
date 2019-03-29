@@ -17,23 +17,34 @@ namespace UniStateMachine.CommonNodes.Transforms
         
         protected override IEnumerator ExecuteState(IContext context)
         {
+            
+            var targetTransform = context.Get<Transform>();
+
+            UpdatePosition(targetTransform);
+            
             yield return base.ExecuteState(context);
 
-            var targetTransform = context.Get<Transform>();
-            if (!targetTransform)
-                yield break;
+        }
 
+        private void UpdatePosition(Transform targetTransform)
+        {
+            if (!targetTransform)
+            {
+                return;
+            }
+            
             if (setToMyPosition)
             {
-                SetTargetPosition(targetTransform, transform.position);
-                yield break;
-            }
-            if (targetPostionObject)
+                SetTargetPosition(targetTransform, transform.position);              
+            } 
+            else if (targetPostionObject)
             {
                 SetTargetPosition(targetTransform, targetPostionObject.transform.position);
-                yield break;
             }
-            SetTargetPosition(targetTransform, targetPosition);
+            else
+            {
+                SetTargetPosition(targetTransform, targetPosition);
+            }
         }
 
         private void SetTargetPosition(Transform target, Vector3 targetPosition)

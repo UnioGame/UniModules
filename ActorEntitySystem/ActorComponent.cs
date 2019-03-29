@@ -96,8 +96,10 @@ namespace UniModule.UnityTools.ActorEntityModel
 
         private IContextState<IEnumerator> GetBehaviour()
         {
-            var state = ObjectPool.Spawn(behaviourSource, Vector3.zero, Quaternion.identity,transform, false);
+            var actorTransform = transform;
+            var state = ObjectPool.Spawn(behaviourSource, Vector3.zero, Quaternion.identity,actorTransform, false);
             state.gameObject.SetActive(true);
+            
             return state;
         }
 
