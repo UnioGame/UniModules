@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UniModule.UnityTools.Common;
 using UniModule.UnityTools.UniVisualNodeSystem.Connections;
 using UniRx;
@@ -14,7 +15,13 @@ namespace UniStateMachine.Nodes
         /// port value Name
         /// </summary>
         public string name;
-        
+
+        /// <summary>
+        /// allowed port value types
+        /// is list is empty = all allowed
+        /// </summary>
+        public List<Type> typeFilter = new List<Type>(); 
+
         #endregion
         
         #region private property
@@ -83,6 +90,10 @@ namespace UniStateMachine.Nodes
 
         public void Add<TData>(TData value)
         {
+            var targetType = typeof(TData);
+            if (typeFilter.Count > 0 && !typeFilter.Contains(targetType))
+                return;
+            
             typeData.Add(value);
             broadcastContext.Add(value);
             messageBroker.Publish(value);

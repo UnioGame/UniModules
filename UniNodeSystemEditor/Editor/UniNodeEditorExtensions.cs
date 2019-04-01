@@ -28,7 +28,7 @@ public static class UniNodeEditorExtensions
 
     }
     
-    public static void DrawPortField(this NodePort input, NodePort output, 
+    public static void DrawPortPairField(this NodePort input, NodePort output, 
         NodeGuiLayoutStyle intputStyle,NodeGuiLayoutStyle outputStyle)
     {
 
