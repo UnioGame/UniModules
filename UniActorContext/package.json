@@ -1,0 +1,15 @@
+{
+    "name": "com.greenbuttongames.uniactors",
+    "author": "Mefodei",
+    "displayName": "Uni Actors Entity",
+    "description": "",
+    "unity": "2018.3",
+    "version": "1.0.0",
+    "keywords": [],
+    "dependencies": {
+
+        "com.greenbuttongames.neuecc.unirx" : "6.2.2",
+		"com.greenbuttongames.unitools" : "1.0.0"
+
+    }
+ }

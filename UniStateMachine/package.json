@@ -1,0 +1,17 @@
+{
+    "name": "com.greenbuttongames.unistatemachine",
+    "author": "Mefodei",
+    "displayName": "Uni State Machine",
+    "description": "Unity state machine core",
+    "unity": "2018.3",
+    "version": "1.0.0",
+    "keywords": [],
+    "dependencies": {
+
+        "com.greenbuttongames.neuecc.unirx" : "6.2.2",
+        "com.greenbuttongames.unitools" : "1.0.0",
+		"com.greenbuttongames.uniroutine" : "1.0.0",
+        "com.greenbuttongames.uniactors" : "1.0.0"
+        
+    }
+ }

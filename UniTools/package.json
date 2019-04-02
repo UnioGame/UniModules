@@ -1,0 +1,12 @@
+{
+    "name": "com.greenbuttongames.unitools",
+    "author": "Mefodei",
+    "displayName": "UniCore",
+    "description": "Unity Tools Core",
+    "unity": "2018.3",
+    "version": "1.0.0",
+    "keywords": [],
+    "dependencies": {
+        "com.greenbuttongames.neuecc.unirx" : "1.0.0"
+    }
+ }

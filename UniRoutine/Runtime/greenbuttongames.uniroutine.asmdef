@@ -1,0 +1,14 @@
+{
+    "name": "greenbuttongames.uniroutine",
+    "references": [
+        "greenbuttongame.unitools"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": []
+}

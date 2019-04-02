@@ -1,0 +1,12 @@
+{
+    "name": "com.greenbuttongames.uniroutine",
+    "author": "Mefodei",
+    "displayName": "UniRoutine",
+    "description": "Unity Routine System",
+    "unity": "2018.3",
+    "version": "1.0.0",
+    "keywords": [],
+    "dependencies": {
+        "com.greenbuttongames.unitools" : "1.0.0"
+    }
+ }

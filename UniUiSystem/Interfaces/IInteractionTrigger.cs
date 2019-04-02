@@ -1,8 +1,11 @@
 using System;
+using UnityTools.Runtime.Interfaces;
 
-namespace UniUiSystem
+namespace Modules.UniTools.UniUiSystem.Interfaces
 {
-    public interface IInteractionTrigger : IObservable<IInteractionTrigger>, INamedItem
+    public interface IInteractionTrigger :
+        IObservable<IInteractionTrigger>, 
+        INamedItem
     {
         
         bool IsActive { get; }

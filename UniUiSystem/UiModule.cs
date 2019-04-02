@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Modules.UniTools.UniUiSystem.Interfaces;
 using UnityEngine;
 using UniTools.UniUiSystem;
 
