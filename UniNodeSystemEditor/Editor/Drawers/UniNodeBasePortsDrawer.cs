@@ -1,16 +1,18 @@
 ﻿using System.Collections.Generic;
 using Modules.UniTools.UniNodeSystem.Drawers;
 using Modules.UniTools.UniNodeSystem.Editor.BaseEditor;
+using Modules.UniTools.UniNodeSystemEditor.Editor.Styles;
 using UniNodeSystem;
 using UniNodeSystemEditor;
 using UniStateMachine;
+using UnityEditor.Experimental.UIElements.GraphView;
 using UnityEngine;
 
 namespace Modules.UniTools.UniNodeSystem.Drawers
 {
     public class UniNodeBasePortsDrawer : INodeEditorDrawer
     {
-    
+        private PortStyleSelector styleSelector = new PortStyleSelector();
         private Dictionary<string, NodePort> _drawedPorts = new Dictionary<string, NodePort>();
 
         public bool Draw(INodeEditor editor, UniBaseNode baseNode)
@@ -21,44 +23,15 @@ namespace Modules.UniTools.UniNodeSystem.Drawers
             var node = baseNode as UniGraphNode;
             if (node == null)
                 return true;
-        
-            var inputPort = node.GetPort(UniNode.InputPortName);
-            var outputPort = node.GetPort(UniNode.OutputPortName);
-        
-            DrawPortPair(inputPort, outputPort);
 
-            foreach (var portValue in node.PortValues)
-            {
-                var portName = portValue.name;
-                var formatedName = node.GetFormatedInputName(portName);
-                
-                if (_drawedPorts.ContainsKey(portName))
-                    continue;
-
-                var result = DrawPortPair(node, portName, formatedName);
-
-                if (result) {
-                    _drawedPorts[inputPort.fieldName] = inputPort;
-                    _drawedPorts[outputPort.fieldName] = outputPort;
-                }
-            }
-
-            foreach (var portValue in node.PortValues)
-            {
-                var portName = portValue.name;
-                if (_drawedPorts.ContainsKey(portName))
-                    continue;
-
-                var port = node.GetPort(portValue.name);
-                var portStyle = GetPortStyle(port);
-
-                port.DrawPortField(portStyle);
-            }
+            DrawBasePorts(node,_drawedPorts);
+            
+            DrawPorts(node,_drawedPorts);
 
             return true;
         }
     
-    
+        
         public bool DrawPortPair(UniGraphNode node, 
             string inputPortName, string outputPortName)
         {
@@ -66,53 +39,69 @@ namespace Modules.UniTools.UniNodeSystem.Drawers
             var outputPort = node.GetPort(inputPortName);
             var inputPort = node.GetPort(outputPortName);
 
-            return DrawPortPair(inputPort, outputPort);
+            return DrawPortPair(node,inputPort, outputPort);
             
         }
 
-        public bool DrawPortPair(NodePort inputPort, NodePort outputPort)
+        public bool DrawPortPair(UniGraphNode node,NodePort inputPort, NodePort outputPort)
         {
             if (outputPort == null || inputPort == null)
             {
                 return false;
             }
 
-            var inputStyle = GetPortStyle(inputPort);
-            var outputStyle = GetPortStyle(outputPort);
+            var inputStyle = styleSelector.Select(inputPort);
+            var outputStyle = styleSelector.Select(outputPort);
 
-            inputPort.DrawPortPairField(outputPort, inputStyle, outputStyle);
+            node.DrawPortPairField(inputPort,outputPort, inputStyle, outputStyle);
             
             return true;
         }
 
-            
-        public virtual NodeGuiLayoutStyle GetPortStyle(NodePort port)
+        private void DrawPorts(UniGraphNode node,IDictionary<string, NodePort> cache)
         {
-            var portStyle = NodeEditorGUILayout.GetDefaultPortStyle(port);
-
-            if (port == null)
-                return portStyle;
-
-            var uniNode = port.node as UniGraphNode;
-            var portValue = uniNode.GetPortValue(port.fieldName);
-            var hasData = portValue != null && portValue.HasValue();
-
-            if (port.fieldName == UniNode.OutputPortName || port.fieldName == UniNode.InputPortName)
+            for (var i = 0; i < node.PortValues.Count; i++)
             {
-                portStyle.Background = Color.blue;
-                portStyle.Color = hasData ? Color.red : Color.white;
-                return portStyle;
-            }
+                var portValue = node.PortValues[i];
+                var outputPortName = portValue.name;
+                var inputPortName = node.GetFormatedInputName(outputPortName);
 
-            if (port.IsDynamic)
-            {
-                portStyle.Name = port.fieldName;
-                portStyle.Background = Color.red;
-                portStyle.Color = port.direction == PortIO.Input ? hasData ? new Color(128, 128, 0) : Color.green :
-                    hasData ? new Color(128, 128, 0) : Color.blue;
-            }
+                if (cache.ContainsKey(outputPortName))
+                    continue;
 
-            return portStyle;
+                var result = DrawPortPair(node, inputPortName,outputPortName);
+                var portOutput = node.GetPort(outputPortName);
+                cache[outputPortName] = portOutput;
+                
+                if (result)
+                {
+                    var portInput = node.GetPort(inputPortName);
+                    cache[inputPortName] = portInput;
+                }
+                else
+                {
+                    DrawPort(portOutput);
+                }
+            }
+        }
+
+        public void DrawPort(NodePort port)
+        {
+            var portStyle = styleSelector.Select(port);
+            port.DrawPortField(portStyle);
+        }
+
+        private void DrawBasePorts(UniGraphNode node,IDictionary<string, NodePort> cache)
+        {
+                    
+            var inputPort = node.GetPort(UniGraphNode.InputPortName);
+            var outputPort = node.GetPort(UniGraphNode.OutputPortName);
+
+            cache[UniGraphNode.InputPortName] = inputPort;
+            cache[UniGraphNode.OutputPortName] = outputPort;
+            
+            DrawPortPair(node, inputPort, outputPort);
+
         }
 
     }
