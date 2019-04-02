@@ -92,8 +92,7 @@ namespace Modules.UniTools.UniNodeSystem.Drawers
         }
 
         private void DrawBasePorts(UniGraphNode node,IDictionary<string, NodePort> cache)
-        {
-                    
+        {                   
             var inputPort = node.GetPort(UniGraphNode.InputPortName);
             var outputPort = node.GetPort(UniGraphNode.OutputPortName);
 
@@ -101,7 +100,6 @@ namespace Modules.UniTools.UniNodeSystem.Drawers
             cache[UniGraphNode.OutputPortName] = outputPort;
             
             DrawPortPair(node, inputPort, outputPort);
-
         }
 
     }

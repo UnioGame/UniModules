@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Sirenix.OdinInspector;
 using UniModule.UnityTools.Attributes;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -27,7 +28,7 @@ namespace UniNodeSystem
     /// </code>
     /// </example>
     [Serializable]
-    public abstract class UniBaseNode : MonoBehaviour, INode
+    public abstract class UniBaseNode : SerializedMonoBehaviour, INode
     {
         public const string InputTriggerPrefix = "[in]";
 

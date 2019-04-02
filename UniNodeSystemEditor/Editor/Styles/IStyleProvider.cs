@@ -6,6 +6,7 @@ namespace Modules.UniTools.UniNodeSystemEditor.Editor.Styles
 {
     public interface IStyleProvider : ISelector<NodePort,NodeGuiLayoutStyle>
     {
+        
         NodeGuiLayoutStyle Select(NodePort port);
         
     }
