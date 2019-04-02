@@ -1,0 +1,16 @@
+{
+    "name": "greenbuttongames.bundlemanager",
+    "references": [
+        "greenbuttongames.uniroutine",
+        "greenbuttongame.unitools",
+        "greenbuttongames.uniresources"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": []
+}

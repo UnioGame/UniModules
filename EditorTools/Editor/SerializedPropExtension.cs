@@ -30,7 +30,7 @@ using UnityEngine;
 
 namespace SubjectNerd.Utilities
 {
-	internal static class SerializedPropExtension
+	public static class SerializedPropExtension
 	{
 		#region Simple string path based extensions
 		/// <summary>

@@ -2,7 +2,6 @@ using System.IO;
 using System.Linq;
 using UniModule.UnityTools.AssetBundleManager;
 using UniModule.UnityTools.EditorTools;
-using UniModule.UnityTools.ProfilerTools;
 using UnityEditor;
 using UnityEngine;
 
@@ -176,9 +175,7 @@ namespace AssetBundlesModule {
         {
             var abTargetPath = PrepareToBuild();
             var buildOptions = BuildAssetBundleOptions.DryRunBuild;
-            var id = GameProfiler.BeginWatch("Dry bundles build");
             BuildPipeline.BuildAssetBundles(abTargetPath, buildOptions, EditorUserBuildSettings.activeBuildTarget);
-            GameProfiler.StopWatch(id);
         }
 
         [MenuItem("Tools/AssetBundles/Get AssetResource names")]

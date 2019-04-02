@@ -7,7 +7,7 @@ using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Modules.UniTools.UniResourceSystem.Editor
+namespace Modules.UniTools.UniResourceSystemEditor
 {
     [CustomPropertyDrawer(typeof(ResourceItem))]
     public class ResourceItemPropertyDrawer :  PropertyDrawer

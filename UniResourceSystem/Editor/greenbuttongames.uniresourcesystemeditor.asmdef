@@ -1,0 +1,18 @@
+{
+    "name": "greenbuttongames.uniresourcesystem.editor",
+    "references": [
+        "greenbuttongames.unieditortools",
+        "greenbuttongames.uniresources",
+        "greenbuttongame.unitools"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": []
+}

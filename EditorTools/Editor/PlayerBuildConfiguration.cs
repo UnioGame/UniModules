@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-namespace Tools.BuildTools {
+namespace UniTools.BuildTools {
 
     [CreateAssetMenu(menuName = "Build/PlayerBuild Configuration")]
     public class PlayerBuildConfiguration : ScriptableObject {

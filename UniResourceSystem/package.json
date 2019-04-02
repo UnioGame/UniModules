@@ -8,6 +8,6 @@
     "keywords": [],
     "dependencies": {
         "com.greenbuttongames.unitools" : "1.0.0",
-        "com.unity.addressables" : "1.0.0"
+        "com.unity.addressables" : "0.6.8"
     }
  }

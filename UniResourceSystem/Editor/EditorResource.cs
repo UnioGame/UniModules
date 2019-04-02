@@ -1,7 +1,6 @@
 ﻿using UniModule.UnityTools.ResourceSystem;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Profiling;
 
 namespace Modules.UniTools.UniResourceSystem
 {

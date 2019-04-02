@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using UniModule.UnityTools.UniPool.Scripts;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace UniEditorTools {
 
-    public class EditorValueItem<TValue> : IPoolable
+    public class EditorValueItem<TValue> 
     {
         public string Name = string.Empty;
         public bool IsOpen = false;
