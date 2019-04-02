@@ -35,7 +35,12 @@ namespace Modules.UniTools.UniNodeSystem.Drawers
                 if (_drawedPorts.ContainsKey(portName))
                     continue;
 
-                DrawPortPair(node, portName, formatedName, _drawedPorts);
+                var result = DrawPortPair(node, portName, formatedName);
+
+                if (result) {
+                    _drawedPorts[inputPort.fieldName] = inputPort;
+                    _drawedPorts[outputPort.fieldName] = outputPort;
+                }
             }
 
             foreach (var portValue in node.PortValues)
@@ -54,31 +59,30 @@ namespace Modules.UniTools.UniNodeSystem.Drawers
         }
     
     
-        public void DrawPortPair(UniGraphNode node, 
+        public bool DrawPortPair(UniGraphNode node, 
             string inputPortName, string outputPortName)
         {
 
             var outputPort = node.GetPort(inputPortName);
             var inputPort = node.GetPort(outputPortName);
 
-            DrawPortPair(inputPort, outputPort);
+            return DrawPortPair(inputPort, outputPort);
             
         }
 
-        public void DrawPortPair(NodePort inputPort, NodePort outputPort)
+        public bool DrawPortPair(NodePort inputPort, NodePort outputPort)
         {
             if (outputPort == null || inputPort == null)
             {
-                return;
+                return false;
             }
 
             var inputStyle = GetPortStyle(inputPort);
             var outputStyle = GetPortStyle(outputPort);
 
-            _drawedPorts[inputPort.fieldName] = inputPort;
-            _drawedPorts[outputPort.fieldName] = outputPort;
-
             inputPort.DrawPortPairField(outputPort, inputStyle, outputStyle);
+            
+            return true;
         }
 
             

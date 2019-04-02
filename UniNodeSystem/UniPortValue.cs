@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Sirenix.Serialization;
 using UniModule.UnityTools.Common;
 using UniModule.UnityTools.UniVisualNodeSystem.Connections;
 using UniRx;
@@ -16,11 +17,12 @@ namespace UniStateMachine.Nodes
         /// </summary>
         public string name;
 
+        
         /// <summary>
         /// allowed port value types
         /// is list is empty = all allowed
         /// </summary>
-        public List<Type> typeFilter = new List<Type>(); 
+        [OdinSerialize] public List<Type> typeFilter = new List<Type>(); 
 
         #endregion
         
