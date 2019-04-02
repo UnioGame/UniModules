@@ -28,20 +28,17 @@ namespace UniNodeSystem
     /// </code>
     /// </example>
     [Serializable]
-    public abstract class UniBaseNode : SerializedMonoBehaviour, INode
+    public abstract class UniBaseNode : MonoBehaviour, INode
     {
         public const string InputTriggerPrefix = "[in]";
 
-        [HideInInspector] [ReadOnlyValue] [SerializeField]
-        private ulong _id;
+        [HideInInspector] [ReadOnlyValue] [SerializeField] private ulong _id;
 
         /// <summary> Position on the <see cref="NodeGraph"/> </summary>
-        [SerializeField] 
-        public Vector2 position;
+        [SerializeField] public Vector2 position;
 
         /// <summary> It is recommended not to modify these at hand. Instead, see <see cref="NodeInputAttribute"/> and <see cref="NodeOutputAttribute"/> </summary>
-        [SerializeField] 
-        private NodePortDictionary ports = new NodePortDictionary();
+        [SerializeField] private NodePortDictionary ports = new NodePortDictionary();
       
         /// <summary> Parent <see cref="NodeGraph"/> </summary>
         [SerializeField] [Tooltip("Parent Graph")] [HideInInspector] [FormerlySerializedAs("graph")]

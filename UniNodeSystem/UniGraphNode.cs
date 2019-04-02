@@ -44,8 +44,7 @@ namespace UniStateMachine
         
         #region serialized data
 
-        [SerializeField]
-        private RoutineType _routineType = RoutineType.UpdateStep;
+        [SerializeField] private RoutineType routineType = RoutineType.UpdateStep;
 
         #endregion
         
@@ -55,7 +54,7 @@ namespace UniStateMachine
 
         public UniPortValue Output => GetPortValue(OutputPortName);
         
-        public RoutineType RoutineType => _routineType;
+        public RoutineType RoutineType => routineType;
 
         public IReadOnlyList<UniPortValue> PortValues => _portValues;
 

@@ -17,13 +17,6 @@ namespace UniStateMachine.Nodes
         /// </summary>
         public string name;
 
-        
-        /// <summary>
-        /// allowed port value types
-        /// is list is empty = all allowed
-        /// </summary>
-        [OdinSerialize] public List<Type> typeFilter = new List<Type>(); 
-
         #endregion
         
         #region private property
@@ -92,10 +85,6 @@ namespace UniStateMachine.Nodes
 
         public void Add<TData>(TData value)
         {
-            var targetType = typeof(TData);
-            if (typeFilter.Count > 0 && !typeFilter.Contains(targetType))
-                return;
-            
             typeData.Add(value);
             broadcastContext.Add(value);
             messageBroker.Publish(value);
