@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using Sirenix.Serialization;
 using UniModule.UnityTools.Common;
 using UniModule.UnityTools.UniVisualNodeSystem.Connections;
 using UniRx;

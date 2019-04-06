@@ -1,0 +1,334 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Web\\External\\Node.exe',
+1 verbose cli   'C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Web\\External\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install' ]
+2 info using npm@3.3.4
+3 info using node@v5.4.1
+4 silly loadCurrentTree Starting
+5 silly install loadCurrentTree
+6 silly install readLocalPackageData
+7 silly install normalizeTree
+8 silly loadCurrentTree Finishing
+9 silly loadIdealTree Starting
+10 silly install loadIdealTree
+11 silly cloneCurrentTree Starting
+12 silly install cloneCurrentTreeToIdealTree
+13 silly cloneCurrentTree Finishing
+14 silly loadShrinkwrap Starting
+15 silly install loadShrinkwrap
+16 silly loadShrinkwrap Finishing
+17 silly loadAllDepsIntoIdealTree Starting
+18 silly install loadAllDepsIntoIdealTree
+19 silly fetchNamedPackageData com.greenbuttongames.odin
+20 silly mapToRegistry name com.greenbuttongames.odin
+21 silly mapToRegistry using default registry
+22 silly mapToRegistry registry http://packages.greenbuttongames.com:12867/
+23 silly mapToRegistry uri http://packages.greenbuttongames.com:12867/com.greenbuttongames.odin
+24 silly fetchNamedPackageData com.greenbuttongames.neuecc.unirx
+25 silly mapToRegistry name com.greenbuttongames.neuecc.unirx
+26 silly mapToRegistry using default registry
+27 silly mapToRegistry registry http://packages.greenbuttongames.com:12867/
+28 silly mapToRegistry uri http://packages.greenbuttongames.com:12867/com.greenbuttongames.neuecc.unirx
+29 silly fetchNamedPackageData com.greenbuttongames.unitools
+30 silly mapToRegistry name com.greenbuttongames.unitools
+31 silly mapToRegistry using default registry
+32 silly mapToRegistry registry http://packages.greenbuttongames.com:12867/
+33 silly mapToRegistry uri http://packages.greenbuttongames.com:12867/com.greenbuttongames.unitools
+34 silly fetchNamedPackageData com.greenbuttongames.contextdata
+35 silly mapToRegistry name com.greenbuttongames.contextdata
+36 silly mapToRegistry using default registry
+37 silly mapToRegistry registry http://packages.greenbuttongames.com:12867/
+38 silly mapToRegistry uri http://packages.greenbuttongames.com:12867/com.greenbuttongames.contextdata
+39 silly fetchNamedPackageData com.greenbuttongames.uniroutine
+40 silly mapToRegistry name com.greenbuttongames.uniroutine
+41 silly mapToRegistry using default registry
+42 silly mapToRegistry registry http://packages.greenbuttongames.com:12867/
+43 silly mapToRegistry uri http://packages.greenbuttongames.com:12867/com.greenbuttongames.uniroutine
+44 silly fetchNamedPackageData com.greenbuttongames.resourcesystem
+45 silly mapToRegistry name com.greenbuttongames.resourcesystem
+46 silly mapToRegistry using default registry
+47 silly mapToRegistry registry http://packages.greenbuttongames.com:12867/
+48 silly mapToRegistry uri http://packages.greenbuttongames.com:12867/com.greenbuttongames.resourcesystem
+49 silly fetchNamedPackageData com.greenbuttongames.unistatemachine
+50 silly mapToRegistry name com.greenbuttongames.unistatemachine
+51 silly mapToRegistry using default registry
+52 silly mapToRegistry registry http://packages.greenbuttongames.com:12867/
+53 silly mapToRegistry uri http://packages.greenbuttongames.com:12867/com.greenbuttongames.unistatemachine
+54 verbose request uri http://packages.greenbuttongames.com:12867/com.greenbuttongames.unitools
+55 verbose request no auth needed
+56 info attempt registry request try #1 at 1:42:58 AM
+57 verbose request using bearer token for auth
+58 verbose request id a657a625af68d345
+59 http request GET http://packages.greenbuttongames.com:12867/com.greenbuttongames.unitools
+60 verbose request uri http://packages.greenbuttongames.com:12867/com.greenbuttongames.contextdata
+61 verbose request no auth needed
+62 info attempt registry request try #1 at 1:42:58 AM
+63 verbose request using bearer token for auth
+64 http request GET http://packages.greenbuttongames.com:12867/com.greenbuttongames.contextdata
+65 verbose request uri http://packages.greenbuttongames.com:12867/com.greenbuttongames.uniroutine
+66 verbose request no auth needed
+67 info attempt registry request try #1 at 1:42:58 AM
+68 verbose request using bearer token for auth
+69 http request GET http://packages.greenbuttongames.com:12867/com.greenbuttongames.uniroutine
+70 verbose request uri http://packages.greenbuttongames.com:12867/com.greenbuttongames.resourcesystem
+71 verbose request no auth needed
+72 info attempt registry request try #1 at 1:42:58 AM
+73 verbose request using bearer token for auth
+74 http request GET http://packages.greenbuttongames.com:12867/com.greenbuttongames.resourcesystem
+75 verbose request uri http://packages.greenbuttongames.com:12867/com.greenbuttongames.unistatemachine
+76 verbose request no auth needed
+77 info attempt registry request try #1 at 1:42:58 AM
+78 verbose request using bearer token for auth
+79 http request GET http://packages.greenbuttongames.com:12867/com.greenbuttongames.unistatemachine
+80 verbose get http://packages.greenbuttongames.com:12867/com.greenbuttongames.odin not expired, no request
+81 silly resolveWithNewModule com.greenbuttongames.odin@2.0.16 checking installable status
+82 silly cache add args [ 'com.greenbuttongames.odin@2.0.16', null ]
+83 verbose cache add spec com.greenbuttongames.odin@2.0.16
+84 silly cache add parsed spec Result {
+84 silly cache add   raw: 'com.greenbuttongames.odin@2.0.16',
+84 silly cache add   scope: null,
+84 silly cache add   name: 'com.greenbuttongames.odin',
+84 silly cache add   rawSpec: '2.0.16',
+84 silly cache add   spec: '2.0.16',
+84 silly cache add   type: 'version' }
+85 silly addNamed com.greenbuttongames.odin@2.0.16
+86 verbose addNamed "2.0.16" is a plain semver version for com.greenbuttongames.odin
+87 silly mapToRegistry name com.greenbuttongames.odin
+88 silly mapToRegistry using default registry
+89 silly mapToRegistry registry http://packages.greenbuttongames.com:12867/
+90 silly mapToRegistry uri http://packages.greenbuttongames.com:12867/com.greenbuttongames.odin
+91 verbose addNameVersion registry:http://packages.greenbuttongames.com:12867/com.greenbuttongames.odin not in flight; fetching
+92 verbose get http://packages.greenbuttongames.com:12867/com.greenbuttongames.neuecc.unirx not expired, no request
+93 silly resolveWithNewModule com.greenbuttongames.neuecc.unirx@6.2.2 checking installable status
+94 silly cache add args [ 'com.greenbuttongames.neuecc.unirx@6.2.2', null ]
+95 verbose cache add spec com.greenbuttongames.neuecc.unirx@6.2.2
+96 silly cache add parsed spec Result {
+96 silly cache add   raw: 'com.greenbuttongames.neuecc.unirx@6.2.2',
+96 silly cache add   scope: null,
+96 silly cache add   name: 'com.greenbuttongames.neuecc.unirx',
+96 silly cache add   rawSpec: '6.2.2',
+96 silly cache add   spec: '6.2.2',
+96 silly cache add   type: 'version' }
+97 silly addNamed com.greenbuttongames.neuecc.unirx@6.2.2
+98 verbose addNamed "6.2.2" is a plain semver version for com.greenbuttongames.neuecc.unirx
+99 silly mapToRegistry name com.greenbuttongames.neuecc.unirx
+100 silly mapToRegistry using default registry
+101 silly mapToRegistry registry http://packages.greenbuttongames.com:12867/
+102 silly mapToRegistry uri http://packages.greenbuttongames.com:12867/com.greenbuttongames.neuecc.unirx
+103 verbose addNameVersion registry:http://packages.greenbuttongames.com:12867/com.greenbuttongames.neuecc.unirx not in flight; fetching
+104 verbose get http://packages.greenbuttongames.com:12867/com.greenbuttongames.odin not expired, no request
+105 verbose get http://packages.greenbuttongames.com:12867/com.greenbuttongames.neuecc.unirx not expired, no request
+106 silly cache afterAdd com.greenbuttongames.odin@2.0.16
+107 verbose afterAdd C:\Users\mefod\AppData\Roaming\npm-cache\com.greenbuttongames.odin\2.0.16\package\package.json not in flight; writing
+108 silly cache afterAdd com.greenbuttongames.neuecc.unirx@6.2.2
+109 verbose afterAdd C:\Users\mefod\AppData\Roaming\npm-cache\com.greenbuttongames.neuecc.unirx\6.2.2\package\package.json not in flight; writing
+110 verbose afterAdd C:\Users\mefod\AppData\Roaming\npm-cache\com.greenbuttongames.neuecc.unirx\6.2.2\package\package.json written
+111 verbose afterAdd C:\Users\mefod\AppData\Roaming\npm-cache\com.greenbuttongames.odin\2.0.16\package\package.json written
+112 http 404 http://packages.greenbuttongames.com:12867/com.greenbuttongames.resourcesystem
+113 verbose headers { 'x-powered-by': 'verdaccio/3.11.6',
+113 verbose headers   'access-control-allow-origin': '*',
+113 verbose headers   'content-type': 'application/json; charset=utf-8',
+113 verbose headers   'content-length': '43',
+113 verbose headers   etag: 'W/"2b-qLjXXPpa5cmKw8bM3gatrZVKHm8"',
+113 verbose headers   vary: 'Accept-Encoding',
+113 verbose headers   'x-status-cat': 'http://flic.kr/p/aV6juR',
+113 verbose headers   date: 'Sat, 06 Apr 2019 22:42:59 GMT',
+113 verbose headers   connection: 'keep-alive' }
+114 silly get cb [ 404,
+114 silly get   { 'x-powered-by': 'verdaccio/3.11.6',
+114 silly get     'access-control-allow-origin': '*',
+114 silly get     'content-type': 'application/json; charset=utf-8',
+114 silly get     'content-length': '43',
+114 silly get     etag: 'W/"2b-qLjXXPpa5cmKw8bM3gatrZVKHm8"',
+114 silly get     vary: 'Accept-Encoding',
+114 silly get     'x-status-cat': 'http://flic.kr/p/aV6juR',
+114 silly get     date: 'Sat, 06 Apr 2019 22:42:59 GMT',
+114 silly get     connection: 'keep-alive' } ]
+115 silly fetchPackageMetaData Error: no such package available : com.greenbuttongames.resourcesystem
+115 silly fetchPackageMetaData     at makeError (C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Web\External\node_modules\npm-registry-client\lib\request.js:264:12)
+115 silly fetchPackageMetaData     at CachingRegistryClient.<anonymous> (C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Web\External\node_modules\npm-registry-client\lib\request.js:252:14)
+115 silly fetchPackageMetaData     at Request._callback (C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Web\External\node_modules\npm-registry-client\lib\request.js:172:14)
+115 silly fetchPackageMetaData     at Request.self.callback (C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Web\External\node_modules\request\request.js:344:22)
+115 silly fetchPackageMetaData     at emitTwo (events.js:87:13)
+115 silly fetchPackageMetaData     at Request.emit (events.js:172:7)
+115 silly fetchPackageMetaData     at Request.<anonymous> (C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Web\External\node_modules\request\request.js:1239:14)
+115 silly fetchPackageMetaData     at emitOne (events.js:82:20)
+115 silly fetchPackageMetaData     at Request.emit (events.js:169:7)
+115 silly fetchPackageMetaData     at IncomingMessage.<anonymous> (C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Web\External\node_modules\request\request.js:1187:12)
+115 silly fetchPackageMetaData  error for com.greenbuttongames.resourcesystem@1.0.0 { [Error: no such package available : com.greenbuttongames.resourcesystem]
+115 silly fetchPackageMetaData   pkgid: 'com.greenbuttongames.resourcesystem',
+115 silly fetchPackageMetaData   statusCode: 404,
+115 silly fetchPackageMetaData   code: 'E404' }
+116 http 404 http://packages.greenbuttongames.com:12867/com.greenbuttongames.uniroutine
+117 verbose headers { 'x-powered-by': 'verdaccio/3.11.6',
+117 verbose headers   'access-control-allow-origin': '*',
+117 verbose headers   'content-type': 'application/json; charset=utf-8',
+117 verbose headers   'content-length': '43',
+117 verbose headers   etag: 'W/"2b-qLjXXPpa5cmKw8bM3gatrZVKHm8"',
+117 verbose headers   vary: 'Accept-Encoding',
+117 verbose headers   'x-status-cat': 'http://flic.kr/p/aV6juR',
+117 verbose headers   date: 'Sat, 06 Apr 2019 22:42:59 GMT',
+117 verbose headers   connection: 'keep-alive' }
+118 silly get cb [ 404,
+118 silly get   { 'x-powered-by': 'verdaccio/3.11.6',
+118 silly get     'access-control-allow-origin': '*',
+118 silly get     'content-type': 'application/json; charset=utf-8',
+118 silly get     'content-length': '43',
+118 silly get     etag: 'W/"2b-qLjXXPpa5cmKw8bM3gatrZVKHm8"',
+118 silly get     vary: 'Accept-Encoding',
+118 silly get     'x-status-cat': 'http://flic.kr/p/aV6juR',
+118 silly get     date: 'Sat, 06 Apr 2019 22:42:59 GMT',
+118 silly get     connection: 'keep-alive' } ]
+119 silly fetchPackageMetaData Error: no such package available : com.greenbuttongames.uniroutine
+119 silly fetchPackageMetaData     at makeError (C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Web\External\node_modules\npm-registry-client\lib\request.js:264:12)
+119 silly fetchPackageMetaData     at CachingRegistryClient.<anonymous> (C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Web\External\node_modules\npm-registry-client\lib\request.js:252:14)
+119 silly fetchPackageMetaData     at Request._callback (C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Web\External\node_modules\npm-registry-client\lib\request.js:172:14)
+119 silly fetchPackageMetaData     at Request.self.callback (C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Web\External\node_modules\request\request.js:344:22)
+119 silly fetchPackageMetaData     at emitTwo (events.js:87:13)
+119 silly fetchPackageMetaData     at Request.emit (events.js:172:7)
+119 silly fetchPackageMetaData     at Request.<anonymous> (C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Web\External\node_modules\request\request.js:1239:14)
+119 silly fetchPackageMetaData     at emitOne (events.js:82:20)
+119 silly fetchPackageMetaData     at Request.emit (events.js:169:7)
+119 silly fetchPackageMetaData     at IncomingMessage.<anonymous> (C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Web\External\node_modules\request\request.js:1187:12)
+119 silly fetchPackageMetaData  error for com.greenbuttongames.uniroutine@1.0.0 { [Error: no such package available : com.greenbuttongames.uniroutine]
+119 silly fetchPackageMetaData   pkgid: 'com.greenbuttongames.uniroutine',
+119 silly fetchPackageMetaData   statusCode: 404,
+119 silly fetchPackageMetaData   code: 'E404' }
+120 http 404 http://packages.greenbuttongames.com:12867/com.greenbuttongames.unistatemachine
+121 verbose headers { 'x-powered-by': 'verdaccio/3.11.6',
+121 verbose headers   'access-control-allow-origin': '*',
+121 verbose headers   'content-type': 'application/json; charset=utf-8',
+121 verbose headers   'content-length': '43',
+121 verbose headers   etag: 'W/"2b-qLjXXPpa5cmKw8bM3gatrZVKHm8"',
+121 verbose headers   vary: 'Accept-Encoding',
+121 verbose headers   'x-status-cat': 'http://flic.kr/p/aV6juR',
+121 verbose headers   date: 'Sat, 06 Apr 2019 22:42:59 GMT',
+121 verbose headers   connection: 'keep-alive' }
+122 silly get cb [ 404,
+122 silly get   { 'x-powered-by': 'verdaccio/3.11.6',
+122 silly get     'access-control-allow-origin': '*',
+122 silly get     'content-type': 'application/json; charset=utf-8',
+122 silly get     'content-length': '43',
+122 silly get     etag: 'W/"2b-qLjXXPpa5cmKw8bM3gatrZVKHm8"',
+122 silly get     vary: 'Accept-Encoding',
+122 silly get     'x-status-cat': 'http://flic.kr/p/aV6juR',
+122 silly get     date: 'Sat, 06 Apr 2019 22:42:59 GMT',
+122 silly get     connection: 'keep-alive' } ]
+123 silly fetchPackageMetaData Error: no such package available : com.greenbuttongames.unistatemachine
+123 silly fetchPackageMetaData     at makeError (C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Web\External\node_modules\npm-registry-client\lib\request.js:264:12)
+123 silly fetchPackageMetaData     at CachingRegistryClient.<anonymous> (C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Web\External\node_modules\npm-registry-client\lib\request.js:252:14)
+123 silly fetchPackageMetaData     at Request._callback (C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Web\External\node_modules\npm-registry-client\lib\request.js:172:14)
+123 silly fetchPackageMetaData     at Request.self.callback (C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Web\External\node_modules\request\request.js:344:22)
+123 silly fetchPackageMetaData     at emitTwo (events.js:87:13)
+123 silly fetchPackageMetaData     at Request.emit (events.js:172:7)
+123 silly fetchPackageMetaData     at Request.<anonymous> (C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Web\External\node_modules\request\request.js:1239:14)
+123 silly fetchPackageMetaData     at emitOne (events.js:82:20)
+123 silly fetchPackageMetaData     at Request.emit (events.js:169:7)
+123 silly fetchPackageMetaData     at IncomingMessage.<anonymous> (C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Web\External\node_modules\request\request.js:1187:12)
+123 silly fetchPackageMetaData  error for com.greenbuttongames.unistatemachine@1.0.0 { [Error: no such package available : com.greenbuttongames.unistatemachine]
+123 silly fetchPackageMetaData   pkgid: 'com.greenbuttongames.unistatemachine',
+123 silly fetchPackageMetaData   statusCode: 404,
+123 silly fetchPackageMetaData   code: 'E404' }
+124 http 404 http://packages.greenbuttongames.com:12867/com.greenbuttongames.unitools
+125 verbose headers { 'x-powered-by': 'verdaccio/3.11.6',
+125 verbose headers   'access-control-allow-origin': '*',
+125 verbose headers   'content-type': 'application/json; charset=utf-8',
+125 verbose headers   'content-length': '43',
+125 verbose headers   etag: 'W/"2b-qLjXXPpa5cmKw8bM3gatrZVKHm8"',
+125 verbose headers   vary: 'Accept-Encoding',
+125 verbose headers   'x-status-cat': 'http://flic.kr/p/aV6juR',
+125 verbose headers   date: 'Sat, 06 Apr 2019 22:42:59 GMT',
+125 verbose headers   connection: 'keep-alive' }
+126 silly get cb [ 404,
+126 silly get   { 'x-powered-by': 'verdaccio/3.11.6',
+126 silly get     'access-control-allow-origin': '*',
+126 silly get     'content-type': 'application/json; charset=utf-8',
+126 silly get     'content-length': '43',
+126 silly get     etag: 'W/"2b-qLjXXPpa5cmKw8bM3gatrZVKHm8"',
+126 silly get     vary: 'Accept-Encoding',
+126 silly get     'x-status-cat': 'http://flic.kr/p/aV6juR',
+126 silly get     date: 'Sat, 06 Apr 2019 22:42:59 GMT',
+126 silly get     connection: 'keep-alive' } ]
+127 silly fetchPackageMetaData Error: no such package available : com.greenbuttongames.unitools
+127 silly fetchPackageMetaData     at makeError (C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Web\External\node_modules\npm-registry-client\lib\request.js:264:12)
+127 silly fetchPackageMetaData     at CachingRegistryClient.<anonymous> (C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Web\External\node_modules\npm-registry-client\lib\request.js:252:14)
+127 silly fetchPackageMetaData     at Request._callback (C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Web\External\node_modules\npm-registry-client\lib\request.js:172:14)
+127 silly fetchPackageMetaData     at Request.self.callback (C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Web\External\node_modules\request\request.js:344:22)
+127 silly fetchPackageMetaData     at emitTwo (events.js:87:13)
+127 silly fetchPackageMetaData     at Request.emit (events.js:172:7)
+127 silly fetchPackageMetaData     at Request.<anonymous> (C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Web\External\node_modules\request\request.js:1239:14)
+127 silly fetchPackageMetaData     at emitOne (events.js:82:20)
+127 silly fetchPackageMetaData     at Request.emit (events.js:169:7)
+127 silly fetchPackageMetaData     at IncomingMessage.<anonymous> (C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Web\External\node_modules\request\request.js:1187:12)
+127 silly fetchPackageMetaData  error for com.greenbuttongames.unitools@1.0.0 { [Error: no such package available : com.greenbuttongames.unitools]
+127 silly fetchPackageMetaData   pkgid: 'com.greenbuttongames.unitools',
+127 silly fetchPackageMetaData   statusCode: 404,
+127 silly fetchPackageMetaData   code: 'E404' }
+128 http 404 http://packages.greenbuttongames.com:12867/com.greenbuttongames.contextdata
+129 verbose headers { 'x-powered-by': 'verdaccio/3.11.6',
+129 verbose headers   'access-control-allow-origin': '*',
+129 verbose headers   'content-type': 'application/json; charset=utf-8',
+129 verbose headers   'content-length': '43',
+129 verbose headers   etag: 'W/"2b-qLjXXPpa5cmKw8bM3gatrZVKHm8"',
+129 verbose headers   vary: 'Accept-Encoding',
+129 verbose headers   'x-status-cat': 'http://flic.kr/p/aV6juR',
+129 verbose headers   date: 'Sat, 06 Apr 2019 22:42:59 GMT',
+129 verbose headers   connection: 'keep-alive' }
+130 silly get cb [ 404,
+130 silly get   { 'x-powered-by': 'verdaccio/3.11.6',
+130 silly get     'access-control-allow-origin': '*',
+130 silly get     'content-type': 'application/json; charset=utf-8',
+130 silly get     'content-length': '43',
+130 silly get     etag: 'W/"2b-qLjXXPpa5cmKw8bM3gatrZVKHm8"',
+130 silly get     vary: 'Accept-Encoding',
+130 silly get     'x-status-cat': 'http://flic.kr/p/aV6juR',
+130 silly get     date: 'Sat, 06 Apr 2019 22:42:59 GMT',
+130 silly get     connection: 'keep-alive' } ]
+131 silly fetchPackageMetaData Error: no such package available : com.greenbuttongames.contextdata
+131 silly fetchPackageMetaData     at makeError (C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Web\External\node_modules\npm-registry-client\lib\request.js:264:12)
+131 silly fetchPackageMetaData     at CachingRegistryClient.<anonymous> (C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Web\External\node_modules\npm-registry-client\lib\request.js:252:14)
+131 silly fetchPackageMetaData     at Request._callback (C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Web\External\node_modules\npm-registry-client\lib\request.js:172:14)
+131 silly fetchPackageMetaData     at Request.self.callback (C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Web\External\node_modules\request\request.js:344:22)
+131 silly fetchPackageMetaData     at emitTwo (events.js:87:13)
+131 silly fetchPackageMetaData     at Request.emit (events.js:172:7)
+131 silly fetchPackageMetaData     at Request.<anonymous> (C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Web\External\node_modules\request\request.js:1239:14)
+131 silly fetchPackageMetaData     at emitOne (events.js:82:20)
+131 silly fetchPackageMetaData     at Request.emit (events.js:169:7)
+131 silly fetchPackageMetaData     at IncomingMessage.<anonymous> (C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Web\External\node_modules\request\request.js:1187:12)
+131 silly fetchPackageMetaData  error for com.greenbuttongames.contextdata@1.0.0 { [Error: no such package available : com.greenbuttongames.contextdata]
+131 silly fetchPackageMetaData   pkgid: 'com.greenbuttongames.contextdata',
+131 silly fetchPackageMetaData   statusCode: 404,
+131 silly fetchPackageMetaData   code: 'E404' }
+132 silly rollbackFailedOptional Starting
+133 silly rollbackFailedOptional Finishing
+134 silly runTopLevelLifecycles Starting
+135 silly runTopLevelLifecycles Finishing
+136 silly install printInstalled
+137 verbose stack Error: no such package available : com.greenbuttongames.resourcesystem
+137 verbose stack     at makeError (C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Web\External\node_modules\npm-registry-client\lib\request.js:264:12)
+137 verbose stack     at CachingRegistryClient.<anonymous> (C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Web\External\node_modules\npm-registry-client\lib\request.js:252:14)
+137 verbose stack     at Request._callback (C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Web\External\node_modules\npm-registry-client\lib\request.js:172:14)
+137 verbose stack     at Request.self.callback (C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Web\External\node_modules\request\request.js:344:22)
+137 verbose stack     at emitTwo (events.js:87:13)
+137 verbose stack     at Request.emit (events.js:172:7)
+137 verbose stack     at Request.<anonymous> (C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Web\External\node_modules\request\request.js:1239:14)
+137 verbose stack     at emitOne (events.js:82:20)
+137 verbose stack     at Request.emit (events.js:169:7)
+137 verbose stack     at IncomingMessage.<anonymous> (C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Web\External\node_modules\request\request.js:1187:12)
+138 verbose statusCode 404
+139 verbose pkgid com.greenbuttongames.resourcesystem
+140 verbose cwd F:\DevModules\greenbutton.packages\greenbuttongames.unity.packages\Assets\UniTools\UniNodeActors
+141 error Windows_NT 10.0.17134
+142 error argv "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Web\\External\\Node.exe" "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Web\\External\\node_modules\\npm\\bin\\npm-cli.js" "install"
+143 error node v5.4.1
+144 error npm  v3.3.4
+145 error code E404
+146 error 404 no such package available : com.greenbuttongames.resourcesystem
+146 error 404
+146 error 404 'com.greenbuttongames.resourcesystem' is not in the npm registry.
+146 error 404 You should bug the author to publish it (or use the name yourself!)
+146 error 404 It was specified as a dependency of 'com.greenbuttongames.nodeactors'
+146 error 404
+146 error 404 Note that you can also install from a
+146 error 404 tarball, folder, http url, or git url.
+147 verbose exit [ 1, true ]

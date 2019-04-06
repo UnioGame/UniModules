@@ -4,9 +4,9 @@
     "displayName": "UniCore",
     "description": "Unity Tools Core",
     "unity": "2018.3",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "keywords": [],
     "dependencies": {
-        "com.greenbuttongames.neuecc.unirx" : "1.0.0"
+        "com.greenbuttongames.neuecc.unirx": "6.2.2"
     }
- }
+}

@@ -1,5 +1,4 @@
-﻿
-using UniStateMachine.Nodes;
+﻿using UniStateMachine.Nodes;
 
 namespace UniModule.UnityTools.ActorEntityModel
 {
