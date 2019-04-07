@@ -1,0 +1,21 @@
+{
+    "name": "uninodesystem.commonnodes",
+    "references": [
+        "greenbuttongames.nodesystem",
+        "greenbuttongames.uniresources",
+        "UniRx",
+        "UniRx.Async",
+        "greenbuttongames.uniroutine",
+        "greenbuttongames.uniactors",
+        "greenbuttongame.unitools",
+        "greenbuttongames.unistatemachine"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": []
+}
