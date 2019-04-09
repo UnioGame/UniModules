@@ -16,16 +16,17 @@ namespace UniNodeSystemEditor {
         private static Texture2D scriptIcon = (EditorGUIUtility.IconContent("cs Script Icon").image as Texture2D);
 
         public static bool GetAttrib<T>(Type classType, out T attribOut) where T : Attribute {
-            object[] attribs = classType.GetCustomAttributes(typeof(T), false);
+            var attribs = classType.GetCustomAttributes(typeof(T), false);
             return GetAttrib(attribs, out attribOut);
         }
 
         public static bool GetAttrib<T>(object[] attribs, out T attribOut) where T : Attribute {
-            for (int i = 0; i < attribs.Length; i++) {
-                if (attribs[i].GetType() == typeof(T)) {
-                    attribOut = attribs[i] as T;
-                    return true;
-                }
+            for (var i = 0; i < attribs.Length; i++) {
+                
+                if (attribs[i].GetType() != typeof(T)) continue;
+                
+                attribOut = attribs[i] as T;
+                return true;
             }
             attribOut = null;
             return false;
@@ -151,7 +152,7 @@ namespace UniNodeSystemEditor {
         }
 
         /// <summary>Creates Script from Template's path.</summary>
-        internal static UnityEngine.Object CreateScript(string pathName, string templatePath) {
+        internal static Object CreateScript(string pathName, string templatePath) {
             string className = Path.GetFileNameWithoutExtension(pathName).Replace(" ", string.Empty);
             string templateText = string.Empty;
 

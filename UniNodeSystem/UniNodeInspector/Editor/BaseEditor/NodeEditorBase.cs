@@ -83,8 +83,8 @@ namespace UniNodeSystemEditor
             editorTypes = new Dictionary<Type, Type>();
 
             //Get all classes deriving from NodeEditor via reflection
-            var nodeEditors = UniNodeSystemEditor.NodeEditorWindow.GetDerivedTypes(typeof(T));
-            for (var i = 0; i < nodeEditors.Length; i++)
+            var nodeEditors = NodeEditorWindow.GetDerivedTypes(typeof(T));
+            for (var i = 0; i < nodeEditors.Count; i++)
             {
                 if (nodeEditors[i].IsAbstract) continue;
                 var attribs = nodeEditors[i].GetCustomAttributes(typeof(A), false);

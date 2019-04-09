@@ -174,9 +174,9 @@ namespace UniNodeSystemEditor
         {
             var contextMenu = new GenericMenu();
             var pos = WindowToGridPosition(Event.current.mousePosition);
-            for (var i = 0; i < nodeTypes.Length; i++)
+            for (var i = 0; i < NodeTypes.Count; i++)
             {
-                var type = nodeTypes[i];
+                var type = NodeTypes[i];
 
                 //Get node context menu path
                 var path = graphEditor.GetNodeMenuName(type);
