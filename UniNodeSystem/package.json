@@ -1,10 +1,10 @@
 {
     "name": "com.greenbuttongames.nodesystem",
     "author": "Mefodei",
-    "displayName": "UniNode System",
+    "displayName": "GBG UniNode System",
     "description": "UniNode System for Unity",
     "unity": "2018.3",
-    "version": "1.0.1",
+    "version": "1.0.3",
     "keywords": [],
     "dependencies": {
         "com.greenbuttongames.neuecc.unirx": "6.2.2",

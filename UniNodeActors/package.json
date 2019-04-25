@@ -1,10 +1,10 @@
 {
   "name": "com.greenbuttongames.nodeactors",
   "author": "Mefodei",
-  "displayName": "UniNode Actors",
+  "displayName": "GBG UniNode Actors",
   "description": "UniNode Actors for Unity",
   "unity": "2018.3",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "keywords": [],
   "dependencies": {
     "com.greenbuttongames.odin": "2.0.16",

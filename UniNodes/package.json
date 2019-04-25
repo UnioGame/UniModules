@@ -1,10 +1,10 @@
 {
   "name": "com.greenbuttongames.nodesystem.commonnodes",
   "author": "Mefodei",
-  "displayName": "UniNode System Common Nodes",
+  "displayName": "GBG UniNode System Common Nodes",
   "description": "Common nodes",
   "unity": "2018.3",
-  "version": "1.0.1",
+  "version": "1.0.8",
   "keywords": [
     "nodes"
   ],

@@ -1,10 +1,10 @@
 {
   "name": "com.greenbuttongames.resourcesystem",
   "author": "Mefodei",
-  "displayName": "UniResource system",
+  "displayName": "GBG UniResource system",
   "description": "",
   "unity": "2018.3",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "keywords": [],
   "dependencies": {
     "com.greenbuttongames.unicore": "1.0.1",

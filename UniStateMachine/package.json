@@ -1,17 +1,15 @@
 {
     "name": "com.greenbuttongames.unistatemachine",
     "author": "Mefodei",
-    "displayName": "Uni State Machine",
+    "displayName": "GBG Uni State Machine",
     "description": "Unity state machine core",
     "unity": "2018.3",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "keywords": [],
     "dependencies": {
-
-        "com.greenbuttongames.neuecc.unirx" : "6.2.2",
-        "com.greenbuttongames.unicore" : "1.0.1",
-		    "com.greenbuttongames.uniroutine" : "1.0.1",
-        "com.greenbuttongames.contextdata" : "1.0.0"
-        
+        "com.greenbuttongames.neuecc.unirx": "6.2.2",
+        "com.greenbuttongames.unicore": "1.0.1",
+        "com.greenbuttongames.uniroutine": "1.0.1",
+        "com.greenbuttongames.contextdata": "1.0.0"
     }
- }
+}
