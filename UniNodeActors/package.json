@@ -1,18 +1,18 @@
 {
-    "name": "com.greenbuttongames.nodeactors",
-    "author": "Mefodei",
-    "displayName": "UniNode Actors",
-    "description": "UniNode Actors for Unity",
-    "unity": "2018.3",
-    "version": "1.0.0",
-    "keywords": [],
+  "name": "com.greenbuttongames.nodeactors",
+  "author": "Mefodei",
+  "displayName": "UniNode Actors",
+  "description": "UniNode Actors for Unity",
+  "unity": "2018.3",
+  "version": "1.0.1",
+  "keywords": [],
   "dependencies": {
     "com.greenbuttongames.odin": "2.0.16",
     "com.greenbuttongames.neuecc.unirx": "6.2.2",
-    "com.greenbuttongames.unitools": "1.0.1",
+    "com.greenbuttongames.unicore": "1.0.1",
     "com.greenbuttongames.contextdata": "1.0.0",
     "com.greenbuttongames.uniroutine": "1.0.1",
     "com.greenbuttongames.resourcesystem": "1.0.0",
     "com.greenbuttongames.unistatemachine": "1.0.0"
   }
- }
+}

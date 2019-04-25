@@ -19,11 +19,11 @@
 16 silly loadShrinkwrap Finishing
 17 silly loadAllDepsIntoIdealTree Starting
 18 silly install loadAllDepsIntoIdealTree
-19 silly fetchNamedPackageData com.greenbuttongames.unitools
-20 silly mapToRegistry name com.greenbuttongames.unitools
+19 silly fetchNamedPackageData com.greenbuttongames.unicore
+20 silly mapToRegistry name com.greenbuttongames.unicore
 21 silly mapToRegistry using default registry
 22 silly mapToRegistry registry http://packages.greenbuttongames.com:12867/
-23 silly mapToRegistry uri http://packages.greenbuttongames.com:12867/com.greenbuttongames.unitools
+23 silly mapToRegistry uri http://packages.greenbuttongames.com:12867/com.greenbuttongames.unicore
 24 silly fetchNamedPackageData com.unity.addressables
 25 silly mapToRegistry name com.unity.addressables
 26 silly mapToRegistry using default registry
@@ -40,24 +40,24 @@
 37 verbose request using bearer token for auth
 38 verbose request id f56bc451becdd4b8
 39 http request GET http://packages.greenbuttongames.com:12867/com.unity.addressables
-40 verbose get http://packages.greenbuttongames.com:12867/com.greenbuttongames.unitools not expired, no request
-41 silly resolveWithNewModule com.greenbuttongames.unitools@1.0.1 checking installable status
-42 silly cache add args [ 'com.greenbuttongames.unitools@1.0.1', null ]
-43 verbose cache add spec com.greenbuttongames.unitools@1.0.1
+40 verbose get http://packages.greenbuttongames.com:12867/com.greenbuttongames.unicore not expired, no request
+41 silly resolveWithNewModule com.greenbuttongames.unicore@1.0.1 checking installable status
+42 silly cache add args [ 'com.greenbuttongames.unicore@1.0.1', null ]
+43 verbose cache add spec com.greenbuttongames.unicore@1.0.1
 44 silly cache add parsed spec Result {
-44 silly cache add   raw: 'com.greenbuttongames.unitools@1.0.1',
+44 silly cache add   raw: 'com.greenbuttongames.unicore@1.0.1',
 44 silly cache add   scope: null,
-44 silly cache add   name: 'com.greenbuttongames.unitools',
+44 silly cache add   name: 'com.greenbuttongames.unicore',
 44 silly cache add   rawSpec: '1.0.1',
 44 silly cache add   spec: '1.0.1',
 44 silly cache add   type: 'version' }
-45 silly addNamed com.greenbuttongames.unitools@1.0.1
-46 verbose addNamed "1.0.1" is a plain semver version for com.greenbuttongames.unitools
-47 silly mapToRegistry name com.greenbuttongames.unitools
+45 silly addNamed com.greenbuttongames.unicore@1.0.1
+46 verbose addNamed "1.0.1" is a plain semver version for com.greenbuttongames.unicore
+47 silly mapToRegistry name com.greenbuttongames.unicore
 48 silly mapToRegistry using default registry
 49 silly mapToRegistry registry http://packages.greenbuttongames.com:12867/
-50 silly mapToRegistry uri http://packages.greenbuttongames.com:12867/com.greenbuttongames.unitools
-51 verbose addNameVersion registry:http://packages.greenbuttongames.com:12867/com.greenbuttongames.unitools not in flight; fetching
+50 silly mapToRegistry uri http://packages.greenbuttongames.com:12867/com.greenbuttongames.unicore
+51 verbose addNameVersion registry:http://packages.greenbuttongames.com:12867/com.greenbuttongames.unicore not in flight; fetching
 52 verbose get http://packages.greenbuttongames.com:12867/com.greenbuttongames.uniroutine not expired, no request
 53 silly resolveWithNewModule com.greenbuttongames.uniroutine@1.0.1 checking installable status
 54 silly cache add args [ 'com.greenbuttongames.uniroutine@1.0.1', null ]
@@ -76,13 +76,13 @@
 61 silly mapToRegistry registry http://packages.greenbuttongames.com:12867/
 62 silly mapToRegistry uri http://packages.greenbuttongames.com:12867/com.greenbuttongames.uniroutine
 63 verbose addNameVersion registry:http://packages.greenbuttongames.com:12867/com.greenbuttongames.uniroutine not in flight; fetching
-64 verbose get http://packages.greenbuttongames.com:12867/com.greenbuttongames.unitools not expired, no request
+64 verbose get http://packages.greenbuttongames.com:12867/com.greenbuttongames.unicore not expired, no request
 65 verbose get http://packages.greenbuttongames.com:12867/com.greenbuttongames.uniroutine not expired, no request
-66 silly cache afterAdd com.greenbuttongames.unitools@1.0.1
-67 verbose afterAdd C:\Users\mefod\AppData\Roaming\npm-cache\com.greenbuttongames.unitools\1.0.1\package\package.json not in flight; writing
+66 silly cache afterAdd com.greenbuttongames.unicore@1.0.1
+67 verbose afterAdd C:\Users\mefod\AppData\Roaming\npm-cache\com.greenbuttongames.unicore\1.0.1\package\package.json not in flight; writing
 68 silly cache afterAdd com.greenbuttongames.uniroutine@1.0.1
 69 verbose afterAdd C:\Users\mefod\AppData\Roaming\npm-cache\com.greenbuttongames.uniroutine\1.0.1\package\package.json not in flight; writing
-70 verbose afterAdd C:\Users\mefod\AppData\Roaming\npm-cache\com.greenbuttongames.unitools\1.0.1\package\package.json written
+70 verbose afterAdd C:\Users\mefod\AppData\Roaming\npm-cache\com.greenbuttongames.unicore\1.0.1\package\package.json written
 71 verbose afterAdd C:\Users\mefod\AppData\Roaming\npm-cache\com.greenbuttongames.uniroutine\1.0.1\package\package.json written
 72 http 404 http://packages.greenbuttongames.com:12867/com.unity.addressables
 73 verbose headers { 'x-powered-by': 'verdaccio/3.11.6',
