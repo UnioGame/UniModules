@@ -9,6 +9,8 @@ using UnityEngine;
 
 namespace Tests.GraphTest
 {
+	using UniTools.UniRoutine.Runtime.Extension;
+
 	public class LogNode : UniNode
 	{
 		private const string LogMessageName = "log message";

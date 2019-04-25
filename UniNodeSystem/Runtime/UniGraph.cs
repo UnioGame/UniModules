@@ -8,7 +8,6 @@ using UniModule.UnityTools.DataFlow;
 using UniModule.UnityTools.Interfaces;
 using UniModule.UnityTools.UniPool.Scripts;
 using UniModule.UnityTools.ProfilerTools;
-using UniModule.UnityTools.UniRoutine;
 using UniModule.UnityTools.UniStateMachine;
 using UniModule.UnityTools.UniStateMachine.Extensions;
 using UniModule.UnityTools.UniStateMachine.Interfaces;
@@ -19,6 +18,8 @@ using UniStateMachine.CommonNodes;
 
 namespace UniStateMachine.Nodes
 {
+    using UniTools.UniRoutine.Runtime;
+
     public class UniGraph : NodeGraph, IContextState<IEnumerator>
     {
        

@@ -9,13 +9,13 @@ namespace UniNodeSystemEditor {
         /// <para/> This is important to do, because you can't delete null sub assets. </summary> 
         private static AssetDeleteResult OnWillDeleteAsset (string path, RemoveAssetOptions options) {
             // Get the object that is requested for deletion
-            UnityEngine.Object obj = AssetDatabase.LoadAssetAtPath<UnityEngine.Object> (path);
+            Object obj = AssetDatabase.LoadAssetAtPath<Object> (path);
 
             // If we aren't deleting a script, return
-            if (!(obj is UnityEditor.MonoScript)) return AssetDeleteResult.DidNotDelete;
+            if (!(obj is MonoScript)) return AssetDeleteResult.DidNotDelete;
 
             // Check script type. Return if deleting a non-node script
-            UnityEditor.MonoScript script = obj as UnityEditor.MonoScript;
+            MonoScript script = obj as MonoScript;
             System.Type scriptType = script.GetClass ();
             if (scriptType == null || (scriptType != typeof (UniNodeSystem.UniBaseNode) && !scriptType.IsSubclassOf (typeof (UniNodeSystem.UniBaseNode)))) return AssetDeleteResult.DidNotDelete;
 
