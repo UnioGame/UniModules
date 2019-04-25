@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections;
 using UniModule.UnityTools.Extension;
-using UniModule.UnityTools.UniRoutine;
 using UniModule.UnityTools.UniStateMachine.Interfaces;
 
 namespace UniModule.UnityTools.UniStateMachine
 {
+    using UniTools.UniRoutine.Runtime;
+
     public class RoutineStateExecutor : IStateExecutor<IStateBehaviour<IEnumerator>>
     {
         private IDisposable _disposables;

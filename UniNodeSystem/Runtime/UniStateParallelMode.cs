@@ -1,9 +1,10 @@
 ﻿using System;
-using UniModule.UnityTools.UniRoutine;
 using UnityEngine.Serialization;
 
 namespace UniStateMachine
 {
+    using UniTools.UniRoutine.Runtime;
+
     [Serializable]
     public class UniStateParallelMode
     {

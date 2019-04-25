@@ -1,17 +1,18 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UniModule.UnityTools.Interfaces;
-using UnityEngine;
-
-namespace UniModule.UnityTools.UniRoutine
+﻿namespace UniTools.UniRoutine.Runtime
 {
+	using System;
+	using System.Collections;
+	using System.Collections.Generic;
+	using Interfaces;
+	using UniModule.UnityTools.Interfaces;
+	using UnityEngine;
+
 	public static class UniRoutineController
 	{
 		
-		private static Lazy<UniRoutineManager> _routineManager = new Lazy<UniRoutineManager>(CreateRoutineManager);
+		private static Lazy<UniRoutineManager> routineManager = new Lazy<UniRoutineManager>(CreateRoutineManager);
 		
-		private static Dictionary<RoutineType,Lazy<IUniRoutine>> _uniRoutines = new Dictionary<RoutineType,Lazy<IUniRoutine>>()
+		private static Dictionary<RoutineType,Lazy<IUniRoutine>> uniRoutines = new Dictionary<RoutineType,Lazy<IUniRoutine>>()
 		{
 			
 			{RoutineType.UpdateStep,new Lazy<IUniRoutine>(() => CreateRoutine(RoutineType.UpdateStep))},
@@ -25,7 +26,7 @@ namespace UniModule.UnityTools.UniRoutine
 		{
 			
 			//get routine
-			var routine = _uniRoutines[routineType];
+			var routine = uniRoutines[routineType];
 			//add enumerator to routines
 			var routineItem = routine.Value;
 			var result = routineItem.AddRoutine(enumerator);
@@ -84,7 +85,7 @@ namespace UniModule.UnityTools.UniRoutine
 		
 		private static void ExecuteUniRoutines(IUniRoutine routine,RoutineType routineType) {
 
-			_routineManager.Value.StartCoroutine(ExecuteOnUpdate(routine,routineType));
+			routineManager.Value.StartCoroutine(ExecuteOnUpdate(routine,routineType));
 
 		}
 	}

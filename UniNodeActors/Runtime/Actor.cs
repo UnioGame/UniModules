@@ -2,11 +2,12 @@
 using System.Collections;
 using UniModule.UnityTools.Interfaces;
 using UniModule.UnityTools.UniPool.Scripts;
-using UniModule.UnityTools.UniRoutine;
 using UniModule.UnityTools.UniStateMachine.Interfaces;
 
 namespace UniModule.UnityTools.ActorEntityModel
 {
+    using UniTools.UniRoutine.Runtime;
+
     public class Actor : BehaviourObject, IActor
     {
         /// <summary>

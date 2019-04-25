@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using UniModule.UnityTools.ActorEntityModel;
 using UniModule.UnityTools.Interfaces;
-using UniModule.UnityTools.UniRoutine;
 using UnityEngine;
 
 namespace UniUiSystem
 {
+    using UniTools.UniRoutine.Runtime;
+
     public class UiViewBehaviour : MonoBehaviour, IUiViewBehaviour
     {
         private EntityObject _context = new EntityObject();

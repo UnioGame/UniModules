@@ -11,6 +11,8 @@ using UniModule.UnityTools.UniStateMachine.Interfaces;
 
 namespace UniModule.UnityTools.UniStateMachine.ContextStateMachine
 {
+    using UniTools.UniRoutine.Runtime.Extension;
+
     public enum StateStatus : byte
     {
         Initialization,

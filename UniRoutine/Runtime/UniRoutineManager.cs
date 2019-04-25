@@ -1,9 +1,6 @@
-﻿using UnityEngine;
+﻿namespace UniTools.UniRoutine.Runtime {
+    using UnityEngine;
 
-namespace UniModule.UnityTools.UniRoutine {
-
-    public class UniRoutineManager : MonoBehaviour {
-
-    }
+    public class UniRoutineManager : MonoBehaviour {}
 
 }

@@ -5,7 +5,6 @@ using UniModule.UnityTools.DataFlow;
 using UniModule.UnityTools.Interfaces;
 using UniModule.UnityTools.UniPool.Scripts;
 using UniModule.UnityTools.ProfilerTools;
-using UniModule.UnityTools.UniRoutine;
 using UniModule.UnityTools.UniStateMachine;
 using UniModule.UnityTools.UniStateMachine.Extensions;
 using UniModule.UnityTools.UniStateMachine.Interfaces;
@@ -16,6 +15,8 @@ using UniStateMachine.Runtime;
 
 namespace UniStateMachine
 {
+    using UniTools.UniRoutine.Runtime;
+
     [Serializable]
     public abstract class UniGraphNode : UniBaseNode , IValidator<IContext>, IContextState<IEnumerator>
     {

@@ -1,19 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UniModule.UnityTools.Common;
-using UniModule.UnityTools.Interfaces;
-using UniModule.UnityTools.UniPool.Scripts;
-
-namespace UniModule.UnityTools.UniRoutine {
+﻿namespace UniTools.UniRoutine.Runtime {
+	using System.Collections;
+	using System.Collections.Generic;
+	using Interfaces;
+	using UniModule.UnityTools.Common;
+	using UniModule.UnityTools.Interfaces;
+	using UniModule.UnityTools.UniPool.Scripts;
 
 	public class UniRoutine : IUniRoutine
 	{
 
-		private List<UniRoutineTask> _routines = new List<UniRoutineTask>();
-		private List<DisposableAction<int>> _routineDisposable = new List<DisposableAction<int>>();
-		private Stack<int> _unusedSlots = new Stack<int>();
+		private List<UniRoutineTask> routines = new List<UniRoutineTask>();
+		private List<DisposableAction<int>> routineDisposable = new List<DisposableAction<int>>();
+		private Stack<int> unusedSlots = new Stack<int>();
 		
-		private static UniRoutineManager _routineObject;
+		private static UniRoutineManager routineObject;
 
 		public IDisposableItem AddRoutine(IEnumerator enumerator) {
 
@@ -25,17 +25,17 @@ namespace UniModule.UnityTools.UniRoutine {
 
 			routine.Initialize(enumerator,true);
 
-			var slotIndex = _routines.Count;
+			var slotIndex = routines.Count;
 			
-			if (_unusedSlots.Count > 0) {
-				var index = _unusedSlots.Pop();
-				_routines[index] = routine;
-				_routineDisposable[index] = disposable;
+			if (unusedSlots.Count > 0) {
+				var index = unusedSlots.Pop();
+				routines[index] = routine;
+				routineDisposable[index] = disposable;
 				slotIndex = index;
 			}
 			else {			
-				_routines.Add(routine);
-				_routineDisposable.Add(disposable);
+				routines.Add(routine);
+				routineDisposable.Add(disposable);
 			}
 
 			disposable.Initialize(ReleaseRoutine,slotIndex);
@@ -46,10 +46,10 @@ namespace UniModule.UnityTools.UniRoutine {
 
 		public void Update() {
 
-			for (var i = 0; i < _routines.Count; i++) {
+			for (var i = 0; i < routines.Count; i++) {
 
 				//execute routine
-				var routine = _routines[i];
+				var routine = routines[i];
 				
 				//if routine slot is empty skip it
 				if(routine== null)
@@ -68,11 +68,11 @@ namespace UniModule.UnityTools.UniRoutine {
 		//stop routine and release resources
 		private void ReleaseRoutine(int index)
 		{
-			var routine = _routines[index];
-			var disposable = _routineDisposable[index];
+			var routine = routines[index];
+			var disposable = routineDisposable[index];
 			
-			_routines[index] = null;
-			_routineDisposable[index] = null;
+			routines[index] = null;
+			routineDisposable[index] = null;
 			
 			//routine complete, return it to pool
 			routine.Dispose();
@@ -80,7 +80,7 @@ namespace UniModule.UnityTools.UniRoutine {
 			//cleanup disposable data
 			disposable.Reset();
 			//mark slot as empty
-			_unusedSlots.Push(index);
+			unusedSlots.Push(index);
 			
 		}
 
