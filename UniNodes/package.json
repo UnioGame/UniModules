@@ -10,11 +10,11 @@
   ],
   "dependencies": {
     "com.greenbuttongames.neuecc.unirx": "6.2.2",
-    "com.greenbuttongames.unicore": "1.0.4",
-    "com.greenbuttongames.contextdata": "1.0.8",
+    "com.greenbuttongames.unicore": "1.0.5",
+    "com.greenbuttongames.contextdata": "1.0.10",
     "com.greenbuttongames.uniroutine": "1.0.1",
-    "com.greenbuttongames.resourcesystem": "1.0.0",
-    "com.greenbuttongames.unistatemachine": "1.0.2",
+    "com.greenbuttongames.resourcesystem": "1.0.5",
+    "com.greenbuttongames.unistatemachine": "1.0.4",
     "com.greenbuttongames.nodesystem": "1.0.4"
   }
 }

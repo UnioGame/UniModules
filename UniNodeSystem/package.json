@@ -8,7 +8,7 @@
     "keywords": [],
     "dependencies": {
         "com.greenbuttongames.neuecc.unirx": "6.2.2",
-        "com.greenbuttongames.unicore": "1.0.4",
+        "com.greenbuttongames.unicore": "1.0.5",
         "com.greenbuttongames.contextdata": "1.0.8",
         "com.greenbuttongames.uniroutine": "1.0.1",
         "com.greenbuttongames.unistatemachine": "1.0.2"
