@@ -5,31 +5,33 @@
     using UniModule.UnityTools.DataFlow;
     using UniModule.UnityTools.Interfaces;
     using UniModule.UnityTools.ProfilerTools;
+    using UniModule.UnityTools.RecycleRx;
     using UniModule.UnityTools.UniPool.Scripts;
     using UniRx;
 
     public class EntityObject : IContext
     {
-        private IMessageBroker     _broker;
+        private IRecycleMessageBrocker _broker;
         private TypeData           _typeData;
         private LifeTimeDefinition _lifeTimeDefinition;
-
-#region public properties
-
-        public ILifeTime LifeTime => _lifeTimeDefinition.LifeTime;
-
-#endregion
 
         public EntityObject()
         {
             //context data container
             _typeData = new TypeData();
             //create local message context
-            _broker = MessageBroker.Default;
+            _broker = new RecycleMessageBrocker();
             //context lifetime
             _lifeTimeDefinition = new LifeTimeDefinition();
         }
 
+        
+#region public properties
+
+        public ILifeTime LifeTime => _lifeTimeDefinition.LifeTime;
+
+#endregion
+        
 #region public methods
 
         public bool Contains<TData>()
@@ -60,6 +62,7 @@
 
         public void Release()
         {
+            _broker.Release();
             _typeData.Release();
             _lifeTimeDefinition.Release();
         }

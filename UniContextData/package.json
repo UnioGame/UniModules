@@ -4,12 +4,12 @@
   "displayName": "GBG Uni Context Data",
   "description": "",
   "unity": "2018.3",
-  "version": "1.0.22",
+  "version": "Patch",
   "keywords": [
 
   ],
   "dependencies": {
     "com.greenbuttongames.neuecc.unirx": "6.2.2",
-    "com.greenbuttongames.unicore": "1.0.23"
+    "com.greenbuttongames.unicore": "1.0.24"
   }
 }

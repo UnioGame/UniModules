@@ -5,9 +5,8 @@ using UniRx;
 
 namespace UniModule.UnityTools.RecycleRx
 {
-	public class RecycleMessageBrocker : IMessageBroker, IPoolable
+	public class RecycleMessageBrocker : IRecycleMessageBrocker
 	{
-        private List<RecycleMessageBrocker> _brokers = new List<RecycleMessageBrocker>(); 
 		readonly Dictionary<Type, object> notifiers = new Dictionary<Type, object>();
 
 		public void Publish<T>(T message)
@@ -33,8 +32,8 @@ namespace UniModule.UnityTools.RecycleRx
 
 		public void Release()
 		{
+			
 			notifiers.Clear();
-		    _brokers.Clear();
 
         }
 	}
