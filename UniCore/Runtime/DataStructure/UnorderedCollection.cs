@@ -49,9 +49,12 @@ namespace UniModule.UnityTools.DataStructure
 		public T Remove(int itemId)
 		{
 			var item = _items[itemId];
+			if (item == null)
+				return null;
 			
 			_unusedSlots.Enqueue(itemId);
 			_items[itemId] = null;
+			_count--;
 			
 			return item;
 		}
@@ -59,7 +62,8 @@ namespace UniModule.UnityTools.DataStructure
 		public void Clear()
 		{
 			_items.Clear();
-			_unusedSlots.Clear();	
+			_unusedSlots.Clear();
+			_count = 0;
 		}
 
 		public void Release()
