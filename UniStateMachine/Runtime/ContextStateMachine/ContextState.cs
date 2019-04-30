@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UniModule.UnityTools.ActorEntityModel;
 using UniModule.UnityTools.Common;
 using UniModule.UnityTools.DataFlow;
 using UniModule.UnityTools.Extension;
@@ -11,6 +10,7 @@ using UniModule.UnityTools.UniStateMachine.Interfaces;
 
 namespace UniModule.UnityTools.UniStateMachine.ContextStateMachine
 {
+    using UniGreenModules.UniContextData.Runtime.Entities;
     using UniTools.UniRoutine.Runtime.Extension;
 
     public enum StateStatus : byte

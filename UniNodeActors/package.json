@@ -4,7 +4,7 @@
   "displayName": "GBG UniNode Actors",
   "description": "UniNode Actors for Unity",
   "unity": "2018.3",
-  "version": "1.0.22",
+  "version": "1.0.23",
   "keywords": [
 
   ],
@@ -12,9 +12,9 @@
     "com.greenbuttongames.odin": "2.0.16",
     "com.greenbuttongames.neuecc.unirx": "6.2.2",
     "com.greenbuttongames.unicore": "1.0.23",
-    "com.greenbuttongames.contextdata": "1.0.21",
+    "com.greenbuttongames.contextdata": "1.0.22",
     "com.greenbuttongames.uniroutine": "1.0.21",
     "com.greenbuttongames.resourcesystem": "1.0.21",
-    "com.greenbuttongames.unistatemachine": "1.0.21"
+    "com.greenbuttongames.unistatemachine": "1.0.22"
   }
 }

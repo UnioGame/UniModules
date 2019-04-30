@@ -2,7 +2,7 @@
 {
     using System.Collections;
     using Interfaces;
-    using UniModule.UnityTools.ActorEntityModel;
+    using UniContextData.Runtime.Entities;
     using UniModule.UnityTools.Interfaces;
     using UniModule.UnityTools.UniPool.Scripts;
     using UniModule.UnityTools.UniStateMachine.Interfaces;

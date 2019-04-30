@@ -1,10 +1,10 @@
 ﻿using System.Collections;
-using UniModule.UnityTools.ActorEntityModel;
 using UniModule.UnityTools.Interfaces;
 using UnityEngine;
 
 namespace UniUiSystem
 {
+    using UniGreenModules.UniContextData.Runtime.Entities;
     using UniTools.UniRoutine.Runtime;
 
     public class UiViewBehaviour : MonoBehaviour, IUiViewBehaviour

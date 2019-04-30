@@ -1,47 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using UniModule.UnityTools.Interfaces;
-using UniModule.UnityTools.UniPool.Scripts;
-using UniModule.UnityTools.ProfilerTools;
-using UniRx;
-using UnityEngine.Profiling;
-
-namespace UniModule.UnityTools.Common
+﻿namespace UniGreenModules.UniContextData.Runtime
 {
+    using System;
+    using System.Collections.Generic;
+    using UniModule.UnityTools.Common;
+    using UniModule.UnityTools.Interfaces;
+    using UniModule.UnityTools.UniPool.Scripts;
 
-    public class ContextData<TContext> : 
-        IContextData<TContext>, 
+    public class ContextData<TContext> :
+        IContextData<TContext>,
         IPoolable
     {
-        protected List<TContext> _contextsItems = new List<TContext>();
-        protected Dictionary<TContext, TypeData> _contexts = new Dictionary<TContext, TypeData>();
+        protected List<TContext>                 _contextsItems = new List<TContext>();
+        protected Dictionary<TContext, TypeData> _contexts      = new Dictionary<TContext, TypeData>();
 
         public IReadOnlyList<TContext> Contexts => _contextsItems;
 
         public int Count => _contexts.Count;
-        
-        #region public methods
+
+#region public methods
 
         public virtual void UpdateValue<TData>(TContext context, TData value)
-        {          
-            var container = GetTypeData(context,true);
+        {
+            var container = GetTypeData(context, true);
             container.Add(value);
         }
 
         public virtual bool Remove<TData>(TContext context)
-        {            
+        {
             var container = GetTypeData(context);
             if (container == null)
                 return false;
             return container.Remove<TData>();
         }
-        
-        public virtual  bool RemoveContext(TContext context)
-        {
 
-            if (_contexts.TryGetValue(context, out var contextData))
-            {
+        public virtual bool RemoveContext(TContext context)
+        {
+            if (_contexts.TryGetValue(context, out var contextData)) {
                 contextData.Despawn();
                 _contexts.Remove(context);
                 _contextsItems.Remove(context);
@@ -50,7 +44,7 @@ namespace UniModule.UnityTools.Common
 
             return false;
         }
-        
+
         public TData Get<TData>(TContext context)
         {
             var container = GetTypeData(context);
@@ -67,7 +61,7 @@ namespace UniModule.UnityTools.Common
             return HasValue(context, typeof(TValue));
         }
 
-        public bool HasValue(TContext context,Type type)
+        public bool HasValue(TContext context, Type type)
         {
             var container = GetTypeData(context);
             return container != null && container.Contains(type);
@@ -75,30 +69,27 @@ namespace UniModule.UnityTools.Common
 
         public void Release()
         {
-            
             var contexts = ClassPool.Spawn<List<TContext>>();
             contexts.AddRange(_contexts.Keys);
-            
-            foreach (var contextData in contexts)
-            {
+
+            foreach (var contextData in contexts) {
                 RemoveContext(contextData);
             }
-            
+
             contexts.DespawnCollection();
-            
+
             _contexts.Clear();
             _contextsItems.Clear();
 
             OnRelease();
         }
 
-        #endregion
+#endregion
 
         protected TypeData GetTypeData(TContext context, bool createIfEmpty = false)
         {
-            if (!_contexts.TryGetValue(context, out var contextData) && createIfEmpty)
-            {
-                contextData = ClassPool.Spawn<TypeData>();
+            if (!_contexts.TryGetValue(context, out var contextData) && createIfEmpty) {
+                contextData        = ClassPool.Spawn<TypeData>();
                 _contexts[context] = contextData;
                 _contextsItems.Add(context);
             }
@@ -108,8 +99,6 @@ namespace UniModule.UnityTools.Common
 
         protected virtual void OnRelease()
         {
-            
         }
-        
     }
 }

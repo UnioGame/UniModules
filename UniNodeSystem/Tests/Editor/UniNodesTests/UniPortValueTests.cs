@@ -1,10 +1,11 @@
 ﻿using NUnit.Framework;
-using UniModule.UnityTools.ActorEntityModel;
 using UniModule.UnityTools.UniVisualNodeSystem.Connections;
 using UniStateMachine.Nodes;
 
 namespace UniNodesTests
 {
+    using UniGreenModules.UniContextData.Runtime.Entities;
+
     public class UniPortValueTests
     {
         // A Test behaves as an ordinary method

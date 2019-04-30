@@ -1,25 +1,25 @@
-﻿using System;
-using UniModule.UnityTools.Common;
-using UniModule.UnityTools.DataFlow;
-using UniModule.UnityTools.Interfaces;
-using UniModule.UnityTools.UniPool.Scripts;
-using UniModule.UnityTools.ProfilerTools;
-using UniRx;
-
-namespace UniModule.UnityTools.ActorEntityModel
+﻿namespace UniGreenModules.UniContextData.Runtime.Entities
 {
+    using System;
+    using UniModule.UnityTools.Common;
+    using UniModule.UnityTools.DataFlow;
+    using UniModule.UnityTools.Interfaces;
+    using UniModule.UnityTools.ProfilerTools;
+    using UniModule.UnityTools.UniPool.Scripts;
+    using UniRx;
+
     public class EntityObject : IContext
     {
-        private IMessageBroker _broker;
-        private TypeData _typeData;
+        private IMessageBroker     _broker;
+        private TypeData           _typeData;
         private LifeTimeDefinition _lifeTimeDefinition;
 
-        #region public properties
+#region public properties
 
         public ILifeTime LifeTime => _lifeTimeDefinition.LifeTime;
-        
-        #endregion
-        
+
+#endregion
+
         public EntityObject()
         {
             //context data container
@@ -29,14 +29,14 @@ namespace UniModule.UnityTools.ActorEntityModel
             //context lifetime
             _lifeTimeDefinition = new LifeTimeDefinition();
         }
-       
-        #region public methods
+
+#region public methods
 
         public bool Contains<TData>()
         {
             return _typeData.Contains<TData>();
         }
-        
+
         public virtual TData Get<TData>()
         {
             return _typeData.Get<TData>();
@@ -51,7 +51,7 @@ namespace UniModule.UnityTools.ActorEntityModel
         {
             _typeData.RemoveAll();
         }
-        
+
         public void Add<TData>(TData data)
         {
             _typeData.Add(data);
@@ -70,23 +70,22 @@ namespace UniModule.UnityTools.ActorEntityModel
             this.Despawn();
         }
 
-        #region rx 
-                
+#region rx 
+
         public void Publish<T>(T message)
         {
-            GameLog.LogMessage("ENTITY {0} PUBLISH: {1}",GetType().Name,message.GetType().Name);
+            GameLog.LogMessage("ENTITY {0} PUBLISH: {1}", GetType().Name, message.GetType().Name);
             _broker.Publish(message);
         }
 
         public IObservable<T> Receive<T>()
         {
-            GameLog.LogFormat("ENTITY REGISTER RECEIVE {0}: {1}",GetType().Name,typeof(T).Name);
+            GameLog.LogFormat("ENTITY REGISTER RECEIVE {0}: {1}", GetType().Name, typeof(T).Name);
             return _broker.Receive<T>();
         }
 
-        #endregion
+#endregion
 
-        #endregion
-
+#endregion
     }
 }
