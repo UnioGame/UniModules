@@ -1,14 +1,14 @@
-﻿using UniStateMachine.Nodes;
-
-namespace UniModule.UnityTools.ActorEntityModel
+﻿namespace UniGreenModules.UniNodeActors.Runtime
 {
     using System.Collections;
+    using Interfaces;
     using Sirenix.OdinInspector;
     using UniModule.UnityTools.Interfaces;
     using UniModule.UnityTools.UniPool.Scripts;
     using UniModule.UnityTools.UniStateMachine.Interfaces;
-    using UniStateMachine;
+    using UniStateMachine.Nodes;
     using UnityEngine;
+    using IActor = Interfaces.IActor;
 
     public class ActorComponent : SerializedMonoBehaviour, IActor
     {

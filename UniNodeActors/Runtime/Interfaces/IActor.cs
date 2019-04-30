@@ -1,10 +1,7 @@
-using System.Collections;
-using UniModule.UnityTools.Interfaces;
-using UniModule.UnityTools.UniPool.Scripts;
-using UniModule.UnityTools.UniStateMachine.Interfaces;
-
-namespace UniModule.UnityTools.ActorEntityModel
+namespace UniGreenModules.UniNodeActors.Runtime.Interfaces
 {
+    using UniModule.UnityTools.Interfaces;
+
     public interface IActor : IBehaviourObject
     {
         IContext Context { get; }

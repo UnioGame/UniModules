@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-
-namespace UniModule.UnityTools.ActorEntityModel
+﻿namespace UniGreenModules.UniNodeActors.Runtime
 {
+	using UnityEngine;
+
 	public class ContextComponent : MonoBehaviour {
 
 	

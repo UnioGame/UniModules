@@ -1,8 +1,7 @@
-﻿using UniModule.UnityTools.Interfaces;
-
-namespace UniModule.UnityTools.ActorEntityModel 
+﻿namespace UniGreenModules.UniNodeActors.Runtime 
 {
-    
+    using UniModule.UnityTools.Interfaces;
+
     public class BehaviourObject : IBehaviourObject {
 
         #region public properties

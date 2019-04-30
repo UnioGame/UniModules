@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections;
-using Sirenix.OdinInspector;
-using UniModule.UnityTools.Interfaces;
-using UniModule.UnityTools.UniStateMachine.Interfaces;
-using UniRx;
-using UniStateMachine;
-using UniStateMachine.Nodes;
-using UnityEngine;
-
-namespace UniModule.UnityTools.ActorEntityModel
+﻿namespace UniGreenModules.UniNodeActors.Runtime
 {
-    [Serializable]
+	using System;
+	using Interfaces;
+	using Sirenix.OdinInspector;
+	using UniRx;
+
+	[Serializable]
 	public abstract class ActorInfo : 
 		SerializedScriptableObject, 
 		IActorInfo<IActorModel> 

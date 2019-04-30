@@ -1,8 +1,8 @@
-using System;
-using UniModule.UnityTools.Interfaces;
-
-namespace UniModule.UnityTools.ActorEntityModel
+namespace UniGreenModules.UniNodeActors.Runtime.Interfaces
 {
+    using System;
+    using UniModule.UnityTools.Interfaces;
+
     public interface IActorInfo<TModel> : 
         IFactory<TModel>, 
         IObservable<TModel> 

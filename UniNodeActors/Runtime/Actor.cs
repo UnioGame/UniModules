@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections;
-using UniModule.UnityTools.Interfaces;
-using UniModule.UnityTools.UniPool.Scripts;
-using UniModule.UnityTools.UniStateMachine.Interfaces;
-
-namespace UniModule.UnityTools.ActorEntityModel
+﻿namespace UniGreenModules.UniNodeActors.Runtime
 {
+    using System.Collections;
+    using Interfaces;
+    using UniModule.UnityTools.ActorEntityModel;
+    using UniModule.UnityTools.Interfaces;
+    using UniModule.UnityTools.UniPool.Scripts;
+    using UniModule.UnityTools.UniStateMachine.Interfaces;
     using UniTools.UniRoutine.Runtime;
+    using IActor = Interfaces.IActor;
 
     public class Actor : BehaviourObject, IActor
     {

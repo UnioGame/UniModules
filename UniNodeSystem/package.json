@@ -1,17 +1,19 @@
 {
-    "name": "com.greenbuttongames.nodesystem",
-    "author": "Mefodei",
-    "displayName": "GBG UniNode System",
-    "description": "UniNode System for Unity",
-    "unity": "2018.3",
-    "version": "1.0.21",
-    "keywords": [],
-    "dependencies": {
-        "com.greenbuttongames.neuecc.unirx": "6.2.2",
-        "com.greenbuttongames.unicore": "1.0.20",
-        "com.greenbuttongames.contextdata": "1.0.20",
-        "com.greenbuttongames.uniroutine": "1.0.20",
-        "com.greenbuttongames.unistatemachine": "1.0.20",
-        "com.greenbuttongames.resourcesystem": "1.0.20"
-    }
+  "name": "com.greenbuttongames.nodesystem",
+  "author": "Mefodei",
+  "displayName": "GBG UniNode System",
+  "description": "UniNode System for Unity",
+  "unity": "2018.3",
+  "version": "1.0.22",
+  "keywords": [
+
+  ],
+  "dependencies": {
+    "com.greenbuttongames.neuecc.unirx": "6.2.2",
+    "com.greenbuttongames.unicore": "1.0.23",
+    "com.greenbuttongames.contextdata": "1.0.21",
+    "com.greenbuttongames.uniroutine": "1.0.21",
+    "com.greenbuttongames.unistatemachine": "1.0.21",
+    "com.greenbuttongames.resourcesystem": "1.0.21"
+  }
 }

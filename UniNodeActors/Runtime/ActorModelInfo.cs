@@ -1,8 +1,8 @@
 ﻿
 
-namespace Modules.UniTools.ActorEntitySystem
+namespace UniGreenModules.UniNodeActors.Runtime
 {
-    using UniModule.UnityTools.ActorEntityModel;
+    using Interfaces;
     using UniModule.UnityTools.Interfaces;
     using UnityEngine;
 

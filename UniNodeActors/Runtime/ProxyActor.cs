@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace UniModule.UnityTools.ActorEntityModel
+﻿namespace UniGreenModules.UniNodeActors.Runtime
 {
+	using System;
+
 	public class ProxyActor : Actor
 	{
 		private Action _onActivate;
