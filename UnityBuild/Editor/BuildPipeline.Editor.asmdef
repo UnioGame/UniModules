@@ -1,7 +1,8 @@
 {
-    "name": "greenbuttongames.unieditortools",
+    "name": "UnityBuild.Editor",
     "references": [
-        "greenbuttongame.unitools"
+        "greenbuttongame.unitools",
+        "greenbuttongames.unieditortools"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [
@@ -12,5 +13,6 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": []
+    "defineConstraints": [],
+    "versionDefines": []
 }
