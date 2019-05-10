@@ -4,14 +4,12 @@
   "displayName": "GBG Uni State Machine",
   "description": "Unity state machine core",
   "unity": "2018.3",
-  "version": "1.0.24",
-  "keywords": [
-
-  ],
+  "version": "1.0.25",
+  "keywords": [],
   "dependencies": {
     "com.greenbuttongames.neuecc.unirx": "6.2.2",
-    "com.greenbuttongames.unicore": "1.0.24",
-    "com.greenbuttongames.uniroutine": "1.0.22",
-    "com.greenbuttongames.contextdata": "1.0.23"
+    "com.greenbuttongames.unicore": "1.0.25",
+    "com.greenbuttongames.uniroutine": "1.0.25",
+    "com.greenbuttongames.contextdata": "1.0.25"
   }
 }

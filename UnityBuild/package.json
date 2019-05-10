@@ -1,0 +1,12 @@
+{
+  "name": "com.greenbuttongames.unibuildpipeline",
+  "author": "Mefodei",
+  "displayName": "Uni Build Sriptable Pipeline",
+  "description": "Allow Configurate unity project build",
+  "unity": "2018.3",
+  "version": "1.0.0",
+  "keywords": [],
+  "dependencies": {
+    "com.greenbuttongames.unicore": "1.0.25"
+  }
+}

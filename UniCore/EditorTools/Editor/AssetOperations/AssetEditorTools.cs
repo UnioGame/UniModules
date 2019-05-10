@@ -10,16 +10,7 @@ using Object = UnityEngine.Object;
 
 namespace UniModule.UnityTools.EditorTools
 {
-
-    public struct ProgressData
-    {
-
-        public string Title;
-        public string Content;
-        public float Progress;
-        public bool IsDone;
-
-    }
+    using UniGreenModules.UniCore.EditorTools.AssetOperations;
 
     public class AssetEditorTools
     {
@@ -33,42 +24,17 @@ namespace UniModule.UnityTools.EditorTools
         public const string ModificationTemplate = @"\n( *)(m_Modifications:[\w,\W]*)(?=\n( *)m_RemovedComponents)";
         public static List<string> _modificationsIgnoreList = new List<string>() { ".fbx" };
 
+
+        public static string GetAssetExtension(Object asset)
+        {
+            if (asset is GameObject)
+                return "prefab";
+            if (asset is ScriptableObject)
+                return "asset";
+            return string.Empty;
+        }
         
-        public static Object SaveAssetAsNested(Object root,Type assetType, string name = null)
-        {
-            var asset = ScriptableObject.CreateInstance(assetType);
-            var result = SaveAssetAsNested(asset,root, name);
-            if (result) return asset;
-            return null;
-        }
-
-        public static TTarget SaveAssetAsNested<TTarget>(Object root, string name = null)
-            where TTarget : ScriptableObject
-        {
-            var asset = ScriptableObject.CreateInstance<TTarget>();
-            var result = SaveAssetAsNested(asset,root, name);
-            if (result) return asset;
-            return null;
-        }
-
-        public static TAsset CreateAsset<TAsset>(string name, string folder)
-            where  TAsset : ScriptableObject
-        {
-            if (folder.IndexOf('\\', folder.Length - 1)>=0)
-            {
-                folder = folder.Remove(folder.Length - 1);
-            }
-
-            var asset = ScriptableObject.CreateInstance<TAsset>();
-            var skinTypePath = folder + "\\" + name + ".asset";
-            var itemPath = AssetDatabase.GenerateUniqueAssetPath(skinTypePath);
-            AssetDatabase.CreateAsset(asset, itemPath);
-
-            AssetDatabase.SaveAssets();
-
-            return asset;
-
-        }
+        #region Asset Creation/Saving
         
         public static TAsset SaveAsset<TAsset>(TAsset asset,string name, string folder)
             where  TAsset : Object
@@ -80,7 +46,7 @@ namespace UniModule.UnityTools.EditorTools
 
                         
             var skinTypePath = folder + "\\" + name + "." + GetAssetExtension(asset);
-            var itemPath = AssetDatabase.GenerateUniqueAssetPath(skinTypePath);  
+            var itemPath     = AssetDatabase.GenerateUniqueAssetPath(skinTypePath);  
             
             
             var gameObjectAsset = asset as GameObject;
@@ -96,17 +62,6 @@ namespace UniModule.UnityTools.EditorTools
             return AssetDatabase.LoadAssetAtPath<TAsset>(itemPath);
         }
 
-
-        public static string GetAssetExtension(Object asset)
-        {
-            if (asset is GameObject)
-                return "prefab";
-            if (asset is ScriptableObject)
-                return "asset";
-            return string.Empty;
-        }
-        
-        
         public static bool SaveAssetAsNested(Object child, Object root, string name = null)
         {
             var assetPath = AssetDatabase.GetAssetPath(root);
@@ -126,6 +81,42 @@ namespace UniModule.UnityTools.EditorTools
             return true;
         }
         
+        public static Object SaveAssetAsNested(Object root,Type assetType, string name = null)
+        {
+            var asset  = ScriptableObject.CreateInstance(assetType);
+            var result = SaveAssetAsNested(asset,root, name);
+            if (result) return asset;
+            return null;
+        }
+
+        public static TTarget SaveAssetAsNested<TTarget>(Object root, string name = null)
+            where TTarget : ScriptableObject
+        {
+            var asset  = ScriptableObject.CreateInstance<TTarget>();
+            var result = SaveAssetAsNested(asset,root, name);
+            if (result) return asset;
+            return null;
+        }
+
+        public static TAsset CreateAsset<TAsset>(string name, string folder)
+            where  TAsset : ScriptableObject
+        {
+            if (folder.IndexOf('\\', folder.Length - 1)>=0)
+            {
+                folder = folder.Remove(folder.Length - 1);
+            }
+
+            var asset        = ScriptableObject.CreateInstance<TAsset>();
+            var skinTypePath = folder + "\\" + name + ".asset";
+            var itemPath     = AssetDatabase.GenerateUniqueAssetPath(skinTypePath);
+            AssetDatabase.CreateAsset(asset, itemPath);
+
+            AssetDatabase.SaveAssets();
+
+            return asset;
+
+        }
+
         [MenuItem("Assets/Set Selected Dirty")]
         public static void SetSelectedAsDirty()
         {
@@ -176,6 +167,45 @@ namespace UniModule.UnityTools.EditorTools
             EditorUtility.SetDirty(asset);
         }
 
+        public static void SetDirty<T>() where T : Object
+        {
+
+            var assets = AssetEditorTools.GetAssets<T>();
+            for (int i = 0; i < assets.Count; i++)
+            {
+                var asset = assets[i];
+                if (asset == null) continue;
+                EditorUtility.SetDirty(asset);
+            }
+
+        }
+
+        public static void RemoveModifications(Object asset)
+        {
+
+            if (string.IsNullOrEmpty(clientDataPath))
+            {
+                clientDataPath    = Application.dataPath.Replace("Assets", "");
+                modificationRegex = new Regex(ModificationTemplate);
+            }
+
+            var assetPath = AssetDatabase.GetAssetPath(asset);
+
+            var ext = Path.GetExtension(assetPath);
+            if (_modificationsIgnoreList.Contains(ext)) return;
+
+            var dataPath = string.Format("{0}/{1}", clientDataPath, assetPath);
+
+            if (File.Exists(dataPath))
+            {
+                var text   = File.ReadAllText(dataPath);
+                var result = modificationRegex.Replace(text, "");
+                File.WriteAllText(dataPath, result);
+            }
+        }
+
+        #endregion
+        
         public static void ApplyProgressAssetAction<T>(List<T> assets, string message, Action<T> action)
         {
 
@@ -193,31 +223,6 @@ namespace UniModule.UnityTools.EditorTools
 
 
         }
-
-        public static void RemoveModifications(Object asset)
-        {
-
-            if (string.IsNullOrEmpty(clientDataPath))
-            {
-                clientDataPath = Application.dataPath.Replace("Assets", "");
-                modificationRegex = new Regex(ModificationTemplate);
-            }
-
-            var assetPath = AssetDatabase.GetAssetPath(asset);
-
-            var ext = Path.GetExtension(assetPath);
-            if (_modificationsIgnoreList.Contains(ext)) return;
-
-            var dataPath = string.Format("{0}/{1}", clientDataPath, assetPath);
-
-            if (File.Exists(dataPath))
-            {
-                var text = File.ReadAllText(dataPath);
-                var result = modificationRegex.Replace(text, "");
-                File.WriteAllText(dataPath, result);
-            }
-        }
-
 
         public static void FindItems<T>(Action<Object, T> action)
         {
@@ -282,23 +287,6 @@ namespace UniModule.UnityTools.EditorTools
                 }
             }
             EditorUtility.ClearProgressBar();
-        }
-
-        public static List<Object> GetAssets(Object asset, List<Object> output)
-        {
-
-            output.Clear();
-
-            if (!asset) return output;
-
-            var gameObjectComponent = asset as GameObject;
-            if (gameObjectComponent)
-            {
-                output.AddRange(gameObjectComponent.GetComponentsInChildren<Component>(true));
-            }
-            output.Add(asset);
-
-            return output;
         }
 
         public static void ProceedTypeAssets<TData>(List<Object> assets, Action<Object, TData> action, HashSet<object> excludedItems = null)
@@ -380,17 +368,6 @@ namespace UniModule.UnityTools.EditorTools
             return result;
         }
 
-        public static List<Object> GetAllAssets()
-        {
-            var items = new List<Object>();
-            var gameObjects = AssetEditorTools.GetAssets<GameObject>();
-            items.AddRange(gameObjects.ToArray());
-
-            var scriptableObjects = AssetEditorTools.GetAssets<ScriptableObject>().ToArray();
-            items.AddRange(scriptableObjects);
-            return items;
-        }
-
         public static List<T> GetRootAssetsFiltered<T>() where T : Object
         {
             var items = new List<T>();
@@ -407,43 +384,15 @@ namespace UniModule.UnityTools.EditorTools
             return items;
         }
 
-        public static List<AssetImporter> GetActiveAssets(bool foldersOnly = true)
+        public static List<Object> GetAllAssets()
         {
-            var assets = new List<AssetImporter>();
-            var targets = Selection.objects;
-            for (int i = 0; i < targets.Length; i++)
-            {
-                var target = targets[i];
-                var path = AssetDatabase.GetAssetPath(target);
-                var asset = foldersOnly ? GetDirectoryImporter(path) :
-                    AssetImporter.GetAtPath(path);
-                if (asset)
-                {
-                    assets.Add(asset);
-                }
-            }
-            return assets;
-        }
+            var items       = new List<Object>();
+            var gameObjects = AssetEditorTools.GetAssets<GameObject>();
+            items.AddRange(gameObjects.ToArray());
 
-        public static AssetImporter GetDirectoryImporter(string path)
-        {
-            if (string.IsNullOrEmpty(path))
-                return null;
-            var directory = Directory.Exists(path) ? path : Path.GetDirectoryName(path);
-            return AssetImporter.GetAtPath(directory);
-        }
-
-        public static void SetDirty<T>() where T : Object
-        {
-
-            var assets = AssetEditorTools.GetAssets<T>();
-            for (int i = 0; i < assets.Count; i++)
-            {
-                var asset = assets[i];
-                if (asset == null) continue;
-                EditorUtility.SetDirty(asset);
-            }
-
+            var scriptableObjects = AssetEditorTools.GetAssets<ScriptableObject>().ToArray();
+            items.AddRange(scriptableObjects);
+            return items;
         }
 
         public static T GetAsset<T>(string[] folders = null) where T : Object
@@ -451,7 +400,36 @@ namespace UniModule.UnityTools.EditorTools
             var asset = GetAssets<T>(folders).FirstOrDefault();
             return asset;
         }
-        
+
+        public static List<Object> GetAssets(Object asset, List<Object> output)
+        {
+
+            output.Clear();
+
+            if (!asset) return output;
+
+            var gameObjectComponent = asset as GameObject;
+            if (gameObjectComponent)
+            {
+                output.AddRange(gameObjectComponent.GetComponentsInChildren<Component>(true));
+            }
+            output.Add(asset);
+
+            return output;
+        }
+
+        public static List<EditorAssetResource> GetEditorResources<TSource>(string[] folders = null)
+            where  TSource : Object
+        {
+            var result = AssetEditorTools.GetAssetsPaths<TSource>(folders).
+                Select(x => {
+                    var asset = new EditorAssetResource();
+                    asset.Initialize(x);
+                    return asset;
+                }).ToList();
+            return result;
+        }
+
         public static List<T> GetAssets<T>(string[] folders = null) where T : Object
         {
             
@@ -557,6 +535,13 @@ namespace UniModule.UnityTools.EditorTools
             return result;
         }
 
+        public static string GetUniqueAssetName(string path)
+        {
+            return AssetDatabase.GenerateUniqueAssetPath(path);
+        }
+
+        #region Assets Bundle Operations
+        
         public static string GetValidBundleTag(string bundleTag)
         {
 
@@ -572,14 +557,14 @@ namespace UniModule.UnityTools.EditorTools
         public static void ApplyBundleToAssetWithTemplate(Type targetType, string bundleTag, string variant = null)
         {
 
-            var assets = GetAssetImporters(targetType);
+            var assets       = GetAssetImporters(targetType);
             var useTemplates = IsContainsDuplicatedAssets(assets);
             ApplyBundleTagToAsset(assets, bundleTag, variant, useTemplates);
         }
 
         public static void ApplyBundleToAsset(Type targetType, string bundleTag, string variant = null, bool useTemplate = false)
         {
-            var assets = GetAssetImporters(targetType);
+            var assets       = GetAssetImporters(targetType);
             var isDuplicated = IsContainsDuplicatedAssets(assets);
             if (isDuplicated)
             {
@@ -590,7 +575,7 @@ namespace UniModule.UnityTools.EditorTools
         }
 
         public static void ApplyBundleTagToAsset(List<AssetImporter> assets, string bundleTag, string variant = null,
-                                                 bool useTemplate = false, int depth = 4, int startDepth = 0)
+            bool useTemplate = false, int depth = 4, int startDepth = 0)
         {
             for (var i = 0; i < assets.Count; i++)
             {
@@ -598,6 +583,13 @@ namespace UniModule.UnityTools.EditorTools
                 ApplyBundleTag(assets[i], bundleTag, variant, useTemplate, depth);
             }
             EditorUtility.ClearProgressBar();
+        }
+
+        public static string GetBundleName(string path)
+        {
+            if (string.IsNullOrEmpty(path) == true) return string.Empty;
+            var abName = AssetDatabase.GetImplicitAssetBundleName(path);
+            return string.IsNullOrEmpty(abName) ? string.Empty : abName;
         }
 
         public static void ApplyBundleTag(Object[] assets, string bundleTag, string variant = null, bool useTemplate = false, int depth = 4, int startDepth = 0)
@@ -613,26 +605,13 @@ namespace UniModule.UnityTools.EditorTools
                 EditorUtility.DisplayProgressBar("Apply Screen Bundle Tag",
                     string.Format("Process...[{0}:{1}]", i, count), i / (float)count);
 
-                var path = AssetDatabase.GetAssetPath(asset);
+                var path     = AssetDatabase.GetAssetPath(asset);
                 var importer = AssetImporter.GetAtPath(path);
                 AssetEditorTools.ApplyBundleTag(importer, bundleTag, variant, useTemplate, depth, startDepth);
 
             }
 
             EditorUtility.ClearProgressBar();
-        }
-
-
-        public static string GetBundleName(string path)
-        {
-            if (string.IsNullOrEmpty(path) == true) return string.Empty;
-            var abName = AssetDatabase.GetImplicitAssetBundleName(path);
-            return string.IsNullOrEmpty(abName) ? string.Empty : abName;
-        }
-
-        public static string GetUniqueAssetName(string path)
-        {
-            return AssetDatabase.GenerateUniqueAssetPath(path);
         }
 
         public static bool IsInBundle(Object asset)
@@ -692,13 +671,6 @@ namespace UniModule.UnityTools.EditorTools
             return assetBundleName;
         }
 
-        private static bool IsContainsDuplicatedAssets(List<AssetImporter> assets)
-        {
-            var assetsNames = assets.Select(x => Path.GetFileNameWithoutExtension(x.assetPath)).ToList();
-            var groups = assetsNames.GroupBy(x => x).ToList();
-            return groups.Count != assets.Count;
-        }
-
         public static void ApplyBundleToAsset(Type targetType, bool useTemplate = false)
         {
             if (useTemplate)
@@ -713,10 +685,40 @@ namespace UniModule.UnityTools.EditorTools
         {
             ApplyBundleToAsset(typeof(T), bundleTag, variant);
         }
+        
+        #endregion
+        
+        #region Asset Importers
+        
+        public static List<AssetImporter> GetActiveAssets(bool foldersOnly = true)
+        {
+            var assets  = new List<AssetImporter>();
+            var targets = Selection.objects;
+            for (int i = 0; i < targets.Length; i++)
+            {
+                var target = targets[i];
+                var path   = AssetDatabase.GetAssetPath(target);
+                var asset = foldersOnly ? GetDirectoryImporter(path) :
+                    AssetImporter.GetAtPath(path);
+                if (asset)
+                {
+                    assets.Add(asset);
+                }
+            }
+            return assets;
+        }
 
+        public static AssetImporter GetDirectoryImporter(string path)
+        {
+            if (string.IsNullOrEmpty(path))
+                return null;
+            var directory = Directory.Exists(path) ? path : Path.GetDirectoryName(path);
+            return AssetImporter.GetAtPath(directory);
+        }
+        
         public static List<AssetImporter> GetAssetImporters(string item, string[] folders = null, bool foldersOnly = false)
         {
-            var assets = new List<AssetImporter>();
+            var assetImporters = new List<AssetImporter>();
             var filterText = item;
             var ids = AssetDatabase.FindAssets(filterText, folders);
             for (int i = 0; i < ids.Length; i++)
@@ -726,15 +728,15 @@ namespace UniModule.UnityTools.EditorTools
                 if (foldersOnly && Directory.Exists(path) == false)
                     continue;
                 var importer = AssetImporter.GetAtPath(path);
-                assets.Add(importer);
+                assetImporters.Add(importer);
             }
 
-            return assets;
+            return assetImporters;
         }
 
         public static List<AssetImporter> GetAssetImporters<T>(string[] folders = null, bool foldersOnly = false) where T : Object
         {
-            return GetAssetImporters(string.Format("t:{0}", typeof(T).Name), folders, foldersOnly);
+            return GetAssetImporters($"t:{typeof(T).Name}", folders, foldersOnly);
         }
 
         public static List<AssetImporter> GetAssetImporters(Type targetType, string[] folders = null, bool foldersOnly = false)
@@ -742,36 +744,30 @@ namespace UniModule.UnityTools.EditorTools
             return GetAssetImporters(string.Format("t:{0}", targetType.Name), folders, foldersOnly);
         }
 
-        public static List<Object> GetAssets(Type type, string[] folders = null)
+        public static List<string> GetAssetsPaths<T>(string[] folders = null) where T : Object
         {
-            var targetType = type.Name;
-            var filterText = string.Format("t:{0}", targetType);
-            var assets = GetAssets<Object>(filterText, folders);
-            return assets;
-        }
-
-        public static bool IsComponent(Type targetType)
-        {
-            return _componentType.IsAssignableFrom(targetType);
-        }
-
-        public static List<Object> GetComponentsAssets(Type type, string[] folders = null)
-        {
-
-            if (IsComponent(type) == false) return _emptyAssets;
-
-            var filterText = string.Format("t:{0}", typeof(GameObject));
-            var assets = GetAssets<GameObject>(filterText, folders);
-            var resultAssets = new List<Object>();
-
-            for (int i = 0; i < assets.Count; i++)
-            {
-                var targetComponents = assets[i].GetComponents(type);
-                resultAssets.AddRange(targetComponents);
+            var assetsPaths = new List<string>();
+            var filter = $"t:{typeof(T).Name}";
+            var ids = AssetDatabase.FindAssets(filter, folders);
+            
+            for (var i = 0; i < ids.Length; i++) {
+                var id = ids[i];
+                var path = AssetDatabase.GUIDToAssetPath(id);
+                assetsPaths.Add(path);   
             }
 
-            return resultAssets;
-
+            return assetsPaths;
+        }
+        
+        #endregion 
+        
+        #region asset loading
+        
+        public static List<Object> GetAssets(Type assetType, string[] folders = null)
+        {
+            var filterText = $"t:{nameof(assetType)}";
+            var assets = GetAssets<Object>(filterText, folders);
+            return assets;
         }
 
         public static List<T> GetAssets<T>(string filter, string[] folders = null) where T : Object
@@ -781,6 +777,19 @@ namespace UniModule.UnityTools.EditorTools
             return assets;
         }
 
+        public static List<T> GetAssetsByPaths<T>(List<string> paths) where T : Object
+        {
+            var assets = new List<T>();
+            for (var i = 0; i < paths.Count; i++) {
+                var path = paths[i];
+                var asset = AssetDatabase.LoadAssetAtPath<T>(path);
+                if(!asset) continue;
+                assets.Add(asset);
+            }
+
+            return assets;
+        }
+        
         public static IEnumerator<ProgressData> GetAssets<T>(List<T> resultContainer, string filter, string[] folders = null) where T : Object
         {
 
@@ -814,6 +823,49 @@ namespace UniModule.UnityTools.EditorTools
                 yield return progress;
             }
         }
+        
+        #endregion
+        
+        /// <summary>
+        /// load components
+        /// </summary>
+        /// <param name="type">component type</param>
+        /// <param name="folders">folder filter</param>
+        /// <returns>list of found items</returns>
+        public static List<Object> GetComponentsAssets(Type type, string[] folders = null)
+        {
+
+            if (IsComponent(type) == false) return new List<Object>();
+
+            var filterText   = string.Format("t:{0}", typeof(GameObject));
+            var assets       = GetAssets<GameObject>(filterText, folders);
+            var resultAssets = new List<Object>();
+
+            for (int i = 0; i < assets.Count; i++)
+            {
+                var targetComponents = assets[i].GetComponents(type);
+                resultAssets.AddRange(targetComponents);
+            }
+
+            return resultAssets;
+
+        }
+
+        public static bool IsComponent(Type targetType)
+        {
+            return _componentType.IsAssignableFrom(targetType);
+        }
+
+        #region private methods
+        
+        private static bool IsContainsDuplicatedAssets(List<AssetImporter> assets)
+        {
+            var assetsNames = assets.Select(x => Path.GetFileNameWithoutExtension(x.assetPath)).ToList();
+            var groups      = assetsNames.GroupBy(x => x).ToList();
+            return groups.Count != assets.Count;
+        }
+
+        #endregion
     }
 
 }
