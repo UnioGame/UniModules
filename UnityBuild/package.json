@@ -4,7 +4,7 @@
   "displayName": "Uniy Build S\u0441riptable Pipeline",
   "description": "Allow to configurate unity project build",
   "unity": "2018.3",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "keywords": [],
   "dependencies": {
     "com.greenbuttongames.unicore": "1.0.25"
