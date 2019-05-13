@@ -6,7 +6,7 @@ namespace Plavalaguna.Joy.Modules.UnityBuild {
         #region inspector data
         
         [SerializeField]
-        protected int priority;
+        protected int order;
 
         [SerializeField]
         protected bool isActive = true;
@@ -15,7 +15,7 @@ namespace Plavalaguna.Joy.Modules.UnityBuild {
 
         public string Name => name;
         
-        public int Priority => priority;
+        public int Order => order;
 
         public bool IsActive => this.isActive;
     }

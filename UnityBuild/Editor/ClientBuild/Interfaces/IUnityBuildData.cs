@@ -5,7 +5,7 @@ namespace Plavalaguna.Joy.Modules.UnityBuild
 
     public interface IUnityBuildData {
         
-        int Priority { get; }
+        int Order { get; }
 
         bool IsActive { get; }
 

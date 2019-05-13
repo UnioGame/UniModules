@@ -128,7 +128,7 @@ public static class UnityBuildTool
                 return asset != null && asset.IsActive;
             }).ToList();
         
-        targetCommands.Sort((x,y) => x.Load<TTarget>().Priority.CompareTo(y.Load<TTarget>().Priority));
+        targetCommands.Sort((x,y) => x.Load<TTarget>().Order.CompareTo(y.Load<TTarget>().Order));
 
         foreach (var command in targetCommands) {
 
@@ -137,7 +137,7 @@ public static class UnityBuildTool
                 continue;
             
             var commandName = commandAsset.Name;
-            var priority = commandAsset.Priority;
+            var priority = commandAsset.Order;
             
             Debug.Log($"=====EXECUTE COMMAND {commandName} with priority {priority}=====");
             var startTime = DateTime.Now;
