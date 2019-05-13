@@ -1,8 +1,7 @@
 {
     "name": "greenbuttongames.unieditortools",
     "references": [
-        "greenbuttongame.unitools",
-        ""
+        "greenbuttongame.unitools"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [

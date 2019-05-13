@@ -4,10 +4,10 @@
   "displayName": "GBG UniRoutine",
   "description": "Unity Routine System",
   "unity": "2018.3",
-  "version": "1.0.27",
+  "version": "1.0.28",
   "keywords": [],
   "dependencies": {
-    "com.greenbuttongames.unicore": "1.0.27",
+    "com.greenbuttongames.unicore": "1.0.28",
     "com.greenbuttongames.neuecc.unirx": "6.2.2"
   }
 }
