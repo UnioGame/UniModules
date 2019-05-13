@@ -7,7 +7,8 @@
         "TestAssemblies"
     ],
     "includePlatforms": [
-        "Editor"
+        "Editor",
+        "LinuxStandalone32"
     ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
