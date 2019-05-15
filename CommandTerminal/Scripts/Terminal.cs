@@ -141,6 +141,11 @@ namespace CommandTerminal
             }
         }
 
+        public void SetGuiButtonsState(bool state)
+        {
+            ShowGUIButtons = state;
+        }
+        
         void OnEnable()
         {
             Buffer = new CommandLog(BufferSize);

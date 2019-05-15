@@ -9,11 +9,25 @@ namespace _GetOverIt.Content._Programmers.Scripts.TerminalCommands
 		private float _touchPressedTime;
 		
 		private float _touchDuration = 4f;
+		
 		[SerializeField]
 		private Terminal _terminal;
 		[SerializeField]
 		private int _touchCount = 5;
+		[SerializeField]
+		private bool enableTerminalGuiOnDevelop = true;
+		
+		private void Start()
+		{
 
+			if (Debug.isDebugBuild && _terminal && enableTerminalGuiOnDevelop) {
+				
+				_terminal.SetGuiButtonsState(true);
+				
+			}
+			
+		}
+		
 		// Update is called once per frame
 		private void Update () 
 		{
