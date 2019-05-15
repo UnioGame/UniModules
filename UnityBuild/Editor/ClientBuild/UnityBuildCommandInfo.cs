@@ -4,7 +4,7 @@ namespace UniGreenModules.UnityBuild.Editor.ClientBuild {
     using UnityEngine;
 
     [Serializable]
-    public abstract class UnityBuildCommandInfo : IUnityBuildCommandInfo 
+    public class UnityBuildCommandInfo : IUnityBuildCommandInfo 
     {
         #region inspector data
         
