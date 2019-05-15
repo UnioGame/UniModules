@@ -14,13 +14,11 @@ namespace _GetOverIt.Content._Programmers.Scripts.TerminalCommands
 		private Terminal _terminal;
 		[SerializeField]
 		private int _touchCount = 5;
-		[SerializeField]
-		private bool enableTerminalGuiOnDevelop = true;
-		
+
 		private void Start()
 		{
 
-			if (Debug.isDebugBuild && _terminal && enableTerminalGuiOnDevelop) {
+			if (Debug.isDebugBuild && _terminal) {
 				
 				_terminal.SetGuiButtonsState(true);
 				
