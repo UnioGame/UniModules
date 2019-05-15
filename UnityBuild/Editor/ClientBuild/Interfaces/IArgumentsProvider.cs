@@ -1,4 +1,4 @@
-namespace Plavalaguna.Joy.Modules.UnityBuild {
+namespace UniGreenModules.UnityBuild.Editor.ClientBuild.Interfaces {
     using System;
     using System.Collections.Generic;
 
@@ -7,6 +7,7 @@ namespace Plavalaguna.Joy.Modules.UnityBuild {
         IReadOnlyDictionary<string, string> Arguments { get; }
         bool GetIntValue(string name, out int result, int defaultValue = 0);
         bool GetBoolValue(string name, out bool result, bool defaultValue = false);
+        
         bool Contains(string name);
 
         bool GetEnumValue<TEnum>(string parameterName,Type enumType, out TEnum result)

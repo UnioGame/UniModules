@@ -1,9 +1,9 @@
-namespace Plavalaguna.Joy.Modules.UnityBuild {
-    using Build;
-    using UnityEditor;
+namespace UniGreenModules.UnityBuild.Editor.ClientBuild.Interfaces {
     using UnityEditor.Build.Reporting;
 
-    public interface IUnityPostBuildCommand : IUnityBuildData {
-        void Execute(BuildTarget target, IArgumentsProvider arguments, IBuildParameters buildParameters,BuildReport buildReport = null);
+    public interface IUnityPostBuildCommand  : IUnityBuildCommand{
+
+        void Execute(IArgumentsProvider arguments, IBuildParameters buildParameters,BuildReport buildReport = null);
+        
     }
 }

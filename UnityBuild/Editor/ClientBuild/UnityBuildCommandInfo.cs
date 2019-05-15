@@ -1,7 +1,10 @@
-namespace Plavalaguna.Joy.Modules.UnityBuild {
+namespace UniGreenModules.UnityBuild.Editor.ClientBuild {
+    using System;
+    using Interfaces;
     using UnityEngine;
 
-    public abstract class UnityBuildData : ScriptableObject, IUnityBuildData 
+    [Serializable]
+    public abstract class UnityBuildCommandInfo : IUnityBuildCommandInfo 
     {
         #region inspector data
         
@@ -10,6 +13,9 @@ namespace Plavalaguna.Joy.Modules.UnityBuild {
 
         [SerializeField]
         protected bool isActive = true;
+
+        [SerializeField]
+        protected string name = string.Empty;
         
         #endregion
 

@@ -1,11 +1,10 @@
-﻿using Build;
-using UnityEditor;
-
-namespace Plavalaguna.Joy.Modules.UnityBuild.Commands {
+﻿namespace UniGreenModules.UnityBuild.Editor.ClientBuild.Commands.PreBuildCommands {
+    using Interfaces;
+    using UnityEditor;
     using UnityEngine;
 
     [CreateAssetMenu(menuName = "UnityBuild/Commands/Update Android KeyStore", fileName = "UpdateAndroidKeyStore")]
-    public class UnityBuildUpdateAndroidKeyStoreCommand : UnityPreBuildCommand
+    public class UpdateAndroidKeyStoreCommand : UnityPreBuildCommand
     {
         
         //android keys
@@ -14,8 +13,7 @@ namespace Plavalaguna.Joy.Modules.UnityBuild.Commands {
         public const string KeyStoreAlias     = "-keystoreAlias";
         public const string KeyStoreAliasPass = "-keystoreAliasPass";
         
-        public override void Execute(BuildTarget target, 
-            IArgumentsProvider arguments, 
+        public override void Execute(IArgumentsProvider arguments, 
             IBuildParameters buildParameters) 
         {
             UpdateAndroidBuildParameters(arguments);

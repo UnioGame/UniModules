@@ -1,4 +1,4 @@
-namespace Plavalaguna.Joy.Modules.UnityBuild {
+namespace UniGreenModules.UnityBuild.Editor.ClientBuild {
     public enum ExecutionOrderType : byte 
     {
         PreBuildProcess,

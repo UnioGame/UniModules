@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Plavalaguna.Joy.Modules.UnityBuild 
+﻿namespace UniGreenModules.UnityBuild.Editor.ClientBuild 
 {
+    using System;
+    using System.Collections.Generic;
     using System.Text;
+    using Interfaces;
 
     public class ArgumentsProvider : IArgumentsProvider 
     {
@@ -126,6 +126,7 @@ namespace Plavalaguna.Joy.Modules.UnityBuild
                 }
             
                 resultArguments[key] = value;
+                resultArguments[key.ToLower()] = value;
             }
 
             return resultArguments;

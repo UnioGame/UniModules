@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Build;
-using Plavalaguna.Joy.Modules.UnityBuild;
-using UnityEditor;
-using UnityEngine;
-
-namespace GetOverIt.Content.Programmers
+﻿namespace UniGreenModules.UnityBuild.Editor.ClientBuild.Commands.PreBuildCommands
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using Interfaces;
+    using UnityEditor;
+    using UnityEngine;
+
     [CreateAssetMenu(menuName = "UnityBuild/Commands/Apply Scripting Define Symbols", fileName = "ApplyScriptingDefineSymbols")]
-    public class UnityBuildApplyScriptingDefineSymbolsCommand : UnityPreBuildCommand
+    public class ApplyScriptingDefineSymbolsCommand : UnityPreBuildCommand
     {
         [SerializeField]
         private string definesKey = "-defineValues";
@@ -20,7 +19,7 @@ namespace GetOverIt.Content.Programmers
         
         private const string DefinesSeparotor = ";";
         
-        public override void Execute(BuildTarget target, IArgumentsProvider arguments, IBuildParameters buildParameters)
+        public override void Execute(IArgumentsProvider arguments, IBuildParameters buildParameters)
         {
 
             if (!arguments.GetStringValue(definesKey, out var defineValues))

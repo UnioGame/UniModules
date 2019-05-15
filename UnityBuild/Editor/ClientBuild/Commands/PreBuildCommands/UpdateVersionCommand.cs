@@ -1,7 +1,7 @@
-﻿namespace Plavalaguna.Joy.Modules.UnityBuild.Commands 
+﻿namespace UniGreenModules.UnityBuild.Editor.ClientBuild.Commands.PreBuildCommands 
 {
     using System.Text;
-    using Build;
+    using Interfaces;
     using UnityEditor;
     using UnityEngine;
 
@@ -9,16 +9,15 @@
     /// update current project version
     /// </summary>
     [CreateAssetMenu(menuName = "UnityBuild/Commands/Update Project Version", fileName = "UpdateVersionCommand")]
-    public class UnityBuildUpdateVersionCommand : UnityPreBuildCommand
+    public class UpdateVersionCommand : UnityPreBuildCommand
     {
         [SerializeField]
         private int minBuildNumber = 1;
         
-        public override void Execute(BuildTarget target, 
-            IArgumentsProvider arguments, 
+        public override void Execute(IArgumentsProvider arguments, 
             IBuildParameters buildParameters) {
             
-            UpdateBuildVersion(target, buildParameters.BuildNumber);
+            UpdateBuildVersion(buildParameters.BuildTarget, buildParameters.BuildNumber);
             
         }
         
