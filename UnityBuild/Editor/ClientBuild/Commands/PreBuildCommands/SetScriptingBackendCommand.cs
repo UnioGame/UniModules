@@ -8,7 +8,7 @@ namespace UniGreenModules.UnityBuild.Editor.ClientBuild.Commands.PreBuildCommand
     /// <summary>
     /// update current project version
     /// </summary>
-    [CreateAssetMenu(menuName = "UnityBuild/Commands/Set Scripting Backend", fileName = "SetScriptingBackendCommand")]
+    [CreateAssetMenu(menuName = "UnityBuild/PreBuildCommands/Set Scripting Backend", fileName = "SetScriptingBackendCommand")]
     public class SetScriptingBackendCommand : UnityPreBuildCommand
     {
         [SerializeField]

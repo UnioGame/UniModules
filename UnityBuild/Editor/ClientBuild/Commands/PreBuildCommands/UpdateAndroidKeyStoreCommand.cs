@@ -3,7 +3,7 @@
     using UnityEditor;
     using UnityEngine;
 
-    [CreateAssetMenu(menuName = "UnityBuild/Commands/Update Android KeyStore", fileName = "UpdateAndroidKeyStore")]
+    [CreateAssetMenu(menuName = "UnityBuild/PreBuildCommands/Update Android KeyStore", fileName = "UpdateAndroidKeyStore")]
     public class UpdateAndroidKeyStoreCommand : UnityPreBuildCommand
     {
         

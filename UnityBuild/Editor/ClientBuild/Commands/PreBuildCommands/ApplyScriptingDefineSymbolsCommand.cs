@@ -8,7 +8,7 @@
     using UnityEditor;
     using UnityEngine;
 
-    [CreateAssetMenu(menuName = "UnityBuild/Commands/Apply Scripting Define Symbols", fileName = "ApplyScriptingDefineSymbols")]
+    [CreateAssetMenu(menuName = "UnityBuild/PreBuildCommands/Apply Scripting Define Symbols", fileName = "ApplyScriptingDefineSymbols")]
     public class ApplyScriptingDefineSymbolsCommand : UnityPreBuildCommand
     {
         [SerializeField]
