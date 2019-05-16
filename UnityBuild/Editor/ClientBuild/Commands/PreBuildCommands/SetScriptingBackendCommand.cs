@@ -14,8 +14,10 @@ namespace UniGreenModules.UnityBuild.Editor.ClientBuild.Commands.PreBuildCommand
         [SerializeField]
         private string l2cppEnabled = "-l2cppEnabled";
         
-        public override void Execute(IArgumentsProvider arguments, IBuildParameters buildParameters)
+        public override void Execute(IUniBuilderConfiguration configuration)
         {
+            var arguments = configuration.Arguments;
+            var buildParameters = configuration.BuildParameters;
             
             var scriptingBackend = arguments.Contains(l2cppEnabled) ? ScriptingImplementation.IL2CPP : ScriptingImplementation.Mono2x;
            

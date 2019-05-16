@@ -13,10 +13,9 @@
         public const string KeyStoreAlias     = "-keystoreAlias";
         public const string KeyStoreAliasPass = "-keystoreAliasPass";
         
-        public override void Execute(IArgumentsProvider arguments, 
-            IBuildParameters buildParameters) 
+        public override void Execute(IUniBuilderConfiguration configuration) 
         {
-            UpdateAndroidBuildParameters(arguments);
+            UpdateAndroidBuildParameters(configuration.Arguments);
         }
         
         public void UpdateAndroidBuildParameters(IArgumentsProvider arguments) {

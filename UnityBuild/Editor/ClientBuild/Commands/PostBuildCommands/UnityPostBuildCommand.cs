@@ -10,7 +10,7 @@
 
         public IUnityBuildCommandInfo Info => commandCommandInfo;
         
-        public abstract void Execute(IArgumentsProvider arguments, IBuildParameters buildParameters,BuildReport buildReport);
+        public abstract void Execute(IUniBuilderConfiguration configuration,BuildReport buildReport);
 
     }
 }

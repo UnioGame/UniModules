@@ -3,7 +3,7 @@ namespace UniGreenModules.UnityBuild.Editor.ClientBuild.Interfaces {
 
     public interface IUnityPostBuildCommand  : IUnityBuildCommand{
 
-        void Execute(IArgumentsProvider arguments, IBuildParameters buildParameters,BuildReport buildReport = null);
+        void Execute(IUniBuilderConfiguration configuration,BuildReport buildReport = null);
         
     }
 }

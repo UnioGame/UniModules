@@ -19,10 +19,10 @@
         
         private const string DefinesSeparotor = ";";
         
-        public override void Execute(IArgumentsProvider arguments, IBuildParameters buildParameters)
+        public override void Execute(IUniBuilderConfiguration configuration)
         {
 
-            if (!arguments.GetStringValue(definesKey, out var defineValues))
+            if (!configuration.Arguments.GetStringValue(definesKey, out var defineValues))
             {
                 return;
             }

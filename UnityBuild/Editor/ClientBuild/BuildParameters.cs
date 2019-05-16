@@ -1,12 +1,15 @@
 namespace UniGreenModules.UnityBuild.Editor.ClientBuild
 {
     using System;
+    using System.Collections.Generic;
     using Interfaces;
     using UnityEditor;
 
     [Serializable]
     public class BuildParameters : IBuildParameters {
 
+        public const string BuildFolder = "Build";
+        
         public BuildTarget buildTarget;
         public BuildTargetGroup buildTargetGroup;
 
@@ -15,7 +18,8 @@ namespace UniGreenModules.UnityBuild.Editor.ClientBuild
         public string outputFolder = "Build";
         public string outputFile = "artifact";
         public BuildOptions buildOptions = BuildOptions.None;
-
+        public List<EditorBuildSettingsScene> scenes = new List<EditorBuildSettingsScene>();
+        
         public string bundleId = string.Empty;
             
         //Android
@@ -24,6 +28,8 @@ namespace UniGreenModules.UnityBuild.Editor.ClientBuild
         public string keyStoreAlias;
         public string keyStoreAliasPass;
 
+#region public properties
+        
         public BuildTarget BuildTarget => this.buildTarget;
 
         public BuildTargetGroup BuildTargetGroup => buildTargetGroup;
@@ -34,13 +40,29 @@ namespace UniGreenModules.UnityBuild.Editor.ClientBuild
         public BuildOptions BuildOptions => this.buildOptions;
         public string ProjectId => projectId;
         public string BundleId => bundleId;
+        public IReadOnlyList<EditorBuildSettingsScene> Scenes => scenes;
 
-        //android properties
-        public string KeyStorePath => this.keyStorePath;
-        public string KeyStorePass => this.keyStorePass;
-        public string KeyStoreAlias => this.keyStoreAlias;
-        public string KeyStoreAliasPass => this.keyStoreAliasPass;
+        #endregion
 
+        public BuildParameters(BuildTarget target, 
+            BuildTargetGroup targetGroup,
+            IArgumentsProvider arguments)
+        {
+            
+            buildTarget      = target;
+            buildTargetGroup = targetGroup;
+
+            if (arguments.GetIntValue(BuildArguments.BuildNumberKey, out var version))
+                buildNumber = version;
+
+            arguments.GetStringValue(BuildArguments.BuildOutputFolderKey,
+                out var folder, BuildFolder);
+            outputFolder = folder;
+
+            arguments.GetStringValue(BuildArguments.BuildOutputNameKey, out var file, string.Empty);
+            outputFile = file;
+        }
+        
         public void SetBuildOptions(BuildOptions targetBuildOptions, bool replace = true)
         {
             

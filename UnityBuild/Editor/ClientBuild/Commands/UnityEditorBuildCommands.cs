@@ -2,6 +2,8 @@
 
 namespace UniGreenModules.UnityBuild.Editor.ClientBuild.Commands
 {
+    using BuildConfiguration;
+
     public class UnityEditorBuildCommands 
     {
         [MenuItem("UnityPlayerBuild/Android")]
@@ -11,7 +13,11 @@ namespace UniGreenModules.UnityBuild.Editor.ClientBuild.Commands
                 $"{BuildArguments.BuildOutputFolderKey}:Build",
                 $"{BuildArguments.BuildOutputNameKey}:android.apk",
             });
-            UnityBuildTool.BuildPlayer(BuildTarget.Android,BuildTargetGroup.Android, argumentsProvider);
+
+            var buildConfiguration = new EditorBuildConfiguration(argumentsProvider, 
+                new BuildParameters(BuildTarget.Android, BuildTargetGroup.Android, argumentsProvider));
+            
+            UnityBuildTool.BuildPlayer(buildConfiguration);
         }
 
         [MenuItem("UnityPlayerBuild/iOS Release")]
@@ -20,7 +26,13 @@ namespace UniGreenModules.UnityBuild.Editor.ClientBuild.Commands
             var argumentsProvider = new ArgumentsProvider(new string[] {
                 $"{BuildArguments.BuildOutputFolderKey}:Build",
             });
-            UnityBuildTool.BuildPlayer(BuildTarget.iOS,BuildTargetGroup.iOS, argumentsProvider);
+            
+            
+            var buildConfiguration = new EditorBuildConfiguration(argumentsProvider, 
+                new BuildParameters(BuildTarget.iOS, BuildTargetGroup.iOS, argumentsProvider));
+
+            
+            UnityBuildTool.BuildPlayer(buildConfiguration);
         }
 
     }

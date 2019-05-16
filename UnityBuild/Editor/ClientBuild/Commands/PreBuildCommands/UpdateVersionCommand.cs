@@ -14,9 +14,10 @@
         [SerializeField]
         private int minBuildNumber = 1;
         
-        public override void Execute(IArgumentsProvider arguments, 
-            IBuildParameters buildParameters) {
-            
+        public override void Execute(IUniBuilderConfiguration configuration)
+        {
+
+            var buildParameters = configuration.BuildParameters;
             UpdateBuildVersion(buildParameters.BuildTarget, buildParameters.BuildNumber);
             
         }

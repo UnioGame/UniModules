@@ -1,9 +1,6 @@
 ﻿namespace UniGreenModules.UnityBuild.Editor.ClientBuild.Commands.PreBuildCommands
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using Interfaces;
+    using Parsers;
     using UnityEditor;
     using UnityEngine;
 
@@ -14,34 +11,19 @@
     [CreateAssetMenu(menuName = "UnityBuild/PreBuildCommands/Apply BuildOptions", fileName = "BuildOptionsCommand")]
     public class BuildOptionsCommand : UnityPreBuildCommand
     {
-
-        private static List<string> buildOptionsNames = Enum.GetNames(typeof(BuildOptions)).
-            Select(x => x.Insert(0, "-").ToLower()).
-            ToList();
-        
-        private static List<BuildOptions> buildOptionsValues = Enum.GetValues(typeof(BuildOptions)).
-            OfType<BuildOptions>().
-            ToList();
-        
-        public override void Execute(IArgumentsProvider arguments, IBuildParameters buildParameters)
+   
+        public override void Execute(IUniBuilderConfiguration configuration)
         {
-            var buildOptions = GetBuildOptions(arguments);
-            buildParameters.SetBuildOptions(buildOptions,false);
-        }
-        
-        public BuildOptions GetBuildOptions(IArgumentsProvider arguments)
-        {
+            var enumBuildOptionsParser = new EnumArgumentParser<BuildOptions>();
+            var buildOptions = enumBuildOptionsParser.Parse(configuration.Arguments);
             var options = BuildOptions.None;
-
-            for (var i = 0; i < buildOptionsValues.Count; i++) {
-                var optionName = buildOptionsNames[i];
-                if (arguments.Contains(optionName))
-                {
-                    options |= buildOptionsValues[i];
-                }
+            
+            for (int i = 0; i < buildOptions.Count; i++) {
+                options |= buildOptions[i];
             }
-
-            return options;
+            
+            configuration.BuildParameters.SetBuildOptions(options,false);
         }
+        
     }
 }

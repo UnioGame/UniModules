@@ -7,7 +7,7 @@
 
     public class DisableUnityLogoCommand : UnityPreBuildCommand
     {
-        public override void Execute(IArgumentsProvider arguments, IBuildParameters buildParameters) {
+        public override void Execute(IUniBuilderConfiguration buildParameters) {
             PlayerSettings.SplashScreen.showUnityLogo = false;
         }
     }
