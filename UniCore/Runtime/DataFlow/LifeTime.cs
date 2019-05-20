@@ -14,7 +14,7 @@ namespace UniModule.UnityTools.DataFlow
         /// <summary>
         /// cleanup action, call when life time terminated
         /// </summary>
-        public LifeTime AddCleanUpAction(Action cleanAction) 
+        public ILifeTime AddCleanUpAction(Action cleanAction) 
         {
             if (cleanAction == null)
                 return this;
@@ -25,7 +25,7 @@ namespace UniModule.UnityTools.DataFlow
         /// <summary>
         /// add child disposable object
         /// </summary>
-        public LifeTime AddDispose(IDisposable item)
+        public ILifeTime AddDispose(IDisposable item)
         {
             disposables.Add(item);
             return this;
@@ -34,7 +34,7 @@ namespace UniModule.UnityTools.DataFlow
         /// <summary>
         /// save object from GC
         /// </summary>
-        public LifeTime AddRef(object o) {
+        public ILifeTime AddRef(object o) {
             referencies.Add(o);
             return this;
         }

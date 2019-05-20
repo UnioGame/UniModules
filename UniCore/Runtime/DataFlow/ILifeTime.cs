@@ -7,17 +7,17 @@ namespace UniModule.UnityTools.DataFlow
         /// <summary>
         /// cleanup action, call when life time terminated
         /// </summary>
-        LifeTime AddCleanUpAction(Action cleanAction);
+        ILifeTime AddCleanUpAction(Action cleanAction);
 
         /// <summary>
         /// add child disposable object
         /// </summary>
-        LifeTime AddDispose(IDisposable item);
+        ILifeTime AddDispose(IDisposable item);
 
         /// <summary>
         /// save object from GC
         /// </summary>
-        LifeTime AddRef(object o);
+        ILifeTime AddRef(object o);
 
         /// <summary>
         /// is lifetime termicated
