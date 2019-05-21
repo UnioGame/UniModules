@@ -1,8 +1,7 @@
 {
     "name": "UniBuildPipeline.Tests",
     "references": [
-        "greenbuttongame.unitools",
-        "greenbuttongames.unieditortools"
+        "UnityBuild.Editor"
     ],
     "optionalUnityReferences": [
         "TestAssemblies"
