@@ -8,7 +8,6 @@
 
         public string GetBuildVersion(BuildTarget buildTarget,string bundleVersion, int buildNumber) {
             
-
             var versionLenght = GetVersionLength(buildTarget);
             var versionPoints = bundleVersion.Split('.');
             
@@ -50,6 +49,6 @@
             var length =  buildTarget == BuildTarget.iOS ? 2 : 3;
             return length;
         }
-        
+    
     }
 }

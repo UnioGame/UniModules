@@ -22,28 +22,30 @@
             
         }
         
-        public void UpdateBuildVersion(BuildTarget buildTarget,int buildNumber)
+        public void UpdateBuildVersion(BuildTarget buildTarget,int buildNumber) 
         {
-            var buildVersionHandler = new BuildVersionProvider();
+            var buildVersionProvider = new BuildVersionProvider();
             var logBuilder = new StringBuilder(200);
 
             var activeBuildNumber = buildNumber + minBuildNumber;
-            var bundleVersionCode = buildVersionHandler.GetActiveBuildNumber(buildTarget,activeBuildNumber);
-            var buildNumberString =  bundleVersionCode.ToString();
-            var bundleVersion = PlayerSettings.bundleVersion;
-            
-            var version = buildVersionHandler.GetBuildVersion(buildTarget,bundleVersion,buildNumber);
-            
-            PlayerSettings.bundleVersion = version;
+            var bundleVersion = buildVersionProvider.GetBuildVersion(buildTarget, PlayerSettings.bundleVersion, activeBuildNumber);
+            var resultBuildNumber = buildVersionProvider.GetActiveBuildNumber(buildTarget,activeBuildNumber);
+
+            PlayerSettings.bundleVersion = bundleVersion;
+            var buildNumberString =  resultBuildNumber.ToString();
             PlayerSettings.iOS.buildNumber = buildNumberString;
-            PlayerSettings.Android.bundleVersionCode = bundleVersionCode;
+            PlayerSettings.Android.bundleVersionCode = resultBuildNumber;
             
             logBuilder.Append("\t Parameters build number : ");
             logBuilder.Append(buildNumber);
             logBuilder.AppendLine();
-
+ 
+            logBuilder.Append("\t ResultBuildNumber build number : ");
+            logBuilder.Append(resultBuildNumber);
+            logBuilder.AppendLine();
+                                  
             logBuilder.Append("\t PlayerSettings.bundleVersion : ");
-            logBuilder.Append(version);
+            logBuilder.Append(bundleVersion);
             logBuilder.AppendLine();
             
             logBuilder.Append("\t PlayerSettings.iOS.buildNumber : ");
@@ -51,11 +53,10 @@
             logBuilder.AppendLine();
             
             logBuilder.Append("\t PlayerSettings.Android.bundleVersionCode : ");
-            logBuilder.Append(bundleVersionCode);
+            logBuilder.Append(resultBuildNumber);
             logBuilder.AppendLine();
             
         }
-
     }
     
 }
