@@ -121,7 +121,7 @@ namespace UniNodesTests
             
             var result = portValue1.Contains<string>();
             
-            Assert.That(result,Is.EqualTo(true));
+            Assert.That(result,Is.EqualTo(false));
 
         }
 
