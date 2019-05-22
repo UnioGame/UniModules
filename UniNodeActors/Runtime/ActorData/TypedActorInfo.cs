@@ -3,12 +3,13 @@
 	using System;
 	using Interfaces;
 	using Sirenix.OdinInspector;
+	using UniModule.UnityTools.Interfaces;
 	using UniRx;
 	using UnityEngine;
 
 	[Serializable]
 	public abstract class TypedActorInfo<TModel> : 
-		SerializedScriptableObject, IActorInfo<TModel> 
+		SerializedScriptableObject, IActorInfo<TModel>
 		where TModel : IActorModel
 	{
 
