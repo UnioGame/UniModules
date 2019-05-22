@@ -1,4 +1,4 @@
-﻿namespace UniGreenModules.UniNodeActors.Runtime
+﻿namespace UniGreenModules.UniNodeActors.Runtime.Actors
 {
     using System.Collections;
     using Interfaces;
@@ -10,7 +10,7 @@
     using UnityEngine;
     using IActor = Interfaces.IActor;
 
-    public class ActorComponent : SerializedMonoBehaviour, IActor
+    public abstract class BaseActorComponent : SerializedMonoBehaviour, IActor
     {
 
         /// <summary>
@@ -41,14 +41,9 @@
         [SerializeField] private bool activateOnStart;
 
         /// <summary>
-        /// behaviour SO
+        /// behaviour
         /// </summary>
         [SerializeField] private UniGraph behaviourSource;
-
-        /// <summary>
-        /// actor model data
-        /// </summary>
-        [SerializeField] private ActorInfo actorInfo;
 
         #endregion
 
@@ -102,12 +97,7 @@
             return state;
         }
 
-        private IActorModel GetModel()
-        {
-            var model = actorInfo?.Create();
-            model?.Register(Context);
-            return model;
-        }
+        protected abstract IActorModel GetModel();
 
     }
 }

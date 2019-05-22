@@ -1,4 +1,4 @@
-namespace UniGreenModules.UniNodeActors.Runtime
+namespace UniGreenModules.UniNodeActors.Runtime.Interfaces
 {
     using UniModule.UnityTools.Interfaces;
 

@@ -1,4 +1,4 @@
-﻿namespace UniGreenModules.UniNodeActors.Runtime
+﻿namespace UniGreenModules.UniNodeActors.Runtime.Actors
 {
 	using System;
 
