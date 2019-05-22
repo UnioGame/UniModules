@@ -1,6 +1,6 @@
 ﻿
 
-namespace UniGreenModules.UniNodeActors.Runtime
+namespace UniGreenModules.UniNodeActors.Runtime.ActorData
 {
     using Interfaces;
     using UniModule.UnityTools.Interfaces;

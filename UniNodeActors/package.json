@@ -4,7 +4,7 @@
   "displayName": "GBG UniNode Actors",
   "description": "UniNode Actors for Unity",
   "unity": "2018.3",
-  "version": "1.0.36",
+  "version": "1.0.37",
   "keywords": [],
   "dependencies": {
     "com.greenbuttongames.odin": "2.0.16",
