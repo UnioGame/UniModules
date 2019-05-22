@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-
-namespace UniModule.UnityTools.Camera
+﻿namespace UniGreenModules.UniCore.Runtime.Camera
 {
+    using UnityEngine;
+
     public class CameraTargetDirectMotion : MonoBehaviour {
 
 

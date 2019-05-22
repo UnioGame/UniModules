@@ -1,8 +1,9 @@
 using System;
-using UniModule.UnityTools.Common;
 
 namespace UniStateMachine.Nodes
 {
+    using UniGreenModules.UniCore.Runtime.Interfaces;
+
     public struct TypeDataChanged
     {
         public Type ValueType;

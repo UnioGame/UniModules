@@ -1,8 +1,10 @@
 ﻿using UniModule.UnityTools.Interfaces;
-using UniModule.UnityTools.UniPool.Scripts;
 
 namespace UniStateMachine.Nodes
 {
+    using UniGreenModules.UniCore.Runtime.Interfaces;
+    using UniGreenModules.UniCore.Runtime.ObjectPool.Interfaces;
+
     public class NodeContextData : IPoolable
     {
         public UniNode Node;

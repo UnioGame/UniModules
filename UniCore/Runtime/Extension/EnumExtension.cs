@@ -1,4 +1,4 @@
-﻿namespace UniModule.UnityTools.Extension
+﻿namespace UniGreenModules.UniCore.Runtime.Extension
 {
     public static class EnumFlagExtension  {
 

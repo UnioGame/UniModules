@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-
-namespace UniModule.UnityTools.Interfaces
+﻿namespace UniGreenModules.UniCore.Runtime.Interfaces
 {
+	using UnityEngine;
+
 	public class IActor : MonoBehaviour {
 
 		// Use this for initialization

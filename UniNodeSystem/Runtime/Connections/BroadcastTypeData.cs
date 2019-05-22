@@ -3,8 +3,8 @@ namespace UniModule.UnityTools.UniVisualNodeSystem.Connections
 {
     using System;
     using System.Collections.Generic;
-    using UniModule.UnityTools.Common;
-    using UniPool.Scripts;
+    using UniGreenModules.UniCore.Runtime.Interfaces;
+    using UniGreenModules.UniCore.Runtime.ObjectPool.Interfaces;
 
     public class BroadcastTypeData : 
         IPoolable, 

@@ -1,8 +1,8 @@
 ﻿using UniModule.UnityTools.AssetBundleManager.AssetBundleResources;
-using UniModule.UnityTools.UniPool.Scripts;
-using UniModule.UnityTools.ProfilerTools;
 
 namespace UniModule.UnityTools.AssetBundleManager.LoaderExecutors {
+    using UniGreenModules.UniCore.Runtime.ObjectPool;
+    using UniGreenModules.UniCore.Runtime.ProfilerTools;
 
     public class AssetBundleSimulateRequest : AssetBundleRequest {
 

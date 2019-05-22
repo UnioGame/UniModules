@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections;
-using UniModule.UnityTools.CoroutineTools;
-using UnityEngine;
-
-namespace UniModule.UnityTools.Utils
+﻿namespace UniGreenModules.UniCore.Runtime.Utils
 {
+    using System;
+    using System.Collections;
+    using CoroutineTools;
+    using UnityEngine;
+
     public class MemoryUtils
     {
 

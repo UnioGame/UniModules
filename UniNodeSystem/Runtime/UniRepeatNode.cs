@@ -8,7 +8,8 @@ using UnityEngine;
 
 
 namespace UniStateMachine {
-    
+    using UniGreenModules.UniCore.Runtime.Interfaces;
+
     public class UniRepeatNode : UniNode
     {
         

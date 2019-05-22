@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-
-namespace UniModule.UnityTools.ScriptableObjects
+﻿namespace UniGreenModules.UniCore.Runtime.ScriptableObjects
 {
+    using UnityEngine;
+
     public class InitializedScriptableObject : MonoBehaviour {
 
         // Use this for initialization

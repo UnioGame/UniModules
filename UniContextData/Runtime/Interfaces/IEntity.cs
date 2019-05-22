@@ -1,6 +1,6 @@
 ﻿namespace UniGreenModules.UniContextData.Runtime.Interfaces
 {
-    using UniModule.UnityTools.Interfaces;
+    using UniCore.Runtime.Interfaces;
 
     public interface IEntity : IContext
     {

@@ -3,6 +3,8 @@ using UniModule.UnityTools.Interfaces;
 
 namespace UniModule.UnityTools.UniStateMachine.Interfaces
 {
+    using UniGreenModules.UniCore.Runtime.Interfaces;
+
     public interface IContextStateMachine<TAwaiter> : IDisposable
     {
         bool IsActive { get; }

@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-
-namespace UniModule.UnityTools.RemouteData
+﻿namespace UniGreenModules.UniCore.Runtime.RemouteData
 {
+    using UnityEngine;
+
     public class RemoteInfo : ScriptableObject
     {
 

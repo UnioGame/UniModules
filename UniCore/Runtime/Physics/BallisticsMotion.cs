@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using UniModule.UnityTools.Physics.PlayerPhysicsMotion;
-using UnityEngine;
-
-namespace UniModule.UnityTools.Physics
+﻿namespace UniGreenModules.UniCore.Runtime.Physics
 {
+    using System.Collections.Generic;
+    using PlayerPhysicsMotion;
+    using UnityEngine;
 
     public class BallisticsMotion : MonoBehaviour
     {

@@ -1,10 +1,11 @@
 ﻿using System;
-using UniModule.UnityTools.Extension;
 using UniModule.UnityTools.UniStateMachine.Interfaces;
 using UniRx;
 
 namespace UniModule.UnityTools.UniStateMachine.AsyncStateMachine
 {
+    using UniGreenModules.UniCore.Runtime.Extension;
+
     public class AsyncStateManager<TStateType> : IStateManager<TStateType>
     {
         protected IStateValidator<TStateType> _validator;

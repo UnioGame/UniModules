@@ -2,11 +2,11 @@
 using System.Collections.ObjectModel;
 using UniModule.UnityTools.AssetBundleManager.AssetBundleResources;
 using UniModule.UnityTools.AssetBundleManager.Interfaces;
-using UniModule.UnityTools.UniPool.Scripts;
-using UniModule.UnityTools.ProfilerTools;
 
 namespace UniModule.UnityTools.AssetBundleManager
 {
+    using UniGreenModules.UniCore.Runtime.ObjectPool;
+    using UniGreenModules.UniCore.Runtime.ProfilerTools;
 
     public class AssetBundleResourceMap : IAssetBundleResourceMap {
 

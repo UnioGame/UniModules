@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UniModule.UnityTools.UniPool.Scripts;
-using UniRx;
-
-namespace UniModule.UnityTools.CoroutineTools
+﻿namespace UniGreenModules.UniCore.Runtime.CoroutineTools
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using ObjectPool;
+    using ObjectPool.Extensions;
+    using UniRx;
+
     public static class CoroutineTools {
 
         public static void WaitCoroutine(this IEnumerator enumerator) {
@@ -40,20 +41,6 @@ namespace UniModule.UnityTools.CoroutineTools
             stack.Despawn();
 
         }
-
-        //   public static void WaitCoroutine<T>(this IEnumerator<T> enumerator) {
-        //	if (enumerator == null) return;
-        //       using (enumerator) {
-        //           while (enumerator.MoveNext())
-        //           {
-        //               var currentEnumerator = enumerator.Current as IEnumerator<T>;
-        //               if (currentEnumerator != null)
-        //               {
-        //                   WaitCoroutine<T>(currentEnumerator);
-        //               }
-        //           }
-        //       }
-        //}
 
         public static IEnumerator<T> WaitCoroutine<T>(this IEnumerator enumerator, Func<T> awaiterFunc) {
 

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using UniModule.UnityTools.Attributes;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace UniNodeSystem
 {
+    using UniGreenModules.UniCore.Runtime.Attributes;
+
     /// <summary>
     /// Base class for all nodes
     /// </summary>

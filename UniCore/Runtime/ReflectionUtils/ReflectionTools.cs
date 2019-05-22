@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using UnityEngine;
-using Assembly = System.Reflection.Assembly;
-using Object = UnityEngine.Object;
-
-namespace UniModule.UnityTools.ReflectionUtils
+﻿namespace UniGreenModules.UniCore.Runtime.ReflectionUtils
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
+    using UnityEngine;
+    using Object = UnityEngine.Object;
 
     public static class ReflectionTools
     {

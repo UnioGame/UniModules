@@ -10,6 +10,8 @@ using UniNodeSystem;
 
 namespace UniStateMachine.CommonNodes
 {
+    using UniGreenModules.UniCore.Runtime.Interfaces;
+
     public class CombineNode : UniNode
     {
         

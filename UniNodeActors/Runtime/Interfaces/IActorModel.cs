@@ -1,6 +1,6 @@
 namespace UniGreenModules.UniNodeActors.Runtime.Interfaces
 {
-    using UniModule.UnityTools.UniPool.Scripts;
+    using UniCore.Runtime.ObjectPool.Interfaces;
 
     public interface IActorModel : IPoolable, IContextDataSource
     {

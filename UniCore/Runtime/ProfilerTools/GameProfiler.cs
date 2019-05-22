@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using UnityEngine.Profiling;
-using Debug = UnityEngine.Debug;
-
-namespace UniModule.UnityTools.ProfilerTools
+﻿namespace UniGreenModules.UniCore.Runtime.ProfilerTools
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using UnityEngine.Profiling;
+    using Debug = UnityEngine.Debug;
+
     public static class GameProfiler {
 
         private static long _currentId = 0;

@@ -1,7 +1,7 @@
-﻿using UniModule.UnityTools.Interfaces;
-
-namespace UniModule.UnityTools.AssetBundleManager.Old.AssetBundleManager_Old
+﻿namespace UniModule.UnityTools.AssetBundleManager.Old.AssetBundleManager_Old
 {
+    using UniGreenModules.UniCore.Runtime.Interfaces;
+
     public interface IAssetOperation : IResetable, ICommandRoutine
     {
         string Error { get; }

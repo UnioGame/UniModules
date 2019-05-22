@@ -1,9 +1,9 @@
-﻿using System;
-using UnityEngine;
-using Object = UnityEngine.Object;
-
-namespace UniModule.UnityTools.ProfilerTools
+﻿namespace UniGreenModules.UniCore.Runtime.ProfilerTools
 {
+    using System;
+    using UnityEngine;
+    using Object = UnityEngine.Object;
+
     public class EmptyLogger : IGameLogger
     {
         public void Log(string message, Object source = null)

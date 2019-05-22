@@ -1,6 +1,6 @@
-namespace UniModule.UnityTools.RecycleRx
+namespace UniGreenModules.UniCore.Runtime.Interfaces
 {
-    using UniPool.Scripts;
+    using ObjectPool.Interfaces;
     using UniRx;
 
     public interface IRecycleMessageBrocker : IMessageBroker, IPoolable

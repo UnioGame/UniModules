@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using UniModule.UnityTools.UniPool.Scripts;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace UniModule.UnityTools.AssetBundleManager.Old.AssetBundleManager_Old{
+    using UniGreenModules.UniCore.Runtime.ObjectPool;
 
     public class AssetBundleOperation : IAssetProvider
     {

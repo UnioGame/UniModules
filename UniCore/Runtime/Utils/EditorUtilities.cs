@@ -1,10 +1,10 @@
 ﻿#if UNITY_EDITOR
-using System.IO;
-using UnityEditor;
-using UnityEngine;
-
-namespace UniModule.UnityTools.Utils
+namespace UniGreenModules.UniCore.Runtime.Utils
 {
+    using System.IO;
+    using UnityEditor;
+    using UnityEngine;
+
     public class EditorUtilities
     {
 

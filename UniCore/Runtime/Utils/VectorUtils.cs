@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-
-namespace UniModule.UnityTools.Utils
+﻿namespace UniGreenModules.UniCore.Runtime.Utils
 {
+    using System.Collections.Generic;
+    using UnityEngine;
+
     public static class VectorUtils  {
 
 

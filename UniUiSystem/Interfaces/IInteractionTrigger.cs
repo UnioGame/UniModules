@@ -1,8 +1,9 @@
 using System;
-using UnityTools.Runtime.Interfaces;
 
 namespace Modules.UniTools.UniUiSystem.Interfaces
 {
+    using UniGreenModules.UniCore.Runtime.Interfaces;
+
     public interface IInteractionTrigger :
         IObservable<IInteractionTrigger>, 
         INamedItem

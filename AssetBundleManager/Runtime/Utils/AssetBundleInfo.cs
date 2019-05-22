@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using UniModule.UnityTools.ProfilerTools;
 using UnityEngine;
 
 namespace UniModule.UnityTools.AssetBundleManager.Utils
 {
-    
+    using UniGreenModules.UniCore.Runtime.ProfilerTools;
+
     public class BundleItemInfo {
 
         public string Name;

@@ -1,13 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UniModule.UnityTools.Attributes;
-using UniModule.UnityTools.Extension;
-using UniModule.UnityTools.Input;
 using UniModule.UnityTools.Interfaces;
 using UnityEngine;
 
 namespace UniStateMachine.CommonNodes
 {
+    using UniGreenModules.UniCore.Runtime.Attributes;
+    using UniGreenModules.UniCore.Runtime.Extension;
+    using UniGreenModules.UniCore.Runtime.Input;
+    using UniGreenModules.UniCore.Runtime.Interfaces;
+
     public class KeyNode : UniNode
     {
         [SerializeField] private List<KeyCode> _keys = new List<KeyCode>();

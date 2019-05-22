@@ -1,8 +1,9 @@
-﻿using UniModule.UnityTools.ProfilerTools;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace UniModule.UnityTools.UniStateMachine.AsyncStateMachine
 {
+    using UniGreenModules.UniCore.Runtime.ProfilerTools;
+
     public class AsyncFiniteStateMachine : IAsyncStateMachine
     {
         #region private properties

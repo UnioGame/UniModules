@@ -2,9 +2,11 @@
 {
     using System;
     using System.Collections.Generic;
-    using UniModule.UnityTools.Common;
-    using UniModule.UnityTools.Interfaces;
-    using UniModule.UnityTools.UniPool.Scripts;
+    using UniCore.Runtime.Common;
+    using UniCore.Runtime.Interfaces;
+    using UniCore.Runtime.ObjectPool;
+    using UniCore.Runtime.ObjectPool.Extensions;
+    using UniCore.Runtime.ObjectPool.Interfaces;
 
     public class ContextData<TContext> :
         IContextData<TContext>,

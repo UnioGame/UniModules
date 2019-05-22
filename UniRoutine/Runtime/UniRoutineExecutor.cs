@@ -1,7 +1,7 @@
 ﻿namespace UniTools.UniRoutine.Runtime
 {
     using System.Collections;
-    using UniModule.UnityTools.Interfaces;
+    using UniGreenModules.UniCore.Runtime.Interfaces;
 
     public class UniRoutineExecutor : IContextExecutor<IEnumerator>
     {

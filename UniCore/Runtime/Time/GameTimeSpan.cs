@@ -1,4 +1,4 @@
-﻿namespace UniModule.UnityTools.Time
+﻿namespace UniGreenModules.UniCore.Runtime.Time
 {
     public struct GameTimeSpan
     {

@@ -5,6 +5,8 @@ using UniTools.UniUiSystem;
 
 namespace UniUiSystem
 {
+    using UniGreenModules.UniCore.Runtime.Interfaces;
+
     public interface ITriggersContainer : IContainer<IInteractionTrigger>
     {
         IObservable<IInteractionTrigger> TriggersObservable { get; }

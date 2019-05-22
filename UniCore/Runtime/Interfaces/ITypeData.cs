@@ -1,8 +1,4 @@
-using System;
-using UniModule.UnityTools.Interfaces;
-using UniRx;
-
-namespace UniModule.UnityTools.Common
+namespace UniGreenModules.UniCore.Runtime.Interfaces
 {
     public interface ITypeData : 
         IContextWriter,

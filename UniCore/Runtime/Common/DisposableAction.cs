@@ -1,8 +1,9 @@
-﻿using System;
-using UniModule.UnityTools.UniPool.Scripts;
-
-namespace UniModule.UnityTools.Common
+﻿namespace UniGreenModules.UniCore.Runtime.Common
 {
+    using System;
+    using ObjectPool;
+    using ObjectPool.Interfaces;
+
     public class DisposableAction : IDisposable, IPoolable
     {
         private Action _onDisposed;

@@ -3,6 +3,7 @@
 namespace UniGreenModules.UniNodeActors.Runtime.ActorData
 {
     using Interfaces;
+    using UniCore.Runtime.Interfaces;
     using UniModule.UnityTools.Interfaces;
     using UnityEngine;
 

@@ -4,6 +4,8 @@ using UnityEngine;
 
 namespace UniStateMachine.CommonNodes
 {
+    using UniGreenModules.UniCore.Runtime.Interfaces;
+
     public class FpsLimitNode : UniNode
     {
 

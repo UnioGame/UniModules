@@ -2,7 +2,7 @@
 {
     using System;
     using System.Collections;
-    using UniModule.UnityTools.Interfaces;
+    using UniGreenModules.UniCore.Runtime.Interfaces;
     using UnityEngine;
 
     public static class RoutineExtension

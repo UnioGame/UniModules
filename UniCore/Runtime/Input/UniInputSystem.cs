@@ -1,8 +1,7 @@
-﻿using System;
-using System.Linq;
+﻿namespace UniGreenModules.UniCore.Runtime.Input {
+	using System;
+	using System.Linq;
 
-namespace UniModule.UnityTools.Input {
-	
 	public class UniInputSystem  {
 
 		public static long[] KeyStatesValues = 

@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections;
-using UniModule.UnityTools.Interfaces;
-using UnityEngine;
-
-namespace UniModule.UnityTools.ScriptableObjects
+﻿namespace UniGreenModules.UniCore.Runtime.ScriptableObjects
 {
+    using System;
+    using System.Collections;
+    using Interfaces;
+    using UnityEngine;
+
     public abstract class ScriptableObjectRoutine<TContext> : 
         ScriptableObject ,IRoutine<TContext,IEnumerator>
     {

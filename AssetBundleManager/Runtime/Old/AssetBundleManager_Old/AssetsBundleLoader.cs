@@ -2,12 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using UniModule.UnityTools.CoroutineTools;
-using UniModule.UnityTools.ProfilerTools;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
 namespace UniModule.UnityTools.AssetBundleManager.Old.AssetBundleManager_Old{
+    using UniGreenModules.UniCore.Runtime.CoroutineTools;
+    using UniGreenModules.UniCore.Runtime.ProfilerTools;
+
     public static class AssetsBundleLoader
     {
         private const string ManifestName = "AssetBundles";

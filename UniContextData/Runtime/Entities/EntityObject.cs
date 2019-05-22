@@ -1,12 +1,12 @@
 ﻿namespace UniGreenModules.UniContextData.Runtime.Entities
 {
     using System;
-    using UniModule.UnityTools.Common;
-    using UniModule.UnityTools.DataFlow;
-    using UniModule.UnityTools.Interfaces;
-    using UniModule.UnityTools.ProfilerTools;
-    using UniModule.UnityTools.RecycleRx;
-    using UniModule.UnityTools.UniPool.Scripts;
+    using UniCore.Runtime.Common;
+    using UniCore.Runtime.DataFlow;
+    using UniCore.Runtime.Interfaces;
+    using UniCore.Runtime.ObjectPool;
+    using UniCore.Runtime.ProfilerTools;
+    using UniCore.Runtime.Rx;
     using UniRx;
 
     public class EntityObject : IContext

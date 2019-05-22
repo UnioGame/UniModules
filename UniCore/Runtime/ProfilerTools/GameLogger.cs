@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
-using Debug = UnityEngine.Debug;
-using Object = UnityEngine.Object;
-
-namespace UniModule.UnityTools.ProfilerTools
+﻿namespace UniGreenModules.UniCore.Runtime.ProfilerTools
 {
+    using System;
+    using System.Collections.Generic;
+    using UnityEngine;
+    using Object = UnityEngine.Object;
+
     public class GameLogger : IGameLogger
     {
         

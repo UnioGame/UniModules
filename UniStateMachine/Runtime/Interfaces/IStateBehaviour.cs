@@ -2,6 +2,8 @@ using UniModule.UnityTools.Interfaces;
 
 namespace UniModule.UnityTools.UniStateMachine.Interfaces
 {
+    using UniGreenModules.UniCore.Runtime.Interfaces;
+
     public interface IStateBehaviour<out TResult> : IRoutine<TResult>, IEndPoint
     {
         

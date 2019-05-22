@@ -7,7 +7,8 @@ using UnityEngine;
 
 namespace UniStateMachine
 {
-    
+    using UniGreenModules.UniCore.Runtime.Interfaces;
+
     [Serializable]
     [CreateAssetMenu(menuName = "UniStateMachine/States/StateSelector",fileName = "StateSelector")]
     public class UniStateSelector : UniStateTransition

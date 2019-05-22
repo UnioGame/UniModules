@@ -1,7 +1,7 @@
-﻿using System.Collections;
-
-namespace UniModule.UnityTools.Interfaces
+﻿namespace UniGreenModules.UniCore.Runtime.Interfaces
 {
+    using System.Collections;
+
     public interface IExecutor : IRoutineExecutor<IEnumerator>{
     }
 

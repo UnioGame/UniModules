@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace UniModule.UnityTools.UniPool.Scripts
+﻿namespace UniGreenModules.UniCore.Runtime.ObjectPool
 {
+    using System;
+    using System.Collections.Generic;
+    using Interfaces;
+    using UnityEngine;
+
     public class ClassPoolContainer : MonoBehaviour, IPoolContainer
     {
         private Dictionary<Type, int> _typeIndexes = new Dictionary<Type, int>();

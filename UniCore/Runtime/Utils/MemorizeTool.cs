@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace UniModule.UnityTools.UniPool.Scripts
+﻿namespace UniGreenModules.UniCore.Runtime.Utils
 {
+    using System;
+    using System.Collections.Generic;
+
     public class MemorizeTool
     {
 

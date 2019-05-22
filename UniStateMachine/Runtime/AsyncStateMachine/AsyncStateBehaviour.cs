@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using UniModule.UnityTools.Extension;
 using UniModule.UnityTools.UniStateMachine.Interfaces;
 using UniRx.Async;
 
 namespace UniModule.UnityTools.UniStateMachine.AsyncStateMachine
 {
+    using UniGreenModules.UniCore.Runtime.Extension;
 
     public class AsyncStateBehaviour : IStateBehaviour<UniTask>
     {

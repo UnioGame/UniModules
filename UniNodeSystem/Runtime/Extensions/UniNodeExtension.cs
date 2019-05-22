@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using UniModule.UnityTools.UniPool.Scripts;
-using UniModule.UnityTools.ProfilerTools;
 using UniStateMachine;
 using UniStateMachine.Nodes;
 using UnityEngine.Profiling;
@@ -8,6 +6,9 @@ using UniNodeSystem;
 
 namespace UniModule.UnityTools.UniStateMachine.Extensions
 {
+    using UniGreenModules.UniCore.Runtime.ObjectPool;
+    using UniGreenModules.UniCore.Runtime.ObjectPool.Extensions;
+
     public static class UniNodeExtension
     {
         

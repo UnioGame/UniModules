@@ -1,8 +1,8 @@
-﻿using System.Collections;
-using UniModule.UnityTools.Interfaces;
-
-namespace UniModule.UnityTools.AsyncOperations
+﻿namespace UniGreenModules.UniCore.Runtime.AsyncOperations
 {
+    using System.Collections;
+    using Interfaces;
+
     public class AsyncRequestOperation : IAsyncOperation {
 
         private static long _id;

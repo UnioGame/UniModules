@@ -3,6 +3,7 @@ using UniModule.UnityTools.Interfaces;
 using UniModule.UnityTools.UniStateMachine.Interfaces;
 
 namespace UniModule.UnityTools.UniStateMachine.ReactiveStateMachine {
+    using UniGreenModules.UniCore.Runtime.Interfaces;
 
     public class RxRoutineState<TData> : ReactiveState<IStateBehaviour<IEnumerator>> {
 

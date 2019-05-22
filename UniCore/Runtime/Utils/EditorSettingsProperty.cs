@@ -1,10 +1,10 @@
 ﻿#if UNITY_EDITOR
-using UnityEditor;
-
 #endif
 
-namespace UniModule.UnityTools.Utils
+namespace UniGreenModules.UniCore.Runtime.Utils
 {
+    using UnityEditor;
+
     public class EditorSettingsProperty
     {
         public static bool GetBool(string key, ref bool? value, bool defaultValue = false)

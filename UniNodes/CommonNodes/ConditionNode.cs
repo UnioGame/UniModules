@@ -8,6 +8,8 @@ using UniNodeSystem;
 
 namespace UniStateMachine.CommonNodes
 {
+    using UniGreenModules.UniCore.Runtime.Interfaces;
+
     public class ConditionNode : UniNode
     {
         private const string _truePort = "True";

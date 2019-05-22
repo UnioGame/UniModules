@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using UniModule.UnityTools.Attributes;
-using UniModule.UnityTools.UniPool.Scripts;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace UniNodeSystem {
-    
+    using UniGreenModules.UniCore.Runtime.Attributes;
+    using UniGreenModules.UniCore.Runtime.ObjectPool;
+
     public enum PortIO { Input, Output }
 
     [Serializable]

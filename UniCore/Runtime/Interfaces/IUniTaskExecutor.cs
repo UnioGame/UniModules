@@ -1,7 +1,7 @@
-﻿using UniRx.Async;
-
-namespace UniModule.UnityTools.Interfaces
+﻿namespace UniGreenModules.UniCore.Runtime.Interfaces
 {
+    using UniRx.Async;
+
     public interface IUniTaskExecutor
     {
 

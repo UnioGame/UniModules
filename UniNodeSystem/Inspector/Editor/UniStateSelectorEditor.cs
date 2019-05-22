@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using UniEditorTools;
-using UniModule.UnityTools.UniPool.Scripts;
 using UnityEditor;
 using UnityEngine;
 
 namespace UniStateMachine
 {
+    using UniGreenModules.UniCore.Runtime.ObjectPool;
+    using UniGreenModules.UniCore.Runtime.ObjectPool.Extensions;
+
     [CustomEditor(typeof(UniStateSelector), true)]
     public class UniStateSelectorEditor : Editor
     {
@@ -24,6 +26,7 @@ namespace UniStateMachine
             {
                 _states = new List<EditorValueItem<UniStateTransition>>();
             }
+            
             _stateSelector = target as UniStateSelector;
             if (_stateSelector == null)
                 return;

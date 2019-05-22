@@ -3,8 +3,9 @@
     using System.Collections;
     using Interfaces;
     using Sirenix.OdinInspector;
-    using UniModule.UnityTools.Interfaces;
-    using UniModule.UnityTools.UniPool.Scripts;
+    using UniCore.Runtime.DataFlow;
+    using UniCore.Runtime.Interfaces;
+    using UniCore.Runtime.ObjectPool;
     using UniModule.UnityTools.UniStateMachine.Interfaces;
     using UniStateMachine.Nodes;
     using UnityEngine;
@@ -52,6 +53,8 @@
         public bool IsActive => _actor.IsActive;
 
         public IContext Context => _actor.Context;
+
+        public ILifeTime LifeTime => _actor.LifeTime;
         
         #endregion
         

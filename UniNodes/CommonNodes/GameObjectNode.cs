@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using UniModule.UnityTools.Interfaces;
-using UniModule.UnityTools.UniPool.Scripts;
 using UniModule.UnityTools.ResourceSystem;
 using UniModule.UnityTools.UniStateMachine.Extensions;
 using UnityEngine;
@@ -8,7 +7,9 @@ using UniNodeSystem;
 
 namespace UniStateMachine.CommonNodes
 {
-    
+    using UniGreenModules.UniCore.Runtime.Interfaces;
+    using UniGreenModules.UniCore.Runtime.ObjectPool;
+
     public class GameObjectNode : UniNode
     {
         private string _optionsPortName;

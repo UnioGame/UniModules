@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace UniModule.UnityTools.UniPool.Scripts
+﻿namespace UniGreenModules.UniCore.Runtime.ObjectPool
 {
+    using System;
+    using System.Collections.Generic;
+    using UnityEngine;
+
     [Serializable]
     public class ClassPoolItem
     {

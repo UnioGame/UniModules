@@ -2,8 +2,8 @@
 namespace UniModule.UnityTools.UniVisualNodeSystem.Connections
 {
     using System.Collections.Generic;
-    using UniModule.UnityTools.Common;
-    using UniModule.UnityTools.ProfilerTools;
+    using UniGreenModules.UniCore.Runtime.Interfaces;
+    using UniGreenModules.UniCore.Runtime.ProfilerTools;
 
     public class PortValueConnection : 
         IContextWriter,

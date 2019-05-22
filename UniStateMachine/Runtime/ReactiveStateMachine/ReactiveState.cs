@@ -5,6 +5,8 @@ using UniRx;
 
 namespace UniModule.UnityTools.UniStateMachine.ReactiveStateMachine
 {
+    using UniGreenModules.UniCore.Runtime.Interfaces;
+
     public class ReactiveState<TState> : StateBehaviour
     {
         private ISelector<TState> _stateSelector;

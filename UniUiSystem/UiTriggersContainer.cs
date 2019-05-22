@@ -5,6 +5,8 @@ using UniTools.UniUiSystem;
 
 namespace UniUiSystem
 {
+    using UniGreenModules.UniCore.Runtime.Common;
+
     [Serializable]
     public class UiTriggersContainer : 
         UniObjectsContainer<InteractionTrigger,IInteractionTrigger>, 

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Modules.UniTools.UnityTools.Attributes;
 using SubjectNerd.Utilities;
 using UniModule.UnityTools.ResourceSystem;
 using UnityEditor;
@@ -9,6 +8,8 @@ using Object = UnityEngine.Object;
 
 namespace Modules.UniTools.UniResourceSystemEditor
 {
+    using UniGreenModules.UniCore.Runtime.Attributes;
+
     [CustomPropertyDrawer(typeof(ResourceItem))]
     public class ResourceItemPropertyDrawer :  PropertyDrawer
     {

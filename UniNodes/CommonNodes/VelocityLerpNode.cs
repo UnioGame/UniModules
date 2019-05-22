@@ -6,6 +6,8 @@ using UnityTools.UniVisualNodeSystem.NodeData;
 
 namespace UniStateMachine.CommonNodes
 {
+    using UniGreenModules.UniCore.Runtime.Interfaces;
+
     public class VelocityLerpNode : UniNode
     {
         private Vector3 _normalizedDirection;

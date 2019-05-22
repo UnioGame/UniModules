@@ -3,8 +3,9 @@
     using System.Collections;
     using Interfaces;
     using UniContextData.Runtime.Entities;
-    using UniModule.UnityTools.Interfaces;
-    using UniModule.UnityTools.UniPool.Scripts;
+    using UniCore.Runtime.DataFlow;
+    using UniCore.Runtime.Interfaces;
+    using UniCore.Runtime.ObjectPool;
     using UniModule.UnityTools.UniStateMachine.Interfaces;
     using UniTools.UniRoutine.Runtime;
     using IActor = Interfaces.IActor;
@@ -25,23 +26,27 @@
         /// active actor behaviour
         /// </summary>
         protected IContextState<IEnumerator> _behaviour;
+        
+        private ILifeTime lifeTime;
 
-        #region public properties
+#region public properties
         
         public IContextState<IEnumerator> State => _behaviour;
 
         public IContext Context => _entity;
 
-        #endregion
+        public ILifeTime LifeTime => _entity.LifeTime;
+
+#endregion
         
         #region public methods
 
-        public void Initialize(IActorModel model, IContextState<IEnumerator> behaviour)
+        public void Initialize(IContextDataSource dataSource, IContextState<IEnumerator> behaviour)
         {
 
             Release();
 
-            _dataSource = model;
+            _dataSource = dataSource;
             _dataSource.Register(_entity);
             _behaviour = behaviour;
 
@@ -74,13 +79,12 @@
                 return;
             }
 
-            var lifeTime = _entity.LifeTime;
             //activate state
             var routine = _behaviour.Execute(_entity);
             var disposableItem = routine.RunWithSubRoutines();
             
-            lifeTime.AddDispose(disposableItem);
-            lifeTime.AddCleanUpAction(_behaviour.Exit);
+            LifeTime.AddDispose(disposableItem);
+            LifeTime.AddCleanUpAction(_behaviour.Exit);
 
         }
 

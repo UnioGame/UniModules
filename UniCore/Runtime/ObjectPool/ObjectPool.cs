@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using UniModule.UnityTools.ProfilerTools;
-using UnityEngine;
-using Object = UnityEngine.Object;
-
-namespace UniModule.UnityTools.UniPool.Scripts
+﻿namespace UniGreenModules.UniCore.Runtime.ObjectPool
 {
+    using System.Collections.Generic;
+    using Interfaces;
+    using ProfilerTools;
+    using UnityEngine;
+
     // This component allows you to pool Unity objects for fast instantiation and destruction
     [AddComponentMenu("Utils/ObjectPool/Pool")]
     public class ObjectPool : MonoBehaviour

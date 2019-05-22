@@ -1,7 +1,7 @@
 ﻿namespace UniGreenModules.UniContextData.Runtime
 {
-    using UniModule.UnityTools.Interfaces;
-    using UniModule.UnityTools.UniPool.Scripts;
+    using UniCore.Runtime.Interfaces;
+    using UniCore.Runtime.ObjectPool.Interfaces;
     using UniRx;
 
     public class ContextPublisher : IMessagePublisher, IPoolable

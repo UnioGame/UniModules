@@ -1,7 +1,7 @@
-using UniModule.UnityTools.DataFlow;
-
-namespace UniModule.UnityTools.UniStateMachine.Interfaces
+namespace UniGreenModules.UniCore.Runtime.Interfaces
 {
+    using DataFlow;
+
     public interface ILifeTimeContext
     {
         ILifeTime LifeTime { get; }

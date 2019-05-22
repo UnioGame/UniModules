@@ -1,4 +1,4 @@
-﻿namespace UniModule.UnityTools.Collider
+﻿namespace UniGreenModules.UniCore.Runtime.Collider
 {
 	public static class ColliderExtension
 	{

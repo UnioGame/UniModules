@@ -1,8 +1,8 @@
 ﻿using UniModule.UnityTools.AssetBundleManager.Interfaces;
-using UniModule.UnityTools.CoroutineTools;
 
 namespace UniModule.UnityTools.AssetBundleManager.LoaderExecutors
 {
+    using UniGreenModules.UniCore.Runtime.CoroutineTools;
 
     public class AssetBundleWithDependenciesSyncRequest : AssetBundleWithDependenciesBaseRequest
     {

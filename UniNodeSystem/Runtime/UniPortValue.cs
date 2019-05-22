@@ -1,10 +1,12 @@
 ﻿using System;
-using UniModule.UnityTools.Common;
 using UniModule.UnityTools.UniVisualNodeSystem.Connections;
 using UniRx;
 
 namespace UniStateMachine.Nodes
 {
+    using UniGreenModules.UniCore.Runtime.Common;
+    using UniGreenModules.UniCore.Runtime.Interfaces;
+
     [Serializable]
     public class UniPortValue : IPortValue
     {

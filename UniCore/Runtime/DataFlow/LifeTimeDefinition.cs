@@ -1,4 +1,4 @@
-﻿namespace UniModule.UnityTools.DataFlow
+﻿namespace UniGreenModules.UniCore.Runtime.DataFlow
 {
     public class LifeTimeDefinition
     {

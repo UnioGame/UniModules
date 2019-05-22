@@ -3,6 +3,8 @@ using UniTools.UniUiSystem;
 
 namespace UniUiSystem
 {
+    using UniGreenModules.UniCore.Runtime.Interfaces;
+
     public interface IUiModule
     {
         IContainer<IUiModuleSlot> Slots { get; }

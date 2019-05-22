@@ -1,8 +1,8 @@
 ﻿namespace UniGreenModules.UniContextData.Runtime.Extension
 {
     using System;
-    using UniModule.UnityTools.Interfaces;
-    using UniModule.UnityTools.UniPool.Scripts;
+    using UniCore.Runtime.Interfaces;
+    using UniCore.Runtime.ObjectPool;
 
     public static class ContextDataExtension
     {

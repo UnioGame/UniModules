@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
+﻿namespace UniGreenModules.UniCore.Runtime.Utils {
+	using System.Collections.Generic;
 
-namespace UniModule.UnityTools.Utils {
-	
 	public static class TypeUtils {
 
 		public static uint GetJavaHash(string s) {

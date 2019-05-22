@@ -1,9 +1,9 @@
-﻿using System;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-
-namespace UniModule.UnityTools.ProfilerTools
+﻿namespace UniGreenModules.UniCore.Runtime.ProfilerTools
 {
+    using System;
+    using System.IO;
+    using System.Runtime.Serialization.Formatters.Binary;
+
     public class ProfilerUtils
     {
 

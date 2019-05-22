@@ -1,9 +1,10 @@
 using UniModule.UnityTools.Interfaces;
-using UniModule.UnityTools.UniPool.Scripts;
 using UnityEngine;
 
 namespace UniUiSystem {
-    
+    using UniGreenModules.UniCore.Runtime.Interfaces;
+    using UniGreenModules.UniCore.Runtime.ObjectPool.Interfaces;
+
     public interface IUiViewBehaviour : IPoolable
     {
         bool IsActive { get; }

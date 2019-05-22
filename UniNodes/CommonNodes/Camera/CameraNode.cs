@@ -3,6 +3,7 @@
 namespace UniStateMachine.CommonNodes.Camera
 {
     using System.Collections;
+    using UniGreenModules.UniCore.Runtime.Interfaces;
     using UniModule.UnityTools.Interfaces;
     using UniModule.UnityTools.UniStateMachine.Extensions;
     using UniStateMachine;

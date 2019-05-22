@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UniModule.UnityTools.AssetBundleManager.Interfaces;
-using UniModule.UnityTools.AsyncOperations;
-using UniModule.UnityTools.UniPool.Scripts;
 
 namespace UniModule.UnityTools.AssetBundleManager.LoaderExecutors
 {
+    using UniGreenModules.UniCore.Runtime.AsyncOperations;
+    using UniGreenModules.UniCore.Runtime.ObjectPool;
 
     public class AssetBundleWithRoutineDependenciesRequest : AssetBundleWithDependenciesBaseRequest
     {

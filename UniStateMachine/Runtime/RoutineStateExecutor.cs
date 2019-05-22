@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections;
-using UniModule.UnityTools.Extension;
 using UniModule.UnityTools.UniStateMachine.Interfaces;
 
 namespace UniModule.UnityTools.UniStateMachine
 {
+    using UniGreenModules.UniCore.Runtime.Extension;
     using UniTools.UniRoutine.Runtime;
 
     public class RoutineStateExecutor : IStateExecutor<IStateBehaviour<IEnumerator>>

@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using UniModule.UnityTools.UniPool.Scripts;
-using UnityEngine;
-using UnityEngine.Assertions;
-using Object = UnityEngine.Object;
-
-namespace UniTools.UniUiSystem
+﻿namespace UniGreenModules.UniCore.Runtime.Common
 {
+    using System;
+    using System.Collections.Generic;
+    using Interfaces;
+    using UnityEngine;
+
     [Serializable]
     public class UniObjectsContainer<TSource,TTarget> : 
         IContainer<TTarget>

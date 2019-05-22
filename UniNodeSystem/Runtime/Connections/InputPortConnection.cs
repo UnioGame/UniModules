@@ -1,12 +1,13 @@
-﻿using UniModule.UnityTools.Common;
-using UniModule.UnityTools.Interfaces;
-using UniModule.UnityTools.ProfilerTools;
+﻿using UniModule.UnityTools.Interfaces;
 using UniStateMachine;
 using UniStateMachine.Nodes;
 using UnityEngine;
 
 namespace UniModule.UnityTools.UniVisualNodeSystem.Connections
 {
+    using UniGreenModules.UniCore.Runtime.Interfaces;
+    using UniGreenModules.UniCore.Runtime.ProfilerTools;
+
     public class InputPortConnection : PortValueConnection
     {
         private readonly INodeExecutor<IContext> _nodeExecutor;

@@ -1,4 +1,4 @@
-namespace UniModule.UnityTools.UniStateMachine.Interfaces
+namespace UniGreenModules.UniCore.Runtime.Interfaces
 {
     public interface IEndPoint
     {

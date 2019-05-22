@@ -5,13 +5,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using UniModule.UnityTools.ProfilerTools;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace UniModule.UnityTools.AssetBundleManager.Old.AssetBundleManager_Old
 {
+    using UniGreenModules.UniCore.Runtime.ObjectPool;
+    using UniGreenModules.UniCore.Runtime.ProfilerTools;
+
     public class AssetBundleOperationSimulation : IAssetProvider {
 
         private const string loadSimulationAsset = "LoadOperationSimulation";
@@ -372,7 +374,7 @@ namespace UniModule.UnityTools.AssetBundleManager.Old.AssetBundleManager_Old
                 var go = component != null ? component.gameObject : targetObject;
                 var position = go.transform.position;
                 var rotation = go.transform.rotation;
-                var resultGameObject = UniPool.Scripts.ObjectPool.Spawn(go, position, rotation, false);
+                var resultGameObject = ObjectPool.Spawn(go, position, rotation, false);
                 resultAsset = isComponent ? resultGameObject.GetComponent<T>() : resultGameObject as T;
             }
             else

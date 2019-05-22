@@ -3,7 +3,7 @@
 namespace UniGreenModules.UniCore.Tests
 {
     using NUnit.Framework;
-    using UniModule.UnityTools.DataStructure;
+    using Runtime.DataStructure;
 
     public class UnorderedCollectionTests
     {

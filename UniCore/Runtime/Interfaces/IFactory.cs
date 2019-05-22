@@ -1,4 +1,4 @@
-﻿namespace UniModule.UnityTools.Interfaces
+﻿namespace UniGreenModules.UniCore.Runtime.Interfaces
 {
     public interface IFactory<out TProduct>
     {

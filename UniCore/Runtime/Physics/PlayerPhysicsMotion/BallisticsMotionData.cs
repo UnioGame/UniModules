@@ -1,7 +1,6 @@
-﻿using System;
-using UnityEngine;
-
-namespace UniModule.UnityTools.Physics.PlayerPhysicsMotion {
+﻿namespace UniGreenModules.UniCore.Runtime.Physics.PlayerPhysicsMotion {
+    using System;
+    using UnityEngine;
 
     [Serializable]
     public struct BallisticsMotionData {

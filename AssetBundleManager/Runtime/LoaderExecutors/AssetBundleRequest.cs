@@ -1,9 +1,10 @@
 ﻿using UniModule.UnityTools.AssetBundleManager.AssetBundleResources;
 using UniModule.UnityTools.AssetBundleManager.Interfaces;
-using UniModule.UnityTools.AsyncOperations;
 
 namespace UniModule.UnityTools.AssetBundleManager.LoaderExecutors
 {
+    using UniGreenModules.UniCore.Runtime.AsyncOperations;
+
     public abstract class AssetBundleRequest : AsyncRequestOperation, IAssetBundleRequest {
 
         public IAssetBundleResource BundleResource { get; protected set; }

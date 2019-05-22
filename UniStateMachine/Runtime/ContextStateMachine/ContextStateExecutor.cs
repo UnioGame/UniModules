@@ -5,6 +5,7 @@ using UniModule.UnityTools.UniStateMachine.Interfaces;
 
 namespace UniModule.UnityTools.UniStateMachine.ContextStateMachine
 {
+    using UniGreenModules.UniCore.Runtime.Interfaces;
     using UniTools.UniRoutine.Runtime;
 
     public class ContextStateExecutor : IContextStateExecutor<IEnumerator>

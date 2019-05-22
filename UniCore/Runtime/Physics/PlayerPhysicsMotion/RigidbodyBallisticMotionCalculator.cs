@@ -1,6 +1,5 @@
-﻿using UnityEngine;
-
-namespace UniModule.UnityTools.Physics.PlayerPhysicsMotion {
+﻿namespace UniGreenModules.UniCore.Runtime.Physics.PlayerPhysicsMotion {
+    using UnityEngine;
 
     public class RigidbodyBallisticMotionCalculator {
 

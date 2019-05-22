@@ -1,8 +1,8 @@
-﻿using System;
-using UniModule.UnityTools.Interfaces;
-
-namespace UniModule.UnityTools.RecycleRx
+﻿namespace UniGreenModules.UniCore.Runtime.Rx
 {
+    using System;
+    using Interfaces;
+
     public class RecycleActionObserver<T> : IRecycleObserver<T>
     {
         private Action<T> _onNext;

@@ -1,13 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UniModule.UnityTools.Attributes;
 using UniModule.UnityTools.Interfaces;
-using UniModule.UnityTools.Math;
 using UniStateMachine.CommonNodes;
 using UnityEngine;
 
 namespace UniStateMachine.CommonNodes
 {
+    using UniGreenModules.UniCore.Runtime.Attributes;
+    using UniGreenModules.UniCore.Runtime.Interfaces;
+    using UniGreenModules.UniCore.Runtime.Math;
+
     public class TimeConditionNode : ConditionNode
     {
         [SerializeField]

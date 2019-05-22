@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using UniModule.UnityTools.Extension;
 using UniModule.UnityTools.UniStateMachine.Interfaces;
 
 namespace UniModule.UnityTools.UniStateMachine
 {
-    
+    using UniGreenModules.UniCore.Runtime.Extension;
+
     public class BaseStateBehaviour : IStateBehaviour<IEnumerator> {
         
         protected readonly List<IDisposable> _disposables = new List<IDisposable>();

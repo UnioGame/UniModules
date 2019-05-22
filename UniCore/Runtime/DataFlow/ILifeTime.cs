@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace UniModule.UnityTools.DataFlow
+﻿namespace UniGreenModules.UniCore.Runtime.DataFlow
 {
+    using System;
+
     public interface ILifeTime
     {
         /// <summary>

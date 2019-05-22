@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using UniRx;
-using UnityEngine;
-
-namespace UniModule.UnityTools.Physics
+﻿namespace UniGreenModules.UniCore.Runtime.Physics
 {
+    using System.Collections.Generic;
+    using UniRx;
+    using UnityEngine;
+
     [RequireComponent(typeof(UnityEngine.Collider))]
     public class SensorObject : MonoBehaviour, ISensorObject
     {

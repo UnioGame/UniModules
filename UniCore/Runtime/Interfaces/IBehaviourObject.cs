@@ -1,6 +1,6 @@
-﻿using UniModule.UnityTools.UniPool.Scripts;
+﻿namespace UniGreenModules.UniCore.Runtime.Interfaces {
+    using ObjectPool.Interfaces;
 
-namespace UniModule.UnityTools.Interfaces {
     public interface IBehaviourObject : IPoolable {
         bool IsActive { get; }
         void SetEnabled(bool state);

@@ -1,8 +1,8 @@
-﻿using System;
-using UniModule.UnityTools.UniPool.Scripts;
-
-namespace UniModule.UnityTools.Common
+﻿namespace UniGreenModules.UniCore.Runtime.Common
 {
+    using System;
+    using ObjectPool.Interfaces;
+
     public class ActionProxy<T> : IPoolable
     {
         private Action _action;

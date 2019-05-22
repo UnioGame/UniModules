@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using UniModule.UnityTools.UniPool.Scripts;
-
-namespace UniModule.UnityTools.DataStructure
+﻿namespace UniGreenModules.UniCore.Runtime.DataStructure
 {
+	using System.Collections.Generic;
+	using ObjectPool.Interfaces;
+
 	public class UnorderedCollection<T> : IPoolable
 		where T:class
 	{

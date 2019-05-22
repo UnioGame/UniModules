@@ -1,7 +1,6 @@
-﻿using System;
+﻿namespace UniGreenModules.UniCore.Runtime.Input {
+	using System;
 
-namespace UniModule.UnityTools.Input {
-	
 	[Flags]
 	public enum KeyStates {
     

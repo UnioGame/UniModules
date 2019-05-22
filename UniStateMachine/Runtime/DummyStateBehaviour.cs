@@ -1,9 +1,10 @@
 ﻿using System.Collections;
-using UniModule.UnityTools.ProfilerTools;
 using UnityEngine;
 
 namespace UniModule.UnityTools.UniStateMachine
 {
+    using UniGreenModules.UniCore.Runtime.ProfilerTools;
+
     public class DummyStateBehaviour : StateBehaviour
     {
         

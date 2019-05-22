@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using UniModule.UnityTools.Extension;
 using UniModule.UnityTools.UniStateMachine.Interfaces;
 using UniStateMachine.Runtime;
 
 namespace UniModule.UnityTools.UniStateMachine
 {
+    using UniGreenModules.UniCore.Runtime.Extension;
+
     public class StateManager<TStateType, TState> : IStateManager<TStateType> {
         
         protected List<IDisposable> _disposables;

@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace UniModule.UnityTools.Interfaces
+﻿namespace UniGreenModules.UniCore.Runtime.Interfaces
 {
+    using System;
+    using System.Collections.Generic;
 
     public interface IContextData<TContext> : IContextDataWriter<TContext>
     {

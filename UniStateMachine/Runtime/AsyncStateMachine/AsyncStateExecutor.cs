@@ -1,12 +1,12 @@
 ﻿using System;
-using UniModule.UnityTools.Extension;
 using UniModule.UnityTools.UniStateMachine.Interfaces;
 using UniRx;
 using UniRx.Async;
 
 namespace UniModule.UnityTools.UniStateMachine.AsyncStateMachine
 {
-  
+    using UniGreenModules.UniCore.Runtime.Extension;
+
     public class AsyncStateExecutor : IStateExecutor<UniTask>
     {
         private IDisposable _taskDisposable;

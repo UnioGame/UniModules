@@ -1,10 +1,11 @@
-﻿using System;
-using UniModule.UnityTools.ProfilerTools;
-using UnityEngine;
-using Object = UnityEngine.Object;
-
-namespace UniModule.UnityTools.UniPool.Scripts
+﻿namespace UniGreenModules.UniCore.Runtime.ObjectPool
 {
+	using System;
+	using Interfaces;
+	using ProfilerTools;
+	using UnityEngine;
+	using Object = UnityEngine.Object;
+
 	public static class ClassPool {
 
 		private static WeakReference<IPoolContainer> _persistentContainer = new WeakReference<IPoolContainer>(null);

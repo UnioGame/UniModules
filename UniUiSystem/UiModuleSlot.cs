@@ -1,11 +1,10 @@
 ﻿
-using UniModule.UnityTools.Common;
-
 namespace UniUiSystem
 {
-    using UniModule.UnityTools.DataFlow;
+    using UniGreenModules.UniCore.Runtime.DataFlow;
+    using UniGreenModules.UniCore.Runtime.Interfaces;
+    using UniGreenModules.UniCore.Runtime.ObjectPool;
     using UniModule.UnityTools.Interfaces;
-    using UniModule.UnityTools.UniPool.Scripts;
     using UnityEngine;
     using UnityEngine.EventSystems;
     using UniUiSystem.Models;

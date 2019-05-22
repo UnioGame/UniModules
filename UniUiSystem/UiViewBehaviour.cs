@@ -5,6 +5,7 @@ using UnityEngine;
 namespace UniUiSystem
 {
     using UniGreenModules.UniContextData.Runtime.Entities;
+    using UniGreenModules.UniCore.Runtime.Interfaces;
     using UniTools.UniRoutine.Runtime;
 
     public class UiViewBehaviour : MonoBehaviour, IUiViewBehaviour

@@ -1,9 +1,10 @@
 ﻿using System.Diagnostics;
-using UniModule.UnityTools.ProfilerTools;
 using UnityEngine;
 
 namespace UniStateMachine.Runtime
 {
+    using UniGreenModules.UniCore.Runtime.ProfilerTools;
+
     public static class StateLogger
     {
 

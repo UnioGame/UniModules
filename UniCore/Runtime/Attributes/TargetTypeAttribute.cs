@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Modules.UniTools.UnityTools.Attributes
+﻿namespace UniGreenModules.UniCore.Runtime.Attributes
 {
+    using System;
+
     [AttributeUsage (AttributeTargets.Field,AllowMultiple = true,Inherited = true)]
     public class TargetTypeAttribute : Attribute
     {

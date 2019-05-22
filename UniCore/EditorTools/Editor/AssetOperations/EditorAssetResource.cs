@@ -2,7 +2,7 @@
 
 namespace UniGreenModules.UniCore.EditorTools.AssetOperations
 {
-    using UniModule.UnityTools.UniPool.Scripts;
+    using Runtime.ObjectPool.Interfaces;
     using UnityEditor;
 
     public class EditorAssetResource : IPoolable

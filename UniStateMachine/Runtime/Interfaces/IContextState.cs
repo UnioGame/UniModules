@@ -1,8 +1,10 @@
 ﻿using UniModule.UnityTools.Interfaces;
-using UniModule.UnityTools.UniPool.Scripts;
 
 namespace UniModule.UnityTools.UniStateMachine.Interfaces
 {
+    using UniGreenModules.UniCore.Runtime.Interfaces;
+    using UniGreenModules.UniCore.Runtime.ObjectPool.Interfaces;
+
     public interface IContextState<out TAwaiter> : 
         IStateBehaviour<IContext, TAwaiter>,
         ILifeTimeContext,

@@ -1,7 +1,7 @@
 ﻿namespace UniTools.UniRoutine.Runtime.Interfaces
 {
     using System.Collections;
-    using UniModule.UnityTools.Interfaces;
+    using UniGreenModules.UniCore.Runtime.Interfaces;
 
     public interface IUniRoutine
     {

@@ -30,7 +30,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using UniModule.UnityTools.ReorderableInspector;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEditorInternal;
@@ -38,6 +37,8 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace SubjectNerd.Utilities {
+    using UniGreenModules.UniCore.Runtime.ReorderableInspector;
+
     [CustomEditor(typeof(UnityEngine.Object), true, isFallback = true)]
     [CanEditMultipleObjects]
     public class ReorderableArrayInspector : Editor {

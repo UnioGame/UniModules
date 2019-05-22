@@ -1,7 +1,7 @@
-﻿using UniModule.UnityTools.UniPool.Scripts;
-
-namespace UniModule.UnityTools.Interfaces
+﻿namespace UniGreenModules.UniCore.Runtime.Interfaces
 {
+    using ObjectPool.Interfaces;
+
     public interface IAsyncOperation : IPoolable, ICommandRoutine
     {
         bool IsDone { get; }

@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using UniModule.UnityTools.Interfaces;
-using UniModule.UnityTools.UniPool.Scripts;
-using UniModule.UnityTools.RecycleRx;
-
-namespace UniModule.UnityTools.Extension
+﻿namespace UniGreenModules.UniCore.Runtime.Extension
 {
+    using System;
+    using System.Collections.Generic;
+    using Interfaces;
+    using ObjectPool;
+    using Rx;
+
     public static class RxExtension
     {
         public static void Cancel(this IDisposable disposable)

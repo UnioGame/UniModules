@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using UniModule.UnityTools.UniPool.Scripts;
-
-namespace UniModule.UnityTools.DataFlow
+﻿namespace UniGreenModules.UniCore.Runtime.DataFlow
 {
+    using System;
+    using System.Collections.Generic;
+    using ObjectPool.Interfaces;
+
     public class LifeTime : ILifeTime, IPoolable
     {
         private List<IDisposable> disposables = new List<IDisposable>();

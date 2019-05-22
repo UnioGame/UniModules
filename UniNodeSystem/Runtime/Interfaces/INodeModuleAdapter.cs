@@ -5,6 +5,8 @@ using UnityTools.UniVisualNodeSystem;
 
 namespace UnityTools.UniNodeEditor.Connections
 {
+    using UniGreenModules.UniCore.Runtime.Interfaces;
+
     public interface INodeModuleAdapter
     {
         IReadOnlyCollection<PortDefinition> Ports { get; }

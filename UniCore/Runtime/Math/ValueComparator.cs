@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace UniModule.UnityTools.Math {
+﻿namespace UniGreenModules.UniCore.Runtime.Math {
+	using System;
+	using System.Collections.Generic;
+	using UnityEngine;
 
 	[Flags]
 	public enum CompareTypes

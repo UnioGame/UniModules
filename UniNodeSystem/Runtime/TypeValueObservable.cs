@@ -1,9 +1,9 @@
-﻿using UniModule.UnityTools.UniPool.Scripts;
-
-namespace UniStateMachine.Nodes
+﻿namespace UniStateMachine.Nodes
 {
     using System;
-    using UniModule.UnityTools.Common;
+    using UniGreenModules.UniCore.Runtime.Interfaces;
+    using UniGreenModules.UniCore.Runtime.ObjectPool;
+    using UniGreenModules.UniCore.Runtime.ObjectPool.Interfaces;
     using UniModule.UnityTools.UniVisualNodeSystem.Connections;
     using UniRx;
 

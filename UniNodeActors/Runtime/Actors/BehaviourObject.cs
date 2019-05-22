@@ -1,5 +1,6 @@
 ﻿namespace UniGreenModules.UniNodeActors.Runtime.Actors 
 {
+    using UniCore.Runtime.Interfaces;
     using UniModule.UnityTools.Interfaces;
 
     public class BehaviourObject : IBehaviourObject {

@@ -1,7 +1,7 @@
-using System;
-
-namespace UniModule.UnityTools.UniPool.Scripts
+namespace UniGreenModules.UniCore.Runtime.ObjectPool.Interfaces
 {
+    using System;
+
     public interface IPoolContainer
     {
         bool Contains(Type type);

@@ -1,11 +1,10 @@
-﻿namespace UniModule.UnityTools.Common
+﻿namespace UniGreenModules.UniCore.Runtime.Common
 {
     using System;
     using System.Collections.Generic;
     using Interfaces;
-    using UniPool.Scripts;
-    using UniRx;
-    
+    using ObjectPool;
+
     public class TypeData : ITypeData
     {
         /// <summary>

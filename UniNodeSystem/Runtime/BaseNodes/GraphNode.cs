@@ -3,7 +3,8 @@ namespace UniStateMachine.SubGraph
 {
     using System.Collections;
     using System.Collections.Generic;
-    using Modules.UniTools.UnityTools.Attributes;
+    using UniGreenModules.UniCore.Runtime.Attributes;
+    using UniGreenModules.UniCore.Runtime.Interfaces;
     using UniModule.UnityTools.Interfaces;
     using UniModule.UnityTools.ResourceSystem;
     using UniModule.UnityTools.UniStateMachine.Extensions;

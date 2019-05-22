@@ -6,6 +6,8 @@ using UnityEngine;
 
 namespace UniStateMachine
 {
+	using UniGreenModules.UniCore.Runtime.Interfaces;
+
 	public class UniStateTransition : ScriptableObject , IUniStateTransition
 	{
 		[SerializeField]

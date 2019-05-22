@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-
-namespace UniModule.UnityTools.UniPool.Scripts
+﻿namespace UniGreenModules.UniCore.Runtime.ObjectPool
 {
+	using UnityEngine;
+
 	// This component will automatically reset a Rigidbody2D when it gets spawned/despawned
 	[RequireComponent(typeof(Rigidbody2D))]
 	public class PooledRigidbody2D : MonoBehaviour

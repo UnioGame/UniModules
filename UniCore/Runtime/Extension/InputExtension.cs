@@ -1,8 +1,8 @@
-﻿using UniModule.UnityTools.Input;
-using UnityEngine;
-
-namespace UniModule.UnityTools.Extension
+﻿namespace UniGreenModules.UniCore.Runtime.Extension
 {
+    using Input;
+    using UnityEngine;
+
     public static class InputExtension
     {
 

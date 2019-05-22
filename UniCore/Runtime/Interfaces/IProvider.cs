@@ -1,4 +1,4 @@
-﻿namespace UnityTools.Interfaces
+﻿namespace UniGreenModules.UniCore.Runtime.Interfaces
 {
     public interface ISelector<TSource,TResult>
     {

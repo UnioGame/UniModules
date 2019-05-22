@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using UniModule.UnityTools.Common;
-using UniModule.UnityTools.UniPool.Scripts;
-
-namespace UniModule.UnityTools.RecycleRx
+﻿namespace UniGreenModules.UniCore.Runtime.Rx
 {
+    using System;
+    using System.Collections.Generic;
+    using Common;
+    using ObjectPool;
+    using ObjectPool.Interfaces;
+
     public class RecycleObservable<T> : IObservable<T>,IPoolable
     {
         

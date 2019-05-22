@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using UniModule.UnityTools.ReflectionUtils;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -11,6 +10,7 @@ using Object = UnityEngine.Object;
 namespace UniModule.UnityTools.EditorTools
 {
     using UniGreenModules.UniCore.EditorTools.AssetOperations;
+    using UniGreenModules.UniCore.Runtime.ReflectionUtils;
 
     public class AssetEditorTools
     {

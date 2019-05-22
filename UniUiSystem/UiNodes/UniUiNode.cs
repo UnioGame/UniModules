@@ -1,10 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Modules.UniTools.UnityTools.Attributes;
 using Modules.UniTools.UniUiSystem.Interfaces;
-using UniModule.UnityTools.DataFlow;
 using UniModule.UnityTools.Interfaces;
-using UniModule.UnityTools.UniPool.Scripts;
 using UniModule.UnityTools.ResourceSystem;
 using UniModule.UnityTools.UniStateMachine.Extensions;
 using UniModule.UnityTools.UniVisualNodeSystem.Connections;
@@ -20,6 +17,11 @@ using UniUiSystem.Models;
 
 namespace UniUiSystem
 {
+    using UniGreenModules.UniCore.Runtime.Attributes;
+    using UniGreenModules.UniCore.Runtime.DataFlow;
+    using UniGreenModules.UniCore.Runtime.Interfaces;
+    using UniGreenModules.UniCore.Runtime.ObjectPool;
+
     public class UniUiNode : UniNode
     {
         

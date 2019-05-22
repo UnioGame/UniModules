@@ -1,7 +1,7 @@
-﻿using UniModule.UnityTools.Interfaces;
-
-namespace UniModule.UnityTools.Common
+﻿namespace UniGreenModules.UniCore.Runtime.Common
 {
+    using Interfaces;
+
     public class CompletionSource : ICompletionSource
     {
         public bool IsComplete { get; protected set; }

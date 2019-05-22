@@ -1,9 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UniModule.UnityTools.UniPool.Scripts;
-
-namespace UniModule.UnityTools.CoroutineTools
+﻿namespace UniGreenModules.UniCore.Runtime.CoroutineTools
 {
+    using System.Collections;
+    using System.Collections.Generic;
+    using ObjectPool.Interfaces;
+
     public class CoroutineIterator : IPoolable
     {
 

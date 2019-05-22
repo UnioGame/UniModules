@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace UniModule.UnityTools.Interfaces
+﻿namespace UniGreenModules.UniCore.Runtime.Interfaces
 {
+    using System;
+
     public interface IDisposableItem : IDisposable
     {
         bool IsDisposed { get; }

@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using UniModule.UnityTools.UniPool.Scripts;
 
 namespace UniModule.UnityTools.AssetBundleManager.Interfaces
 {
+    using UniGreenModules.UniCore.Runtime.ObjectPool;
+
     public class AssetBundlesRequestCache : IAssetBundlesRequestCache {
 
         protected Dictionary<string, RequestCacheItem> LoadedRequests =

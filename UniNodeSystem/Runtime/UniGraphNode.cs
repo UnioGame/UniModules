@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using UniModule.UnityTools.DataFlow;
 using UniModule.UnityTools.Interfaces;
-using UniModule.UnityTools.UniPool.Scripts;
-using UniModule.UnityTools.ProfilerTools;
 using UniModule.UnityTools.UniStateMachine;
 using UniModule.UnityTools.UniStateMachine.Extensions;
 using UniModule.UnityTools.UniStateMachine.Interfaces;
@@ -15,6 +12,10 @@ using UniStateMachine.Runtime;
 
 namespace UniStateMachine
 {
+    using UniGreenModules.UniCore.Runtime.DataFlow;
+    using UniGreenModules.UniCore.Runtime.Interfaces;
+    using UniGreenModules.UniCore.Runtime.ObjectPool;
+    using UniGreenModules.UniCore.Runtime.ObjectPool.Extensions;
     using UniTools.UniRoutine.Runtime;
 
     [Serializable]

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using UniModule.UnityTools.UniPool.Scripts;
 using Object = UnityEngine.Object;
 
 namespace UniModule.UnityTools.AssetBundleManager.AssetBundleResources
 {
+    using UniGreenModules.UniCore.Runtime.ObjectPool.Interfaces;
 
     public interface IAssetBundleResource : IPoolable
     {

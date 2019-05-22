@@ -1,8 +1,9 @@
 ﻿using UniModule.UnityTools.AssetBundleManager.Interfaces;
-using UniModule.UnityTools.Utils;
 
 namespace UniModule.UnityTools.AssetBundleManager
 {
+    using UniGreenModules.UniCore.Runtime.Utils;
+
     public class AssetBundleConfiguration : IAssetBundleConfiguration {
 
         private const string WebRequestBundleModeKey = "WebRequestBundleMode";

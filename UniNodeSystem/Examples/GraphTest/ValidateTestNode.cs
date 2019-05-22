@@ -5,6 +5,8 @@ using UnityEngine;
 
 namespace Tests.GraphTest
 {
+    using UniGreenModules.UniCore.Runtime.Interfaces;
+
     public class ValidateTestNode : UniNode
     {
         [SerializeField]

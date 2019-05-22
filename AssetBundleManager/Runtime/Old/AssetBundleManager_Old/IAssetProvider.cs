@@ -1,12 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UniModule.UnityTools.Interfaces;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace UniModule.UnityTools.AssetBundleManager.Old.AssetBundleManager_Old
 {
+    using UniGreenModules.UniCore.Runtime.Interfaces;
+
     public interface IAssetProvider : ICommandRoutine
     {
         string[] AllAssetsNames { get; }

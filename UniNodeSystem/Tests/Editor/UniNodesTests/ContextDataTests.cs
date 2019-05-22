@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
-using UniModule.UnityTools.Common;
 using UniModule.UnityTools.Interfaces;
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -10,6 +9,7 @@ namespace Tests
 {
     using UniGreenModules.UniContextData.Runtime;
     using UniGreenModules.UniContextData.Runtime.Entities;
+    using UniGreenModules.UniCore.Runtime.Interfaces;
 
     public class ContextDataTests
     {

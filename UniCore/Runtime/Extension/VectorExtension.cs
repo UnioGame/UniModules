@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-
-namespace UniModule.UnityTools.Extension
+﻿namespace UniGreenModules.UniCore.Runtime.Extension
 {
+    using UnityEngine;
+
     public static class VectorExtension  {
 
         public static bool IsLeft(this Vector3 a, Vector3 b)

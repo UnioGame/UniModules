@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using UniModule.UnityTools.AssetBundleManager.Interfaces;
-using UniModule.UnityTools.CoroutineTools;
-using UniModule.UnityTools.UniPool.Scripts;
-using UniModule.UnityTools.ProfilerTools;
 using UnityEngine;
 
 namespace UniModule.UnityTools.AssetBundleManager
 {
+    using UniGreenModules.UniCore.Runtime.CoroutineTools;
+    using UniGreenModules.UniCore.Runtime.ObjectPool;
+    using UniGreenModules.UniCore.Runtime.ProfilerTools;
+
     public class AssetsBundleLoader : IAssetsBundleLoader {
 
         private readonly IBundleRequestFactory _bundleRequestFactory;

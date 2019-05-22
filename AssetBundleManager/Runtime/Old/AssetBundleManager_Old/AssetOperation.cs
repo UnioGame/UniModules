@@ -1,9 +1,9 @@
 ﻿using System.Collections;
-using UniModule.UnityTools.ProfilerTools;
 using UnityEngine;
 
 namespace UniModule.UnityTools.AssetBundleManager.Old.AssetBundleManager_Old{
-    
+    using UniGreenModules.UniCore.Runtime.ProfilerTools;
+
     public abstract class AssetOperation : IAssetOperation
     {
         #region public properties

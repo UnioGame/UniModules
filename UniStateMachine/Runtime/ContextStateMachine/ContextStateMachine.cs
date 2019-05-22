@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using UniModule.UnityTools.Extension;
 using UniModule.UnityTools.Interfaces;
 using UniModule.UnityTools.UniStateMachine.Interfaces;
 
 namespace UniModule.UnityTools.UniStateMachine.ContextStateMachine
 {
+    using UniGreenModules.UniCore.Runtime.Extension;
+    using UniGreenModules.UniCore.Runtime.Interfaces;
+
     /// <summary>
     /// FSM for supports states with context data
     /// one per actor execution process

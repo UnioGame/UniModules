@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-
-namespace UniModule.UnityTools.Attributes
+﻿namespace UniGreenModules.UniCore.Runtime.Attributes
 {
+    using UnityEngine;
+
     public class EnumFlagsAttribute : PropertyAttribute
     {
         public EnumFlagsAttribute() { }

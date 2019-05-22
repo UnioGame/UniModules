@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-
-namespace UniModule.UnityTools.Physics
+﻿namespace UniGreenModules.UniCore.Runtime.Physics
 {
+    using UnityEngine;
+
     public class Rigidbody2DVelocityLimiter : MonoBehaviour
     {
 

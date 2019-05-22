@@ -1,4 +1,4 @@
-﻿using UniModule.UnityTools.ProfilerTools;
+﻿using UniGreenModules.UniCore.Runtime.ProfilerTools;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
 using UnityEngine;

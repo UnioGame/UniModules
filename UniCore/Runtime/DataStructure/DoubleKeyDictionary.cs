@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace UniModule.UnityTools.DataStructure
+﻿namespace UniGreenModules.UniCore.Runtime.DataStructure
 {
+    using System.Collections.Generic;
+
     public class DoubleKeyDictionary<TKey,TSubKey,TValue>
     {
 

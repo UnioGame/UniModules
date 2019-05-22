@@ -3,11 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Modules.UniTools.UniNodeSystem;
-using UniModule.UnityTools.Common;
-using UniModule.UnityTools.DataFlow;
 using UniModule.UnityTools.Interfaces;
-using UniModule.UnityTools.UniPool.Scripts;
-using UniModule.UnityTools.ProfilerTools;
 using UniModule.UnityTools.UniStateMachine;
 using UniModule.UnityTools.UniStateMachine.Extensions;
 using UniModule.UnityTools.UniStateMachine.Interfaces;
@@ -18,6 +14,8 @@ using UniStateMachine.CommonNodes;
 
 namespace UniStateMachine.Nodes
 {
+    using UniGreenModules.UniCore.Runtime.DataFlow;
+    using UniGreenModules.UniCore.Runtime.Interfaces;
     using UniTools.UniRoutine.Runtime;
 
     public class UniGraph : NodeGraph, IContextState<IEnumerator>

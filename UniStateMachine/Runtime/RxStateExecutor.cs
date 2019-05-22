@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections;
-using UniModule.UnityTools.Extension;
 using UniModule.UnityTools.UniStateMachine.Interfaces;
 using UniRx;
 
 namespace UniModule.UnityTools.UniStateMachine
 {
+    using UniGreenModules.UniCore.Runtime.Extension;
+
     public class RxStateExecutor : IStateExecutor<IStateBehaviour<IEnumerator>>
     {
         private IDisposable _disposables;

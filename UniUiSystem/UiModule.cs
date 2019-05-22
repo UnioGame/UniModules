@@ -5,6 +5,8 @@ using UniTools.UniUiSystem;
 
 namespace UniUiSystem
 {
+    using UniGreenModules.UniCore.Runtime.Interfaces;
+
     public class UiModule : UiViewBehaviour, IUiModule
     {
         #region inspector data

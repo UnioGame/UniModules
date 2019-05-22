@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using UniModule.UnityTools.UniPool.Scripts;
-using UniRx;
-
-namespace UniModule.UnityTools.RecycleRx
+﻿namespace UniGreenModules.UniCore.Runtime.Rx
 {
+	using System;
+	using System.Collections.Generic;
+	using Interfaces;
+	using UniRx;
+
 	public class RecycleMessageBrocker : IRecycleMessageBrocker
 	{
 		readonly Dictionary<Type, object> notifiers = new Dictionary<Type, object>();

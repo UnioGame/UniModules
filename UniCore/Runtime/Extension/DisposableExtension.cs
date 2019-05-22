@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Modules.UniTools.UnityTools.Extension
+﻿namespace UniGreenModules.UniCore.Runtime.Extension
 {
+    using System;
+    using System.Collections.Generic;
+
     public static class DisposableExtension
     {
         public static void DisposeItems<TTarget>(this List<TTarget> disposables)

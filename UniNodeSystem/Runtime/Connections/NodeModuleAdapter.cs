@@ -8,6 +8,8 @@ using UnityTools.UniVisualNodeSystem;
 
 namespace UnityTools.UniNodeEditor.Connections
 {
+    using UniGreenModules.UniCore.Runtime.Interfaces;
+
     public abstract class NodeModuleAdapter : ScriptableObject, INodeModuleAdapter
     {
 

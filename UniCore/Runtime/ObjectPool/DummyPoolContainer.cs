@@ -1,7 +1,8 @@
-﻿using System;
-
-namespace UniModule.UnityTools.UniPool.Scripts
+﻿namespace UniGreenModules.UniCore.Runtime.ObjectPool
 {
+    using System;
+    using Interfaces;
+
     public class DummyPoolContainer : IPoolContainer
     {
 

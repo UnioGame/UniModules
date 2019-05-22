@@ -1,4 +1,4 @@
-﻿namespace UniTools.UniTools.Runtime.Interfaces
+﻿namespace UniGreenModules.UniCore.Runtime.Interfaces
 {
     public interface IAsyncCompletionStatus 
     {

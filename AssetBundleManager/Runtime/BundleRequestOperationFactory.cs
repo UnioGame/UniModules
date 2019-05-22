@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using UniModule.UnityTools.AssetBundleManager.Interfaces;
 using UniModule.UnityTools.AssetBundleManager.LoaderExecutors;
-using UniModule.UnityTools.UniPool.Scripts;
 using UnityEngine;
 
 namespace UniModule.UnityTools.AssetBundleManager
 {
+    using UniGreenModules.UniCore.Runtime.ObjectPool;
+
     public class BundleRequestOperationFactory : IBundleRequestFactory
     {
         private readonly string _manifestName;

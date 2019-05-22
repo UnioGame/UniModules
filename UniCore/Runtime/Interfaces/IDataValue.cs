@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace UniModule.UnityTools.Interfaces
+﻿namespace UniGreenModules.UniCore.Runtime.Interfaces
 {
 	public interface IDataValue<TData> : IObservableDataValue<TData>
 	{

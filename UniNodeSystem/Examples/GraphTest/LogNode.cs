@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using UniModule.UnityTools.Extension;
 using UniModule.UnityTools.Interfaces;
 using UniModule.UnityTools.UniStateMachine.Extensions;
 using UniNodeSystem;
@@ -9,6 +8,7 @@ using UnityEngine;
 
 namespace Tests.GraphTest
 {
+	using UniGreenModules.UniCore.Runtime.Interfaces;
 	using UniTools.UniRoutine.Runtime.Extension;
 
 	public class LogNode : UniNode
