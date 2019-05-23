@@ -1,7 +1,7 @@
 ﻿namespace UniGreenModules.UniCore.Runtime.Interfaces {
     using ObjectPool.Interfaces;
 
-    public interface IBehaviourObject : IPoolable {
+    public interface IActivatableObject : IPoolable {
         bool IsActive { get; }
         void SetEnabled(bool state);
     }

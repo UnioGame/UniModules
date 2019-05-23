@@ -9,7 +9,7 @@
             RoutineType routineType = RoutineType.UpdateStep)
         {
 		
-            return UniRoutineController.RunWithSubRoutines(enumerator,routineType);
+            return UniRoutineManager.RunUniRoutine(enumerator,routineType);
 		
             
         }

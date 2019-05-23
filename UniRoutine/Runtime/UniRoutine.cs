@@ -3,17 +3,15 @@
 	using System.Collections.Generic;
 	using Interfaces;
 	using UniGreenModules.UniCore.Runtime.Common;
+	using UniGreenModules.UniCore.Runtime.DataStructure;
 	using UniGreenModules.UniCore.Runtime.Interfaces;
 	using UniGreenModules.UniCore.Runtime.ObjectPool;
 
 	public class UniRoutine : IUniRoutine
 	{
-
 		private List<UniRoutineTask> routines = new List<UniRoutineTask>();
 		private List<DisposableAction<int>> routineDisposable = new List<DisposableAction<int>>();
 		private Stack<int> unusedSlots = new Stack<int>();
-		
-		private static UniRoutineManager routineObject;
 
 		public IDisposableItem AddRoutine(IEnumerator enumerator) {
 
@@ -44,6 +42,9 @@
 			
 		}
 
+		/// <summary>
+		/// update all registered routine tasks
+		/// </summary>
 		public void Update() {
 
 			for (var i = 0; i < routines.Count; i++) {
@@ -58,7 +59,7 @@
 				var moveNext = routine.MoveNext();
 				if (moveNext) continue;
 
-				//
+				//return routine task to pool
 				ReleaseRoutine(i);
 				
 			}

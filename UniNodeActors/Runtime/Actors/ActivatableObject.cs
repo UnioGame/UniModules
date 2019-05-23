@@ -3,7 +3,7 @@
     using UniCore.Runtime.Interfaces;
     using UniModule.UnityTools.Interfaces;
 
-    public class BehaviourObject : IBehaviourObject {
+    public class ActivatableObject : IActivatableObject {
 
         #region public properties
         
