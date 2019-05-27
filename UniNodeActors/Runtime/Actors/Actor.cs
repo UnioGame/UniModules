@@ -10,7 +10,10 @@
     using UniTools.UniRoutine.Runtime;
     using IActor = Interfaces.IActor;
 
-    public class Actor : BehaviourObject, IActor
+    /// <summary>
+    /// single computation actor
+    /// </summary>
+    public class Actor : ActivatableObject, IActor
     {
         /// <summary>
         /// data container
@@ -18,24 +21,16 @@
         private EntityObject _entity = new EntityObject();
 
         /// <summary>
-        /// context data source
-        /// </summary>
-        private IContextDataSource _dataSource;
-        
-        /// <summary>
         /// active actor behaviour
         /// </summary>
         protected IContextState<IEnumerator> _behaviour;
         
-        private ILifeTime lifeTime;
-
 #region public properties
-        
-        public IContextState<IEnumerator> State => _behaviour;
 
         public IContext Context => _entity;
 
         public ILifeTime LifeTime => _entity.LifeTime;
+
 
 #endregion
         
@@ -46,8 +41,8 @@
 
             Release();
 
-            _dataSource = dataSource;
-            _dataSource.Register(_entity);
+            dataSource.Register(_entity);
+
             _behaviour = behaviour;
 
         }
@@ -61,9 +56,6 @@
    
             _entity.Release();
             _behaviour = null;
-
-            _dataSource?.Despawn();
-            _dataSource = null;
 
         }
         
@@ -106,5 +98,6 @@
         }
 
         #endregion
+        
     }
 }

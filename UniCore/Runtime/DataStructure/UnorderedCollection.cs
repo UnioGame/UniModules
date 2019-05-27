@@ -1,14 +1,14 @@
 ﻿namespace UniGreenModules.UniCore.Runtime.DataStructure
 {
 	using System.Collections.Generic;
+	using System.Threading;
 	using ObjectPool.Interfaces;
 
-	public class UnorderedCollection<T> : IPoolable
-		where T:class
+	public class UnorderedCollection<T> : IUnorderedCollection<T> where T:class
 	{
 		private int _count;
 		private List<T> _items = new List<T>();
-		private Queue<int> _unusedSlots = new Queue<int>();
+		private Stack<int> _unusedSlots = new Stack<int>();
 
 		public int Count => _count;
 
@@ -32,11 +32,11 @@
 		{
 			var index = _items.Count;
 			
-			_count++;
+			Interlocked.Increment(ref _count);
 			
 			if (_unusedSlots.Count > 0)
 			{
-				index = _unusedSlots.Dequeue();
+				index = _unusedSlots.Pop();
 				_items[index] = item;
 				return index;
 			}
@@ -52,9 +52,10 @@
 			if (item == null)
 				return null;
 			
-			_unusedSlots.Enqueue(itemId);
+			_unusedSlots.Push(itemId);
 			_items[itemId] = null;
-			_count--;
+
+			Interlocked.Decrement(ref _count);
 			
 			return item;
 		}
@@ -63,7 +64,8 @@
 		{
 			_items.Clear();
 			_unusedSlots.Clear();
-			_count = 0;
+			
+			Interlocked.Exchange(ref _count, 0);
 		}
 
 		public void Release()

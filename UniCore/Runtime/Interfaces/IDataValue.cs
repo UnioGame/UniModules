@@ -1,10 +1,8 @@
 ﻿namespace UniGreenModules.UniCore.Runtime.Interfaces
 {
-	public interface IDataValue<TData> : IObservableDataValue<TData>
+	public interface IDataValue<TData> : IObservableDataValue<TData>,IValueWriter<TData>
 	{
-		
-		void SetValue(TData value);
-		
+
 	}
 }
 
