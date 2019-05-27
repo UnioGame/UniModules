@@ -1,4 +1,5 @@
 ﻿namespace UniGreenModules.UnityBuild.Editor.ClientBuild.Commands.PreBuildCommands {
+    using System.Text;
     using Interfaces;
     using UnityEditor;
     using UnityEngine;
@@ -8,10 +9,10 @@
     {
         
         //android keys
-        public const string KeyStorePath      = "-keystorePath";
-        public const string KeyStorePass      = "-keystorePass";
-        public const string KeyStoreAlias     = "-keystoreAlias";
-        public const string KeyStoreAliasPass = "-keystoreAliasPass";
+        public string KeyStorePath      = "-keystorePath";
+        public string KeyStorePass      = "-keystorePass";
+        public string KeyStoreAlias     = "-keystoreAlias";
+        public string KeyStoreAliasPass = "-keystoreAliasPass";
         
         public override void Execute(IUniBuilderConfiguration configuration) 
         {
@@ -23,10 +24,6 @@
             //update android key store parameters
             arguments.GetStringValue(KeyStorePath, 
                 out var keystore, string.Empty);
-            
-            if (string.IsNullOrEmpty(keystore))
-                return;
-            
             arguments.GetStringValue(KeyStorePass,
                 out var keypass, PlayerSettings.Android.keystorePass);
 
@@ -35,11 +32,46 @@
 
             arguments.GetStringValue(KeyStoreAliasPass,
                 out var aliaspass, PlayerSettings.Android.keyaliasPass);
-   
+
+            var stringBuilder = new StringBuilder(300);
+            stringBuilder.Append("KEYSTORE : ");
+            stringBuilder.Append(keystore);
+            stringBuilder.AppendLine();
+            
+            stringBuilder.Append("KEYSTORE PASS : ");
+            stringBuilder.Append(keypass);
+            stringBuilder.AppendLine();
+            
+            stringBuilder.Append("KEYSTORE ALIAS: ");
+            stringBuilder.Append(alias);
+            stringBuilder.AppendLine();
+            
+            stringBuilder.Append("KEYSTORE ALIAS PASS: ");
+            stringBuilder.Append(aliaspass);
+            stringBuilder.AppendLine();
+            
+            Debug.Log(stringBuilder);
+            
+            if (!Validate(keystore,keypass,alias,aliaspass)) {
+                PlayerSettings.Android.useCustomKeystore = false;
+                return;
+            }
+            
+            PlayerSettings.Android.useCustomKeystore = true;
             PlayerSettings.Android.keystorePass = keypass;
             PlayerSettings.Android.keystoreName = keystore;
             PlayerSettings.Android.keyaliasName = alias;
             PlayerSettings.Android.keyaliasPass = aliaspass;
+            
+        }
+
+        private bool Validate(string keystore, string pass, string alias,string aliasPass)
+        {
+            var result = string.IsNullOrEmpty(keystore) ||
+                         string.IsNullOrEmpty(keystore) ||
+                         string.IsNullOrEmpty(keystore) ||
+                         string.IsNullOrEmpty(keystore);
+            return !result;
         }
     }
 }
