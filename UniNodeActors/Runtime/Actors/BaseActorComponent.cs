@@ -14,22 +14,6 @@
 
     public abstract class BaseActorComponent : SerializedMonoBehaviour, IActor
     {
-
-        /// <summary>
-        /// is actor component ready
-        /// </summary>
-        private bool initialized = false;
-        
-        /// <summary>
-        /// actor behaviour instance
-        /// </summary>
-        private UniGraph behaviour;
-
-        /// <summary>
-        /// actor model data
-        /// </summary>
-        private IActorModel actorModel;
-        
         /// <summary>
         /// actor source
         /// </summary>
@@ -47,13 +31,15 @@
         /// </summary>
         [SerializeField] private UniGraph behaviourSource;
 
-        #endregion
+#endregion
 
         #region public properties
 
         public IMessageBroker MessageBroker => _actor.MessageBroker;
 
         public ILifeTime LifeTime => _actor.LifeTime;
+
+        public bool IsActive => _actor.IsActive;
         
         #endregion
         
@@ -65,24 +51,23 @@
         // Use this for initialization
         private void OnEnable()
         {
-            Initialize();
             if (activateOnStart)
             {
-                SetEnabled(true);
+                Execute();
             }
         }
 
         private void Initialize()
         {
-            if (initialized)
+            if (IsActive)
                 return;
 
-            initialized = true;
-            
-            behaviour = GetBehaviour();
-            actorModel = GetModel();
+            var behaviour = GetBehaviour();
+            var actorModel = GetModel();
                        
             _actor.Initialize(actorModel,behaviour);
+            _actor.LifeTime.AddCleanUpAction(() => behaviour.Despawn());
+            _actor.LifeTime.AddCleanUpAction(actorModel.MakeDespawn);
         }
 
         private UniGraph GetBehaviour()
@@ -96,5 +81,16 @@
 
         protected abstract IActorModel GetModel();
 
+
+        public void Execute()
+        {
+            Initialize();
+            _actor.Execute();
+        }
+
+        public void Stop()
+        {
+            _actor.Stop();
+        }
     }
 }

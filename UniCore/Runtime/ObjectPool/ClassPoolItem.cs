@@ -9,41 +9,41 @@
     {
         [NonSerialized]
         private Stack<object> _items = new Stack<object>();
+        
         [NonSerialized]
-        private Type _type;
-		
+        public Type type;
+		[SerializeField]
+        public string typeName;
         [SerializeField]
-        private string _typeName;
-        [SerializeField]
-        public int Count;
+        public int count;
 
         public ClassPoolItem(Type type)
         {
-            _type = type;
-            _typeName = type.Name;
-            Count = 0;
+            this.type = type;
+            typeName = type.Name;
+            count = 0;
         }
 
         public void Clear()
         {
-            Count = 0;
-            _type = null;
+            count = 0;
+            type = null;
             _items.Clear();
-            _typeName = string.Empty;
+            typeName = string.Empty;
         }
 		
         public void Push(object item)
         {
             _items.Push(item);
-            Count++;
+            count++;
         }
 
         public object Pop()
         {
-            if (Count == 0)
+            if (count == 0)
                 return null;
 			
-            Count--;
+            count--;
             return _items.Pop();
         }
     }

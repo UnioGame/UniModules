@@ -35,18 +35,28 @@
             while (time < delay)
             {
                 yield return null;
-                time += UnityEngine.Time.deltaTime;
+                time += Time.deltaTime;
             }
         }
         
         public static IEnumerator WaitForSecondUnscaled(this object source,float delay)
         {
-            var time = UnityEngine.Time.realtimeSinceStartup;
+            var time = Time.unscaledTime;
             var endOfAwait = time + delay;
             while (time < endOfAwait)
             {
                 yield return null;
-                time = UnityEngine.Time.realtimeSinceStartup;
+                time = Time.unscaledTime;
+            }
+        }
+        
+        public static IEnumerator WaitForSeconds(this object source,float delay)
+        {
+            var time       = 0f;
+            while (time < delay)
+            {
+                yield return null;
+                time += Time.deltaTime;
             }
         }
         

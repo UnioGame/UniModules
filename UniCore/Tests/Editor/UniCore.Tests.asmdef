@@ -1,10 +1,11 @@
 {
-    "name": "gbg.uniroutine.tests",
+    "name": "UniCore.Tests",
     "references": [
-        "GUID:0d24a03ae3e7f2f459f0a0cc9bc544fb",
-        "GUID:8e4577c9194c10845984cf27eb974fd1"
+        "greenbuttongame.unitools"
     ],
-    "optionalUnityReferences": [],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
     "includePlatforms": [
         "Editor"
     ],
@@ -12,7 +13,7 @@
     "allowUnsafeCode": false,
     "overrideReferences": false,
     "precompiledReferences": [],
-    "autoReferenced": true,
+    "autoReferenced": false,
     "defineConstraints": [],
     "versionDefines": []
 }

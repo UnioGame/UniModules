@@ -1,10 +1,10 @@
 ﻿namespace UniGreenModules.UniNodeActors.Runtime.Actors
 {
+    using System;
     using System.Collections;
     using Interfaces;
     using UniContextData.Runtime.Entities;
     using UniCore.Runtime.DataFlow;
-    using UniCore.Runtime.ObjectPool;
     using UniModule.UnityTools.UniStateMachine.Interfaces;
     using UniRx;
     using UniTools.UniRoutine.Runtime;
@@ -23,7 +23,12 @@
         /// <summary>
         /// active actor behaviour
         /// </summary>
-        protected IContextState<IEnumerator> _behaviour;
+        private IContextState<IEnumerator> _behaviour;
+
+        /// <summary>
+        /// execution cancelation
+        /// </summary>
+        private IDisposable _cancelationOperation;
         
 #region public properties
 
@@ -31,39 +36,52 @@
 
         public ILifeTime LifeTime => _entity.LifeTime;
 
+        public bool IsActive { get; protected set; }
+
 #endregion
         
 #region public methods
 
         public void Initialize(IContextDataSource dataSource, IContextState<IEnumerator> behaviour)
-        {
-            Release();
-            
-            dataSource.Register(_entity);
-            _behaviour = behaviour;
-        }
+        {          
+            Stop();
 
+            //register data context 
+            dataSource.Register(_entity);
+            //set current behaviour
+            _behaviour = behaviour;
+
+        }
+        
         public void Execute()
         {
+            if (IsActive || _behaviour == null)
+                return;
+
+            IsActive = true;
             
             //activate state
             var routine        = _behaviour.Execute(_entity);
             var disposableItem = routine.RunWithSubRoutines();
             
+            //add lifetime cleanup actions
             LifeTime.AddDispose(disposableItem);
             LifeTime.AddCleanUpAction(_behaviour.Exit);
+            
         }
-        
-        public void Dispose()
+
+
+        public void Stop()
         {
             Release();
-            this.Despawn();
         }
         
         public void Release()
         {
             _entity.Release();
             _behaviour = null;
+            _cancelationOperation = null;
+            IsActive = false;
         }
 
 #endregion

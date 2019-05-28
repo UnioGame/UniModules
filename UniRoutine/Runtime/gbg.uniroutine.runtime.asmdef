@@ -1,5 +1,5 @@
 {
-    "name": "greenbuttongames.uniroutine",
+    "name": "gbg.uniroutine.runtime",
     "references": [
         "greenbuttongame.unitools"
     ],
@@ -10,5 +10,6 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": []
+    "defineConstraints": [],
+    "versionDefines": []
 }
