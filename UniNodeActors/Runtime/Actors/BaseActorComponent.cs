@@ -7,28 +7,13 @@
     using UniCore.Runtime.Interfaces;
     using UniCore.Runtime.ObjectPool;
     using UniModule.UnityTools.UniStateMachine.Interfaces;
+    using UniRx;
     using UniStateMachine.Nodes;
     using UnityEngine;
     using IActor = Interfaces.IActor;
 
     public abstract class BaseActorComponent : SerializedMonoBehaviour, IActor
     {
-
-        /// <summary>
-        /// is actor component ready
-        /// </summary>
-        private bool initialized = false;
-        
-        /// <summary>
-        /// actor behaviour instance
-        /// </summary>
-        private IContextState<IEnumerator> behaviour;
-
-        /// <summary>
-        /// actor model data
-        /// </summary>
-        private IActorModel actorModel;
-        
         /// <summary>
         /// actor source
         /// </summary>
@@ -46,22 +31,17 @@
         /// </summary>
         [SerializeField] private UniGraph behaviourSource;
 
-        #endregion
+#endregion
 
         #region public properties
 
-        public bool IsActive => _actor.IsActive;
-
-        public IContext Context => _actor.Context;
+        public IMessageBroker MessageBroker => _actor.MessageBroker;
 
         public ILifeTime LifeTime => _actor.LifeTime;
+
+        public bool IsActive => _actor.IsActive;
         
         #endregion
-        
-        public void SetEnabled(bool state)
-        {
-            _actor.SetEnabled(state);
-        }
         
         public void Release()
         {
@@ -71,27 +51,26 @@
         // Use this for initialization
         private void OnEnable()
         {
-            Initialize();
             if (activateOnStart)
             {
-                SetEnabled(true);
+                Execute();
             }
         }
 
         private void Initialize()
         {
-            if (initialized)
+            if (IsActive)
                 return;
 
-            initialized = true;
-            
-            behaviour = GetBehaviour();
-            actorModel = GetModel();
+            var behaviour = GetBehaviour();
+            var actorModel = GetModel();
                        
             _actor.Initialize(actorModel,behaviour);
+            _actor.LifeTime.AddCleanUpAction(() => behaviour.Despawn());
+            _actor.LifeTime.AddCleanUpAction(actorModel.MakeDespawn);
         }
 
-        private IContextState<IEnumerator> GetBehaviour()
+        private UniGraph GetBehaviour()
         {
             var actorTransform = transform;
             var state = ObjectPool.Spawn(behaviourSource, Vector3.zero, Quaternion.identity,actorTransform, false);
@@ -102,5 +81,16 @@
 
         protected abstract IActorModel GetModel();
 
+
+        public void Execute()
+        {
+            Initialize();
+            _actor.Execute();
+        }
+
+        public void Stop()
+        {
+            _actor.Stop();
+        }
     }
 }

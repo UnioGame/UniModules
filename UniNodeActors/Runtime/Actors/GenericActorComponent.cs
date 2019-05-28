@@ -20,8 +20,7 @@
 
         protected override IActorModel GetModel()
         {
-            var model = typedActorInfo?.Create();
-            model?.Register(Context);
+            var model = typedActorInfo.Create();
             return model;
         }
 

@@ -9,13 +9,13 @@
     using UniCore.Runtime.Rx;
     using UniRx;
 
-    public class EntityObject : IContext
+    public class EntityContext : IContext
     {
         private IRecycleMessageBrocker _broker;
         private TypeData           _typeData;
         private LifeTimeDefinition _lifeTimeDefinition;
 
-        public EntityObject()
+        public EntityContext()
         {
             //context data container
             _typeData = new TypeData();

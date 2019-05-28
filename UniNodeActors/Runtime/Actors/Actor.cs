@@ -1,103 +1,90 @@
 ﻿namespace UniGreenModules.UniNodeActors.Runtime.Actors
 {
+    using System;
     using System.Collections;
     using Interfaces;
     using UniContextData.Runtime.Entities;
     using UniCore.Runtime.DataFlow;
-    using UniCore.Runtime.Interfaces;
-    using UniCore.Runtime.ObjectPool;
     using UniModule.UnityTools.UniStateMachine.Interfaces;
+    using UniRx;
     using UniTools.UniRoutine.Runtime;
     using IActor = Interfaces.IActor;
 
     /// <summary>
     /// single computation actor
     /// </summary>
-    public class Actor : ActivatableObject, IActor
+    public class Actor : IActor
     {
         /// <summary>
         /// data container
         /// </summary>
-        private EntityObject _entity = new EntityObject();
+        private EntityContext _entity = new EntityContext();
 
         /// <summary>
         /// active actor behaviour
         /// </summary>
-        protected IContextState<IEnumerator> _behaviour;
+        private IContextState<IEnumerator> _behaviour;
+
+        /// <summary>
+        /// execution cancelation
+        /// </summary>
+        private IDisposable _cancelationOperation;
         
 #region public properties
 
-        public IContext Context => _entity;
+        public IMessageBroker MessageBroker => _entity;
 
         public ILifeTime LifeTime => _entity.LifeTime;
 
+        public bool IsActive { get; protected set; }
 
 #endregion
         
-        #region public methods
+#region public methods
 
         public void Initialize(IContextDataSource dataSource, IContextState<IEnumerator> behaviour)
-        {
+        {          
+            Stop();
 
-            Release();
-
+            //register data context 
             dataSource.Register(_entity);
-
+            //set current behaviour
             _behaviour = behaviour;
 
         }
-      
-        #endregion
-
-        #region private methods
-
-        protected override void OnReleased()
-        {
-   
-            _entity.Release();
-            _behaviour = null;
-
-        }
         
-        protected void SetBehaviourState(bool activate)
+        public void Execute()
         {
-            if (_behaviour == null || 
-                _behaviour.IsActive == activate)
+            if (IsActive || _behaviour == null)
                 return;
-            
-            if (activate == false)
-            {
-                StopBehaviour();
-                return;
-            }
 
+            IsActive = true;
+            
             //activate state
-            var routine = _behaviour.Execute(_entity);
+            var routine        = _behaviour.Execute(_entity);
             var disposableItem = routine.RunWithSubRoutines();
             
+            //add lifetime cleanup actions
             LifeTime.AddDispose(disposableItem);
             LifeTime.AddCleanUpAction(_behaviour.Exit);
-
+            
         }
 
-        private void StopBehaviour()
+
+        public void Stop()
+        {
+            Release();
+        }
+        
+        public void Release()
         {
             _entity.Release();
+            _behaviour = null;
+            _cancelationOperation = null;
+            IsActive = false;
         }
 
-        protected override void Deactivate()
-        {
-            base.Deactivate();
-            SetBehaviourState(false);
-        }
+#endregion
 
-        protected override void Activate()
-        {
-            base.Activate();
-            SetBehaviourState(true);
-        }
-
-        #endregion
-        
     }
 }

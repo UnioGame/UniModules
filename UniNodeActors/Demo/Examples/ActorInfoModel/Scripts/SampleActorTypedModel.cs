@@ -1,9 +1,8 @@
-﻿using UniGreenModules.UniNodeActors.Runtime;
-
-namespace UniGreenModules.UniNodeActors.Demo.Examples.ActorInfoModel.Scripts
+﻿namespace UniGreenModules.UniNodeActors.Demo.Examples.ActorInfoModel.Scripts
 {
     using System;
     using Runtime.ActorData;
+    using UniCore.Runtime.ObjectPool;
     using UnityEngine;
 
     [Serializable]
@@ -15,6 +14,16 @@ namespace UniGreenModules.UniNodeActors.Demo.Examples.ActorInfoModel.Scripts
         public int value;
 
         public string modelName;
-        
+
+        public override void MakeDespawn()
+        {
+            if(target)
+                GameObject.Destroy(target);
+
+            value = 0;
+            modelName = string.Empty;
+            
+            this.Despawn();
+        }
     }
 }

@@ -22,7 +22,7 @@
             {
                 return false;
             }
-            return _items[index].Count > 0;
+            return _items[index].count > 0;
         }
 
         public object Pop(Type type)
@@ -48,6 +48,8 @@
             }
             
             var container = new ClassPoolItem(type);
+            container.Push(item);
+            
             index = _items.Count;
             _items.Add(container);
             

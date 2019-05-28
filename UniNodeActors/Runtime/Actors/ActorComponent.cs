@@ -18,7 +18,6 @@
         protected override IActorModel GetModel()
         {
             var model = actorInfo?.Create();
-            model?.Register(Context);
             return model;
         }
 

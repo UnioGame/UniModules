@@ -5,20 +5,19 @@
     using UniCore.Runtime.Interfaces;
 
     [Serializable]
-    public class ActorModel : IActorModel
+    public abstract class ActorModel : IActorModel
     {
-        
         #region public methods
 
-        public virtual void Release(){}
 
         public virtual void Register(IContext context)
         {
             context.Add(this);
         }
+
+        public abstract void MakeDespawn();
         
         #endregion
 
- 
     }
 }
