@@ -7,6 +7,7 @@
     using UniCore.Runtime.Interfaces;
     using UniCore.Runtime.ObjectPool;
     using UniModule.UnityTools.UniStateMachine.Interfaces;
+    using UniRx;
     using UniStateMachine.Nodes;
     using UnityEngine;
     using IActor = Interfaces.IActor;
@@ -22,7 +23,7 @@
         /// <summary>
         /// actor behaviour instance
         /// </summary>
-        private IContextState<IEnumerator> behaviour;
+        private UniGraph behaviour;
 
         /// <summary>
         /// actor model data
@@ -50,18 +51,11 @@
 
         #region public properties
 
-        public bool IsActive => _actor.IsActive;
-
-        public IContext Context => _actor.Context;
+        public IMessageBroker MessageBroker => _actor.MessageBroker;
 
         public ILifeTime LifeTime => _actor.LifeTime;
         
         #endregion
-        
-        public void SetEnabled(bool state)
-        {
-            _actor.SetEnabled(state);
-        }
         
         public void Release()
         {
@@ -91,7 +85,7 @@
             _actor.Initialize(actorModel,behaviour);
         }
 
-        private IContextState<IEnumerator> GetBehaviour()
+        private UniGraph GetBehaviour()
         {
             var actorTransform = transform;
             var state = ObjectPool.Spawn(behaviourSource, Vector3.zero, Quaternion.identity,actorTransform, false);

@@ -33,7 +33,7 @@ namespace UniModule.UnityTools.UniStateMachine.ContextStateMachine
         /// <summary>
         /// state local context data
         /// </summary>
-        protected EntityObject _contextData = new EntityObject();
+        protected EntityContext _contextData = new EntityContext();
 
         
         #region public properties

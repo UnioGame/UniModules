@@ -18,7 +18,7 @@ namespace Tests
         public void ContextDataHasValueOfTypeIntAfterRemove()
         {
             var contextData = new ContextData<IContext>();
-            var entity = new EntityObject();
+            var entity = new EntityContext();
             var value = 666;
             
             contextData.UpdateValue(entity,value);

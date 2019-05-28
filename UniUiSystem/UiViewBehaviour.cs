@@ -10,7 +10,7 @@ namespace UniUiSystem
 
     public class UiViewBehaviour : MonoBehaviour, IUiViewBehaviour
     {
-        private EntityObject _context = new EntityObject();
+        private EntityContext _context = new EntityContext();
         private IDisposableItem _updateDisposable;
 
         #region public property

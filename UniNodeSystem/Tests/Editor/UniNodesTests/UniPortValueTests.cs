@@ -14,7 +14,7 @@ namespace UniNodesTests
         {
             
             var portValue = new UniPortValue();
-            var context1 = new EntityObject();
+            var context1 = new EntityContext();
             var value1 = "value1";
             var value2 = "value2";
             
@@ -77,7 +77,7 @@ namespace UniNodesTests
             var portValue2 = new UniPortValue();
             var port2Connection = new PortValueConnection(portValue2);
             
-            var context1 = new EntityObject();
+            var context1 = new EntityContext();
             
             var testPortValue = "TestPortValue";
             var testPortValue2 = "TestPortValue2";

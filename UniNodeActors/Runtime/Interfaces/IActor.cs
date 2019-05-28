@@ -1,19 +1,20 @@
 namespace UniGreenModules.UniNodeActors.Runtime.Interfaces
 {
+    using System;
     using UniCore.Runtime.DataFlow;
-    using UniCore.Runtime.Interfaces;
-    using UniModule.UnityTools.Interfaces;
+    using UniRx;
 
-    public interface IActor : IActivatableObject
+    public interface IActor : IDisposable
     {
         /// <summary>
         /// Actor context data
         /// </summary>
-        IContext Context { get; }
+        IMessageBroker MessageBroker { get; }
 
         /// <summary>
         /// Actor life time object
         /// </summary>
         ILifeTime LifeTime { get; }
+
     }
 }

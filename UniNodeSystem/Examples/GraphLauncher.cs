@@ -6,7 +6,7 @@ using UniTools.UniRoutine.Runtime;
 
 public class GraphLauncher : MonoBehaviour
 {
-    private EntityObject _context;
+    private EntityContext _context;
     private IDisposable _disposable;
     
     [SerializeField]
@@ -17,7 +17,7 @@ public class GraphLauncher : MonoBehaviour
     {
         if (!_graph)
             return;
-        _context = new EntityObject();
+        _context = new EntityContext();
         _disposable = _graph.Execute(_context).RunWithSubRoutines();
         
     }

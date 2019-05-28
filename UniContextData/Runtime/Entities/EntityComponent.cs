@@ -6,7 +6,7 @@
 
     public class EntityComponent : MonoBehaviour
     {
-        [NonSerialized] private EntityObject _context = new EntityObject();
+        [NonSerialized] private EntityContext _context = new EntityContext();
 
         public IContext Context => _context;
     }
