@@ -51,13 +51,19 @@
             stringBuilder.AppendLine();
             
             Debug.Log(stringBuilder);
+
+            var isUseKeyStore = Validate(keystore, keypass, alias, aliaspass);
             
-            if (!Validate(keystore,keypass,alias,aliaspass)) {
-                PlayerSettings.Android.useCustomKeystore = false;
+            #if UNITY_2019
+            
+            PlayerSettings.Android.useCustomKeystore = isUseKeyStore;
+            
+            #endif
+            
+            if (!isUseKeyStore) {
                 return;
             }
             
-            PlayerSettings.Android.useCustomKeystore = true;
             PlayerSettings.Android.keystorePass = keypass;
             PlayerSettings.Android.keystoreName = keystore;
             PlayerSettings.Android.keyaliasName = alias;
