@@ -4,9 +4,10 @@
   "displayName": "GBG Uniy Build Scriptable Pipeline",
   "description": "Allow to configurate unity project build",
   "unity": "2018.3",
-  "version": "1.0.36",
+  "version": "1.0.38",
   "keywords": [],
   "dependencies": {
-    "com.greenbuttongames.unicore": "1.0.39"
+    "com.greenbuttongames.unicore": "1.0.40",
+    "com.greenbuttongames.nsubstitute": "4.0.1"
   }
 }

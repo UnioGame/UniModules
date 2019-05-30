@@ -1,7 +1,8 @@
 {
     "name": "UniBuildPipeline.Tests",
     "references": [
-        "UnityBuild.Editor"
+        "GUID:f0321ba97c62c974b82a7fc7c1d544f9",
+        "GUID:5b87bbc04a966af499e0187fbabec899"
     ],
     "optionalUnityReferences": [
         "TestAssemblies"
