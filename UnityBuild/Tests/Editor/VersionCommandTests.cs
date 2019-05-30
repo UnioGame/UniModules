@@ -2,8 +2,8 @@
 
 namespace UniGreenModules.UnityBuild.Tests
 {
-    using Editor.ClientBuild.Commands.PreBuildCommands;
     using NUnit.Framework;
+    using UnityBuild.Editor.ClientBuild.Commands.PreBuildCommands;
     using UnityEditor;
 
     [TestFixture]

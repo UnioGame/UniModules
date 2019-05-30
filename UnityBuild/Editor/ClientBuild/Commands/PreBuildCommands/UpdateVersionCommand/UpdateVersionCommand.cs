@@ -12,7 +12,7 @@
     public class UpdateVersionCommand : UnityPreBuildCommand
     {
         [SerializeField]
-        private int minBuildNumber = 1;
+        private int minBuildNumber = 0;
         
         public override void Execute(IUniBuilderConfiguration configuration)
         {

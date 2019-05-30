@@ -19,7 +19,6 @@ namespace UniGreenModules.UnityBuild.Editor.ClientBuild.Parsers
 
         public List<TValue> Parse(IArgumentsProvider arguments)
         {
-            var options = BuildOptions.None;
             var result  = new List<TValue>();
 
             for (var i = 0; i < buildOptionsValues.Count; i++) {
