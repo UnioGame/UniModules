@@ -3,13 +3,13 @@
   "author": "Mefodei",
   "displayName": "GBG Uni State Machine",
   "description": "Unity state machine core",
-  "unity": "2018.3",
-  "version": "1.0.46",
+  "unity": "2019.1",
+  "version": "1.0.47",
   "keywords": [],
   "dependencies": {
     "com.greenbuttongames.neuecc.unirx": "6.2.2",
-    "com.greenbuttongames.unicore": "1.0.41",
-    "com.greenbuttongames.uniroutine": "1.0.43",
-    "com.greenbuttongames.contextdata": "1.0.43"
+    "com.greenbuttongames.unicore": "1.1.0",
+    "com.greenbuttongames.uniroutine": "1.0.44",
+    "com.greenbuttongames.contextdata": "1.0.44"
   }
 }

@@ -3,12 +3,12 @@
   "author": "Mefodei",
   "displayName": "GBG UniResource system",
   "description": "",
-  "unity": "2018.3",
-  "version": "1.0.43",
+  "unity": "2019.1",
+  "version": "1.0.44",
   "keywords": [],
   "dependencies": {
-    "com.greenbuttongames.unicore": "1.0.41",
-    "com.unity.addressables": "0.6.8-preview",
-    "com.greenbuttongames.uniroutine": "1.0.43"
+    "com.greenbuttongames.unicore": "1.1.0",
+    "com.unity.addressables": "0.8.6-preview",
+    "com.greenbuttongames.uniroutine": "1.0.44"
   }
 }
