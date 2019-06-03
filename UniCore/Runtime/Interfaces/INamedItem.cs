@@ -5,9 +5,4 @@ namespace UniGreenModules.UniCore.Runtime.Interfaces
         string ItemName { get; }
         
     }
-
-    public interface INameWriter : INamedItem
-    {
-        void ApplyName(string name);
-    }
 }
