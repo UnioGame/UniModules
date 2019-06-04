@@ -12,18 +12,18 @@ namespace UniUiSystem
         #region inspector data
         
         [SerializeField]
-        private UiModuleSlotsContainer _slots = new UiModuleSlotsContainer();
+        private UiModuleSlotsContainer slots = new UiModuleSlotsContainer();
 
         [SerializeField]
-        private UiTriggersContainer _triggers = new UiTriggersContainer();
+        private UiTriggersContainer triggers = new UiTriggersContainer();
 
         #endregion
     
         #region public properties
 
-        public IContainer<IUiModuleSlot> Slots => _slots;
+        public IContainer<IUiModuleSlot> Slots => slots;
         
-        public ITriggersContainer Triggers => _triggers;
+        public ITriggersContainer Triggers => triggers;
         
         #endregion
 
@@ -37,20 +37,20 @@ namespace UniUiSystem
         
         public void AddTrigger(IInteractionTrigger trigger)
         {
-            _triggers.Add(trigger);
+            triggers.Add(trigger);
         }
 
         public void AddSlot(IUiModuleSlot slot)
         {
-            _slots.Add(slot);
+            slots.Add(slot);
         }
         
         #endregion
 
         protected override void OnInitialize()
         {
-            _triggers.Initialize();
-            _slots.UpdateCollection();
+            triggers.Initialize();
+            slots.UpdateCollection();
             base.OnInitialize();
         }
     }
