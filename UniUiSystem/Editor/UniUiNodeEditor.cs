@@ -24,14 +24,14 @@ namespace UniTools.UniUiSystem
         public override void OnBodyGUI()
         {           
             var uiNode = target as UniUiNode;
-            _moduleView = uiNode.UiView;
+            _moduleView = uiNode.viewReference.editorAsset as UiModule;
 
             base.OnBodyGUI();
 
             var isChanged = DrawUiNode(uiNode);
             if (isChanged)
             {
-                UpdateUiData(uiNode,uiNode.UiView);
+                UpdateUiData(uiNode,uiNode.viewReference.editorAsset as UiModule);
             }
             
             EditorUtility.SetDirty(uiNode.graph.gameObject);
@@ -42,10 +42,10 @@ namespace UniTools.UniUiSystem
         {
             
             var uiNode = node as UniUiNode;
-
-            if (!Validate(uiNode.UiView))
+            var view = uiNode.viewReference.editorAsset as UiModule;
+            if (!Validate(view))
             {
-                UpdateUiData(uiNode,uiNode.UiView);
+                UpdateUiData(uiNode,view);
             }
             
             base.UpdateData(node);
@@ -55,7 +55,7 @@ namespace UniTools.UniUiSystem
         public bool DrawUiNode(UniUiNode node)
         {
             var oldView = _moduleView;
-            var uiView = node.UiView;
+            var uiView = node.viewReference.editorAsset;
 
             var isChanged = uiView != oldView;
 
@@ -78,10 +78,8 @@ namespace UniTools.UniUiSystem
 
             uiView.Initialize();
 
-            var view = PrefabUtility.SavePrefabAsset(uiView.gameObject);
+            PrefabUtility.SavePrefabAsset(uiView.gameObject);
             
-            node.UiResource.Update(view);
-
         }
 
         private bool Validate(UiModule view)

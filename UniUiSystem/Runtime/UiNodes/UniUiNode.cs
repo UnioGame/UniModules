@@ -17,48 +17,37 @@ using UniUiSystem.Models;
 
 namespace UniUiSystem
 {
-    using UniGreenModules.UniCore.Runtime.Attributes;
     using UniGreenModules.UniCore.Runtime.DataFlow;
     using UniGreenModules.UniCore.Runtime.Interfaces;
     using UniGreenModules.UniCore.Runtime.ObjectPool;
+    using UnityEngine.ResourceManagement.AsyncOperations;
 
     public class UniUiNode : UniNode
     {
         
-        private List<UniPortValue> _uiInputs;
-        private List<UniPortValue> _uiOutputs;
+        private List<UniPortValue> uiInputs;
+        private List<UniPortValue> uiOutputs;
 
-        private List<UniPortValue> _slotPorts;
-        private List<UniPortValue> _triggersPorts;
+        private List<UniPortValue> slotPorts;
+        private List<UniPortValue> triggersPorts;
 
         #region inspector
 
-        public ObjectInstanceData Options;
+        public ObjectInstanceData options;
 
-        [TargetType(typeof(UiModule))]
-        public ResourceItem UiResource;
-//        public AssetLabelReference UiViewLabel;
-//
-//        public AssetReference ViewReference;
+        public AssetLabelReference uiViewLabel;
+
+        public AssetReference viewReference;
 
         #endregion
 
-        public UiModule UiView
-        {
-            get { return UiResource.Load<UiModule>(); }
-        }
-
-        public override string GetName()
-        {
-            var targetName = UiResource.ItemName;
-            return string.IsNullOrEmpty(targetName) ? name : targetName;
-        }
+        public AsyncOperationHandle<UiModule> UiViewHandle => viewReference.LoadAssetAsync<UiModule>();
 
         public override bool Validate(IContext context)
         {
-            if (!UiView)
+            if (UiViewHandle.Status == AsyncOperationStatus.None || UiViewHandle.Status == AsyncOperationStatus.Failed)
             {
-                Debug.LogErrorFormat("NULL UI VIEW {0} {1}", UiView, this);
+                Debug.LogErrorFormat("NULL UI VIEW {0} {1}", UiViewHandle, this);
                 return false;
             }
 
@@ -69,13 +58,25 @@ namespace UniUiSystem
         {
             var lifetime = LifeTime;
 
-            var view = CreateView(lifetime, context);
+            //wait ui view loading
+            while (UiViewHandle.IsDone == false) {
+                yield return null;
+            }
 
+            if (UiViewHandle.Status == AsyncOperationStatus.None || UiViewHandle.Status == AsyncOperationStatus.Failed) {
+                Debug.LogError(UiViewHandle);
+                yield break;
+            }
+            
+            var view = CreateView(UiViewHandle.Result);
+
+            ApplyScreenSettings(view, lifetime);
+            
             CreateModules(view, lifetime, context);
 
             BindTriggers(view, lifetime, context);
 
-            return base.ExecuteState(context);
+            yield return base.ExecuteState(context);
         }
 
         /// <summary>
@@ -101,32 +102,48 @@ namespace UniUiSystem
         {
             base.OnUpdatePortsCache();
 
-            _uiInputs = new List<UniPortValue>();
-            _uiOutputs = new List<UniPortValue>();
+            uiInputs = new List<UniPortValue>();
+            uiOutputs = new List<UniPortValue>();
 
-            if (!UiView)
+#if UNITY_EDITOR
+            UpdateUiPorts(UiViewHandle.Result);
+#endif
+
+        }
+
+        private void UpdateUiPorts(UiModule uiModule)
+        {
+            if (!uiModule)
             {
                 return;
             }
 
-            UiView.Initialize();
+            uiModule.Initialize();
 
-            UpdateTriggers(UiView);
-            UpdateModulesSlots(UiView);
+            UpdateTriggers(uiModule);
+            UpdateModulesSlots(uiModule);
         }
 
-        private UiModule CreateView(ILifeTime lifetime, IContext context)
+        private UiModule CreateView(UiModule source)
         {
-            //get view context settings
-            var viewSettings = Input.Get<UniUiModuleData>();
 
-            var uiView = ObjectPool.Spawn(UiView,Options.Position,Quaternion.identity,Options.Parent,Options.StayAtWorld);
-            if (Options.Immortal)
+            var uiView = ObjectPool.Spawn(source,options.Position,
+                Quaternion.identity,options.Parent,options.StayAtWorld);
+            
+            uiView.Initialize();
+            
+            return uiView;
+        }
+
+        private void ApplyScreenSettings(UiModule uiView, ILifeTime lifetime)
+        {
+            if (options.Immortal)
             {
                 DontDestroyOnLoad(uiView);
             }
             
-            uiView.Initialize();
+            //get view context settings
+            var viewSettings = Input.Get<UniUiModuleData>();
 
             if (viewSettings != null)
             {
@@ -134,13 +151,11 @@ namespace UniUiSystem
                     Subscribe(uiView.SetParent);
                 lifetime.AddDispose(parentDisposable);
             }
-
             lifetime.AddCleanUpAction(() => uiView?.Despawn());
 
             uiView.gameObject.SetActive(true);
             uiView.SetState(true);
 
-            return uiView;
         }
 
         private void CreateModules(IUiModule view, ILifeTime lifetime, IContext context)
@@ -173,8 +188,8 @@ namespace UniUiSystem
 
                 var values =this.CreatePortPair(handler.ItemName, true);
 
-                _uiOutputs.Add(values.outputValue);
-                _uiInputs.Add(values.inputValue);
+                uiOutputs.Add(values.outputValue);
+                uiInputs.Add(values.inputValue);
                 
             }
         }
@@ -188,7 +203,7 @@ namespace UniUiSystem
                 var slot = slots[i];
 
                 var outputPort = this.UpdatePortValue(slot.SlotName, PortIO.Output);
-                _uiOutputs.Add(outputPort.value);
+                uiOutputs.Add(outputPort.value);
             }
         }
     }
