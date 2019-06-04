@@ -1,0 +1,23 @@
+{
+    "name": "gbg.nodesystem.ui.editor",
+    "references": [
+        "GUID:8e4577c9194c10845984cf27eb974fd1",
+        "GUID:2796129a6c23eb84a8181f62bf7332f1",
+        "GUID:26fe8767c7aa0a14d9b35408155cc217",
+        "GUID:d47fc5ef4ff8943449ade80dec65e4ca",
+        "GUID:6e6ac045335bf934dac0fa51f8bb5804",
+        "GUID:9d617341afa63df42932d4820413599a",
+        "GUID:b88fdd0bdc1b93848ada31468185c731"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}
