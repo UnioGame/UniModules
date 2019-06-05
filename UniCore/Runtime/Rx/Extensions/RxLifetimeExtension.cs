@@ -8,7 +8,8 @@
 
         public static IDisposable AddTo(this IDisposable disposable, ILifeTime lifeTime)
         {
-            lifeTime.AddDispose(disposable);
+            if (disposable != null)
+                lifeTime.AddDispose(disposable);
             return disposable;
         }
         

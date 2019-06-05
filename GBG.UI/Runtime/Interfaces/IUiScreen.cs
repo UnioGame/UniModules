@@ -1,6 +1,4 @@
-﻿using UniGreenModules.UniCore.Runtime.Views;
-
-namespace UniGreenModules.GBG.UiManager.Runtime.Interfaces
+﻿namespace UniGreenModules.GBG.UI.Runtime.Interfaces
 {
     using UniCore.Runtime.Interfaces;
 

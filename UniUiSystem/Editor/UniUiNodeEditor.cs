@@ -11,6 +11,8 @@ using UniUiSystem;
 
 namespace UniTools.UniUiSystem
 {
+    using UniRx;
+
     [CustomNodeEditor(typeof(UniUiNode))]
     public class UniUiNodeEditor : UniNodeEditor
     {
@@ -76,7 +78,7 @@ namespace UniTools.UniUiSystem
             
             CollectUiData(uiView);
 
-            uiView.Initialize();
+            uiView.Initialize(Unit.Default);
 
             PrefabUtility.SavePrefabAsset(uiView.gameObject);
             

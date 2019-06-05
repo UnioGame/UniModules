@@ -1,5 +1,7 @@
 ﻿namespace UniGreenModules.GBG.UiManager.Runtime.Interfaces
 {
+    using UI.Runtime.Interfaces;
+
     public interface IUiScreenManager
     {
 
