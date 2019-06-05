@@ -7,9 +7,7 @@
 
 			uint hash = 0u;
 			foreach (char c in s) {
-
 				hash = 31u * hash + c;
-
 			}
 			return hash;
 
@@ -18,15 +16,21 @@
 		public static long[] GetTypeIds(this System.Type type) {
 
 			var typeList = new List<long>();
-			while (type != typeof(object)) {
+			var objectType = typeof(object);
+			while (type != objectType) {
 
-				typeList.Add((long)GetJavaHash(type.FullName));
+				typeList.Add(type.GetTypeId());
 				type = type.BaseType;
 
 			}
 
 			return typeList.ToArray();
 
+		}
+
+		public static long GetTypeId(this System.Type type)
+		{
+			return (long) GetJavaHash(type.FullName);
 		}
 
 	}

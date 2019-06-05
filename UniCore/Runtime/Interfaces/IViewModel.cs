@@ -1,13 +1,18 @@
-namespace UniGreenModules.UniCore.Runtime.Views
+namespace UniGreenModules.UniCore.Runtime.Interfaces
 {
-    using DataFlow;
-    using ObjectPool.Interfaces;
     using UniRx;
 
-    public interface IViewModel<TModel> : IPoolable
+    public interface IViewModel<TModel> : ITypeViewModel
     {
-        ILifeTime LifeTime { get; }
+        /// <summary>
+        /// data source
+        /// </summary>
         IReadOnlyReactiveProperty<TModel> Model { get; }
+        
+        /// <summary>
+        /// initialize view with source model
+        /// </summary>
+        /// <param name="model"></param>
         void Initialize(TModel model);
     }
 }

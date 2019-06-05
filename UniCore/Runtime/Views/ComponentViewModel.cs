@@ -4,11 +4,18 @@ using UnityEngine;
 
 namespace UniGreenModules.UniCore.Runtime.Views
 {
+    using System;
+    using Interfaces;
+
     public class ComponentViewModel<TModel> : MonoBehaviour , IViewModel<TModel>
     {
         private ViewModel<TModel> viewModel = new ViewModel<TModel>();
 
+        public bool IsInitialized => viewModel.IsInitialized;
+
         public ILifeTime LifeTime => viewModel.LifeTime;
+
+        public Type Type => viewModel.Type;
 
         public IReadOnlyReactiveProperty<TModel> Model => viewModel.Model;
     
