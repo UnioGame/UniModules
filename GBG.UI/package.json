@@ -4,12 +4,12 @@
   "displayName": "GBG UI System",
   "description": "Ui system for Unity",
   "unity": "2019.1",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "keywords": [],
   "dependencies": {
     "com.greenbuttongames.neuecc.unirx": "6.2.2",
-    "com.greenbuttongames.unicore": "1.1.6",
+    "com.greenbuttongames.unicore": "1.1.7",
     "com.unity.addressables": "0.8.6-preview",
-    "com.greenbuttongames.uniroutine": "1.0.50"
+    "com.greenbuttongames.uniroutine": "1.0.51"
   }
 }

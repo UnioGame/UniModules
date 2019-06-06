@@ -9,6 +9,6 @@ namespace UniGreenModules.UniNodeActors.Runtime.Interfaces
         IObservable<TModel> 
         where TModel : IActorModel
     {
-
+        
     }
 }
