@@ -14,13 +14,13 @@
         /// actor model data
         /// </summary>
         [SerializeField] 
-        private TypedActorInfo<TModel> typedActorInfo;
+        private TypedAsyncActorInfo<TModel> typedAsyncActorInfo;
 
         #endregion
 
         protected override IActorModel GetModel()
         {
-            var model = typedActorInfo.Create();
+            var model = typedAsyncActorInfo.Create();
             return model;
         }
 

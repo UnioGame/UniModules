@@ -6,15 +6,15 @@ namespace UniGreenModules.UniNodeActors.Demo.Examples.ActorInfoModel.Scripts
     using UnityEngine;
 
     [CreateAssetMenu(menuName = "UniNodeActors/Demo/SampleActorInfo",fileName = "SampleActorInfo")]
-    public class SampleTypedActorInfo : TypedActorInfo<SampleActorModel>
+    public class SampleTypedAsyncActorInfo : TypedAsyncActorInfo<SampleActorModel>
     {
         
-        protected override SampleActorModel CreateDataSource(SampleActorModel model)
+        protected override SampleActorModel CreateDataSource()
         {
             return new SampleActorModel() {
-                value = model.value,
-                target = model.target,
-                modelName = model.modelName
+                value = sourceModel.value,
+                target = sourceModel.target,
+                modelName = sourceModel.modelName
             };    
         }
         
