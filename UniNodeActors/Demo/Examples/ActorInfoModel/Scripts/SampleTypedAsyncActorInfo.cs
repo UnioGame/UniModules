@@ -2,6 +2,7 @@
 
 namespace UniGreenModules.UniNodeActors.Demo.Examples.ActorInfoModel.Scripts
 {
+    using System.Threading.Tasks;
     using Runtime.ActorData;
     using UnityEngine;
 
@@ -9,7 +10,7 @@ namespace UniGreenModules.UniNodeActors.Demo.Examples.ActorInfoModel.Scripts
     public class SampleTypedAsyncActorInfo : TypedAsyncActorInfo<SampleActorModel>
     {
         
-        protected override SampleActorModel CreateDataSource()
+        protected override async Task<SampleActorModel> CreateDataSource()
         {
             return new SampleActorModel() {
                 value = sourceModel.value,

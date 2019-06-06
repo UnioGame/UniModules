@@ -1,23 +1,22 @@
-﻿using UnityEngine;
-
-namespace UniGreenModules.UniNodeActors.Runtime.ActorData
+﻿namespace UniGreenModules.UniNodeActors.Runtime.ActorData
 {
     using System;
+    using System.Threading.Tasks;
     using Interfaces;
     using Sirenix.OdinInspector;
     using UniRx;
 
     public abstract class AsyncActorModelInfo<TModel>  : 
-        SerializedScriptableObject, IActorInfo<TModel>
+        SerializedScriptableObject, IAsyncActorInfo<TModel>
         where TModel : IActorModel
     {
 
         private Subject<TModel> _valueStream = 
             new Subject<TModel>();
 		
-        public TModel Create()
+        public async Task<TModel> Create()
         {
-            var model = CreateDataSource();
+            var model = await CreateDataSource();
             _valueStream.OnNext(model);
             return model;
         }
@@ -27,7 +26,7 @@ namespace UniGreenModules.UniNodeActors.Runtime.ActorData
             return _valueStream.Subscribe(observer);
         }
         
-        protected abstract TModel CreateDataSource();
+        protected abstract Task<TModel> CreateDataSource();
 
     }
 }
