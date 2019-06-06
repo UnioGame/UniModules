@@ -8,10 +8,10 @@
     using UnityEngine;
     using Object = UnityEngine.Object;
 
-    public class UniqueAssetSavingProcessor<TAsset> : UnityEditor.AssetModificationProcessor
+    public static class UniqueAssetsOperations<TAsset>
         where TAsset : Object, IUnique
     {
-        static string[] OnWillSaveAssets(string[] paths)
+        public static string[] OnWillSaveAssets(string[] paths)
         {
             foreach (string path in paths) {
                 var asset = AssetDatabase.LoadAssetAtPath<TAsset>(path);
@@ -25,7 +25,7 @@
             return paths;
         }
 
-        private static void ProcessUniqueAssets()
+        public static void ProcessUniqueAssets()
         {
             var assetsMap = new HashSet<int>();
             var conflictedAssets = new List<TAsset>();
