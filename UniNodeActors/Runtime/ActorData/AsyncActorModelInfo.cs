@@ -3,11 +3,11 @@
     using System;
     using System.Threading.Tasks;
     using Interfaces;
-    using Sirenix.OdinInspector;
     using UniRx;
+    using UnityEngine;
 
     public abstract class AsyncActorModelInfo<TModel>  : 
-        SerializedScriptableObject, IAsyncActorInfo<TModel>
+        ScriptableObject, IAsyncActorInfo<TModel>
         where TModel : IActorModel
     {
 

@@ -7,7 +7,6 @@
   "version": "1.0.66",
   "keywords": [],
   "dependencies": {
-    "com.greenbuttongames.odin": "2.0.16",
     "com.greenbuttongames.neuecc.unirx": "6.2.2",
     "com.greenbuttongames.unicore": "1.1.9",
     "com.greenbuttongames.contextdata": "1.0.53",
