@@ -2,8 +2,12 @@
 {
     using System.Collections;
     using System.Collections.Generic;
+    using System.Threading;
+    using System.Threading.Tasks;
     using ObjectPool;
     using UniRx;
+    using UniRx.Async;
+    using UnityEngine;
 
     public static class AsyncOperationExtensions
     {
@@ -24,6 +28,42 @@
 
             counter.Despawn();
         }
+        
+        
+        public static IEnumerator AwaitAsUniTask<T>(this Task<T> task)
+        {
 
+            yield return task.AsUniTask().ToCoroutine();
+
+        }
+        
+        public static IEnumerator AwaitTask<T>(this Task<T> task)
+        {
+
+            while (!task.IsCompleted) {
+                yield return null;                
+            }
+
+            if (task.IsFaulted) {
+                Debug.LogError($"{nameof(task)} Filed");
+            }
+
+        }
+
+        
+        public static IEnumerator AwaitTask<T>(this Task<T> task, CancellationToken cancellationToken)
+        {
+
+            while (!task.IsCompleted) {
+                
+                yield return null;
+                
+            }
+
+            if (task.IsFaulted) {
+                Debug.LogError($"{nameof(task)} Filed");
+            }
+
+        }
     }
 }
