@@ -4,7 +4,7 @@
   "displayName": "GBG UniResource system",
   "description": "",
   "unity": "2019.1",
-  "version": "1.0.55",
+  "version": "1.0.56",
   "keywords": [],
   "dependencies": {
     "com.greenbuttongames.unicore": "1.1.11",
