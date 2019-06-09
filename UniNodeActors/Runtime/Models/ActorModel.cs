@@ -1,4 +1,4 @@
-﻿namespace UniGreenModules.UniNodeActors.Runtime.ActorData
+﻿namespace UniGreenModules.UniNodeActors.Runtime.Models
 {
     using System;
     using Interfaces;
@@ -7,6 +7,7 @@
     [Serializable]
     public abstract class ActorModel : IActorModel
     {
+        
         #region public methods
 
 

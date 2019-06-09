@@ -8,14 +8,13 @@ namespace UniGreenModules.UniNodeActors.Runtime.ActorData
     using UnityEngine;
 
     public class ActorModelInfo<TModel> : 
-        ActorInfo
-        where TModel : class,IActorModel,
-            IFactory<TModel>,new()
+        BaseActorInfo<TModel> 
+        where TModel : class,IActorModel, IFactory<TModel>,new()
     {
  
         [SerializeField] private TModel sourceModel;
 
-        protected override IActorModel CreateDataSource()
+        protected override TModel CreateDataSource()
         {
             var model = sourceModel.Create();
             return model;

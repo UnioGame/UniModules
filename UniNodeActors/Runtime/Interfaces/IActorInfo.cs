@@ -7,7 +7,6 @@ namespace UniGreenModules.UniNodeActors.Runtime.Interfaces
     public interface IActorInfo<out TModel> : 
         IFactory<TModel>, 
         IObservable<TModel> 
-        where TModel : IActorModel
     {
         
     }

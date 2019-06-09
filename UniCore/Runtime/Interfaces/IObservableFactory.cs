@@ -2,7 +2,7 @@
 
 namespace UniGreenModules.UniCore.Runtime.Interfaces
 {
-    public interface IRxFactory<T>
+    public interface IObservableFactory<T>
     {
 
         IObservable<T> Create();

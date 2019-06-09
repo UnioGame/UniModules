@@ -2,6 +2,7 @@
 {
     using System;
     using Runtime.ActorData;
+    using Runtime.Models;
     using UniCore.Runtime.ObjectPool;
     using UnityEngine;
 

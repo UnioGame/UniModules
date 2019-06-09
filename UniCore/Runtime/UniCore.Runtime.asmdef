@@ -1,8 +1,8 @@
 {
     "name": "greenbuttongame.unitools",
     "references": [
-        "UniRx",
-        "UniRx.Async"
+        "GUID:560b04d1a97f54a4e82edc0cbbb69285",
+        "GUID:f51ebe6a0ceec4240a699833d6309b23"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],
@@ -11,5 +11,6 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": []
+    "defineConstraints": [],
+    "versionDefines": []
 }
