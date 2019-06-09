@@ -4,7 +4,7 @@
     using ObjectPool;
     using ObjectPool.Interfaces;
 
-    public class LifeTimeModel : ILifeTimeContext, IDespawnable
+    public class LifeTimeModel : ILifeTimeModel
     {
         
         private LifeTimeDefinition lifeTimeDefinition = new LifeTimeDefinition();
