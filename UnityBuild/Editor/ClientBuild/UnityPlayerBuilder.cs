@@ -63,7 +63,7 @@ namespace UniGreenModules.UnityBuild.Editor.ClientBuild
             return $"{folder}/{buildParameters.BuildTarget.ToString()}/{file}";
         }
 
-        private void ExecuteCommands<TTarget>(Action<TTarget> action) 
+        public void ExecuteCommands<TTarget>(Action<TTarget> action) 
             where  TTarget : Object,IUnityBuildCommand
         {
 
@@ -77,7 +77,7 @@ namespace UniGreenModules.UnityBuild.Editor.ClientBuild
 
         }
 
-        private void ExecuteCommands<TTarget>(List<EditorAssetResource> targetCommands, Action<TTarget> action)
+        public void ExecuteCommands<TTarget>(List<EditorAssetResource> targetCommands, Action<TTarget> action)
             where TTarget : Object, IUnityBuildCommand
         {
         
