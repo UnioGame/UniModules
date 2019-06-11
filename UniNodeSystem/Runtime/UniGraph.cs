@@ -16,6 +16,7 @@ namespace UniStateMachine.Nodes
 {
     using UniGreenModules.UniCore.Runtime.DataFlow;
     using UniGreenModules.UniCore.Runtime.Interfaces;
+    using UniGreenModules.UniCore.Runtime.ObjectPool;
     using UniTools.UniRoutine.Runtime;
 
     public class UniGraph : NodeGraph, IContextState<IEnumerator>
@@ -23,12 +24,12 @@ namespace UniStateMachine.Nodes
        
         #region private properties
 
-        [NonSerialized] private bool _isInitialized = false;
+        [NonSerialized] private bool isInitialized = false;
 
         /// <summary>
         /// graph roots
         /// </summary>
-        [NonSerialized] private List<UniRootNode> _rootNodes;
+        [NonSerialized] private List<UniRootNode> rootNodes;
 
         /// <summary>
         /// all child nodes
@@ -48,7 +49,7 @@ namespace UniStateMachine.Nodes
         /// <summary>
         /// node executor
         /// </summary>
-        private INodeExecutor<IContext> _nodeExecutor;
+        private INodeExecutor<IContext> nodeExecutor;
         
 
         #endregion
@@ -63,15 +64,21 @@ namespace UniStateMachine.Nodes
 
         public void Initialize()
         {
-            if (_isInitialized)
+            _graphState = CreateState();
+            
+            if (isInitialized)
                 return;
 
-            _isInitialized = true;
+            isInitialized = true;
 
-            _nodeExecutor = new NodeRoutineExecutor();
+            nodeExecutor = new NodeRoutineExecutor();
 
-            _rootNodes = nodes.OfType<UniRootNode>().ToList();
-            _graphState = CreateState();
+            rootNodes = new List<UniRootNode>();
+
+            for (int i = 0; i < nodes.Count; i++) {
+                if(nodes[i] is UniRootNode rootNode)
+                    rootNodes.Add(rootNode);
+            }
 
             InitializeNodes();
             InitializePortConnections();
@@ -119,8 +126,11 @@ namespace UniStateMachine.Nodes
 
         private IContextState<IEnumerator> CreateState()
         {
-            var stateBehaviour = new ProxyState();
+            var stateBehaviour = ClassPool.Spawn<ProxyState>();
             stateBehaviour.Initialize(OnExecute, x => _localContext = x, OnExit);
+            
+            LifeTime.AddCleanUpAction(() => ClassPool.Despawn(stateBehaviour));
+            
             return stateBehaviour;
         }
         
@@ -162,7 +172,7 @@ namespace UniStateMachine.Nodes
                         continue;
 
                     var connection = node.Input == value
-                        ? new InputPortConnection(node, value,_nodeExecutor)
+                        ? new InputPortConnection(node, value,nodeExecutor)
                         : new PortValueConnection(value);
 
                     BindWithOutputs(connection, port);
@@ -190,7 +200,7 @@ namespace UniStateMachine.Nodes
 
         private IEnumerator OnExecute(IContext context)
         {
-            if (_rootNodes == null || _rootNodes.Count == 0)
+            if (rootNodes == null || rootNodes.Count == 0)
             {
                 Debug.LogErrorFormat("Graph root nodes not found");
                 yield break;
@@ -198,9 +208,9 @@ namespace UniStateMachine.Nodes
 
             var lifeTime = LifeTime;
 
-            for (var i = 0; i < _rootNodes.Count; i++)
+            for (var i = 0; i < rootNodes.Count; i++)
             {
-                var rootNode = _rootNodes[i];
+                var rootNode = rootNodes[i];
                 var rootDisposableItem = rootNode.Execute(context).RunWithSubRoutines();
                 lifeTime.AddDispose(rootDisposableItem);
             }
