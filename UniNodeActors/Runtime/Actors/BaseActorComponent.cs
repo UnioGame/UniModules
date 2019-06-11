@@ -2,7 +2,6 @@
 {
     using System.Collections;
     using Interfaces;
-    using Sirenix.OdinInspector;
     using UniCore.Runtime.DataFlow;
     using UniCore.Runtime.Interfaces;
     using UniCore.Runtime.ObjectPool;
@@ -12,7 +11,7 @@
     using UnityEngine;
     using IActor = Interfaces.IActor;
 
-    public abstract class BaseActorComponent : SerializedMonoBehaviour, IActor
+    public abstract class BaseActorComponent : MonoBehaviour, IActor
     {
         /// <summary>
         /// actor source

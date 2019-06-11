@@ -2,7 +2,6 @@
 {
 	using System;
 	using Interfaces;
-	using Sirenix.OdinInspector;
 	using UniCore.Runtime.ScriptableObjects;
 	using UniRx;
 
