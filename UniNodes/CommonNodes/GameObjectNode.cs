@@ -1,14 +1,16 @@
 ﻿using System.Collections;
 using UniModule.UnityTools.Interfaces;
 using UniModule.UnityTools.ResourceSystem;
-using UniModule.UnityTools.UniStateMachine.Extensions;
 using UnityEngine;
-using UniNodeSystem;
 
 namespace UniStateMachine.CommonNodes
 {
     using UniGreenModules.UniCore.Runtime.Interfaces;
     using UniGreenModules.UniCore.Runtime.ObjectPool;
+    using UniGreenModules.UniNodeSystem.Runtime;
+    using UniGreenModules.UniNodeSystem.Runtime.Extensions;
+    using UniGreenModules.UniNodeSystem.Runtime.NodeData;
+    using UniGreenModules.UniNodeSystem.Runtime.Runtime;
 
     public class GameObjectNode : UniNode
     {

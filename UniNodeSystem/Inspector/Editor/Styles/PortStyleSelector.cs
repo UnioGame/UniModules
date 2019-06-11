@@ -1,11 +1,13 @@
 ﻿using Modules.UniTools.UniNodeSystem.Editor.BaseEditor;
-using UniNodeSystem;
 using UniNodeSystemEditor;
 using UniStateMachine;
 using UnityEngine;
 
 namespace Modules.UniTools.UniNodeSystemEditor.Editor.Styles
 {
+    using UniGreenModules.UniNodeSystem.Runtime;
+    using UniGreenModules.UniNodeSystem.Runtime.Runtime;
+
     public class PortStyleSelector : IStyleProvider
     {
     

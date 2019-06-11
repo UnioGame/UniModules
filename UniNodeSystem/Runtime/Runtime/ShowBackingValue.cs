@@ -1,4 +1,4 @@
-namespace UniNodeSystem
+namespace UniGreenModules.UniNodeSystem.Runtime.Runtime
 {
     /// <summary> Used by <see cref="InputAttribute"/> and <see cref="OutputAttribute"/> to determine when to display the field value associated with a <see cref="NodePort"/> </summary>
     public enum ShowBackingValue

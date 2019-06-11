@@ -1,7 +1,8 @@
-using System;
-
-namespace UniNodeSystem
+namespace UniGreenModules.UniNodeSystem.Runtime.Interfaces
 {
+    using System;
+    using Runtime;
+
     public interface IMutableNode
     {
         /// <summary> Convenience function. </summary>

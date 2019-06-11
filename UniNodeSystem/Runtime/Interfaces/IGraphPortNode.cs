@@ -1,8 +1,7 @@
-using UniNodeSystem;
-using UniStateMachine.Nodes;
-
-namespace UniStateMachine.CommonNodes
+namespace UniGreenModules.UniNodeSystem.Runtime.Interfaces
 {
+    using Runtime;
+
     public interface IGraphPortNode : INode
     {
         PortIO Direction { get; }

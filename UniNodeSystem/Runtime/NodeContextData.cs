@@ -1,9 +1,7 @@
-﻿using UniModule.UnityTools.Interfaces;
-
-namespace UniStateMachine.Nodes
+﻿namespace UniGreenModules.UniNodeSystem.Runtime
 {
-    using UniGreenModules.UniCore.Runtime.Interfaces;
-    using UniGreenModules.UniCore.Runtime.ObjectPool.Interfaces;
+    using UniCore.Runtime.Interfaces;
+    using UniCore.Runtime.ObjectPool.Interfaces;
 
     public class NodeContextData : IPoolable
     {

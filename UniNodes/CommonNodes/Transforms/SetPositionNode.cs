@@ -5,6 +5,7 @@ using UnityEngine;
 namespace UniStateMachine.CommonNodes.Transforms
 {
     using UniGreenModules.UniCore.Runtime.Interfaces;
+    using UniGreenModules.UniNodeSystem.Runtime;
 
     public class SetPositionNode : UniNode
     {

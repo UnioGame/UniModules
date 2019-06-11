@@ -4,6 +4,7 @@ namespace Tests.Examples
 {
     using System.Collections;
     using UniGreenModules.UniCore.Runtime.Interfaces;
+    using UniGreenModules.UniNodeSystem.Runtime;
     using UnityEngine;
 
     public class ContextMessageLogNode : UniNode

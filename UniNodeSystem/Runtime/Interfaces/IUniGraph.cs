@@ -1,9 +1,7 @@
-namespace UniStateMachine.Nodes
+namespace UniGreenModules.UniNodeSystem.Runtime.Interfaces
 {
     using System;
-    using System.Collections;
-    using UniModule.UnityTools.UniStateMachine.Interfaces;
-    using UniNodeSystem;
+    using Runtime;
 
     public interface IUniGraph : IUniGraphNode, IDisposable
     {

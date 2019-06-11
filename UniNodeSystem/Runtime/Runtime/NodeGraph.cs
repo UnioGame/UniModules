@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Unity.Collections;
-using UnityEngine;
-
-namespace UniNodeSystem
+﻿namespace UniGreenModules.UniNodeSystem.Runtime.Runtime
 {
-    using UniStateMachine;
+    using System;
+    using System.Collections.Generic;
+    using UnityEngine;
 
     /// <summary> Base class for all node graphs </summary>
     [Serializable]

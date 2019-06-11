@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UniModule.UnityTools.Interfaces;
-using UniModule.UnityTools.UniStateMachine.Interfaces;
-using UnityEngine;
-
-namespace UniStateMachine
+﻿namespace UniGreenModules.UniNodeSystem.Runtime
 {
-    using UniGreenModules.UniCore.Runtime.Interfaces;
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using UniCore.Runtime.Interfaces;
+    using UniModule.UnityTools.UniStateMachine.Interfaces;
+    using UnityEngine;
 
     [Serializable]
     [CreateAssetMenu(menuName = "UniStateMachine/States/StateSelector",fileName = "StateSelector")]

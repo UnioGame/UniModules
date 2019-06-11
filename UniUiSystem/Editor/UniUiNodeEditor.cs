@@ -4,13 +4,13 @@ using Modules.UniTools.UniUiSystem.Interfaces;
 using SubModules.Scripts.UniStateMachine.NodeEditor;
 using UniNodeSystemEditor;
 using UniStateMachine;
-using UniStateMachine.Nodes;
 using UnityEditor;
 using UnityEngine;
 using UniUiSystem;
 
 namespace UniTools.UniUiSystem
 {
+    using UniGreenModules.UniNodeSystem.Runtime;
     using UniRx;
 
     [CustomNodeEditor(typeof(UniUiNode))]

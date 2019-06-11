@@ -1,13 +1,11 @@
 ﻿
-namespace UniStateMachine.CommonNodes
+namespace UniGreenModules.UniNodeSystem.Runtime
 {
     using System.Collections;
     using System.Collections.Generic;
-    using UniGreenModules.UniCore.Runtime.Interfaces;
-    using UniModule.UnityTools.Interfaces;
-    using UniModule.UnityTools.UniStateMachine.Extensions;
+    using Extensions;
+    using UniCore.Runtime.Interfaces;
     using UniRx;
-    using UniStateMachine.Nodes;
 
     public abstract class UniMessageNode<TValue> : UniNode
     {

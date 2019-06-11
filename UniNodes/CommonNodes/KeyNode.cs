@@ -9,6 +9,7 @@ namespace UniStateMachine.CommonNodes
     using UniGreenModules.UniCore.Runtime.Extension;
     using UniGreenModules.UniCore.Runtime.Input;
     using UniGreenModules.UniCore.Runtime.Interfaces;
+    using UniGreenModules.UniNodeSystem.Runtime;
 
     public class KeyNode : UniNode
     {

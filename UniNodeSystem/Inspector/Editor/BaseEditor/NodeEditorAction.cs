@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UniNodeSystem;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace UniNodeSystemEditor
 {
+    using UniGreenModules.UniNodeSystem.Runtime.Runtime;
+
     public partial class NodeEditorWindow
     {
         public enum NodeActivity

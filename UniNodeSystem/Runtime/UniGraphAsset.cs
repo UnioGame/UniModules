@@ -1,8 +1,7 @@
-﻿using UniStateMachine.Nodes;
-using UnityEngine;
-
-namespace UniTools.UniNodeSystem
+﻿namespace UniGreenModules.UniNodeSystem.Runtime
 {
+    using UnityEngine;
+
     [CreateAssetMenu(menuName = "UniGraph/GraphAsset", fileName = "GraphAsset")]
     public class UniGraphAsset : ScriptableObject
     {

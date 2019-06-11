@@ -2,11 +2,12 @@
 using System.Collections;
 using UniModule.UnityTools.Interfaces;
 using UnityEngine;
-using UnityTools.UniVisualNodeSystem.NodeData;
 
 namespace UniStateMachine.CommonNodes
 {
     using UniGreenModules.UniCore.Runtime.Interfaces;
+    using UniGreenModules.UniNodeSystem.Runtime;
+    using UniGreenModules.UniNodeSystem.Runtime.NodeData;
 
     public class VelocityLerpNode : UniNode
     {

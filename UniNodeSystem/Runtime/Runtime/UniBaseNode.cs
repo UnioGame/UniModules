@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-using UnityEngine.Serialization;
-
-namespace UniNodeSystem
+﻿namespace UniGreenModules.UniNodeSystem.Runtime.Runtime
 {
-    using UniGreenModules.UniCore.Runtime.Attributes;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Interfaces;
+    using UniCore.Runtime.Attributes;
+    using UnityEngine;
+    using UnityEngine.Serialization;
 
     /// <summary>
     /// Base class for all nodes

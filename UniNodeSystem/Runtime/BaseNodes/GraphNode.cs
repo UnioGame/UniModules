@@ -1,17 +1,14 @@
 ﻿
-namespace UniStateMachine.SubGraph
+namespace UniGreenModules.UniNodeSystem.Runtime.BaseNodes
 {
     using System.Collections;
-    using System.Collections.Generic;
-    using UniGreenModules.UniCore.Runtime.Attributes;
-    using UniGreenModules.UniCore.Runtime.Interfaces;
-    using UniModule.UnityTools.Interfaces;
+    using Extensions;
+    using Interfaces;
+    using Runtime;
+    using UniCore.Runtime.Attributes;
+    using UniCore.Runtime.Interfaces;
     using UniModule.UnityTools.ResourceSystem;
-    using UniModule.UnityTools.UniStateMachine.Extensions;
-    using UniNodeSystem;
-    using UniStateMachine.Nodes;
     using UnityEngine;
-    using UniStateMachine.CommonNodes;
 
     public class GraphNode : UniNode
     {

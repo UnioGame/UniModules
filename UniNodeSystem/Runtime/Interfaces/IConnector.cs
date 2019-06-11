@@ -1,6 +1,4 @@
-using UniModule.UnityTools.Interfaces;
-
-namespace UniModule.UnityTools.UniVisualNodeSystem.Connections
+namespace UniGreenModules.UniNodeSystem.Runtime.Interfaces
 {
     public interface IConnector<T>
     {

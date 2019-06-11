@@ -1,10 +1,8 @@
-namespace UniStateMachine
+namespace UniGreenModules.UniNodeSystem.Runtime.Interfaces
 {
     using System.Collections;
     using System.Collections.Generic;
-    using Nodes;
-    using UniGreenModules.UniCore.Runtime.DataFlow;
-    using UniGreenModules.UniCore.Runtime.Interfaces;
+    using UniCore.Runtime.Interfaces;
     using UniModule.UnityTools.UniStateMachine.Interfaces;
 
     public interface IUniGraphNode : IValidator<IContext>, IContextState<IEnumerator>

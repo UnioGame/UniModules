@@ -1,7 +1,7 @@
-using UniStateMachine.Nodes;
-
-namespace UniStateMachine.CommonNodes
+namespace UniGreenModules.UniNodeSystem.Runtime
 {
+    using Interfaces;
+
     public struct NodeMessageData
     {
         public string Name;

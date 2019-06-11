@@ -7,10 +7,11 @@ using Modules.UniTools.UniNodeSystem.Editor.BaseEditor;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
-using UniNodeSystem;
 
 namespace UniNodeSystemEditor
 {
+    using UniGreenModules.UniNodeSystem.Runtime.Runtime;
+
     /// <summary> UniNodeSystem-specific version of <see cref="EditorGUILayout"/> </summary>
     public static class NodeEditorGUILayout
     {

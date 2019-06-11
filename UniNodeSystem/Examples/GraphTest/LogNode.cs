@@ -1,14 +1,14 @@
 ﻿using System.Collections;
 using UniModule.UnityTools.Interfaces;
-using UniModule.UnityTools.UniStateMachine.Extensions;
-using UniNodeSystem;
 using UniStateMachine;
-using UniStateMachine.Nodes;
 using UnityEngine;
 
 namespace Tests.GraphTest
 {
 	using UniGreenModules.UniCore.Runtime.Interfaces;
+	using UniGreenModules.UniNodeSystem.Runtime;
+	using UniGreenModules.UniNodeSystem.Runtime.Extensions;
+	using UniGreenModules.UniNodeSystem.Runtime.Runtime;
 	using UniTools.UniRoutine.Runtime.Extension;
 
 	public class LogNode : UniNode

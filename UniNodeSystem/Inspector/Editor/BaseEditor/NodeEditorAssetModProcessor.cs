@@ -2,6 +2,8 @@
 using UnityEngine;
 
 namespace UniNodeSystemEditor {
+    using UniGreenModules.UniNodeSystem.Runtime.Runtime;
+
     /// <summary> Deals with modified assets </summary>
     class NodeEditorAssetModProcessor : UnityEditor.AssetModificationProcessor {
 
@@ -17,7 +19,7 @@ namespace UniNodeSystemEditor {
             // Check script type. Return if deleting a non-node script
             MonoScript script = obj as MonoScript;
             System.Type scriptType = script.GetClass ();
-            if (scriptType == null || (scriptType != typeof (UniNodeSystem.UniBaseNode) && !scriptType.IsSubclassOf (typeof (UniNodeSystem.UniBaseNode)))) return AssetDeleteResult.DidNotDelete;
+            if (scriptType == null || (scriptType != typeof (UniBaseNode) && !scriptType.IsSubclassOf (typeof (UniBaseNode)))) return AssetDeleteResult.DidNotDelete;
 
             // Find all ScriptableObjects using this script
             string[] guids = AssetDatabase.FindAssets ("t:" + scriptType);
@@ -25,7 +27,7 @@ namespace UniNodeSystemEditor {
                 string assetpath = AssetDatabase.GUIDToAssetPath (guids[i]);
                 Object[] objs = AssetDatabase.LoadAllAssetRepresentationsAtPath (assetpath);
                 for (int k = 0; k < objs.Length; k++) {
-                    UniNodeSystem.UniBaseNode node = objs[k] as UniNodeSystem.UniBaseNode;
+                    UniBaseNode node = objs[k] as UniBaseNode;
                     if (node.GetType () == scriptType) {
                         if (node != null && node.graph != null) {
                             // Delete the node and notify the user
@@ -43,15 +45,15 @@ namespace UniNodeSystemEditor {
         [InitializeOnLoadMethod]
         private static void OnReloadEditor () {
             // Find all NodeGraph assets
-            string[] guids = AssetDatabase.FindAssets ("t:" + typeof (UniNodeSystem.NodeGraph));
+            string[] guids = AssetDatabase.FindAssets ("t:" + typeof (NodeGraph));
             for (int i = 0; i < guids.Length; i++) {
                 string assetpath = AssetDatabase.GUIDToAssetPath (guids[i]);
-                UniNodeSystem.NodeGraph graph = AssetDatabase.LoadAssetAtPath (assetpath, typeof (UniNodeSystem.NodeGraph)) as UniNodeSystem.NodeGraph;
+                NodeGraph graph = AssetDatabase.LoadAssetAtPath (assetpath, typeof (NodeGraph)) as NodeGraph;
                 graph.nodes.RemoveAll(x => x == null); //Remove null items
                 Object[] objs = AssetDatabase.LoadAllAssetRepresentationsAtPath (assetpath);
                 // Ensure that all sub node assets are present in the graph node list
                 for (int u = 0; u < objs.Length; u++) {
-                    if (!graph.nodes.Contains (objs[u] as UniNodeSystem.UniBaseNode)) graph.nodes.Add(objs[u] as UniNodeSystem.UniBaseNode);
+                    if (!graph.nodes.Contains (objs[u] as UniBaseNode)) graph.nodes.Add(objs[u] as UniBaseNode);
                 }
             }
         }

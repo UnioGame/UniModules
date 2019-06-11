@@ -6,8 +6,8 @@
     using UniCore.Runtime.Interfaces;
     using UniCore.Runtime.ObjectPool;
     using UniModule.UnityTools.UniStateMachine.Interfaces;
+    using UniNodeSystem.Runtime;
     using UniRx;
-    using UniStateMachine.Nodes;
     using UnityEngine;
     using IActor = Interfaces.IActor;
 

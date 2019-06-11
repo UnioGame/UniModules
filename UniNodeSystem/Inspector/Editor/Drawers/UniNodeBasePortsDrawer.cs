@@ -2,7 +2,6 @@
 using Modules.UniTools.UniNodeSystem.Drawers;
 using Modules.UniTools.UniNodeSystem.Editor.BaseEditor;
 using Modules.UniTools.UniNodeSystemEditor.Editor.Styles;
-using UniNodeSystem;
 using UniNodeSystemEditor;
 using UniStateMachine;
 using UnityEditor.Experimental.UIElements.GraphView;
@@ -10,6 +9,9 @@ using UnityEngine;
 
 namespace Modules.UniTools.UniNodeSystem.Drawers
 {
+    using UniGreenModules.UniNodeSystem.Runtime;
+    using UniGreenModules.UniNodeSystem.Runtime.Runtime;
+
     public class UniNodeBasePortsDrawer : INodeEditorDrawer
     {
         private PortStyleSelector styleSelector = new PortStyleSelector();

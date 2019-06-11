@@ -1,11 +1,11 @@
 ﻿using SubModules.Scripts.UniStateMachine.NodeEditor;
 using UniEditorTools;
 using UniNodeSystemEditor;
-using UniStateMachine.Nodes;
-using UniStateMachine.SubGraph;
 
 namespace UniStateMachine.CommonNodes
 {
+    using UniGreenModules.UniNodeSystem.Runtime.BaseNodes;
+
     [CustomNodeEditorAttribute(typeof(GraphNode))]
     public class UniGraphNodeEditor : UniNodeEditor
     {

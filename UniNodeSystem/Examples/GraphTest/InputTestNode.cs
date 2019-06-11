@@ -6,6 +6,7 @@ using UnityEngine;
 namespace Tests.GraphTest
 {
     using UniGreenModules.UniCore.Runtime.Interfaces;
+    using UniGreenModules.UniNodeSystem.Runtime;
 
     public class InputTestNode : UniNode
     {

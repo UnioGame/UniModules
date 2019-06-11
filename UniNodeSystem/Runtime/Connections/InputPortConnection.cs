@@ -1,12 +1,8 @@
-﻿using UniModule.UnityTools.Interfaces;
-using UniStateMachine;
-using UniStateMachine.Nodes;
-using UnityEngine;
-
-namespace UniModule.UnityTools.UniVisualNodeSystem.Connections
+﻿namespace UniGreenModules.UniNodeSystem.Runtime.Connections
 {
-    using UniGreenModules.UniCore.Runtime.Interfaces;
-    using UniGreenModules.UniCore.Runtime.ProfilerTools;
+    using Interfaces;
+    using UniCore.Runtime.Interfaces;
+    using UniCore.Runtime.ProfilerTools;
 
     public class InputPortConnection : PortValueConnection
     {

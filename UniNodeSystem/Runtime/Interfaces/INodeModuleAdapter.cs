@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
-using UniModule.UnityTools.Interfaces;
-using UnityTools.UniVisualNodeSystem;
-
-namespace UnityTools.UniNodeEditor.Connections
+namespace UniGreenModules.UniNodeSystem.Runtime.Interfaces
 {
-    using UniGreenModules.UniCore.Runtime.Interfaces;
+    using System;
+    using System.Collections.Generic;
+    using UniCore.Runtime.Interfaces;
 
     public interface INodeModuleAdapter
     {

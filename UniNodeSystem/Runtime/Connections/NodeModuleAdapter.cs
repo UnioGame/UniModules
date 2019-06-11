@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using UniModule.UnityTools.Interfaces;
-using UniRx;
-using UniStateMachine.Nodes;
-using UnityEngine;
-using UnityTools.UniVisualNodeSystem;
-
-namespace UnityTools.UniNodeEditor.Connections
+﻿namespace UniGreenModules.UniNodeSystem.Runtime.Connections
 {
-    using UniGreenModules.UniCore.Runtime.Interfaces;
+    using System;
+    using System.Collections.Generic;
+    using Interfaces;
+    using UniCore.Runtime.Interfaces;
+    using UniRx;
+    using UnityEngine;
 
     public abstract class NodeModuleAdapter : ScriptableObject, INodeModuleAdapter
     {
