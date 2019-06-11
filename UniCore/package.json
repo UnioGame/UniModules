@@ -4,7 +4,7 @@
   "displayName": "GBG UniCore",
   "description": "Unity Tools Core",
   "unity": "2019.1",
-  "version": "1.1.19",
+  "version": "1.1.21",
   "keywords": [],
   "dependencies": {
     "com.greenbuttongames.neuecc.unirx": "7.0.1"

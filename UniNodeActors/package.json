@@ -4,15 +4,15 @@
   "displayName": "GBG UniNode Actors",
   "description": "UniNode Actors for Unity",
   "unity": "2019.1",
-  "version": "1.0.83",
+  "version": "1.0.85",
   "keywords": [],
   "dependencies": {
     "com.greenbuttongames.neuecc.unirx": "7.0.1",
-    "com.greenbuttongames.unicore": "1.1.19",
-    "com.greenbuttongames.contextdata": "1.0.63",
-    "com.greenbuttongames.uniroutine": "1.0.63",
-    "com.greenbuttongames.resourcesystem": "1.0.64",
-    "com.greenbuttongames.nodesystem": "1.0.74",
-    "com.greenbuttongames.unistatemachine": "1.0.68"
+    "com.greenbuttongames.unicore": "1.1.21",
+    "com.greenbuttongames.contextdata": "1.0.65",
+    "com.greenbuttongames.uniroutine": "1.0.65",
+    "com.greenbuttongames.resourcesystem": "1.0.66",
+    "com.greenbuttongames.nodesystem": "1.0.76",
+    "com.greenbuttongames.unistatemachine": "1.0.70"
   }
 }
