@@ -42,28 +42,30 @@ namespace UniStateMachine.Nodes
         private IContextState<IEnumerator> graphState;
 
         /// <summary>
-        /// state local context data
-        /// </summary>
-        protected IContext localContext;
-
-        /// <summary>
         /// node executor
         /// </summary>
         private INodeExecutor<IContext> nodeExecutor;
         
+        /// <summary>
+        /// state local context data
+        /// </summary>
+        protected IContext localContext;
+
 
         #endregion
         
         #region public properties
 
-        public ILifeTime LifeTime => graphState == null ? null : graphState.LifeTime;
+        public ILifeTime LifeTime => graphState?.LifeTime;
 
-        public bool IsActive => graphState == null ? false : graphState.IsActive;
+        public bool IsActive => graphState?.IsActive ?? false;
         
         #endregion
 
         public void Initialize()
         {
+            graphState = CreateState();
+            
             if (isInitialized)
                 return;
 
@@ -72,7 +74,7 @@ namespace UniStateMachine.Nodes
             nodeExecutor = new NodeRoutineExecutor();
             rootNodes = new List<UniRootNode>();
 
-            for (int i = 0; i < nodes.Count; i++) {
+            for (var i = 0; i < nodes.Count; i++) {
                 if(nodes[i] is UniRootNode rootNode)
                     rootNodes.Add(rootNode);
             }
@@ -83,10 +85,7 @@ namespace UniStateMachine.Nodes
 
         #region context state
         
-        public void Release()
-        {
-            Exit();
-        }
+        public void Release() => Exit();
         
         public IEnumerator Execute(IContext context)
         {
@@ -106,6 +105,25 @@ namespace UniStateMachine.Nodes
         #endregion
         
         #region private methods
+        
+        private IEnumerator OnExecute(IContext context)
+        {
+            if (rootNodes == null || rootNodes.Count == 0)
+            {
+                Debug.LogErrorFormat("Graph root nodes not found");
+                yield break;
+            }
+
+            var lifeTime = LifeTime;
+
+            for (var i = 0; i < rootNodes.Count; i++)
+            {
+                var rootNode           = rootNodes[i];
+                var rootDisposableItem = rootNode.Execute(context).RunWithSubRoutines();
+                lifeTime.AddDispose(rootDisposableItem);
+            }
+
+        }
 
         protected void OnExit(IContext context)
         {
@@ -122,9 +140,12 @@ namespace UniStateMachine.Nodes
 
         private IContextState<IEnumerator> CreateState()
         {
-            var stateBehaviour = ClassPool.Spawn<ProxyState>();
-            stateBehaviour.Initialize(OnExecute, x => localContext = x, OnExit);
+            if (graphState != null)
+                return graphState;
             
+            var stateBehaviour = ClassPool.Spawn<ProxyState>();
+            
+            stateBehaviour.Initialize(OnExecute, x => localContext = x, OnExit);
             stateBehaviour.LifeTime.AddCleanUpAction(() => ClassPool.Despawn(stateBehaviour));
             
             return stateBehaviour;
@@ -192,25 +213,6 @@ namespace UniStateMachine.Nodes
                 var connectedValue = node.GetPortValue(connection.fieldName);
                 connectedValue.Connect(inputConnection);
             }
-        }
-
-        private IEnumerator OnExecute(IContext context)
-        {
-            if (rootNodes == null || rootNodes.Count == 0)
-            {
-                Debug.LogErrorFormat("Graph root nodes not found");
-                yield break;
-            }
-
-            var lifeTime = LifeTime;
-
-            for (var i = 0; i < rootNodes.Count; i++)
-            {
-                var rootNode = rootNodes[i];
-                var rootDisposableItem = rootNode.Execute(context).RunWithSubRoutines();
-                lifeTime.AddDispose(rootDisposableItem);
-            }
-
         }
 
         private void OnDisable()

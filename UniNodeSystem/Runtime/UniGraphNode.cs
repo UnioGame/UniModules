@@ -61,25 +61,21 @@ namespace UniStateMachine
 
         public IReadOnlyList<UniPortValue> PortValues => _portValues;
 
-        public bool IsActive => _isInitialized && _state.IsActive;
+        public bool IsActive => _state!=null  && _state.IsActive;
 
-        public ILifeTime LifeTime => _isInitialized ? _state.LifeTime : null;
+        public ILifeTime LifeTime => _state?.LifeTime;
         
         #endregion
         
         #region public methods
-        
-        public virtual bool Validate(IContext context)
-        {
-            return true;
-        }
-        
+
         public void Initialize()
         {           
+            _state = CreateState();
+            
             if (Application.isPlaying && _isInitialized)
                 return;
-
-            _state = CreateState();
+            
             _portValues = new List<UniPortValue>();
             _portValuesMap = new Dictionary<string, UniPortValue>();           
             
@@ -93,9 +89,10 @@ namespace UniStateMachine
             _isInitialized = true;
         }
         
+        public virtual bool Validate(IContext context) => true;
+        
         public void UpdatePortsCache()
         {
-            
             OnUpdatePortsCache();
             
             var removedPorts = ClassPool.Spawn<List<NodePort>>();
@@ -119,34 +116,26 @@ namespace UniStateMachine
             removedPorts.DespawnCollection();
         }
         
-        public void Exit()
-        {
-            _state?.Exit();
-        }
-        
-        public void Release()
-        {
-            Exit();
-        }
-        
+        public void Exit() => _state?.Exit();
+
         public IEnumerator Execute(IContext context)
         {
             StateLogger.LogState(string.Format("STATE EXECUTE {0} TYPE {1} CONTEXT {2}", 
                 name, GetType().Name, context), this);
-
+            
+            Initialize();
+            
             yield return _state.Execute(context);
             
         }
         
-        public override object GetValue(NodePort port)
-        {
-            return GetPortValue(port);
-        }
+        public void Release() => Exit();
+
+        #region Node Ports operations
+ 
+        public override object GetValue(NodePort port) => GetPortValue(port);
         
-        public UniPortValue GetPortValue(NodePort port)
-        {
-            return GetPortValue(port.fieldName);
-        }
+        public UniPortValue GetPortValue(NodePort port) => GetPortValue(port.fieldName);
 
         public UniPortValue GetPortValue(string portName)
         {
@@ -156,7 +145,6 @@ namespace UniStateMachine
 
         public bool AddPortValue(UniPortValue portValue)
         {
-            
             if (portValue == null)
             {
                 Debug.LogErrorFormat("Try add NULL port value to {0}",this);
@@ -170,9 +158,11 @@ namespace UniStateMachine
 
             _portValuesMap[portValue.name] = portValue;
             _portValues.Add(portValue);
-
+            
             return true;
         }
+
+        #endregion
 
         #endregion
 
@@ -187,7 +177,7 @@ namespace UniStateMachine
         private void Initialize(IContext stateContext)
         {
             _context = stateContext;
-         
+            
             LifeTime.AddCleanUpAction(CleanUpAction);
             
             OnInitialize(stateContext);
@@ -204,10 +194,7 @@ namespace UniStateMachine
             yield break;
         }
 
-        protected virtual void OnExit(IContext context)
-        {
-            CleanUpAction();
-        }
+        protected virtual void OnExit(IContext context) => CleanUpAction();
 
         protected virtual void OnInitialize(IContext context){}
         
@@ -215,8 +202,13 @@ namespace UniStateMachine
 
         protected virtual IContextState<IEnumerator> CreateState()
         {
+            if (_state != null)
+                return _state;
+            
             var behaviour = ClassPool.Spawn<ProxyState>();
             behaviour.Initialize(ExecuteState, Initialize, OnExit, OnPostExecute);
+            behaviour.LifeTime.AddCleanUpAction(() => behaviour.Despawn());
+            
             return behaviour;
         }
 
@@ -229,6 +221,7 @@ namespace UniStateMachine
             }
 
             _context = null;
+            _state = null;
         }
         
         #endregion
