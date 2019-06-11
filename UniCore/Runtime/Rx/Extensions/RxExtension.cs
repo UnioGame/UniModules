@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using Interfaces;
+    using Interfaces.Rx;
     using ObjectPool;
     using Rx;
 

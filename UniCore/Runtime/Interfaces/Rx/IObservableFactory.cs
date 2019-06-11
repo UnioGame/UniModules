@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace UniGreenModules.UniCore.Runtime.Interfaces
+﻿namespace UniGreenModules.UniCore.Runtime.Interfaces.Rx
 {
+    using System;
+
     public interface IObservableFactory<T>
     {
 

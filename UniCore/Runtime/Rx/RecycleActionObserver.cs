@@ -2,6 +2,7 @@
 {
     using System;
     using Interfaces;
+    using Interfaces.Rx;
 
     public class RecycleActionObserver<T> : IRecycleObserver<T>
     {

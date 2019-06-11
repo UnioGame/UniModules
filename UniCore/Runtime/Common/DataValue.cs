@@ -10,7 +10,7 @@
     {
         private bool _hasValue = false;
         
-        protected RecycleObservable<TData> _reactiveValue = new RecycleObservable<TData>();
+        protected RecycleReactiveProperty<TData> _reactiveValue = new RecycleReactiveProperty<TData>();
 
         public TData Value
         {

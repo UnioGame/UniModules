@@ -3,13 +3,14 @@
     using System;
     using DataFlow;
     using Interfaces;
+    using Rx;
     using Rx.Extensions;
     using UniRx;
 
     public class ViewModel<TModel> : IViewModel<TModel>
     {
         private LifeTimeDefinition lifeTimeDefinition = new LifeTimeDefinition();
-        private ReactiveProperty<TModel> contextModel = new ReactiveProperty<TModel>();
+        private RecycleReactiveProperty<TModel> contextModel = new RecycleReactiveProperty<TModel>();
 
         public ILifeTime LifeTime => lifeTimeDefinition.LifeTime;
 
@@ -22,11 +23,14 @@
         public void Initialize(TModel model)
         {
             Release();  
+            
             //restart lifetime
             lifeTimeDefinition.Release();
-            
-            contextModel = new ReactiveProperty<TModel>();
-            contextModel.AddTo(LifeTime);
+
+            contextModel.Value = model;
+
+            LifeTime.AddDispose(contextModel);
+
             OnInitialize(model);
         }
 

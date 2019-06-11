@@ -3,17 +3,25 @@
     using System;
     using System.Collections.Generic;
     using Common;
+    using Interfaces.Rx;
     using ObjectPool;
     using ObjectPool.Interfaces;
 
-    public class RecycleObservable<T> : IObservable<T>,IPoolable
+    public class RecycleReactiveProperty<T> : IRecycleReactiveProperty<T>,IDisposable
     {
+        private T value = default;
+        private bool hasValue;
         
         private Dictionary<IObserver<T>,DisposableAction> _observers = 
             new Dictionary<IObserver<T>, DisposableAction>();
-    
-        public T Value { get; protected set; }
-    
+
+        public T Value {
+            get => value;
+            set => SetValue(value);
+        }
+
+        public bool HasValue => hasValue;
+
         public IDisposable Subscribe(IObserver<T> observer)
         {
             var disposeAction = ClassPool.Spawn<DisposableAction>();
@@ -27,9 +35,10 @@
 
         }
 
-        public void SetValue(T value)
+        public void SetValue(T propertyValue)
         {
-            Value = value;
+            hasValue = true;
+            value = propertyValue;
             foreach (var observer in _observers)
             {
                 observer.Key.OnNext(value);
@@ -38,13 +47,16 @@
     
         public void Release()
         {
-            Value = default(T);
+            
             foreach (var observer in _observers)
             {
                 observer.Key.OnCompleted();
                 observer.Value.Release();
             }
             _observers.Clear();
+            
+            value = default(T);
+            hasValue = false;
         }
 
         public void Dispose()
