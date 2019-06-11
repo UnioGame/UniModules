@@ -43,7 +43,7 @@ namespace UniStateMachine.CommonNodes
             }
             else
             {
-                portValue.RemoveAll();
+                portValue.CleanUp();
             }
 
         }

@@ -24,9 +24,9 @@ namespace UniModule.UnityTools.UniVisualNodeSystem.Connections
         
         #region IContextData interface
 
-        public void RemoveAll()
+        public void CleanUp()
         {
-            BroadcastAction(x => x.RemoveAll());
+            BroadcastAction(x => x.CleanUp());
         }
         
         public virtual bool Remove<TData>()

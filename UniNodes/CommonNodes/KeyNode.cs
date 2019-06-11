@@ -39,7 +39,7 @@ namespace UniStateMachine.CommonNodes
                 }
                 else
                 {
-                    Output.RemoveAll();
+                    Output.CleanUp();
                 }
 
                 yield return null;

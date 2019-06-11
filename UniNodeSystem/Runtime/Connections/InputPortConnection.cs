@@ -39,9 +39,9 @@ namespace UniModule.UnityTools.UniVisualNodeSystem.Connections
             
         }
 
-        public override void RemoveAll()
+        public override void CleanUp()
         {
-            base.RemoveAll();
+            base.CleanUp();
             _nodeExecutor.Stop(_node);   
         }
 

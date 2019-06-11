@@ -50,9 +50,9 @@
             return _typeData.Remove<TData>();
         }
 
-        public void RemoveAll()
+        public void CleanUp()
         {
-            _typeData.RemoveAll();
+            _typeData.CleanUp();
         }
 
         public void Add<TData>(TData data)

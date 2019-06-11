@@ -6,9 +6,10 @@ namespace UniStateMachine.Nodes
 {
     using UniGreenModules.UniCore.Runtime.Common;
     using UniGreenModules.UniCore.Runtime.Interfaces;
+    using UniGreenModules.UniCore.Runtime.ObjectPool.Interfaces;
 
     [Serializable]
-    public class UniPortValue : IPortValue
+    public class UniPortValue : IPortValue , IPoolable
     {
         #region serialized data
         
@@ -90,10 +91,14 @@ namespace UniStateMachine.Nodes
             messageBroker.Publish(value);
         }
 
-        public void RemoveAll()
+        public void CleanUp()
         {
-            typeData.RemoveAll();
-            broadcastContext.RemoveAll();
+            typeData.CleanUp();
+        }
+
+        public void RemoveAllConnections()
+        {
+            broadcastContext.CleanUp();
         }
                        
         public bool HasValue()
@@ -126,6 +131,13 @@ namespace UniStateMachine.Nodes
             broadcastContext.Disconnect(contextData);
         }
 
+        
+        public void Release()
+        {
+            CleanUp();
+            RemoveAllConnections();
+        }
+        
         #endregion
 
         #region message receiver
@@ -136,5 +148,6 @@ namespace UniStateMachine.Nodes
         }
         
         #endregion
+
     }
 }

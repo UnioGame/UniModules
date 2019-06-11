@@ -20,7 +20,7 @@
             return Remove(type);
         }
 
-        public void RemoveAll()
+        public void CleanUp()
         {
             Release();
         }

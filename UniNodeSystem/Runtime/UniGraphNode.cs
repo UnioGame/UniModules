@@ -225,7 +225,7 @@ namespace UniStateMachine
             for (var i = 0; i < PortValues.Count; i++)
             {
                 var portValue = PortValues[i];
-                portValue.RemoveAll();
+                portValue.CleanUp();
             }
 
             _context = null;

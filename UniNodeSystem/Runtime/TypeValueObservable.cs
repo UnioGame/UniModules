@@ -68,7 +68,7 @@
             });
         }
 
-        public void RemoveAll()
+        public void CleanUp()
         {
             _emptyDataObservable.OnNext(_target);
         }

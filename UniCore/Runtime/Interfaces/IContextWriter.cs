@@ -4,7 +4,7 @@ namespace UniGreenModules.UniCore.Runtime.Interfaces
     {
         bool Remove<TData>();
 
-        void RemoveAll();
+        void CleanUp();
 
         void Add<TData>(TData data);
     }

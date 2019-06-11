@@ -27,9 +27,9 @@ namespace UniModule.UnityTools.UniVisualNodeSystem.Connections
             GameProfiler.EndSample();
         }
 
-        public virtual void RemoveAll()
+        public virtual void CleanUp()
         {
-            _target.RemoveAll();
+            _target.CleanUp();
         }
         
         public virtual bool Remove<TData>()

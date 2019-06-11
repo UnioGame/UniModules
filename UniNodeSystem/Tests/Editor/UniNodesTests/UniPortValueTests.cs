@@ -136,7 +136,7 @@ namespace UniNodesTests
             portValue1.Add(testPortValue);
             portValue1.Add(testPortValue2);
             
-            portValue1.RemoveAll();
+            portValue1.CleanUp();
 
             Assert.That(portValue1.Contains<string>(),Is.EqualTo(false));
             Assert.That(portValue1.Contains<int>(),Is.EqualTo(false));
