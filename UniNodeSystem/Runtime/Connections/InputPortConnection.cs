@@ -30,7 +30,7 @@ namespace UniModule.UnityTools.UniVisualNodeSystem.Connections
             //is node should be stoped
             if (!result || !_node.IsActive) return result;
             
-            if (_target.HasValue() == false)
+            if (target.HasValue() == false)
             {
                 _nodeExecutor.Stop(_node);     
             }
@@ -54,7 +54,7 @@ namespace UniModule.UnityTools.UniVisualNodeSystem.Connections
 
             if (_node.IsActive == false)
             {
-                var context = _target.Get<IContext>();
+                var context = target.Get<IContext>();
                 if(context != null)
                     _nodeExecutor.Execute(_node,context);
             }

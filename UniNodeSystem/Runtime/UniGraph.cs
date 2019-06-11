@@ -34,17 +34,17 @@ namespace UniStateMachine.Nodes
         /// <summary>
         /// all child nodes
         /// </summary>
-        [NonSerialized] private List<UniGraphNode> _allNodes;
+        [NonSerialized] private List<UniGraphNode> allNodes;
 
         /// <summary>
         /// private graph state executor
         /// </summary>
-        private IContextState<IEnumerator> _graphState;
+        private IContextState<IEnumerator> graphState;
 
         /// <summary>
         /// state local context data
         /// </summary>
-        protected IContext _localContext;
+        protected IContext localContext;
 
         /// <summary>
         /// node executor
@@ -56,23 +56,20 @@ namespace UniStateMachine.Nodes
         
         #region public properties
 
-        public ILifeTime LifeTime => _graphState == null ? null : _graphState.LifeTime;
+        public ILifeTime LifeTime => graphState == null ? null : graphState.LifeTime;
 
-        public bool IsActive => _graphState == null ? false : _graphState.IsActive;
+        public bool IsActive => graphState == null ? false : graphState.IsActive;
         
         #endregion
 
         public void Initialize()
         {
-            _graphState = CreateState();
-            
             if (isInitialized)
                 return;
 
             isInitialized = true;
 
             nodeExecutor = new NodeRoutineExecutor();
-
             rootNodes = new List<UniRootNode>();
 
             for (int i = 0; i < nodes.Count; i++) {
@@ -96,13 +93,13 @@ namespace UniStateMachine.Nodes
             Initialize();
 
             ActiveGraphs.Add(this);
-            
-            yield return _graphState.Execute(context);
+
+            yield return graphState.Execute(context);
         }
 
         public void Exit()
         {
-            _graphState?.Exit();
+            graphState?.Exit();
             ActiveGraphs.Remove(this);
         }
 
@@ -112,22 +109,21 @@ namespace UniStateMachine.Nodes
 
         protected void OnExit(IContext context)
         {
-            
-            _localContext = null;
-            
-            if (_allNodes == null) return;
+            if (allNodes == null) return;
 
-            for (var i = 0; i < _allNodes.Count; i++) {
-                var node = _allNodes[i];
+            for (var i = 0; i < allNodes.Count; i++) {
+                var node = allNodes[i];
                 node.Exit();
             }
-
+            
+            localContext = null;
+            graphState = null;
         }
 
         private IContextState<IEnumerator> CreateState()
         {
             var stateBehaviour = ClassPool.Spawn<ProxyState>();
-            stateBehaviour.Initialize(OnExecute, x => _localContext = x, OnExit);
+            stateBehaviour.Initialize(OnExecute, x => localContext = x, OnExit);
             
             stateBehaviour.LifeTime.AddCleanUpAction(() => ClassPool.Despawn(stateBehaviour));
             
@@ -136,7 +132,7 @@ namespace UniStateMachine.Nodes
         
         private void InitializeNodes()
         {
-            _allNodes = new List<UniGraphNode>();
+            allNodes = new List<UniGraphNode>();
 
             for (var i = 0; i < nodes.Count; i++)
             {
@@ -148,7 +144,7 @@ namespace UniStateMachine.Nodes
 
                 graphNode.Initialize();
 
-                _allNodes.Add(graphNode);
+                allNodes.Add(graphNode);
             }
         }
 
@@ -157,9 +153,9 @@ namespace UniStateMachine.Nodes
         /// </summary>
         private void InitializePortConnections()
         {
-            for (var i = 0; i < _allNodes.Count; i++)
+            for (var i = 0; i < allNodes.Count; i++)
             {
-                var node = _allNodes[i];
+                var node = allNodes[i];
                 var values = node.PortValues;
 
                 for (var j = 0; j < values.Count; j++)

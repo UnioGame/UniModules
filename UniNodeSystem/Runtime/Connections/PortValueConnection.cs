@@ -9,56 +9,56 @@ namespace UniModule.UnityTools.UniVisualNodeSystem.Connections
         IContextWriter,
         IConnector<ITypeData>
     {
-        protected readonly List<ITypeData> _connections;
-        protected readonly ITypeData _target;
+        protected readonly List<ITypeData> connections;
+        protected readonly ITypeData target;
 
         public PortValueConnection(ITypeData target)
         {
-            _target = target;
-            _connections = new List<ITypeData>();
+            this.target = target;
+            connections = new List<ITypeData>();
         }
 
         public virtual void Add<TData>(TData value)
         {
             GameProfiler.BeginSample("Connection_UpdateValue");
             
-            _target.Add(value);
+            target.Add(value);
             
             GameProfiler.EndSample();
         }
 
         public virtual void CleanUp()
         {
-            _target.CleanUp();
+            target.CleanUp();
         }
         
         public virtual bool Remove<TData>()
         {
 
-            for (var i = 0; i < _connections.Count; i++)
+            for (var i = 0; i < connections.Count; i++)
             {
-                var connection = _connections[i];
+                var connection = connections[i];
                 if (connection.Contains<TData>())
                 {
                     var value = connection.Get<TData>();
-                    _target.Add(value);
+                    target.Add(value);
                     return false;
                 }
             }
             
-            var result = _target.Remove<TData>();
+            var result = target.Remove<TData>();
             return result;
         }
 
         public IConnector<ITypeData> Connect(ITypeData connection)
         {
-            _connections.Add(connection);
+            connections.Add(connection);
             return this;
         }
 
         public void Disconnect(ITypeData connection)
         {
-            _connections.Remove(connection);
+            connections.Remove(connection);
         }
 
     }

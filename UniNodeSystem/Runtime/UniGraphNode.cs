@@ -75,13 +75,13 @@ namespace UniStateMachine
         }
         
         public void Initialize()
-        {
+        {           
             if (Application.isPlaying && _isInitialized)
                 return;
-            
+
+            _state = CreateState();
             _portValues = new List<UniPortValue>();
             _portValuesMap = new Dictionary<string, UniPortValue>();           
-            _state = CreateState();
             
             UpdatePortsCache();
 
@@ -213,9 +213,9 @@ namespace UniStateMachine
         
         protected virtual void OnPostExecute(IContext context){}
 
-        protected IContextState<IEnumerator> CreateState()
+        protected virtual IContextState<IEnumerator> CreateState()
         {
-            var behaviour = new ProxyState();
+            var behaviour = ClassPool.Spawn<ProxyState>();
             behaviour.Initialize(ExecuteState, Initialize, OnExit, OnPostExecute);
             return behaviour;
         }
