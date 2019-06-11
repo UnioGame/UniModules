@@ -1,13 +1,12 @@
-﻿using UniNodeSystem;
-
-namespace UniStateMachine.CommonNodes.Camera
+﻿namespace UniStateMachine.CommonNodes.Camera
 {
     using System.Collections;
     using UniGreenModules.UniCore.Runtime.Interfaces;
+    using UniGreenModules.UniNodeSystem.Runtime;
+    using UniGreenModules.UniNodeSystem.Runtime.Extensions;
+    using UniGreenModules.UniNodeSystem.Runtime.Runtime;
     using UniModule.UnityTools.Interfaces;
-    using UniModule.UnityTools.UniStateMachine.Extensions;
     using UniStateMachine;
-    using UniStateMachine.Nodes;
     using UnityEngine;
     using UniRx;
     
@@ -23,7 +22,7 @@ namespace UniStateMachine.CommonNodes.Camera
 
         private UniPortValue cameraPortValue;
         
-        protected override IEnumerator ExecuteState(IContext context)
+        protected override IEnumerator OnExecuteState(IContext context)
         {
             var targetCamera = useMainCamera ? Camera.main : sourceCamera;
             if (!targetCamera)
@@ -33,7 +32,7 @@ namespace UniStateMachine.CommonNodes.Camera
             var disposable = context.Receive<Camera>().Subscribe(OnCameraChanged);
             lifeTime.AddDispose(disposable);
             
-            yield return base.ExecuteState(context);
+            yield return base.OnExecuteState(context);
 
             if (targetCamera)
             {

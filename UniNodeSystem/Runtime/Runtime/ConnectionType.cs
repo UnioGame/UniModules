@@ -1,4 +1,4 @@
-namespace UniNodeSystem
+namespace UniGreenModules.UniNodeSystem.Runtime.Runtime
 {
     public enum ConnectionType
     {

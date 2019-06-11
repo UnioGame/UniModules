@@ -4,14 +4,14 @@ using System.Linq;
 using System.Reflection;
 using Modules.UniTools.UniResourceSystem;
 using UniEditorTools;
-using UniNodeSystem;
-using UniStateMachine.Nodes;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace UniNodeSystemEditor
 {
+    using UniGreenModules.UniNodeSystem.Runtime.Runtime;
+
     /// <summary> Contains GUI methods </summary>
     public partial class NodeEditorWindow
     {

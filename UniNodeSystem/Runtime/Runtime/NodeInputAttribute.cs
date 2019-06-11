@@ -1,7 +1,7 @@
-using System;
-
-namespace UniNodeSystem
+namespace UniGreenModules.UniNodeSystem.Runtime.Runtime
 {
+    using System;
+
     /// <summary> Mark a serializable field as an input port. You can access this through <see cref="GetInputPort(string)"/> </summary>
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = true)]
     public class NodeInputAttribute : Attribute

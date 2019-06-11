@@ -1,8 +1,7 @@
-using System;
-
-namespace UniStateMachine.Nodes
+namespace UniGreenModules.UniNodeSystem.Runtime.Interfaces
 {
-    using UniGreenModules.UniCore.Runtime.Interfaces;
+    using System;
+    using UniCore.Runtime.Interfaces;
 
     public interface ITypeValueObservable
     {

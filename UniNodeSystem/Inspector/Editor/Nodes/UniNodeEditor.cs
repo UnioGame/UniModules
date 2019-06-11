@@ -5,11 +5,12 @@ using UniEditorTools;
 using UniStateMachine;
 using UniStateMachine.NodeEditor;
 using UnityEngine;
-using UniNodeSystem;
 using UniNodeSystemEditor;
 
 namespace SubModules.Scripts.UniStateMachine.NodeEditor
 {
+    using UniGreenModules.UniNodeSystem.Runtime;
+
     [CustomNodeEditor(typeof(UniGraphNode))]
     public class UniNodeEditor : UniNodeSystemEditor.NodeEditor, IUniNodeEditor
     {

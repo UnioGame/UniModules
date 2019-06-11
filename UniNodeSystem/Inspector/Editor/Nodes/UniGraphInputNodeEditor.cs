@@ -2,13 +2,14 @@
 using Modules.UniTools.UniNodeSystem.Drawers;
 using SubModules.Scripts.UniStateMachine.NodeEditor;
 using UniEditorTools;
-using UniNodeSystem;
 using UniNodeSystemEditor;
-using UniStateMachine.SubGraph;
 using UnityEngine;
 
 namespace UniStateMachine.CommonNodes
 {
+    using UniGreenModules.UniNodeSystem.Runtime.BaseNodes;
+    using UniGreenModules.UniNodeSystem.Runtime.Runtime;
+
     [CustomNodeEditorAttribute(typeof(GraphInputNode))]
     public class UniGraphInputNodeEditor : UniNodeEditor
     {

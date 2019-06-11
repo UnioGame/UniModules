@@ -1,4 +1,4 @@
-namespace UniStateMachine.Nodes
+namespace UniGreenModules.UniNodeSystem.Runtime.Interfaces
 {
     public interface IGraphNodesUpdater
     {

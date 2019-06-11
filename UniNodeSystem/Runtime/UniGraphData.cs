@@ -1,12 +1,10 @@
-﻿using System.Linq;
-using UniModule.UnityTools.Interfaces;
-
-namespace UniStateMachine.Nodes
+﻿namespace UniGreenModules.UniNodeSystem.Runtime
 {
-    using UniGreenModules.UniCore.Runtime.DataStructure;
-    using UniGreenModules.UniCore.Runtime.Interfaces;
-    using UniGreenModules.UniCore.Runtime.ObjectPool;
-    using UniGreenModules.UniCore.Runtime.ObjectPool.Interfaces;
+    using System.Linq;
+    using UniCore.Runtime.DataStructure;
+    using UniCore.Runtime.Interfaces;
+    using UniCore.Runtime.ObjectPool;
+    using UniCore.Runtime.ObjectPool.Interfaces;
 
     public class UniGraphData1 : DoubleKeyDictionary<UniNode, IContext, NodeContextData>, IPoolable
     {

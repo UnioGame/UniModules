@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using Modules.UniTools.UniNodeSystem.Drawers;
 using SubModules.Scripts.UniStateMachine.NodeEditor;
-using UniNodeSystem;
 using UniNodeSystemEditor;
-using UniStateMachine.SubGraph;
 using UnityEngine;
 
 namespace UniStateMachine.CommonNodes
 {
+    using UniGreenModules.UniNodeSystem.Runtime.BaseNodes;
+    using UniGreenModules.UniNodeSystem.Runtime.Runtime;
+
     [CustomNodeEditorAttribute(typeof(GraphOuputNode))]
     public class UniGraphOutputNodeEditor : UniNodeEditor
     {

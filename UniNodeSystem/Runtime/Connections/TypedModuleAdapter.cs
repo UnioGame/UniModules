@@ -1,10 +1,8 @@
-﻿
-using System;
-using System.Collections.Generic;
-using UnityTools.UniVisualNodeSystem;
-
-namespace UnityTools.UniNodeEditor.Connections
+﻿namespace UniGreenModules.UniNodeSystem.Runtime.Connections
 {
+    using System;
+    using System.Collections.Generic;
+
     public class TypedModuleAdapter : NodeModuleAdapter
     {
         private Dictionary<string, Type> _portToTypes;

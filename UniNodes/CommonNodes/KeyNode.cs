@@ -9,6 +9,7 @@ namespace UniStateMachine.CommonNodes
     using UniGreenModules.UniCore.Runtime.Extension;
     using UniGreenModules.UniCore.Runtime.Input;
     using UniGreenModules.UniCore.Runtime.Interfaces;
+    using UniGreenModules.UniNodeSystem.Runtime;
 
     public class KeyNode : UniNode
     {
@@ -16,7 +17,7 @@ namespace UniStateMachine.CommonNodes
 
         [EnumFlags] [SerializeField] private KeyStates _keyStates;
 
-        protected override IEnumerator ExecuteState(IContext context)
+        protected override IEnumerator OnExecuteState(IContext context)
         {
             while (true)
             {
@@ -35,7 +36,7 @@ namespace UniStateMachine.CommonNodes
 
                 if (isFire)
                 {
-                    yield return base.ExecuteState(context);
+                    yield return base.OnExecuteState(context);
                 }
                 else
                 {

@@ -8,6 +8,8 @@ using UnityEngine;
 
 namespace UniNodeSystemEditor
 {
+    using UniGreenModules.UniNodeSystem.Runtime.Runtime;
+
     /// <summary> Contains reflection-related info </summary>
     public partial class NodeEditorWindow
     {
@@ -65,7 +67,7 @@ namespace UniNodeSystemEditor
         public static List<Type> GetNodeTypes()
         {
             //Get all classes deriving from Node via reflection
-            return GetDerivedTypes(typeof(UniNodeSystem.UniBaseNode));
+            return GetDerivedTypes(typeof(UniBaseNode));
         }
 
         public static Dictionary<Type, Color> GetNodeTint()
@@ -73,9 +75,9 @@ namespace UniNodeSystemEditor
             var tints = new Dictionary<Type, Color>();
             for (var i = 0; i < NodeTypes.Count; i++)
             {
-                var attribs = NodeTypes[i].GetCustomAttributes(typeof(UniNodeSystem.UniBaseNode.NodeTint), true);
+                var attribs = NodeTypes[i].GetCustomAttributes(typeof(UniBaseNode.NodeTint), true);
                 if (attribs == null || attribs.Length == 0) continue;
-                var attrib = attribs[0] as UniNodeSystem.UniBaseNode.NodeTint;
+                var attrib = attribs[0] as UniBaseNode.NodeTint;
                 tints.Add(NodeTypes[i], attrib.color);
             }
 
@@ -87,9 +89,9 @@ namespace UniNodeSystemEditor
             var widths = new Dictionary<Type, int>();
             for (var i = 0; i < NodeTypes.Count; i++)
             {
-                var attribs = NodeTypes[i].GetCustomAttributes(typeof(UniNodeSystem.UniBaseNode.NodeWidth), true);
+                var attribs = NodeTypes[i].GetCustomAttributes(typeof(UniBaseNode.NodeWidth), true);
                 if (attribs == null || attribs.Length == 0) continue;
-                var attrib = attribs[0] as UniNodeSystem.UniBaseNode.NodeWidth;
+                var attrib = attribs[0] as UniBaseNode.NodeWidth;
                 widths.Add(NodeTypes[i], attrib.width);
             }
 

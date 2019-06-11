@@ -1,9 +1,7 @@
-using UniModule.UnityTools.UniVisualNodeSystem.Connections;
-using UniRx;
-
-namespace UniStateMachine.Nodes
+namespace UniGreenModules.UniNodeSystem.Runtime.Interfaces
 {
-    using UniGreenModules.UniCore.Runtime.Interfaces;
+    using UniCore.Runtime.Interfaces;
+    using UniRx;
 
     public interface IPortValue : 
         ITypeData, 

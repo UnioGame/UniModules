@@ -1,14 +1,16 @@
 ﻿using System.Collections;
 using UniModule.UnityTools.Interfaces;
 using UniModule.UnityTools.ResourceSystem;
-using UniModule.UnityTools.UniStateMachine.Extensions;
 using UnityEngine;
-using UniNodeSystem;
 
 namespace UniStateMachine.CommonNodes
 {
     using UniGreenModules.UniCore.Runtime.Interfaces;
     using UniGreenModules.UniCore.Runtime.ObjectPool;
+    using UniGreenModules.UniNodeSystem.Runtime;
+    using UniGreenModules.UniNodeSystem.Runtime.Extensions;
+    using UniGreenModules.UniNodeSystem.Runtime.NodeData;
+    using UniGreenModules.UniNodeSystem.Runtime.Runtime;
 
     public class GameObjectNode : UniNode
     {
@@ -28,14 +30,14 @@ namespace UniStateMachine.CommonNodes
             return string.IsNullOrEmpty(assetName) ? name : assetName;
         }
 
-        protected override IEnumerator ExecuteState(IContext context)
+        protected override IEnumerator OnExecuteState(IContext context)
         {
             var target = CreateTarget(context);
 
             var lifeTime = LifeTime;
             lifeTime.AddCleanUpAction(() => { RemoveTarget(target, context); });
             
-            return base.ExecuteState(context);
+            return base.OnExecuteState(context);
         }
 
         protected override void OnUpdatePortsCache()

@@ -1,12 +1,10 @@
-﻿using System.Collections;
-using UniModule.UnityTools.Interfaces;
-using UniModule.UnityTools.UniStateMachine;
-using UniModule.UnityTools.UniStateMachine.Interfaces;
-using UnityEngine;
-
-namespace UniStateMachine
+﻿namespace UniGreenModules.UniNodeSystem.Runtime
 {
-	using UniGreenModules.UniCore.Runtime.Interfaces;
+	using System.Collections;
+	using UniCore.Runtime.Interfaces;
+	using UniModule.UnityTools.UniStateMachine;
+	using UniModule.UnityTools.UniStateMachine.Interfaces;
+	using UnityEngine;
 
 	public class UniStateTransition : ScriptableObject , IUniStateTransition
 	{

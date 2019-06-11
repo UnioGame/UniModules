@@ -1,10 +1,10 @@
-﻿namespace UniStateMachine.Nodes
+﻿namespace UniGreenModules.UniNodeSystem.Runtime
 {
     using System;
-    using UniGreenModules.UniCore.Runtime.Interfaces;
-    using UniGreenModules.UniCore.Runtime.ObjectPool;
-    using UniGreenModules.UniCore.Runtime.ObjectPool.Interfaces;
-    using UniModule.UnityTools.UniVisualNodeSystem.Connections;
+    using Interfaces;
+    using UniCore.Runtime.Interfaces;
+    using UniCore.Runtime.ObjectPool;
+    using UniCore.Runtime.ObjectPool.Interfaces;
     using UniRx;
 
     public class TypeValueObservable<TTarget> : 

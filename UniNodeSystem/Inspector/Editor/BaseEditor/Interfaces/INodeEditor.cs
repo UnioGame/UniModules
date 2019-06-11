@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using Modules.UniTools.UniNodeSystem.Editor.BaseEditor;
-using UniNodeSystem;
 using UnityEngine;
 
 namespace UniNodeSystemEditor
 {
+    using UniGreenModules.UniNodeSystem.Runtime.Runtime;
+
     public interface INodeEditor : IEditorItem
     {
         int GetWidth();

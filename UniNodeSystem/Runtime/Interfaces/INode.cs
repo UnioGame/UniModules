@@ -1,8 +1,8 @@
-using System;
-using System.Collections.Generic;
-
-namespace UniNodeSystem
+namespace UniGreenModules.UniNodeSystem.Runtime.Interfaces
 {
+    using System.Collections.Generic;
+    using Runtime;
+
     public interface INode : IMutableNode
     {
         ulong Id { get; }

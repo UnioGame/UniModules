@@ -5,6 +5,7 @@ using UnityEngine;
 namespace UniStateMachine.CommonNodes
 {
     using UniGreenModules.UniCore.Runtime.Interfaces;
+    using UniGreenModules.UniNodeSystem.Runtime;
 
     public class FpsLimitNode : UniNode
     {
@@ -12,11 +13,11 @@ namespace UniStateMachine.CommonNodes
         public int FpsLimit = 60;
 
 
-        protected override IEnumerator ExecuteState(IContext context)
+        protected override IEnumerator OnExecuteState(IContext context)
         {
             
             SetTargetFrameRate(FpsLimit);
-            yield return base.ExecuteState(context);
+            yield return base.OnExecuteState(context);
             
         }
         

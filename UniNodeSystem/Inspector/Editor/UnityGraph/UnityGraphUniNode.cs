@@ -1,8 +1,9 @@
-﻿using UniNodeSystem;
-using Node = UnityEditor.Graphs.Node;
+﻿using Node = UnityEditor.Graphs.Node;
 
 namespace Modules.UniTools.UniNodeSystem.Editor.UnityGraph
 {
+    using UniGreenModules.UniNodeSystem.Runtime.Runtime;
+
     public class UnityGraphUniNode : Node
     {
     

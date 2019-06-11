@@ -1,14 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UniModule.UnityTools.Interfaces;
-using UniNodeSystem;
-using UniStateMachine;
-using UniStateMachine.Nodes;
-using UnityEngine;
-
-
-namespace UniStateMachine {
-    using UniGreenModules.UniCore.Runtime.Interfaces;
+﻿namespace UniGreenModules.UniNodeSystem.Runtime {
+    using System.Collections;
+    using Runtime;
+    using UniCore.Runtime.Interfaces;
 
     public class UniRepeatNode : UniNode
     {
@@ -20,9 +13,9 @@ namespace UniStateMachine {
         
         #endregion
 
-        protected override IEnumerator ExecuteState(IContext context) 
+        protected override IEnumerator OnExecuteState(IContext context) 
         {
-            yield return base.ExecuteState(context);
+            yield return base.OnExecuteState(context);
 
             while (true) {
                 

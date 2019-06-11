@@ -6,13 +6,14 @@ using UnityEngine;
 namespace Tests.GraphTest
 {
     using UniGreenModules.UniCore.Runtime.Interfaces;
+    using UniGreenModules.UniNodeSystem.Runtime;
 
     public class InputTestNode : UniNode
     {
         [SerializeField]
         private bool _isMouseDown = false;
 
-        protected override IEnumerator ExecuteState(IContext context)
+        protected override IEnumerator OnExecuteState(IContext context)
         {
 
             while (true)

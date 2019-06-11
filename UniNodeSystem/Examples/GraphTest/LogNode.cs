@@ -1,14 +1,14 @@
 ﻿using System.Collections;
 using UniModule.UnityTools.Interfaces;
-using UniModule.UnityTools.UniStateMachine.Extensions;
-using UniNodeSystem;
 using UniStateMachine;
-using UniStateMachine.Nodes;
 using UnityEngine;
 
 namespace Tests.GraphTest
 {
 	using UniGreenModules.UniCore.Runtime.Interfaces;
+	using UniGreenModules.UniNodeSystem.Runtime;
+	using UniGreenModules.UniNodeSystem.Runtime.Extensions;
+	using UniGreenModules.UniNodeSystem.Runtime.Runtime;
 	using UniTools.UniRoutine.Runtime.Extension;
 
 	public class LogNode : UniNode
@@ -27,7 +27,7 @@ namespace Tests.GraphTest
 		
 		#endregion
 		
-		protected override IEnumerator ExecuteState(IContext context)
+		protected override IEnumerator OnExecuteState(IContext context)
 		{
 			if(delay > 0)
 				yield return this.WaitForSecond(delay);
@@ -36,7 +36,7 @@ namespace Tests.GraphTest
 			
 			_messageValue.Add(message);
 			
-			yield return base.ExecuteState(context);
+			yield return base.OnExecuteState(context);
 			
 		}
 		

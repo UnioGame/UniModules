@@ -1,25 +1,23 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UniModule.UnityTools.Interfaces;
-using UniModule.UnityTools.UniStateMachine;
-using UniModule.UnityTools.UniStateMachine.Extensions;
-using UniModule.UnityTools.UniStateMachine.Interfaces;
-using UniStateMachine.Nodes;
-using UnityEngine;
-using UniNodeSystem;
-using UniStateMachine.Runtime;
-
-namespace UniStateMachine
+﻿namespace UniGreenModules.UniNodeSystem.Runtime
 {
-    using UniGreenModules.UniCore.Runtime.DataFlow;
-    using UniGreenModules.UniCore.Runtime.Interfaces;
-    using UniGreenModules.UniCore.Runtime.ObjectPool;
-    using UniGreenModules.UniCore.Runtime.ObjectPool.Extensions;
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using Extensions;
+    using Interfaces;
+    using Runtime;
+    using UniCore.Runtime.DataFlow;
+    using UniCore.Runtime.Interfaces;
+    using UniCore.Runtime.ObjectPool;
+    using UniCore.Runtime.ObjectPool.Extensions;
+    using UniModule.UnityTools.UniStateMachine;
+    using UniModule.UnityTools.UniStateMachine.Interfaces;
+    using UniStateMachine.Runtime;
     using UniTools.UniRoutine.Runtime;
+    using UnityEngine;
 
     [Serializable]
-    public abstract class UniGraphNode : UniBaseNode , IValidator<IContext>, IContextState<IEnumerator>
+    public abstract class UniGraphNode : UniBaseNode, IUniGraphNode
     {
         /// <summary>
         /// output port name
@@ -33,15 +31,15 @@ namespace UniStateMachine
 
         #region private fields
 
-        [NonSerialized] private bool _isInitialized;
+        [NonSerialized] private Dictionary<string,UniPortValue> portValuesMap;
+
+        [NonSerialized] private IContextState<IEnumerator> behaviourState;
+
+        [NonSerialized] private List<UniPortValue> portValues;
+
+        [NonSerialized] protected bool isInitialized;
         
-        [NonSerialized] protected IContext _context;
-       
-        [NonSerialized] private Dictionary<string,UniPortValue> _portValuesMap;
-
-        [NonSerialized] private IContextState<IEnumerator> _state;
-
-        [NonSerialized] private List<UniPortValue> _portValues;
+        [NonSerialized] protected IContext nodeContext;
 
         #endregion
         
@@ -59,43 +57,42 @@ namespace UniStateMachine
         
         public RoutineType RoutineType => routineType;
 
-        public IReadOnlyList<UniPortValue> PortValues => _portValues;
+        public IReadOnlyList<UniPortValue> PortValues => portValues;
 
-        public bool IsActive => _isInitialized && _state.IsActive;
+        public bool IsActive => behaviourState!=null  && behaviourState.IsActive;
 
-        public ILifeTime LifeTime => _isInitialized ? _state.LifeTime : null;
+        public ILifeTime LifeTime => behaviourState?.LifeTime;
         
         #endregion
         
         #region public methods
-        
-        public virtual bool Validate(IContext context)
-        {
-            return true;
-        }
-        
+
         public void Initialize()
-        {
-            if (Application.isPlaying && _isInitialized)
+        {           
+            behaviourState = CreateState();
+            
+            if (Application.isPlaying && isInitialized)
                 return;
             
-            _portValues = new List<UniPortValue>();
-            _portValuesMap = new Dictionary<string, UniPortValue>();           
-            _state = CreateState();
+            isInitialized = true;
+            
+            portValues = new List<UniPortValue>();
+            portValuesMap = new Dictionary<string, UniPortValue>();           
             
             UpdatePortsCache();
 
-            foreach (var portValue in _portValues)
+            foreach (var portValue in portValues)
             {
                 portValue.Initialize();
             }
 
-            _isInitialized = true;
+            OnNodeInitialize();
         }
+        
+        public virtual bool Validate(IContext context) => true;
         
         public void UpdatePortsCache()
         {
-            
             OnUpdatePortsCache();
             
             var removedPorts = ClassPool.Spawn<List<NodePort>>();
@@ -119,60 +116,53 @@ namespace UniStateMachine
             removedPorts.DespawnCollection();
         }
         
-        public void Exit()
-        {
-            _state?.Exit();
-        }
-        
-        public void Release()
-        {
-            Exit();
-        }
-        
+        public void Exit() => behaviourState?.Exit();
+
         public IEnumerator Execute(IContext context)
         {
             StateLogger.LogState(string.Format("STATE EXECUTE {0} TYPE {1} CONTEXT {2}", 
                 name, GetType().Name, context), this);
-
-            yield return _state.Execute(context);
+            
+            Initialize();
+            
+            yield return behaviourState.Execute(context);
             
         }
         
-        public override object GetValue(NodePort port)
-        {
-            return GetPortValue(port);
-        }
+        public void Release() => Exit();
+
+        #region Node Ports operations
+ 
+        public override object GetValue(NodePort port) => GetPortValue(port);
         
-        public UniPortValue GetPortValue(NodePort port)
-        {
-            return GetPortValue(port.fieldName);
-        }
+        public UniPortValue GetPortValue(NodePort port) => GetPortValue(port.fieldName);
 
         public UniPortValue GetPortValue(string portName)
         {
-            _portValuesMap.TryGetValue(portName, out var value);
+            portValuesMap.TryGetValue(portName, out var value);
             return value;
         }
 
         public bool AddPortValue(UniPortValue portValue)
         {
-            
             if (portValue == null)
             {
                 Debug.LogErrorFormat("Try add NULL port value to {0}",this);
                 return false;
             }
             
-            if (_portValuesMap.ContainsKey(portValue.name))
+            if (portValuesMap.ContainsKey(portValue.name))
             {
                 return false;
             }
 
-            _portValuesMap[portValue.name] = portValue;
-            _portValues.Add(portValue);
-
+            portValuesMap[portValue.name] = portValue;
+            portValues.Add(portValue);
+            
             return true;
         }
+
+        #endregion
 
         #endregion
 
@@ -181,13 +171,15 @@ namespace UniStateMachine
             this.UpdatePortValue(OutputPortName, PortIO.Output);
             this.UpdatePortValue(InputPortName, PortIO.Input);
         }
+
+        protected virtual void OnNodeInitialize(){}
         
         #region state behaviour methods
 
         private void Initialize(IContext stateContext)
         {
-            _context = stateContext;
-         
+            nodeContext = stateContext;
+            
             LifeTime.AddCleanUpAction(CleanUpAction);
             
             OnInitialize(stateContext);
@@ -197,17 +189,14 @@ namespace UniStateMachine
         /// base logic realization
         /// transfer context data to output port value
         /// </summary>
-        protected virtual IEnumerator ExecuteState(IContext context)
+        protected virtual IEnumerator OnExecuteState(IContext context)
         {
             var output = Output;
             output.Add(context);
             yield break;
         }
 
-        protected virtual void OnExit(IContext context)
-        {
-            CleanUpAction();
-        }
+        protected virtual void OnExit(IContext context){}
 
         protected virtual void OnInitialize(IContext context){}
         
@@ -215,8 +204,15 @@ namespace UniStateMachine
 
         protected IContextState<IEnumerator> CreateState()
         {
-            var behaviour = new ProxyState();
-            behaviour.Initialize(ExecuteState, Initialize, OnExit, OnPostExecute);
+            if (behaviourState != null)
+                return behaviourState;
+            
+            var behaviour = ClassPool.Spawn<ProxyState>();
+            behaviour.Initialize(OnExecuteState, Initialize, OnExit, OnPostExecute);
+            
+            behaviour.LifeTime.AddCleanUpAction(() => behaviour.Despawn());
+            behaviour.LifeTime.AddCleanUpAction(CleanUpAction);
+            
             return behaviour;
         }
 
@@ -228,7 +224,8 @@ namespace UniStateMachine
                 portValue.CleanUp();
             }
 
-            _context = null;
+            nodeContext = null;
+            behaviourState = null;
         }
         
         #endregion

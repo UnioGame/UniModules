@@ -1,14 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UniModule.UnityTools.Interfaces;
-using UniModule.UnityTools.UniStateMachine.Extensions;
-using UniStateMachine.Nodes;
 using UnityEngine;
-using UniNodeSystem;
 
 namespace UniStateMachine.CommonNodes
 {
     using UniGreenModules.UniCore.Runtime.Interfaces;
+    using UniGreenModules.UniNodeSystem.Runtime;
+    using UniGreenModules.UniNodeSystem.Runtime.Extensions;
+    using UniGreenModules.UniNodeSystem.Runtime.Runtime;
 
     public class ConditionNode : UniNode
     {
@@ -18,10 +18,10 @@ namespace UniStateMachine.CommonNodes
         protected UniPortValue _trueOuputValue;
         protected UniPortValue _falseOutputValue;
 
-        protected override IEnumerator ExecuteState(IContext context)
+        protected override IEnumerator OnExecuteState(IContext context)
         {
             
-            yield return base.ExecuteState(context);
+            yield return base.OnExecuteState(context);
 
             while (true)
             {

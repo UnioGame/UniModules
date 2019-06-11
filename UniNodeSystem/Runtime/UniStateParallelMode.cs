@@ -1,9 +1,8 @@
-﻿using System;
-using UnityEngine.Serialization;
-
-namespace UniStateMachine
+﻿namespace UniGreenModules.UniNodeSystem.Runtime
 {
+    using System;
     using UniTools.UniRoutine.Runtime;
+    using UnityEngine.Serialization;
 
     [Serializable]
     public class UniStateParallelMode

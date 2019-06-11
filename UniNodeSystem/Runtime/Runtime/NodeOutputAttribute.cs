@@ -1,7 +1,7 @@
-using System;
-
-namespace UniNodeSystem
+namespace UniGreenModules.UniNodeSystem.Runtime.Runtime
 {
+    using System;
+
     /// <summary> Mark a serializable field as an output port. You can access this through <see cref="GetOutputPort(string)"/> </summary>
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = true)]
     public class NodeOutputAttribute : Attribute

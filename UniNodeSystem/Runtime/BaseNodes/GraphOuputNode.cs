@@ -1,9 +1,8 @@
-﻿using UniNodeSystem;
-using UniStateMachine.CommonNodes;
-using UniStateMachine.Nodes;
-
-namespace UniStateMachine.SubGraph
+﻿namespace UniGreenModules.UniNodeSystem.Runtime.BaseNodes
 {
+    using Interfaces;
+    using Runtime;
+
     public class GraphOuputNode : UniNode, IGraphPortNode
     {
         

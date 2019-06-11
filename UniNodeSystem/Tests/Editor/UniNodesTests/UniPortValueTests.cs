@@ -1,10 +1,10 @@
 ﻿using NUnit.Framework;
-using UniModule.UnityTools.UniVisualNodeSystem.Connections;
-using UniStateMachine.Nodes;
 
 namespace UniNodesTests
 {
     using UniGreenModules.UniContextData.Runtime.Entities;
+    using UniGreenModules.UniNodeSystem.Runtime;
+    using UniGreenModules.UniNodeSystem.Runtime.Connections;
 
     public class UniPortValueTests
     {

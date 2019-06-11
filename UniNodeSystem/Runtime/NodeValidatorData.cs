@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace UniStateMachine
+﻿namespace UniGreenModules.UniNodeSystem.Runtime
 {
+    using System;
+
     [Serializable]
     public class NodeValidatorData
     {

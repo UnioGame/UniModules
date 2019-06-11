@@ -1,12 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UniModule.UnityTools.Interfaces;
-using UnityEngine;
-
-namespace UniStateMachine
+﻿namespace UniGreenModules.UniNodeSystem.Runtime
 {
-    public class UniRootNode : UniGraphNode
-    {
-
-    }
+    public class UniRootNode : UniGraphNode{}
+    
 }

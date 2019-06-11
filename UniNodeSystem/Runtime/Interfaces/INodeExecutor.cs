@@ -1,9 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UniModule.UnityTools.Interfaces;
-using UnityEngine;
-
-namespace UniStateMachine.Nodes
+﻿namespace UniGreenModules.UniNodeSystem.Runtime.Interfaces
 {
     public interface INodeExecutor<in TContext>
     {
