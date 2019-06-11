@@ -17,10 +17,10 @@ namespace UniStateMachine.CommonNodes
         
         public List<string> PortNames = new List<string>();
         
-        protected override IEnumerator ExecuteState(IContext context)
+        protected override IEnumerator OnExecuteState(IContext context)
         {
             
-            yield return base.ExecuteState(context);
+            yield return base.OnExecuteState(context);
 
             BindMessageOutputs(context);
             

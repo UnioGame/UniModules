@@ -12,7 +12,7 @@ namespace Tests.GraphTest
         [SerializeField]
         private bool _isMouseDown = false;
 
-        protected override IEnumerator ExecuteState(IContext context)
+        protected override IEnumerator OnExecuteState(IContext context)
         {
 
             while (true)

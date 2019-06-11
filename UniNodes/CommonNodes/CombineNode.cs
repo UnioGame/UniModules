@@ -29,9 +29,9 @@ namespace UniStateMachine.CommonNodes
         [NonSerialized]
         private List<UniPortValue> _outputValues;
         
-        protected override IEnumerator ExecuteState(IContext context)
+        protected override IEnumerator OnExecuteState(IContext context)
         {
-            yield return base.ExecuteState(context);
+            yield return base.OnExecuteState(context);
 
             var combinedPort = GetPortValue(_combinedOutputName);
             

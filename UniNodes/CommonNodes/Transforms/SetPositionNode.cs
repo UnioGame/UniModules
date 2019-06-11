@@ -17,14 +17,14 @@ namespace UniStateMachine.CommonNodes.Transforms
 
         [SerializeField] private bool setLocal = false;
         
-        protected override IEnumerator ExecuteState(IContext context)
+        protected override IEnumerator OnExecuteState(IContext context)
         {
             
             var targetTransform = context.Get<Transform>();
 
             UpdatePosition(targetTransform);
             
-            yield return base.ExecuteState(context);
+            yield return base.OnExecuteState(context);
 
         }
 

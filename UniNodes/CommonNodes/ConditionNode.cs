@@ -18,10 +18,10 @@ namespace UniStateMachine.CommonNodes
         protected UniPortValue _trueOuputValue;
         protected UniPortValue _falseOutputValue;
 
-        protected override IEnumerator ExecuteState(IContext context)
+        protected override IEnumerator OnExecuteState(IContext context)
         {
             
-            yield return base.ExecuteState(context);
+            yield return base.OnExecuteState(context);
 
             while (true)
             {

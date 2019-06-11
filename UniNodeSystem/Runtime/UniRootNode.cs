@@ -5,8 +5,6 @@ using UnityEngine;
 
 namespace UniStateMachine
 {
-    public class UniRootNode : UniGraphNode
-    {
-
-    }
+    public class UniRootNode : UniGraphNode{}
+    
 }

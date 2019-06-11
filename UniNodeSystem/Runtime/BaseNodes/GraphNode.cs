@@ -53,10 +53,10 @@ namespace UniStateMachine.SubGraph
             return _nodeGraph;
         }
         
-        protected override IEnumerator ExecuteState(IContext context)
+        protected override IEnumerator OnExecuteState(IContext context)
         {
 
-            yield return base.ExecuteState(context);
+            yield return base.OnExecuteState(context);
             
             var targetGraph = GetGraph();
             if (targetGraph)

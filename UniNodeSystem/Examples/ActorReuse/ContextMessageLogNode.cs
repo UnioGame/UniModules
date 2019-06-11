@@ -8,7 +8,7 @@ namespace Tests.Examples
 
     public class ContextMessageLogNode : UniNode
     {
-        protected override IEnumerator ExecuteState(IContext context)
+        protected override IEnumerator OnExecuteState(IContext context)
         {
             var message = context.Get<string>();
     

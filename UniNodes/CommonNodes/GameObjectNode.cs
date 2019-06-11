@@ -28,14 +28,14 @@ namespace UniStateMachine.CommonNodes
             return string.IsNullOrEmpty(assetName) ? name : assetName;
         }
 
-        protected override IEnumerator ExecuteState(IContext context)
+        protected override IEnumerator OnExecuteState(IContext context)
         {
             var target = CreateTarget(context);
 
             var lifeTime = LifeTime;
             lifeTime.AddCleanUpAction(() => { RemoveTarget(target, context); });
             
-            return base.ExecuteState(context);
+            return base.OnExecuteState(context);
         }
 
         protected override void OnUpdatePortsCache()

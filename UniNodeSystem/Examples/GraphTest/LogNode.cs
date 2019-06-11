@@ -27,7 +27,7 @@ namespace Tests.GraphTest
 		
 		#endregion
 		
-		protected override IEnumerator ExecuteState(IContext context)
+		protected override IEnumerator OnExecuteState(IContext context)
 		{
 			if(delay > 0)
 				yield return this.WaitForSecond(delay);
@@ -36,7 +36,7 @@ namespace Tests.GraphTest
 			
 			_messageValue.Add(message);
 			
-			yield return base.ExecuteState(context);
+			yield return base.OnExecuteState(context);
 			
 		}
 		

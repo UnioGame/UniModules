@@ -23,7 +23,7 @@ namespace UniStateMachine.CommonNodes.Camera
 
         private UniPortValue cameraPortValue;
         
-        protected override IEnumerator ExecuteState(IContext context)
+        protected override IEnumerator OnExecuteState(IContext context)
         {
             var targetCamera = useMainCamera ? Camera.main : sourceCamera;
             if (!targetCamera)
@@ -33,7 +33,7 @@ namespace UniStateMachine.CommonNodes.Camera
             var disposable = context.Receive<Camera>().Subscribe(OnCameraChanged);
             lifeTime.AddDispose(disposable);
             
-            yield return base.ExecuteState(context);
+            yield return base.OnExecuteState(context);
 
             if (targetCamera)
             {

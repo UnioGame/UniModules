@@ -20,9 +20,9 @@ namespace UniStateMachine {
         
         #endregion
 
-        protected override IEnumerator ExecuteState(IContext context) 
+        protected override IEnumerator OnExecuteState(IContext context) 
         {
-            yield return base.ExecuteState(context);
+            yield return base.OnExecuteState(context);
 
             while (true) {
                 

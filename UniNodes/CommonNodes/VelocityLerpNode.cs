@@ -29,9 +29,9 @@ namespace UniStateMachine.CommonNodes
             _normalizedDirection = direction.normalized;
         }
 
-        protected override IEnumerator ExecuteState(IContext context)
+        protected override IEnumerator OnExecuteState(IContext context)
         {
-            yield return base.ExecuteState(context);
+            yield return base.OnExecuteState(context);
 
             var activeTime = 0f;
             var startTime = Time.realtimeSinceStartup;

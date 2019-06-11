@@ -54,7 +54,7 @@ namespace UniUiSystem
             return base.Validate(context);
         }
         
-        protected override IEnumerator ExecuteState(IContext context)
+        protected override IEnumerator OnExecuteState(IContext context)
         {
             var lifetime = LifeTime;
 
@@ -76,7 +76,7 @@ namespace UniUiSystem
 
             BindTriggers(view, lifetime, context);
 
-            yield return base.ExecuteState(context);
+            yield return base.OnExecuteState(context);
         }
 
         /// <summary>

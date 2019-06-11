@@ -22,20 +22,20 @@ namespace UniStateMachine.CommonNodes
         [SerializeField]
         private float _activeTime;
 
-        protected override IEnumerator ExecuteState(IContext context)
+        protected override IEnumerator OnExecuteState(IContext context)
         {
             var realTime = Time.realtimeSinceStartup;
             
-            _context.Add(realTime);
+            nodeContext.Add(realTime);
             
-            yield return base.ExecuteState(context);
+            yield return base.OnExecuteState(context);
         }
 
         protected override bool MakeDecision(IContext context)
         {
             var realTime = Time.realtimeSinceStartup;
 
-            var timePassed = _context.Get<float>();
+            var timePassed = nodeContext.Get<float>();
             timePassed = realTime - timePassed;
 
             var result = ValueComparator.Compare(timePassed, _timeInterval, CompareType);
