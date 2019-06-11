@@ -129,7 +129,7 @@ namespace UniStateMachine.Nodes
             var stateBehaviour = ClassPool.Spawn<ProxyState>();
             stateBehaviour.Initialize(OnExecute, x => _localContext = x, OnExit);
             
-            LifeTime.AddCleanUpAction(() => ClassPool.Despawn(stateBehaviour));
+            stateBehaviour.LifeTime.AddCleanUpAction(() => ClassPool.Despawn(stateBehaviour));
             
             return stateBehaviour;
         }
