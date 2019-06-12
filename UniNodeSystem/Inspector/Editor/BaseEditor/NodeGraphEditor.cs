@@ -68,7 +68,7 @@ namespace UniNodeSystemEditor {
             var sourceGraph = PrefabUtility.GetCorrespondingObjectFromSource(target);
             var sourceNode = PrefabUtility.GetCorrespondingObjectFromSource(node);
 
-            var removedAsset = sourceNode != null ? (Object)sourceNode.gameObject : node;
+            var removedAsset = sourceNode != null ? (Object)sourceNode.gameObject : node.gameObject;
             var targetGraph = sourceGraph ? sourceGraph : target;
 
             var targetNode = sourceNode ? sourceNode : node;
