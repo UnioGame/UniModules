@@ -7,19 +7,21 @@ using UnityEngine;
 
 namespace CommandTerminal
 {
+    using System.Linq;
+
     public enum CommandPermissionLevel
     {
         Client = 1 << 0,
-        Admin = 1 << 1,
-        Any = ~0,
+        Admin  = 1 << 1,
+        Any    = ~0,
     }
 
     public class CommandInfo
     {
-        public Action<CommandArg[]> Proc;
-        public int MaxArgCount;
-        public int MinArgCount;
-        public string Help;
+        public Action<CommandArg[]>   Proc;
+        public int                    MaxArgCount;
+        public int                    MinArgCount;
+        public string                 Help;
         public CommandPermissionLevel PermissionLevel = CommandPermissionLevel.Any;
     }
 
@@ -27,14 +29,11 @@ namespace CommandTerminal
     {
         public string String { get; set; }
 
-        public int Int
-        {
-            get
-            {
+        public int Int {
+            get {
                 int int_value;
 
-                if (int.TryParse(String, out int_value))
-                {
+                if (int.TryParse(String, out int_value)) {
                     return int_value;
                 }
 
@@ -43,14 +42,11 @@ namespace CommandTerminal
             }
         }
 
-        public float Float
-        {
-            get
-            {
+        public float Float {
+            get {
                 float float_value;
 
-                if (float.TryParse(String, out float_value))
-                {
+                if (float.TryParse(String, out float_value)) {
                     return float_value;
                 }
 
@@ -59,17 +55,13 @@ namespace CommandTerminal
             }
         }
 
-        public bool Bool
-        {
-            get
-            {
-                if (string.Compare(String, "TRUE", ignoreCase: true) == 0)
-                {
+        public bool Bool {
+            get {
+                if (string.Compare(String, "TRUE", ignoreCase: true) == 0) {
                     return true;
                 }
 
-                if (string.Compare(String, "FALSE", ignoreCase: true) == 0)
-                {
+                if (string.Compare(String, "FALSE", ignoreCase: true) == 0) {
                     return false;
                 }
 
@@ -94,13 +86,12 @@ namespace CommandTerminal
 
     public class CommandShell
     {
-        Dictionary<string, CommandInfo> commands = new Dictionary<string, CommandInfo>();
-        List<CommandArg> arguments = new List<CommandArg>(); // Cache for performance
+        Dictionary<string, CommandInfo> commands  = new Dictionary<string, CommandInfo>();
+        List<CommandArg>                arguments = new List<CommandArg>(); // Cache for performance
 
         public string IssuedErrorMessage { get; private set; }
 
-        public Dictionary<string, CommandInfo> Commands
-        {
+        public Dictionary<string, CommandInfo> Commands {
             get { return commands; }
         }
 
@@ -110,80 +101,78 @@ namespace CommandTerminal
         /// </summary>
         public void RegisterCommands()
         {
-            var rejected_commands = new Dictionary<string, CommandInfo>();
-            var method_flags = BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
+            var rejectedCommands = new Dictionary<string, CommandInfo>();
+            var method_flags      = BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
 
-            foreach (var type in Assembly.GetExecutingAssembly().GetTypes())
-            {
-                foreach (var method in type.GetMethods(method_flags))
-                {
-                    var attribute = Attribute.GetCustomAttribute(
-                        method, typeof(RegisterCommandAttribute)) as RegisterCommandAttribute;
-
-                    if (attribute == null)
-                    {
-                        if (method.Name.StartsWith("FRONTCOMMAND", StringComparison.CurrentCultureIgnoreCase))
-                        {
-                            // Front-end Command methods don't implement RegisterCommand, use default attribute
-                            attribute = new RegisterCommandAttribute();
-                        }
-                        else
-                        {
-                            continue;
-                        }
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            foreach (var assembly in assemblies) {
+                foreach (var type in assembly.GetTypes()) {
+                    foreach (var method in type.GetMethods(method_flags)) {
+                        UpdateCommandMethod(method,rejectedCommands);
                     }
-                    
-                    if(!IsCommandAllowed(attribute))
-                        continue;
-
-                    var methods_params = method.GetParameters();
-                    string command_name = InferFrontCommandName(method.Name);
-                    Action<CommandArg[]> proc;
-
-                    if (attribute.Name == null)
-                    {
-                        // Use the method's name as the command's name
-                        command_name = InferCommandName(command_name == null ? method.Name : command_name);
-                    }
-                    else
-                    {
-                        command_name = attribute.Name;
-                    }
-
-                    if (methods_params.Length != 1 || methods_params[0].ParameterType != typeof(CommandArg[]))
-                    {
-                        // Method does not match expected Action signature,
-                        // this could be a command that has a FrontCommand method to handle its arguments.
-                        rejected_commands.Add(command_name.ToUpper(),
-                            CommandFromParamInfo(methods_params, attribute.Help));
-                        continue;
-                    }
-
-                    // Convert MethodInfo to Action.
-                    // This is essentially allows us to store a reference to the method,
-                    // which makes calling the method significantly more performant than using MethodInfo.Invoke().
-                    proc = (Action<CommandArg[]>) Delegate.CreateDelegate(typeof(Action<CommandArg[]>), method);
-
-                    var info = new CommandInfo()
-                    {
-                        Proc = proc,
-                        MinArgCount = attribute.MinArgCount,
-                        MaxArgCount = attribute.MaxArgCount,
-                        Help = attribute.Help,
-                        PermissionLevel = attribute.PermissionLevel,
-                    };
-
-                    AddCommand(command_name, info);
                 }
             }
 
-            HandleRejectedCommands(rejected_commands);
+            HandleRejectedCommands(rejectedCommands);
+        }
+
+        private void UpdateCommandMethod(MethodInfo method,Dictionary<string, CommandInfo> rejectedCommands)
+        {
+            var attribute = Attribute.GetCustomAttribute(method, typeof(RegisterCommandAttribute)) as RegisterCommandAttribute;
+
+            if (attribute == null) 
+            {
+                if (method.Name.StartsWith("FRONTCOMMAND", StringComparison.CurrentCultureIgnoreCase)) {
+                    // Front-end Command methods don't implement RegisterCommand, use default attribute
+                    attribute = new RegisterCommandAttribute();
+                }
+                else {
+                    return;
+                }
+            }
+
+            if (!IsCommandAllowed(attribute))
+                return;
+
+            var                  methods_params = method.GetParameters();
+            var               command_name   = InferFrontCommandName(method.Name);
+            Action<CommandArg[]> proc;
+
+            if (attribute.Name == null) {
+                // Use the method's name as the command's name
+                command_name = InferCommandName(command_name == null ? method.Name : command_name);
+            }
+            else {
+                command_name = attribute.Name;
+            }
+
+            if (methods_params.Length != 1 || methods_params[0].ParameterType != typeof(CommandArg[])) {
+                // Method does not match expected Action signature,
+                // this could be a command that has a FrontCommand method to handle its arguments.
+                rejectedCommands.Add(command_name.ToUpper(),
+                    CommandFromParamInfo(methods_params, attribute.Help));
+                return;
+            }
+
+            // Convert MethodInfo to Action.
+            // This is essentially allows us to store a reference to the method,
+            // which makes calling the method significantly more performant than using MethodInfo.Invoke().
+            proc = (Action<CommandArg[]>) Delegate.CreateDelegate(typeof(Action<CommandArg[]>), method);
+
+            var info = new CommandInfo() {
+                Proc            = proc,
+                MinArgCount     = attribute.MinArgCount,
+                MaxArgCount     = attribute.MaxArgCount,
+                Help            = attribute.Help,
+                PermissionLevel = attribute.PermissionLevel,
+            };
+
+            AddCommand(command_name, info);
         }
 
         private bool IsCommandAllowed(RegisterCommandAttribute commandAttribute)
         {
-            if (commandAttribute.PermissionLevel == CommandPermissionLevel.Admin)
-            {
+            if (commandAttribute.PermissionLevel == CommandPermissionLevel.Admin) {
 #if ADMIN_TERMINAL_COMMANDS || UNITY_EDITOR
                 return true;
 #endif
@@ -191,8 +180,6 @@ namespace CommandTerminal
             }
 
             return true;
-
-
         }
 
         /// <summary>
@@ -200,31 +187,27 @@ namespace CommandTerminal
         /// </summary>
         public void RunCommand(string line)
         {
-            string remaining = line;
+            var remaining = line;
             IssuedErrorMessage = null;
             arguments.Clear();
 
-            while (remaining != "")
-            {
+            while (remaining != "") {
                 var argument = EatArgument(ref remaining);
 
-                if (argument.String != "")
-                {
+                if (argument.String != "") {
                     arguments.Add(argument);
                 }
             }
 
-            if (arguments.Count == 0)
-            {
+            if (arguments.Count == 0) {
                 // Nothing to run
                 return;
             }
 
-            string command_name = arguments[0].String.ToUpper();
+            var command_name = arguments[0].String.ToUpper();
             arguments.RemoveAt(0); // Remove command name from arguments
 
-            if (!commands.ContainsKey(command_name))
-            {
+            if (!commands.ContainsKey(command_name)) {
                 IssueErrorMessage("Command {0} could not be found", command_name);
                 return;
             }
@@ -234,42 +217,35 @@ namespace CommandTerminal
 
         public void RunCommand(string command_name, CommandArg[] arguments)
         {
-            var command = commands[command_name];
-            int arg_count = arguments.Length;
+            var    command       = commands[command_name];
+            var    arg_count     = arguments.Length;
             string error_message = null;
-            int required_arg = 0;
+            var    required_arg  = 0;
 
-            if (arg_count < command.MinArgCount)
-            {
-                if (command.MinArgCount == command.MaxArgCount)
-                {
+            if (arg_count < command.MinArgCount) {
+                if (command.MinArgCount == command.MaxArgCount) {
                     error_message = "exactly";
                 }
-                else
-                {
+                else {
                     error_message = "at least";
                 }
 
                 required_arg = command.MinArgCount;
             }
-            else if (command.MaxArgCount > -1 && arg_count > command.MaxArgCount)
-            {
+            else if (command.MaxArgCount > -1 && arg_count > command.MaxArgCount) {
                 // Do not check max allowed number of arguments if it is -1
-                if (command.MinArgCount == command.MaxArgCount)
-                {
+                if (command.MinArgCount == command.MaxArgCount) {
                     error_message = "exactly";
                 }
-                else
-                {
+                else {
                     error_message = "at most";
                 }
 
                 required_arg = command.MaxArgCount;
             }
 
-            if (error_message != null)
-            {
-                string plural_fix = required_arg == 1 ? "" : "s";
+            if (error_message != null) {
+                var plural_fix = required_arg == 1 ? "" : "s";
                 IssueErrorMessage(
                     "{0} requires {1} {2} argument{3}",
                     command_name,
@@ -285,11 +261,9 @@ namespace CommandTerminal
 
         public void AddCommand(string name, CommandInfo info)
         {
-
             name = name.ToUpper();
 
-            if (commands.ContainsKey(name))
-            {
+            if (commands.ContainsKey(name)) {
                 IssueErrorMessage("Command {0} is already defined.", name);
                 return;
             }
@@ -303,12 +277,11 @@ namespace CommandTerminal
             int max_arg_count = -1,
             string help = "")
         {
-            var info = new CommandInfo()
-            {
-                Proc = proc,
+            var info = new CommandInfo() {
+                Proc        = proc,
                 MinArgCount = min_arg_count,
                 MaxArgCount = max_arg_count,
-                Help = help
+                Help        = help
             };
 
             AddCommand(name, info);
@@ -322,15 +295,13 @@ namespace CommandTerminal
         string InferCommandName(string method_name)
         {
             string command_name;
-            int index = method_name.IndexOf("COMMAND", StringComparison.CurrentCultureIgnoreCase);
+            var    index = method_name.IndexOf("COMMAND", StringComparison.CurrentCultureIgnoreCase);
 
-            if (index >= 0)
-            {
+            if (index >= 0) {
                 // Method is prefixed, suffixed with, or contains "COMMAND".
                 command_name = method_name.Remove(index, 7);
             }
-            else
-            {
+            else {
                 command_name = method_name;
             }
 
@@ -339,26 +310,22 @@ namespace CommandTerminal
 
         string InferFrontCommandName(string method_name)
         {
-            int index = method_name.IndexOf("FRONT", StringComparison.CurrentCultureIgnoreCase);
+            var index = method_name.IndexOf("FRONT", StringComparison.CurrentCultureIgnoreCase);
             return index >= 0 ? method_name.Remove(index, 5) : null;
         }
 
         void HandleRejectedCommands(Dictionary<string, CommandInfo> rejected_commands)
         {
-            foreach (var command in rejected_commands)
-            {
-                if (commands.ContainsKey(command.Key))
-                {
-                    commands[command.Key] = new CommandInfo()
-                    {
-                        Proc = commands[command.Key].Proc,
+            foreach (var command in rejected_commands) {
+                if (commands.ContainsKey(command.Key)) {
+                    commands[command.Key] = new CommandInfo() {
+                        Proc        = commands[command.Key].Proc,
                         MinArgCount = command.Value.MinArgCount,
                         MaxArgCount = command.Value.MaxArgCount,
-                        Help = command.Value.Help
+                        Help        = command.Value.Help
                     };
                 }
-                else
-                {
+                else {
                     IssueErrorMessage("{0} is missing a front command.", command);
                 }
             }
@@ -366,39 +333,34 @@ namespace CommandTerminal
 
         CommandInfo CommandFromParamInfo(ParameterInfo[] parameters, string help)
         {
-            int optional_args = 0;
+            var optional_args = 0;
 
-            foreach (var param in parameters)
-            {
-                if (param.IsOptional)
-                {
+            foreach (var param in parameters) {
+                if (param.IsOptional) {
                     optional_args += 1;
                 }
             }
 
-            return new CommandInfo()
-            {
-                Proc = null,
+            return new CommandInfo() {
+                Proc        = null,
                 MinArgCount = parameters.Length - optional_args,
                 MaxArgCount = parameters.Length,
-                Help = help
+                Help        = help
             };
         }
 
         CommandArg EatArgument(ref string s)
         {
-            var arg = new CommandArg();
-            int space_index = s.IndexOf(' ');
+            var arg         = new CommandArg();
+            var space_index = s.IndexOf(' ');
 
-            if (space_index >= 0)
-            {
+            if (space_index >= 0) {
                 arg.String = s.Substring(0, space_index);
-                s = s.Substring(space_index + 1); // Remaining
+                s          = s.Substring(space_index + 1); // Remaining
             }
-            else
-            {
+            else {
                 arg.String = s;
-                s = "";
+                s          = "";
             }
 
             return arg;

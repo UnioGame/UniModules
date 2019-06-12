@@ -39,7 +39,7 @@ namespace CommandTerminal
         }
 
         public void HandleLog(string message, string stack_trace, TerminalLogType type) {
-            LogItem log = new LogItem() {
+            var log = new LogItem() {
                 message = message,
                 stack_trace = stack_trace,
                 type = type

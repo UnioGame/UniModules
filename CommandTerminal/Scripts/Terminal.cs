@@ -228,7 +228,7 @@ namespace CommandTerminal
             window = new Rect(0, windowY, Screen.width, real_window_size);
 
             // Set background color
-            Texture2D background_texture = new Texture2D(1, 1);
+            var background_texture = new Texture2D(1, 1);
             background_texture.hideFlags = HideFlags.HideAndDontSave;
             background_texture.SetPixel(0, 0, BackgroundColor);
             background_texture.Apply();
@@ -263,7 +263,7 @@ namespace CommandTerminal
             dark_background.b = BackgroundColor.b - InputContrast;
             dark_background.a = 0.5f;
 
-            Texture2D input_background_texture = new Texture2D(1, 1);
+            var input_background_texture = new Texture2D(1, 1);
             input_background_texture.hideFlags = HideFlags.HideAndDontSave;
             input_background_texture.SetPixel(0, 0, dark_background);
             input_background_texture.Apply();
@@ -358,7 +358,7 @@ namespace CommandTerminal
 
         void DrawGUIButtons()
         {
-            int size = ConsoleFont.fontSize;
+            var size = ConsoleFont.fontSize;
             float x_position = RightAlignButtons ? Screen.width - 7 * size : 0;
 
             // 7 is the number of chars in the button plus some padding, 2 is the line height.
@@ -381,7 +381,7 @@ namespace CommandTerminal
 
         void HandleOpenness()
         {
-            float dt = ToggleSpeed * Time.deltaTime;
+            var dt = ToggleSpeed * Time.deltaTime;
 
             if (current_open_t < open_target)
             {
@@ -418,9 +418,9 @@ namespace CommandTerminal
 
         void CompleteCommand()
         {
-            string head_text = command_text;
-            string[] completion_buffer = Autocomplete.Complete(ref head_text);
-            int completion_length = completion_buffer.Length;
+            var head_text = command_text;
+            var completion_buffer = Autocomplete.Complete(ref head_text);
+            var completion_length = completion_buffer.Length;
 
             if (completion_length == 1)
             {

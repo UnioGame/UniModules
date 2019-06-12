@@ -12,11 +12,11 @@ namespace CommandTerminal
         }
 
         public string[] Complete(ref string text) {
-            string partial_word = EatLastWord(ref text).ToLower();
+            var partial_word = EatLastWord(ref text).ToLower();
             string known;
             buffer.Clear();
 
-            for (int i = 0; i < known_words.Count; i++) {
+            for (var i = 0; i < known_words.Count; i++) {
                 known = known_words[i];
 
                 if (known.StartsWith(partial_word)) {
@@ -28,8 +28,8 @@ namespace CommandTerminal
         }
 
         string EatLastWord(ref string text) {
-            int last_space = text.LastIndexOf(' ');
-            string result = text.Substring(last_space + 1);
+            var last_space = text.LastIndexOf(' ');
+            var result = text.Substring(last_space + 1);
 
             text = text.Substring(0, last_space + 1); // Remaining (keep space)
             return result;

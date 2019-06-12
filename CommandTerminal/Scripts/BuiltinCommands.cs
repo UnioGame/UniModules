@@ -23,14 +23,14 @@ namespace CommandTerminal
                 return;
             }
 
-            string command_name = args[0].String.ToUpper();
+            var command_name = args[0].String.ToUpper();
 
             if (!Terminal.Shell.Commands.ContainsKey(command_name)) {
                 Terminal.Shell.IssueErrorMessage("Command {0} could not be found.", command_name);
                 return;
             }
 
-            string help = Terminal.Shell.Commands[command_name].Help;
+            var help = Terminal.Shell.Commands[command_name].Help;
 
             if (help == null) {
                 Terminal.Log("{0} does not provide any help documentation.", command_name);
@@ -58,7 +58,7 @@ namespace CommandTerminal
     #if DEBUG
         [RegisterCommand(Help = "Outputs the StackTrace of the previous message", MaxArgCount = 0)]
         static void CommandTrace(CommandArg[] args) {
-            int log_count = Terminal.Buffer.Logs.Count;
+            var log_count = Terminal.Buffer.Logs.Count;
 
             if (log_count - 2 <  0) {
                 Terminal.Log("Nothing to trace.");
@@ -86,9 +86,9 @@ namespace CommandTerminal
 
         static string JoinArguments(CommandArg[] args) {
             var sb = new StringBuilder();
-            int arg_length = args.Length;
+            var arg_length = args.Length;
 
-            for (int i = 0; i < arg_length; i++) {
+            for (var i = 0; i < arg_length; i++) {
                 sb.Append(args[i].String);
 
                 if (i < arg_length - 1) {
