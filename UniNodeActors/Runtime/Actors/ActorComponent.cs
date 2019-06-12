@@ -1,5 +1,6 @@
 ﻿namespace UniGreenModules.UniNodeActors.Runtime.Actors
 {
+    using ActorData;
     using Interfaces;
     using UnityEngine;
 
@@ -11,7 +12,8 @@
         /// <summary>
         /// actor model data
         /// </summary>
-        [SerializeField] private IActorInfo<IActorModel> actorInfo;
+        [SerializeField] 
+        private ActorInfo actorInfo;
 
         #endregion
 

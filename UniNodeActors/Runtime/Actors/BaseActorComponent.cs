@@ -28,7 +28,7 @@
         /// <summary>
         /// behaviour
         /// </summary>
-        [SerializeField] private UniGraph behaviourSource;
+        [SerializeField] private UniGraphNode behaviourSource;
 
 #endregion
 
@@ -65,15 +65,17 @@
             var actorModel = GetModel();
                        
             _actor.Initialize(actorModel,behaviour);
-            _actor.LifeTime.AddCleanUpAction(() => behaviour.Despawn());
             _actor.LifeTime.AddCleanUpAction(actorModel.MakeDespawn);
         }
 
-        private UniGraph GetBehaviour()
+        private IContextState<IEnumerator> GetBehaviour()
         {
             var actorTransform = transform;
-            var state = ObjectPool.Spawn(behaviourSource, Vector3.zero, Quaternion.identity,actorTransform, false);
+            var state = ObjectPool.Spawn(behaviourSource, 
+                Vector3.zero, Quaternion.identity,actorTransform, false);
             state.gameObject.SetActive(true);
+            
+            _actor.LifeTime.AddCleanUpAction(() => state.Despawn());
             
             return state;
         }

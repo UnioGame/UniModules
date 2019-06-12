@@ -500,9 +500,8 @@ namespace UniNodeSystemEditor
             selectedReroutes.Clear();
             foreach (var item in Selection.objects)
             {
-                if (item is UniBaseNode)
+                if (item is UniBaseNode node)
                 {
-                    var node = item as UniBaseNode;
                     graphEditor.RemoveNode(node);
                 }
             }
