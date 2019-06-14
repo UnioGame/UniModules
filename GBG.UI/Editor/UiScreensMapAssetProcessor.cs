@@ -1,7 +1,7 @@
-﻿namespace UniGreenModules.GBG.UiManager.Editor
+﻿namespace UniGreenModules.GBG.UI.Editor
 {
     using System;
-    using Runtime.Configuration;
+    using Runtime.Data;
     using UniCore.Runtime.Interfaces;
     using UniCore.Runtime.Utils;
     using UnityEditor;

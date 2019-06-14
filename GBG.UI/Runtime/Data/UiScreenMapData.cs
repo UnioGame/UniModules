@@ -1,9 +1,8 @@
-﻿using UnityEngine;
-
-namespace UniGreenModules.GBG.UiManager.Runtime.Configuration
+﻿namespace UniGreenModules.GBG.UI.Runtime.Data
 {
     using System.Collections.Generic;
     using Interfaces;
+    using UnityEngine;
     using UnityEngine.AddressableAssets;
 
     [CreateAssetMenu(menuName = "GBG/UI Manager/Screen Map",fileName = "UiScreenMapData")]

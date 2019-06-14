@@ -1,4 +1,4 @@
-﻿namespace UniGreenModules.GBG.UiManager.Runtime.Interfaces
+﻿namespace UniGreenModules.GBG.UI.Runtime.Interfaces
 {
     using UnityEngine.AddressableAssets;
 

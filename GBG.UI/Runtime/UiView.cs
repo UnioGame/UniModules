@@ -1,11 +1,10 @@
-﻿using UniGreenModules.GBG.UiManager.Runtime.Interfaces;
-using UniGreenModules.UniCore.Runtime.Views;
-
-namespace UniGreenModules.GBG.UiManager.Runtime
+﻿namespace UniGreenModules.GBG.UI.Runtime
 {
     using System.Collections;
+    using Interfaces;
     using UniCore.Runtime.Extension;
     using UniCore.Runtime.Interfaces;
+    using UniCore.Runtime.Views;
     using UnityEngine;
     using UniTools.UniRoutine.Runtime;
 
@@ -56,10 +55,7 @@ namespace UniGreenModules.GBG.UiManager.Runtime
 
         protected virtual void Deactivate(){}
         
-        protected virtual bool Validate()
-        {
-            return isActiveAndEnabled;
-        }
+        protected virtual bool Validate() => isActiveAndEnabled;
 
         protected override void OnRelease()
         {
@@ -67,7 +63,7 @@ namespace UniGreenModules.GBG.UiManager.Runtime
             SetState(false);
         }
 
-        protected IEnumerator OnScheduledUpdate()
+        private IEnumerator OnScheduledUpdate()
         {
             OnUpdateView();
             yield break;

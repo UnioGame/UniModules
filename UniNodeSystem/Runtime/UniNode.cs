@@ -1,8 +1,4 @@
 ﻿namespace UniGreenModules.UniNodeSystem.Runtime
 {
-    public class UniNode : UniGraphNode
-    {
-
-
-    }
+    public class UniNode : UniGraphNode {}
 }
