@@ -1,11 +1,8 @@
-﻿using System.Collections.Generic;
-using Modules.UniTools.UniUiSystem.Interfaces;
-using UnityEngine;
-using UniTools.UniUiSystem;
-
-namespace UniUiSystem
+﻿namespace UniGreenModules.UniUiSystem.Runtime
 {
-    using UniGreenModules.UniCore.Runtime.Interfaces;
+    using Interfaces;
+    using UniCore.Runtime.Interfaces;
+    using UnityEngine;
 
     public class UiModule : UiViewBehaviour, IUiModule
     {

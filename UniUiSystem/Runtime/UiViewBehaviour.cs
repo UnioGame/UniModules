@@ -1,14 +1,10 @@
-﻿using System.Collections;
-using UniModule.UnityTools.Interfaces;
-using UnityEngine;
-
-namespace UniUiSystem
+﻿namespace UniGreenModules.UniUiSystem.Runtime
 {
-    using UniGreenModules.GBG.UiManager.Runtime;
-    using UniGreenModules.UniContextData.Runtime.Entities;
-    using UniGreenModules.UniCore.Runtime.Interfaces;
+    using GBG.UiManager.Runtime;
+    using Interfaces;
+    using UniContextData.Runtime.Entities;
+    using UniCore.Runtime.Interfaces;
     using UniRx;
-    using UniTools.UniRoutine.Runtime;
 
     public class UiViewBehaviour : UiView<Unit>, IUiViewBehaviour
     {
@@ -17,10 +13,7 @@ namespace UniUiSystem
 
         #region public property
 
-
         public IContext Context => _context;
-
-        public RectTransform RectTransform => transform as RectTransform;
 
         #endregion
         

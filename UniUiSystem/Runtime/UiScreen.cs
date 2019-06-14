@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-
-namespace UniUiSystem
+﻿namespace UniGreenModules.UniUiSystem.Runtime
 {
+    using UnityEngine;
+
     public class UiScreen : UiModule
     {
         #region inspector

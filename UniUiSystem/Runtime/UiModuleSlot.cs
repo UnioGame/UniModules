@@ -1,13 +1,13 @@
 ﻿
-namespace UniUiSystem
+namespace UniGreenModules.UniUiSystem.Runtime
 {
-    using UniGreenModules.UniCore.Runtime.DataFlow;
-    using UniGreenModules.UniCore.Runtime.Interfaces;
-    using UniGreenModules.UniCore.Runtime.ObjectPool;
-    using UniModule.UnityTools.Interfaces;
+    using Interfaces;
+    using Models;
+    using UniCore.Runtime.DataFlow;
+    using UniCore.Runtime.Interfaces;
+    using UniCore.Runtime.ObjectPool;
     using UnityEngine;
     using UnityEngine.EventSystems;
-    using UniUiSystem.Models;
 
     /// <summary>
     /// Ui module container

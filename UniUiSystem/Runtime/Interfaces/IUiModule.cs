@@ -1,9 +1,6 @@
-using Modules.UniTools.UniUiSystem.Interfaces;
-using UniTools.UniUiSystem;
-
-namespace UniUiSystem
+namespace UniGreenModules.UniUiSystem.Runtime.Interfaces
 {
-    using UniGreenModules.UniCore.Runtime.Interfaces;
+    using UniCore.Runtime.Interfaces;
 
     public interface IUiModule
     {

@@ -1,9 +1,7 @@
-using UniModule.UnityTools.Interfaces;
-using UnityEngine;
-
-namespace UniUiSystem {
-    using UniGreenModules.UniCore.Runtime.Interfaces;
-    using UniGreenModules.UniCore.Runtime.ObjectPool.Interfaces;
+namespace UniGreenModules.UniUiSystem.Runtime.Interfaces {
+    using UniCore.Runtime.Interfaces;
+    using UniCore.Runtime.ObjectPool.Interfaces;
+    using UnityEngine;
 
     public interface IUiViewBehaviour : IPoolable
     {

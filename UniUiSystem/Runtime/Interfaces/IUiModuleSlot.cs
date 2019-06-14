@@ -1,10 +1,8 @@
-using UniModule.UnityTools.Interfaces;
-using UnityEngine;
-
-namespace UniUiSystem
+namespace UniGreenModules.UniUiSystem.Runtime.Interfaces
 {
-    using UniGreenModules.UniCore.Runtime.DataFlow;
-    using UniGreenModules.UniCore.Runtime.Interfaces;
+    using UniCore.Runtime.DataFlow;
+    using UniCore.Runtime.Interfaces;
+    using UnityEngine;
 
     public interface IUiModuleSlot
     {

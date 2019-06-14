@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using Modules.UniTools.UniUiSystem.Interfaces;
-using SubModules.Scripts.UniStateMachine.NodeEditor;
-using UniNodeSystemEditor;
-using UniStateMachine;
-using UnityEditor;
-using UnityEngine;
-using UniUiSystem;
-
-namespace UniTools.UniUiSystem
+﻿namespace UniGreenModules.UniUiSystem.Editor
 {
-    using UniGreenModules.UniNodeSystem.Runtime;
+    using System;
+    using System.Collections.Generic;
+    using Runtime;
+    using Runtime.Interfaces;
+    using Runtime.Triggers;
+    using Runtime.UiNodes;
+    using SubModules.Scripts.UniStateMachine.NodeEditor;
+    using UniNodeSystem.Runtime;
+    using UniNodeSystemEditor;
     using UniRx;
+    using UnityEditor;
+    using UnityEngine;
 
     [CustomNodeEditor(typeof(UniUiNode))]
     public class UniUiNodeEditor : UniNodeEditor

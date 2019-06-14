@@ -1,11 +1,10 @@
-﻿using System;
-using Modules.UniTools.UniUiSystem.Interfaces;
-using UniRx;
-using UniTools.UniUiSystem;
-
-namespace UniUiSystem
+﻿namespace UniGreenModules.UniUiSystem.Runtime
 {
-    using UniGreenModules.UniCore.Runtime.Common;
+    using System;
+    using Interfaces;
+    using Triggers;
+    using UniCore.Runtime.Common;
+    using UniRx;
 
     [Serializable]
     public class UiTriggersContainer : 

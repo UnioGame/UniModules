@@ -1,8 +1,7 @@
-using System;
-
-namespace Modules.UniTools.UniUiSystem.Interfaces
+namespace UniGreenModules.UniUiSystem.Runtime.Interfaces
 {
-    using UniGreenModules.UniCore.Runtime.Interfaces;
+    using System;
+    using UniCore.Runtime.Interfaces;
 
     public interface IInteractionTrigger :
         IObservable<IInteractionTrigger>, 

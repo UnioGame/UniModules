@@ -1,7 +1,8 @@
-﻿using UnityEngine.EventSystems;
-
-namespace UniUiSystem
+﻿namespace UniGreenModules.UniUiSystem.Runtime.UiNodes
  {
+     using Triggers;
+     using UnityEngine.EventSystems;
+
      public class UiPointerClickTrigger : InteractionTrigger, IPointerDownHandler, IPointerUpHandler
      {
          public void OnPointerDown(PointerEventData eventData)

@@ -1,9 +1,8 @@
-﻿using System;
-using UniTools.UniUiSystem;
-
-namespace UniUiSystem
+﻿namespace UniGreenModules.UniUiSystem.Runtime
 {
-    using UniGreenModules.UniCore.Runtime.Common;
+    using System;
+    using Interfaces;
+    using UniCore.Runtime.Common;
 
     [Serializable]
     public class UiModuleSlotsContainer : UniObjectsContainer<UiModuleSlot,IUiModuleSlot> 

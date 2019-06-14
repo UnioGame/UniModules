@@ -1,7 +1,7 @@
-﻿using TMPro;
-
-namespace UniUiSystem
+﻿namespace UniGreenModules.UniUiSystem.Runtime.Extensions
 {
+    using TMPro;
+
     public static class UiExtension
     {
 

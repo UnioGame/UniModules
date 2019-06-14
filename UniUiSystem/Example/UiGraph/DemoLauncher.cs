@@ -1,12 +1,11 @@
-﻿using UniGreenModules.UniContextData.Runtime.Entities;
-using UniGreenModules.UniCore.Runtime.Interfaces;
-using UniGreenModules.UniNodeActors.Runtime.Actors;
-using UniGreenModules.UniNodeActors.Runtime.Interfaces;
-using UnityEngine;
-
-namespace UniGreenModules.UniUiSystem.Example
+﻿namespace UniGreenModules.UniUiSystem.Example.UiGraph
 {
+    using UniContextData.Runtime.Entities;
+    using UniCore.Runtime.Interfaces;
+    using UniNodeActors.Runtime.Actors;
+    using UniNodeActors.Runtime.Interfaces;
     using UniNodeSystem.Runtime;
+    using UnityEngine;
 
     public class DemoLauncher : MonoBehaviour, IContextDataSource
     {

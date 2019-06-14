@@ -1,9 +1,8 @@
-﻿using UniRx;
-using UnityEngine;
-
-namespace UniUiSystem.Models
+﻿namespace UniGreenModules.UniUiSystem.Runtime.Models
 {
-    using UniGreenModules.UniCore.Runtime.ObjectPool.Interfaces;
+    using UniCore.Runtime.ObjectPool.Interfaces;
+    using UniRx;
+    using UnityEngine;
 
     public class UniUiModuleData : IPoolable
     {

@@ -1,10 +1,10 @@
-﻿using System;
-using Modules.UniTools.UniUiSystem.Interfaces;
-using UniRx;
-using UnityEngine;
-
-namespace UniUiSystem
+﻿namespace UniGreenModules.UniUiSystem.Runtime.Triggers
 {
+    using System;
+    using Interfaces;
+    using UniRx;
+    using UnityEngine;
+
     public class InteractionTrigger : MonoBehaviour, IInteractionTrigger
     {
         [SerializeField]
