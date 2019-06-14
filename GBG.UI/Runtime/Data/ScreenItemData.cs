@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace UniGreenModules.GBG.UiManager.Runtime.Configuration
+﻿namespace UniGreenModules.GBG.UI.Runtime.Data
 {
     using System;
     using UnityEngine.AddressableAssets;

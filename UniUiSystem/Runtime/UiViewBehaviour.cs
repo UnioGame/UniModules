@@ -1,6 +1,6 @@
 ﻿namespace UniGreenModules.UniUiSystem.Runtime
 {
-    using GBG.UiManager.Runtime;
+    using GBG.UI.Runtime;
     using Interfaces;
     using UniContextData.Runtime.Entities;
     using UniCore.Runtime.Interfaces;

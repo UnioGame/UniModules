@@ -1,6 +1,5 @@
-namespace UniGreenModules.GBG.UiManager.Runtime
+namespace UniGreenModules.GBG.UI.Runtime.Interfaces
 {
-    using Interfaces;
     using UniCore.Runtime.Interfaces;
     using UnityEngine;
 

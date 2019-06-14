@@ -29,8 +29,6 @@
 
         public ObjectInstanceData options;
 
-        public AssetLabelReference uiViewLabel;
-
         public AssetReference viewReference;
 
         #endregion
