@@ -1,16 +1,6 @@
 ﻿namespace UniGreenModules.UniCore.Runtime.Math {
-	using System;
 	using System.Collections.Generic;
 	using UnityEngine;
-
-	[Flags]
-	public enum CompareTypes
-	{
-		More = 1<<0,
-		Less = 1<<1,
-		Equal = 1<<2,
-		Any = 1<<3,		
-	}
 
 	public static class ValueComparator {
 
