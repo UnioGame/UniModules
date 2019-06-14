@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using Interfaces;
     using Models;
+    using UniCore.Runtime.AsyncOperations;
     using UniCore.Runtime.DataFlow;
     using UniCore.Runtime.Interfaces;
     using UniCore.Runtime.ObjectPool;
@@ -18,55 +19,53 @@
 
     public class UniUiNode : UniNode
     {
-        
+#region inspector
+
+        public ObjectInstanceData options;
+
+        public AssetReference viewReference;
+
+#endregion
+
         private List<UniPortValue> uiInputs;
         private List<UniPortValue> uiOutputs;
 
         private List<UniPortValue> slotPorts;
         private List<UniPortValue> triggersPorts;
 
-        #region inspector
+        private AsyncOperationHandle<UiModule> UiViewHandle => viewReference.LoadAssetAsync<UiModule>();
 
-        public ObjectInstanceData options;
-
-        public AssetReference viewReference;
-
-        #endregion
-
-        public AsyncOperationHandle<UiModule> UiViewHandle => viewReference.LoadAssetAsync<UiModule>();
 
         public override bool Validate(IContext context)
         {
-            if (UiViewHandle.Status == AsyncOperationStatus.None || UiViewHandle.Status == AsyncOperationStatus.Failed)
-            {
+            if (UiViewHandle.Status == AsyncOperationStatus.None || UiViewHandle.Status == AsyncOperationStatus.Failed) {
                 Debug.LogErrorFormat("NULL UI VIEW {0} {1}", UiViewHandle, this);
                 return false;
             }
 
             return base.Validate(context);
         }
-        
+
         protected override IEnumerator OnExecuteState(IContext context)
         {
             var lifetime = LifeTime;
 
-            //wait ui view loading
-            while (UiViewHandle.IsDone == false) {
-                yield return null;
-            }
+            //load view
+            //TODO take shared object
+            yield return UiViewHandle.Task.AwaitTask();
 
             if (UiViewHandle.Status == AsyncOperationStatus.None || UiViewHandle.Status == AsyncOperationStatus.Failed) {
                 Debug.LogError(UiViewHandle);
                 yield break;
             }
-            
+
             var view = CreateView(UiViewHandle.Result);
 
-            ApplyScreenSettings(view, lifetime);
-            
-            CreateModules(view, lifetime, context);
+            ApplyModuleSettings(view, lifetime);
 
-            BindTriggers(view, lifetime, context);
+            CreateModules(view, context,lifetime);
+
+            BindTriggers(view, context,lifetime);
 
             yield return base.OnExecuteState(context);
         }
@@ -80,12 +79,10 @@
         {
             var portValue = GetPortValue(trigger.ItemName);
 
-            if (trigger.IsActive)
-            {
+            if (trigger.IsActive) {
                 portValue.Add(context);
             }
-            else
-            {
+            else {
                 portValue.Remove<IContext>();
             }
         }
@@ -94,19 +91,17 @@
         {
             base.OnUpdatePortsCache();
 
-            uiInputs = new List<UniPortValue>();
+            uiInputs  = new List<UniPortValue>();
             uiOutputs = new List<UniPortValue>();
 
 #if UNITY_EDITOR
             UpdateUiPorts(UiViewHandle.Result);
 #endif
-
         }
 
         private void UpdateUiPorts(UiModule uiModule)
         {
-            if (!uiModule)
-            {
+            if (!uiModule) {
                 return;
             }
 
@@ -118,54 +113,49 @@
 
         private UiModule CreateView(UiModule source)
         {
+            var uiView = ObjectPool.Spawn(source, options.Position,
+                                          Quaternion.identity, options.Parent, options.StayAtWorld);
 
-            var uiView = ObjectPool.Spawn(source,options.Position,
-                Quaternion.identity,options.Parent,options.StayAtWorld);
-            
             uiView.Initialize();
-            
+
             return uiView;
         }
 
-        private void ApplyScreenSettings(UiModule uiView, ILifeTime lifetime)
+        private void ApplyModuleSettings(UiModule uiView, ILifeTime lifetime)
         {
-            if (options.Immortal)
-            {
+            if (options.Immortal) {
                 DontDestroyOnLoad(uiView);
             }
-            
+
             //get view context settings
             var viewSettings = Input.Get<UniUiModuleData>();
 
-            if (viewSettings != null)
-            {
-                var parentDisposable = viewSettings.Transform.
-                    Subscribe(uiView.SetParent);
+            if (viewSettings != null) {
+                var parentDisposable = viewSettings.Transform.Subscribe(uiView.SetParent);
                 lifetime.AddDispose(parentDisposable);
             }
+
             lifetime.AddCleanUpAction(() => uiView?.Despawn());
 
             uiView.gameObject.SetActive(true);
             uiView.SetState(true);
-
         }
 
-        private void CreateModules(IUiModule view, ILifeTime lifetime, IContext context)
+        private void CreateModules(IUiModule view, IContext context, ILifeTime lifetime)
         {
             var slotContainer = view.Slots;
-            var slots = slotContainer.Items;
-            for (int i = 0; i < slots.Count; i++)
-            {
-                var slot = slots[i];
-                var portValue = GetPortValue(slot.SlotName);
+            var slots         = slotContainer.Items;
 
+            for (int i = 0; i < slots.Count; i++) {
+                var slot      = slots[i];
+                var portValue = GetPortValue(slot.SlotName);
                 slot.ApplySlotData(context, portValue, lifetime);
             }
         }
 
-        private void BindTriggers(IUiModule view, ILifeTime lifetime, IContext context)
+        private void BindTriggers(IUiModule view, IContext context, ILifeTime lifetime)
         {
-            var triggers = view.Triggers;
+            var triggers               = view.Triggers;
             var interactionsDisposable = triggers.TriggersObservable.Subscribe(x => OnUiTriggerAction(x, context));
 
             lifetime.AddDispose(interactionsDisposable);
@@ -175,14 +165,11 @@
         {
             var triggers = view.Triggers;
 
-            foreach (var handler in triggers.Items)
-            {
-
-                var values =this.CreatePortPair(handler.ItemName, true);
+            foreach (var handler in triggers.Items) {
+                var values = this.CreatePortPair(handler.ItemName, true);
 
                 uiOutputs.Add(values.outputValue);
                 uiInputs.Add(values.inputValue);
-                
             }
         }
 
@@ -190,10 +177,8 @@
         {
             var slots = view.Slots.Items;
 
-            for (var i = 0; i < slots.Count; i++)
-            {
-                var slot = slots[i];
-
+            for (var i = 0; i < slots.Count; i++) {
+                var slot       = slots[i];
                 var outputPort = this.UpdatePortValue(slot.SlotName, PortIO.Output);
                 uiOutputs.Add(outputPort.value);
             }

@@ -1,10 +1,12 @@
 ﻿namespace UniGreenModules.UniUiSystem.Runtime
 {
+    using GBG.UI.Runtime;
     using Interfaces;
+    using Triggers;
     using UniCore.Runtime.Interfaces;
     using UnityEngine;
 
-    public class UiModule : UiViewBehaviour, IUiModule
+    public class UiModule : UiView<IValueReceiver>, IUiModule
     {
         #region inspector data
         
@@ -41,14 +43,24 @@
         {
             slots.Add(slot);
         }
-        
-        #endregion
 
-        protected override void OnInitialize()
+        private void OnValidate()
         {
-            triggers.Initialize();
-            slots.UpdateCollection();
-            base.OnInitialize();
+
+            var slotsItems = GetComponentsInChildren<UiModuleSlot>(true);
+            var triggersItems = GetComponentsInChildren<InteractionTrigger>(true);
+            
+            triggers.Release();
+            triggers.AddRange(triggersItems);
+            
+            slots.Release();
+            slots.AddRange(slotsItems);
+            
+            OnModuleValidate();
         }
+
+#endregion
+
+        protected virtual void OnModuleValidate(){}
     }
 }

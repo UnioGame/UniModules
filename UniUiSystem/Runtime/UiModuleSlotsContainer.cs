@@ -5,8 +5,5 @@
     using UniCore.Runtime.Common;
 
     [Serializable]
-    public class UiModuleSlotsContainer : UniObjectsContainer<UiModuleSlot,IUiModuleSlot> 
-    {
-
-    }
+    public class UiModuleSlotsContainer : UniObjectsContainer<UiModuleSlot,IUiModuleSlot> {}
 }

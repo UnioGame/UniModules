@@ -7,7 +7,7 @@
 
     [Serializable]
     public class UniObjectsContainer<TSource,TTarget> : 
-        IContainer<TTarget>
+        IProxyContainer<TSource, TTarget> 
         where TSource : class,TTarget
     {
         #region inspector
@@ -24,10 +24,10 @@
         public IReadOnlyList<TTarget> Items => _targetItems;
     
         #endregion
-    
+
+       
         public void UpdateCollection()
-        {
-        
+        {      
             _targetItems.Clear();
             
             for (var i = 0; i < _items.Count; i++)
@@ -38,24 +38,39 @@
         
         }
 
+        public void AddRange(IReadOnlyList<TSource> sources)
+        {
+            for (var i = 0; i < sources.Count; i++) {
+                var item = sources[i];
+                Add(item);
+            }
+        }
+        
         public void Add(TTarget item)
         {
-            var sourceItem = item as TSource;
-
-            if (sourceItem == null)
+            if (!(item is TSource sourceItem))
             {
                 Debug.LogError($"{this.GetType()}.ADD Type Missmatch {item.GetType()} instead of {typeof(TSource)}");
                 return;
             }
 
             _items.Add(sourceItem);
+            _targetItems.Add(sourceItem);
+            
+            OnSourceItemAdded(sourceItem);
         }
         
-        public virtual void Release()
+        public void Release()
         {
             _targetItems.Clear();
             _items.Clear();
+            OnRelease();
         }
 
+
+        protected virtual void OnSourceItemAdded(TSource source){}
+
+        protected virtual void OnRelease(){}
+        
     }
 }

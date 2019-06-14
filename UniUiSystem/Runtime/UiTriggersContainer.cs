@@ -4,49 +4,28 @@
     using Interfaces;
     using Triggers;
     using UniCore.Runtime.Common;
+    using UniCore.Runtime.Extension;
     using UniRx;
 
     [Serializable]
-    public class UiTriggersContainer : 
-        UniObjectsContainer<InteractionTrigger,IInteractionTrigger>, 
+    public class UiTriggersContainer :
+        UniObjectsContainer<InteractionTrigger, IInteractionTrigger>,
         ITriggersContainer
     {
-        #region private property
-      
-        private Subject<IInteractionTrigger> _interactionsSubject;
 
-        #endregion
-        
-        #region public properties                
+        private Subject<IInteractionTrigger> _interactionsSubject = new Subject<IInteractionTrigger>();
 
         public IObservable<IInteractionTrigger> TriggersObservable => _interactionsSubject;
-        
-        #endregion
 
-        public override void Release()
+        protected override void OnSourceItemAdded(InteractionTrigger trigger)
         {
-            _interactionsSubject?.Dispose();
-            base.Release();
+            trigger.Subscribe(x => _interactionsSubject.OnNext(x));
         }
 
-        public void Initialize()
+        protected override void OnRelease()
         {
-            UpdateCollection();
-            
-            _interactionsSubject = CreateInteractionObservable();
-        }
-        
-        protected Subject<IInteractionTrigger> CreateInteractionObservable()
-        {
-            var observable = new Subject<IInteractionTrigger>();
-            
-            foreach (var interactionTrigger in _items)
-            {
-                interactionTrigger.Subscribe(x => 
-                    _interactionsSubject.OnNext(interactionTrigger));
-            }
-
-            return observable;
+            _interactionsSubject?.Cancel();
+            _interactionsSubject = new Subject<IInteractionTrigger>();
         }
     }
 }
