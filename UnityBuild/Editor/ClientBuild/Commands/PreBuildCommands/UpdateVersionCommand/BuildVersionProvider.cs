@@ -6,7 +6,7 @@
     public class BuildVersionProvider
     {
 
-        public string GetBuildVersion(BuildTarget buildTarget,string bundleVersion, int buildNumber) {
+        public string GetBuildVersion(BuildTarget buildTarget,string bundleVersion, int buildNumber, string branch = null) {
             
             var versionLenght = GetVersionLength(buildTarget);
             var versionPoints = bundleVersion.Split('.');
@@ -19,6 +19,15 @@
             }
                         
             versionBuilder.Append(buildNumber);
+
+            if (buildTarget == BuildTarget.Android && !string.IsNullOrEmpty(branch)) {
+                var shortBranch = GetShortBranch(branch);
+                if (!string.IsNullOrEmpty(shortBranch)) {
+                    versionBuilder.Append(" ");
+                    versionBuilder.Append(shortBranch);
+                }
+            }
+            
             return versionBuilder.ToString();
             
         }
@@ -50,5 +59,19 @@
             return length;
         }
     
+        private static string GetShortBranch(string branch) {
+            if (branch == "master") {
+                return string.Empty;
+            } 
+            if (branch == "develop") {
+                return "develop";
+            }
+
+            if (branch.StartsWith("feature/")) {
+                return branch.Substring("feature/".Length);
+            }
+            
+            return branch;
+        }
     }
 }

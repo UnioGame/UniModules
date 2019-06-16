@@ -16,6 +16,11 @@
         
         public override void Execute(IUniBuilderConfiguration configuration) 
         {
+            if (configuration.BuildParameters.EnvironmentType == BuildEnvironmentType.UnityCloudBuild) {
+                Debug.Log("Skipped in UnityCloudBuild environment");
+                return;
+            }
+            
             UpdateAndroidBuildParameters(configuration.Arguments);
         }
         

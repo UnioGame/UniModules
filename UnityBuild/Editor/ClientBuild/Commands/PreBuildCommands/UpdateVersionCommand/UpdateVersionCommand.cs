@@ -13,22 +13,26 @@
     {
         [SerializeField]
         private int minBuildNumber = 0;
+
+        [SerializeField]
+        private bool appendBranch = false;
         
         public override void Execute(IUniBuilderConfiguration configuration)
         {
 
             var buildParameters = configuration.BuildParameters;
-            UpdateBuildVersion(buildParameters.BuildTarget, buildParameters.BuildNumber);
+            var branch = appendBranch ? configuration.BuildParameters.Branch : null;
+            UpdateBuildVersion(buildParameters.BuildTarget, buildParameters.BuildNumber, branch);
             
         }
         
-        public void UpdateBuildVersion(BuildTarget buildTarget,int buildNumber) 
+        public void UpdateBuildVersion(BuildTarget buildTarget,int buildNumber, string branch) 
         {
             var buildVersionProvider = new BuildVersionProvider();
             var logBuilder = new StringBuilder(200);
 
             var activeBuildNumber = buildNumber + minBuildNumber;
-            var bundleVersion = buildVersionProvider.GetBuildVersion(buildTarget, PlayerSettings.bundleVersion, activeBuildNumber);
+            var bundleVersion = buildVersionProvider.GetBuildVersion(buildTarget, PlayerSettings.bundleVersion, activeBuildNumber, branch);
             var resultBuildNumber = buildVersionProvider.GetActiveBuildNumber(buildTarget,activeBuildNumber);
 
             PlayerSettings.bundleVersion = bundleVersion;
@@ -56,6 +60,7 @@
             logBuilder.Append(resultBuildNumber);
             logBuilder.AppendLine();
             
+            Debug.Log(logBuilder);
         }
     }
     
