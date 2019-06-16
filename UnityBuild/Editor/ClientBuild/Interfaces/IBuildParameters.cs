@@ -16,6 +16,9 @@ namespace UniGreenModules.UnityBuild.Editor.ClientBuild.Interfaces {
         string ProjectId { get; }
         string BundleId { get; }
 
+        BuildEnvironmentType EnvironmentType { get; }
+        string Branch { get; }
+
         /// <summary>
         /// Player Build scenes
         /// </summary>

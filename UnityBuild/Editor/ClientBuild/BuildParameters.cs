@@ -27,6 +27,8 @@ namespace UniGreenModules.UnityBuild.Editor.ClientBuild
         public string keyStorePass;
         public string keyStoreAlias;
         public string keyStoreAliasPass;
+        public string branch = null;
+        public BuildEnvironmentType environmentType = BuildEnvironmentType.Custom;
 
 #region public properties
         
@@ -40,6 +42,9 @@ namespace UniGreenModules.UnityBuild.Editor.ClientBuild
         public BuildOptions BuildOptions => this.buildOptions;
         public string ProjectId => projectId;
         public string BundleId => bundleId;
+        public BuildEnvironmentType EnvironmentType => environmentType;
+        public string Branch => branch;
+
         public IReadOnlyList<EditorBuildSettingsScene> Scenes => scenes;
 
         #endregion

@@ -20,11 +20,18 @@ namespace UniGreenModules.UnityBuild.Editor.ClientBuild.Commands.PreBuildCommand
             var buildParameters = configuration.BuildParameters;
             
             var scriptingBackend = arguments.Contains(l2cppEnabled) ? ScriptingImplementation.IL2CPP : ScriptingImplementation.Mono2x;
-           
+            
+#if FORCE_MONO
+            scriptingBackend = ScriptingImplementation.Mono2x;
+#elif FORCE_IL2CPP
+            scriptingBackend = ScriptingImplementation.IL2CPP;
+#endif
+            
             switch (buildParameters.BuildTargetGroup) {
                 case BuildTargetGroup.Standalone:
                 case BuildTargetGroup.Android:
                     PlayerSettings.SetScriptingBackend(buildParameters.BuildTargetGroup,scriptingBackend);
+                    Debug.Log($"Set ScriptingBackend: {scriptingBackend}");
                     return;
             }
             
