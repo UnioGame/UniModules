@@ -1,4 +1,4 @@
-﻿namespace UniGreenModules.UniUiSystem.Runtime
+﻿namespace UniGreenModules.UniUiSystem.Runtime.UiData
 {
     using System;
     using Interfaces;

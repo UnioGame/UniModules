@@ -296,8 +296,8 @@ namespace UniNodeSystemEditor
 
             // Register the handle position
             var portPos = rect.center;
-            if (NodeEditor.PortPositions.ContainsKey(port)) NodeEditor.PortPositions[port] = portPos;
-            else NodeEditor.PortPositions.Add(port, portPos);
+            
+            NodeEditor.PortPositions[port] = portPos;
         }
 
         /// <summary> Add a port field to previous layout element. </summary>
@@ -345,9 +345,11 @@ namespace UniNodeSystemEditor
         public static void PortPair(NodePort input, NodePort output,
             NodeGuiLayoutStyle intputStyle, NodeGuiLayoutStyle outputStyle)
         {
-            GUILayout.BeginHorizontal();
+            GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
+            
             PortField(input, intputStyle);
             PortField(output, outputStyle);
+            
             GUILayout.EndHorizontal();
         }
 

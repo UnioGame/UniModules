@@ -1,9 +1,14 @@
 namespace UniGreenModules.UniUiSystem.Runtime.Interfaces
 {
-    public interface IUiModuleSlot
+    using GBG.UI.Runtime.Interfaces;
+    using UniNodeSystem.Runtime.Connections;
+
+    public interface IUiModuleSlot : IUiPlacement
     {
+        
         string SlotName { get; }
 
-        void Add(IUiModule target);
+        ITypeDataBrodcaster Value { get; }
+        
     }
 }

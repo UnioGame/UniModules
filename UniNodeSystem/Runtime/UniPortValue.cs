@@ -28,7 +28,7 @@
         
         [NonSerialized] private bool initialized = false;
 
-        [NonSerialized] private BroadcastTypeData broadcastContext;
+        [NonSerialized] private TypeDataBrodcaster context;
 
         [NonSerialized] private TypeValueObservable<UniPortValue> valueObservable;
 
@@ -56,12 +56,12 @@
 
             messageBroker = new MessageBroker();
             typeData = new TypeData();
-            broadcastContext = new BroadcastTypeData();
+            context = new TypeDataBrodcaster();
             
             valueObservable = new TypeValueObservable<UniPortValue>();
             valueObservable.Initialize(this);
             //register observable as broadcast target
-            broadcastContext.Connect(valueObservable);
+            context.Connect(valueObservable);
             
             //mark as initialized
             initialized = true;
@@ -79,7 +79,7 @@
             var result = typeData.Remove<TData>();
             if (result)
             {
-                broadcastContext.Remove<TData>();
+                context.Remove<TData>();
             }
             return result;
         }
@@ -87,7 +87,7 @@
         public void Add<TData>(TData value)
         {
             typeData.Add(value);
-            broadcastContext.Add(value);
+            context.Add(value);
             messageBroker.Publish(value);
         }
 
@@ -98,7 +98,7 @@
 
         public void RemoveAllConnections()
         {
-            broadcastContext.CleanUp();
+            context.CleanUp();
         }
                        
         public bool HasValue()
@@ -122,13 +122,13 @@
         
         public IConnector<IContextWriter> Connect(IContextWriter contextData)
         {
-            broadcastContext.Connect(contextData);
+            context.Connect(contextData);
             return this;
         }
 
         public void Disconnect(IContextWriter contextData)
         {
-            broadcastContext.Disconnect(contextData);
+            context.Disconnect(contextData);
         }
 
         

@@ -29,8 +29,9 @@
             CreatePortPair(this UniNode node, string outputPortName, bool connectInOut = false)
         {
             var inputName = node.GetFormatedInputName(outputPortName);
-            var inputPortPair = node.UpdatePortValue(inputName, PortIO.Input);
+            
             var outputPortPair = node.UpdatePortValue(outputPortName, PortIO.Output);
+            var inputPortPair = node.UpdatePortValue(inputName, PortIO.Input);
                 
             var inputValue = inputPortPair.value;
             var outputValue = outputPortPair.value;

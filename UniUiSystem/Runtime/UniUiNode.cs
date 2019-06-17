@@ -1,9 +1,12 @@
-﻿namespace UniGreenModules.UniUiSystem.Runtime.UiNodes
+﻿namespace UniGreenModules.UniUiSystem.Runtime
 {
     using System.Collections;
     using System.Collections.Generic;
+    using System.Diagnostics;
+    using GBG.UI.Runtime.Interfaces;
     using Interfaces;
-    using Models;
+    using Types;
+    using UiData;
     using UniCore.Runtime.AsyncOperations;
     using UniCore.Runtime.DataFlow;
     using UniCore.Runtime.Interfaces;
@@ -16,25 +19,31 @@
     using UnityEngine;
     using UnityEngine.AddressableAssets;
     using UnityEngine.ResourceManagement.AsyncOperations;
+    using Debug = UnityEngine.Debug;
 
     public class UniUiNode : UniNode
     {
-#region inspector
+        #region inspector
+
+        [HideInInspector] [SerializeField] private string viewName = "UiNode";
 
         public ObjectInstanceData options;
 
-        public AssetReference viewReference;
+        public AssetReferenceGameObject resource;
 
-#endregion
+        #endregion
 
-        private List<UniPortValue> uiInputs;
-        private List<UniPortValue> uiOutputs;
+        private List<UniPortValue> uiTriggersOutputs = new List<UniPortValue>();
+        private List<UniPortValue> uiModulesOutputs  = new List<UniPortValue>();
 
         private List<UniPortValue> slotPorts;
         private List<UniPortValue> triggersPorts;
 
-        private AsyncOperationHandle<UiModule> UiViewHandle => viewReference.LoadAssetAsync<UiModule>();
 
+        private AsyncOperationHandle<GameObject> UiViewHandle => resource.LoadAssetAsync();
+
+
+        public override string GetName() => viewName;
 
         public override bool Validate(IContext context)
         {
@@ -59,13 +68,17 @@
                 yield break;
             }
 
-            var view = CreateView(UiViewHandle.Result);
+            var viewPrefab = UiViewHandle.Result.GetComponent<UiModule>();
+            var view       = CreateView(viewPrefab);
 
-            ApplyModuleSettings(view, lifetime);
+            BindModulesPorts(view, context, lifetime);
 
-            CreateModules(view, context,lifetime);
+            BindTriggers(view, context, lifetime);
 
-            BindTriggers(view, context,lifetime);
+            //initialize view with input data
+            view.Initialize(Input);
+
+            ApplyViewSettings(view, lifetime);
 
             yield return base.OnExecuteState(context);
         }
@@ -91,11 +104,23 @@
         {
             base.OnUpdatePortsCache();
 
-            uiInputs  = new List<UniPortValue>();
-            uiOutputs = new List<UniPortValue>();
+            uiModulesOutputs.Clear();
+            uiTriggersOutputs.Clear();
 
 #if UNITY_EDITOR
-            UpdateUiPorts(UiViewHandle.Result);
+
+            var viewObject = resource.editorAsset as GameObject;
+
+            if (!viewObject)
+                return;
+
+            var view = viewObject.GetComponent<UiModule>();
+            if (!view)
+                return;
+
+            viewName = view.name;
+
+            UpdateUiPorts(view);
 #endif
         }
 
@@ -105,51 +130,57 @@
                 return;
             }
 
-            uiModule.Initialize();
-
             UpdateTriggers(uiModule);
             UpdateModulesSlots(uiModule);
         }
 
         private UiModule CreateView(UiModule source)
         {
+            //todo add cached version from global manager
             var uiView = ObjectPool.Spawn(source, options.Position,
-                                          Quaternion.identity, options.Parent, options.StayAtWorld);
+                Quaternion.identity, options.Parent, options.StayAtWorld);
 
-            uiView.Initialize();
+            //bind main view to input data
+            uiView.Initialize(Input);
 
             return uiView;
         }
 
-        private void ApplyModuleSettings(UiModule uiView, ILifeTime lifetime)
+        private void ApplyViewSettings(UiModule uiView, ILifeTime lifetime)
         {
-            if (options.Immortal) {
-                DontDestroyOnLoad(uiView);
-            }
-
-            //get view context settings
-            var viewSettings = Input.Get<UniUiModuleData>();
-
-            if (viewSettings != null) {
-                var parentDisposable = viewSettings.Transform.Subscribe(uiView.SetParent);
-                lifetime.AddDispose(parentDisposable);
-            }
-
-            lifetime.AddCleanUpAction(() => uiView?.Despawn());
+            lifetime.AddCleanUpAction(() => {
+                if (uiView != null) {
+                    uiView?.Despawn();
+                }
+            });
 
             uiView.gameObject.SetActive(true);
-            uiView.SetState(true);
+            uiView.UpdateView();
         }
 
-        private void CreateModules(IUiModule view, IContext context, ILifeTime lifetime)
+        /// <summary>
+        /// Bind output ports to ui moduls
+        /// </summary>
+        private void BindModulesPorts(IUiModule view, IContext context, ILifeTime lifetime)
         {
             var slotContainer = view.Slots;
-            var slots         = slotContainer.Items;
 
-            for (int i = 0; i < slots.Count; i++) {
+            var slots = slotContainer.Items;
+
+            for (var i = 0; i < slots.Count; i++) {
+                //get associated port value by slot
                 var slot      = slots[i];
                 var portValue = GetPortValue(slot.SlotName);
-                slot.ApplySlotData(context, portValue, lifetime);
+
+                //connect to ui module data
+                var connection = slot.Value.Connect(portValue);
+                //remove connection, if node stoped
+                lifetime.AddCleanUpAction(() => connection.Disconnect(portValue));
+
+                //add new placement value
+                portValue.Add<IUiPlacement>(slot);
+                //set node context
+                portValue.Add(context);
             }
         }
 
@@ -167,9 +198,7 @@
 
             foreach (var handler in triggers.Items) {
                 var values = this.CreatePortPair(handler.ItemName, true);
-
-                uiOutputs.Add(values.outputValue);
-                uiInputs.Add(values.inputValue);
+                uiTriggersOutputs.Add(values.outputValue);
             }
         }
 
@@ -180,7 +209,7 @@
             for (var i = 0; i < slots.Count; i++) {
                 var slot       = slots[i];
                 var outputPort = this.UpdatePortValue(slot.SlotName, PortIO.Output);
-                uiOutputs.Add(outputPort.value);
+                uiModulesOutputs.Add(outputPort.value);
             }
         }
     }

@@ -5,7 +5,7 @@
     using Runtime;
     using Runtime.Interfaces;
     using Runtime.Triggers;
-    using Runtime.UiNodes;
+    using Runtime.UiData;
     using SubModules.Scripts.UniStateMachine.NodeEditor;
     using UniNodeSystem.Runtime;
     using UniNodeSystemEditor;
@@ -18,22 +18,18 @@
     {
         
         private UiModule _moduleView;
-        
-        public static Type UniPortType = typeof(UniPortValue);
-
-        private static List<IInteractionTrigger> _buttons = new List<IInteractionTrigger>();
 
         public override void OnBodyGUI()
         {           
             var uiNode = target as UniUiNode;
-            _moduleView = uiNode.viewReference.editorAsset as UiModule;
+            _moduleView = uiNode.resource.editorAsset as UiModule;
 
             base.OnBodyGUI();
 
             var isChanged = DrawUiNode(uiNode);
             if (isChanged)
             {
-                UpdateUiData(uiNode,uiNode.viewReference.editorAsset as UiModule);
+                UpdateUiData(uiNode,uiNode.resource.editorAsset as UiModule);
             }
             
             EditorUtility.SetDirty(uiNode.graph.gameObject);
@@ -44,7 +40,7 @@
         {
             
             var uiNode = node as UniUiNode;
-            var view = uiNode.viewReference.editorAsset as UiModule;
+            var view = uiNode.resource.editorAsset as UiModule;
             if (!Validate(view))
             {
                 UpdateUiData(uiNode,view);
@@ -57,8 +53,12 @@
         public bool DrawUiNode(UniUiNode node)
         {
             var oldView = _moduleView;
-            var uiView = node.viewReference.editorAsset;
+            var uiView = node.resource.editorAsset;
 
+            if (uiView) {
+                EditorGUILayout.ObjectField(uiView, uiView.GetType(), false);
+            }
+            
             var isChanged = uiView != oldView;
 
             if (GUILayout.Button("UPDATE"))
@@ -78,7 +78,7 @@
             
             CollectUiData(uiView);
 
-            uiView.Initialize(Unit.Default);
+            uiView.OnValidate();
 
             PrefabUtility.SavePrefabAsset(uiView.gameObject);
             
@@ -100,37 +100,10 @@
             return true;
         }
 
-        private void CollectUiData(UiModule screen)
+        private void CollectUiData(UiModule module)
         {
-            CollectSlots(screen);
-            CollectTriggers(screen);
+            module.OnValidate();
         }
 
-        public void CollectSlots(UiModule module)
-        {
-            module.Slots.Release();
-            CollectItems<IUiModuleSlot>(module.gameObject, module.AddSlot);
-        }
-
-        public void CollectTriggers(UiModule module)
-        {
-            module.Triggers.Release();
-            CollectItems<InteractionTrigger>(module.gameObject, x =>
-            {
-                x.ApplyName(x.name);
-                module.AddTrigger(x);
-            });
-        }
-
-        private void CollectItems<TData>(GameObject target, Action<TData> action)
-        {
-            var items = new List<TData>();
-            target.GetComponentsInChildren<TData>(true, items);
-
-            foreach (var slot in items)
-            {
-                action(slot);
-            }
-        }
     }
 }

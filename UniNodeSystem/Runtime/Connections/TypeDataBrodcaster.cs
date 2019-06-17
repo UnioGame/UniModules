@@ -7,10 +7,8 @@ namespace UniGreenModules.UniNodeSystem.Runtime.Connections
     using UniCore.Runtime.Interfaces;
     using UniCore.Runtime.ObjectPool.Interfaces;
 
-    public class BroadcastTypeData : 
-        IPoolable, 
-        IContextWriter,
-        IConnector<IContextWriter>
+    public class TypeDataBrodcaster : 
+        IPoolable, ITypeDataBrodcaster
     {
         private List<IContextWriter> _registeredItems = new List<IContextWriter>();
 

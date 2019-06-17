@@ -17,27 +17,12 @@
 
         #endregion
 
-        private List<TTarget> _targetItems = new List<TTarget>();
-    
         #region public properties
 
-        public IReadOnlyList<TTarget> Items => _targetItems;
+        public IReadOnlyList<TTarget> Items => _items;
     
         #endregion
-
-       
-        public void UpdateCollection()
-        {      
-            _targetItems.Clear();
-            
-            for (var i = 0; i < _items.Count; i++)
-            {
-                var item = _items[i];
-                _targetItems.Add(item);
-            }
         
-        }
-
         public void AddRange(IReadOnlyList<TSource> sources)
         {
             for (var i = 0; i < sources.Count; i++) {
@@ -55,14 +40,12 @@
             }
 
             _items.Add(sourceItem);
-            _targetItems.Add(sourceItem);
             
             OnSourceItemAdded(sourceItem);
         }
         
         public void Release()
         {
-            _targetItems.Clear();
             _items.Clear();
             OnRelease();
         }
