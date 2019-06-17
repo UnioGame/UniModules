@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using UniModule.UnityTools.Interfaces;
-using UnityEngine;
-
-namespace UniStateMachine.CommonNodes
+﻿namespace UniGreenModules.UniNodes.CommonNodes
 {
-    using UniGreenModules.UniCore.Runtime.Interfaces;
-    using UniGreenModules.UniNodeSystem.Runtime;
+    using System.Collections;
+    using UniCore.Runtime.Interfaces;
+    using UniNodeSystem.Runtime;
+    using UnityEngine;
 
     public class FpsLimitNode : UniNode
     {

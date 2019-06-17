@@ -12,24 +12,35 @@
         public override void OnBodyGUI()
         {
             
+            base.OnBodyGUI();
+
+            DrawGraphNode();
+
+            serializedObject.ApplyModifiedPropertiesWithoutUndo();
+        }
+
+        private void DrawGraphNode()
+        {
+            
             var graphNode = target as GraphNode;
+            
             var reference = graphNode.graphReference;
             if (!reference.RuntimeKeyIsValid())
                 return;
+            
             var graphObject = reference.editorAsset as GameObject;
-
             if (graphObject == null) return;
             
             var graph = graphObject.GetComponent<UniGraph>();
-            
-            base.OnBodyGUI();
-
             if (graph == null)
                 return;
+
+            graphNode.graphName = graph.name;
             
             EditorDrawerUtils.DrawButton("show graph", 
                 () => { NodeEditorWindow.Open(graph); });
-
+            
+            
         }
     }
     

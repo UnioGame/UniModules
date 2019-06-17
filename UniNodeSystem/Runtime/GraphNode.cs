@@ -27,6 +27,7 @@
         /// <summary>
         /// cached addressable asset name
         /// </summary>
+        [HideInInspector]
         public string graphName;
         
         /// <summary>
@@ -83,6 +84,7 @@
         {
             base.OnUpdatePortsCache();
 
+            return;
 #if !UNITY_EDITOR
             return;
 #endif

@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UniModule.UnityTools.Interfaces;
-using UniStateMachine;
-using UnityEngine;
-
-namespace UniStateMachine.CommonNodes
+﻿namespace UniGreenModules.UniNodes.CommonNodes
 {
-    using UniGreenModules.UniCore.Runtime.Interfaces;
-    using UniGreenModules.UniNodeSystem.Runtime;
-    using UniGreenModules.UniNodeSystem.Runtime.Extensions;
-    using UniGreenModules.UniNodeSystem.Runtime.Runtime;
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using UniCore.Runtime.Interfaces;
+    using UniNodeSystem.Runtime;
+    using UniNodeSystem.Runtime.Extensions;
+    using UniNodeSystem.Runtime.Runtime;
+    using UnityEngine;
 
     public class CombineNode : UniNode
     {

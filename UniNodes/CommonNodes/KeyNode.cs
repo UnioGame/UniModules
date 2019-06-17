@@ -1,15 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UniModule.UnityTools.Interfaces;
-using UnityEngine;
-
-namespace UniStateMachine.CommonNodes
+﻿namespace UniGreenModules.UniNodes.CommonNodes
 {
-    using UniGreenModules.UniCore.Runtime.Attributes;
-    using UniGreenModules.UniCore.Runtime.Extension;
-    using UniGreenModules.UniCore.Runtime.Input;
-    using UniGreenModules.UniCore.Runtime.Interfaces;
-    using UniGreenModules.UniNodeSystem.Runtime;
+    using System.Collections;
+    using System.Collections.Generic;
+    using UniCore.Runtime.Attributes;
+    using UniCore.Runtime.Extension;
+    using UniCore.Runtime.Input;
+    using UniCore.Runtime.Interfaces;
+    using UniNodeSystem.Runtime;
+    using UnityEngine;
 
     public class KeyNode : UniNode
     {

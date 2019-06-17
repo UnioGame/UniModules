@@ -1,8 +1,6 @@
-﻿using UniStateMachine;
-
-namespace UniStateMachine.CommonNodes
+﻿namespace UniGreenModules.UniNodes.CommonNodes
 {
-    using UniGreenModules.UniNodeSystem.Runtime;
+    using UniNodeSystem.Runtime;
 
     public class VelocityLimitsNode : UniNode
     {

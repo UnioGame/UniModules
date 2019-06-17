@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections;
-using UniModule.UnityTools.Interfaces;
-using UnityEngine;
-
-namespace UniStateMachine.CommonNodes
+﻿namespace UniGreenModules.UniNodes.CommonNodes
 {
-    using UniGreenModules.UniCore.Runtime.Interfaces;
-    using UniGreenModules.UniNodeSystem.Runtime;
-    using UniGreenModules.UniNodeSystem.Runtime.NodeData;
+    using System.Collections;
+    using UniCore.Runtime.Interfaces;
+    using UniNodeSystem.Runtime;
+    using UniNodeSystem.Runtime.NodeData;
+    using UnityEngine;
 
     public class VelocityLerpNode : UniNode
     {
