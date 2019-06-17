@@ -1,8 +1,8 @@
-﻿using UnityEditor;
-using UnityEngine;
-
-namespace UniNodeSystemEditor
+﻿namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
 {
+    using UnityEditor;
+    using UnityEngine;
+
     public static partial class NodeEditorResources
     {
         // Textures

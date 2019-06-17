@@ -1,10 +1,7 @@
-using UniStateMachine;
-using UniStateMachine.NodeEditor;
-using UniNodeSystemEditor;
-
-namespace Modules.UniTools.UniNodeSystem.Drawers
+namespace UniGreenModules.UniNodeSystem.Inspector.Editor.Drawers
 {
-    using UniGreenModules.UniNodeSystem.Runtime.Runtime;
+    using BaseEditor.Interfaces;
+    using Runtime.Runtime;
 
     public interface INodeEditorDrawer
     {

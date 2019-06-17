@@ -44,6 +44,12 @@
         
         #endregion
 
+        #region public properties
+
+        public string ItemName => name;
+        
+        #endregion
+        
         public UniPortValue()
         {
             Initialize();

@@ -1,21 +1,21 @@
 namespace UniGreenModules.UniNodeSystem.Runtime.Interfaces
 {
     using System;
+    using System.Collections.Generic;
     using Runtime;
+    using UnityEngine;
 
-    public interface IUniGraph : IUniGraphNode, IDisposable
+    public interface IUniGraph : IUniNode, IDisposable
     {
-        /// <summary> Add a node to the graph by type </summary>
-        T AddNode<T>() where T : UniBaseNode;
 
-        /// <summary> Add a node to the graph by type </summary>
-        UniBaseNode AddNode(Type type);
+        GameObject AssetInstance { get; }
 
-        /// <summary> Creates a copy of the original node in the graph </summary>
-        UniBaseNode CopyNode(UniBaseNode original);
+        IReadOnlyList<IGraphPortNode> GraphOuputs { get; }
 
-        /// <summary> Safely remove a node and all its connections </summary>
-        /// <param name="node"> The node to remove </param>
-        void RemoveNode(UniBaseNode node);
+        IReadOnlyList<IGraphPortNode> GraphInputs { get; }
+
+        IReadOnlyList<INode> Nodes { get; }
+        
     }
+    
 }

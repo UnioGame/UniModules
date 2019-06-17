@@ -1,13 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class UniStateFactoryControl
+﻿namespace UniGreenModules.UniNodeSystem.Inspector.Editor
 {
-
-	public void Draw()
+	public class UniStateFactoryControl
 	{
+
+		public void Draw()
+		{
 		
-	}
+		}
 	
+	}
 }

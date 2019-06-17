@@ -1,13 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEditor;
-using UnityEngine;
-using Object = UnityEngine.Object;
-
-namespace UniNodeSystemEditor
+namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
 {
-    using UniGreenModules.UniNodeSystem.Runtime.Runtime;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Runtime.Runtime;
+    using UnityEditor;
+    using UnityEngine;
+    using Object = UnityEngine.Object;
 
     public partial class NodeEditorWindow
     {

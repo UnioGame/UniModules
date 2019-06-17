@@ -1,34 +1,38 @@
 ﻿using System;
 using UniGreenModules.UniContextData.Runtime.Entities;
-using UniGreenModules.UniNodeSystem.Runtime;
 using UnityEngine;
 using UniTools.UniRoutine.Runtime;
 
-public class GraphLauncher : MonoBehaviour
+namespace UniGreenModules.UniNodeSystem.Examples
 {
-    private EntityContext _context;
-    private IDisposable _disposable;
-    
-    [SerializeField]
-    private UniGraph _graph;
-    
-    // Start is called before the first frame update
-    private void Start()
-    {
-        if (!_graph)
-            return;
-        _context = new EntityContext();
-        _disposable = _graph.Execute(_context).RunWithSubRoutines();
-        
-    }
+    using Runtime;
 
-    // Update is called once per frame
-    private void OnDisable()
+    public class GraphLauncher : MonoBehaviour
     {
+        private EntityContext _context;
+        private IDisposable   _disposable;
+    
+        [SerializeField]
+        private UniGraph _graph;
+    
+        // Start is called before the first frame update
+        private void Start()
+        {
+            if (!_graph)
+                return;
+            _context    = new EntityContext();
+            _disposable = _graph.Execute(_context).RunWithSubRoutines();
         
-        if (!_graph) return;
-        _graph.Exit();
-        _disposable.Dispose();
+        }
+
+        // Update is called once per frame
+        private void OnDisable()
+        {
         
+            if (!_graph) return;
+            _graph.Exit();
+            _disposable.Dispose();
+        
+        }
     }
 }

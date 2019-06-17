@@ -1,15 +1,12 @@
-﻿using System.Collections.Generic;
-using Modules.UniTools.UniNodeSystem.Drawers;
-using SubModules.Scripts.UniStateMachine.NodeEditor;
-using UniNodeSystemEditor;
-using UnityEngine;
-
-namespace UniStateMachine.CommonNodes
+﻿namespace UniGreenModules.UniNodeSystem.Inspector.Editor.Nodes
 {
-    using UniGreenModules.UniNodeSystem.Runtime.BaseNodes;
-    using UniGreenModules.UniNodeSystem.Runtime.Runtime;
+    using System.Collections.Generic;
+    using BaseEditor;
+    using Drawers;
+    using Runtime;
+    using Runtime.Runtime;
+    using UnityEngine;
 
-    [CustomNodeEditorAttribute(typeof(GraphOuputNode))]
     public class UniGraphOutputNodeEditor : UniNodeEditor
     {
         protected override List<INodeEditorDrawer> InitializedBodyDrawers()
@@ -24,7 +21,7 @@ namespace UniStateMachine.CommonNodes
                 var nodeName = target.GetName().
                     Replace(UniBaseNode.InputTriggerPrefix, "");
                 NodeEditorWindow.current.
-                    CreateNode(typeof(GraphInputNode),nodeName,target.position + new Vector2(30,30));
+                    CreateNode(typeof(GraphPortNode),nodeName,target.position + new Vector2(30,30));
             }));
 
             return drawers;

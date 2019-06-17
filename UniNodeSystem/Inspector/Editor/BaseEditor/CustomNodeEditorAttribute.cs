@@ -1,7 +1,8 @@
-using System;
-
-namespace UniNodeSystemEditor
+namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
 {
+    using System;
+    using Interfaces;
+
     [AttributeUsage(AttributeTargets.Class)]
     public class CustomNodeEditorAttribute : Attribute, INodeEditorAttribute
     {

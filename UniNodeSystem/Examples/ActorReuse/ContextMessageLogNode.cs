@@ -1,10 +1,8 @@
-﻿using UniStateMachine;
-
-namespace Tests.Examples
+﻿namespace UniGreenModules.UniNodeSystem.Examples.ActorReuse
 {
     using System.Collections;
-    using UniGreenModules.UniCore.Runtime.Interfaces;
-    using UniGreenModules.UniNodeSystem.Runtime;
+    using Runtime;
+    using UniCore.Runtime.Interfaces;
     using UnityEngine;
 
     public class ContextMessageLogNode : UniNode

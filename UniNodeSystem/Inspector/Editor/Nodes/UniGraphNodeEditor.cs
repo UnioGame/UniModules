@@ -1,12 +1,10 @@
-﻿using SubModules.Scripts.UniStateMachine.NodeEditor;
-using UniEditorTools;
-using UniNodeSystemEditor;
-
-namespace UniStateMachine.CommonNodes
+﻿namespace UniGreenModules.UniNodeSystem.Inspector.Editor.Nodes
 {
-    using UniGreenModules.UniNodeSystem.Runtime.BaseNodes;
+    using BaseEditor;
+    using Runtime;
+    using UniEditorTools;
 
-    [CustomNodeEditorAttribute(typeof(GraphNode))]
+    [CustomNodeEditor(typeof(GraphNode))]
     public class UniGraphNodeEditor : UniNodeEditor
     {
         public override void OnBodyGUI()

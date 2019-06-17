@@ -1,8 +1,7 @@
-using UnityEngine;
-
-namespace UniNodeSystemEditor
+namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
 {
-    
+    using UnityEngine;
+
     public class NodeEditorStyles
     {
         public GUIStyle inputPort;

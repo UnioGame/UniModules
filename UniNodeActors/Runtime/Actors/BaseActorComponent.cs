@@ -28,7 +28,7 @@
         /// <summary>
         /// behaviour
         /// </summary>
-        [SerializeField] private UniGraphNode behaviourSource;
+        [SerializeField] private UniNode behaviourSource;
 
 #endregion
 

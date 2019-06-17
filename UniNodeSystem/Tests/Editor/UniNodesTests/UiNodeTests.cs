@@ -1,11 +1,9 @@
-﻿    using System.Collections;
-using System.Collections.Generic;
-using NUnit.Framework;
-using UnityEngine;
-using UnityEngine.TestTools;
-
-namespace Tests
+﻿namespace UniGreenModules.UniNodeSystem.Tests.Editor.UniNodesTests
 {
+    using System.Collections;
+    using NUnit.Framework;
+    using UnityEngine.TestTools;
+
     public class UiNodeTests
     {
         // A Test behaves as an ordinary method

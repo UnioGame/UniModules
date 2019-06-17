@@ -1,23 +1,23 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Modules.UniTools.UniNodeSystem.Drawers;
-using UniGreenModules.UniNodeSystem.Runtime.Runtime;
-using UniNodeSystemEditor;
+﻿using UniGreenModules.UniNodeSystem.Runtime.Runtime;
 using UnityEditor;
-using UnityEngine;
 
-public class RenameFiedDrawer : INodeEditorDrawer
+namespace UniGreenModules.UniNodeSystem.Inspector.Editor.Drawers
 {
-    
-    public bool Draw(INodeEditor editor, UniBaseNode node)
+    using BaseEditor.Interfaces;
+
+    public class RenameFiedDrawer : INodeEditorDrawer
     {
-        var nodeName = node.GetName();
-        var nameValue = EditorGUILayout.TextField("name:", nodeName);
-        if (!string.Equals(nameValue, nodeName))
+    
+        public bool Draw(INodeEditor editor, UniBaseNode node)
         {
-            node.name = nameValue;
-        }
+            var nodeName  = node.GetName();
+            var nameValue = EditorGUILayout.TextField("name:", nodeName);
+            if (!string.Equals(nameValue, nodeName))
+            {
+                node.name = nameValue;
+            }
         
-        return true;
+            return true;
+        }
     }
 }

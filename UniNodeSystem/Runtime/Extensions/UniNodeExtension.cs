@@ -100,7 +100,7 @@
         }
 
         
-        public static (UniPortValue , NodePort) UpdatePortValue<TValue>(this UniGraphNode node, 
+        public static (UniPortValue , NodePort) UpdatePortValue<TValue>(this UniNode node, 
             PortIO direction = PortIO.Output)
         {
             var type = typeof(TValue);
@@ -118,7 +118,7 @@
         
         }
         
-        public static (UniPortValue value, NodePort port) UpdatePortValue(this UniGraphNode node, 
+        public static (UniPortValue value, NodePort port) UpdatePortValue(this UniNode node, 
             string portName, PortIO direction = PortIO.Output)
         {
         

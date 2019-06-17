@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using Interfaces;
     using UnityEngine;
 
     /// <summary> Base class for all node graphs </summary>
@@ -21,6 +22,9 @@
         [SerializeField]
         public List<UniBaseNode> nodes = new List<UniBaseNode>();
 
+
+        public IReadOnlyList<INode> Nodes => nodes;
+        
         public ulong GetId()
         {
             return ++_uniqueId;

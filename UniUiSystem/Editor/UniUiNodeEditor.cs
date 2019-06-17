@@ -6,9 +6,9 @@
     using Runtime.Interfaces;
     using Runtime.Triggers;
     using Runtime.UiData;
-    using SubModules.Scripts.UniStateMachine.NodeEditor;
+    using UniNodeSystem.Inspector.Editor.BaseEditor;
+    using UniNodeSystem.Inspector.Editor.Nodes;
     using UniNodeSystem.Runtime;
-    using UniNodeSystemEditor;
     using UniRx;
     using UnityEditor;
     using UnityEngine;
@@ -36,7 +36,7 @@
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
         }
 
-        public override void UpdateData(UniGraphNode node)
+        public override void UpdateData(UniNode node)
         {
             
             var uiNode = node as UniUiNode;

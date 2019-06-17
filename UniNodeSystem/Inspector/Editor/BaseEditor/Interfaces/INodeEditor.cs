@@ -1,10 +1,7 @@
-using System.Collections.Generic;
-using Modules.UniTools.UniNodeSystem.Editor.BaseEditor;
-using UnityEngine;
-
-namespace UniNodeSystemEditor
+namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor.Interfaces
 {
-    using UniGreenModules.UniNodeSystem.Runtime.Runtime;
+    using Runtime.Runtime;
+    using UnityEngine;
 
     public interface INodeEditor : IEditorItem
     {

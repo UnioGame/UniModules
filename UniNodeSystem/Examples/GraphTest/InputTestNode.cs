@@ -1,12 +1,9 @@
-﻿using System.Collections;
-using UniModule.UnityTools.Interfaces;
-using UniStateMachine;
-using UnityEngine;
-
-namespace Tests.GraphTest
+﻿namespace UniGreenModules.UniNodeSystem.Examples.GraphTest
 {
-    using UniGreenModules.UniCore.Runtime.Interfaces;
-    using UniGreenModules.UniNodeSystem.Runtime;
+    using System.Collections;
+    using Runtime;
+    using UniCore.Runtime.Interfaces;
+    using UnityEngine;
 
     public class InputTestNode : UniNode
     {

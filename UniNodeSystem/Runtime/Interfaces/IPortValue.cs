@@ -6,6 +6,11 @@ namespace UniGreenModules.UniNodeSystem.Runtime.Interfaces
     public interface IPortValue : 
         IValueReceiver,
         ITypeValueObservable, 
-        IConnector<IContextWriter>{
+        IConnector<IContextWriter>,
+        INamedItem
+    {
+        
+        
+        
     }
 }

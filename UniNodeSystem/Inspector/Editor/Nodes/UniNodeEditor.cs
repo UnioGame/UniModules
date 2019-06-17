@@ -1,18 +1,14 @@
-﻿using System.Collections.Generic;
-using Modules.UniTools.UniNodeSystem.Drawers;
-using Modules.UniTools.UniNodeSystem.Editor.BaseEditor;
-using UniEditorTools;
-using UniStateMachine;
-using UniStateMachine.NodeEditor;
-using UnityEngine;
-using UniNodeSystemEditor;
-
-namespace SubModules.Scripts.UniStateMachine.NodeEditor
+﻿namespace UniGreenModules.UniNodeSystem.Inspector.Editor.Nodes
 {
-    using UniGreenModules.UniNodeSystem.Runtime;
+    using System.Collections.Generic;
+    using BaseEditor;
+    using Drawers;
+    using Runtime;
+    using UniEditorTools;
+    using UnityEngine;
 
-    [CustomNodeEditor(typeof(UniGraphNode))]
-    public class UniNodeEditor : UniNodeSystemEditor.NodeEditor, IUniNodeEditor
+    [CustomNodeEditor(typeof(UniNode))]
+    public class UniNodeEditor : NodeEditor, IUniNodeEditor
     {
 
         #region static data
@@ -29,7 +25,7 @@ namespace SubModules.Scripts.UniStateMachine.NodeEditor
         
         public override bool IsSelected()
         {
-            var node = target as UniGraphNode;
+            var node = target as UniNode;
             if (!node)
                 return false;
             return node.IsActive;
@@ -47,7 +43,7 @@ namespace SubModules.Scripts.UniStateMachine.NodeEditor
 
         public override void OnBodyGUI()
         {
-            var node = target as UniGraphNode;
+            var node = target as UniNode;
 
             node.Initialize();
 
@@ -60,12 +56,12 @@ namespace SubModules.Scripts.UniStateMachine.NodeEditor
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
         }
 
-        public virtual void UpdateData(UniGraphNode node)
+        public virtual void UpdateData(UniNode node)
         {
             node.UpdatePortsCache();
         }
 
-        public void DrawPorts(UniGraphNode node)
+        public void DrawPorts(UniNode node)
         {
             Draw(_portsDrawer);
         }
