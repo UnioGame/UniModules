@@ -1,55 +1,31 @@
 ﻿using UnityEditor;
-using UnityEngine.AddressableAssets;
 
 namespace UniGreenModules.AddressableTools.Editor
 {
-    using UnityEditor.UIElements;
-    using UnityEngine.UIElements;
-    using Editor = UnityEditor.Editor;
+    using UnityEngine;
 
-    [CustomPropertyDrawer(typeof(AssetReference),true)]
-    public class AddressableAssetInspector : PropertyDrawer
+    public class AddressableAssetInspector<TTarget> : PropertyDrawer
     {
         private const string guiPropertyName = "m_AssetGUID";
-        
-        private AssetReference assetReference;
-
-  
-        public override VisualElement CreatePropertyGUI(SerializedProperty property)
+ 
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            var container = new VisualElement();
-            
-            var baseVisualElement = base.CreatePropertyGUI(property);
-            container.Add(baseVisualElement);
-            
-            var imguiContainer = DrawAddressableAssetInspector(property);
-            container.Add(imguiContainer);
-            
-            return container;
-            
+            EditorGUI.PropertyField( position, property, label, true );
+            DrawOnGuiAssetReferenceInspector(property);
         }
 
-
-        public VisualElement DrawAddressableAssetInspector(SerializedProperty property)
+        public void DrawOnGuiAssetReferenceInspector(SerializedProperty property)
         {
-            var container = new VisualElement();
-            var assetField = new ObjectField("target:");
-            assetField.allowSceneObjects = false;
-            
-            container.Add(assetField);
-            
             var guidProperty = property.FindPropertyRelative(guiPropertyName);
-            var assetGuid = guidProperty.stringValue;
-            if (string.IsNullOrEmpty(assetGuid)) return container; 
+            var assetGuid    = guidProperty.stringValue;
+            if (string.IsNullOrEmpty(assetGuid)) return; 
             
             var assetPath = AssetDatabase.GUIDToAssetPath(assetGuid);
             var mainType  = AssetDatabase.GetMainAssetTypeAtPath(assetPath);
-            var asset = AssetDatabase.LoadAssetAtPath(assetPath, mainType);
-            
-            
-            assetField.value = asset;
+            var asset     = AssetDatabase.LoadAssetAtPath(assetPath, mainType);
 
-            return container;
+            EditorGUILayout.ObjectField("target:",asset, typeof(TTarget),false);
+
         }
     }
 }
