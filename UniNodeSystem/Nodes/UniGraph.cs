@@ -85,6 +85,8 @@
         
         protected override void OnUpdatePortsCache()
         {
+            base.OnUpdatePortsCache();
+            
             allNodes.Clear();
             cancelationNodes.Clear();
             inputNodes.Clear();
@@ -164,6 +166,11 @@
 
         private void OnDisable() => Dispose();
 
+        private void OnValidate()
+        {
+            Initialize();
+        }
+        
         #endregion
 
     }

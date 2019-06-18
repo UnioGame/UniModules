@@ -9,9 +9,9 @@
 
     public class GraphPortNode : UniNode, IGraphPortNode
     {
-
-        [SerializeField]
-        private PortIO direction;
+        public bool visiblePort = true;
+        
+        public PortIO direction;
         
         public PortIO Direction => direction;
 
@@ -26,8 +26,10 @@
         {
             base.OnUpdatePortsCache();
             //redirect all input into output
-            PortValue.Connect(Output);
+            Input.Connect(Output);
         }
+
+        public bool Visible => visiblePort;
 
     }
     

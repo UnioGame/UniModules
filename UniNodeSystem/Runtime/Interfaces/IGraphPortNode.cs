@@ -7,6 +7,8 @@ namespace UniGreenModules.UniNodeSystem.Runtime.Interfaces
         PortIO Direction { get; }
         
         IPortValue PortValue { get; }
-        
+
+        bool Visible { get; }
+
     }
 }

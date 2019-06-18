@@ -111,11 +111,15 @@
             targetGraph.Initialize();
             
             foreach (var port in targetGraph.GraphInputs) {
-                this.UpdatePortValue(port.ItemName,PortIO.Input);
+                if (port.Visible) {
+                    this.UpdatePortValue(port.ItemName,PortIO.Input);
+                }
             }
             
             foreach (var port in targetGraph.GraphOuputs) {
-                this.UpdatePortValue(port.ItemName,PortIO.Output);
+                if (port.Visible) {
+                    this.UpdatePortValue(port.ItemName, PortIO.Output);
+                }
             }
         }
 
@@ -133,11 +137,14 @@
 
         private void BindGraphPort(IGraphPortNode graphNode, ILifeTime lifeTime)
         {
+            if (graphNode.Visible == false)
+                return;
             
             var portName = graphNode.ItemName;
             var graphPort = graphNode.PortValue;
+            
             var port = GetPortValue(portName);
-
+            
             var source = graphNode.Direction == PortIO.Input ? port : graphPort;
             var target = graphNode.Direction == PortIO.Input ? graphPort : port;
 

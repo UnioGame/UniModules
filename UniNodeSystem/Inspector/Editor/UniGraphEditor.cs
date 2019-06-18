@@ -5,11 +5,17 @@
 	using UniNodeSystem.Nodes;
 
 	[CustomNodeGraphEditor(typeof(UniGraph))]
-	public class UniGraphEditor : NodeGraphEditor  {
+	public class UniGraphEditor : NodeGraphEditor
+	{
 
+		private UniGraph graph;
+		
 		public override void OnEnable()
 		{
 			base.OnEnable();
+			graph = target as UniGraph;
+			
 		}
+		
 	}
 }

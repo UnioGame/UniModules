@@ -3,6 +3,7 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Security.Cryptography;
     using Extensions;
     using global::UniStateMachine.Runtime;
     using Interfaces;
@@ -171,14 +172,19 @@
 
         protected virtual void OnUpdatePortsCache()
         {
-            this.UpdatePortValue(OutputPortName, PortIO.Output);
-            this.UpdatePortValue(InputPortName, PortIO.Input);
+            CreateBasePorts();
         }
 
         protected virtual void OnNodeInitialize(){}
         
         #region state behaviour methods
 
+        protected void CreateBasePorts()
+        {
+            this.UpdatePortValue(OutputPortName, PortIO.Output);
+            this.UpdatePortValue(InputPortName, PortIO.Input);
+        }
+        
         private void Initialize(IContext stateContext)
         {
             nodeContext = stateContext;
@@ -230,8 +236,8 @@
             nodeContext = null;
             behaviourState = null;
         }
-        
-        #endregion
+
+#endregion
 
     }
 }

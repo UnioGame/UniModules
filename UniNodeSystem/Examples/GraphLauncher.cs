@@ -23,7 +23,8 @@ namespace UniGreenModules.UniNodeSystem.Examples
                 return;
             
             _context    = new EntityContext();
-            _disposable = _graph.Execute(_context).RunWithSubRoutines();
+            _disposable = _graph.Execute(_context).
+                RunWithSubRoutines();
         
         }
 
