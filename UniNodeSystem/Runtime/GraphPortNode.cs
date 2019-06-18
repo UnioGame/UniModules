@@ -8,17 +8,13 @@
 
     public class GraphPortNode : UniNode, IGraphPortNode
     {
+
         [SerializeField]
         private PortIO direction;
         
         public PortIO Direction => direction;
 
         public IPortValue PortValue => direction == PortIO.Input ? Input : Output;
-
-        public override string GetName()
-        {
-            return GetFormatedInputName(base.GetName());
-        }
 
         protected override IEnumerator OnExecuteState(IContext context)
         {
@@ -31,6 +27,7 @@
             //redirect all input into output
             PortValue.Connect(Output);
         }
+
     }
     
 }

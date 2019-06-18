@@ -16,13 +16,17 @@
 
     public class GraphNode : UniNode
     {
-        private IUniGraph graphInstance;
+        private UniGraph graphInstance;
         
 #region inspector data
 
         [Tooltip("should we await target graph before pass data to output or not")]
         [SerializeField]
         public bool awaitGraph = false;
+
+        [Tooltip("Bind subgraph to node lifetime")]
+        [SerializeField]
+        private bool bindWithLifetime = true; 
         
         /// <summary>
         /// cached addressable asset name
@@ -54,19 +58,25 @@
             //await graph loading
             yield return GraphInstanceHandle.Task.AwaitTask();
             //spawn graph
-            graphInstance = GraphInstanceHandle.Result.Spawn<IUniGraph>();
+            graphInstance = GraphInstanceHandle.Result.Spawn<UniGraph>();
             
             //despawn when execution finished
             var lifeTime = LifeTime;
-            lifeTime.AddCleanUpAction(() => {
-                                          graphInstance.AssetInstance.Despawn();
-                                          graphInstance = null;
-                                      });
-            
-            graphInstance.UpdatePortsCache();
+            //initialize graph            
+            graphInstance.Initialize();
             
             //bind node ports to graph nodes
             BindGraphPorts(graphInstance);
+
+            //if graph depends from node lifetime => despawn on exit
+            if (bindWithLifetime) 
+            {
+                lifeTime.AddCleanUpAction(() => {
+                                              graphInstance.Exit();
+                                              graphInstance.AssetInstance.Despawn();
+                                              graphInstance = null;
+                                          });
+            }
             
             if (awaitGraph) {
                 yield return graphInstance.Execute(context);
@@ -84,7 +94,6 @@
         {
             base.OnUpdatePortsCache();
 
-            return;
 #if !UNITY_EDITOR
             return;
 #endif

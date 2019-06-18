@@ -32,7 +32,7 @@
 			var graph = new GameObject().AddComponent<UniGraph>();
 			
 			//add main root node
-			graph.AddNode<UniRootNode>();
+			graph.AddNode<UniRootNode>("Root");
 			
 			var activePath = AssetDatabase.GetAssetPath(Selection.activeObject);
 			

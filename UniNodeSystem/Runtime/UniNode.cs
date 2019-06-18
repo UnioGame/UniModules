@@ -72,8 +72,6 @@
 
         public void Initialize()
         {           
-            behaviourState = CreateState();
-            
             if (Application.isPlaying && isInitialized)
                 return;
             
@@ -127,6 +125,8 @@
                 name, GetType().Name, context), this);
             
             Initialize();
+            
+            behaviourState = CreateState();
             
             yield return behaviourState.Execute(context);
             

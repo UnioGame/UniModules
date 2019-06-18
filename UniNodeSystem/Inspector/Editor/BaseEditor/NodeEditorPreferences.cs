@@ -8,6 +8,8 @@
 
     public static class NodeEditorPreferences
     {
+        private static Type NodeEditorType = typeof(NodeGraphEditor.CustomNodeGraphEditorAttribute);
+        
         /// <summary> The last editor we checked. This should be the one we modify </summary>
         private static NodeGraphEditor lastEditor;
 
@@ -27,7 +29,7 @@
                 var graphEditor = currentEditor.graphEditor;
                 
                 var attribs = graphEditor.GetType()
-                    .GetCustomAttributes(typeof(NodeGraphEditor.CustomNodeGraphEditorAttribute), true);
+                    .GetCustomAttributes(NodeEditorType, true);
                 
                 if (attribs.Length == 1)
                 {
