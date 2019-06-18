@@ -2,12 +2,7 @@ namespace UniGreenModules.UniCore.Runtime.Interfaces
 {
     public interface ITypeData : 
         IContextWriter,
-        IDataValueParameters
+        IDataValueParameters, IReadOnlyData
     {
-        
-        TData Get<TData>();
-
-        bool Contains<TData>();
-        
     }
 }
