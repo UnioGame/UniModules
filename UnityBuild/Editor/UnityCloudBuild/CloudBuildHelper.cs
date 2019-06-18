@@ -5,8 +5,11 @@ using UniGreenModules.UnityBuild.Editor.ClientBuild.Commands;
 using UniGreenModules.UnityBuild.Editor.ClientBuild.Extensions;
 using UnityEngine;
 
-namespace UniGreenModules.UnityBuild.Editor.UnityCloudBuild
+    //Use UniGreenModules.CloudBuildHelper.[PreExport || PostExport]
+namespace UniGreenModules
 {
+    using UnityBuild.Editor.UnityCloudBuild;
+
     //https://docs.unity3d.com/Manual/UnityCloudBuildManifestAsScriptableObject.html
     //https://docs.unity3d.com/Manual/UnityCloudBuildManifest.html
     public static class CloudBuildHelper
