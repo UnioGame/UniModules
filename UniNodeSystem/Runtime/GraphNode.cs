@@ -94,11 +94,11 @@
             if (!graphAsset)
                 return;
             
-            var targetGraph = graphAsset.GetComponent<IUniGraph>();
+            var targetGraph = graphAsset.GetComponent<UniGraph>();
             if (targetGraph == null)
                 return;
             
-            targetGraph.UpdatePortsCache();
+            targetGraph.Initialize();
             
             foreach (var port in targetGraph.GraphInputs) {
                 this.UpdatePortValue(port.ItemName,PortIO.Input);

@@ -89,18 +89,6 @@
             inputNodes.Clear();
             outputNodes.Clear();
             
-            InitializeNodes();
-        }
-
-        protected override void OnNodeInitialize()
-        {
-            InitializePortConnections();
-        }
-
-        private void InitializeNodes()
-        {
-            allNodes.Clear();
-
             for (var i = 0; i < nodes.Count; i++) {
 
                 var node = nodes[i];
@@ -130,20 +118,17 @@
             }
         }
 
-        /// <summary>
-        /// create bindings between portvalues
-        /// </summary>
-        private void InitializePortConnections()
+        protected override void OnNodeInitialize()
         {
             for (var i = 0; i < allNodes.Count; i++)
             {
-                var node = allNodes[i];
+                var node   = allNodes[i];
                 var values = node.PortValues;
 
                 for (var j = 0; j < values.Count; j++)
                 {
                     var value = values[j];
-                    var port = node.GetPort(value.ItemName);
+                    var port  = node.GetPort(value.ItemName);
 
                     //take only input ports
                     if (port.direction == PortIO.Output)
