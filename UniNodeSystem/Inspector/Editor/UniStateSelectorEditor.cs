@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
-using UniEditorTools;
-using UnityEditor;
-using UnityEngine;
-
-namespace UniStateMachine
+﻿namespace UniGreenModules.UniNodeSystem.Inspector.Editor
 {
-    using UniGreenModules.UniCore.Runtime.ObjectPool;
-    using UniGreenModules.UniCore.Runtime.ObjectPool.Extensions;
-    using UniGreenModules.UniNodeSystem.Runtime;
+    using System.Collections.Generic;
+    using Runtime;
+    using UniCore.Runtime.ObjectPool;
+    using UniCore.Runtime.ObjectPool.Extensions;
+    using UniEditorTools;
+    using UnityEditor;
+    using UnityEngine;
 
     [CustomEditor(typeof(UniStateSelector), true)]
     public class UniStateSelectorEditor : Editor

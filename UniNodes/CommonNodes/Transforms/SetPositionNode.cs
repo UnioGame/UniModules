@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using UniModule.UnityTools.Interfaces;
-using UnityEngine;
-
-namespace UniStateMachine.CommonNodes.Transforms
+﻿namespace UniGreenModules.UniNodes.CommonNodes.Transforms
 {
-    using UniGreenModules.UniCore.Runtime.Interfaces;
-    using UniGreenModules.UniNodeSystem.Runtime;
+    using System.Collections;
+    using UniCore.Runtime.Interfaces;
+    using UniNodeSystem.Runtime;
+    using UnityEngine;
 
     public class SetPositionNode : UniNode
     {

@@ -2,12 +2,14 @@
 {
     using System;
     using Interfaces;
+    using UniCore.Runtime.Attributes;
     using UniRx;
     using UnityEngine;
 
     public class InteractionTrigger : MonoBehaviour, IInteractionTrigger
     {
         [SerializeField]
+        [ReadOnlyValue]
         private string _triggerName;
         
         private Subject<IInteractionTrigger> _subject = new Subject<IInteractionTrigger>();
@@ -38,6 +40,11 @@
         public IDisposable Subscribe(IObserver<IInteractionTrigger> observer)
         {
             return _subject.Subscribe(observer);
+        }
+
+        protected void OnValidate()
+        {
+            _triggerName = name;
         }
     }
 }

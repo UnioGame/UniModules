@@ -1,10 +1,9 @@
-﻿using NUnit.Framework;
-
-namespace UniNodesTests
+﻿namespace UniGreenModules.UniNodeSystem.Tests.Editor.UniNodesTests
 {
-    using UniGreenModules.UniContextData.Runtime.Entities;
-    using UniGreenModules.UniNodeSystem.Runtime;
-    using UniGreenModules.UniNodeSystem.Runtime.Connections;
+    using NUnit.Framework;
+    using Runtime;
+    using Runtime.Connections;
+    using UniContextData.Runtime.Entities;
 
     public class UniPortValueTests
     {

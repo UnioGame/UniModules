@@ -22,8 +22,8 @@
 
         public void Initialize(TModel model)
         {
-            Release();  
-            
+            Release();
+
             //restart lifetime
             lifeTimeDefinition.Release();
 
@@ -40,7 +40,6 @@
             OnRelease();
         }
 
-        
         protected virtual void OnInitialize(TModel model) {}
 
         protected virtual void OnRelease(){}

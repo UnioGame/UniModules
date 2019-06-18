@@ -1,12 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UniModule.UnityTools.Interfaces;
-using UnityEngine;
-
-namespace UniStateMachine.CommonNodes
+﻿namespace UniGreenModules.UniNodes.CommonNodes
 {
-    using UniGreenModules.UniNodeSystem.Runtime;
-    using UniGreenModules.UniNodeSystem.Runtime.Extensions;
+    using UniNodeSystem.Runtime;
+    using UniNodeSystem.Runtime.Extensions;
 
     public class PortsHubNode : UniNode
     {

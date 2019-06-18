@@ -1,12 +1,9 @@
-﻿using Modules.UniTools.UniNodeSystem.Editor.BaseEditor;
-using UniNodeSystemEditor;
-using UniStateMachine;
-using UnityEngine;
-
-namespace Modules.UniTools.UniNodeSystemEditor.Editor.Styles
+﻿namespace UniGreenModules.UniNodeSystem.Inspector.Editor.Styles
 {
-    using UniGreenModules.UniNodeSystem.Runtime;
-    using UniGreenModules.UniNodeSystem.Runtime.Runtime;
+    using BaseEditor;
+    using Runtime;
+    using Runtime.Runtime;
+    using UnityEngine;
 
     public class PortStyleSelector : IStyleProvider
     {
@@ -14,7 +11,7 @@ namespace Modules.UniTools.UniNodeSystemEditor.Editor.Styles
         public virtual NodeGuiLayoutStyle Select(NodePort port)
         {
             var portStyle = NodeEditorGUILayout.GetDefaultPortStyle(port);
-            var uniNode = port.node as UniGraphNode;
+            var uniNode = port.node as UniNode;
             
             if (!uniNode) return portStyle;
 

@@ -1,38 +1,42 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Modules.UniTools.UniNodeSystem.Editor.UnityGraph;
-using UniGreenModules.UniNodeSystem.Runtime;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
-using UniNodeSystemEditor;
 
-[CanEditMultipleObjects]
-[CustomEditor(typeof(UniGraph))]
-public class UniNodesGraphEditor : Editor
+namespace UniGreenModules.UniNodeSystem.Inspector.Editor
 {
-    public override void OnInspectorGUI()
-    {
-        base.OnInspectorGUI();
-        
-        var graph = target as UniGraph;
-        
-        GUILayout.Space(10);
-        GUILayout.BeginHorizontal();
+    using BaseEditor;
+    using Runtime;
+    using UniNodeSystem.Nodes;
+    using UnityGraph;
+    using Editor = UnityEditor.Editor;
 
-        GUILayout.BeginVertical();
-        
-        if (GUILayout.Button("Show Graph", GUILayout.Height(26)))
+    [CanEditMultipleObjects]
+    [CustomEditor(typeof(UniGraph))]
+    public class UniNodesGraphEditor : Editor
+    {
+        public override void OnInspectorGUI()
         {
-            NodeEditorWindow.Open(graph);
-        }
-        if (GUILayout.Button("Show Unity Graph", GUILayout.Height(26)))
-        {
-            UnityGraphWindow.Show(graph);
-        }
+            base.OnInspectorGUI();
         
-        GUILayout.EndVertical();
+            var graph = target as UniGraph;
         
-        GUILayout.EndHorizontal();
-        GUILayout.Space(10);
+            GUILayout.Space(10);
+            GUILayout.BeginHorizontal();
+
+            GUILayout.BeginVertical();
+        
+            if (GUILayout.Button("Show Graph", GUILayout.Height(26)))
+            {
+                NodeEditorWindow.Open(graph);
+            }
+            if (GUILayout.Button("Show Unity Graph", GUILayout.Height(26)))
+            {
+                UnityGraphWindow.Show(graph);
+            }
+        
+            GUILayout.EndVertical();
+        
+            GUILayout.EndHorizontal();
+            GUILayout.Space(10);
+        }
     }
 }

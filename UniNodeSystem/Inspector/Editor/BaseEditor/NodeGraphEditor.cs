@@ -1,10 +1,9 @@
-﻿using System;
-using UnityEditor;
-using UnityEngine;
-using Object = UnityEngine.Object;
-
-namespace UniNodeSystemEditor {
-    using UniGreenModules.UniNodeSystem.Runtime.Runtime;
+﻿namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor {
+    using System;
+    using Runtime.Runtime;
+    using UnityEditor;
+    using UnityEngine;
+    using Object = UnityEngine.Object;
 
     /// <summary> Base class to derive custom Node Graph editors from. Use this to override how graphs are drawn in the editor. </summary>
     [CustomNodeGraphEditor(typeof(NodeGraph))]

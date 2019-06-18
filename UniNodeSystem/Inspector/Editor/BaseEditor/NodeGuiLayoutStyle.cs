@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-
-namespace Modules.UniTools.UniNodeSystem.Editor.BaseEditor
+﻿namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
 {
+    using UnityEngine;
+
     public struct NodeGuiLayoutStyle
     {
         

@@ -1,14 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UniModule.UnityTools.Interfaces;
-using UniStateMachine.CommonNodes;
-using UnityEngine;
-
-namespace UniStateMachine.CommonNodes
+﻿namespace UniGreenModules.UniNodes.CommonNodes
 {
-    using UniGreenModules.UniCore.Runtime.Attributes;
-    using UniGreenModules.UniCore.Runtime.Interfaces;
-    using UniGreenModules.UniCore.Runtime.Math;
+    using System.Collections;
+    using UniCore.Runtime.Attributes;
+    using UniCore.Runtime.Interfaces;
+    using UniCore.Runtime.Math;
+    using UnityEngine;
 
     public class TimeConditionNode : ConditionNode
     {

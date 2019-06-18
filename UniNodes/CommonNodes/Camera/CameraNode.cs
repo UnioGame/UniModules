@@ -1,15 +1,13 @@
-﻿namespace UniStateMachine.CommonNodes.Camera
+﻿namespace UniGreenModules.UniNodes.CommonNodes.Camera
 {
     using System.Collections;
-    using UniGreenModules.UniCore.Runtime.Interfaces;
-    using UniGreenModules.UniNodeSystem.Runtime;
-    using UniGreenModules.UniNodeSystem.Runtime.Extensions;
-    using UniGreenModules.UniNodeSystem.Runtime.Runtime;
-    using UniModule.UnityTools.Interfaces;
-    using UniStateMachine;
-    using UnityEngine;
+    using UniCore.Runtime.Interfaces;
+    using UniNodeSystem.Runtime;
+    using UniNodeSystem.Runtime.Extensions;
+    using UniNodeSystem.Runtime.Runtime;
     using UniRx;
-    
+    using UnityEngine;
+
     public class CameraNode : UniNode
     {
         #region inspector

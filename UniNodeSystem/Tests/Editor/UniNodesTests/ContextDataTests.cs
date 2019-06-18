@@ -1,14 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using NUnit.Framework;
-using UnityEngine;
-using UnityEngine.TestTools;
-
-namespace Tests
+﻿namespace UniGreenModules.UniNodeSystem.Tests.Editor.UniNodesTests
 {
-    using UniGreenModules.UniContextData.Runtime;
-    using UniGreenModules.UniContextData.Runtime.Entities;
-    using UniGreenModules.UniCore.Runtime.Interfaces;
+    using System.Collections;
+    using NUnit.Framework;
+    using UniContextData.Runtime;
+    using UniContextData.Runtime.Entities;
+    using UniCore.Runtime.Interfaces;
+    using UnityEngine.TestTools;
 
     public class ContextDataTests
     {

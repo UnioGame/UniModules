@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
-using UnityEditor;
-using UnityEngine;
-using Object = UnityEngine.Object;
-
-namespace UniNodeSystemEditor
+﻿namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
 {
+    using System;
+    using System.Collections.Generic;
+    using Interfaces;
+    using UnityEditor;
+    using Object = UnityEngine.Object;
+
     /// <summary> Handles caching of custom editor classes and their target types. Accessible with GetEditor(Type type) </summary>
     public class NodeEditorBase<T, A, K> 
         where A : Attribute, INodeEditorAttribute

@@ -1,6 +1,7 @@
 ﻿namespace UniGreenModules.UniUiSystem.Runtime.Types
 {
     using System;
+    using UiData;
     using UnityEngine.AddressableAssets;
 
     [Serializable]

@@ -4,11 +4,23 @@ namespace UniGreenModules.UniNodeSystem.Runtime.Interfaces
     using System.Collections.Generic;
     using UniCore.Runtime.Interfaces;
     using UniModule.UnityTools.UniStateMachine.Interfaces;
+    using UniTools.UniRoutine.Runtime;
 
-    public interface IUniGraphNode : IValidator<IContext>, IContextState<IEnumerator>
+    public interface IUniNode : 
+        INode,
+        IValidator<IContext>, 
+        IContextState<IEnumerator>,
+        INamedItem
     {
-        UniPortValue Input { get; }
-        UniPortValue Output { get; }
-        IReadOnlyList<UniPortValue> PortValues { get; }
+
+        RoutineType RoutineType { get; }
+        
+        IPortValue Input { get; }
+        
+        IPortValue Output { get; }
+        
+        IReadOnlyList<IPortValue> PortValues { get; }
+
+        void UpdatePortsCache();
     }
 }

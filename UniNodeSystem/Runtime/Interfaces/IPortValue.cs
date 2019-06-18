@@ -4,10 +4,13 @@ namespace UniGreenModules.UniNodeSystem.Runtime.Interfaces
     using UniRx;
 
     public interface IPortValue : 
-        ITypeData, 
+        IValueReceiver,
         ITypeValueObservable, 
-        IMessageReceiver,
-        IConnector<IContextWriter>
+        IConnector<IContextWriter>,
+        INamedItem
     {
+        
+        
+        
     }
 }

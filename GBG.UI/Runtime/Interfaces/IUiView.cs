@@ -5,14 +5,12 @@ namespace UniGreenModules.GBG.UI.Runtime.Interfaces
 
     public interface IUiView<TModel> : IViewModel<TModel>
     {
-        
-        bool IsActive { get; }
-
         RectTransform RectTransform { get; }
 
+        /// <summary>
+        /// view - update trigger
+        /// </summary>
         void UpdateView();
-        
-        void SetState(bool active);
         
     }
 }

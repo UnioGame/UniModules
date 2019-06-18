@@ -1,16 +1,10 @@
-﻿using System.Collections.Generic;
-using Modules.UniTools.UniNodeSystem.Drawers;
-using Modules.UniTools.UniNodeSystem.Editor.BaseEditor;
-using Modules.UniTools.UniNodeSystemEditor.Editor.Styles;
-using UniNodeSystemEditor;
-using UniStateMachine;
-using UnityEditor.Experimental.UIElements.GraphView;
-using UnityEngine;
-
-namespace Modules.UniTools.UniNodeSystem.Drawers
+﻿namespace UniGreenModules.UniNodeSystem.Inspector.Editor.Drawers
 {
-    using UniGreenModules.UniNodeSystem.Runtime;
-    using UniGreenModules.UniNodeSystem.Runtime.Runtime;
+    using System.Collections.Generic;
+    using BaseEditor.Interfaces;
+    using Runtime;
+    using Runtime.Runtime;
+    using Styles;
 
     public class UniNodeBasePortsDrawer : INodeEditorDrawer
     {
@@ -22,7 +16,7 @@ namespace Modules.UniTools.UniNodeSystem.Drawers
         
             _drawedPorts.Clear();
 
-            var node = baseNode as UniGraphNode;
+            var node = baseNode as UniNode;
             if (node == null)
                 return true;
 
@@ -34,7 +28,7 @@ namespace Modules.UniTools.UniNodeSystem.Drawers
         }
     
         
-        public bool DrawPortPair(UniGraphNode node, 
+        public bool DrawPortPair(UniNode node, 
             string inputPortName, string outputPortName)
         {
 
@@ -45,7 +39,7 @@ namespace Modules.UniTools.UniNodeSystem.Drawers
             
         }
 
-        public bool DrawPortPair(UniGraphNode node,NodePort inputPort, NodePort outputPort)
+        public bool DrawPortPair(UniNode node,NodePort inputPort, NodePort outputPort)
         {
             if (outputPort == null || inputPort == null)
             {
@@ -60,12 +54,12 @@ namespace Modules.UniTools.UniNodeSystem.Drawers
             return true;
         }
 
-        private void DrawPorts(UniGraphNode node,IDictionary<string, NodePort> cache)
+        private void DrawPorts(UniNode node,IDictionary<string, NodePort> cache)
         {
             for (var i = 0; i < node.PortValues.Count; i++)
             {
                 var portValue = node.PortValues[i];
-                var outputPortName = portValue.name;
+                var outputPortName = portValue.ItemName;
                 var inputPortName = node.GetFormatedInputName(outputPortName);
 
                 if (cache.ContainsKey(outputPortName))
@@ -93,13 +87,13 @@ namespace Modules.UniTools.UniNodeSystem.Drawers
             port.DrawPortField(portStyle);
         }
 
-        private void DrawBasePorts(UniGraphNode node,IDictionary<string, NodePort> cache)
+        private void DrawBasePorts(UniNode node,IDictionary<string, NodePort> cache)
         {                   
-            var inputPort = node.GetPort(UniGraphNode.InputPortName);
-            var outputPort = node.GetPort(UniGraphNode.OutputPortName);
+            var inputPort = node.GetPort(UniNode.InputPortName);
+            var outputPort = node.GetPort(UniNode.OutputPortName);
 
-            cache[UniGraphNode.InputPortName] = inputPort;
-            cache[UniGraphNode.OutputPortName] = outputPort;
+            cache[UniNode.InputPortName] = inputPort;
+            cache[UniNode.OutputPortName] = outputPort;
             
             DrawPortPair(node, inputPort, outputPort);
         }

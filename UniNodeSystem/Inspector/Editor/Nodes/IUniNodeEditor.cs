@@ -1,11 +1,7 @@
-using System.Collections.Generic;
-using Modules.UniTools.UniNodeSystem.Editor.BaseEditor;
-using UniStateMachine;
-using UnityEngine;
-using UniNodeSystemEditor;
-
-namespace UniStateMachine.NodeEditor
+namespace UniGreenModules.UniNodeSystem.Inspector.Editor.Nodes
 {
+    using BaseEditor.Interfaces;
+
     public interface IUniNodeEditor : INodeEditor
     {
         bool IsSelected();

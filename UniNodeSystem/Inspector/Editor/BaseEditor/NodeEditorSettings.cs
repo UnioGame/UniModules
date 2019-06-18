@@ -1,11 +1,10 @@
-using System;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace UniNodeSystemEditor
+namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
 {
-    
-        [Serializable]
+    using System;
+    using System.Collections.Generic;
+    using UnityEngine;
+
+    [Serializable]
         public class NodeEditorSettings : ISerializationCallbackReceiver 
         {
             

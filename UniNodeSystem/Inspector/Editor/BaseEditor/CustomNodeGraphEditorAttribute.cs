@@ -1,7 +1,8 @@
-using System;
-
-namespace UniNodeSystemEditor
+namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
 {
+    using System;
+    using Interfaces;
+
     public partial class NodeGraphEditor
     {
         [AttributeUsage(AttributeTargets.Class)]

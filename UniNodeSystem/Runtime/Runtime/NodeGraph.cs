@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using Interfaces;
     using UnityEngine;
 
     /// <summary> Base class for all node graphs </summary>
@@ -21,6 +22,9 @@
         [SerializeField]
         public List<UniBaseNode> nodes = new List<UniBaseNode>();
 
+
+        public IReadOnlyList<INode> Nodes => nodes;
+        
         public ulong GetId()
         {
             return ++_uniqueId;
@@ -33,12 +37,16 @@
         {
             return AddNode(typeof(T)) as T;
         }
+        
+        public T AddNode<T>(string name) where T : UniBaseNode
+        {
+            return AddNode(name,typeof(T)) as T;
+        }
 
-        /// <summary> Add a node to the graph by type </summary>
-        public virtual UniBaseNode AddNode(Type type)
+        public virtual UniBaseNode AddNode(string nodeName,Type type)
         {
             var childNode = new GameObject();
-            childNode.name             = nameof(type);
+            childNode.name             = type.Name;
             childNode.transform.parent = transform;
 
             var node = childNode.AddComponent(type) as UniBaseNode;
@@ -49,6 +57,12 @@
             nodes.Add(node);
             node.graph = this;
             return node;
+        }
+
+        /// <summary> Add a node to the graph by type </summary>
+        public UniBaseNode AddNode(Type type)
+        {
+            return AddNode(type.Name, type);
         }
 
         /// <summary> Creates a copy of the original node in the graph </summary>

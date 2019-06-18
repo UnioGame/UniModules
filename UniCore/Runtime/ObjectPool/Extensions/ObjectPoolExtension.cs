@@ -10,10 +10,10 @@
     public static class ObjectPoolExtension
     {
 
-        public static TComponent Spawn<TComponent>(this GameObject prototype, int preloadsCount = 0)
-            where TComponent : Component
+        public static TComponent Spawn<TComponent>(this GameObject prototype)
         {
-            if (!prototype) return null;
+            if (!prototype) return default(TComponent);
+            
             var pawn = ObjectPool.Spawn<TComponent>(prototype);
             return pawn;
         }

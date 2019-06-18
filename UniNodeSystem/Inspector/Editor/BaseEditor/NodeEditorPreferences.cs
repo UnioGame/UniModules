@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine;
-using Random = UnityEngine.Random;
-
-namespace UniNodeSystemEditor
+﻿namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
 {
+    using System;
+    using System.Collections.Generic;
+    using UnityEditor;
+    using UnityEngine;
+    using Random = UnityEngine.Random;
+
     public static class NodeEditorPreferences
     {
+        private static Type NodeEditorType = typeof(NodeGraphEditor.CustomNodeGraphEditorAttribute);
+        
         /// <summary> The last editor we checked. This should be the one we modify </summary>
         private static NodeGraphEditor lastEditor;
 
@@ -27,7 +29,7 @@ namespace UniNodeSystemEditor
                 var graphEditor = currentEditor.graphEditor;
                 
                 var attribs = graphEditor.GetType()
-                    .GetCustomAttributes(typeof(NodeGraphEditor.CustomNodeGraphEditorAttribute), true);
+                    .GetCustomAttributes(NodeEditorType, true);
                 
                 if (attribs.Length == 1)
                 {

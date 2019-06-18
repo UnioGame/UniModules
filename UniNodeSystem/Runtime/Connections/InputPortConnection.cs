@@ -7,9 +7,9 @@
     public class InputPortConnection : PortValueConnection
     {
         private readonly INodeExecutor<IContext> _nodeExecutor;
-        private readonly UniGraphNode _node;
+        private readonly IUniNode _node;
 
-        public InputPortConnection(UniGraphNode node, 
+        public InputPortConnection(IUniNode node, 
             ITypeData target,
             INodeExecutor<IContext> nodeExecutor) : 
             base(target)

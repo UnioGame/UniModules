@@ -12,8 +12,6 @@
     {
         private IDisposableItem _updateDisposable;
 
-        public bool IsActive { get; protected set; }
-
         public RectTransform RectTransform  => transform as RectTransform;
 
         public void UpdateView()
@@ -31,36 +29,17 @@
                 return;
 
             //schedule single ui update at next EndOfFrame call
-            _updateDisposable = OnScheduledUpdate().RunWithSubRoutines(RoutineType.EndOfFrame);
+            _updateDisposable = OnScheduledUpdate().
+                RunWithSubRoutines(RoutineType.EndOfFrame);
         }
-        
-        public void SetState(bool active)
-        {
-            if (IsActive == active)
-                return;
 
-            IsActive = active;
-            
-            if (active)
-            {
-                Activate();
-            }
-            else
-            {
-                Deactivate();
-            }
-        }       
+        #region private methods
 
-        protected virtual void Activate(){}
-
-        protected virtual void Deactivate(){}
-        
         protected virtual bool Validate() => isActiveAndEnabled;
 
         protected override void OnRelease()
         {
             _updateDisposable.Cancel();
-            SetState(false);
         }
 
         private IEnumerator OnScheduledUpdate()
@@ -75,6 +54,7 @@
 
         protected virtual void OnEnable() => UpdateView();
         
+        #endregion
 
     }
 }

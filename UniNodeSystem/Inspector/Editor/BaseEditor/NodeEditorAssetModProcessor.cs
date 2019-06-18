@@ -1,8 +1,7 @@
-﻿using UnityEditor;
-using UnityEngine;
-
-namespace UniNodeSystemEditor {
-    using UniGreenModules.UniNodeSystem.Runtime.Runtime;
+﻿namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor {
+    using Runtime.Runtime;
+    using UnityEditor;
+    using UnityEngine;
 
     /// <summary> Deals with modified assets </summary>
     class NodeEditorAssetModProcessor : UnityEditor.AssetModificationProcessor {

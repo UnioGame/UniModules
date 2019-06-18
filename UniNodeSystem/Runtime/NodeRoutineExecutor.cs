@@ -1,5 +1,6 @@
 ﻿namespace UniGreenModules.UniNodeSystem.Runtime
 {
+    using global::UniStateMachine.Runtime;
     using Interfaces;
     using UniCore.Runtime.Interfaces;
     using UniStateMachine.Runtime;
@@ -7,12 +8,12 @@
 
     public class NodeRoutineExecutor : INodeExecutor<IContext>
     {   
-        public void Execute(UniGraphNode node, IContext context)
+        public void Execute(IUniNode node, IContext context)
         {
             if (node.IsActive)
                 return;
 
-            StateLogger.LogState($"GRAPH NODE {node.name} : STARTED", node);
+            StateLogger.LogState($"GRAPH NODE {node.ItemName} Type {node.GetType()}: STARTED");
 
             var inputValue = node.Input;
             inputValue.Add(context);
@@ -25,13 +26,13 @@
             lifeTime.AddDispose(disposable);
         }
 
-        public void Stop(UniGraphNode node)
+        public void Stop(IUniNode node)
         {
             //node already stoped
             if (!node.IsActive)
                 return;
 
-            StateLogger.LogState($"GRAPH NODE {node.name} : STOPED", node);
+            StateLogger.LogState($"GRAPH NODE  {node.ItemName} Type {node.GetType()}: STOPED");
 
             node.Exit();
         }

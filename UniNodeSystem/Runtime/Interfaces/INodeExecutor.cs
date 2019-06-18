@@ -3,9 +3,9 @@
     public interface INodeExecutor<in TContext>
     {
         
-        void Execute(UniGraphNode node, TContext context);
+        void Execute(IUniNode node, TContext context);
 
-        void Stop(UniGraphNode node);
+        void Stop(IUniNode node);
         
     }
 }

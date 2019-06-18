@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using UnityEditor;
-using UnityEngine;
-using Object = UnityEngine.Object;
+﻿namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Reflection;
+    using System.Text;
+    using UnityEditor;
+    using UnityEngine;
+    using Object = UnityEngine.Object;
 
-namespace UniNodeSystemEditor {
     /// <summary> A set of editor-only utilities and extensions for UnityNodeEditorBase </summary>
     public static class NodeEditorUtilities {
 

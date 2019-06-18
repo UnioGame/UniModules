@@ -1,13 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UniModule.UnityTools.Interfaces;
-using UniModule.UnityTools.UniStateMachine.Interfaces;
-
-namespace UniModule.UnityTools.UniStateMachine.ContextStateMachine
+﻿namespace UniGreenModules.UniStateMachine.Runtime.ContextStateMachine
 {
-    using UniGreenModules.UniContextData.Runtime.Entities;
-    using UniGreenModules.UniCore.Runtime.DataFlow;
-    using UniGreenModules.UniCore.Runtime.Interfaces;
+    using System.Collections;
+    using UniContextData.Runtime.Entities;
+    using UniCore.Runtime.DataFlow;
+    using UniCore.Runtime.Interfaces;
+    using UniModule.UnityTools.UniStateMachine.Interfaces;
     using UniTools.UniRoutine.Runtime.Extension;
 
     public enum StateStatus : byte
@@ -20,6 +17,7 @@ namespace UniModule.UnityTools.UniStateMachine.ContextStateMachine
     
     public abstract class ContextState : IContextState<IEnumerator>
     {
+        
         /// <summary>
         /// current state status
         /// </summary>
@@ -105,7 +103,7 @@ namespace UniModule.UnityTools.UniStateMachine.ContextStateMachine
 
         private void SetStatus(StateStatus status)
         {
-            _stateStatus = status;
+            _stateStatus = status;       
         }
         
     }

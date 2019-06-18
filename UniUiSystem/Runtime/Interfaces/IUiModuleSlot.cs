@@ -1,15 +1,14 @@
 namespace UniGreenModules.UniUiSystem.Runtime.Interfaces
 {
-    using UniCore.Runtime.DataFlow;
-    using UniCore.Runtime.Interfaces;
-    using UnityEngine;
+    using GBG.UI.Runtime.Interfaces;
+    using UniNodeSystem.Runtime.Connections;
 
-    public interface IUiModuleSlot
+    public interface IUiModuleSlot : IUiPlacement
     {
-        string SlotName { get; }
         
-        RectTransform Transform { get; }
+        string SlotName { get; }
 
-        void ApplySlotData(IContext context,ITypeData container,ILifeTime lifeTime);
+        ITypeDataBrodcaster Value { get; }
+        
     }
 }

@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using Modules.UniTools.UniNodeSystem.Editor.BaseEditor;
-using UnityEditor;
-using UnityEditorInternal;
-using UnityEngine;
-
-namespace UniNodeSystemEditor
+﻿namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
 {
-    using UniGreenModules.UniNodeSystem.Runtime.Runtime;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Runtime.Runtime;
+    using UnityEditor;
+    using UnityEditorInternal;
+    using UnityEngine;
 
     /// <summary> UniNodeSystem-specific version of <see cref="EditorGUILayout"/> </summary>
     public static class NodeEditorGUILayout
@@ -296,8 +292,8 @@ namespace UniNodeSystemEditor
 
             // Register the handle position
             var portPos = rect.center;
-            if (NodeEditor.PortPositions.ContainsKey(port)) NodeEditor.PortPositions[port] = portPos;
-            else NodeEditor.PortPositions.Add(port, portPos);
+            
+            NodeEditor.PortPositions[port] = portPos;
         }
 
         /// <summary> Add a port field to previous layout element. </summary>
@@ -345,9 +341,11 @@ namespace UniNodeSystemEditor
         public static void PortPair(NodePort input, NodePort output,
             NodeGuiLayoutStyle intputStyle, NodeGuiLayoutStyle outputStyle)
         {
-            GUILayout.BeginHorizontal();
+            GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
+            
             PortField(input, intputStyle);
             PortField(output, outputStyle);
+            
             GUILayout.EndHorizontal();
         }
 

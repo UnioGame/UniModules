@@ -5,6 +5,7 @@ namespace UniModule.UnityTools.UniStateMachine
     using System.Collections;
     using UniGreenModules.UniCore.Runtime.Interfaces;
     using UniGreenModules.UniCore.Runtime.ObjectPool.Interfaces;
+    using UniGreenModules.UniStateMachine.Runtime.ContextStateMachine;
     using UniModule.UnityTools.Interfaces;
     using UniModule.UnityTools.UniStateMachine.ContextStateMachine;
 
