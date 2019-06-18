@@ -4,6 +4,7 @@
     using Runtime;
     using Runtime.Interfaces;
     using UniEditorTools;
+    using UniNodeSystem.Nodes;
     using UnityEngine;
 
     [CustomNodeEditor(typeof(GraphNode))]

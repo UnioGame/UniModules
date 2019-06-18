@@ -5,6 +5,7 @@ using UniTools.UniRoutine.Runtime;
 
 namespace UniGreenModules.UniNodeSystem.Examples
 {
+    using Nodes;
     using Runtime;
 
     public class GraphLauncher : MonoBehaviour

@@ -1,11 +1,12 @@
-﻿namespace UniGreenModules.UniNodeSystem.Runtime
+﻿namespace UniGreenModules.UniNodeSystem.Nodes
 {
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using Connections;
-    using Interfaces;
     using Runtime;
+    using Runtime.Connections;
+    using Runtime.Interfaces;
+    using Runtime.Runtime;
     using UniCore.Runtime.Interfaces;
     using UniCore.Runtime.Rx.Extensions;
     using UniRx;

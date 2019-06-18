@@ -1,9 +1,10 @@
-﻿namespace UniGreenModules.UniNodeSystem.Runtime
+﻿namespace UniGreenModules.UniNodeSystem.Nodes
 {
     using System.Collections;
-    using Extensions;
-    using Interfaces;
     using Runtime;
+    using Runtime.Extensions;
+    using Runtime.Interfaces;
+    using Runtime.Runtime;
     using UniCore.Runtime.AsyncOperations;
     using UniCore.Runtime.DataFlow;
     using UniCore.Runtime.Interfaces;

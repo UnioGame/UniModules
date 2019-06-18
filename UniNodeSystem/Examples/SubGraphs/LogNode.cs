@@ -1,4 +1,4 @@
-﻿namespace UniGreenModules.UniNodeSystem.Examples.GraphTest
+﻿namespace UniGreenModules.UniNodeSystem.Examples.SubGraphs
 {
 	using System.Collections;
 	using Runtime;

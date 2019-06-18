@@ -1,8 +1,9 @@
-﻿namespace UniGreenModules.UniNodeSystem.Runtime
+﻿namespace UniGreenModules.UniNodeSystem.Nodes
 {
     using System.Collections;
-    using Interfaces;
     using Runtime;
+    using Runtime.Interfaces;
+    using Runtime.Runtime;
     using UniCore.Runtime.Interfaces;
     using UnityEngine;
 

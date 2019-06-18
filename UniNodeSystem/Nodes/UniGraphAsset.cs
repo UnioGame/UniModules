@@ -1,4 +1,4 @@
-﻿namespace UniGreenModules.UniNodeSystem.Runtime
+﻿namespace UniGreenModules.UniNodeSystem.Nodes
 {
     using UnityEngine;
 

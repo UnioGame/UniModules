@@ -5,6 +5,7 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor
 {
     using BaseEditor;
     using Runtime;
+    using UniNodeSystem.Nodes;
     using UnityGraph;
     using Editor = UnityEditor.Editor;
 

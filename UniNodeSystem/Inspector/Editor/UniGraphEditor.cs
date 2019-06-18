@@ -2,6 +2,7 @@
 {
 	using BaseEditor;
 	using Runtime;
+	using UniNodeSystem.Nodes;
 
 	[CustomNodeGraphEditor(typeof(UniGraph))]
 	public class UniGraphEditor : NodeGraphEditor  {

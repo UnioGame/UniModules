@@ -1,6 +1,7 @@
-﻿namespace UniGreenModules.UniNodeSystem.Runtime
+﻿namespace UniGreenModules.UniNodeSystem.Nodes
 {
-    using Interfaces;
+    using Runtime;
+    using Runtime.Interfaces;
 
     public class GraphCancelationNode : UniNode, IGraphCancelationNode
     {
