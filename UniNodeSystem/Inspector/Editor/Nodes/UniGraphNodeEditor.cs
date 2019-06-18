@@ -1,8 +1,6 @@
 ﻿namespace UniGreenModules.UniNodeSystem.Inspector.Editor.Nodes
 {
     using BaseEditor;
-    using Runtime;
-    using Runtime.Interfaces;
     using UniEditorTools;
     using UniNodeSystem.Nodes;
     using UnityEngine;
@@ -24,24 +22,44 @@
         {
             
             var graphNode = target as GraphNode;
-            
-            var reference = graphNode.graphReference;
-            if (!reference.RuntimeKeyIsValid())
-                return;
-            
-            var graphObject = reference.editorAsset as GameObject;
-            if (graphObject == null) return;
-            
-            var graph = graphObject.GetComponent<UniGraph>();
+
+            var graph = GetTargetGraph(graphNode);
             if (graph == null)
                 return;
-
-            graphNode.graphName = graph.name;
             
+            UpdateNonPlayModeData(graphNode, graph);
+
             EditorDrawerUtils.DrawButton("show graph", 
                 () => { NodeEditorWindow.Open(graph); });
             
             
+        }
+
+        private void UpdateNonPlayModeData(GraphNode graphNode, UniGraph graph)
+        {
+            if (Application.isPlaying)
+                return;
+            
+            graphNode.graphName = graph.name;
+        }
+
+        private UniGraph GetTargetGraph(GraphNode graphNode)
+        {
+            
+            if (graphNode.graphInstance != null)
+                return graphNode.graphInstance;
+            
+            var reference = graphNode.graphReference;
+            if (!reference.RuntimeKeyIsValid())
+                return null;
+            
+            var graphObject = reference.editorAsset as GameObject;
+            if (graphObject == null) return null;
+            
+            var graph = graphObject.GetComponent<UniGraph>();
+
+            return graph;
+
         }
         
     }

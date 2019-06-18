@@ -263,7 +263,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _id: 4
-  position: {x: -40, y: -200}
+  position: {x: -40, y: -56}
   ports:
     keys:
     - Output
@@ -274,10 +274,7 @@ MonoBehaviour:
       _node: {fileID: 3212291829221476222}
       _typeQualifiedName: UniGreenModules.UniNodeSystem.Runtime.UniPortValue, greenbuttongames.nodesystem,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: Input
-        node: {fileID: 1658721232629154800}
-        reroutePoints: []
+      connections: []
       _direction: 1
       _connectionType: 0
       _dynamic: 1
@@ -363,7 +360,7 @@ MonoBehaviour:
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: Output
-        node: {fileID: 3212291829221476222}
+        node: {fileID: 5313422521618809254}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -467,7 +464,7 @@ GameObject:
   - component: {fileID: 2636440817314448603}
   - component: {fileID: 5313422521618809254}
   m_Layer: 0
-  m_Name: type
+  m_Name: root
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -500,7 +497,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _id: 1
-  position: {x: -40, y: -56}
+  position: {x: -40, y: -312}
   ports:
     keys:
     - Output
@@ -511,7 +508,10 @@ MonoBehaviour:
       _node: {fileID: 5313422521618809254}
       _typeQualifiedName: UniGreenModules.UniNodeSystem.Runtime.UniPortValue, greenbuttongames.nodesystem,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      connections: []
+      connections:
+      - fieldName: Input
+        node: {fileID: 1658721232629154800}
+        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _dynamic: 1

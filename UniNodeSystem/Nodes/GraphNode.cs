@@ -17,7 +17,7 @@
 
     public class GraphNode : UniNode
     {
-        private UniGraph graphInstance;
+        public UniGraph graphInstance;
         
 #region inspector data
 
@@ -95,10 +95,8 @@
         {
             base.OnUpdatePortsCache();
 
-#if !UNITY_EDITOR
-            return;
-#endif
-
+#if UNITY_EDITOR
+            
             var graphAsset = graphReference.editorAsset as GameObject;
             //if target addressable is empty
             if (!graphAsset)
@@ -120,7 +118,10 @@
                 if (port.Visible) {
                     this.UpdatePortValue(port.ItemName, PortIO.Output);
                 }
-            }
+            };
+            
+#endif
+
         }
 
         private void BindGraphPorts(IUniGraph targetGraph)
