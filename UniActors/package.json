@@ -4,16 +4,16 @@
   "displayName": "GBG Unity Actors System",
   "description": "Actors system for Unity",
   "unity": "2019.1",
-  "version": "1.0.94",
+  "version": "1.0.96",
   "keywords": [],
   "dependencies": {
     "com.greenbuttongames.neuecc.unirx": "7.0.1",
     "com.greenbuttongames.neuecc.unirx.async": "1.0.0",
-    "com.greenbuttongames.unicore": "1.1.25",
-    "com.greenbuttongames.contextdata": "1.0.69",
-    "com.greenbuttongames.uniroutine": "1.0.71",
-    "com.greenbuttongames.resourcesystem": "1.0.72",
-    "com.greenbuttongames.nodesystem": "1.0.85",
-    "com.greenbuttongames.unistatemachine": "1.0.77"
+    "com.greenbuttongames.unicore": "1.1.27",
+    "com.greenbuttongames.contextdata": "1.0.71",
+    "com.greenbuttongames.uniroutine": "1.0.73",
+    "com.greenbuttongames.resourcesystem": "1.0.74",
+    "com.greenbuttongames.nodesystem": "1.0.87",
+    "com.greenbuttongames.unistatemachine": "1.0.79"
   }
 }
