@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &687891894325116633
+--- !u!1 &2157597953151810881
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,39 +8,131 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6111310258970672533}
-  - component: {fileID: 1756303403302814611}
+  - component: {fileID: 37290412267996908}
+  - component: {fileID: 2826691630601146268}
   m_Layer: 0
-  m_Name: subGraph
+  m_Name: Graph Node
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6111310258970672533
+--- !u!4 &37290412267996908
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 687891894325116633}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_GameObject: {fileID: 2157597953151810881}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 2671786730574234270}
-  - {fileID: 142164213965614654}
-  - {fileID: 769365685557163580}
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_Children: []
+  m_Father: {fileID: 2563565080297481674}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1756303403302814611
+--- !u!114 &2826691630601146268
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 687891894325116633}
+  m_GameObject: {fileID: 2157597953151810881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 538a13cb7abd81f42b12bf543a3a3d75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _id: 11
+  position: {x: -24, y: -200}
+  ports:
+    keys:
+    - Output
+    - Input
+    - out1
+    values:
+    - _id: 12
+      _fieldName: Output
+      _node: {fileID: 2826691630601146268}
+      _typeQualifiedName: UniGreenModules.UniNodeSystem.Runtime.UniPortValue, greenbuttongames.nodesystem,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _dynamic: 1
+    - _id: 13
+      _fieldName: Input
+      _node: {fileID: 2826691630601146268}
+      _typeQualifiedName: UniGreenModules.UniNodeSystem.Runtime.UniPortValue, greenbuttongames.nodesystem,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: Output
+        node: {fileID: 972994364954323998}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 1
+    - _id: 14
+      _fieldName: out1
+      _node: {fileID: 2826691630601146268}
+      _typeQualifiedName: UniGreenModules.UniNodeSystem.Runtime.UniPortValue, greenbuttongames.nodesystem,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: Input
+        node: {fileID: 6056374149967558534}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _dynamic: 1
+  _graph: {fileID: 6523089519023392502}
+  routineType: 0
+  awaitGraph: 0
+  bindWithLifetime: 1
+  graphName: subGraph
+  graphReference:
+    m_AssetGUID: df336c28afdbd0448bef84721f52403e
+  graphInstance: {fileID: 0}
+--- !u!1 &3163787435796647714
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2563565080297481674}
+  - component: {fileID: 6523089519023392502}
+  m_Layer: 0
+  m_Name: UniGraph
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2563565080297481674
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3163787435796647714}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 7168604219469825057}
+  - {fileID: 1565707110264013416}
+  - {fileID: 37290412267996908}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6523089519023392502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3163787435796647714}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 782945db79ce44748b3f294e0edf364e, type: 3}
@@ -55,7 +147,7 @@ MonoBehaviour:
     values:
     - _id: 0
       _fieldName: Output
-      _node: {fileID: 1756303403302814611}
+      _node: {fileID: 6523089519023392502}
       _typeQualifiedName: UniGreenModules.UniNodeSystem.Runtime.UniPortValue, greenbuttongames.nodesystem,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       connections: []
@@ -64,7 +156,7 @@ MonoBehaviour:
       _dynamic: 1
     - _id: 0
       _fieldName: Input
-      _node: {fileID: 1756303403302814611}
+      _node: {fileID: 6523089519023392502}
       _typeQualifiedName: UniGreenModules.UniNodeSystem.Runtime.UniPortValue, greenbuttongames.nodesystem,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       connections: []
@@ -73,12 +165,12 @@ MonoBehaviour:
       _dynamic: 1
   _graph: {fileID: 0}
   routineType: 0
-  _uniqueId: 9
+  _uniqueId: 14
   nodes:
-  - {fileID: 3106263232659885828}
-  - {fileID: 4105289573881692582}
-  - {fileID: 4333061533920527547}
---- !u!1 &1882299203686559920
+  - {fileID: 972994364954323998}
+  - {fileID: 6056374149967558534}
+  - {fileID: 2826691630601146268}
+--- !u!1 &6839134935683986166
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -86,8 +178,93 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2671786730574234270}
-  - component: {fileID: 3106263232659885828}
+  - component: {fileID: 1565707110264013416}
+  - component: {fileID: 6056374149967558534}
+  m_Layer: 0
+  m_Name: Log Node
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1565707110264013416
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6839134935683986166}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2563565080297481674}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6056374149967558534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6839134935683986166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f9a1fe61e70ad445b82a82795028d37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _id: 7
+  position: {x: 370.5, y: -84.5}
+  ports:
+    keys:
+    - Output
+    - Input
+    - log message
+    values:
+    - _id: 8
+      _fieldName: Output
+      _node: {fileID: 6056374149967558534}
+      _typeQualifiedName: UniGreenModules.UniNodeSystem.Runtime.UniPortValue, greenbuttongames.nodesystem,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _dynamic: 1
+    - _id: 9
+      _fieldName: Input
+      _node: {fileID: 6056374149967558534}
+      _typeQualifiedName: UniGreenModules.UniNodeSystem.Runtime.UniPortValue, greenbuttongames.nodesystem,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: out1
+        node: {fileID: 2826691630601146268}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 1
+    - _id: 10
+      _fieldName: log message
+      _node: {fileID: 6056374149967558534}
+      _typeQualifiedName: UniGreenModules.UniNodeSystem.Runtime.UniPortValue, greenbuttongames.nodesystem,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _dynamic: 1
+  _graph: {fileID: 6523089519023392502}
+  routineType: 0
+  message: BLABLA
+  delay: 0
+--- !u!1 &7799316492675731775
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7168604219469825057}
+  - component: {fileID: 972994364954323998}
   m_Layer: 0
   m_Name: UniRootNode
   m_TagString: Untagged
@@ -95,34 +272,34 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2671786730574234270
+--- !u!4 &7168604219469825057
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1882299203686559920}
+  m_GameObject: {fileID: 7799316492675731775}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 6111310258970672533}
+  m_Father: {fileID: 2563565080297481674}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3106263232659885828
+--- !u!114 &972994364954323998
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1882299203686559920}
+  m_GameObject: {fileID: 7799316492675731775}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 07d0c7065aa6e1e46be96a27eb24c3cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _id: 1
-  position: {x: -248, y: -152}
+  position: {x: -360, y: -88}
   ports:
     keys:
     - Output
@@ -130,177 +307,24 @@ MonoBehaviour:
     values:
     - _id: 3
       _fieldName: Output
-      _node: {fileID: 3106263232659885828}
+      _node: {fileID: 972994364954323998}
       _typeQualifiedName: UniGreenModules.UniNodeSystem.Runtime.UniPortValue, greenbuttongames.nodesystem,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: Input
-        node: {fileID: 4333061533920527547}
+        node: {fileID: 2826691630601146268}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
       _dynamic: 1
     - _id: 2
       _fieldName: Input
-      _node: {fileID: 3106263232659885828}
+      _node: {fileID: 972994364954323998}
       _typeQualifiedName: UniGreenModules.UniNodeSystem.Runtime.UniPortValue, greenbuttongames.nodesystem,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       connections: []
       _direction: 0
       _connectionType: 0
       _dynamic: 1
-  _graph: {fileID: 1756303403302814611}
+  _graph: {fileID: 6523089519023392502}
   routineType: 0
---- !u!1 &3376850411158040531
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 142164213965614654}
-  - component: {fileID: 4105289573881692582}
-  m_Layer: 0
-  m_Name: out1
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &142164213965614654
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3376850411158040531}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 6111310258970672533}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4105289573881692582
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3376850411158040531}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c83b1a0dd0977a647b774a44dbe7b8f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _id: 4
-  position: {x: 376, y: -168}
-  ports:
-    keys:
-    - Output
-    - Input
-    values:
-    - _id: 5
-      _fieldName: Output
-      _node: {fileID: 4105289573881692582}
-      _typeQualifiedName: UniGreenModules.UniNodeSystem.Runtime.UniPortValue, greenbuttongames.nodesystem,
-        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _dynamic: 1
-    - _id: 6
-      _fieldName: Input
-      _node: {fileID: 4105289573881692582}
-      _typeQualifiedName: UniGreenModules.UniNodeSystem.Runtime.UniPortValue, greenbuttongames.nodesystem,
-        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: Output
-        node: {fileID: 4333061533920527547}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _dynamic: 1
-  _graph: {fileID: 1756303403302814611}
-  routineType: 0
-  visiblePort: 1
-  direction: 1
---- !u!1 &3510938990958701762
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 769365685557163580}
-  - component: {fileID: 4333061533920527547}
-  m_Layer: 0
-  m_Name: Key Node
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &769365685557163580
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3510938990958701762}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 6111310258970672533}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4333061533920527547
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3510938990958701762}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d7c47d32ce09ab43b8b3a5a8ec3c5cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _id: 7
-  position: {x: 88, y: -152}
-  ports:
-    keys:
-    - Output
-    - Input
-    values:
-    - _id: 8
-      _fieldName: Output
-      _node: {fileID: 4333061533920527547}
-      _typeQualifiedName: UniGreenModules.UniNodeSystem.Runtime.UniPortValue, greenbuttongames.nodesystem,
-        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: Input
-        node: {fileID: 4105289573881692582}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 0
-      _dynamic: 1
-    - _id: 9
-      _fieldName: Input
-      _node: {fileID: 4333061533920527547}
-      _typeQualifiedName: UniGreenModules.UniNodeSystem.Runtime.UniPortValue, greenbuttongames.nodesystem,
-        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: Output
-        node: {fileID: 3106263232659885828}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _dynamic: 1
-  _graph: {fileID: 1756303403302814611}
-  routineType: 0
-  _keys: 20000000
-  _keyStates: 1

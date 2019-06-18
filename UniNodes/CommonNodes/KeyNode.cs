@@ -17,7 +17,7 @@
 
         protected override IEnumerator OnExecuteState(IContext context)
         {
-            while (true)
+            while (IsActive)
             {
                 var isFire = false;
 

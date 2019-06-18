@@ -100,6 +100,7 @@
         public void CleanUp()
         {
             typeData.CleanUp();
+            context.CleanUp();
         }
 
         public void RemoveAllConnections()

@@ -17,8 +17,6 @@
 
     public class GraphNode : UniNode
     {
-        public UniGraph graphInstance;
-        
 #region inspector data
 
         [Tooltip("should we await target graph before pass data to output or not")]
@@ -27,14 +25,14 @@
 
         [Tooltip("Bind subgraph to node lifetime")]
         [SerializeField]
-        private bool bindWithLifetime = true; 
-        
+        private bool bindWithLifetime = true;
+
         /// <summary>
         /// cached addressable asset name
         /// </summary>
         [HideInInspector]
         public string graphName;
-        
+
         /// <summary>
         /// target graph resource
         /// </summary>
@@ -47,47 +45,47 @@
         /// </summary>
         public AsyncOperationHandle<GameObject> GraphInstanceHandle => graphReference.LoadAssetAsync();
 
+        public UniGraph graphInstance;
+
         public override string GetName()
         {
             return string.IsNullOrEmpty(graphName) ? base.GetName() : graphName;
         }
 
-        
+
         protected override IEnumerator OnExecuteState(IContext context)
-        {         
-            
-            //await graph loading
-            yield return GraphInstanceHandle.Task.AwaitTask();
-            //spawn graph
-            graphInstance = GraphInstanceHandle.Result.Spawn<UniGraph>();
-            
+        {
+            if (graphInstance == null) {
+                //await graph loading
+                yield return GraphInstanceHandle.Task.AwaitTask();
+                //spawn graph
+                graphInstance = GraphInstanceHandle.Result.Spawn<UniGraph>();
+            }
+
             //despawn when execution finished
             var lifeTime = LifeTime;
             //initialize graph            
             graphInstance.Initialize();
-            
+
             //bind node ports to graph nodes
             BindGraphPorts(graphInstance);
 
             //if graph depends from node lifetime => despawn on exit
-            if (bindWithLifetime) 
-            {
+            if (bindWithLifetime) {
                 lifeTime.AddCleanUpAction(() => {
                                               graphInstance.Exit();
                                               graphInstance.AssetInstance.Despawn();
                                               graphInstance = null;
                                           });
             }
-            
+
             if (awaitGraph) {
                 yield return graphInstance.Execute(context);
             }
             else {
-                graphInstance.Execute(context).
-                    RunWithSubRoutines(graphInstance.RoutineType).
-                    AddTo(lifeTime);
+                graphInstance.Execute(context).RunWithSubRoutines(graphInstance.RoutineType).AddTo(lifeTime);
             }
-            
+
             yield return base.OnExecuteState(context);
         }
 
@@ -96,41 +94,42 @@
             base.OnUpdatePortsCache();
 
 #if UNITY_EDITOR
-            
+
             var graphAsset = graphReference.editorAsset as GameObject;
             //if target addressable is empty
             if (!graphAsset)
                 return;
-            
+
             var targetGraph = graphAsset.GetComponent<UniGraph>();
             if (targetGraph == null)
                 return;
-            
+
             targetGraph.Initialize();
-            
+
             foreach (var port in targetGraph.GraphInputs) {
                 if (port.Visible) {
-                    this.UpdatePortValue(port.ItemName,PortIO.Input);
+                    this.UpdatePortValue(port.ItemName, PortIO.Input);
                 }
             }
-            
+
             foreach (var port in targetGraph.GraphOuputs) {
                 if (port.Visible) {
                     this.UpdatePortValue(port.ItemName, PortIO.Output);
                 }
-            };
-            
-#endif
+            }
 
+            ;
+
+#endif
         }
 
         private void BindGraphPorts(IUniGraph targetGraph)
         {
             var lifetime = LifeTime;
             foreach (var node in targetGraph.GraphInputs) {
-                BindGraphPort(node,lifetime);
+                BindGraphPort(node, lifetime);
             }
-            
+
             foreach (var node in targetGraph.GraphOuputs) {
                 BindGraphPort(node, lifetime);
             }
@@ -140,19 +139,17 @@
         {
             if (graphNode.Visible == false)
                 return;
-            
-            var portName = graphNode.ItemName;
+
+            var portName  = graphNode.ItemName;
             var graphPort = graphNode.PortValue;
-            
+
             var port = GetPortValue(portName);
-            
+
             var source = graphNode.Direction == PortIO.Input ? port : graphPort;
             var target = graphNode.Direction == PortIO.Input ? graphPort : port;
 
             source.Connect(target);
             lifeTime.AddCleanUpAction(() => source.Disconnect(target));
-
         }
-
     }
 }
