@@ -8,6 +8,7 @@
   "keywords": [],
   "dependencies": {
     "com.greenbuttongames.neuecc.unirx": "7.0.1",
+    "com.greenbuttongames.neuecc.unirx.async": "1.0.0",
     "com.unity.addressables": "0.8.6-preview"
   }
 }

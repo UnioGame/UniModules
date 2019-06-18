@@ -5,10 +5,11 @@ namespace UniGreenModules.UniNodeSystem.Examples.ActorReuse
     using System.Collections;
     using Nodes;
     using Runtime;
+    using UniActors.Runtime;
+    using UniActors.Runtime.Actors;
+    using UniActors.Runtime.Interfaces;
     using UniContextData.Runtime.Entities;
     using UniCore.Runtime.Interfaces;
-    using UniNodeActors.Runtime.Actors;
-    using UniNodeActors.Runtime.Interfaces;
 
     public class ActorReuseInitializer : MonoBehaviour, IContextDataSource
     {
