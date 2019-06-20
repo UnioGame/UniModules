@@ -14,6 +14,7 @@
     using UniCore.Runtime.ObjectPool.Extensions;
     using UniModule.UnityTools.UniStateMachine;
     using UniModule.UnityTools.UniStateMachine.Interfaces;
+    using UniRx;
     using UniStateMachine.Runtime;
     using UniTools.UniRoutine.Runtime;
     using UnityEngine;
@@ -73,7 +74,7 @@
 
         public void Initialize()
         {           
-            if (Application.isPlaying && isInitialized)
+            if (isInitialized)
                 return;
             
             isInitialized = true;

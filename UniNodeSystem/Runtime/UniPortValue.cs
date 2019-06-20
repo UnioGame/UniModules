@@ -154,6 +154,11 @@
             return messageBroker.Receive<T>();
         }
         
+        public void Publish<T>(T message)
+        {
+            messageBroker.Publish(message);
+        }
+        
         #endregion
 
     }
