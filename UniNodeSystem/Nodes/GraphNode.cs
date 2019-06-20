@@ -106,19 +106,11 @@
 
             targetGraph.Initialize();
 
-            foreach (var port in targetGraph.GraphInputs) {
-                if (port.Visible) {
-                    this.UpdatePortValue(port.ItemName, PortIO.Input);
-                }
+            foreach (var port in targetGraph.Ports) {
+                var portValue      = this.UpdatePortValue(port.fieldName, port.direction);
+                var graphPortValue = targetGraph.GetPortValue(port.fieldName);
+                portValue.value.Connect(graphPortValue);
             }
-
-            foreach (var port in targetGraph.GraphOuputs) {
-                if (port.Visible) {
-                    this.UpdatePortValue(port.ItemName, PortIO.Output);
-                }
-            }
-
-            ;
 
 #endif
         }

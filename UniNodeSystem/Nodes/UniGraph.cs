@@ -46,7 +46,7 @@
 
         #endregion
 
-        public GameObject AssetInstance => this.gameObject;
+        public GameObject AssetInstance => gameObject;
 
         public IReadOnlyList<IGraphPortNode> GraphOuputs => outputs;
         
