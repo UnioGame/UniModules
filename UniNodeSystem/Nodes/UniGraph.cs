@@ -5,6 +5,7 @@
     using System.Collections.Generic;
     using Runtime;
     using Runtime.Connections;
+    using Runtime.Extensions;
     using Runtime.Interfaces;
     using Runtime.Runtime;
     using UniCore.Runtime.Interfaces;
@@ -26,12 +27,12 @@
         /// <summary>
         /// graph inputs
         /// </summary>
-        [NonSerialized] private List<IGraphPortNode> inputNodes = new List<IGraphPortNode>();
+        [NonSerialized] private List<IGraphPortNode> inputs = new List<IGraphPortNode>();
         
         /// <summary>
         /// graph outputs
         /// </summary>
-        [NonSerialized] private List<IGraphPortNode> outputNodes = new List<IGraphPortNode>();
+        [NonSerialized] private List<IGraphPortNode> outputs = new List<IGraphPortNode>();
 
         /// <summary>
         /// all child nodes
@@ -47,9 +48,9 @@
 
         public GameObject AssetInstance => this.gameObject;
 
-        public IReadOnlyList<IGraphPortNode> GraphOuputs => outputNodes;
+        public IReadOnlyList<IGraphPortNode> GraphOuputs => outputs;
         
-        public IReadOnlyList<IGraphPortNode> GraphInputs => inputNodes;
+        public IReadOnlyList<IGraphPortNode> GraphInputs => inputs;
         
         public override void Dispose() => Exit();
         
@@ -62,10 +63,10 @@
 
             var lifeTime = LifeTime;
             
-            for (var i = 0; i < inputNodes.Count; i++)
+            for (var i = 0; i < inputs.Count; i++)
             {
                 //execute every node with active graph context
-                inputNodes[i].Execute(context).
+                inputs[i].Execute(context).
                     RunWithSubRoutines().
                     AddTo(lifeTime);//subscribe on current lifetime
             }
@@ -89,8 +90,8 @@
             
             allNodes.Clear();
             cancelationNodes.Clear();
-            inputNodes.Clear();
-            outputNodes.Clear();
+            inputs.Clear();
+            outputs.Clear();
             
             for (var i = 0; i < nodes.Count; i++) {
 
@@ -100,27 +101,41 @@
                 if (!(node is UniNode uniNode))
                     continue;
 
-                //register input/output nodes
-                if (uniNode is IGraphPortNode graphPortNode) {
-                    var container = graphPortNode.Direction == PortIO.Input ? 
-                        inputNodes : outputNodes;
-                    container.Add(graphPortNode);
-                }
-
-                //stop graph execution, if cancelation node triggered
-                if (uniNode is IGraphCancelationNode) {
-                    uniNode.Output.
-                        Receive<IContext>().
-                        Subscribe(x => Exit()).
-                        AddTo(LifeTime);
-                }
-
                 uniNode.Initialize();
                 
+                UpdatePortNode(uniNode);
+
+                //stop graph execution, if cancelation node output triggered
+                if (uniNode is IGraphCancelationNode) {
+                    uniNode.Output.Receive<IContext>().
+                        Subscribe(x => Exit()).
+                        AddTo(this);
+                }
+
                 allNodes.Add(uniNode);
             }
         }
 
+        private void UpdatePortNode(IUniNode uniNode)
+        {
+            //register input/output nodes
+            if (!(uniNode is IGraphPortNode graphPortNode)) {
+                return;
+            }
+
+            var container = graphPortNode.Direction == PortIO.Input ? 
+                inputs : outputs;
+            container.Add(graphPortNode);
+                    
+            //add graph ports for exists port nodes
+            var port = this.UpdatePortValue(uniNode.ItemName, graphPortNode.Direction);
+            //get node input
+            var input = uniNode.Input;           
+            //bind graph port to target node input
+            port.value.Connect(input);
+            
+        }
+        
         protected override void OnNodeInitialize()
         {
             for (var i = 0; i < allNodes.Count; i++)
