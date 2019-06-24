@@ -1,10 +1,9 @@
-﻿using System;
-using UniModule.UnityTools.UniStateMachine.Interfaces;
-using UniRx;
-
-namespace UniModule.UnityTools.UniStateMachine.AsyncStateMachine
+﻿namespace UniGreenModules.UniStateMachine.Runtime.AsyncStateMachine
 {
-    using UniGreenModules.UniCore.Runtime.Extension;
+    using System;
+    using Interfaces;
+    using UniCore.Runtime.Extension;
+    using UniRx;
 
     public class AsyncStateManager<TStateType> : IStateManager<TStateType>
     {

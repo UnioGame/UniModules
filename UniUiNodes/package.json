@@ -1,10 +1,10 @@
 {
   "name": "com.greenbuttongames.nodesystem.ui",
   "author": "Mefodei",
-  "displayName": "GBG UniNodes UI system",
+  "displayName": "GBG UI Nodes",
   "description": "UI support for node system",
   "unity": "2019.1",
-  "version": "1.0.44",
+  "version": "1.0.46",
   "keywords": [],
   "dependencies": {
     "com.greenbuttongames.neuecc.unirx": "7.0.1",
@@ -15,6 +15,8 @@
     "com.greenbuttongames.resourcesystem": "1.0.81",
     "com.greenbuttongames.unistatemachine": "1.0.86",
     "com.greenbuttongames.nodesystem": "1.0.94",
-    "com.unity.addressables": "1.1.3-preview"
+    "com.unity.addressables": "1.1.3-preview",
+    "com.greenbuttongames.uisystem": "0.0.38",
+    "com.unity.textmeshpro": "2.0.1"
   }
 }

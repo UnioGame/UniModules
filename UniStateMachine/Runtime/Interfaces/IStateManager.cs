@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace UniModule.UnityTools.UniStateMachine.Interfaces
+﻿namespace UniGreenModules.UniStateMachine.Runtime.Interfaces
 {
+    using System;
+
     public interface IStateManager<TStateType> : IDisposable
     {
         TStateType CurrentState { get; }

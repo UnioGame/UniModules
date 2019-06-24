@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using UniModule.UnityTools.Interfaces;
-using UniModule.UnityTools.UniStateMachine.Interfaces;
-using UniRx;
-
-namespace UniModule.UnityTools.UniStateMachine.ReactiveStateMachine
+﻿namespace UniGreenModules.UniStateMachine.Runtime.ReactiveStateMachine
 {
-    using UniGreenModules.UniCore.Runtime.Interfaces;
+    using System.Collections;
+    using Interfaces;
+    using UniCore.Runtime.Interfaces;
+    using UniRx;
 
     public class ReactiveState<TState> : StateBehaviour
     {

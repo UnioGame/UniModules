@@ -1,9 +1,7 @@
-﻿using System;
-using UniModule.UnityTools.Interfaces;
-
-namespace UniModule.UnityTools.UniStateMachine.Interfaces
+﻿namespace UniGreenModules.UniStateMachine.Runtime.Interfaces
 {
-    using UniGreenModules.UniCore.Runtime.Interfaces;
+    using System;
+    using UniCore.Runtime.Interfaces;
 
     public interface IContextStateMachine<TAwaiter> : IDisposable
     {

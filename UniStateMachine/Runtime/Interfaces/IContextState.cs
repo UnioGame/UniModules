@@ -1,9 +1,7 @@
-﻿using UniModule.UnityTools.Interfaces;
-
-namespace UniModule.UnityTools.UniStateMachine.Interfaces
+﻿namespace UniGreenModules.UniStateMachine.Runtime.Interfaces
 {
-    using UniGreenModules.UniCore.Runtime.Interfaces;
-    using UniGreenModules.UniCore.Runtime.ObjectPool.Interfaces;
+    using UniCore.Runtime.Interfaces;
+    using UniCore.Runtime.ObjectPool.Interfaces;
 
     public interface IContextState<out TAwaiter> : 
         IStateBehaviour<IContext, TAwaiter>,

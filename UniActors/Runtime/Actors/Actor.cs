@@ -5,8 +5,8 @@
     using Interfaces;
     using UniContextData.Runtime.Entities;
     using UniCore.Runtime.DataFlow;
-    using UniModule.UnityTools.UniStateMachine.Interfaces;
     using UniRx;
+    using UniStateMachine.Runtime.Interfaces;
     using UniTools.UniRoutine.Runtime;
     using IActor = Interfaces.IActor;
 

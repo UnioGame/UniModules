@@ -3,19 +3,16 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Security.Cryptography;
     using Extensions;
-    using global::UniStateMachine.Runtime;
     using Interfaces;
     using Runtime;
     using UniCore.Runtime.DataFlow;
+    using UniCore.Runtime.Extension;
     using UniCore.Runtime.Interfaces;
     using UniCore.Runtime.ObjectPool;
     using UniCore.Runtime.ObjectPool.Extensions;
-    using UniModule.UnityTools.UniStateMachine;
-    using UniModule.UnityTools.UniStateMachine.Interfaces;
-    using UniRx;
     using UniStateMachine.Runtime;
+    using UniStateMachine.Runtime.Interfaces;
     using UniTools.UniRoutine.Runtime;
     using UnityEngine;
 
@@ -31,6 +28,12 @@
         /// input port name
         /// </summary>
         public const string InputPortName = "Input";
+        
+        #region serialized data
+
+        [SerializeField] private RoutineType routineType = RoutineType.UpdateStep;
+
+        #endregion
 
         #region private fields
 
@@ -40,18 +43,12 @@
 
         [NonSerialized] private List<UniPortValue> portValues;
 
-        [NonSerialized] protected bool isInitialized;
+        [NonSerialized] private bool isInitialized;
         
         [NonSerialized] protected IContext nodeContext;
 
         #endregion
-        
-        #region serialized data
 
-        [SerializeField] private RoutineType routineType = RoutineType.UpdateStep;
-
-        #endregion
-        
         #region public properties
         
         public IPortValue Input => GetPortValue(InputPortName);
@@ -78,7 +75,6 @@
                 return;
             
             isInitialized = true;
-            
             portValues = new List<UniPortValue>();
             portValuesMap = new Dictionary<string, UniPortValue>();           
             
@@ -98,25 +94,8 @@
         {
             OnUpdatePortsCache();
             
-            var removedPorts = ClassPool.Spawn<List<NodePort>>();
-            
-            foreach (var port in Ports)
-            {
-                if(port.IsStatic) continue;
-                
-                var value = GetPortValue(port.fieldName);
-                if (value == null)
-                {
-                    removedPorts.Add(port);
-                }
-            }
+            Ports.RemoveItems(IsExistsPort,RemoveInstancePort);    
 
-            foreach (var port in removedPorts)
-            {
-                RemoveInstancePort(port);
-            }
-
-            removedPorts.DespawnCollection();
         }
         
         public void Exit() => behaviourState?.Exit();
@@ -171,6 +150,13 @@
 
         #endregion
 
+        private bool IsExistsPort(NodePort port)
+        {
+            if (port.IsStatic) return false;
+            var value = GetPortValue(port.fieldName);
+            return value == null;
+        }
+        
         protected virtual void OnUpdatePortsCache()
         {
             CreateBasePorts();

@@ -1,9 +1,9 @@
-﻿using System;
-using UniModule.UnityTools.UniStateMachine.Interfaces;
-using UniRx;
-
-namespace UniModule.UnityTools.UniStateMachine
+﻿namespace UniGreenModules.UniStateMachine.Runtime
 {
+    using System;
+    using Interfaces;
+    using UniRx;
+
     public class ControllerStateManager<TStateType,TState> : StateManager<TStateType, TState>
     {
         private readonly IStateController<TStateType> _stateController;

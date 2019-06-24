@@ -253,7 +253,8 @@
         public virtual void RemoveInstancePort(NodePort port)
         {
             if (port == null) throw new ArgumentNullException("port");
-            else if (port.IsStatic) throw new ArgumentException("cannot remove static port");
+            if (port.IsStatic) throw new ArgumentException("cannot remove static port");
+            
             port.ClearConnections();
             ports.Remove(port.fieldName);
         }

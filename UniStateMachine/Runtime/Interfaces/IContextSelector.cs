@@ -1,8 +1,6 @@
-﻿using UniModule.UnityTools.UniStateMachine.Interfaces;
-
-namespace UniModule.UnityTools.Interfaces
+﻿namespace UniGreenModules.UniStateMachine.Runtime.Interfaces
 {
-    using UniGreenModules.UniCore.Runtime.Interfaces;
+    using UniCore.Runtime.Interfaces;
 
     public interface IContextSelector<TResult> : 
         ISelector<IContext,IContextState<TResult>>

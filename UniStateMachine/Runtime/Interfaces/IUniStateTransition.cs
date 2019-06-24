@@ -1,10 +1,7 @@
-﻿using System.Collections;
-using UniModule.UnityTools.Interfaces;
-using UniModule.UnityTools.UniStateMachine.Interfaces;
-
-namespace UniModule.UnityTools.UniStateMachine
+﻿namespace UniGreenModules.UniStateMachine.Runtime.Interfaces
 {
-    using UniGreenModules.UniCore.Runtime.Interfaces;
+    using System.Collections;
+    using UniCore.Runtime.Interfaces;
 
     public interface IUniStateTransition : IValidator<IContext>
     {
