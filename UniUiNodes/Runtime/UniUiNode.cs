@@ -78,7 +78,7 @@
 
             ApplyViewSettings(view, lifetime);
 
-            yield return base.OnExecuteState(context);
+            yield return base.OnExecute(context);
         }
 
         /// <summary>
@@ -98,9 +98,9 @@
             }
         }
 
-        protected override void OnUpdatePortsCache()
+        protected override void OnRegisterPorts()
         {
-            base.OnUpdatePortsCache();
+            base.OnRegisterPorts();
 
             uiModulesOutputs.Clear();
             uiTriggersOutputs.Clear();

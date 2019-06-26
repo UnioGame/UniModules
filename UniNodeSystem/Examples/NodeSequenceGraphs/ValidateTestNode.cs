@@ -12,7 +12,7 @@
 
         protected override IEnumerator OnExecuteState(IContext context)
         {
-            yield return base.OnExecuteState(context);
+            yield return base.OnExecute(context);
             while (true)
             {
                 yield return null;

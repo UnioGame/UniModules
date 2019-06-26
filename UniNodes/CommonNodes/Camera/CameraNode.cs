@@ -30,7 +30,7 @@
             var disposable = context.Receive<Camera>().Subscribe(OnCameraChanged);
             lifeTime.AddDispose(disposable);
             
-            yield return base.OnExecuteState(context);
+            yield return base.OnExecute(context);
 
             if (targetCamera)
             {
@@ -39,9 +39,9 @@
             
         }
 
-        protected override void OnUpdatePortsCache()
+        protected override void OnRegisterPorts()
         {
-            base.OnUpdatePortsCache();
+            base.OnRegisterPorts();
             var pair = this.UpdatePortValue(nameof(cameraPortValue), PortIO.Output);
             cameraPortValue = pair.value;           
         }

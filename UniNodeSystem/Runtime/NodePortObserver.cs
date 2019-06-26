@@ -7,7 +7,7 @@
     using UniCore.Runtime.ObjectPool;
     using UniCore.Runtime.ObjectPool.Interfaces;
 
-    public class NodePortHandler<TValue> : IDespawnable
+    public class NodePortObserver<TValue> : IDespawnable
     {
         private List<Action<IUniNode,IPortValue, TValue>> onNextActions = 
             new List<Action<IUniNode,IPortValue, TValue>>();

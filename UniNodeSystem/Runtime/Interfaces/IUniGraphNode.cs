@@ -15,8 +15,6 @@ namespace UniGreenModules.UniNodeSystem.Runtime.Interfaces
 
         IReadOnlyList<IPortValue> PortValues { get; }
 
-        void UpdatePortsCache();
-
         /// <summary>
         /// register port value action
         /// </summary>

@@ -33,14 +33,14 @@
 			
 			_messageValue.Add(message);
 			
-			yield return base.OnExecuteState(context);
+			yield return base.OnExecute(context);
 			
 		}
 		
-		protected override void OnUpdatePortsCache()
+		protected override void OnRegisterPorts()
 		{
 			
-			base.OnUpdatePortsCache();
+			base.OnRegisterPorts();
 			var portValue = this.UpdatePortValue(LogMessageName, PortIO.Output);
 			_messageValue = portValue.value;
 			

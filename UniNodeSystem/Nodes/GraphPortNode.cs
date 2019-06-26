@@ -22,9 +22,9 @@
             yield break;
         }
 
-        protected override void OnUpdatePortsCache()
+        protected override void OnRegisterPorts()
         {
-            base.OnUpdatePortsCache();
+            base.OnRegisterPorts();
             //redirect all input into output
             Input.Connect(Output);
         }

@@ -9,9 +9,9 @@
 
         public int PortsCount;
 
-        protected override void OnUpdatePortsCache()
+        protected override void OnRegisterPorts()
         {
-            base.OnUpdatePortsCache();
+            base.OnRegisterPorts();
 
             for (var i = 0; i < PortsCount; i++)
             {

@@ -17,7 +17,7 @@
         protected override IEnumerator OnExecuteState(IContext context)
         {
             
-            yield return base.OnExecuteState(context);
+            yield return base.OnExecute(context);
 
             while (true)
             {
@@ -49,9 +49,9 @@
             return false;
         }
 
-        protected override void OnUpdatePortsCache()
+        protected override void OnRegisterPorts()
         {           
-            base.OnUpdatePortsCache();
+            base.OnRegisterPorts();
 
             _trueOuputValue = this.UpdatePortValue(_truePort, PortIO.Output).value;
             _falseOutputValue = this.UpdatePortValue(_falsePort, PortIO.Output).value;

@@ -28,7 +28,7 @@
         
         protected override IEnumerator OnExecuteState(IContext context)
         {
-            yield return base.OnExecuteState(context);
+            yield return base.OnExecute(context);
 
             var combinedPort = GetPortValue(_combinedOutputName);
             
@@ -88,9 +88,9 @@
             return true;
         }
 
-        protected override void OnUpdatePortsCache()
+        protected override void OnRegisterPorts()
         {
-            base.OnUpdatePortsCache();
+            base.OnRegisterPorts();
 
             _inputValues = new List<UniPortValue>();
             _outputValues = new List<UniPortValue>();

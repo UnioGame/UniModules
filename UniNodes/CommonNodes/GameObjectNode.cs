@@ -35,15 +35,15 @@
             var lifeTime = LifeTime;
             lifeTime.AddCleanUpAction(() => { RemoveTarget(target, context); });
             
-            return base.OnExecuteState(context);
+            return base.OnExecute(context);
         }
 
-        protected override void OnUpdatePortsCache()
+        protected override void OnRegisterPorts()
         {
             _optionsPortName = nameof(Options);
             //option input values port
             this.UpdatePortValue(_optionsPortName, PortIO.Input);
-            base.OnUpdatePortsCache();
+            base.OnRegisterPorts();
         }
 
         private GameObject CreateTarget(IContext context)

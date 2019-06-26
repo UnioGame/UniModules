@@ -72,7 +72,7 @@
             }
 
             //base execution flow
-            yield return base.OnExecuteState(context);
+            yield return base.OnExecute(context);
         }
 
         protected override void OnExit(IContext context)
@@ -84,9 +84,9 @@
             ActiveGraphs.Remove(this);
         }
         
-        protected override void OnUpdatePortsCache()
+        protected override void OnRegisterPorts()
         {
-            base.OnUpdatePortsCache();
+            base.OnRegisterPorts();
             
             allNodes.Clear();
             cancelationNodes.Clear();

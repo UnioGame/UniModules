@@ -86,12 +86,12 @@
                 graphInstance.Execute(context).RunWithSubRoutines(graphInstance.RoutineType).AddTo(lifeTime);
             }
 
-            yield return base.OnExecuteState(context);
+            yield return base.OnExecute(context);
         }
 
-        protected override void OnUpdatePortsCache()
+        protected override void OnRegisterPorts()
         {
-            base.OnUpdatePortsCache();
+            base.OnRegisterPorts();
 
 #if UNITY_EDITOR
 

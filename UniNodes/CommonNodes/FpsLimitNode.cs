@@ -15,7 +15,7 @@
         {
             
             SetTargetFrameRate(FpsLimit);
-            yield return base.OnExecuteState(context);
+            yield return base.OnExecute(context);
             
         }
         

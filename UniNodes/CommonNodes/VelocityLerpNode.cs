@@ -29,7 +29,7 @@
 
         protected override IEnumerator OnExecuteState(IContext context)
         {
-            yield return base.OnExecuteState(context);
+            yield return base.OnExecute(context);
 
             var activeTime = 0f;
             var startTime = Time.realtimeSinceStartup;
