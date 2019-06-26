@@ -3,6 +3,7 @@
     using System;
     using Interfaces;
     using Interfaces.Rx;
+    using ObjectPool;
 
     public class RecycleActionObserver<T> : IRecycleObserver<T>
     {
@@ -41,6 +42,11 @@
             _onError = null;
             _onComplete = null;
 
+        }
+
+        public void MakeDespawn()
+        {
+            this.Despawn();
         }
     }
 }

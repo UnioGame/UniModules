@@ -4,7 +4,8 @@ namespace UniGreenModules.UniCore.Runtime.Interfaces.Rx
 
     public interface IReadonlyRecycleReactiveProperty<TValue> : 
         IReadOnlyReactiveProperty<TValue>,
-        IRecycleObservable<TValue>
+        IRecycleObservable<TValue>, 
+        IContainerValueStatus
     {
     }
 }

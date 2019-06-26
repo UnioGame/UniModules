@@ -128,10 +128,11 @@
             if (portValue == null)
             {
                 portValue = new UniPortValue();
-                portValue.ConnectToPort(port.fieldName);
                 node.AddPortValue(portValue);
             }
 
+            portValue.ConnectToPort(port.fieldName);
+            
             return (portValue,port);
         
         }

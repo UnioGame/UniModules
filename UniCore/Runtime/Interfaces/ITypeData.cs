@@ -1,8 +1,12 @@
 namespace UniGreenModules.UniCore.Runtime.Interfaces
 {
+    using System;
+
     public interface ITypeData : 
         IContextWriter,
-        IDataValueParameters, IReadOnlyData
+        IValueContainerStatus, 
+        IReadOnlyData, 
+        ITypeDataObservable
     {
     }
 }

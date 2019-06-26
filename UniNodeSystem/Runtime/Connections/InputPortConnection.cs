@@ -26,7 +26,7 @@
             //is node should be stoped
             if (!result || !_node.IsActive) return result;
             
-            if (target.HasValue() == false)
+            if (!target.HasValue)
             {
                 _nodeExecutor.Stop(_node);     
             }

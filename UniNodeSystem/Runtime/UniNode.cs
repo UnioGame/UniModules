@@ -1,67 +1,40 @@
 ﻿namespace UniGreenModules.UniNodeSystem.Runtime
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
-    using Extensions;
     using Interfaces;
     using Runtime;
     using UniCore.Runtime.DataFlow;
     using UniCore.Runtime.Extension;
-    using UniCore.Runtime.Interfaces;
-    using UniCore.Runtime.ObjectPool;
-    using UniCore.Runtime.ObjectPool.Extensions;
+    using UniRx;
     using UniStateMachine.Runtime;
-    using UniStateMachine.Runtime.Interfaces;
-    using UniTools.UniRoutine.Runtime;
     using UnityEngine;
 
     [Serializable]
     public abstract class UniNode : UniBaseNode, IUniNode
     {
-        /// <summary>
-        /// output port name
-        /// </summary>
-        public const string OutputPortName = "Output";
         
-        /// <summary>
-        /// input port name
-        /// </summary>
-        public const string InputPortName = "Input";
-        
-        #region serialized data
-
-        [SerializeField] private RoutineType routineType = RoutineType.UpdateStep;
-
-        #endregion
-
         #region private fields
 
-        [NonSerialized] private Dictionary<string,UniPortValue> portValuesMap;
+        [NonSerialized] private LifeTimeDefinition lifeTimeDefinition;
 
-        [NonSerialized] private IContextState<IEnumerator> behaviourState;
+        [NonSerialized] private Dictionary<string,UniPortValue> portValuesMap;
 
         [NonSerialized] private List<UniPortValue> portValues;
 
         [NonSerialized] private bool isInitialized;
         
-        [NonSerialized] protected IContext nodeContext;
+        [NonSerialized] private bool isActive = false;
 
         #endregion
 
         #region public properties
-        
-        public IPortValue Input => GetPortValue(InputPortName);
 
-        public IPortValue Output => GetPortValue(OutputPortName);
+        public bool IsActive => isActive;
         
-        public RoutineType RoutineType => routineType;
-
         public IReadOnlyList<IPortValue> PortValues => portValues;
 
-        public bool IsActive => behaviourState!=null  && behaviourState.IsActive;
-
-        public ILifeTime LifeTime => behaviourState?.LifeTime;
+        public ILifeTime LifeTime => lifeTimeDefinition.LifeTime;
 
         public string ItemName => name;
         
@@ -70,7 +43,7 @@
         #region public methods
 
         public void Initialize()
-        {           
+        {
             if (isInitialized)
                 return;
             
@@ -79,38 +52,66 @@
             portValuesMap = new Dictionary<string, UniPortValue>();           
             
             UpdatePortsCache();
-
-            foreach (var portValue in portValues)
-            {
-                portValue.Initialize();
-            }
-
             OnNodeInitialize();
         }
-        
-        public virtual bool Validate(IContext context) => true;
-        
+
+        public void RegisterPortHandler<TValue>(
+            IPortValue portValue,
+            IObserver<TValue> observer,
+            bool oneShot = false)
+        {
+
+            //subscribe to port value observable
+            portValue.GetObservable<TValue>().Finally(() => {
+                //if node stoped or 
+                if (!oneShot || !IsActive) return;
+                //resubscribe action to port values
+                RegisterPortHandler(portValue, observer, oneShot);
+            }).
+                Subscribe(observer).
+                AddTo(LifeTime);//stop all subscriptions when node deactivated
+
+        }
+
         public void UpdatePortsCache()
         {
             OnUpdatePortsCache();
             
-            Ports.RemoveItems(IsExistsPort,RemoveInstancePort);    
-
+            Ports.RemoveItems(IsExistsPort,RemoveInstancePort);
         }
-        
-        public void Exit() => behaviourState?.Exit();
 
-        public IEnumerator Execute(IContext context)
+        /// <summary>
+        /// stop execution state
+        /// </summary>
+        public void Exit()
         {
-            StateLogger.LogState(string.Format("STATE EXECUTE {0} TYPE {1} CONTEXT {2}", 
-                name, GetType().Name, context), this);
+            isActive = false;
+            lifeTimeDefinition.Terminate();
+        }
+
+        public void Execute()
+        {
+            //node already active
+            if (isActive) {
+                StateLogger.LogState(string.Format("STATE ALREADY ACTIVE {0} TYPE {1}", 
+                    name, GetType().Name), this);
+                return;
+            }
             
+            StateLogger.LogState(string.Format("STATE EXECUTE {0} TYPE {1}", 
+                            name, GetType().Name), this);
+            
+            //restart lifetime
+            lifeTimeDefinition.Release();
+
+            //initialize
             Initialize();
             
-            behaviourState = CreateState();
-            
-            yield return behaviourState.Execute(context);
-            
+            //cleanup ports on exit
+            LifeTime.AddCleanUpAction(CleanUpPorts);
+
+            //user defined logic
+            OnExecuteState();
         }
         
         public void Release() => Exit();
@@ -157,74 +158,24 @@
             return value == null;
         }
         
-        protected virtual void OnUpdatePortsCache()
-        {
-            CreateBasePorts();
-        }
+        protected virtual void OnUpdatePortsCache(){}
 
         protected virtual void OnNodeInitialize(){}
-        
-        #region state behaviour methods
-
-        protected void CreateBasePorts()
-        {
-            this.UpdatePortValue(OutputPortName, PortIO.Output);
-            this.UpdatePortValue(InputPortName, PortIO.Input);
-        }
-        
-        private void Initialize(IContext stateContext)
-        {
-            nodeContext = stateContext;
-            
-            LifeTime.AddCleanUpAction(CleanUpAction);
-            
-            OnInitialize(stateContext);
-        }
 
         /// <summary>
         /// base logic realization
-        /// transfer context data to output port value
         /// </summary>
-        protected virtual IEnumerator OnExecuteState(IContext context)
-        {
-            var output = Output;
-            output.Add(context);
-            yield break;
-        }
+        protected virtual void OnExecuteState(){}
 
-        protected virtual void OnExit(IContext context){}
-
-        protected virtual void OnInitialize(IContext context){}
-        
-        protected virtual void OnPostExecute(IContext context){}
-
-        protected IContextState<IEnumerator> CreateState()
-        {
-            if (behaviourState != null)
-                return behaviourState;
-            
-            var behaviour = ClassPool.Spawn<ProxyState>();
-            behaviour.Initialize(OnExecuteState, Initialize, OnExit, OnPostExecute);
-            
-            behaviour.LifeTime.AddCleanUpAction(() => behaviour.Despawn());
-            behaviour.LifeTime.AddCleanUpAction(CleanUpAction);
-            
-            return behaviour;
-        }
-
-        private void CleanUpAction()
+        private void CleanUpPorts()
         {
             for (var i = 0; i < PortValues.Count; i++)
             {
                 var portValue = PortValues[i];
                 portValue.CleanUp();
             }
-
-            nodeContext = null;
-            behaviourState = null;
         }
 
-#endregion
 
     }
 }

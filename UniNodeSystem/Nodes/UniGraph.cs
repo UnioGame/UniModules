@@ -101,14 +101,15 @@
                 if (!(node is UniNode uniNode))
                     continue;
 
+                //initialize node
                 uniNode.Initialize();
                 
+                //register graph ports by nodes
                 UpdatePortNode(uniNode);
 
                 //stop graph execution, if cancelation node output triggered
                 if (uniNode is IGraphCancelationNode) {
-                    uniNode.Output.Receive<IContext>().
-                        Subscribe(x => Exit()).
+                    uniNode.Output.GetObservable<IContext>(x => Exit()).
                         AddTo(this);
                 }
 

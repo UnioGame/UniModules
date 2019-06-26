@@ -10,13 +10,13 @@ namespace Tests.ReactivePorts
         protected override void OnNodeInitialize()
         {
             
-            Input.Receive<string>().
+            Input.GetObservable<string>().
                 Subscribe(x => Debug.Log($"INPUT DATA {x}")).
                 AddTo(this);
 
             Input.Connect(Output);
             
-            Output.Receive<string>().
+            Output.GetObservable<string>().
                 Subscribe(x => Debug.Log($"OUTPUT DATA {x}")).
                 AddTo(this);
             

@@ -44,12 +44,18 @@
         /// </summary>
         public bool IsTerminated => _isTerminated;
 
+        /// <summary>
+        /// restart lifetime
+        /// </summary>
         public void Restart()
         {
             Release();
             _isTerminated = false;
         }
         
+        /// <summary>
+        /// invoke all cleanup actions
+        /// </summary>
         public void Release()
         {
             _isTerminated = true;

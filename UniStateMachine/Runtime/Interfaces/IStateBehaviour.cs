@@ -2,10 +2,11 @@ namespace UniGreenModules.UniStateMachine.Runtime.Interfaces
 {
     using UniCore.Runtime.Interfaces;
 
-    public interface IStateBehaviour<out TResult> : IRoutine<TResult>, IEndPoint
+    public interface IStateBehaviour<out TResult> : 
+        IRoutine<TResult>, 
+        IEndPoint, 
+        IActiveStatus
     {
-        
-        bool IsActive { get; }
     }
 
     public interface IStateBehaviour< in TContext,out TResult> :

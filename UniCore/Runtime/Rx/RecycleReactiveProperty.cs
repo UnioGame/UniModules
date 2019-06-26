@@ -7,7 +7,7 @@
     using ObjectPool;
     using ObjectPool.Interfaces;
 
-    public class RecycleReactiveProperty<T> : IRecycleReactiveProperty<T>,IDisposable
+    public class RecycleReactiveProperty<T> : IRecycleReactiveProperty<T>
     {
         private T value = default;
         private bool hasValue;
@@ -29,10 +29,10 @@
 
             _observers[observer] = disposeAction;
             
-            observer.OnNext(Value);
+            //if value already exists - notify
+            if(hasValue) observer.OnNext(Value);
             
             return disposeAction;
-
         }
 
         public void SetValue(T propertyValue)
@@ -47,28 +47,27 @@
     
         public void Release()
         {
-            
+            hasValue = false;
+            //stop listing all child observers
             foreach (var observer in _observers)
             {
                 observer.Key.OnCompleted();
                 observer.Value.Release();
             }
             _observers.Clear();
-            
             value = default(T);
-            hasValue = false;
         }
 
-        public void Dispose()
+        public void MakeDespawn()
         {
-            Release();
+            this.Despawn();
         }
 
-        protected void Remove(IObserver<T> observer)
+        private void Remove(IObserver<T> observer)
         {
             observer.OnCompleted();
             _observers.Remove(observer);
         }
-        
+
     }
 }

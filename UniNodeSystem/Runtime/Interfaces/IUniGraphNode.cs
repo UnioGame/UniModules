@@ -1,5 +1,6 @@
 namespace UniGreenModules.UniNodeSystem.Runtime.Interfaces
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using UniCore.Runtime.Interfaces;
@@ -8,19 +9,23 @@ namespace UniGreenModules.UniNodeSystem.Runtime.Interfaces
 
     public interface IUniNode : 
         INode,
-        IValidator<IContext>, 
-        IContextState<IEnumerator>,
+        IState,
         INamedItem
     {
 
-        RoutineType RoutineType { get; }
-        
-        IPortValue Input { get; }
-        
-        IPortValue Output { get; }
-        
         IReadOnlyList<IPortValue> PortValues { get; }
 
         void UpdatePortsCache();
+
+        /// <summary>
+        /// register port value action
+        /// </summary>
+        /// <param name="portValue">target port</param>
+        /// <param name="observer">on next action</param>
+        /// <param name="oneShot">don't resub on complete</param>
+        void RegisterPortHandler<TValue>(
+            IPortValue portValue,
+            IObserver<TValue> observer,
+            bool oneShot = false);
     }
 }

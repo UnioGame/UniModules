@@ -18,10 +18,8 @@
             private set => _reactiveValue.SetValue(value);
         }
 
-        public bool HasValue()
-        {
-            return _hasValue;
-        }
+        public bool HasValue => _hasValue;
+        
         
         public void SetValue(TData value)
         {
@@ -33,9 +31,6 @@
         {
             _hasValue = false;
             _reactiveValue.Release();
-            
-            OnRelease();
-            
             this.Despawn();
         }
 
@@ -43,8 +38,6 @@
         {
             return _reactiveValue.Subscribe(action);
         }
-               
-        protected virtual void OnRelease(){}
 
     }
 }
