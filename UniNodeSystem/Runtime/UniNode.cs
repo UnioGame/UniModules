@@ -6,7 +6,7 @@
     using Runtime;
     using UniCore.Runtime.DataFlow;
     using UniCore.Runtime.Extension;
-    using UniRx;
+    using UniCore.Runtime.Interfaces;
     using UniStateMachine.Runtime;
     using UnityEngine;
 
@@ -15,11 +15,17 @@
     {
         #region private fields
 
-        [NonSerialized] private LifeTimeDefinition lifeTimeDefinition;
+        [NonSerialized] private List<ICommand> commands = 
+            new List<ICommand>();
+ 
+        [NonSerialized] private LifeTimeDefinition lifeTimeDefinition = 
+            new LifeTimeDefinition();
 
-        [NonSerialized] private Dictionary<string, UniPortValue> portValuesMap;
+        [NonSerialized] private Dictionary<string, IPortValue> portValuesMap = 
+            new Dictionary<string, IPortValue>();
 
-        [NonSerialized] private List<UniPortValue> portValues;
+        [NonSerialized] private List<IPortValue> portValues = 
+            new List<IPortValue>();
 
         [NonSerialized] private bool isInitialized;
 
@@ -48,31 +54,16 @@
                 return;
 
             isInitialized = true;
-            portValues    = new List<UniPortValue>();
-            portValuesMap = new Dictionary<string, UniPortValue>();
-
-            RegisterPorts();
+            //custom node initialization
             OnNodeInitialize();
-        }
-
-        public void RegisterPortHandler<TValue>(
-            IPortValue portValue,
-            IObserver<TValue> observer,
-            bool oneShot = false)
-        {
-            //subscribe to port value observable
-            portValue.GetObservable<TValue>().Finally(() => {
-                    //if node stoped or 
-                    if (!oneShot || !IsActive) return;
-                    //resubscribe to port values
-                    RegisterPortHandler(portValue, observer, true);
-                }).
-                Subscribe(observer). //subscribe to port value changes
-                AddTo(LifeTime);     //stop all subscriptions when node deactivated
+            //update current node commands
+            UpdateNodeCommands(commands);
+            //remove deleted ports
+            Ports.RemoveItems(IsPortExists, RemoveInstancePort);
         }
 
         /// <summary>
-        /// stop execution state
+        /// stop execution
         /// </summary>
         public void Exit()
         {
@@ -80,6 +71,9 @@
             lifeTimeDefinition.Terminate();
         }
 
+        /// <summary>
+        /// start node execution
+        /// </summary>
         public void Execute()
         {
             //node already active
@@ -103,6 +97,9 @@
             //cleanup ports on exit
             LifeTime.AddCleanUpAction(CleanUpPorts);
 
+            //execute all node commands
+            commands.ForEach(x => x.Execute());
+            
             //user defined logic
             OnExecute();
         }
@@ -116,59 +113,52 @@
 
         public override object GetValue(NodePort port) => GetPortValue(port);
 
-        public UniPortValue GetPortValue(NodePort port) => GetPortValue(port.fieldName);
+        public IPortValue GetPortValue(NodePort port) => GetPortValue(port.fieldName);
 
-        public UniPortValue GetPortValue(string portName)
+        public IPortValue GetPortValue(string portName)
         {
             portValuesMap.TryGetValue(portName, out var value);
             return value;
         }
 
-        public bool AddPortValue(UniPortValue portValue)
+        public bool AddPortValue(IPortValue portValue)
         {
             if (portValue == null) {
                 Debug.LogErrorFormat("Try add NULL port value to {0}", this);
                 return false;
             }
 
-            if (portValuesMap.ContainsKey(portValue.name)) {
+            if (portValuesMap.ContainsKey(portValue.ItemName)) {
                 return false;
             }
 
-            portValuesMap[portValue.name] = portValue;
+            portValuesMap[portValue.ItemName] = portValue;
             portValues.Add(portValue);
 
             return true;
         }
+        
+        public virtual string GetFormatedInputName(string portName)
+        {
+            portName = string.Format($"{InputTriggerPrefix}{portName}");
+            return portName;
+        }
 
+        public virtual string GetFormatedOutputName(string portName)
+        {
+            portName = string.Format($"{OutputTriggerPrefix}{portName}");
+            return portName;
+        }
+        
+        public string GetFormatedName(string portName, PortIO direction)
+        {
+            return direction == PortIO.Input ? GetFormatedInputName(portName) : GetFormatedOutputName(portName);
+        }
+
+        
         #endregion
 
         #endregion
-
-
-        /// <summary>
-        /// Register node port values
-        /// </summary>
-        private void RegisterPorts()
-        {
-            //custom registration action
-            OnRegisterPorts();
-            //remove deleted ports
-            Ports.RemoveItems(IsExistsPort, RemoveInstancePort);
-        }
-
-
-        private bool IsExistsPort(NodePort port)
-        {
-            if (port.IsStatic) return false;
-            var value = GetPortValue(port.fieldName);
-            return value == null;
-        }
-
-        /// <summary>
-        /// Custom port registration method
-        /// </summary>
-        protected virtual void OnRegisterPorts(){}
 
         /// <summary>
         /// Call once on node initialization
@@ -181,6 +171,12 @@
         protected virtual void OnExecute(){}
 
         /// <summary>
+        /// update active list commands
+        /// add all supported node commands here
+        /// </summary>
+        protected virtual void UpdateNodeCommands(List<ICommand> nodeCommands){}
+        
+        /// <summary>
         /// cleanup all ports values
         /// </summary>
         private void CleanUpPorts()
@@ -189,6 +185,13 @@
                 var portValue = PortValues[i];
                 portValue.CleanUp();
             }
+        }
+
+        private bool IsPortExists(NodePort port)
+        {
+            if (port.IsStatic) return false;
+            var value = GetPortValue(port.fieldName);
+            return value == null;
         }
     }
 }

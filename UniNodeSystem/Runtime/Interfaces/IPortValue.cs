@@ -9,8 +9,8 @@ namespace UniGreenModules.UniNodeSystem.Runtime.Interfaces
         IConnector<IContextWriter>,
         INamedItem
     {
-        
-        
-        
+
+        void ConnectToPort(string portName);
+
     }
 }

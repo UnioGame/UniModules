@@ -68,23 +68,6 @@
             }
         }
 
-        public virtual string GetFormatedInputName(string portName)
-        {
-            portName = string.Format($"{InputTriggerPrefix}{portName}");
-            return portName;
-        }
-
-        public virtual string GetFormatedOutputName(string portName)
-        {
-            portName = string.Format($"{OutputTriggerPrefix}{portName}");
-            return portName;
-        }
-        
-        public string GetFormatedName(string portName, PortIO direction)
-        {
-            return direction == PortIO.Input ? GetFormatedInputName(portName) : GetFormatedOutputName(portName);
-        }
-        
         public virtual string GetName()
         {
             return gameObject.name;

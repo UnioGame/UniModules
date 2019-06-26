@@ -43,7 +43,8 @@ namespace UniGreenModules.UniNodeSystem.Runtime.Connections
 
         public IConnector<IContextWriter> Connect(IContextWriter connection)
         {
-            _registeredItems.Add(connection);
+            if (!_registeredItems.Contains(connection))
+                _registeredItems.Add(connection);
             return this;
         }
 

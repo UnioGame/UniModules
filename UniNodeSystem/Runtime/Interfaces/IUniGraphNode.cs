@@ -1,11 +1,9 @@
 namespace UniGreenModules.UniNodeSystem.Runtime.Interfaces
 {
-    using System;
-    using System.Collections;
     using System.Collections.Generic;
+    using Runtime;
     using UniCore.Runtime.Interfaces;
     using UniStateMachine.Runtime.Interfaces;
-    using UniTools.UniRoutine.Runtime;
 
     public interface IUniNode : 
         INode,
@@ -15,15 +13,12 @@ namespace UniGreenModules.UniNodeSystem.Runtime.Interfaces
 
         IReadOnlyList<IPortValue> PortValues { get; }
 
-        /// <summary>
-        /// register port value action
-        /// </summary>
-        /// <param name="portValue">target port</param>
-        /// <param name="observer">on next action</param>
-        /// <param name="oneShot">don't resub on complete</param>
-        void RegisterPortHandler<TValue>(
-            IPortValue portValue,
-            IObserver<TValue> observer,
-            bool oneShot = false);
+        IPortValue GetPortValue(NodePort port);
+        
+        IPortValue GetPortValue(string port);
+
+        bool AddPortValue(IPortValue portValue);
+
+        string GetFormatedName(string portName, PortIO direction);
     }
 }

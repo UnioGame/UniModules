@@ -2,7 +2,7 @@
 {
     using Interfaces;
 
-    public class NodeHandler
+    public class NodeCommand : INodeCommand
     {
         private IUniNode node;
         
@@ -13,17 +13,16 @@
         public void AttachToNode(IUniNode targetNode)
         {
             node = targetNode;
+            OnInitialize(node);
         }
 
-        public void Execute()
-        {
-            
-        }
+        public void Execute(){}
 
-        protected virtual void OnInitialize()
-        {
-            
-        }
+        /// <summary>
+        /// initialize
+        /// </summary>
+        /// <param name="targetNode"></param>
+        protected virtual void OnInitialize(IUniNode targetNode){}
         
     }
 }
