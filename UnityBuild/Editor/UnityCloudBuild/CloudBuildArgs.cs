@@ -1,5 +1,8 @@
 namespace UniGreenModules.UnityBuild.Editor.UnityCloudBuild
 {
+    using System;
+    using System.Text;
+
     internal class CloudBuildArgs
     {
         public CloudBuildArgs(int buildNumber, string bundleId, string projectId, string scmCommitId, string scmBranch, string cloudBuildTargetName)
@@ -41,5 +44,24 @@ namespace UniGreenModules.UnityBuild.Editor.UnityCloudBuild
         /// The name of the build target that was built (pipeline identifier).
         /// </summary>
         public string CloudBuildTargetName { get; }
+
+        public override string ToString()
+        {
+
+            var builder = new StringBuilder(200);
+            
+            builder.AppendLine();
+            builder.AppendLine("=======CloudBuildArgs START=========");
+            builder.AppendFormat("ProjectId {0}",ProjectId);
+            builder.AppendFormat("BundleId {0}",BundleId);
+            builder.AppendFormat("ScmCommitId {0}",ScmCommitId);
+            builder.AppendFormat("ScmBranch {0}",ScmBranch);
+            builder.AppendFormat("CloudBuildTargetName {0}",CloudBuildTargetName);
+            builder.AppendFormat("BuildNumber {0}",BuildNumber);
+            builder.AppendLine("=======CloudBuildArgs END=========");
+            builder.AppendLine();
+            
+            return builder.ToString();
+        }
     }
 }

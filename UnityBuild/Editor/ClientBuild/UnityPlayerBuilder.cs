@@ -93,14 +93,15 @@ namespace UniGreenModules.UnityBuild.Editor.ClientBuild
                 var commandName    = commandAsset.name;
                 var executionOrder = commandAsset.Info.Order;
         
-                Debug.Log($"=====EXECUTE COMMAND {commandName} with priority {executionOrder}=====");
+                Debug.Log($"\n\n=====EXECUTE COMMAND {commandName} with priority {executionOrder}=====");
                 var startTime = DateTime.Now;
         
                 action?.Invoke(commandAsset);
 
                 var endTime       = DateTime.Now;
                 var executionTime = endTime - startTime;
-                Debug.Log($"=====EXECUTE COMMAND FINISHED {commandName} TIME:{executionTime.TotalSeconds}=====");
+                
+                Debug.Log($"=====EXECUTE COMMAND FINISHED {commandName} DURATION:{executionTime.TotalSeconds}=====\n\n");
         
             }
         }

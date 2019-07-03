@@ -9,6 +9,7 @@ using UnityEngine;
 namespace UniGreenModules
 {
     using UnityBuild.Editor.UnityCloudBuild;
+    using UnityEditor;
 
     //https://docs.unity3d.com/Manual/UnityCloudBuildManifestAsScriptableObject.html
     //https://docs.unity3d.com/Manual/UnityCloudBuildManifest.html
@@ -28,6 +29,7 @@ namespace UniGreenModules
         public static void PreExport(DummyManifest manifest)
         {
 #endif
+
             args = new CloudBuildArgs(
                 manifest.GetValue<int>("buildNumber"),
                 manifest.GetValue<string>("bundleId"),
@@ -63,10 +65,17 @@ namespace UniGreenModules
         private static IUniBuilderConfiguration CreateCommandParameters()
         {
             var argumentsProvider = new ArgumentsProvider(Environment.GetCommandLineArgs());
-
-            Debug.Log("[CloudBuildHelper] " + argumentsProvider);
-
-            var buildTarget      = argumentsProvider.GetBuildTarget();
+            
+            Debug.LogFormat("\n[CloudBuildHelper] {0} \n", argumentsProvider);
+            Debug.Log(args.ToString());
+            
+            var manifestBuildTargetFound = 
+                Enum.TryParse(args.CloudBuildTargetName, true, out BuildTarget manifestBuildTarget);
+            
+            var buildTarget      = manifestBuildTargetFound ? 
+                manifestBuildTarget :
+                argumentsProvider.GetBuildTarget();
+            
             var buildTargetGroup = argumentsProvider.GetBuildTargetGroup();
             var buildParameters = new BuildParameters(buildTarget, buildTargetGroup, argumentsProvider) {
                 buildNumber     = args.BuildNumber,
