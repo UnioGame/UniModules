@@ -68,15 +68,10 @@ namespace UniGreenModules
             
             Debug.LogFormat("\n[CloudBuildHelper] {0} \n", argumentsProvider);
             Debug.Log(args.ToString());
-            
-            var manifestBuildTargetFound = 
-                Enum.TryParse(args.CloudBuildTargetName, true, out BuildTarget manifestBuildTarget);
-            
-            var buildTarget      = manifestBuildTargetFound ? 
-                manifestBuildTarget :
-                argumentsProvider.GetBuildTarget();
-            
+
+            var buildTarget      = argumentsProvider.GetBuildTarget();
             var buildTargetGroup = argumentsProvider.GetBuildTargetGroup();
+            
             var buildParameters = new BuildParameters(buildTarget, buildTargetGroup, argumentsProvider) {
                 buildNumber     = args.BuildNumber,
                 buildTarget     = buildTarget,

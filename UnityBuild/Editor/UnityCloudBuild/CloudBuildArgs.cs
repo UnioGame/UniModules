@@ -53,11 +53,17 @@ namespace UniGreenModules.UnityBuild.Editor.UnityCloudBuild
             builder.AppendLine();
             builder.AppendLine("=======CloudBuildArgs START=========");
             builder.AppendFormat("ProjectId {0}",ProjectId);
+            builder.AppendLine();
             builder.AppendFormat("BundleId {0}",BundleId);
+            builder.AppendLine();
             builder.AppendFormat("ScmCommitId {0}",ScmCommitId);
+            builder.AppendLine();
             builder.AppendFormat("ScmBranch {0}",ScmBranch);
+            builder.AppendLine();
             builder.AppendFormat("CloudBuildTargetName {0}",CloudBuildTargetName);
+            builder.AppendLine();
             builder.AppendFormat("BuildNumber {0}",BuildNumber);
+            builder.AppendLine();
             builder.AppendLine("=======CloudBuildArgs END=========");
             builder.AppendLine();
             
