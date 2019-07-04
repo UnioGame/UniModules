@@ -2,6 +2,7 @@
 {
     using System.Collections;
     using Interfaces;
+    using JetBrains.Annotations;
     using UniCore.Runtime.Extension;
     using UniCore.Runtime.Interfaces;
     using UniCore.Runtime.Views;
@@ -35,7 +36,8 @@
 
         #region private methods
 
-        protected virtual bool Validate() => isActiveAndEnabled;
+        protected virtual bool Validate() => Model.HasValue &&
+                                             isActiveAndEnabled;
 
         protected override void OnRelease()
         {
