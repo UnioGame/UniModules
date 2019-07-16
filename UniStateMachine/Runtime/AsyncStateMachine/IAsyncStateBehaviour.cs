@@ -3,6 +3,6 @@ using UniRx.Async;
 
 namespace UniModule.UnityTools.UniStateMachine.AsyncStateMachine
 {
-    public interface IAsyncStateBehaviour : IStateBehaviour<UniTask>{
-    }
+    public interface IAsyncStateBehaviour : IStateBehaviour<UniTask>{}
+    
 }
