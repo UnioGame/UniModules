@@ -3,7 +3,6 @@ using UniRx.Async;
 
 namespace UniModule.UnityTools.UniStateMachine.AsyncStateMachine
 {
-    using Castle.Components.DictionaryAdapter.Xml;
     using UniGreenModules.UniCore.Runtime.DataFlow;
     using UniRx;
 
@@ -14,8 +13,6 @@ namespace UniModule.UnityTools.UniStateMachine.AsyncStateMachine
         protected readonly LifeTimeDefinition lifeTimeDefinition = new LifeTimeDefinition();
         
         public IReadOnlyReactiveProperty<bool> IsActive => isActive;
-
-        public IReadOnlyReactiveProperty<bool> IsInitialized => isInitialized;
 
         public ILifeTime LifeTime => lifeTimeDefinition.LifeTime;
 
@@ -34,7 +31,7 @@ namespace UniModule.UnityTools.UniStateMachine.AsyncStateMachine
             
             isActive.Value = true;
             
-            isInitialized.Value = await OnInitialize();
+            await OnInitialize();
 
             await OnExecute();
 
@@ -50,9 +47,8 @@ namespace UniModule.UnityTools.UniStateMachine.AsyncStateMachine
 
         protected virtual void OnExit(){}
 
-        protected virtual async UniTask<bool> OnInitialize()
+        protected virtual async UniTask OnInitialize()
         {
-            return true;
         }
 
         protected virtual async UniTask OnExecute()

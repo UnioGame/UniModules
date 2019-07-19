@@ -1,13 +1,18 @@
 namespace UniGreenModules.UniCore.Runtime.Interfaces
 {
     using System;
+    using DataFlow;
+    using UniRx;
+    using UniRx.Async;
 
     public interface IAsyncController : IDisposable
     {
         
-        bool Complete { get; }
-        bool Pause();
-        bool Start();
+        IReadOnlyReactiveProperty<bool> IsInitialized { get; }
+
+        ILifeTime LifeTime { get; }
+
+        UniTask Initialize();
         
     }
 }
