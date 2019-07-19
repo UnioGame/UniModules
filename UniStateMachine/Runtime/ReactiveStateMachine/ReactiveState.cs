@@ -15,7 +15,7 @@ namespace UniModule.UnityTools.UniStateMachine.ReactiveStateMachine
         public void Initialize(ISelector<TState> stateSelector,
             IStateManager<TState> stateManager)
         {
-            if(IsActive)
+            if(IsActive.Value)
                 Exit();
             
             _stateSelector = stateSelector;
@@ -29,7 +29,7 @@ namespace UniModule.UnityTools.UniStateMachine.ReactiveStateMachine
 
         protected override IEnumerator ExecuteState()
         {
-            while (IsActive)
+            while (IsActive.Value)
             {
                 var state = _stateSelector.Select();
                 

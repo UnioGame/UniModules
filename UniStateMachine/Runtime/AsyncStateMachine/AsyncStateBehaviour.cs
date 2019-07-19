@@ -1,56 +1,73 @@
-﻿using System;
-using System.Collections.Generic;
-using UniModule.UnityTools.UniStateMachine.Interfaces;
+﻿using UniModule.UnityTools.UniStateMachine.Interfaces;
 using UniRx.Async;
 
 namespace UniModule.UnityTools.UniStateMachine.AsyncStateMachine
 {
-    using UniGreenModules.UniCore.Runtime.Extension;
+    using Castle.Components.DictionaryAdapter.Xml;
+    using UniGreenModules.UniCore.Runtime.DataFlow;
+    using UniRx;
 
     public class AsyncStateBehaviour : IStateBehaviour<UniTask>
     {
-        protected readonly List<IDisposable> _disposables = new List<IDisposable>();
+        protected readonly BoolReactiveProperty isActive = new BoolReactiveProperty(false);
+        protected readonly BoolReactiveProperty isInitialized = new BoolReactiveProperty(false);
+        protected readonly LifeTimeDefinition lifeTimeDefinition = new LifeTimeDefinition();
+        
+        public IReadOnlyReactiveProperty<bool> IsActive => isActive;
+
+        public IReadOnlyReactiveProperty<bool> IsInitialized => isInitialized;
+
+        public ILifeTime LifeTime => lifeTimeDefinition.LifeTime;
 
         public async UniTask Execute()
         {
 
-            if (IsActive)
+            if (isActive.Value)
                 await OnAlreadyActive();
             
-            IsActive = true;
+            lifeTimeDefinition.Release();
+
             
-            Initialize();
+            LifeTime.AddCleanUpAction(OnExit);
+            LifeTime.AddCleanUpAction(() => isActive.Value = false);
+            LifeTime.AddCleanUpAction(() => isInitialized.Value = false);
+            
+            isActive.Value = true;
+            
+            isInitialized.Value = await OnInitialize();
 
-            await ExecuteState();
+            await OnExecute();
 
+            await OnPostExecute();
+            
         }
-
-        public bool IsActive { get; protected set; }
 
         public void Exit() {
             
-            IsActive = false;
-            _disposables.Cancel();
-            OnStateStop();
+            lifeTimeDefinition.Terminate();
             
         }
 
-        protected virtual void OnStateStop()
+        protected virtual void OnExit(){}
+
+        protected virtual async UniTask<bool> OnInitialize()
         {
+            return true;
         }
 
-        protected virtual void Initialize()
+        protected virtual async UniTask OnExecute()
         {
+            
         }
 
-        protected virtual async UniTask ExecuteState()
+        protected virtual async UniTask OnPostExecute()
         {
             
         }
 
         protected virtual async UniTask OnAlreadyActive()
         {
-            while (IsActive)
+            while (isActive.Value)
             {
                 await UniTask.Yield(PlayerLoopTiming.Update);
             }

@@ -6,13 +6,15 @@ using UniModule.UnityTools.UniStateMachine.Interfaces;
 namespace UniModule.UnityTools.UniStateMachine
 {
     using UniGreenModules.UniCore.Runtime.Extension;
+    using UniRx;
 
     public class StateBehaviour : IStateBehaviour<IEnumerator>
     {
+        protected BoolReactiveProperty isActive = new BoolReactiveProperty();
         protected readonly List<IDisposable> _disposables = new List<IDisposable>();
 
 
-        public bool IsActive { get; protected set; }
+        public IReadOnlyReactiveProperty<bool> IsActive => isActive;
 
         
         #region public methods
@@ -20,12 +22,12 @@ namespace UniModule.UnityTools.UniStateMachine
         public IEnumerator Execute()
         {
 
-            if (IsActive)
-                yield return Wait();
-            
-            IsActive = true;
-            
+            if (isActive.Value)
+                yield return ExecutionAwait();
+
             Initialize();
+            
+            isActive.Value = true;
 
             yield return ExecuteState();
 
@@ -34,7 +36,7 @@ namespace UniModule.UnityTools.UniStateMachine
 
         public void Exit() {
             
-            IsActive = false;
+            isActive.Value = false;
             _disposables.Cancel();
             OnExite();
             
@@ -44,9 +46,9 @@ namespace UniModule.UnityTools.UniStateMachine
 
         #endregion
 
-        protected virtual IEnumerator Wait()
+        protected virtual IEnumerator ExecutionAwait()
         {
-            while (IsActive)
+            while (isActive.Value)
             {
                 yield return null;
             }
