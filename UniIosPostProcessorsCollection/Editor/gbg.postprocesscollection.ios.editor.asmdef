@@ -1,0 +1,15 @@
+{
+    "name": "gbg.postprocesscollection.ios.editor",
+    "references": [],
+    "optionalUnityReferences": [],
+    "includePlatforms": [
+        "iOS"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

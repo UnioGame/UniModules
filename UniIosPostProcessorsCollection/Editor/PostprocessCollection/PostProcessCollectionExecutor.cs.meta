@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 0a692b1c06cef59459879bbe98579228
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - XcodeModificationsScriptableObject: {fileID: 11400000, guid: 613fad7304484fd42bc82b662e9c6164,
+      type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
