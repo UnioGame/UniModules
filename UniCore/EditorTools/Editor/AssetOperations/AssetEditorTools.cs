@@ -765,7 +765,7 @@ namespace UniModule.UnityTools.EditorTools
         
         public static List<Object> GetAssets(Type assetType, string[] folders = null)
         {
-            var filterText = $"t:{nameof(assetType)}";
+            var filterText = $"t:{assetType.Name}";
             var assets = GetAssets<Object>(filterText, folders);
             return assets;
         }

@@ -4,16 +4,16 @@
   "displayName": "GBG UniNode System",
   "description": "UniNode System for Unity",
   "unity": "2019.1",
-  "version": "1.0.97",
+  "version": "1.0.98",
   "keywords": [],
   "dependencies": {
     "com.greenbuttongames.neuecc.unirx": "7.0.2",
     "com.greenbuttongames.neuecc.unirx.async": "1.0.0",
-    "com.greenbuttongames.unicore": "1.1.31",
-    "com.greenbuttongames.contextdata": "1.0.75",
-    "com.greenbuttongames.uniroutine": "1.0.82",
-    "com.greenbuttongames.unistatemachine": "1.0.89",
-    "com.greenbuttongames.resourcesystem": "1.0.83",
+    "com.greenbuttongames.unicore": "1.1.32",
+    "com.greenbuttongames.contextdata": "1.0.76",
+    "com.greenbuttongames.uniroutine": "1.0.83",
+    "com.greenbuttongames.unistatemachine": "1.0.90",
+    "com.greenbuttongames.resourcesystem": "1.0.84",
     "com.unity.addressables": "1.1.3-preview"
   }
 }
