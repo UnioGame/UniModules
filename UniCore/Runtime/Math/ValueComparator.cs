@@ -67,8 +67,12 @@
 			return false;
 		}
 
-		public static bool IsInIndexRange(int value, int from, int to) {
+		public static bool IsInIndexRange(int value, int from, int to)
+		{
 
+			if (value < 0)
+				return false;
+			
 			if (value >= from && value < to)
 				return true;
 			if (value >= to && value < from)
