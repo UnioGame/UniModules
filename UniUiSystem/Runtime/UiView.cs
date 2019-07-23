@@ -13,6 +13,8 @@
     {
         private IDisposableItem _updateDisposable;
 
+        protected TModel ModelValue => Model.Value;
+
         public RectTransform RectTransform  => transform as RectTransform;
 
         public void UpdateView()
