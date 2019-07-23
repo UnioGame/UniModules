@@ -67,6 +67,15 @@
 			return false;
 		}
 
+		public static bool IsInIndexRange(int value, int from, int to) {
+
+			if (value >= from && value < to)
+				return true;
+			if (value >= to && value < from)
+				return true;
+
+			return false;
+		}
 	
 		public static bool IsInRange(this float value, Vector2 range)
 		{
