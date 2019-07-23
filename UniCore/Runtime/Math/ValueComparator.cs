@@ -82,6 +82,11 @@
 			return IsInRange(value, range.x, range.y);
 		}
 		
+		public static bool IsInIndexRange(this int value, Vector2Int range)
+		{
+			return IsInIndexRange(value, range.x, range.y);
+		}
+		
 		public static bool IsInRange(this int value, Vector2Int range)
 		{
 			return IsInRange(value, range.x, range.y);
