@@ -13,7 +13,7 @@
 		private List<DisposableAction<int>> routineDisposable = new List<DisposableAction<int>>();
 		private Stack<int> unusedSlots = new Stack<int>();
 
-		public IDisposableItem AddRoutine(IEnumerator enumerator) {
+		public IDisposableItem AddRoutine(IEnumerator enumerator,bool moveNextImmediately = true) {
 
 			if (enumerator == null) return null;
 
@@ -21,7 +21,7 @@
 			var routine = ClassPool.Spawn<UniRoutineTask>();
 			var disposable = ClassPool.Spawn<DisposableAction<int>>();
 
-			routine.Initialize(enumerator,true);
+			routine.Initialize(enumerator,moveNextImmediately);
 
 			var slotIndex = routines.Count;
 			

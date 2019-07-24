@@ -26,16 +26,18 @@
 		/// </summary>
 		/// <param name="enumerator">target enumerator</param>
 		/// <param name="routineType">routine type</param>
+		/// <param name="moveNextImmediately"></param>
 		/// <returns>cancelation</returns>
 		public static IDisposableItem RunUniRoutine(IEnumerator enumerator, 
-			RoutineType routineType = RoutineType.UpdateStep)
+			RoutineType routineType = RoutineType.UpdateStep,
+			bool moveNextImmediately = true)
 		{
 			
 			//get routine
 			var routine = uniRoutines[routineType];
 			//add enumerator to routines
 			var routineItem = routine.Value;
-			var result = routineItem.AddRoutine(enumerator);
+			var result = routineItem.AddRoutine(enumerator,moveNextImmediately);
 			return result;
 
 		}
