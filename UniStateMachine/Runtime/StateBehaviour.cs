@@ -5,13 +5,16 @@
     using System.Collections.Generic;
     using Interfaces;
     using UniCore.Runtime.Extension;
+    using UniGreenModules.UniCore.Runtime.Extension;
+    using UniRx;
 
     public class StateBehaviour : IStateBehaviour<IEnumerator>
     {
+        protected BoolReactiveProperty isActive = new BoolReactiveProperty();
         protected readonly List<IDisposable> _disposables = new List<IDisposable>();
 
 
-        public bool IsActive { get; protected set; }
+        public IReadOnlyReactiveProperty<bool> IsActive => isActive;
 
         
         #region public methods
@@ -19,12 +22,12 @@
         public IEnumerator Execute()
         {
 
-            if (IsActive)
-                yield return Wait();
-            
-            IsActive = true;
-            
+            if (isActive.Value)
+                yield return ExecutionAwait();
+
             Initialize();
+            
+            isActive.Value = true;
 
             yield return ExecuteState();
 
@@ -33,7 +36,7 @@
 
         public void Exit() {
             
-            IsActive = false;
+            isActive.Value = false;
             _disposables.Cancel();
             OnExite();
             
@@ -43,9 +46,9 @@
 
         #endregion
 
-        protected virtual IEnumerator Wait()
+        protected virtual IEnumerator ExecutionAwait()
         {
-            while (IsActive)
+            while (isActive.Value)
             {
                 yield return null;
             }

@@ -1,13 +1,11 @@
-﻿using UnityEngine;
-
-namespace UniGreenModules.UnityBuild.Tests
+﻿namespace UniGreenModules.UnityBuild.Tests
 {
     using NUnit.Framework;
     using UnityBuild.Editor.ClientBuild.Commands.PreBuildCommands;
     using UnityEditor;
 
     [TestFixture]
-    public class VersionCommandTests : MonoBehaviour
+    public class VersionCommandTests
     {
         [Test]
         [TestCase(BuildTarget.Android, null, ExpectedResult           = "1.0.2.100")]

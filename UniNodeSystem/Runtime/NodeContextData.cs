@@ -6,7 +6,6 @@
     public class NodeContextData : IPoolable
     {
         public UniNode Node;
-
         public IContext Context;
 
         public void Activate(UniNode node, IContext nodeContext)

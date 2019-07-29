@@ -5,7 +5,6 @@
     using Interfaces;
     using Interfaces.Rx;
     using Rx;
-    using Rx.Extensions;
     using UniRx;
 
     public class ViewModel<TModel> : IViewModel<TModel>

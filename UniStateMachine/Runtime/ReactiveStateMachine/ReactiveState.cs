@@ -13,7 +13,7 @@
         public void Initialize(ISelector<TState> stateSelector,
             IStateManager<TState> stateManager)
         {
-            if(IsActive)
+            if(IsActive.Value)
                 Exit();
             
             _stateSelector = stateSelector;
@@ -27,7 +27,7 @@
 
         protected override IEnumerator ExecuteState()
         {
-            while (IsActive)
+            while (IsActive.Value)
             {
                 var state = _stateSelector.Select();
                 

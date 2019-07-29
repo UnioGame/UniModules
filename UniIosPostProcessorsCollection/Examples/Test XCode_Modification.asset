@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4bc8b6b518dc404e9a2c2ac83a65b49, type: 3}
+  m_Name: Test XCode_Modification
+  m_EditorClassIdentifier: 
+  Frameworks:
+  - Name: 
+    IsWeak: 0
+  Flags:
+  - Name: OTHER_LDFLAGS
+    Value: -lxml2
+  PlistKeys:
+    StringKeys:
+    - Name: GADApplicationIdentifier
+      Value: ca-app-pub-3940256099942544~1458002511
+    IntKeys: []
+    BoolKeys:
+    - Name: ITSAppUsesNonExemptEncryption
+      Value: 0
+    - Name: GADIsAdManagerApp
+      Value: 1
+    FloatKeys: []
+  CopyFilesDirectory: {fileID: 102900000, guid: 080fd429c8b9748cca16841e2510029c,
+    type: 3}
+  EntitlementsFile: {fileID: 102900000, guid: 0d998cec55c3b40f5b8181812971d5d1, type: 3}
+  NewDelegateFile: {fileID: -1121539586, guid: 0e1f8ecc8664f4417bb3d0c100cf50b2, type: 3}

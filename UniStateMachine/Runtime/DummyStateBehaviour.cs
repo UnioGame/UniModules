@@ -10,7 +10,7 @@
         protected override IEnumerator ExecuteState()
         {
             GameLog.Log("IM DUMMY STATE",Color.cyan);
-            while (IsActive)
+            while (IsActive.Value)
             {
                 yield return null;
             }
