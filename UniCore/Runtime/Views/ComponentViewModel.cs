@@ -35,5 +35,7 @@ namespace UniGreenModules.UniCore.Runtime.Views
         protected virtual void OnInitialize(TModel model){}
 
         protected virtual void OnRelease(){}
+
+        protected virtual void OnDestroy() => Release();
     }
 }
