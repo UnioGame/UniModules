@@ -4,11 +4,11 @@
   "displayName": "GBG Uni Context Data",
   "description": "",
   "unity": "2019.1",
-  "version": "1.0.83",
+  "version": "1.0.86",
   "keywords": [],
   "dependencies": {
     "com.greenbuttongames.neuecc.unirx": "7.0.2",
     "com.greenbuttongames.neuecc.unirx.async": "1.0.0",
-    "com.greenbuttongames.unicore": "1.1.39"
+    "com.greenbuttongames.unicore": "1.1.42"
   }
 }
