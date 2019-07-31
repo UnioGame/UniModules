@@ -4,9 +4,9 @@
   "displayName": "GBG Uniy Build Scriptable Pipeline",
   "description": "Allow to configurate unity project build",
   "unity": "2019.1",
-  "version": "1.0.96",
+  "version": "1.0.97",
   "keywords": [],
   "dependencies": {
-    "com.greenbuttongames.unicore": "1.1.48"
+    "com.greenbuttongames.unicore": "1.1.49"
   }
 }

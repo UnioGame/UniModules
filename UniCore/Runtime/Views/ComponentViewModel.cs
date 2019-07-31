@@ -21,6 +21,8 @@ namespace UniGreenModules.UniCore.Runtime.Views
     
         public void Initialize(TModel model)
         {
+            Release();
+            
             viewModel.Initialize(model);
             OnInitialize(model);
         }
