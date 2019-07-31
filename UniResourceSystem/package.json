@@ -4,11 +4,11 @@
   "displayName": "GBG UniResource system",
   "description": "",
   "unity": "2019.1",
-  "version": "1.0.96",
+  "version": "1.0.97",
   "keywords": [],
   "dependencies": {
-    "com.greenbuttongames.unicore": "1.1.44",
+    "com.greenbuttongames.unicore": "1.1.45",
     "com.unity.addressables": "1.1.3-preview",
-    "com.greenbuttongames.uniroutine": "1.0.95"
+    "com.greenbuttongames.uniroutine": "1.0.96"
   }
 }
