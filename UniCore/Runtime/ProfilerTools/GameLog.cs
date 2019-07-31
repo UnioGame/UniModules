@@ -14,7 +14,7 @@
             get
             {
                 if(_logger == null)
-                    _logger = new GameLogger("GameLog",true);
+                    _logger = new GameLogger("GameLog");
                 return _logger;
             }
 
@@ -26,7 +26,7 @@
             get
             {
                 if(_messageLogger == null)
-                    _messageLogger = new GameLogger("MESSAGE",true);
+                    _messageLogger = new GameLogger("MESSAGE");
                 return _messageLogger;
             }
 
