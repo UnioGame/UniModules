@@ -29,6 +29,18 @@
 
         }
 
+        public static IEnumerator DoDelayed(this object target,Action action)
+        {
+            yield return null;
+            action?.Invoke();
+        }
+
+        public static IEnumerator DoDelayed(this Action action)
+        {
+            yield return null;
+            action?.Invoke();
+        }
+        
         public static IEnumerator WaitForSecond(this object source,float delay)
         {
             var time = 0f;
