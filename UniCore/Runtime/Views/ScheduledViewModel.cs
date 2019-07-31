@@ -6,7 +6,7 @@ namespace UniGreenModules.UniCore.Runtime.Views
 
     public abstract class ScheduledViewModel<TModel> : ComponentViewModel<TModel>
     {
-        protected IDisposableItem updateDisposable;
+        private IDisposableItem updateDisposable;
 
         protected TModel ModelValue => Model.Value;
 
@@ -41,8 +41,6 @@ namespace UniGreenModules.UniCore.Runtime.Views
         }
 
         protected abstract IDisposableItem ScheduleUpdate();
-
-        protected void OnDestroy() => Release();
 
         protected virtual void OnEnable() => UpdateView();
         
