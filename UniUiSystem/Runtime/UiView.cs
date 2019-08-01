@@ -37,6 +37,7 @@
             yield return OnUpdateView();
             //cancel disposable item
             updateDisposable.Cancel();
+            updateDisposable = null;
         }
 
         protected virtual IEnumerator OnUpdateView()
