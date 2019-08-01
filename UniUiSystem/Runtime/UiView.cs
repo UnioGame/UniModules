@@ -33,7 +33,10 @@
 
         private IEnumerator OnScheduledUpdate()
         {
+            //update ui view
             yield return OnUpdateView();
+            //cancel disposable item
+            updateDisposable.Cancel();
         }
 
         protected virtual IEnumerator OnUpdateView()
