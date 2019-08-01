@@ -34,6 +34,8 @@ namespace UniGreenModules.UniCore.Runtime.Views
         protected virtual bool Validate() => Model.HasValue &&
                                              isActiveAndEnabled;
 
+        protected override void OnInitialize(TModel model) => UpdateView();
+        
         protected override void OnRelease()
         {
             updateDisposable.Cancel();

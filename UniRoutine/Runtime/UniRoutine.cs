@@ -82,7 +82,7 @@
 			}
 
 			//cleanup disposable data
-			disposable.Reset();
+			disposable?.Reset();
 			
 			//mark slot as empty
 			unusedSlots.Push(index);

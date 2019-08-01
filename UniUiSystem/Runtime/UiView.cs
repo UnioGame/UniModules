@@ -21,9 +21,6 @@
 
         #region private methods
 
-        protected virtual bool Validate() => Model.HasValue &&
-                                             isActiveAndEnabled;
-
         //schedule single ui update at next EndOfFrame call
         protected override IDisposableItem ScheduleUpdate()
         {
@@ -45,8 +42,6 @@
             yield break;
         }
 
-        protected virtual void OnEnable() => UpdateView();
-        
         #endregion
 
     }
