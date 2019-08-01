@@ -76,10 +76,14 @@
 			routineDisposable[index] = null;
 			
 			//routine complete, return it to pool
-			routine.Dispose();
-			routine.Despawn();
+			if (routine != null) {
+				routine.Dispose();
+				routine.Despawn();
+			}
+
 			//cleanup disposable data
 			disposable.Reset();
+			
 			//mark slot as empty
 			unusedSlots.Push(index);
 			
