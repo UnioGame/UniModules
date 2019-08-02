@@ -53,11 +53,12 @@
 				var routine = routines[i];
 				
 				//if routine slot is empty skip it
-				if(routine== null)
+				if(routine == null)
 					continue;
 				
 				var moveNext = routine.MoveNext();
-				if (moveNext) continue;
+				
+				if (moveNext || routines[i] == null) continue;
 
 				//return routine task to pool
 				ReleaseRoutine(i);
@@ -76,13 +77,11 @@
 			routineDisposable[index] = null;
 			
 			//routine complete, return it to pool
-			if (routine != null) {
-				routine.Dispose();
-				routine.Despawn();
-			}
+			routine.Dispose();
+			routine.Despawn();
 
 			//cleanup disposable data
-			disposable?.Reset();
+			disposable.Reset();
 			
 			//mark slot as empty
 			unusedSlots.Push(index);

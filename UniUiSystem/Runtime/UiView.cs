@@ -30,17 +30,17 @@
         private IEnumerator OnScheduledUpdate()
         {
             //update ui view
-            OnUpdateView();
+            yield return OnUpdateView();
             
             //cancel disposable item
             updateDisposable.Cancel();
-            
             updateDisposable = null;
-            
-            yield break;
         }
 
-        protected virtual void OnUpdateView(){}
+        protected virtual IEnumerator OnUpdateView()
+        {
+            yield break;
+        }
 
         #endregion
 

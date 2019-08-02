@@ -2,6 +2,7 @@
 
 namespace UniGreenModules.UniUiSystem.Tests.IntergrationTests.ViewModelUpdate
 {
+    using System.Collections;
     using UniCore.Runtime.Rx.Extensions;
     using UniRx;
     using UnityEngine;
@@ -13,9 +14,11 @@ namespace UniGreenModules.UniUiSystem.Tests.IntergrationTests.ViewModelUpdate
             model.Message.Subscribe(x => UpdateView()).AddTo(LifeTime);
         }
 
-        protected override void OnUpdateView()
+        protected override IEnumerator OnUpdateView()
         {
             Debug.Log($"VIEW update value : {ModelValue.Message}");
+            
+            yield break;
         }
     }
 }
