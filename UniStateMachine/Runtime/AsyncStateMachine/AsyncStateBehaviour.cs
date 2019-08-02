@@ -1,5 +1,6 @@
 ﻿using UniModule.UnityTools.UniStateMachine.Interfaces;
 using UniRx.Async;
+#pragma warning disable 1998
 
 namespace UniModule.UnityTools.UniStateMachine.AsyncStateMachine
 {
