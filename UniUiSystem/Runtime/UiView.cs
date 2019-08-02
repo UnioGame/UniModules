@@ -18,7 +18,6 @@
 
         public RectTransform RectTransform  => transform as RectTransform;
 
-
         #region private methods
 
         //schedule single ui update at next EndOfFrame call
@@ -31,16 +30,17 @@
         private IEnumerator OnScheduledUpdate()
         {
             //update ui view
-            yield return OnUpdateView();
+            OnUpdateView();
+            
             //cancel disposable item
             updateDisposable.Cancel();
+            
             updateDisposable = null;
-        }
-
-        protected virtual IEnumerator OnUpdateView()
-        {
+            
             yield break;
         }
+
+        protected virtual void OnUpdateView(){}
 
         #endregion
 
