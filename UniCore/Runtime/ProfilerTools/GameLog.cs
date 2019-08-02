@@ -32,19 +32,16 @@
 
         }
         
-        [Conditional("LOGS_ENABLED")]
         public static void Log(string message, Object source = null)
         {
             Logger.LogRuntime(message, source);
         }
         
-        [Conditional("LOGS_ENABLED")]
         public static void LogFormatWithTrace(string template, params object[] values)
         {
             Logger.LogFormatWithTrace(template, values);
         }
 
-        [Conditional("LOGS_ENABLED")]
         public static void LogFormat(string template, Color color, params object[] values)
         {
             Logger.LogFormat(template,color,values);
