@@ -29,6 +29,22 @@
 
         }
 
+        public static IEnumerator OnUpdate(this object target,Func<float,bool> updateAction)
+        {
+            
+            if (updateAction == null) yield break;
+
+            var isMoveNext = false;
+            var deltaTime = Time.realtimeSinceStartup;
+            
+            do {
+                var delta = Time.realtimeSinceStartup - deltaTime;
+                deltaTime = Time.realtimeSinceStartup;
+                isMoveNext = updateAction(delta);
+            } while (isMoveNext);
+
+        }
+
         public static IEnumerator DoDelayed(this object target,Action action)
         {
             yield return null;
