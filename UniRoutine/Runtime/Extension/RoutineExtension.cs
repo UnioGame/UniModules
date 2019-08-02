@@ -38,9 +38,13 @@
             var deltaTime = Time.realtimeSinceStartup;
             
             do {
+                
                 var delta = Time.realtimeSinceStartup - deltaTime;
                 deltaTime = Time.realtimeSinceStartup;
                 isMoveNext = updateAction(delta);
+                
+                yield return null;
+                
             } while (isMoveNext);
 
         }
