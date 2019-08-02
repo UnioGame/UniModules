@@ -34,7 +34,7 @@
         
         public static void Log(string message, Object source = null)
         {
-            Logger.LogRuntime(message, source);
+            Logger.Log(message, source);
         }
         
         public static void LogFormatWithTrace(string template, params object[] values)
@@ -49,7 +49,7 @@
 
         [Conditional("LOGS_ENABLED")]
         public static void Log(string message, Color color, Object source = null) {
-            Logger.LogRuntime(message, color, source);
+            Logger.Log(message, color, source);
         }
 
         [Conditional("LOGS_ENABLED")]
@@ -93,7 +93,7 @@
         [Conditional("LOGS_ENABLED")]
         public static void LogFormat(string template, params object[] values)
         {
-            Logger.LogFormatRuntime(template, values);
+            Logger.LogFormat(template, values);
         }
 
         [Conditional("ENABLE_MESSAGE_LOG")]
@@ -134,7 +134,7 @@
         
         public static void LogRuntime(string message, Object source = null)
         {
-            Logger.Log(message,source);
+            Logger.LogRuntime(message,source);
         }
 
     }
