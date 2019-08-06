@@ -6,13 +6,21 @@ namespace UniGreenModules.UniRoutine.Tests
     using System.Collections.Generic;
     using System.Linq;
     using NUnit.Framework;
+    using UniCore.Runtime.Interfaces;
     using UnityEngine.TestTools;
     using UniTools.UniRoutine.Runtime;
     using UniTools.UniRoutine.Runtime.Extension;
 
     public class UnityRoutineTests
     {
-    
+
+        [UnitySetUp]
+        public IEnumerator PrepareToTests()
+        {
+            
+            yield break;
+        }
+        
         [UnityTest]
         public IEnumerator TimeRoutineTest()
         {
@@ -35,6 +43,55 @@ namespace UniGreenModules.UniRoutine.Tests
             //assert
             Assert.That(timePassed > ( count * delay));
             
+        }
+        
+        [UnityTest]
+        public IEnumerator FixedUpdateRoutineTest()
+        {
+            //arrange
+            var counter      = new List<int>();
+            counter.Add(0);
+            
+            IDisposableItem disposableItem = null;
+            
+            //act
+            var routine = this.WaitUntil(() => {
+                OnFixedUpdateCounterFunc(counter);
+                if (disposableItem == null)
+                    return false;
+                
+                disposableItem.Dispose();
+                Debug.Log($"FixedUpdateRoutineTest AFTER DISPOSE");
+                return true;
+            });
+
+            disposableItem = routine.ExecuteRoutine(RoutineType.FixedUpdate, false);
+            
+            while (disposableItem.IsDisposed == false) {
+                yield return null;
+            }
+
+            //assert
+            Assert.That(counter[0] == 1);
+            
+        }
+
+        private void OnFixedUpdateCounterFunc(List<int> counter)
+        {
+            counter[0]++;
+            Debug.Log($"COUNTER TEST {counter[0]}");
+        }
+        
+        private IEnumerator OnFixedUpdateCounter(List<int> counter)
+        {
+            yield return null;
+            counter[0]++;
+            yield return null;
+            counter[0]++;
+            yield return null;
+            counter[0]++;
+            yield break;
+            counter[0]++;
         }
         
         private IEnumerator AddListByTime(List<float> counter, int count,float delay)

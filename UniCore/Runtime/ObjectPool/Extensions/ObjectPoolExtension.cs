@@ -27,6 +27,38 @@
             return pawn;
         }
 
+        
+        public static GameObject Spawn(this GameObject prototype, Transform parent = null, bool stayWorldPosition = false)
+        {
+            if (!prototype) return null;
+            var pawn = ObjectPool.Spawn(prototype, Vector3.zero, Quaternion.identity,
+                                                    parent, stayWorldPosition);
+            return pawn;
+        }
+        
+        public static GameObject Spawn(this GameObject prototype,Vector3 position, Transform parent = null, bool stayWorldPosition = false)
+        {
+            if (!prototype) return null;
+            var pawn = ObjectPool.Spawn(prototype, position, Quaternion.identity,
+                                        parent, stayWorldPosition);
+            return pawn;
+        }
+        
+        public static GameObject Spawn(this GameObject prototype, Vector3 position, Quaternion rotation, Transform parent = null, bool stayWorldPosition = false)
+        {
+            if (!prototype) return null;
+            var pawn = ObjectPool.Spawn(prototype, position, rotation, parent, stayWorldPosition);
+            return pawn;
+        }
+
+        public static TComponent Spawn<TComponent>(this GameObject prototype, Transform parent = null, bool stayWorldPosition = false)
+            where TComponent : Component
+        {
+            if (!prototype) return null;
+            var pawn = ObjectPool.Spawn<TComponent>(prototype.GetComponent<TComponent>(), Vector3.zero, Quaternion.identity,
+                                        parent, stayWorldPosition);
+            return pawn;
+        }
 
         public static TComponent Spawn<TComponent>(this TComponent prototype, Transform parent = null, bool stayWorldPosition = false)
             where TComponent : Component

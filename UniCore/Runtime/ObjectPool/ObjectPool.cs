@@ -92,7 +92,7 @@
 
             var pool = CreatePool(prefab, preload);
             // Spawn a clone from this pool
-            var clone = pool.FastSpawn(position, rotation, parent);
+            var clone = pool.FastSpawn(position, rotation, parent,stayWorld);
 
             GameProfiler.EndSample();
 

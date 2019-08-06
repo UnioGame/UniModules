@@ -29,6 +29,38 @@
 
         }
 
+        public static IEnumerator OnUpdate(this object target,Func<float,bool> updateAction)
+        {
+            
+            if (updateAction == null) yield break;
+
+            var isMoveNext = false;
+            var deltaTime = Time.realtimeSinceStartup;
+            
+            do {
+                
+                var delta = Time.realtimeSinceStartup - deltaTime;
+                deltaTime = Time.realtimeSinceStartup;
+                isMoveNext = updateAction(delta);
+                
+                yield return null;
+                
+            } while (isMoveNext);
+
+        }
+
+        public static IEnumerator DoDelayed(this object target,Action action)
+        {
+            yield return null;
+            action?.Invoke();
+        }
+
+        public static IEnumerator DoDelayed(this Action action)
+        {
+            yield return null;
+            action?.Invoke();
+        }
+        
         public static IEnumerator WaitForSecond(this object source,float delay)
         {
             var time = 0f;

@@ -3,7 +3,6 @@
     using Interfaces;
     using Triggers;
     using UniCore.Runtime.Interfaces;
-    using UniCore.Runtime.Rx.Extensions;
     using UniRx;
     using UnityEngine;
     using UniUiSystem.Runtime;

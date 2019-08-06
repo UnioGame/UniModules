@@ -18,11 +18,7 @@
 
         public RectTransform RectTransform  => transform as RectTransform;
 
-
         #region private methods
-
-        protected virtual bool Validate() => Model.HasValue &&
-                                             isActiveAndEnabled;
 
         //schedule single ui update at next EndOfFrame call
         protected override IDisposableItem ScheduleUpdate()
@@ -33,7 +29,12 @@
 
         private IEnumerator OnScheduledUpdate()
         {
+            //update ui view
             yield return OnUpdateView();
+            
+            //cancel disposable item
+            updateDisposable.Cancel();
+            updateDisposable = null;
         }
 
         protected virtual IEnumerator OnUpdateView()
@@ -41,8 +42,6 @@
             yield break;
         }
 
-        protected virtual void OnEnable() => UpdateView();
-        
         #endregion
 
     }
