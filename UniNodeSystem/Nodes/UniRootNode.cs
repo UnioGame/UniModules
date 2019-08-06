@@ -8,7 +8,7 @@
         
         public PortIO Direction => PortIO.Input;
 
-        public IPortValue PortValue => Input;
+        public IPortValue PortValue { get; protected set; }
 
         public bool Visible => false;
     }
