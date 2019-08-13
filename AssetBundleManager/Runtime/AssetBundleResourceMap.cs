@@ -57,17 +57,11 @@ namespace UniModule.UnityTools.AssetBundleManager
             var result = false;
             var references = _bundleReferences[bundleResource];
             if (force == true || references == 0) {
-
                 result = bundleResource.Unload(force,forceUnloadMode);
-
-                GameLog.LogResource(string.Format("RESOURCEMAP UNLOAD {0} FORCE {1} MODE {2} RESULT {3}",
-                    assetBundleName, force, forceUnloadMode, result));
-
             }
 
             if (result) {
-                GameLog.LogResource(string.Format("RESOURCEMAP UNLOADED {0} FORCE {1} MODE {2}",
-                    assetBundleName, force, forceUnloadMode));
+
                 UpdateReferences(resource.Dependecies,_decreseDelta);
                 UnloadDependencies(resource.Dependecies);
                 CleanUpAssetBundleResource(resource.BundleResource);

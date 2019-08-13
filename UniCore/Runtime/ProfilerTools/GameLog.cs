@@ -32,39 +32,35 @@
 
         }
         
+        [Conditional("UNITY_EDITOR"), Conditional("GAME_LOGS_ENABLED")]
         public static void Log(string message, Object source = null)
         {
             Logger.Log(message, source);
         }
         
+        [Conditional("UNITY_EDITOR"), Conditional("GAME_LOGS_ENABLED")]
         public static void LogFormatWithTrace(string template, params object[] values)
         {
             Logger.LogFormatWithTrace(template, values);
         }
 
+        [Conditional("UNITY_EDITOR"), Conditional("GAME_LOGS_ENABLED")]
         public static void LogFormat(string template, Color color, params object[] values)
         {
             Logger.LogFormat(template,color,values);
         }
 
-        [Conditional("LOGS_ENABLED")]
+        [Conditional("UNITY_EDITOR"), Conditional("GAME_LOGS_ENABLED")]
         public static void Log(string message, Color color, Object source = null) {
             Logger.Log(message, color, source);
         }
 
-        [Conditional("LOGS_ENABLED")]
+        [Conditional("UNITY_EDITOR"), Conditional("GAME_LOGS_ENABLED")]
         public static void LogWarning(string message, Color color, Object source = null)
         {
             Logger.LogWarning(message,color, source);
         }
   
-        [Conditional("RESOURCES_LOG_ENABLED")]
-        public static void LogResource(string message)
-        {
-            Logger.Log(message);
-        }
-
-
         [Conditional("LOG_GAME_STATE")]
         public static void LogGameState(string message)
         {
@@ -78,25 +74,25 @@
         }
         
         
-        [Conditional("LOGS_ENABLED")]
+        [Conditional("UNITY_EDITOR"), Conditional("GAME_LOGS_ENABLED")]
         public static void LogWarning(string message, Object source = null)
         {
             Logger.LogWarning(message, source);
         }
 
-        [Conditional("LOGS_ENABLED")]
+        [Conditional("UNITY_EDITOR"), Conditional("GAME_LOGS_ENABLED")]
         public static void LogWarningFormat(string template, params object[] values)
         {
             Logger.LogWarningFormat(template,values);
         }
 
-        [Conditional("LOGS_ENABLED")]
+        [Conditional("UNITY_EDITOR"), Conditional("GAME_LOGS_ENABLED")]
         public static void LogFormat(string template, params object[] values)
         {
             Logger.LogFormat(template, values);
         }
 
-        [Conditional("ENABLE_MESSAGE_LOG")]
+        [Conditional("UNITY_EDITOR"), Conditional("GAME_LOGS_ENABLED")]
         public static void LogMessage(string template, params object[] values)
         {
             MessageLogger.LogFormat(template,values);

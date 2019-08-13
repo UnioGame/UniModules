@@ -99,8 +99,8 @@ namespace UniModule.UnityTools.AssetBundleManager.AssetBundleResources
             if (forceUnload || --ReferencedCount <= 0) {
                 _assetBundle.Unload(forceMode);
                 
-                GameLog.LogResource(string.Format("UNLOAD BUNDLE {0} FORCE {1} MODE {2}",
-                    this.BundleName,forceUnload,forceMode));
+                GameLog.LogFormat("UNLOAD BUNDLE {0} FORCE {1} MODE {2}",
+                    this.BundleName,forceUnload,forceMode);
                 
                 return true;
             }
