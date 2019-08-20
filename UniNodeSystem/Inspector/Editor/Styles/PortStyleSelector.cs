@@ -16,14 +16,7 @@
             if (!uniNode) return portStyle;
 
             var portValue = uniNode.GetPortValue(port.fieldName);
-            var hasData = portValue != null && portValue.HasValue();
-
-            if (port.fieldName == UniNode.OutputPortName || port.fieldName == UniNode.InputPortName)
-            {
-                portStyle.Background = Color.blue;
-                portStyle.Color = hasData ? Color.red : Color.white;
-                return portStyle;
-            }
+            var hasData = portValue != null && portValue.HasValue;
 
             if (port.IsDynamic)
             {

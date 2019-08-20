@@ -20,8 +20,6 @@
             if (node == null)
                 return true;
 
-            DrawBasePorts(node,_drawedPorts);
-            
             DrawPorts(node,_drawedPorts);
 
             return true;
@@ -85,17 +83,6 @@
         {
             var portStyle = styleSelector.Select(port);
             port.DrawPortField(portStyle);
-        }
-
-        private void DrawBasePorts(UniNode node,IDictionary<string, NodePort> cache)
-        {                   
-            var inputPort = node.GetPort(UniNode.InputPortName);
-            var outputPort = node.GetPort(UniNode.OutputPortName);
-
-            cache[UniNode.InputPortName] = inputPort;
-            cache[UniNode.OutputPortName] = outputPort;
-            
-            DrawPortPair(node, inputPort, outputPort);
         }
 
     }
