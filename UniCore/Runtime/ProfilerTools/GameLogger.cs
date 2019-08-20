@@ -26,7 +26,7 @@
 
         public void Log(string message, Object source = null)
         {
-#if UNITY_EDITOR || FORCE_GAMELOG
+#if UNITY_EDITOR || GAME_LOGS_ENABLED
 
             LogRuntime(message, source);
 
@@ -35,7 +35,7 @@
 
         public void LogFormatWithTrace(string template, params object[] values)
         {
-#if UNITY_EDITOR || FORCE_GAMELOG
+#if UNITY_EDITOR || GAME_LOGS_ENABLED
 
             LogFormat(template, values);
             LogFormat("Stack Trace {0}", System.Environment.StackTrace);
@@ -45,7 +45,7 @@
 
         public void LogFormat(string template, Color color, params object[] values)
         {
-#if UNITY_EDITOR || FORCE_GAMELOG
+#if UNITY_EDITOR || GAME_LOGS_ENABLED
 
             var message = values == null || values.Length == 0 ? template : string.Format(template, values);
             Log(message, color);
@@ -55,14 +55,14 @@
 
         public void LogFormat(string template, params object[] values)
         {
-#if UNITY_EDITOR || FORCE_GAMELOG
+#if UNITY_EDITOR || GAME_LOGS_ENABLED
             LogFormatRuntime(template, values);
 #endif
         }
 
         public void Log(string message, Color color, Object source = null)
         {
-#if UNITY_EDITOR || FORCE_GAMELOG
+#if UNITY_EDITOR || GAME_LOGS_ENABLED
             LogRuntime(message, color, source);
 #endif
         }

@@ -6,7 +6,8 @@
     public static class RxLifetimeExtension 
     {
 
-        public static IDisposable AddTo(this IDisposable disposable, ILifeTime lifeTime)
+        public static T AddTo<T>(this T disposable, ILifeTime lifeTime)
+            where T : class, IDisposable
         {
             if (disposable != null)
                 lifeTime.AddDispose(disposable);

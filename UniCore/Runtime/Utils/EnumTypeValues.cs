@@ -8,11 +8,11 @@
     public static class EnumValue <T>
     {
         
-        public static readonly List<T> Values =
+        public static readonly IReadOnlyList<T> Values =
             Enum.GetValues(typeof(T)).
                 OfType<T>().ToList();
     
-        public static readonly List<string> Names =
+        public static readonly IReadOnlyList<string> Names =
             Enum.GetNames(typeof(T)).ToList();
     
 
