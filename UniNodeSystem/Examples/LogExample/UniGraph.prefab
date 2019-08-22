@@ -64,7 +64,7 @@ GameObject:
   - component: {fileID: 8185037052113543380}
   - component: {fileID: 8869662364011523818}
   m_Layer: 0
-  m_Name: UniRootNode
+  m_Name: Input
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -97,8 +97,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _id: 1
-  position: {x: 24, y: -24}
+  position: {x: -536, y: -88}
   ports:
-    keys: []
-    values: []
+    keys:
+    - UniRootNode
+    - Input
+    values:
+    - _id: 0
+      _fieldName: UniRootNode
+      _node: {fileID: 8869662364011523818}
+      _typeQualifiedName: UniGreenModules.UniNodeSystem.Runtime.UniPortValue, greenbuttongames.nodesystem,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 1
+    - _id: 0
+      _fieldName: Input
+      _node: {fileID: 8869662364011523818}
+      _typeQualifiedName: UniGreenModules.UniNodeSystem.Runtime.UniPortValue, greenbuttongames.nodesystem,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _dynamic: 1
   _graph: {fileID: 4617824403355863075}
+  direction: 1

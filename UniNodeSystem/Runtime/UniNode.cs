@@ -152,7 +152,8 @@
         
         public string GetFormatedName(string portName, PortIO direction)
         {
-            return direction == PortIO.Input ? GetFormatedInputName(portName) : GetFormatedOutputName(portName);
+            return direction == PortIO.Input ? GetFormatedInputName(portName) : 
+                GetFormatedOutputName(portName);
         }
 
         
@@ -193,5 +194,6 @@
             var value = GetPortValue(port.fieldName);
             return value == null;
         }
+
     }
 }
