@@ -135,6 +135,7 @@
             if (portValue == null)
             {
                 portValue = new UniPortValue();
+                portValue.ConnectToPort(portName);
                 node.AddPortValue(portValue);
             }
 

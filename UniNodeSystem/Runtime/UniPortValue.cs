@@ -16,7 +16,7 @@
         /// <summary>
         /// port value Name
         /// </summary>
-        public string name;
+        public string name = string.Empty;
 
         #endregion
 
