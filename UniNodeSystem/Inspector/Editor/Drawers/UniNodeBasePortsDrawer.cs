@@ -26,8 +26,10 @@
         }
     
         
-        public bool DrawPortPair(UniNode node, 
-            string inputPortName, string outputPortName)
+        public bool DrawPortPair(
+            UniNode node, 
+            string inputPortName, 
+            string outputPortName)
         {
 
             var outputPort = node.GetPort(inputPortName);
@@ -57,15 +59,17 @@
             for (var i = 0; i < node.PortValues.Count; i++)
             {
                 var portValue = node.PortValues[i];
-                var outputPortName = portValue.ItemName;
-                var inputPortName = node.GetFormatedInputName(outputPortName);
+                var portName = portValue.ItemName;
+                
+                var inputPortName = node.GetFormatedInputName(portName);
 
-                if (cache.ContainsKey(outputPortName))
+                if (cache.ContainsKey(portName))
                     continue;
 
-                var result = DrawPortPair(node, inputPortName,outputPortName);
-                var portOutput = node.GetPort(outputPortName);
-                cache[outputPortName] = portOutput;
+                var result = DrawPortPair(node, inputPortName, portName);
+                
+                var portOutput = node.GetPort(portName);
+                cache[portName] = portOutput;
                 
                 if (result)
                 {
