@@ -1,15 +1,18 @@
 ﻿namespace UniGreenModules.UniNodeSystem.Nodes
 {
-    using System;
+    using System.Collections.Generic;
+    using Commands;
     using Runtime;
     using Runtime.Extensions;
     using Runtime.Interfaces;
     using Runtime.Runtime;
+    using UniCore.Runtime.Interfaces;
     using UnityEngine;
 
     public class UniPortNode : UniNode, IUniPortNode
     {
-
+        private ConnectedFormatedPairCommand portPairCommand = new ConnectedFormatedPairCommand();
+        
         [SerializeField]
         private PortIO direction = PortIO.Input;
         
@@ -19,12 +22,17 @@
 
         public bool Visible => false;
 
-        protected override void OnNodeInitialize()
+        protected override void UpdateNodeCommands(List<ILifeTimeCommand> nodeCommands)
         {
-            this.UpdatePortValue(ItemName, direction);
-            base.OnNodeInitialize();
+            base.UpdateNodeCommands(nodeCommands);
+            
+            portPairCommand.Initialize(this, ItemName, true);
+            PortValue = Direction == PortIO.Input ? 
+                portPairCommand.InputPort : 
+                portPairCommand.OutputPort;
+            
+            nodeCommands.Add(portPairCommand);
         }
-
     }
         
 }

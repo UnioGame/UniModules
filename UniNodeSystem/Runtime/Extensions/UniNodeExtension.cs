@@ -125,8 +125,10 @@
         
         }
         
-        public static (IPortValue value, NodePort port) UpdatePortValue(this IUniNode node, 
-            string portName, PortIO direction = PortIO.Output)
+        public static (IPortValue value, NodePort port) UpdatePortValue(
+            this IUniNode node, 
+            string portName, 
+            PortIO direction = PortIO.Output)
         {
         
             var port = node.UpdatePort(portName, direction);
@@ -143,6 +145,13 @@
             
             return (portValue,port);
         
+        }
+        
+        public static bool IsPortRemoved(this IUniNode node,NodePort port)
+        {
+            if (port.IsStatic) return false;
+            var value = node.GetPortValue(port.fieldName);
+            return value == null;
         }
         
         public static void RegisterPortHandler<TValue>(

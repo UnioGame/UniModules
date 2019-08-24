@@ -2,21 +2,26 @@
 {
     using System;
     using System.Collections.Generic;
+    using Extensions;
     using Interfaces;
     using Runtime;
     using UniCore.Runtime.DataFlow;
     using UniCore.Runtime.Extension;
     using UniCore.Runtime.Interfaces;
+    using UniCore.Runtime.ProfilerTools;
     using UniStateMachine.Runtime;
     using UnityEngine;
 
     [Serializable]
     public abstract class UniNode : UniBaseNode, IUniNode
     {
+        public const string InputTriggerPrefix  = "[in]";
+        public const string OutputTriggerPrefix = "[out]";
+        
         #region private fields
 
-        [NonSerialized] private List<ICommand> commands = 
-            new List<ICommand>();
+        [NonSerialized] private List<ILifeTimeCommand> commands = 
+            new List<ILifeTimeCommand>();
  
         [NonSerialized] private LifeTimeDefinition lifeTimeDefinition = 
             new LifeTimeDefinition();
@@ -54,12 +59,16 @@
                 return;
 
             isInitialized = true;
+            
             //custom node initialization
             OnNodeInitialize();
-            //update current node commands
+            
+            //register node commands
             UpdateNodeCommands(commands);
+            
             //remove deleted ports
-            Ports.RemoveItems(IsPortExists, RemoveInstancePort);
+            Ports.RemoveItems(this.IsPortRemoved, RemoveInstancePort);
+            
         }
 
         /// <summary>
@@ -98,7 +107,7 @@
             LifeTime.AddCleanUpAction(CleanUpPorts);
 
             //execute all node commands
-            commands.ForEach(x => x.Execute());
+            commands.ForEach(x => x.Execute(LifeTime));
             
             //user defined logic
             OnExecute();
@@ -124,7 +133,7 @@
         public bool AddPortValue(IPortValue portValue)
         {
             if (portValue == null) {
-                Debug.LogErrorFormat("Try add NULL port value to {0}", this);
+                GameLog.LogErrorFormat("Try add NULL port value to {0}", this);
                 return false;
             }
 
@@ -137,7 +146,7 @@
 
             return true;
         }
-        
+       
         public virtual string GetFormatedInputName(string portName)
         {
             portName = string.Format($"{InputTriggerPrefix}{portName}");
@@ -155,7 +164,6 @@
             return direction == PortIO.Input ? GetFormatedInputName(portName) : 
                 GetFormatedOutputName(portName);
         }
-
         
         #endregion
 
@@ -175,7 +183,7 @@
         /// update active list commands
         /// add all supported node commands here
         /// </summary>
-        protected virtual void UpdateNodeCommands(List<ICommand> nodeCommands){}
+        protected virtual void UpdateNodeCommands(List<ILifeTimeCommand> nodeCommands){}
         
         /// <summary>
         /// cleanup all ports values
@@ -187,13 +195,15 @@
                 portValue.CleanUp();
             }
         }
-
-        private bool IsPortExists(NodePort port)
+        
+        
+        #region inspector call
+        
+        protected virtual void OnValidate()
         {
-            if (port.IsStatic) return false;
-            var value = GetPortValue(port.fieldName);
-            return value == null;
+            Initialize();
         }
-
+        
+        #endregion
     }
 }

@@ -30,8 +30,6 @@
     [Serializable]
     public abstract class UniBaseNode : MonoBehaviour, INode
     {
-        public const string InputTriggerPrefix = "[in]";
-        public const string OutputTriggerPrefix = "[out]";
 
         [HideInInspector] [ReadOnlyValue] [SerializeField] private ulong _id;
 

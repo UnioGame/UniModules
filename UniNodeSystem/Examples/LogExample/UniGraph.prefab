@@ -50,7 +50,7 @@ MonoBehaviour:
     keys: []
     values: []
   _graph: {fileID: 0}
-  _uniqueId: 1
+  _uniqueId: 4
   nodes:
   - {fileID: 8869662364011523818}
 --- !u!1 &8134891762525804956
@@ -97,28 +97,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _id: 1
-  position: {x: -536, y: -88}
+  position: {x: -520, y: -136}
   ports:
     keys:
-    - UniRootNode
-    - Input
+    - '[out]Input'
+    - '[in]Input'
     values:
-    - _id: 0
-      _fieldName: UniRootNode
-      _node: {fileID: 8869662364011523818}
-      _typeQualifiedName: UniGreenModules.UniNodeSystem.Runtime.UniPortValue, greenbuttongames.nodesystem,
-        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      connections: []
-      _direction: 0
-      _connectionType: 0
-      _dynamic: 1
-    - _id: 0
-      _fieldName: Input
+    - _id: 4
+      _fieldName: '[out]Input'
       _node: {fileID: 8869662364011523818}
       _typeQualifiedName: UniGreenModules.UniNodeSystem.Runtime.UniPortValue, greenbuttongames.nodesystem,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       connections: []
       _direction: 1
+      _connectionType: 0
+      _dynamic: 1
+    - _id: 0
+      _fieldName: '[in]Input'
+      _node: {fileID: 8869662364011523818}
+      _typeQualifiedName: UniGreenModules.UniNodeSystem.Runtime.UniPortValue, greenbuttongames.nodesystem,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
       _connectionType: 0
       _dynamic: 1
   _graph: {fileID: 4617824403355863075}
