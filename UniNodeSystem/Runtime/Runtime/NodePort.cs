@@ -6,10 +6,8 @@
     using UniCore.Runtime.ObjectPool;
     using UnityEngine;
 
-    public enum PortIO { Input, Output }
-
     [Serializable]
-    public class NodePort
+    public class NodePort : INodePort
     {
         [ReadOnlyValue]
         [SerializeField]

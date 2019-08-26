@@ -1,30 +1,38 @@
-﻿
-namespace UniGreenModules.UniNodeSystem.Runtime.Connections
+﻿namespace UniGreenModules.UniNodeSystem.Runtime.Connections
 {
     using System.Collections.Generic;
     using Interfaces;
+    using Runtime;
     using UniCore.Runtime.Interfaces;
     using UniCore.Runtime.ProfilerTools;
 
-    public class PortValueConnection : 
-        IContextWriter,
-        IConnector<ITypeData>
+    public class PortValueConnection : IPortConnection
     {
-        protected readonly List<ITypeData> connections;
-        protected readonly ITypeData target;
+        private List<ITypeData>  connections          = new List<ITypeData>();
+        private ITypeData        target;
+        private INodePort        targetPort;
 
-        public PortValueConnection(ITypeData target)
+        public void Initialize(ITypeData targetContainer)
         {
-            this.target = target;
-            connections = new List<ITypeData>();
+            this.target      = targetContainer;
+            this.connections = new List<ITypeData>();
+
+        }
+
+        public void Release()
+        {
+            connections.Clear();
+
+            targetPort = null;
+            target     = null;
         }
 
         public virtual void Add<TData>(TData value)
         {
             GameProfiler.BeginSample("Connection_UpdateValue");
-            
+
             target.Add(value);
-            
+
             GameProfiler.EndSample();
         }
 
@@ -32,21 +40,18 @@ namespace UniGreenModules.UniNodeSystem.Runtime.Connections
         {
             target.CleanUp();
         }
-        
+
         public virtual bool Remove<TData>()
         {
-
-            for (var i = 0; i < connections.Count; i++)
-            {
+            for (var i = 0; i < connections.Count; i++) {
                 var connection = connections[i];
-                if (connection.Contains<TData>())
-                {
+                if (connection.Contains<TData>()) {
                     var value = connection.Get<TData>();
                     target.Add(value);
                     return false;
                 }
             }
-            
+
             var result = target.Remove<TData>();
             return result;
         }

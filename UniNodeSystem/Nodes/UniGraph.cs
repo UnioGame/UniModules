@@ -3,9 +3,13 @@
     using System;
     using System.Collections.Generic;
     using Runtime;
+    using Runtime.Connections;
+    using Runtime.Extensions;
     using Runtime.Interfaces;
     using Runtime.Runtime;
     using UniCore.Runtime.Interfaces;
+    using UniCore.Runtime.ObjectPool;
+    using UniRx;
     using UnityEngine;
 
     public class UniGraph : NodeGraph, IUniGraph
@@ -37,144 +41,138 @@
 
         public GameObject AssetInstance => gameObject;
 
-        public IReadOnlyList<IGraphPortNode> GraphOuputs => outputs;
+        public IReadOnlyList<IGraphPortNode> OutputsPorts => outputs;
         
-        public IReadOnlyList<IGraphPortNode> GraphInputs => inputs;
+        public IReadOnlyList<IGraphPortNode> InputsPorts => inputs;
         
         public override void Dispose() => Exit();
         
         #region private methods
-        
-//        protected override IEnumerator OnExecuteState(IContext context)
-//        {
-//            //mark graph as active
-//            ActiveGraphs.Add(this);
-//
-//            var lifeTime = LifeTime;
-//            
-//            for (var i = 0; i < inputs.Count; i++)
-//            {
-//                //execute every node with active graph context
-//                inputs[i].Execute(context).
-//                    RunWithSubRoutines().
-//                    AddTo(lifeTime);//subscribe on current lifetime
-//            }
-//
-//            //base execution flow
-//            yield return base.OnExecute(context);
-//        }
-//
-//        protected override void OnExit(IContext context)
-//        {
-//            //stop all nodes
-//            allNodes.ForEach(x => x.Exit());
-//
-//            //remove from active graphs
-//            ActiveGraphs.Remove(this);
-//        }
-        
-//        protected override void OnRegisterPorts()
-//        {
-//            base.OnRegisterPorts();
-//            
-//            allNodes.Clear();
-//            cancelationNodes.Clear();
-//            inputs.Clear();
-//            outputs.Clear();
-//            
-//            for (var i = 0; i < nodes.Count; i++) {
-//
-//                var node = nodes[i];
-//                
-//                //skip all not unigraph nodes
-//                if (!(node is UniNode uniNode))
-//                    continue;
-//
-//                //initialize node
-//                uniNode.Initialize();
-//                
-//                //register graph ports by nodes
-//                UpdatePortNode(uniNode);
-//
-//                //stop graph execution, if cancelation node output triggered
-//                if (uniNode is IGraphCancelationNode) {
-//                    uniNode.Output.GetObservable<IContext>(x => Exit()).
-//                        AddTo(this);
-//                }
-//
-//                allNodes.Add(uniNode);
-//            }
-//        }
-//
-//        private void UpdatePortNode(IUniNode uniNode)
-//        {
-//            //register input/output nodes
-//            if (!(uniNode is IGraphPortNode graphPortNode)) {
-//                return;
-//            }
-//
-//            var container = graphPortNode.Direction == PortIO.Input ? 
-//                inputs : outputs;
-//            container.Add(graphPortNode);
-//                    
-//            //add graph ports for exists port nodes
-//            var port = this.UpdatePortValue(uniNode.ItemName, graphPortNode.Direction);
-//            //get node input
-//            var input = uniNode.Input;           
-//            //bind graph port to target node input
-//            port.value.Connect(input);
-//            
-//        }
-//        
-//        protected override void OnNodeInitialize()
-//        {
-//            for (var i = 0; i < allNodes.Count; i++)
-//            {
-//                var node   = allNodes[i];
-//                var values = node.PortValues;
-//
-//                for (var j = 0; j < values.Count; j++)
-//                {
-//                    var value = values[j];
-//                    var port  = node.GetPort(value.ItemName);
-//
-//                    //take only input ports
-//                    if (port.direction == PortIO.Output)
-//                        continue;
-//
-//                    var connection = node.Input == value
-//                        ? new InputPortConnection(node, value,nodeExecutor)
-//                        : new PortValueConnection(value);
-//
-//                    BindWithOutputs(connection, port);
-//                }
-//            }
-//        }
 
-        private void BindWithOutputs(IContextWriter inputConnection, NodePort port)
+        protected override void OnNodeInitialize()
         {
-            var connections = port.GetConnections();
+            
+            base.OnNodeInitialize();
+            
+            InitializeGraphNodes();
+            
+        }
 
-            for (int i = 0; i < connections.Count; i++)
-            {
-                var connection = connections[i];
+        protected override void OnExecute()
+        {
+
+            LifeTime.AddCleanUpAction(() => ActiveGraphs.Remove(this));
+
+            cancelationNodes.ForEach(x => x.PortValue.PortValueChanged.
+                                         Subscribe(unit => Exit()).
+                                         AddTo(LifeTime));
+            
+            inputs.ForEach(x => GetPortValue(x.ItemName).Connect(x.PortValue) );
+            
+            outputs.ForEach(x => GetPortValue(x.ItemName).Connect(x.PortValue) );
+            
+            allNodes.ForEach( InitializeGraphNode );
+
+            for (var i = 0; i < allNodes.Count; i++) {
+                var node = allNodes[i];
+
+                LifeTime.AddCleanUpAction(() => node.Exit());
+                
+                node.Execute();
+            }
+
+        }
+
+        private void InitializeGraphNodes()
+        {
+            allNodes.Clear();
+            cancelationNodes.Clear();
+            inputs.Clear();
+            outputs.Clear();
+            
+            for (var i = 0; i < nodes.Count; i++) {
+
+                var node = nodes[i];
+                
+                //skip all not unigraph nodes
+                if (!(node is IUniNode uniNode))
+                    continue;
+
+                //register graph ports by nodes
+                UpdatePortNode(uniNode);
+
+                //stop graph execution, if cancelation node output triggered
+                if (uniNode is IGraphCancelationNode cancelationNode) {
+                    cancelationNodes.Add(cancelationNode);
+                }
+
+                allNodes.Add(uniNode);
+            }
+        }
+
+        private void UpdatePortNode(IUniNode uniNode)
+        {
+            //register input/output nodes
+            if (!(uniNode is IGraphPortNode graphPortNode)) {
+                return;
+            }
+
+            var container = graphPortNode.Direction == PortIO.Input ? 
+                inputs : outputs;
+      
+            //add graph ports for exists port nodes
+            var port = this.UpdatePortValue(graphPortNode.ItemName, graphPortNode.Direction);
+      
+            //bind graph port to target node input
+            port.value.Connect(graphPortNode.PortValue);
+                                 
+            container.Add(graphPortNode);
+
+        }
+        
+        
+        protected void InitializeGraphNode(IUniNode node)
+        {
+            var values = node.PortValues;
+
+            for (var j = 0; j < values.Count; j++) {
+                var value = values[j];
+                var port  = node.GetPort(value.ItemName);
+
+                //take only input ports
+                if (port.direction == PortIO.Output)
+                    continue;
+
+                var connection = ClassPool.Spawn<PortValueConnection>();
+                connection.Initialize(value);
+
+                BindWithOutputs(connection, port);
+                
+                LifeTime.AddCleanUpAction(() => connection.Despawn());
+            }
+            
+        }
+        
+        
+        private void BindWithOutputs(IContextWriter writer, INodePort port)
+        {
+            var portConnections = port.GetConnections();
+
+            for (var i = 0; i < portConnections.Count; i++) {
+                var connection    = portConnections[i];
                 var connectedNode = connection.node;
 
-                if (!(connectedNode is UniNode node))
+                if (!(connectedNode is IUniNode node))
                     continue;
 
                 //register connection with target input 
                 var connectedValue = node.GetPortValue(connection.fieldName);
-                connectedValue.Connect(inputConnection);
+                connectedValue.Connect(writer);
+
             }
         }
 
         private void OnDisable() => Dispose();
-
-        private void OnValidate()
-        {
-            Initialize();
-        }
         
         #endregion
 

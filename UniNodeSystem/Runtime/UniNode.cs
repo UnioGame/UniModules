@@ -10,7 +10,6 @@
     using UniCore.Runtime.Interfaces;
     using UniCore.Runtime.ProfilerTools;
     using UniStateMachine.Runtime;
-    using UnityEngine;
 
     [Serializable]
     public abstract class UniNode : UniBaseNode, IUniNode

@@ -127,7 +127,6 @@
             
         }
 
-        
         public static IDisposable ExecuteWithCondition(this object target, 
             Action action, Func<bool> condition,
             Func<bool> awaiter,

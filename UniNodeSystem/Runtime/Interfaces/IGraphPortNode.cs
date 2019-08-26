@@ -4,6 +4,7 @@ namespace UniGreenModules.UniNodeSystem.Runtime.Interfaces
 
     public interface IGraphPortNode : IUniNode
     {
+        
         PortIO Direction { get; }
         
         IPortValue PortValue { get; }

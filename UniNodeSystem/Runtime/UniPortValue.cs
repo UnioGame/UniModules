@@ -27,6 +27,8 @@
         [NonSerialized] private ITypeDataBrodcaster broadcaster;
 
         [NonSerialized] private bool initialized = false;
+        
+        [NonSerialized] private ReactiveCommand portValueChanged = new ReactiveCommand();
 
         #endregion
 
@@ -36,6 +38,8 @@
 
         public bool HasValue => typeData.HasValue;
 
+        public IObservable<Unit> PortValueChanged => portValueChanged;
+        
         #endregion
 
         public UniPortValue()
@@ -68,8 +72,12 @@
 
         public void Add<TData>(TData value)
         {
+            
             typeData.Add(value);
             broadcaster.Add(value);
+
+            portValueChanged.Execute(Unit.Default);
+            
         }
 
         public void CleanUp()
