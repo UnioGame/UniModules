@@ -1,5 +1,5 @@
 {
-    "name": "greenbuttongame.unitools",
+    "name": "gbg.unicore.runtime",
     "references": [
         "GUID:560b04d1a97f54a4e82edc0cbbb69285",
         "GUID:f51ebe6a0ceec4240a699833d6309b23"

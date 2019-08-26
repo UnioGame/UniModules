@@ -4,17 +4,17 @@
   "displayName": "GBG UniNodes UI system",
   "description": "UI support for node system",
   "unity": "2019.1",
-  "version": "1.0.86",
+  "version": "1.0.88",
   "keywords": [],
   "dependencies": {
     "com.greenbuttongames.neuecc.unirx": "7.1.0",
     "com.greenbuttongames.neuecc.unirx.async": "1.1.0",
-    "com.greenbuttongames.unicore": "1.2.2",
-    "com.greenbuttongames.contextdata": "1.1.2",
-    "com.greenbuttongames.uniroutine": "1.1.2",
-    "com.greenbuttongames.resourcesystem": "1.0.119",
-    "com.greenbuttongames.unistatemachine": "1.1.4",
-    "com.greenbuttongames.nodesystem": "1.1.5",
+    "com.greenbuttongames.unicore": "1.2.3",
+    "com.greenbuttongames.contextdata": "1.1.3",
+    "com.greenbuttongames.uniroutine": "1.1.3",
+    "com.greenbuttongames.resourcesystem": "1.0.120",
+    "com.greenbuttongames.unistatemachine": "1.1.5",
+    "com.greenbuttongames.nodesystem": "1.1.7",
     "com.unity.addressables": "1.1.3-preview"
   }
 }
