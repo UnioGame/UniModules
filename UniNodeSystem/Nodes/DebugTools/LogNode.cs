@@ -27,9 +27,7 @@ namespace UniGreenModules.UniNodeSystem.Nodes.DebugTools
             base.UpdateNodeCommands(nodeCommands);
             
             var inputMessagePort = this.UpdatePortValue(logPortName, PortIO.Input);
-            
-            nodeCommands.Add(new NodeDataActionCommand(inputMessagePort.value,() => PrintLog(message, mode)));
-            
+
             nodeCommands.Add(new PortActionCommand<string>(x => PrintLog(x, mode),inputMessagePort.value));
         }
 

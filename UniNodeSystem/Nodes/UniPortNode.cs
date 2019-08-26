@@ -11,11 +11,15 @@
 
     public class UniPortNode : UniNode, IUniPortNode
     {
+                
+#region inspector
+        
+        public PortIO direction = PortIO.Input;
+        
+#endregion
+
         private ConnectedFormatedPairCommand portPairCommand = new ConnectedFormatedPairCommand();
-        
-        [SerializeField]
-        private PortIO direction = PortIO.Input;
-        
+
         public PortIO Direction => direction;
 
         public IPortValue PortValue { get; protected set; }

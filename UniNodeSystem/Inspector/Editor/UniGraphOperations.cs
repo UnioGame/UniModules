@@ -29,22 +29,19 @@
 		public static void CreateGraph()
 		{
 			
-			var graphAsset = ScriptableObject.CreateInstance<UniGraphAsset>();
 			var graph = new GameObject().AddComponent<UniGraph>();
 			
 			//add main root node
-			var root = graph.AddNode<UniPortNode>("root");
+			var root = graph.AddNode<UniPortNode>("input");
+			root.name = "input";
+			root.direction = PortIO.Input;
 			
 			var activePath = AssetDatabase.GetAssetPath(Selection.activeObject);
 			
 			var assetFolder = Directory.Exists(activePath) ? activePath :
 				Path.GetDirectoryName(activePath);
 			
-			var asset = AssetEditorTools.SaveAsset(graph.gameObject, "UniGraph", assetFolder);
-			var graphComponent = asset.GetComponent<UniGraph>();
-			graphAsset.Graph = graphComponent;
-
-			AssetEditorTools.SaveAsset(graphAsset, "GraphAsset", assetFolder);
+			AssetEditorTools.SaveAsset(graph.gameObject, "UniGraph", assetFolder);
 		}
 		
 		[MenuItem("Assets/UniGraph/Stop UniGraph")]

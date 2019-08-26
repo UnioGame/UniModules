@@ -96,6 +96,7 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
             if (!nodeGraph) return false;
 
             var targetResource = GetGraphResource(nodeGraph);
+            
             var targetGraph = Application.isPlaying ? nodeGraph : GetGraphItem(targetResource.AssetPath);
 
             ActiveGraph = targetGraph;
