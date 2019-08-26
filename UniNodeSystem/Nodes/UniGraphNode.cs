@@ -6,30 +6,32 @@ namespace UniGreenModules.UniNodeSystem.Nodes
     using Runtime.Extensions;
     using Runtime.Interfaces;
     using Runtime.Runtime;
+    using Sirenix.Utilities;
+    using UniCore.Runtime.ObjectPool;
 
     public class UniGraphNode : UniNode
     {
 
         #region inspector
         
-        public UniGraph targetGraph;
+        public UniGraph sourceGraphPrefab;
 
         #endregion
 
+        private UniGraph targetGraph;
 
         protected override void OnNodeInitialize()
         {
             
-            if (!targetGraph) {
-                ClearInstancePorts();
+            base.OnNodeInitialize();
+            
+            if (!sourceGraphPrefab) {
                 return;
             }
             
-            base.OnNodeInitialize();
-
-
-            ConnectToGraphPorts(targetGraph.InputsPorts);
-            ConnectToGraphPorts(targetGraph.OutputsPorts);
+            //create node port values by target graph
+            sourceGraphPrefab.Inputs.ForEach(x => this.UpdatePortValue(x.fieldName, x.direction));
+            sourceGraphPrefab.Outputs.ForEach(x => this.UpdatePortValue(x.fieldName, x.direction));
 
         }
 
@@ -37,27 +39,32 @@ namespace UniGreenModules.UniNodeSystem.Nodes
         {
             base.OnExecute();
             
-            if (!targetGraph) {
+            if (!sourceGraphPrefab) {
                 return;
             }
 
+            if (!targetGraph) {
+                targetGraph = sourceGraphPrefab.Spawn(transform);
+            }
+
             targetGraph.Execute();
-            LifeTime.AddCleanUpAction(() => targetGraph.Exit());
+
+            foreach (var port in PortValues) {
+                var portName = port.ItemName;
+                var originPort = GetPort(portName);
+                var targetPort = targetGraph.GetPortValue(portName);
+                ConnectToGraphPort(port,targetPort, originPort.direction);
+            }
+            
+            LifeTime.AddCleanUpAction(() => targetGraph?.Exit());
         }
 
-        private void ConnectToGraphPorts(IReadOnlyList<IGraphPortNode> ports)
+        private void ConnectToGraphPort(IPortValue sourcePort, IPortValue targetPort, PortIO direction)
         {
-            foreach (var portNode in ports) {
-                var direction = portNode.Direction;
-                var pair =this.UpdatePortValue(portNode.ItemName, 
-                                               portNode.Direction);
+            var source    = direction == PortIO.Input ? sourcePort : targetPort;
+            var target    = direction == PortIO.Input ? targetPort : sourcePort;
 
-                var portValue = pair.value;
-                var source = direction == PortIO.Input ? portValue : portNode.PortValue;
-                var target = direction == PortIO.Input ? portNode.PortValue : portValue;
-
-                source.Connect(target);
-            }
+            source.Connect(target);
         }
 
         

@@ -84,7 +84,7 @@ GameObject:
   - component: {fileID: 5311031118888304147}
   - component: {fileID: 4617824403355863075}
   m_Layer: 0
-  m_Name: UniGraph
+  m_Name: UniGraph 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -261,7 +261,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _id: 1
-  position: {x: -520, y: -152}
+  position: {x: -520, y: -360}
   ports:
     keys:
     - '[out]Input'

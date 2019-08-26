@@ -60,9 +60,14 @@
 
         protected override void OnExecute()
         {
+            ActiveGraphs.Add(this);
 
             LifeTime.AddCleanUpAction(() => ActiveGraphs.Remove(this));
 
+            allNodes.ForEach( InitializeNode );
+            
+            allNodes.ForEach( ApplyNodeConnections );
+            
             cancelationNodes.ForEach(x => x.PortValue.PortValueChanged.
                                          Subscribe(unit => Exit()).
                                          AddTo(LifeTime));
@@ -70,16 +75,6 @@
             inputs.ForEach(x => GetPortValue(x.ItemName).Connect(x.PortValue) );
             
             outputs.ForEach(x => GetPortValue(x.ItemName).Connect(x.PortValue) );
-            
-            allNodes.ForEach( InitializeGraphNode );
-
-            for (var i = 0; i < allNodes.Count; i++) {
-                var node = allNodes[i];
-
-                LifeTime.AddCleanUpAction(() => node.Exit());
-                
-                node.Execute();
-            }
 
         }
 
@@ -121,18 +116,23 @@
                 inputs : outputs;
       
             //add graph ports for exists port nodes
-            var port = this.UpdatePortValue(graphPortNode.ItemName, graphPortNode.Direction);
-      
-            //bind graph port to target node input
-            port.value.Connect(graphPortNode.PortValue);
-                                 
+            this.UpdatePortValue(graphPortNode.ItemName, graphPortNode.Direction);
+               
             container.Add(graphPortNode);
 
         }
-        
-        
-        protected void InitializeGraphNode(IUniNode node)
+
+
+        private void InitializeNode(IUniNode node)
         {
+            LifeTime.AddCleanUpAction(() => node.Exit());
+                
+            node.Execute();
+        }
+        
+        private void ApplyNodeConnections(IUniNode node)
+        {
+            
             var values = node.PortValues;
 
             for (var j = 0; j < values.Count; j++) {
