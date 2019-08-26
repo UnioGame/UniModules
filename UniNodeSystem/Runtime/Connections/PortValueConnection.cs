@@ -16,7 +16,6 @@
         {
             this.target      = targetContainer;
             this.connections = new List<ITypeData>();
-
         }
 
         public void Release()
@@ -38,7 +37,7 @@
 
         public virtual void CleanUp()
         {
-            target.CleanUp();
+            target?.CleanUp();
         }
 
         public virtual bool Remove<TData>()
