@@ -6,10 +6,19 @@
     using Runtime;
     using UniCore.Runtime.ObjectPool;
     using UniCore.Runtime.ObjectPool.Extensions;
+    using UniCore.Runtime.Utils;
     using UniRx;
 
     public static class UniNodeExtension
     {
+        private const int InputNameIndex = 0;
+        private const int OutputNameIndex = 1;
+        
+        public const string InputTriggerPrefix  = "[in]";
+        public const string OutputTriggerPrefix = "[out]";
+       
+        
+        public static Func<string, string[]> portNameCache = MemorizeTool.Create((string x) => new string[2]);
         
         public static List<TTarget> GetOutputConnections<TTarget>(this UniBaseNode node)
             where TTarget :UniBaseNode
@@ -31,10 +40,45 @@
         public static (IPortValue inputValue, IPortValue outputValue) 
             CreatePortPair(this IUniNode node, string outputPortName, bool connectInOut = false)
         {
-            var inputName = node.GetFormatedName(outputPortName,PortIO.Input);
+            var inputName = outputPortName.GetFormatedPortName(PortIO.Input);
             return node.CreatePortPair(inputName, outputPortName, connectInOut);
         }
 
+#region port names
+        
+        private static string GetFormatedInputPortName(this string portName)
+        {
+            portName = string.Format($"{InputTriggerPrefix}{portName}");
+            return portName;
+        }
+
+        private static string GetFormatedOutputPortName(this string portName)
+        {
+            portName = string.Format($"{OutputTriggerPrefix}{portName}");
+            return portName;
+        }
+        
+        public static string GetFormatedPortName(this string portName, PortIO direction)
+        {
+            var names = portNameCache(portName);
+
+            var index = direction == PortIO.Input ? InputNameIndex: OutputNameIndex;
+            var name = names[index];
+
+            if (!string.IsNullOrEmpty(name)) {
+                return name;
+            }
+
+            name = direction == PortIO.Input ? 
+                GetFormatedInputPortName(portName) : 
+                GetFormatedOutputPortName(portName);
+            names[index] = name;
+
+            return name;
+        }
+        
+#endregion
+        
         public static (IPortValue inputValue, IPortValue outputValue) 
             CreatePortPair(this IUniNode node,string inputPort, string outputPort, bool connectInOut = false)
         {

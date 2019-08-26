@@ -18,8 +18,6 @@ namespace UniGreenModules.UniNodeSystem.Runtime.Interfaces
         IPortValue GetPortValue(string port);
 
         bool AddPortValue(IPortValue portValue);
-
-        string GetFormatedName(string portName, PortIO direction);
         
     }
 }

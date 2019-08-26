@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using BaseEditor.Interfaces;
     using Runtime;
+    using Runtime.Extensions;
     using Runtime.Runtime;
     using Styles;
 
@@ -61,7 +62,7 @@
                 var portValue = node.PortValues[i];
                 var portName = portValue.ItemName;
                 
-                var inputPortName = node.GetFormatedInputName(portName);
+                var inputPortName = portName.GetFormatedPortName(PortIO.Input);
 
                 if (cache.ContainsKey(portName))
                     continue;

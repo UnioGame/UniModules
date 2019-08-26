@@ -14,10 +14,7 @@
 
     [Serializable]
     public abstract class UniNode : UniBaseNode, IUniNode
-    {
-        public const string InputTriggerPrefix  = "[in]";
-        public const string OutputTriggerPrefix = "[out]";
-        
+    {       
         #region private fields
 
         [NonSerialized] private List<ILifeTimeCommand> commands = 
@@ -145,24 +142,6 @@
             portValues.Add(portValue);
 
             return true;
-        }
-       
-        public virtual string GetFormatedInputName(string portName)
-        {
-            portName = string.Format($"{InputTriggerPrefix}{portName}");
-            return portName;
-        }
-
-        public virtual string GetFormatedOutputName(string portName)
-        {
-            portName = string.Format($"{OutputTriggerPrefix}{portName}");
-            return portName;
-        }
-        
-        public string GetFormatedName(string portName, PortIO direction)
-        {
-            return direction == PortIO.Input ? GetFormatedInputName(portName) : 
-                GetFormatedOutputName(portName);
         }
         
         #endregion

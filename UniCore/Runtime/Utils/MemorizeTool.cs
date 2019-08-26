@@ -10,10 +10,9 @@
 
             var cache = new Dictionary<TKey,TData>();
 
-            return (TKey x) => {
+            return x => {
 
-                TData value;
-                if (cache.TryGetValue(x, out value) == false) {
+                if (cache.TryGetValue(x, out var value) == false) {
                     value = factory(x);
                     cache[x] = value;
                 }

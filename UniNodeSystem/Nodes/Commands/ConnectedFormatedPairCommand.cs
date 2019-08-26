@@ -19,10 +19,11 @@ namespace UniGreenModules.UniNodeSystem.Nodes.Commands
             string input, 
             bool connect = true)
         {
-            var inputName = node.GetFormatedName(input, PortIO.Input);
-            var outputName = node.GetFormatedName(input, PortIO.Output);
+            var inputName = input.GetFormatedPortName(PortIO.Input);
+            var outputName = input.GetFormatedPortName(PortIO.Output);
             
             var ports = node.CreatePortPair(inputName, outputName, connect);
+            
             InputPort = ports.inputValue;
             OutputPort = ports.outputValue;
         }
