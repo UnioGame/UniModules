@@ -14,23 +14,30 @@ namespace Modules.UniTools.UniResourceSystem
         
         protected override void OnUpdateAsset(Object targetAsset)
         {
+            var resultAsset = targetAsset;
+            var resultPath = string.Empty;
 
+            if (targetAsset is Component componentAsset)
+                resultAsset = componentAsset.gameObject;
             
-            assetPath =  AssetDatabase.GetAssetPath(targetAsset);
-
-            if (!string.IsNullOrEmpty(assetPath)) return;
-
-            if (!(targetAsset is GameObject targetGameObject)) return;
-            
-            var isPrefabAsset = PrefabUtility.IsPartOfPrefabAsset(targetGameObject);
+            if (resultAsset is GameObject targetGameObject) {
+                             
+                resultPath = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(targetGameObject);
+                
+                var originParent = PrefabUtility.GetCorrespondingObjectFromSource(targetGameObject);
+                
+                resultAsset = 
+                    originParent != null ? originParent : 
+                    string.IsNullOrEmpty(resultPath) ? null :        
+                    AssetDatabase.LoadAssetAtPath<GameObject>(resultPath);
                     
-            var graphAssetPath = isPrefabAsset
-                ? AssetDatabase.GetAssetPath(targetGameObject)
-                : PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(targetGameObject);
+            }
+            else {
+                resultPath = AssetDatabase.GetAssetPath(resultAsset);
+            }
 
-            var originParent = PrefabUtility.GetCorrespondingObjectFromSource(targetGameObject);
-            assetPath = graphAssetPath;
-            asset = originParent;
+            assetPath = resultPath;
+            asset = resultAsset;
         }
 
         protected override TResult LoadAsset<TResult>()

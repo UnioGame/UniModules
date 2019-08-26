@@ -1,7 +1,6 @@
 ﻿namespace UniGreenModules.UniUiNodes.Runtime.UiData
 {
     using UniCore.Runtime.Interfaces;
-    using UniCore.Runtime.Rx.Extensions;
     using UniRx;
 
     public class UiModuleT<TModel> : UiModule

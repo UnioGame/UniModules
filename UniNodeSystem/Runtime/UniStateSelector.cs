@@ -4,7 +4,7 @@
     using System.Collections;
     using System.Collections.Generic;
     using UniCore.Runtime.Interfaces;
-    using UniModule.UnityTools.UniStateMachine.Interfaces;
+    using UniStateMachine.Runtime.Interfaces;
     using UnityEngine;
 
     [Serializable]

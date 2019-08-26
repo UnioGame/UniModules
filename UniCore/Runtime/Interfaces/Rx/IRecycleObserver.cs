@@ -3,7 +3,10 @@
     using System;
     using ObjectPool.Interfaces;
 
-    public interface IRecycleObserver<T> : IObserver<T>, IPoolable
+    public interface IRecycleObserver<T> : 
+        IObserver<T>, 
+        IPoolable,
+        IDespawnable
     {
         
     }

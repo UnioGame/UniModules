@@ -58,7 +58,7 @@
 
         public virtual void UpdateData(UniNode node)
         {
-            node.UpdatePortsCache();
+            
         }
 
         public void DrawPorts(UniNode node)

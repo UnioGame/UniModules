@@ -1,8 +1,8 @@
-using UniModule.UnityTools.UniStateMachine.Interfaces;
-using UniRx.Async;
-
-namespace UniModule.UnityTools.UniStateMachine.AsyncStateMachine
+namespace UniGreenModules.UniStateMachine.Runtime.AsyncStateMachine
 {
+    using Interfaces;
+    using UniRx.Async;
+
     public interface IAsyncStateBehaviour : IStateBehaviour<UniTask>{}
     
 }

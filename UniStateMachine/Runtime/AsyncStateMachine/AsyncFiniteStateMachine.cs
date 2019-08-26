@@ -1,8 +1,7 @@
-﻿using UnityEngine;
-
-namespace UniModule.UnityTools.UniStateMachine.AsyncStateMachine
+﻿namespace UniGreenModules.UniStateMachine.Runtime.AsyncStateMachine
 {
-    using UniGreenModules.UniCore.Runtime.ProfilerTools;
+    using UniCore.Runtime.ProfilerTools;
+    using UnityEngine;
 
     public class AsyncFiniteStateMachine : IAsyncStateMachine
     {

@@ -1,7 +1,11 @@
 ﻿namespace UniGreenModules.UniCore.Runtime.Interfaces.Rx
 {
+    using ObjectPool.Interfaces;
+
     public interface IRecycleReactiveProperty<TValue> : 
-        IReadonlyRecycleReactiveProperty<TValue>
+        IReadonlyRecycleReactiveProperty<TValue>,
+        IValueContainerStatus,
+        IDespawnable
     {
         new TValue Value { get; set; }
     }

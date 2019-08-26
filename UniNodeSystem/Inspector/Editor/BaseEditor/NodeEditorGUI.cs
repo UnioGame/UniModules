@@ -417,7 +417,10 @@
 
             EditorDrawerUtils.DrawVertialLayout(() =>
             {
-                EditorDrawerUtils.DrawButton("save", () => Save(graph, graphResource));
+                EditorDrawerUtils.DrawButton("save", () => {
+                                                         Save(graph, graphResource);
+                                                         Open((graphResource?.Target as GameObject)?.GetComponent<NodeGraph>());
+                                                     });
 
                 EditorDrawerUtils.DrawButton("stop all", () =>
                 {

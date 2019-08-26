@@ -3,7 +3,7 @@
     using Runtime;
     using Runtime.Interfaces;
 
-    public class GraphCancelationNode : UniNode, IGraphCancelationNode
+    public class GraphCancelationNode : UniPortNode, IGraphCancelationNode
     {
         
     }

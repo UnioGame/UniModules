@@ -3,17 +3,34 @@
     using System;
     using System.Collections.Generic;
     using Interfaces;
+    using Interfaces.Rx;
     using ObjectPool;
+    using ObjectPool.Interfaces;
+    using Rx;
+    using UniRx;
 
     public class TypeData : ITypeData
     {
         /// <summary>
         /// registered components
         /// </summary>
-        private Dictionary<Type, IDataValueParameters> _contextValues = new Dictionary<Type, IDataValueParameters>();
+        private Dictionary<Type, IValueContainerStatus> _contextValues = 
+            new Dictionary<Type, IValueContainerStatus>();
+                
+        public bool HasValue
+        {
+            get {
+                foreach (var value in _contextValues)
+                {
+                    if (value.Value.HasValue)
+                        return true;
+                }
+                return false;
+            }
+        }
 
         #region writer methods
-        
+
         public bool Remove<TData>()
         {           
             var type = typeof(TData);
@@ -25,14 +42,19 @@
             Release();
         }
 
+        public void Dispose()
+        {
+            Release();
+        }
+
         public bool Remove(Type type)
         {
             if (!_contextValues.TryGetValue(type, out var value)) return false;
             
-            var typeValue = (IDisposable) value;
             var removed = _contextValues.Remove(type);
-
-            typeValue.Dispose();
+            //release context value
+            if(value is IDespawnable despawnable)
+                despawnable.MakeDespawn();
 
             return removed;
 
@@ -40,23 +62,19 @@
 
         public void Add<TData>(TData value)
         {
-            var data = GetData<TData>(true);
-            data.SetValue(value);           
+            var data = GetData<TData>();
+            data.Value = value;           
         }
 
         #endregion
-        
-        public bool HasValue()
+
+        public IObservable<TData> GetObservable<TData>()
         {
-            foreach (var value in _contextValues)
-            {
-                if (value.Value.HasValue())
-                    return true;
-            }
-            return false;
+            var data = GetData<TData>();
+            return data;
         }
         
-        public virtual TData Get<TData>()
+        public TData Get<TData>()
         {
             var data = GetData<TData>();
             return data == null ? default(TData) : data.Value;
@@ -70,19 +88,10 @@
 
         public bool Contains(Type type)
         {
-            if (_contextValues.TryGetValue(type, out var value))
-            {
-                return value.HasValue();
-            }
-            return false;
+            return _contextValues.TryGetValue(type, out var value) && 
+                   value.HasValue;
         }
 
-        public IDisposable Subscribe<TData>(IObserver<TData> observer)
-        {
-            var data = GetData<TData>(true);
-            return data.Subscribe(observer);
-        }
-        
         public void Release()
         {
             foreach (var contextValue in _contextValues)
@@ -95,24 +104,23 @@
         }
 
 
-        protected ContextValue<TValue> GetData<TValue>(bool isCreateIfEmpty = false)
+        private IRecycleReactiveProperty<TValue> GetData<TValue>()
         {
-            ContextValue<TValue> data = null;
-            
+            IRecycleReactiveProperty<TValue> data = null;
             var type = typeof(TValue);
             
-            if (!_contextValues.TryGetValue(type, out var value) && isCreateIfEmpty)
-            {
-                data = ClassPool.Spawn<ContextValue<TValue>>();
-                _contextValues[type] = data;
+            if (!_contextValues.TryGetValue(type, out var value)) {
+                value = CreateContextValue<TValue>();
+                _contextValues[type] = value;
             }
-            else
-            {
-                data = value as ContextValue<TValue>;
-            }
-
+            
+            data = value as IRecycleReactiveProperty<TValue>;
             return data;
+        }
 
+        private IRecycleReactiveProperty<TValue> CreateContextValue<TValue>()
+        {
+            return ClassPool.Spawn<RecycleReactiveProperty<TValue>>();
         }
 
     }

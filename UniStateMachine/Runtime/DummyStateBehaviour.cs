@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using UnityEngine;
-
-namespace UniModule.UnityTools.UniStateMachine
+﻿namespace UniGreenModules.UniStateMachine.Runtime
 {
-    using UniGreenModules.UniCore.Runtime.ProfilerTools;
+    using System.Collections;
+    using UniCore.Runtime.ProfilerTools;
+    using UnityEngine;
 
     public class DummyStateBehaviour : StateBehaviour
     {

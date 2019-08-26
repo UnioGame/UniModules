@@ -51,7 +51,7 @@
                 ValueType = typeof(TData),
             };
 
-            if (_target.HasValue() == false)
+            if (!_target.HasValue)
             {
                 _emptyDataObservable.OnNext(_target);
             }

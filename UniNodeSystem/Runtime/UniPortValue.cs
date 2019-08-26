@@ -9,110 +9,88 @@
     using UniRx;
 
     [Serializable]
-    public class UniPortValue : IPortValue , IPoolable
+    public class UniPortValue : IPortValue, IPoolable
     {
         #region serialized data
-        
+
         /// <summary>
         /// port value Name
         /// </summary>
-        public string name;
+        public string name = string.Empty;
 
         #endregion
-        
+
         #region private property
 
-        [NonSerialized] private MessageBroker messageBroker;
-        
-        [NonSerialized] private TypeData typeData;
-        
+        [NonSerialized] private ITypeData typeData;
+
+        [NonSerialized] private ITypeDataBrodcaster broadcaster;
+
         [NonSerialized] private bool initialized = false;
-
-        [NonSerialized] private TypeDataBrodcaster context;
-
-        [NonSerialized] private TypeValueObservable<UniPortValue> valueObservable;
-
-        #endregion       
         
-        #region observable
+        [NonSerialized] private ReactiveCommand portValueChanged = new ReactiveCommand();
 
-        public IObservable<TypeDataChanged> UpdateValueObservable => valueObservable.UpdateValueObservable;
-
-        public IObservable<TypeDataChanged> DataRemoveObservable => valueObservable.DataRemoveObservable;
-
-        public IObservable<ITypeData> EmptyDataObservable => valueObservable.EmptyDataObservable;
-        
         #endregion
 
         #region public properties
 
         public string ItemName => name;
+
+        public bool HasValue => typeData.HasValue;
+
+        public IObservable<Unit> PortValueChanged => portValueChanged;
         
         #endregion
-        
+
         public UniPortValue()
         {
             Initialize();
         }
 
-        public void Initialize()
-        {
-            if (initialized)
-                return;
-
-            messageBroker = new MessageBroker();
-            typeData = new TypeData();
-            context = new TypeDataBrodcaster();
-            
-            valueObservable = new TypeValueObservable<UniPortValue>();
-            valueObservable.Initialize(this);
-            //register observable as broadcast target
-            context.Connect(valueObservable);
-            
-            //mark as initialized
-            initialized = true;
-        }
-        
         public void ConnectToPort(string portName)
         {
             name = portName;
+            Initialize();
+        }
+
+        public void Dispose()
+        {
+            Release();
         }
 
         #region type data container
-        
+
         public bool Remove<TData>()
         {
             var result = typeData.Remove<TData>();
-            if (result)
-            {
-                context.Remove<TData>();
+            if (result) {
+                broadcaster.Remove<TData>();
             }
+
             return result;
         }
 
         public void Add<TData>(TData value)
         {
+            
             typeData.Add(value);
-            context.Add(value);
-            messageBroker.Publish(value);
+            broadcaster.Add(value);
+
+            portValueChanged.Execute(Unit.Default);
+            
         }
 
         public void CleanUp()
         {
             typeData.CleanUp();
-            context.CleanUp();
+            broadcaster.CleanUp();
         }
 
         public void RemoveAllConnections()
         {
-            context.CleanUp();
+            broadcaster.CleanUp();
         }
-                       
-        public bool HasValue()
-        {
-            return typeData.HasValue();
-        }
-        
+
         public TData Get<TData>()
         {
             return typeData.Get<TData>();
@@ -122,44 +100,44 @@
         {
             return typeData.Contains<TData>();
         }
-        
-        #endregion       
-      
+
+        #endregion
+
         #region connector
-        
+
         public IConnector<IContextWriter> Connect(IContextWriter contextData)
         {
-            context.Connect(contextData);
+            broadcaster.Connect(contextData);
             return this;
         }
 
         public void Disconnect(IContextWriter contextData)
         {
-            context.Disconnect(contextData);
+            broadcaster.Disconnect(contextData);
         }
 
-        
         public void Release()
         {
             CleanUp();
             RemoveAllConnections();
         }
         
-        #endregion
-
-        #region message receiver
-        
-        public IObservable<T> Receive<T>()
+        public IObservable<TData> GetObservable<TData>()
         {
-            return messageBroker.Receive<T>();
-        }
-        
-        public void Publish<T>(T message)
-        {
-            messageBroker.Publish(message);
+            return typeData.GetObservable<TData>();
         }
         
         #endregion
 
-    }
+        private void Initialize()
+        {
+            if (initialized)
+                return;
+            typeData    = new TypeData();
+            broadcaster = new TypeDataBrodcaster();
+            //mark as initialized
+            initialized = true;
+        }
+
+     }
 }

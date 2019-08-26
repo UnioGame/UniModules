@@ -1,4 +1,4 @@
-﻿namespace UniModule.UnityTools.UniStateMachine.AsyncStateMachine
+﻿namespace UniGreenModules.UniStateMachine.Runtime.AsyncStateMachine
 {
     public interface IAsyncStateFactory<TStateType>
     {

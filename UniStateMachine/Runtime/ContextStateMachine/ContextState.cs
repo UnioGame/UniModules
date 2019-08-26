@@ -1,10 +1,10 @@
 ﻿namespace UniGreenModules.UniStateMachine.Runtime.ContextStateMachine
 {
     using System.Collections;
+    using Interfaces;
     using UniContextData.Runtime.Entities;
     using UniCore.Runtime.DataFlow;
     using UniCore.Runtime.Interfaces;
-    using UniModule.UnityTools.UniStateMachine.Interfaces;
     using UniTools.UniRoutine.Runtime.Extension;
 
     public enum StateStatus : byte

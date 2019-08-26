@@ -1,26 +1,23 @@
 namespace UniGreenModules.UniNodeSystem.Runtime.Interfaces
 {
-    using System.Collections;
     using System.Collections.Generic;
+    using Runtime;
     using UniCore.Runtime.Interfaces;
-    using UniModule.UnityTools.UniStateMachine.Interfaces;
-    using UniTools.UniRoutine.Runtime;
+    using UniStateMachine.Runtime.Interfaces;
 
     public interface IUniNode : 
         INode,
-        IValidator<IContext>, 
-        IContextState<IEnumerator>,
+        IState,
         INamedItem
     {
 
-        RoutineType RoutineType { get; }
-        
-        IPortValue Input { get; }
-        
-        IPortValue Output { get; }
-        
         IReadOnlyList<IPortValue> PortValues { get; }
 
-        void UpdatePortsCache();
+        IPortValue GetPortValue(NodePort port);
+        
+        IPortValue GetPortValue(string port);
+
+        bool AddPortValue(IPortValue portValue);
+        
     }
 }

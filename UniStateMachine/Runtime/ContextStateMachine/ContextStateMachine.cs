@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using UniModule.UnityTools.Interfaces;
-using UniModule.UnityTools.UniStateMachine.Interfaces;
-
-namespace UniModule.UnityTools.UniStateMachine.ContextStateMachine
+﻿namespace UniGreenModules.UniStateMachine.Runtime.ContextStateMachine
 {
-    using UniGreenModules.UniCore.Runtime.Extension;
-    using UniGreenModules.UniCore.Runtime.Interfaces;
+    using System;
+    using System.Collections.Generic;
+    using Interfaces;
+    using UniCore.Runtime.Extension;
+    using UniCore.Runtime.Interfaces;
 
     /// <summary>
     /// FSM for supports states with context data

@@ -1,4 +1,4 @@
-﻿namespace UniModule.UnityTools.UniStateMachine.Interfaces
+﻿namespace UniGreenModules.UniStateMachine.Runtime.Interfaces
 {
     public interface IStateValidator<TStateType>  {
 

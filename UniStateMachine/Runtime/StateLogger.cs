@@ -1,9 +1,8 @@
-﻿using System.Diagnostics;
-using UnityEngine;
-
-namespace UniStateMachine.Runtime
+﻿namespace UniGreenModules.UniStateMachine.Runtime
 {
-    using UniGreenModules.UniCore.Runtime.ProfilerTools;
+    using System.Diagnostics;
+    using UniCore.Runtime.ProfilerTools;
+    using UnityEngine;
 
     public static class StateLogger
     {

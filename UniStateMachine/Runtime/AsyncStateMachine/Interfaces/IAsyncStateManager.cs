@@ -1,7 +1,7 @@
-﻿using UniModule.UnityTools.UniStateMachine.Interfaces;
-
-namespace UniModule.UnityTools.UniStateMachine.AsyncStateMachine
+﻿namespace UniGreenModules.UniStateMachine.Runtime.AsyncStateMachine
 {
+    using Interfaces;
+
     public interface IAsyncStateManager<TStateType>
     {
         TStateType CurrentState { get; }

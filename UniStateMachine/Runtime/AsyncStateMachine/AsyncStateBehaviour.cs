@@ -1,10 +1,10 @@
-﻿using UniModule.UnityTools.UniStateMachine.Interfaces;
 using UniRx.Async;
 #pragma warning disable 1998
 
 namespace UniModule.UnityTools.UniStateMachine.AsyncStateMachine
 {
     using UniGreenModules.UniCore.Runtime.DataFlow;
+    using UniGreenModules.UniStateMachine.Runtime.Interfaces;
     using UniRx;
 
     public class AsyncStateBehaviour : IStateBehaviour<UniTask>

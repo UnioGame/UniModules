@@ -43,17 +43,17 @@
 
         public override string GetName() => viewName;
 
-        public override bool Validate(IContext context)
+        public bool Validate(IContext context)
         {
             if (UiViewHandle.Status == AsyncOperationStatus.None || UiViewHandle.Status == AsyncOperationStatus.Failed) {
                 Debug.LogErrorFormat("NULL UI VIEW {0} {1}", UiViewHandle, this);
                 return false;
             }
 
-            return base.Validate(context);
+            return true;
         }
 
-        protected override IEnumerator OnExecuteState(IContext context)
+        protected IEnumerator OnExecuteState(IContext context)
         {
             var lifetime = LifeTime;
 
@@ -74,11 +74,12 @@
             BindTriggers(view, context, lifetime);
 
             //initialize view with input data
-            view.Initialize(Input);
+            //view.Initialize(Input);
 
             ApplyViewSettings(view, lifetime);
 
-            yield return base.OnExecuteState(context);
+            //yield return base.OnExecute(context);
+            yield break;
         }
 
         /// <summary>
@@ -98,9 +99,9 @@
             }
         }
 
-        protected override void OnUpdatePortsCache()
+        protected void OnRegisterPorts()
         {
-            base.OnUpdatePortsCache();
+            //base.OnRegisterPorts();
 
             uiModulesOutputs.Clear();
             uiTriggersOutputs.Clear();
@@ -139,7 +140,7 @@
                 Quaternion.identity, options.Parent, options.StayAtWorld);
 
             //bind main view to input data
-            uiView.Initialize(Input);
+            //uiView.Initialize(Input);
 
             return uiView;
         }
@@ -196,7 +197,7 @@
 
             foreach (var handler in triggers.Items) {
                 var values = this.CreatePortPair(handler.ItemName, true);
-                uiTriggersOutputs.Add(values.outputValue);
+                //uiTriggersOutputs.Add(values.outputValue);
             }
         }
 
@@ -207,7 +208,7 @@
             for (var i = 0; i < slots.Count; i++) {
                 var slot       = slots[i];
                 var outputPort = this.UpdatePortValue(slot.SlotName, PortIO.Output);
-                uiModulesOutputs.Add(outputPort.value);
+                //uiModulesOutputs.Add(outputPort.value);
             }
         }
     }

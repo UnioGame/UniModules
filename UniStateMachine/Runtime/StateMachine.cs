@@ -1,7 +1,7 @@
-﻿using UniModule.UnityTools.UniStateMachine.Interfaces;
-
-namespace UniModule.UnityTools.UniStateMachine
+﻿namespace UniGreenModules.UniStateMachine.Runtime
 {
+    using Interfaces;
+
     public class StateMachine<TAwaiter> :
         BaseStateMachine<IStateBehaviour<TAwaiter>>
     {

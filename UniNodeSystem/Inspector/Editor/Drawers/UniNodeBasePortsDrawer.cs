@@ -1,13 +1,16 @@
 ﻿namespace UniGreenModules.UniNodeSystem.Inspector.Editor.Drawers
 {
     using System.Collections.Generic;
+    using System.Text.RegularExpressions;
     using BaseEditor.Interfaces;
     using Runtime;
+    using Runtime.Extensions;
     using Runtime.Runtime;
     using Styles;
 
     public class UniNodeBasePortsDrawer : INodeEditorDrawer
     {
+        private Regex bracketsExpr = new Regex(UniNodeExtension.InputPattern);
         private PortStyleSelector styleSelector = new PortStyleSelector();
         private Dictionary<string, NodePort> _drawedPorts = new Dictionary<string, NodePort>();
 
@@ -20,20 +23,20 @@
             if (node == null)
                 return true;
 
-            DrawBasePorts(node,_drawedPorts);
-            
             DrawPorts(node,_drawedPorts);
 
             return true;
         }
     
         
-        public bool DrawPortPair(UniNode node, 
-            string inputPortName, string outputPortName)
+        public bool DrawPortPair(
+            UniNode node, 
+            string inputPortName, 
+            string outputPortName)
         {
 
-            var outputPort = node.GetPort(inputPortName);
-            var inputPort = node.GetPort(outputPortName);
+            var inputPort = node.GetPort(inputPortName);
+            var outputPort = node.GetPort(outputPortName);
 
             return DrawPortPair(node,inputPort, outputPort);
             
@@ -60,14 +63,17 @@
             {
                 var portValue = node.PortValues[i];
                 var outputPortName = portValue.ItemName;
-                var inputPortName = node.GetFormatedInputName(outputPortName);
-
+                
                 if (cache.ContainsKey(outputPortName))
                     continue;
+                
+                var portName = bracketsExpr.Replace(outputPortName, string.Empty, 1);
+                var inputPortName = portName.GetFormatedPortName(PortIO.Input);
 
-                var result = DrawPortPair(node, inputPortName,outputPortName);
+                var result = DrawPortPair(node, inputPortName, outputPortName);
+                
                 var portOutput = node.GetPort(outputPortName);
-                cache[outputPortName] = portOutput;
+                cache[portName] = portOutput;
                 
                 if (result)
                 {
@@ -85,17 +91,6 @@
         {
             var portStyle = styleSelector.Select(port);
             port.DrawPortField(portStyle);
-        }
-
-        private void DrawBasePorts(UniNode node,IDictionary<string, NodePort> cache)
-        {                   
-            var inputPort = node.GetPort(UniNode.InputPortName);
-            var outputPort = node.GetPort(UniNode.OutputPortName);
-
-            cache[UniNode.InputPortName] = inputPort;
-            cache[UniNode.OutputPortName] = outputPort;
-            
-            DrawPortPair(node, inputPort, outputPort);
         }
 
     }

@@ -6,7 +6,7 @@ namespace UniGreenModules.UniCore.Runtime.Interfaces.Rx
         IObservable<T>, 
         IDisposable,
         IReadonlyDataValue<T>, 
-        IDataValueParameters
+        IValueContainerStatus
     {
     }
 }

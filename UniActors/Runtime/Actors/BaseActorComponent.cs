@@ -4,9 +4,9 @@
     using Interfaces;
     using UniCore.Runtime.DataFlow;
     using UniCore.Runtime.ObjectPool;
-    using UniModule.UnityTools.UniStateMachine.Interfaces;
     using UniNodeSystem.Runtime;
     using UniRx;
+    using UniStateMachine.Runtime.Interfaces;
     using UnityEngine;
     using IActor = Interfaces.IActor;
 
@@ -22,12 +22,14 @@
         /// <summary>
         /// is activate actor on onenable
         /// </summary>
-        [SerializeField] private bool activateOnStart;
+        [SerializeField] 
+        private bool activateOnStart;
 
         /// <summary>
         /// behaviour
         /// </summary>
-        [SerializeField] private UniNode behaviourSource;
+        [SerializeField] 
+        private ActorBehaviour behaviourSource;
 
 #endregion
 
@@ -70,6 +72,7 @@
         private IContextState<IEnumerator> GetBehaviour()
         {
             var actorTransform = transform;
+            
             var state = ObjectPool.Spawn(behaviourSource, 
                 Vector3.zero, Quaternion.identity,actorTransform, false);
             state.gameObject.SetActive(true);

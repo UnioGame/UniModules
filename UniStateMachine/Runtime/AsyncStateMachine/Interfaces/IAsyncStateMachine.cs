@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace UniModule.UnityTools.UniStateMachine.AsyncStateMachine
+﻿namespace UniGreenModules.UniStateMachine.Runtime.AsyncStateMachine
 {
+    using System;
+
     public interface IAsyncStateMachine : IDisposable
     {
         void Execute(IAsyncStateBehaviour state);

@@ -1,7 +1,7 @@
-﻿namespace UniGreenModules.UniCore.Runtime.Rx.Extensions
+﻿namespace UniRx
 {
     using System;
-    using DataFlow;
+    using UniGreenModules.UniCore.Runtime.DataFlow;
 
     public static class RxLifetimeExtension 
     {

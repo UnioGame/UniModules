@@ -10,9 +10,9 @@ namespace UniGreenModules.UniNodeSystem.Runtime.Interfaces
 
         GameObject AssetInstance { get; }
 
-        IReadOnlyList<IGraphPortNode> GraphOuputs { get; }
+        IReadOnlyList<IGraphPortNode> OutputsPorts { get; }
 
-        IReadOnlyList<IGraphPortNode> GraphInputs { get; }
+        IReadOnlyList<IGraphPortNode> InputsPorts { get; }
 
         IReadOnlyList<INode> Nodes { get; }
         

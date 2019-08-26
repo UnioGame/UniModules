@@ -30,8 +30,6 @@
     [Serializable]
     public abstract class UniBaseNode : MonoBehaviour, INode
     {
-        public const string InputTriggerPrefix = "[in]";
-        public const string OutputTriggerPrefix = "[out]";
 
         [HideInInspector] [ReadOnlyValue] [SerializeField] private ulong _id;
 
@@ -68,23 +66,6 @@
             }
         }
 
-        public virtual string GetFormatedInputName(string portName)
-        {
-            portName = string.Format($"{InputTriggerPrefix}{portName}");
-            return portName;
-        }
-
-        public virtual string GetFormatedOutputName(string portName)
-        {
-            portName = string.Format($"{OutputTriggerPrefix}{portName}");
-            return portName;
-        }
-        
-        public string GetFormatedName(string portName, PortIO direction)
-        {
-            return direction == PortIO.Input ? GetFormatedInputName(portName) : GetFormatedOutputName(portName);
-        }
-        
         public virtual string GetName()
         {
             return gameObject.name;
@@ -253,7 +234,8 @@
         public virtual void RemoveInstancePort(NodePort port)
         {
             if (port == null) throw new ArgumentNullException("port");
-            else if (port.IsStatic) throw new ArgumentException("cannot remove static port");
+            if (port.IsStatic) throw new ArgumentException("cannot remove static port");
+            
             port.ClearConnections();
             ports.Remove(port.fieldName);
         }

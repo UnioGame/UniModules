@@ -1,244 +1,187 @@
 ﻿namespace UniGreenModules.UniNodeSystem.Runtime
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
-    using System.Security.Cryptography;
     using Extensions;
-    using global::UniStateMachine.Runtime;
     using Interfaces;
     using Runtime;
     using UniCore.Runtime.DataFlow;
+    using UniCore.Runtime.Extension;
     using UniCore.Runtime.Interfaces;
-    using UniCore.Runtime.ObjectPool;
-    using UniCore.Runtime.ObjectPool.Extensions;
-    using UniModule.UnityTools.UniStateMachine;
-    using UniModule.UnityTools.UniStateMachine.Interfaces;
-    using UniRx;
+    using UniCore.Runtime.ProfilerTools;
     using UniStateMachine.Runtime;
-    using UniTools.UniRoutine.Runtime;
-    using UnityEngine;
 
     [Serializable]
     public abstract class UniNode : UniBaseNode, IUniNode
-    {
-        /// <summary>
-        /// output port name
-        /// </summary>
-        public const string OutputPortName = "Output";
-        
-        /// <summary>
-        /// input port name
-        /// </summary>
-        public const string InputPortName = "Input";
-
+    {       
         #region private fields
 
-        [NonSerialized] private Dictionary<string,UniPortValue> portValuesMap;
+        [NonSerialized] private List<ILifeTimeCommand> commands = 
+            new List<ILifeTimeCommand>();
+ 
+        [NonSerialized] private LifeTimeDefinition lifeTimeDefinition = 
+            new LifeTimeDefinition();
 
-        [NonSerialized] private IContextState<IEnumerator> behaviourState;
+        [NonSerialized] private Dictionary<string, IPortValue> portValuesMap = 
+            new Dictionary<string, IPortValue>();
 
-        [NonSerialized] private List<UniPortValue> portValues;
+        [NonSerialized] private List<IPortValue> portValues = 
+            new List<IPortValue>();
 
-        [NonSerialized] protected bool isInitialized;
-        
-        [NonSerialized] protected IContext nodeContext;
+        [NonSerialized] private bool isInitialized;
+
+        [NonSerialized] private bool isActive = false;
 
         #endregion
-        
-        #region serialized data
 
-        [SerializeField] private RoutineType routineType = RoutineType.UpdateStep;
-
-        #endregion
-        
         #region public properties
-        
-        public IPortValue Input => GetPortValue(InputPortName);
 
-        public IPortValue Output => GetPortValue(OutputPortName);
-        
-        public RoutineType RoutineType => routineType;
+        public bool IsActive => isActive;
 
         public IReadOnlyList<IPortValue> PortValues => portValues;
 
-        public bool IsActive => behaviourState!=null  && behaviourState.IsActive;
-
-        public ILifeTime LifeTime => behaviourState?.LifeTime;
+        public ILifeTime LifeTime => lifeTimeDefinition.LifeTime;
 
         public string ItemName => name;
-        
+
         #endregion
-        
+
         #region public methods
 
         public void Initialize()
-        {           
+        {
+            //check initialization status
             if (isInitialized)
                 return;
-            
+
             isInitialized = true;
             
-            portValues = new List<UniPortValue>();
-            portValuesMap = new Dictionary<string, UniPortValue>();           
-            
-            UpdatePortsCache();
-
-            foreach (var portValue in portValues)
-            {
-                portValue.Initialize();
-            }
-
+            //custom node initialization
             OnNodeInitialize();
+            
+            //register node commands
+            UpdateNodeCommands(commands);
+            
+            //remove deleted ports
+            Ports.RemoveItems(this.IsPortRemoved, RemoveInstancePort);
+            
         }
-        
-        public virtual bool Validate(IContext context) => true;
-        
-        public void UpdatePortsCache()
+
+        /// <summary>
+        /// stop execution
+        /// </summary>
+        public void Exit()
         {
-            OnUpdatePortsCache();
-            
-            var removedPorts = ClassPool.Spawn<List<NodePort>>();
-            
-            foreach (var port in Ports)
-            {
-                if(port.IsStatic) continue;
-                
-                var value = GetPortValue(port.fieldName);
-                if (value == null)
-                {
-                    removedPorts.Add(port);
-                }
+            isActive = false;
+            lifeTimeDefinition.Terminate();
+        }
+
+        /// <summary>
+        /// start node execution
+        /// </summary>
+        public void Execute()
+        {
+            //node already active
+            if (isActive) {
+                StateLogger.LogState(string.Format("STATE ALREADY ACTIVE {0} TYPE {1}",
+                    name, GetType().Name), this);
+                return;
             }
 
-            foreach (var port in removedPorts)
-            {
-                RemoveInstancePort(port);
-            }
-
-            removedPorts.DespawnCollection();
-        }
-        
-        public void Exit() => behaviourState?.Exit();
-
-        public IEnumerator Execute(IContext context)
-        {
-            StateLogger.LogState(string.Format("STATE EXECUTE {0} TYPE {1} CONTEXT {2}", 
-                name, GetType().Name, context), this);
+            StateLogger.LogState(string.Format("STATE EXECUTE {0} TYPE {1}",
+                name, GetType().Name), this);
+            //mark as active
+            isActive = true;
             
+            //restart lifetime
+            lifeTimeDefinition.Release();
+
+            //initialize
             Initialize();
+
+            //cleanup ports on exit
+            LifeTime.AddCleanUpAction(CleanUpPorts);
+
+            //execute all node commands
+            commands.ForEach(x => x.Execute(LifeTime));
             
-            behaviourState = CreateState();
-            
-            yield return behaviourState.Execute(context);
-            
+            //user defined logic
+            OnExecute();
         }
-        
+
+        /// <summary>
+        /// stop node execution
+        /// </summary>
         public void Release() => Exit();
 
         #region Node Ports operations
- 
-        public override object GetValue(NodePort port) => GetPortValue(port);
-        
-        public UniPortValue GetPortValue(NodePort port) => GetPortValue(port.fieldName);
 
-        public UniPortValue GetPortValue(string portName)
+        public override object GetValue(NodePort port) => GetPortValue(port);
+
+        public IPortValue GetPortValue(NodePort port) => GetPortValue(port.fieldName);
+
+        public IPortValue GetPortValue(string portName)
         {
             portValuesMap.TryGetValue(portName, out var value);
             return value;
         }
 
-        public bool AddPortValue(UniPortValue portValue)
+        public bool AddPortValue(IPortValue portValue)
         {
-            if (portValue == null)
-            {
-                Debug.LogErrorFormat("Try add NULL port value to {0}",this);
-                return false;
-            }
-            
-            if (portValuesMap.ContainsKey(portValue.name))
-            {
+            if (portValue == null) {
+                GameLog.LogErrorFormat("Try add NULL port value to {0}", this);
                 return false;
             }
 
-            portValuesMap[portValue.name] = portValue;
+            if (portValuesMap.ContainsKey(portValue.ItemName)) {
+                return false;
+            }
+
+            portValuesMap[portValue.ItemName] = portValue;
             portValues.Add(portValue);
-            
+
             return true;
         }
-
+        
         #endregion
 
         #endregion
 
-        protected virtual void OnUpdatePortsCache()
-        {
-            CreateBasePorts();
-        }
-
+        /// <summary>
+        /// Call once on node initialization
+        /// </summary>
         protected virtual void OnNodeInitialize(){}
-        
-        #region state behaviour methods
-
-        protected void CreateBasePorts()
-        {
-            this.UpdatePortValue(OutputPortName, PortIO.Output);
-            this.UpdatePortValue(InputPortName, PortIO.Input);
-        }
-        
-        private void Initialize(IContext stateContext)
-        {
-            nodeContext = stateContext;
-            
-            LifeTime.AddCleanUpAction(CleanUpAction);
-            
-            OnInitialize(stateContext);
-        }
 
         /// <summary>
         /// base logic realization
-        /// transfer context data to output port value
         /// </summary>
-        protected virtual IEnumerator OnExecuteState(IContext context)
-        {
-            var output = Output;
-            output.Add(context);
-            yield break;
-        }
+        protected virtual void OnExecute(){}
 
-        protected virtual void OnExit(IContext context){}
-
-        protected virtual void OnInitialize(IContext context){}
+        /// <summary>
+        /// update active list commands
+        /// add all supported node commands here
+        /// </summary>
+        protected virtual void UpdateNodeCommands(List<ILifeTimeCommand> nodeCommands){}
         
-        protected virtual void OnPostExecute(IContext context){}
-
-        protected IContextState<IEnumerator> CreateState()
+        /// <summary>
+        /// cleanup all ports values
+        /// </summary>
+        private void CleanUpPorts()
         {
-            if (behaviourState != null)
-                return behaviourState;
-            
-            var behaviour = ClassPool.Spawn<ProxyState>();
-            behaviour.Initialize(OnExecuteState, Initialize, OnExit, OnPostExecute);
-            
-            behaviour.LifeTime.AddCleanUpAction(() => behaviour.Despawn());
-            behaviour.LifeTime.AddCleanUpAction(CleanUpAction);
-            
-            return behaviour;
-        }
-
-        private void CleanUpAction()
-        {
-            for (var i = 0; i < PortValues.Count; i++)
-            {
+            for (var i = 0; i < PortValues.Count; i++) {
                 var portValue = PortValues[i];
                 portValue.CleanUp();
             }
-
-            nodeContext = null;
-            behaviourState = null;
         }
-
-#endregion
-
+        
+        
+        #region inspector call
+        
+        protected virtual void OnValidate()
+        {
+            Initialize();
+        }
+        
+        #endregion
     }
 }

@@ -1,9 +1,7 @@
-﻿using UniModule.UnityTools.UniStateMachine.Interfaces;
-using UniStateMachine.Runtime;
-
-namespace UniModule.UnityTools.UniStateMachine
+﻿namespace UniGreenModules.UniStateMachine.Runtime
 {
-    using UniGreenModules.UniCore.Runtime.ProfilerTools;
+    using Interfaces;
+    using UniCore.Runtime.ProfilerTools;
 
     public class BaseStateMachine<TState> :
         IStateMachine<TState>

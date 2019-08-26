@@ -1,19 +1,34 @@
 ﻿namespace UniGreenModules.UniCore.Runtime.Extension
 {
-    using UnityEngine;
+    using System;
+    using System.Collections.Generic;
+    using ObjectPool;
+    using ObjectPool.Extensions;
 
-    public class CollectionExtension : MonoBehaviour
+    public static class CollectionExtension
     {
-        // Start is called before the first frame update
-        void Start()
-        {
-        
-        }
 
-        // Update is called once per frame
-        void Update()
+        public static void RemoveItems<T>(this IEnumerable<T> source,
+            Func<T, bool> filter, Action<T> removeAction)
         {
-        
+            var removedItems = ClassPool.Spawn<List<T>>();
+            
+            foreach (var item in source)
+            {
+                var value = filter(item);
+                if (value)
+                {
+                    removedItems.Add(item);
+                }
+            }
+
+            foreach (var removedItem in removedItems)
+            {
+                removeAction(removedItem);
+            }
+
+            removedItems.DespawnCollection();
         }
+        
     }
 }
