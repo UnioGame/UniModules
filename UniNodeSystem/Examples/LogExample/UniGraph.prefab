@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _id: 7
-  position: {x: -520, y: -8}
+  position: {x: -504, y: -72}
   ports:
     keys:
     - '[out]Input2'
@@ -194,7 +194,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _id: 6
-  position: {x: -104, y: -360}
+  position: {x: -184, y: -184}
   ports:
     keys:
     - log
@@ -261,7 +261,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _id: 1
-  position: {x: -520, y: -152}
+  position: {x: -504, y: -216}
   ports:
     keys:
     - '[out]Input'
