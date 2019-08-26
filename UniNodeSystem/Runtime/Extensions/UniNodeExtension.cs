@@ -13,10 +13,11 @@
     {
         private const int InputNameIndex = 0;
         private const int OutputNameIndex = 1;
+
+        public const string InputPattern = @"(\[?[\w\num ]*\])";
         
         public const string InputTriggerPrefix  = "[in]";
-        public const string OutputTriggerPrefix = "[out]";
-       
+        public const string OutputTriggerPrefix = "[out]";       
         
         public static Func<string, string[]> portNameCache = MemorizeTool.Create((string x) => new string[2]);
         

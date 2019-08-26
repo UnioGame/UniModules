@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace UniGreenModules.UniNodeSystem.Nodes.Commands
+﻿namespace UniGreenModules.UniNodeSystem.Nodes.Commands
 {
     using Runtime.Extensions;
     using Runtime.Interfaces;
