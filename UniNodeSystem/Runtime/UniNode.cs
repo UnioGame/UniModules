@@ -173,9 +173,10 @@
                 portValue.CleanUp();
             }
         }
+
+        private void OnDestroy() => Exit();
         
-        
-        #region inspector call
+#region inspector call
         
         protected virtual void OnValidate()
         {
