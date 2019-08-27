@@ -65,6 +65,7 @@
             var result = typeData.Remove<TData>();
             if (result) {
                 broadcaster.Remove<TData>();
+                portValueChanged.Execute(Unit.Default);
             }
 
             return result;
