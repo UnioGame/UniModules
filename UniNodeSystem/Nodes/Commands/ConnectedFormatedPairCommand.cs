@@ -1,11 +1,13 @@
 ﻿namespace UniGreenModules.UniNodeSystem.Nodes.Commands
 {
+    using System;
     using Runtime.Extensions;
     using Runtime.Interfaces;
     using Runtime.Runtime;
     using UniCore.Runtime.DataFlow;
     using UniCore.Runtime.Interfaces;
 
+    [Serializable]
     public class ConnectedFormatedPairCommand : ILifeTimeCommand
     {
         public IPortValue InputPort { get; protected set; }

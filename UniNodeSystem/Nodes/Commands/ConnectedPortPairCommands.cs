@@ -3,9 +3,11 @@ using UniGreenModules.UniCore.Runtime.Interfaces;
 
 namespace UniGreenModules.UniNodeSystem.Nodes.Commands
 {
+    using System;
     using Runtime.Extensions;
     using Runtime.Interfaces;
 
+    [Serializable]
     public class ConnectedPortPairCommands : ILifeTimeCommand
     {
         protected IPortValue inputPort;

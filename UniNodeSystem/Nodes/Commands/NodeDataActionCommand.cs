@@ -5,6 +5,7 @@
     using UniCore.Runtime.DataFlow;
     using UniCore.Runtime.Interfaces;
 
+    [Serializable]
     public class NodeDataActionCommand : ILifeTimeCommand, IContextWriter
     {
         private readonly IPortValue port;

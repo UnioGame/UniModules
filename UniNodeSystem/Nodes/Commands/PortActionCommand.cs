@@ -6,6 +6,7 @@
     using UniCore.Runtime.Interfaces;
     using UniRx;
 
+    [Serializable]
     public class PortActionCommand<TTarget> : ILifeTimeCommand
     {
         private readonly IPortValue port;

@@ -7,6 +7,7 @@
     using UniCore.Runtime.DataFlow;
     using UniCore.Runtime.Interfaces;
 
+    [Serializable]
     public class NodeActionCommand<T> : ILifeTimeCommand
     {
         private PortActionCommand<T> portAction;
