@@ -85,12 +85,12 @@
 
         #endregion
 
-        protected void Initialize(IContext context)
+        private void Initialize(IContext context)
         {
-            LifeTime.AddCleanUpAction(() => this._contextData.Release());
-            LifeTime.AddCleanUpAction(() => this._stateStatus = StateStatus.Disable);
+            LifeTime.AddCleanUpAction(context.Release);
+            LifeTime.AddCleanUpAction(() => SetStatus(StateStatus.Disable));
             
-            OnInitialize(_contextData);
+            OnInitialize(context);
         }
         
         protected virtual void OnInitialize(IContext stateContext) { }

@@ -1,0 +1,24 @@
+{
+    "name": "gbg.nodesystem.flownodes",
+    "references": [
+        "GUID:d47fc5ef4ff8943449ade80dec65e4ca",
+        "GUID:5034c963820268e41a1a26d4a3a0ab07",
+        "GUID:8e4577c9194c10845984cf27eb974fd1",
+        "GUID:595038059ead7b144838ccf8d9999786",
+        "GUID:2002767d6083a9c479434a97d5800431",
+        "GUID:0d24a03ae3e7f2f459f0a0cc9bc544fb",
+        "GUID:e924132843abff74a994753a4c5c524b",
+        "GUID:9f8e6b2872ac2ca4683e584b9ba21f29",
+        "GUID:560b04d1a97f54a4e82edc0cbbb69285",
+        "GUID:f51ebe6a0ceec4240a699833d6309b23"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

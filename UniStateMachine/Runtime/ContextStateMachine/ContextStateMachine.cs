@@ -22,13 +22,13 @@
         protected List<IDisposable> disposables;
 
 
-        #region public methods
-
         public ContextStateMachine(IContextExecutor<TAwaiter> stateExecutor)
         {
             disposables = new List<IDisposable>();
             _stateExecutor = stateExecutor;
         }
+        
+        #region public methods
 
         /// <summary>
         /// stop active execution
