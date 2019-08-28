@@ -1,11 +1,11 @@
-﻿namespace GBG.GameSystem.Runtime.Interfaces
+﻿namespace UniGreenModules.UniGameSystem.Runtime.Interfaces
 {
-    using UniGreenModules.UniCore.Runtime.DataFlow;
+    using UniCore.Runtime.DataFlow;
 
     public interface IBinder
     {
 
-        ILifeTime Bind(ILifeTime lifeTime);
+        void Bind(ILifeTime lifeTime);
 
     }
 }

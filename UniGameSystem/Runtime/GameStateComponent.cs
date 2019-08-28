@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using Interfaces;
+    using UniGreenModules.UniGameSystem.Runtime.Interfaces;
 
     public class GameStateComponent : GameComponentController
     {
