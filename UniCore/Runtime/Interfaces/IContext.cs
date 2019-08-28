@@ -8,7 +8,7 @@ namespace UniGreenModules.UniCore.Runtime.Interfaces
     public interface IContext : 
         IMessageBroker,
         IPoolable, 
-        IReadOnlyContext,
+        IReadOnlyData,
         IDisposable,
         ILifeTimeContext,
         IContextWriter

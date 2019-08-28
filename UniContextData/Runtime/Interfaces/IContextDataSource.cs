@@ -4,6 +4,6 @@ namespace UniGreenModules.UniActors.Runtime.Interfaces
 
     public interface IContextDataSource
     {
-        void Register(IContext context);
+        void Register(IContextWriter context);
     }
 }

@@ -11,7 +11,7 @@
         #region public methods
 
 
-        public virtual void Register(IContext context)
+        public virtual void Register(IContextWriter context)
         {
             context.Add(this);
         }
