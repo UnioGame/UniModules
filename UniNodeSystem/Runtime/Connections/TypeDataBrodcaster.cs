@@ -34,9 +34,9 @@ namespace UniGreenModules.UniNodeSystem.Runtime.Connections
             return true;          
         }
 
-        public void Add<TData>(TData value)
+        public void Publish<TData>(TData value)
         {
-            BroadcastAction(x => x.Add(value));
+            BroadcastAction(x => x.Publish(value));
         }
 
         #endregion

@@ -11,9 +11,9 @@
         #region public methods
 
 
-        public virtual void Register(IContextWriter context)
+        public virtual void Register(IContext context)
         {
-            context.Add(this);
+            context.Publish(this);
         }
 
         public abstract void MakeDespawn();

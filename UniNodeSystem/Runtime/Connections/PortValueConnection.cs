@@ -26,11 +26,11 @@
             target     = null;
         }
 
-        public virtual void Add<TData>(TData value)
+        public virtual void Publish<TData>(TData value)
         {
             GameProfiler.BeginSample("Connection_UpdateValue");
 
-            target.Add(value);
+            target.Publish(value);
 
             GameProfiler.EndSample();
         }
@@ -46,7 +46,7 @@
                 var connection = connections[i];
                 if (connection.Contains<TData>()) {
                     var value = connection.Get<TData>();
-                    target.Add(value);
+                    target.Publish(value);
                     return false;
                 }
             }

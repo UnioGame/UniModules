@@ -24,7 +24,7 @@
         public virtual void UpdateValue<TData>(TContext context, TData value)
         {
             var container = GetTypeData(context, true);
-            container.Add(value);
+            container.Publish(value);
         }
 
         public virtual bool Remove<TData>(TContext context)

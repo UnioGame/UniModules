@@ -34,7 +34,7 @@
             return true;
         }
 
-        public void Add<TData>(TData data)
+        public void Publish<TData>(TData data)
         {
             onAddData?.Invoke();
         }

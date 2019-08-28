@@ -12,16 +12,14 @@
 
     public class EntityContext : IContext
     {
-        private IRecycleMessageBrocker _broker;
         private TypeData           _typeData;
         private LifeTimeDefinition _lifeTimeDefinition;
+        private bool hasValue;
 
         public EntityContext()
         {
             //context data container
             _typeData = new TypeData();
-            //create local message context
-            _broker = new RecycleMessageBrocker();
             //context lifetime
             _lifeTimeDefinition = new LifeTimeDefinition();
         }
@@ -31,6 +29,8 @@
 
         public ILifeTime LifeTime => _lifeTimeDefinition.LifeTime;
 
+        public bool HasValue => _typeData.HasValue;
+        
 #endregion
         
 #region public methods
@@ -55,15 +55,8 @@
             _typeData.CleanUp();
         }
 
-        public void Add<TData>(TData data)
-        {
-            _typeData.Add(data);
-            Publish(data);
-        }
-
         public void Release()
         {
-            _broker.Release();
             _typeData.Release();
             _lifeTimeDefinition.Release();
         }
@@ -78,14 +71,14 @@
 
         public void Publish<T>(T message)
         {
+            _typeData.Publish(message);
             GameLog.LogMessage("ENTITY {0} PUBLISH: {1}", GetType().Name, message.GetType().Name);
-            _broker.Publish(message);
         }
 
         public IObservable<T> Receive<T>()
         {
             GameLog.LogFormat("ENTITY REGISTER RECEIVE {0}: {1}", GetType().Name, typeof(T).Name);
-            return _broker.Receive<T>();
+            return _typeData.Receive<T>();
         }
 
 #endregion

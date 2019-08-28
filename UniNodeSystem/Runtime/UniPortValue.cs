@@ -3,7 +3,9 @@
     using System;
     using Connections;
     using Interfaces;
+    using UniContextData.Runtime.Entities;
     using UniCore.Runtime.Common;
+    using UniCore.Runtime.DataFlow;
     using UniCore.Runtime.Interfaces;
     using UniCore.Runtime.ObjectPool.Interfaces;
     using UniRx;
@@ -22,7 +24,7 @@
 
         #region private property
 
-        [NonSerialized] private ITypeData typeData;
+        [NonSerialized] private IContext context;
 
         [NonSerialized] private ITypeDataBrodcaster broadcaster;
 
@@ -30,15 +32,17 @@
         
         [NonSerialized] private ReactiveCommand portValueChanged = new ReactiveCommand();
 
-        #endregion
+#endregion
 
         #region public properties
 
         public string ItemName => name;
 
-        public bool HasValue => typeData.HasValue;
+        public bool HasValue => context.HasValue;
 
         public IObservable<Unit> PortValueChanged => portValueChanged;
+
+        public ILifeTime LifeTime => context.LifeTime;
         
         #endregion
 
@@ -62,7 +66,7 @@
 
         public bool Remove<TData>()
         {
-            var result = typeData.Remove<TData>();
+            var result = context.Remove<TData>();
             if (result) {
                 broadcaster.Remove<TData>();
                 portValueChanged.Execute(Unit.Default);
@@ -71,11 +75,11 @@
             return result;
         }
 
-        public void Add<TData>(TData value)
+        public void Publish<TData>(TData value)
         {
             
-            typeData.Add(value);
-            broadcaster.Add(value);
+            context.Publish(value);
+            broadcaster.Publish(value);
 
             portValueChanged.Execute(Unit.Default);
             
@@ -83,7 +87,7 @@
 
         public void CleanUp()
         {
-            typeData.CleanUp();
+            context.CleanUp();
             broadcaster.CleanUp();
         }
 
@@ -94,12 +98,12 @@
 
         public TData Get<TData>()
         {
-            return typeData.Get<TData>();
+            return context.Get<TData>();
         }
 
         public bool Contains<TData>()
         {
-            return typeData.Contains<TData>();
+            return context.Contains<TData>();
         }
 
         #endregion
@@ -122,10 +126,10 @@
             CleanUp();
             RemoveAllConnections();
         }
-        
-        public IObservable<TData> GetObservable<TData>()
+
+        public IObservable<T> Receive<T>()
         {
-            return typeData.GetObservable<TData>();
+            return context.Receive<T>();
         }
         
         #endregion
@@ -134,11 +138,12 @@
         {
             if (initialized)
                 return;
-            typeData    = new TypeData();
+            context    = new EntityContext();
             broadcaster = new TypeDataBrodcaster();
             //mark as initialized
             initialized = true;
         }
 
-     }
+
+    }
 }

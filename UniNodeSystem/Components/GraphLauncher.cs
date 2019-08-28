@@ -34,7 +34,7 @@ namespace UniGreenModules.UniNodeSystem.Components
             var inputs = graph.InputsPorts;
 
             foreach (var portNode in inputs) {
-                portNode.PortValue.Add($"Message {DateTime.Now.ToString()}");
+                portNode.PortValue.Publish($"Message {DateTime.Now.ToString()}");
             }
             
         }

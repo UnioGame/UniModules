@@ -92,7 +92,7 @@
             var portValue = GetPortValue(trigger.ItemName);
 
             if (trigger.IsActive) {
-                portValue.Add(context);
+                portValue.Publish(context);
             }
             else {
                 portValue.Remove<IContext>();
@@ -177,9 +177,9 @@
                 lifetime.AddCleanUpAction(() => connection.Disconnect(portValue));
 
                 //add new placement value
-                portValue.Add<IUiPlacement>(slot);
+                portValue.Publish<IUiPlacement>(slot);
                 //set node context
-                portValue.Add(context);
+                portValue.Publish(context);
             }
         }
 

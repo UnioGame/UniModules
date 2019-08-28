@@ -60,7 +60,7 @@
 
         }
 
-        public void Add<TData>(TData value)
+        public void Publish<TData>(TData value)
         {
             var data = GetData<TData>();
             data.Value = value;           
@@ -68,7 +68,7 @@
 
         #endregion
 
-        public IObservable<TData> GetObservable<TData>()
+        public IObservable<TData> Receive<TData>()
         {
             var data = GetData<TData>();
             return data;

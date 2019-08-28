@@ -1,11 +1,13 @@
 namespace UniGreenModules.UniCore.Runtime.Interfaces
 {
-    public interface IContextWriter
+    using UniRx;
+
+    public interface IContextWriter : IMessagePublisher
     {
+        
         bool Remove<TData>();
 
         void CleanUp();
 
-        void Add<TData>(TData data);
     }
 }

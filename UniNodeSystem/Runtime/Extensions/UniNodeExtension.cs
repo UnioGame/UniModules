@@ -206,7 +206,7 @@
             bool oneShot = false)
         {
             //subscribe to port value observable
-            portValue.GetObservable<TValue>().Finally(() => {
+            portValue.Receive<TValue>().Finally(() => {
                     //if node stoped or 
                     if (!oneShot || !node.IsActive) return;
                     //resubscribe to port values

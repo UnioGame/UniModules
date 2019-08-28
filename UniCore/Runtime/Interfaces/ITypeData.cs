@@ -1,12 +1,14 @@
 namespace UniGreenModules.UniCore.Runtime.Interfaces
 {
-    using System;
+    using ObjectPool.Interfaces;
+    using UniRx;
 
     public interface ITypeData : 
+        IPoolable, 
+        IMessageBroker,
         IContextWriter,
         IValueContainerStatus, 
-        IReadOnlyData, 
-        ITypeDataObservable
+        IReadOnlyData
     {
     }
 }

@@ -20,7 +20,7 @@
         
         public void Execute(ILifeTime lifeTime)
         {
-            port.GetObservable<TTarget>().
+            port.Receive<TTarget>().
                 Subscribe(action).
                 AddTo(lifeTime);
         }
