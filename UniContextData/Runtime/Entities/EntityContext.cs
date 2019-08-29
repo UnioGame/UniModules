@@ -72,12 +72,10 @@
         public void Publish<T>(T message)
         {
             _typeData.Publish(message);
-            GameLog.LogMessage("ENTITY {0} PUBLISH: {1}", GetType().Name, message.GetType().Name);
         }
 
         public IObservable<T> Receive<T>()
         {
-            GameLog.LogFormat("ENTITY REGISTER RECEIVE {0}: {1}", GetType().Name, typeof(T).Name);
             return _typeData.Receive<T>();
         }
 
