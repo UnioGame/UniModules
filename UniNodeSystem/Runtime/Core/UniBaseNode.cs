@@ -33,6 +33,10 @@
 
         [HideInInspector] [ReadOnlyValue] [SerializeField] private ulong _id;
 
+        [HideInInspector]
+        [SerializeField]
+        public int width = 220;
+        
         /// <summary> Position on the <see cref="NodeGraph"/> </summary>
         [SerializeField] public Vector2 position;
 

@@ -2,63 +2,59 @@
 
 namespace UniGreenModules.UniNodeSystem.Nodes
 {
-    using System.Collections.Generic;
     using Runtime.Extensions;
     using Runtime.Interfaces;
     using Runtime.Runtime;
-    using Sirenix.Utilities;
-    using UniCore.Runtime.ObjectPool;
+    using UniCore.Runtime.DataFlow;
 
-    public class UniGraphNode : UniNode
+    public abstract class UniGraphNode : UniNode
     {
-
-        #region inspector
         
-        public UniGraph sourceGraphPrefab;
-
-        #endregion
-
-        private UniGraph targetGraph;
-
+        public abstract UniGraph LoadOrigin();
+        
         protected override void OnNodeInitialize()
         {
             
             base.OnNodeInitialize();
+
+            var sourceGraphPrefab = LoadOrigin();
             
             if (!sourceGraphPrefab) {
                 return;
             }
             
             //create node port values by target graph
-            sourceGraphPrefab.Inputs.ForEach(x => this.UpdatePortValue(x.fieldName, x.direction));
-            sourceGraphPrefab.Outputs.ForEach(x => this.UpdatePortValue(x.fieldName, x.direction));
-
+            foreach (var input in sourceGraphPrefab.Inputs) {
+                this.UpdatePortValue(input.fieldName, input.direction);
+            }
+            foreach (var output in sourceGraphPrefab.Outputs) {
+                this.UpdatePortValue(output.fieldName, output.direction);
+            }
         }
 
         protected override void OnExecute()
         {
             base.OnExecute();
             
-            if (!sourceGraphPrefab) {
+            var graphPrefab = CreateGraph(LifeTime);
+            if (!graphPrefab) {
                 return;
             }
 
-            if (!targetGraph) {
-                targetGraph = sourceGraphPrefab.Spawn(transform);
-            }
-
-            targetGraph.Execute();
+            graphPrefab.Execute();
 
             foreach (var port in PortValues) {
                 var portName = port.ItemName;
                 var originPort = GetPort(portName);
-                var targetPort = targetGraph.GetPortValue(portName);
+                var targetPort = graphPrefab.GetPortValue(portName);
                 ConnectToGraphPort(port,targetPort, originPort.direction);
             }
             
-            LifeTime.AddCleanUpAction(() => targetGraph?.Exit());
+            LifeTime.AddCleanUpAction(() => graphPrefab?.Exit());
         }
 
+        protected abstract UniGraph CreateGraph(ILifeTime lifeTime);
+        
         private void ConnectToGraphPort(IPortValue sourcePort, IPortValue targetPort, PortIO direction)
         {
             var source    = direction == PortIO.Input ? sourcePort : targetPort;
@@ -66,7 +62,7 @@ namespace UniGreenModules.UniNodeSystem.Nodes
 
             source.Connect(target);
         }
-
+        
         
     }
 }

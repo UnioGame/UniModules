@@ -13,7 +13,7 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
         public NodeEditorStyles()
         {
             var baseStyle = new GUIStyle("Label");
-            baseStyle.fixedHeight = 18;
+            baseStyle.fixedHeight = 30;
 
             inputPort = new GUIStyle(baseStyle);
             inputPort.alignment = TextAnchor.UpperLeft;

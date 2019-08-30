@@ -4,7 +4,7 @@
   "displayName": "GBG UniNode System Game Flow Nodes",
   "description": "Game Flow Nodes",
   "unity": "2019.1",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "keywords": [
     "nodes"
   ],
@@ -16,7 +16,7 @@
     "com.greenbuttongames.uniroutine": "1.1.6",
     "com.greenbuttongames.resourcesystem": "1.0.123",
     "com.greenbuttongames.unistatemachine": "1.1.10",
-    "com.greenbuttongames.nodesystem": "1.1.17",
-    "com.greenbuttongames.nodesystem.commonnodes": "1.0.148"
+    "com.greenbuttongames.nodesystem": "1.1.18",
+    "com.greenbuttongames.nodesystem.commonnodes": "1.0.149"
   }
 }

@@ -4,7 +4,7 @@
   "displayName": "GBG UniNode System",
   "description": "UniNode System for Unity",
   "unity": "2019.1",
-  "version": "1.1.17",
+  "version": "1.1.18",
   "keywords": [],
   "dependencies": {
     "com.greenbuttongames.neuecc.unirx": "7.1.0",
@@ -14,6 +14,7 @@
     "com.greenbuttongames.uniroutine": "1.1.6",
     "com.greenbuttongames.unistatemachine": "1.1.10",
     "com.greenbuttongames.resourcesystem": "1.0.123",
+    "com.greenbuttongames.odin": "2.0.21",
     "com.unity.addressables": "1.1.9"
   }
 }

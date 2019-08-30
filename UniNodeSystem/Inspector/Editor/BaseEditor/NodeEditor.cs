@@ -71,10 +71,9 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
         {
             var type = target.GetType();
 
-            if (NodeEditorWindow.nodeWidth.TryGetValue(type, out var width)) 
-                return width;
+            return NodeEditorWindow.nodeWidth.TryGetValue(type, out var width) ? 
+                width : target.width;
             
-            return 208;
         }
 
         public virtual Color GetTint()
