@@ -2,12 +2,10 @@
 
 namespace UniGreenModules.UniNodeSystem.Nodes
 {
-    using Sirenix.OdinInspector;
     using UniCore.Runtime.ObjectPool;
 
     public class SyncGraphNode : UniGraphNode
     {
-        [InlineEditor(InlineEditorModes.FullEditor)]
         public UniGraph graphAsset;
 
         private UniGraph graphInstance;
