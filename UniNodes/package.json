@@ -4,7 +4,7 @@
   "displayName": "GBG UniNode System Common Nodes",
   "description": "Common nodes",
   "unity": "2019.1",
-  "version": "1.0.150",
+  "version": "1.0.151",
   "keywords": [
     "nodes"
   ],
@@ -16,6 +16,6 @@
     "com.greenbuttongames.uniroutine": "1.1.7",
     "com.greenbuttongames.resourcesystem": "1.0.124",
     "com.greenbuttongames.unistatemachine": "1.1.11",
-    "com.greenbuttongames.nodesystem": "1.1.19"
+    "com.greenbuttongames.nodesystem": "1.1.20"
   }
 }

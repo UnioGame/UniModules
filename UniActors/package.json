@@ -4,7 +4,7 @@
   "displayName": "GBG Unity Actors System",
   "description": "Actors system for Unity",
   "unity": "2019.1",
-  "version": "1.1.17",
+  "version": "1.1.18",
   "keywords": [],
   "dependencies": {
     "com.greenbuttongames.neuecc.unirx": "7.1.0",
@@ -13,7 +13,7 @@
     "com.greenbuttongames.contextdata": "1.1.9",
     "com.greenbuttongames.uniroutine": "1.1.7",
     "com.greenbuttongames.resourcesystem": "1.0.124",
-    "com.greenbuttongames.nodesystem": "1.1.19",
+    "com.greenbuttongames.nodesystem": "1.1.20",
     "com.greenbuttongames.unistatemachine": "1.1.11"
   }
 }
