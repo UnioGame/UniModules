@@ -4,18 +4,18 @@
   "displayName": "GBG UniNode System Common Nodes",
   "description": "Common nodes",
   "unity": "2019.1",
-  "version": "1.0.153",
+  "version": "1.0.154",
   "keywords": [
     "nodes"
   ],
   "dependencies": {
     "com.greenbuttongames.neuecc.unirx": "7.1.0",
     "com.greenbuttongames.neuecc.unirx.async": "1.1.0",
-    "com.greenbuttongames.unicore": "1.2.7",
-    "com.greenbuttongames.contextdata": "1.1.9",
-    "com.greenbuttongames.uniroutine": "1.1.8",
-    "com.greenbuttongames.resourcesystem": "1.0.125",
-    "com.greenbuttongames.unistatemachine": "1.1.12",
-    "com.greenbuttongames.nodesystem": "1.1.22"
+    "com.greenbuttongames.unicore": "1.2.8",
+    "com.greenbuttongames.contextdata": "1.1.10",
+    "com.greenbuttongames.uniroutine": "1.1.9",
+    "com.greenbuttongames.resourcesystem": "1.0.126",
+    "com.greenbuttongames.unistatemachine": "1.1.13",
+    "com.greenbuttongames.nodesystem": "1.1.23"
   }
 }
