@@ -127,6 +127,28 @@ namespace UniModule.UnityTools.EditorTools
 
             EditorUtility.ClearProgressBar();
         }
+        
+        [MenuItem("Tools/Remove Selected modifications")]
+        [MenuItem("Assets/Remove modifications")]
+        public static void RemoveSelectedModifications()
+        {
+            var selections = Selection.assetGUIDs;
+            var assets = selections.Select(x => AssetDatabase.LoadAssetAtPath<Object>(AssetDatabase.GUIDToAssetPath(x))).
+                ToList();
+
+            for (var i = 0; i < assets.Count; i++) {
+                var asset    = assets[i];
+                var progress = i / ((float) assets.Count);
+                var canceled = EditorUtility.
+                    DisplayCancelableProgressBar($"Remove Modifications [{i} of {assets.Count}] :", asset.name, progress);
+                if (canceled) break;
+                
+                RemoveModifications(asset);
+                EditorUtility.SetDirty(asset);
+            }
+
+            EditorUtility.ClearProgressBar();
+        }
 
         public static void SetDirty(Object asset)
         {
