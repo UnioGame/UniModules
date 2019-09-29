@@ -4,6 +4,7 @@ namespace UniTools.UniRoutine.Runtime
     {
         UpdateStep = 0,
         EndOfFrame = 1,
-        FixedUpdate,
+        FixedUpdate = 2,
+        LateUpdate = 3,
     }
 }

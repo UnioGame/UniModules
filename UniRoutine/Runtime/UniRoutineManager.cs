@@ -12,12 +12,13 @@
 		
 		private static Lazy<UniRoutineRootObject> routineObject = new Lazy<UniRoutineRootObject>(CreateRoutineManager);
 		
-		private static Dictionary<RoutineType,Lazy<IUniRoutine>> uniRoutines = new Dictionary<RoutineType,Lazy<IUniRoutine>>()
+		private static List<Lazy<IUniRoutine>> uniRoutines = new List<Lazy<IUniRoutine>>()
 		{
 			
-			{RoutineType.UpdateStep,new Lazy<IUniRoutine>(() => CreateRoutine(RoutineType.UpdateStep))},
-			{RoutineType.FixedUpdate,new Lazy<IUniRoutine>(() => CreateRoutine(RoutineType.FixedUpdate))},
-			{RoutineType.EndOfFrame,new Lazy<IUniRoutine>(() => CreateRoutine(RoutineType.EndOfFrame))},
+			new Lazy<IUniRoutine>(() => CreateRoutine(RoutineType.UpdateStep)),
+			new Lazy<IUniRoutine>(() => CreateRoutine(RoutineType.FixedUpdate)),
+			new Lazy<IUniRoutine>(() => CreateRoutine(RoutineType.EndOfFrame)),
+			new Lazy<IUniRoutine>(() => CreateRoutine(RoutineType.LateUpdate)),
 			
 		};
 
@@ -34,7 +35,7 @@
 		{
 			
 			//get routine
-			var routine = uniRoutines[routineType];
+			var routine = uniRoutines[(int)routineType];
 			//add enumerator to routines
 			var routineItem = routine.Value;
 			var result = routineItem.AddRoutine(enumerator,moveNextImmediately);
@@ -83,8 +84,9 @@
 					return null;
 				case RoutineType.EndOfFrame:
 					return new WaitForEndOfFrame();
-					break;
 				case RoutineType.FixedUpdate:
+					return new WaitForFixedUpdate();
+				case RoutineType.LateUpdate:
 					return new WaitForFixedUpdate();
 			}
 
