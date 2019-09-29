@@ -65,7 +65,6 @@
 
 		private static IEnumerator ExecuteOnUpdate(IUniRoutine routine,RoutineType routineType)
 		{
-
 			var awaiter = GetRoutineAwaiter(routineType);
 			while (true) {
 
@@ -93,9 +92,15 @@
 			return null;
 		}
 		
-		private static void ExecuteUniRoutines(IUniRoutine routine,RoutineType routineType) {
+		private static void ExecuteUniRoutines(IUniRoutine routine,RoutineType routineType)
+		{
 
-			routineObject.Value.StartCoroutine(ExecuteOnUpdate(routine,routineType));
+			var routineContainer = routineObject.Value;
+			if (routineType == RoutineType.LateUpdate) {
+				routineContainer.AddLateRoutine(routine);
+				return;
+			}
+			routineContainer.StartCoroutine(ExecuteOnUpdate(routine,routineType));
 
 		}
 	}
