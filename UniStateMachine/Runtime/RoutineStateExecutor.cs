@@ -10,7 +10,7 @@
     {
         private IDisposable _disposables;
         private IStateBehaviour<IEnumerator> _state;
-        private RoutineType _routineType = RoutineType.UpdateStep;
+        private RoutineType _routineType = RoutineType.Update;
 
         public void SetRoutineType(RoutineType routineType)
         {
@@ -30,7 +30,7 @@
             _state = null;
             _disposables.Cancel();
             _disposables = null;
-            _routineType = RoutineType.UpdateStep;
+            _routineType = RoutineType.Update;
         }
     }
 }

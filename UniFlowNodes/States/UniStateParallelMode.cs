@@ -8,7 +8,7 @@
     public class UniStateParallelMode
     {
         public UniStateTransition Transition;
-        public RoutineType RoutineType = RoutineType.UpdateStep;
+        public RoutineType RoutineType = RoutineType.Update;
         public bool RestartOnComplete = true;
     }
 }

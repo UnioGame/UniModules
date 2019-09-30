@@ -9,6 +9,7 @@
 
 	public class UniRoutine : IUniRoutine
 	{
+		
 		private List<UniRoutineTask> routines = new List<UniRoutineTask>();
 		private List<DisposableAction<int>> routineDisposable = new List<DisposableAction<int>>();
 		private Stack<int> unusedSlots = new Stack<int>();
@@ -57,8 +58,10 @@
 					continue;
 				
 				var moveNext = routine.MoveNext();
-				
-				if (moveNext || routines[i] == null) continue;
+
+				if (moveNext || routines[i] == null) {
+					continue;
+				}
 
 				//return routine task to pool
 				ReleaseRoutine(i);

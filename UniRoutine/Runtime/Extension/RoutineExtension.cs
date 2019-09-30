@@ -130,7 +130,7 @@
         public static IDisposable ExecuteWithCondition(this object target, 
             Action action, Func<bool> condition,
             Func<bool> awaiter,
-            RoutineType routineType = RoutineType.UpdateStep)
+            RoutineType routineType = RoutineType.Update)
         {
             
             var enumerator = ExecuteWhen(target,action, condition,awaiter);
@@ -141,7 +141,7 @@
 
         public static IDisposable ExecuteWithCondition(this object target, 
             Action action, Func<bool> condition,
-            RoutineType routineType = RoutineType.UpdateStep)
+            RoutineType routineType = RoutineType.Update)
         {
             
             var enumerator = ExecuteWhile(target,action, condition);
