@@ -6,19 +6,12 @@
     public class DummyPoolContainer : IPoolContainer
     {
 
-        public bool Contains(Type type)
-        {
-            return false;
-        }
+        public bool Contains<T>() where T : class => false;
 
-        public object Pop(Type type)
-        {
-            return null;
-        }
+        public T Pop<T>() where T : class => null;
 
-        public void Push(Type type, object item)
+        public void Push<T>(T item) where T : class
         {
-            
         }
     }
 }

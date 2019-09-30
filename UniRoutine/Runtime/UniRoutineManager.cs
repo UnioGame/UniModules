@@ -15,7 +15,7 @@
 		private static List<Lazy<IUniRoutine>> uniRoutines = new List<Lazy<IUniRoutine>>()
 		{
 			
-			new Lazy<IUniRoutine>(() => CreateRoutine(RoutineType.UpdateStep)),
+			new Lazy<IUniRoutine>(() => CreateRoutine(RoutineType.Update)),
 			new Lazy<IUniRoutine>(() => CreateRoutine(RoutineType.FixedUpdate)),
 			new Lazy<IUniRoutine>(() => CreateRoutine(RoutineType.EndOfFrame)),
 			new Lazy<IUniRoutine>(() => CreateRoutine(RoutineType.LateUpdate)),
@@ -30,7 +30,7 @@
 		/// <param name="moveNextImmediately"></param>
 		/// <returns>cancelation</returns>
 		public static IDisposableItem RunUniRoutine(IEnumerator enumerator, 
-			RoutineType routineType = RoutineType.UpdateStep,
+			RoutineType routineType = RoutineType.Update,
 			bool moveNextImmediately = true)
 		{
 			
@@ -79,7 +79,7 @@
 		{
 			switch (routineType)
 			{
-				case RoutineType.UpdateStep:
+				case RoutineType.Update:
 					return null;
 				case RoutineType.EndOfFrame:
 					return new WaitForEndOfFrame();

@@ -4,8 +4,10 @@ namespace UniGreenModules.UniCore.Runtime.ObjectPool.Interfaces
 
     public interface IPoolContainer
     {
-        bool Contains(Type type);
-        object Pop(Type type);
-        void Push(Type type,object item);
+        bool Contains<T>() where T : class;
+        
+        T Pop<T>() where T : class;
+
+        void Push<T>(T item) where T : class;
     }
 }

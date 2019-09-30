@@ -7,53 +7,22 @@
 
     public class ClassPoolContainer : MonoBehaviour, IPoolContainer
     {
-        private Dictionary<Type, int> _typeIndexes = new Dictionary<Type, int>();
-		
-        #region inspector
-		
-        [SerializeField]
-        private List<ClassPoolItem> _items = new List<ClassPoolItem>();
-		
-        #endregion
-
-        public bool Contains(Type type)
+        public bool Contains<T>() 
+            where T : class
         {
-            if (!_typeIndexes.TryGetValue(type, out var index))
-            {
-                return false;
-            }
-            return _items[index].count > 0;
+            return ClassPoolItem<T>.Instance.Count > 0;
         }
 
-        public object Pop(Type type)
+        public T Pop<T>()
+            where T : class
         {
-			
-            if (!_typeIndexes.TryGetValue(type, out var index))
-            {
-                return null;
-            }
-
-            var container = _items[index];
-            var item = container.Pop();
-            return item;
-			
+			return ClassPoolItem<T>.Instance.Pop();
         }
 
-        public void Push(Type type,object item)
+        public void Push<T>(T item)
+            where T : class
         {
-            if (_typeIndexes.TryGetValue(type, out var index))
-            {
-                _items[index].Push(item);
-                return;
-            }
-            
-            var container = new ClassPoolItem(type);
-            container.Push(item);
-            
-            index = _items.Count;
-            _items.Add(container);
-            
-            _typeIndexes[type] = index;
+            ClassPoolItem<T>.Instance.Push(item);
         }
 		
     }

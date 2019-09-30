@@ -2,49 +2,54 @@
 {
     using System;
     using System.Collections.Generic;
+    using Interfaces;
     using UnityEngine;
 
     [Serializable]
-    public class ClassPoolItem
+    public class ClassPoolItem<T> : BasePoolItem
+        where T : class
     {
-        [NonSerialized]
-        private Stack<object> _items = new Stack<object>();
+        private static ClassPoolItem<T> instance;
         
         [NonSerialized]
-        public Type type;
-		[SerializeField]
-        public string typeName;
-        [SerializeField]
-        public int count;
+        private Stack<T> _items = new Stack<T>();
 
-        public ClassPoolItem(Type type)
-        {
-            this.type = type;
-            typeName = type.Name;
-            count = 0;
+        public static ClassPoolItem<T> Instance {
+            get
+            {
+                if(instance == null) 
+                {
+                    instance = new ClassPoolItem<T>();
+                }
+                return instance;
+            }
         }
 
-        public void Clear()
+        protected ClassPoolItem()
+        {
+            typeName = typeof(T).Name;
+        }
+
+        public int Count => count;
+        
+        public override void Release()
         {
             count = 0;
-            type = null;
             _items.Clear();
-            typeName = string.Empty;
         }
 		
-        public void Push(object item)
+        public void Push(T item)
         {
             _items.Push(item);
             count++;
         }
 
-        public object Pop()
+        public T Pop()
         {
-            if (count == 0)
-                return null;
-			
+            if (count == 0) return null;
+            var item = _items.Pop();
             count--;
-            return _items.Pop();
+            return item;
         }
     }
 }

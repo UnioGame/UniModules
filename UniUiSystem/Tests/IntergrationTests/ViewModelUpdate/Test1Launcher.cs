@@ -17,7 +17,7 @@ namespace UniGreenModules.UniUiSystem.Tests.IntergrationTests.ViewModelUpdate
         {
             view.Initialize(model);
             
-            OnUpdateItems("UpdateStep").ExecuteRoutine(RoutineType.UpdateStep).AddTo(this);
+            OnUpdateItems("UpdateStep").ExecuteRoutine(RoutineType.Update).AddTo(this);
             OnUpdateItems("FixedUpdate").ExecuteRoutine(RoutineType.FixedUpdate).AddTo(this);
             OnUpdateItems("EndOfFrame").ExecuteRoutine(RoutineType.EndOfFrame).AddTo(this);
             

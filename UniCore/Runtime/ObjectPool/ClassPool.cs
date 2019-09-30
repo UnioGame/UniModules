@@ -8,20 +8,18 @@
 
 	public static class ClassPool {
 
-		private static WeakReference<IPoolContainer> _persistentContainer = new WeakReference<IPoolContainer>(null);
-		private static WeakReference<IPoolContainer> _container = new WeakReference<IPoolContainer>(null);
+		private static IPoolContainer _container;
 
 		private static IPoolContainer Container
 		{
 			get
 			{
-				if (!_container.TryGetTarget(out var container) )
+				if (_container == null )
 				{
-					container = CreateContainer(false);
-					_container.SetTarget(container);
+					_container = CreateContainer(false);
 				}
 
-				return container;
+				return _container;
 			}
 		}
 
@@ -63,10 +61,10 @@
 		{
 			var type = typeof(T);
 			
-		    if (!Container.Contains(type))
+		    if (!Container.Contains<T>())
 		        return null;
 			// Get the matched index, or the last index
-		    var item = Container.Pop(type) as T;
+		    var item = Container.Pop<T>();
 		    // Run action?
 			onSpawn?.Invoke(item);
 			
@@ -86,7 +84,8 @@
 
 		}
 
-		public static void Despawn(object instance)
+		public static void Despawn<T>(T instance)
+			where T:class
 		{
 			
 			if (instance == null)
@@ -97,20 +96,20 @@
 			if(instance is IPoolable poolable) 
 				poolable.Release();
 
-			var type = instance.GetType();
 			// Add to _cache
-			Container.Push(type,instance);
+			Container.Push(instance);
 			
 			GameProfiler.EndSample();
 			
 		}
 
+		private static DummyPoolContainer dummyPoolContainer = new DummyPoolContainer();
 
 		private static IPoolContainer CreateContainer(bool persistent)
 		{
 
 			if (!Application.isPlaying)
-				return new DummyPoolContainer();
+				return dummyPoolContainer;
 				
 			var container = new GameObject(persistent ? "ClassPool(Immortal)" : "ClassPool")
 				.AddComponent<ClassPoolContainer>();

@@ -96,7 +96,8 @@
             ObjectPool.Despawn(data);
         }
         
-        public static void Despawn(this object data, bool destroy = false)
+        public static void Despawn<T>(this T data, bool destroy = false)
+            where T:class
         {
 
             if (data == null) return;
