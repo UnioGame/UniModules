@@ -1,10 +1,10 @@
 ﻿namespace UniGreenModules.UniCore.Runtime.Common
 {
     using System;
+    using Interfaces;
     using ObjectPool;
-    using ObjectPool.Interfaces;
 
-    public class DisposableAction : IDisposable, IPoolable
+    public class DisposableAction : IDisposableItem
     {
         private Action _onDisposed;
     
