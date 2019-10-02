@@ -2,17 +2,27 @@
 {
     using System.Collections;
     using System.Collections.Generic;
+    using UniGreenModules.UniCore.Runtime.ObjectPool;
 
-    public class UniRoutineTask : IEnumerator<IEnumerator>
+    public struct UniRoutineTask : IEnumerator<IEnumerator>
     {
-        private bool isCompleted = false;
+        private RoutineState state;
         private IEnumerator rootEnumerator;
-        private Stack<IEnumerator> awaiters = new Stack<IEnumerator>();
+        private Stack<IEnumerator> awaiters;
 
-        public bool IsCompleted => isCompleted;
+        public bool IsCompleted => state == RoutineState.Complete;
         
-        public void Initialize(IEnumerator enumerator,bool moveNextImmediately = false)
+        public IEnumerator Current { get; private set; }
+
+        object IEnumerator.Current => Current;
+
+        public UniRoutineTask(IEnumerator enumerator,bool moveNextImmediately = false)
         {
+            state = RoutineState.None;
+            rootEnumerator = enumerator;
+            Current        = enumerator;
+            awaiters = ClassPool.Spawn<Stack<IEnumerator>>();
+            
             SetupEnumerator(enumerator);
             
             if (moveNextImmediately)
@@ -27,13 +37,29 @@
         /// <returns>is iteration completed</returns>
         public bool MoveNext()
         {
-            if (isCompleted)
+            if (state == RoutineState.Complete)
                 return false;
+            if (state == RoutineState.Paused)
+                return true;
+            
+            state = RoutineState.Active;
             
             var moveNext = MoveNextInner();
-            isCompleted = !moveNext;
+            state = !moveNext ? RoutineState.Complete : RoutineState.Active;
 
             return moveNext;
+        }
+
+        public void Pause()
+        {
+            if (IsCompleted) return;
+            state = RoutineState.Paused;
+        }
+
+        public void Unpause()
+        {
+            if (IsCompleted) return;
+            state = RoutineState.Active;
         }
 
         public void Reset()
@@ -45,14 +71,11 @@
         public void Dispose()
         {
             awaiters.Clear();
+            awaiters.Despawn();
             rootEnumerator = null;
             Current = null;
-            isCompleted = true;
+            state = RoutineState.Complete;
         }
-
-        public IEnumerator Current { get; protected set; }
-
-        object IEnumerator.Current => Current;
 
         private bool MoveNextInner()
         {
@@ -92,7 +115,7 @@
         {
             rootEnumerator = enumerator;
             Current        = enumerator;
-            isCompleted    = false;
+            state    = RoutineState.Active;
             
             awaiters.Clear();
         }

@@ -3,41 +3,32 @@
 	using System.Collections.Generic;
 	using Interfaces;
 	using UniGreenModules.UniCore.Runtime.Common;
-	using UniGreenModules.UniCore.Runtime.DataStructure;
 	using UniGreenModules.UniCore.Runtime.Interfaces;
 	using UniGreenModules.UniCore.Runtime.ObjectPool;
 
 	public class UniRoutine : IUniRoutine
 	{
+		 
+		private List<RoutineItem> routines = new List<RoutineItem>(200);
+		private List<RoutineItem> bufferRoutines = new List<RoutineItem>(200);
 		
-		private List<UniRoutineTask> routines = new List<UniRoutineTask>();
-		private List<DisposableAction<int>> routineDisposable = new List<DisposableAction<int>>();
-		private Stack<int> unusedSlots = new Stack<int>();
-
 		public IDisposableItem AddRoutine(IEnumerator enumerator,bool moveNextImmediately = true) {
 
 			if (enumerator == null) return null;
 
 			//get routine from pool
-			var routine = ClassPool.Spawn<UniRoutineTask>();
-			var disposable = ClassPool.Spawn<DisposableAction<int>>();
-
-			routine.Initialize(enumerator,moveNextImmediately);
+			var routine = new UniRoutineTask(enumerator, moveNextImmediately);
+			var disposable = ClassPool.Spawn<DisposableAction>();
 
 			var slotIndex = routines.Count;
 			
-			if (unusedSlots.Count > 0) {
-				var index = unusedSlots.Pop();
-				routines[index] = routine;
-				routineDisposable[index] = disposable;
-				slotIndex = index;
-			}
-			else {			
-				routines.Add(routine);
-				routineDisposable.Add(disposable);
-			}
-
-			disposable.Initialize(ReleaseRoutine,slotIndex);
+			var routineItem = new RoutineItem() {
+				Disposable = disposable,
+				Task = routine
+			};
+			
+			routines.Add(routineItem);
+			disposable.Initialize(() => ReleaseRoutine(slotIndex));
 
 			return disposable;
 			
@@ -48,47 +39,35 @@
 		/// </summary>
 		public void Update() {
 
+			bufferRoutines.Clear();
+			
 			for (var i = 0; i < routines.Count; i++) {
 
 				//execute routine
 				var routine = routines[i];
-				
-				//if routine slot is empty skip it
-				if(routine == null)
-					continue;
-				
 				var moveNext = routine.MoveNext();
 
-				if (moveNext || routines[i] == null) {
+				//copy to buffer routine
+				if (moveNext) {
+					bufferRoutines.Add(routine);
 					continue;
 				}
-
-				//return routine task to pool
-				ReleaseRoutine(i);
 				
+				ReleaseRoutine(i);
 			}
 
+			var swapBuffer = bufferRoutines;
+			bufferRoutines = routines;
+			routines = swapBuffer;
+			
 		}
 
 		//stop routine and release resources
 		private void ReleaseRoutine(int index)
 		{
 			var routine = routines[index];
-			var disposable = routineDisposable[index];
-			
-			routines[index] = null;
-			routineDisposable[index] = null;
-			
-			//routine complete, return it to pool
-			routine.Dispose();
-			routine.Despawn();
-
-			//cleanup disposable data
-			disposable.Reset();
-			
-			//mark slot as empty
-			unusedSlots.Push(index);
-			
+			routine.Release();
+			routines[index] = routine;
 		}
 
 	}
