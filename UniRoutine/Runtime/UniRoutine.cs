@@ -1,4 +1,5 @@
 ﻿namespace UniTools.UniRoutine.Runtime {
+	
 	using System.Collections;
 	using System.Collections.Generic;
 	using Interfaces;
@@ -6,32 +7,26 @@
 	using UniGreenModules.UniCore.Runtime.Interfaces;
 	using UniGreenModules.UniCore.Runtime.ObjectPool;
 
-	public class UniRoutine : IUniRoutine
+	public class UniRoutine : IUniRoutine, IResetable
 	{
-		 
-		private List<RoutineItem> routines = new List<RoutineItem>(200);
-		private List<RoutineItem> bufferRoutines = new List<RoutineItem>(200);
+		private List<UniRoutineTask> routines = new List<UniRoutineTask>(200);
+		private List<UniRoutineTask> bufferRoutines = new List<UniRoutineTask>(200);
 		
 		public IDisposableItem AddRoutine(IEnumerator enumerator,bool moveNextImmediately = true) {
 
 			if (enumerator == null) return null;
 
-			//get routine from pool
-			var routine = new UniRoutineTask(enumerator, moveNextImmediately);
+			//create disposable token
 			var disposable = ClassPool.Spawn<DisposableAction>();
-
-			var slotIndex = routines.Count;
+			var routine = ClassPool.Spawn<UniRoutineTask>();
 			
-			var routineItem = new RoutineItem() {
-				Disposable = disposable,
-				Task = routine
-			};
-			
-			routines.Add(routineItem);
-			disposable.Initialize(() => ReleaseRoutine(slotIndex));
+			//get routine from pool
+			routine.Initialize(enumerator,disposable.Release, moveNextImmediately);
+			disposable.Initialize(routine.Release);
 
+			routines.Add(routine);
+			
 			return disposable;
-			
 		}
 
 		/// <summary>
@@ -42,7 +37,6 @@
 			bufferRoutines.Clear();
 			
 			for (var i = 0; i < routines.Count; i++) {
-
 				//execute routine
 				var routine = routines[i];
 				var moveNext = routine.MoveNext();
@@ -53,7 +47,7 @@
 					continue;
 				}
 				
-				ReleaseRoutine(i);
+				routine.Despawn();
 			}
 
 			var swapBuffer = bufferRoutines;
@@ -62,13 +56,16 @@
 			
 		}
 
-		//stop routine and release resources
-		private void ReleaseRoutine(int index)
+		public void Reset()
 		{
-			var routine = routines[index];
-			routine.Release();
-			routines[index] = routine;
+			for (var i = 0; i < routines.Count; i++) {
+				var routine = routines[i];
+				routine.Complete();
+				routine.Despawn();
+			}
+			
+			routines.Clear();
+			bufferRoutines.Clear();
 		}
-
 	}
 }

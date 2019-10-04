@@ -1,30 +1,37 @@
 ﻿namespace UniTools.UniRoutine.Runtime
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
-    using UniGreenModules.UniCore.Runtime.ObjectPool;
+    using UniGreenModules.UniCore.Runtime.ObjectPool.Interfaces;
 
-    public struct UniRoutineTask : IEnumerator<IEnumerator>
+    public class UniRoutineTask : IEnumerator<IEnumerator>, IPoolable
     {
-        private RoutineState state;
-        private IEnumerator rootEnumerator;
-        private Stack<IEnumerator> awaiters;
+        private Stack<IEnumerator> awaiters = new Stack<IEnumerator>();
 
+        private IEnumerator rootEnumerator;
+        private RoutineState state;
+        private Action onCompleteAction;
+        
         public bool IsCompleted => state == RoutineState.Complete;
         
         public IEnumerator Current { get; private set; }
 
         object IEnumerator.Current => Current;
 
-        public UniRoutineTask(IEnumerator enumerator,bool moveNextImmediately = false)
+        public void Initialize(
+            IEnumerator enumerator,
+            Action onComplete,
+            bool moveNextImmediately = false)
         {
-            state = RoutineState.None;
-            rootEnumerator = enumerator;
-            Current        = enumerator;
-            awaiters = ClassPool.Spawn<Stack<IEnumerator>>();
-            
-            SetupEnumerator(enumerator);
-            
+            Release();
+                        
+            rootEnumerator   = enumerator;
+            Current          = enumerator;
+            onCompleteAction = onComplete;
+
+            state          = RoutineState.None;
+
             if (moveNextImmediately)
             {
                 MoveNext();
@@ -37,15 +44,17 @@
         /// <returns>is iteration completed</returns>
         public bool MoveNext()
         {
-            if (state == RoutineState.Complete)
-                return false;
+            if (IsCompleted) return false;
+            
             if (state == RoutineState.Paused)
                 return true;
             
             state = RoutineState.Active;
             
             var moveNext = MoveNextInner();
-            state = !moveNext ? RoutineState.Complete : RoutineState.Active;
+            if (!moveNext) {
+                Complete();
+            }
 
             return moveNext;
         }
@@ -62,19 +71,33 @@
             state = RoutineState.Active;
         }
 
+        public void Complete()
+        {
+            if (IsCompleted) return;
+            state = RoutineState.Complete;
+            onCompleteAction?.Invoke();
+        }
+        
+        public void Release()
+        {
+            rootEnumerator = null;
+            Current        = null;
+            state          = RoutineState.Complete;
+            onCompleteAction = null;
+            awaiters.Clear();
+        }
+        
         public void Reset()
         {
-            rootEnumerator.Reset();
-            SetupEnumerator(rootEnumerator);
+            rootEnumerator?.Reset();
+            Current = rootEnumerator;
+            state = RoutineState.None;
+            awaiters.Clear();
         }
 
         public void Dispose()
         {
-            awaiters.Clear();
-            awaiters.Despawn();
-            rootEnumerator = null;
-            Current = null;
-            state = RoutineState.Complete;
+            Release();
         }
 
         private bool MoveNextInner()
@@ -111,14 +134,6 @@
             return true;
         }
 
-        private void SetupEnumerator(IEnumerator enumerator)
-        {
-            rootEnumerator = enumerator;
-            Current        = enumerator;
-            state    = RoutineState.Active;
-            
-            awaiters.Clear();
-        }
     }
 
 }

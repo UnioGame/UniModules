@@ -2,6 +2,7 @@
 
 namespace UniGreenModules.UniRoutine.Tests
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
@@ -27,21 +28,50 @@ namespace UniGreenModules.UniRoutine.Tests
             //arrange
             var items = new List<float>();
             var count = 3;
-            var delay = 0.5f;
+            var delay = 0.1f;
             var enumerator = AddListByTime(items,count,delay);
             
             //act
-            var routine = enumerator.RunWithSubRoutines();
+            var routine = enumerator.ExecuteRoutine(RoutineType.Update,true);
             
-            while (routine.IsDisposed == false) {
-                yield return null;
-            }
+            yield return new WaitForSeconds(1);
 
             var timePassed = items.Sum();
             Debug.Log($"TimeRoutineTest TIME PASSED : {timePassed}");
             
             //assert
             Assert.That(timePassed > ( count * delay));
+            
+        }
+        
+        [UnityTest]
+        public IEnumerator RevertOrderDisposeRoutineTest()
+        {
+            //arrange
+            var counter      = new List<int>(){0};
+            var count      = 3;
+            var itemsCount = 20;
+            var disposable = new List<IDisposable>();
+            
+            //act
+            for (var i = 0; i < itemsCount; i++) {
+                var routineDisposable = this.OnUpdate(x => {
+                                                          counter[0]++;
+                                                          return true;
+                                                      }).ExecuteRoutine();
+                disposable.Add(routineDisposable);
+            }
+
+            yield return null;
+            yield return null;
+
+            for (int i = itemsCount-1; i >= 0; i--) {
+                var itemDisposable = disposable[i];
+                itemDisposable.Dispose();
+            }
+
+            //assert
+            Assert.That(counter[0] == (itemsCount * 2));
             
         }
         
