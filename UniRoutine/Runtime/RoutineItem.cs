@@ -1,6 +1,7 @@
 namespace UniTools.UniRoutine.Runtime
 {
     using UniGreenModules.UniCore.Runtime.Common;
+    using UniGreenModules.UniCore.Runtime.Extension;
 
     public struct RoutineItem
     {
@@ -15,8 +16,7 @@ namespace UniTools.UniRoutine.Runtime
         public void Release()
         {
             Task.Dispose();
-            Disposable.Release();
-            Disposable = null;
+            Disposable.Cancel();
         }
     }
 }
