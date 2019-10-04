@@ -1,6 +1,7 @@
 ﻿namespace UniGreenModules.UniUiNodes.Editor
 {
     using Runtime;
+    using Runtime.Interfaces;
     using Runtime.UiData;
     using UniNodeSystem.Inspector.Editor.BaseEditor;
     using UniNodeSystem.Inspector.Editor.Nodes;
@@ -17,14 +18,14 @@
         public override void OnBodyGUI()
         {           
             var uiNode = target as UniUiNode;
-            _moduleView = uiNode.resource.editorAsset as UiModule;
+            _moduleView = uiNode.resource.editorAsset.GetComponent<UiModule>();
 
             base.OnBodyGUI();
 
             var isChanged = DrawUiNode(uiNode);
             if (isChanged)
             {
-                UpdateUiData(uiNode,uiNode.resource.editorAsset as UiModule);
+                UpdateUiData(uiNode,uiNode.resource.editorAsset.GetComponent<UiModule>());
             }
             
             EditorUtility.SetDirty(uiNode.graph.gameObject);
@@ -35,7 +36,7 @@
         {
             
             var uiNode = node as UniUiNode;
-            var view = uiNode.resource.editorAsset as UiModule;
+            var view = uiNode.resource.editorAsset.GetComponent<UiModule>();
             if (!Validate(view))
             {
                 UpdateUiData(uiNode,view);
