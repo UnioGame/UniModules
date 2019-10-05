@@ -30,7 +30,7 @@
             Current          = enumerator;
             onCompleteAction = onComplete;
 
-            state          = RoutineState.None;
+            state          = RoutineState.Active;
 
             if (moveNextImmediately)
             {
@@ -48,9 +48,7 @@
             
             if (state == RoutineState.Paused)
                 return true;
-            
-            state = RoutineState.Active;
-            
+
             var moveNext = MoveNextInner();
             if (!moveNext) {
                 Complete();
@@ -81,7 +79,6 @@
         public void Release()
         {
             rootEnumerator = null;
-            Current        = null;
             state          = RoutineState.Complete;
             onCompleteAction = null;
             awaiters.Clear();
@@ -124,7 +121,7 @@
 
             while (moveNext && Current.Current is IEnumerator awaiter)
             {
-                //add new inner ienumerator to stack
+                //add new inner enumerator to stack
                 awaiters.Push(Current);
                 Current = awaiter;
                 //for new root enumerator calculate first step
@@ -133,7 +130,7 @@
 
             return true;
         }
-
+        
     }
 
 }

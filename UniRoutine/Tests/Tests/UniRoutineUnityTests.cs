@@ -7,7 +7,10 @@ namespace UniGreenModules.UniRoutine.Tests
     using System.Collections.Generic;
     using System.Linq;
     using NUnit.Framework;
+    using UniCore.Runtime.DataFlow;
+    using UniCore.Runtime.Extension;
     using UniCore.Runtime.Interfaces;
+    using UniRx;
     using UnityEngine.TestTools;
     using UniTools.UniRoutine.Runtime;
     using UniTools.UniRoutine.Runtime.Extension;
@@ -45,6 +48,77 @@ namespace UniGreenModules.UniRoutine.Tests
         }
         
         [UnityTest]
+        public IEnumerator UpdateDisposeRoutineTest()
+        {
+            //arrange
+            var counter    = new List<int>(){0};
+            var count      = 3;
+            var itemsCount = 20;
+            var disposable = new List<IDisposable>();
+            
+            //act
+            for (var i = 0; i < itemsCount; i++) {
+                var routineDisposable = this.OnUpdate(x => {
+                                                          counter[0]++;
+                                                          return true;
+                                                      }).ExecuteRoutine();
+                disposable.Add(routineDisposable);
+            }
+
+            yield return null;
+            yield return null;
+
+            var postDisposable = new LifeTime();
+            for (int i = 10; i < disposable.Count; i++) {
+                var itemDisposable = disposable[i];
+                itemDisposable.Dispose();
+                this.OnUpdate(
+                    x => {
+                        counter[0]++;
+                        return true;
+                    }).ExecuteRoutine().AddTo(postDisposable);
+            }
+            
+            yield return null;
+            
+            postDisposable.Release();
+            //assert
+            Assert.That(counter[0] == (itemsCount * 3));
+            
+        }
+        
+        [UnityTest]
+        public IEnumerator OrderedDisposeRoutineTest()
+        {
+            //arrange
+            var counter    = new List<int>(){0};
+            var count      = 3;
+            var itemsCount = 20;
+            var disposable = new List<IDisposable>();
+            
+            //act
+            for (var i = 0; i < itemsCount; i++) {
+                var routineDisposable = this.OnUpdate(x => {
+                                                          counter[0]++;
+                                                          return true;
+                                                      }).ExecuteRoutine();
+                disposable.Add(routineDisposable);
+            }
+
+            yield return null;
+            yield return null;
+
+            for (int i = 0; i < disposable.Count; i++) {
+                var itemDisposable = disposable[i];
+                itemDisposable.Dispose();
+            }
+            yield return null;
+            //assert
+            Assert.That(counter[0] == (itemsCount * 2));
+            
+        }
+        
+        [UnityTest]
         public IEnumerator RevertOrderDisposeRoutineTest()
         {
             //arrange
@@ -69,7 +143,9 @@ namespace UniGreenModules.UniRoutine.Tests
                 var itemDisposable = disposable[i];
                 itemDisposable.Dispose();
             }
-
+            
+            yield return null;
+            
             //assert
             Assert.That(counter[0] == (itemsCount * 2));
             
@@ -85,12 +161,12 @@ namespace UniGreenModules.UniRoutine.Tests
             IDisposableItem disposableItem = null;
             
             //act
-            var routine = this.WaitUntil(() => {
+            var routine = RoutineExtension.WaitUntil(this, () => {
                 OnFixedUpdateCounterFunc(counter);
                 if (disposableItem == null)
                     return false;
                 
-                disposableItem.Dispose();
+                disposableItem.Cancel();
                 Debug.Log($"FixedUpdateRoutineTest AFTER DISPOSE");
                 return true;
             });

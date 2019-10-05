@@ -22,7 +22,7 @@
 			
 			//get routine from pool
 			routine.Initialize(enumerator,disposable.Release, moveNextImmediately);
-			disposable.Initialize(routine.Release);
+			disposable.Initialize(routine.Complete);
 
 			routines.Add(routine);
 			
