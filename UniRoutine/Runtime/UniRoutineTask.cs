@@ -10,7 +10,7 @@
         private Stack<IEnumerator> awaiters = new Stack<IEnumerator>();
 
         private IEnumerator rootEnumerator;
-        private RoutineState state;
+        private RoutineState state = RoutineState.Complete;
         private Action onCompleteAction;
         
         public bool IsCompleted => state == RoutineState.Complete;

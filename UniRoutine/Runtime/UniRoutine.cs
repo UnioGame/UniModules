@@ -6,6 +6,7 @@
 	using UniGreenModules.UniCore.Runtime.Common;
 	using UniGreenModules.UniCore.Runtime.Interfaces;
 	using UniGreenModules.UniCore.Runtime.ObjectPool;
+	using UniGreenModules.UniCore.Runtime.ProfilerTools;
 
 	public class UniRoutine : IUniRoutine, IResetable
 	{

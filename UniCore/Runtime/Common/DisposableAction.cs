@@ -7,8 +7,8 @@
     public class DisposableAction : IDisposableItem
     {
         private Action _onDisposed;
-    
-        public bool IsDisposed { get; protected set; }
+
+        public bool IsDisposed { get; protected set; } = true;
     
         public void Initialize(Action action)
         {
