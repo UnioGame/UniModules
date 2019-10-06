@@ -20,6 +20,16 @@
 			//create disposable token
 			var disposable = ClassPool.Spawn<DisposableAction>();
 			var routine = ClassPool.Spawn<UniRoutineTask>();
+
+#if UNITY_EDITOR
+			if (routine.IsCompleted == false) {
+				GameLog.LogError("ROUTINE: routine task is not completed");
+			}
+			
+			if (disposable.IsDisposed == false) {
+				GameLog.LogError("ROUTINE: disposable is not completed");
+			}	
+#endif
 			
 			//get routine from pool
 			routine.Initialize(enumerator,disposable.Release, moveNextImmediately);

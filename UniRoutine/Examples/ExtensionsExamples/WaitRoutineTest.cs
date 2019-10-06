@@ -23,6 +23,8 @@ namespace UniGreenModules.UniRoutine.Examples.ExtensionsExamples
         public int count = 100;
 
         private int activeCounter;
+        
+        private List<int> types = new List<int>() { 0,2,4 };
         private List<SimulationItem> disposables = new List<SimulationItem>();
         
         // Start is called before the first frame update
@@ -64,11 +66,13 @@ namespace UniGreenModules.UniRoutine.Examples.ExtensionsExamples
             Debug.Log($"DISPOSE {routine.Name} ROUTINE: Dispose ID {routine.Id}");
         }
 
+        
         private void StartRoutine()
         {
             var id = activeCounter++;
             var methodName = string.Empty;
-            var type = Random.Range(0, 5);
+            var type = types[Random.Range(0, types.Count)];
+            
             IDisposable disposable = null;
             switch (type) {
                 case 0:
