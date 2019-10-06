@@ -263,6 +263,12 @@ namespace UniModule.UnityTools.EditorTools
         {
             
             var targetType = typeof(T);
+            return GetAssets<T>(targetType, folders);
+
+        }
+        
+        public static List<T> GetAssets<T>(Type targetType,string[] folders = null) where T : Object
+        {
             if (IsComponent(targetType))
             {
                 var components = GetComponentAssets<T>(folders);
@@ -270,7 +276,6 @@ namespace UniModule.UnityTools.EditorTools
             }
             var items = GetAssets(targetType, folders);
             return items.OfType<T>().ToList();
-
         }
 
         public static List<T> GetComponentAssets<T>(string[] folders = null) where T : Object
