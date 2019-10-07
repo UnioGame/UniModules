@@ -13,6 +13,8 @@ namespace UniGreenModules.UniCore.Runtime.ObjectPool.Examples.SpawnDemo
     
         public List<Object> SpawnItems = new List<Object>();
         public List<Transform> SpawnComponents = new List<Transform>();
+
+        public Transform childItem;
         
         public int Count;
 
@@ -25,6 +27,9 @@ namespace UniGreenModules.UniCore.Runtime.ObjectPool.Examples.SpawnDemo
             foreach (var spawnItem in SpawnItems) {
                 ObjectPool.CreatePool(spawnItem, Count);
             }
+
+            var item = childItem.Spawn(Vector3.one, Quaternion.identity, transform);
+            item.gameObject.SetActive(true);
         }
 
         // Update is called once per frame

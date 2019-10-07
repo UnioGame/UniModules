@@ -215,7 +215,6 @@
         {
             if (!Asset)
             {
-
                 Debug.LogError("Attempting to spawn null");
                 return null;
             }
@@ -340,8 +339,8 @@
             Quaternion rotation, Transform parent, bool stayWorldPosition = false)
         {
             var transform = target.transform;
-            transform.position = position;
-            transform.rotation = rotation;
+            transform.localPosition = position;
+            transform.localRotation = rotation;
             
             if(transform.parent != parent)
                 transform.SetParent(parent, stayWorldPosition);

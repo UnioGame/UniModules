@@ -319,7 +319,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1516295898}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 10, y: 10, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -345,5 +345,7 @@ MonoBehaviour:
   - {fileID: 1508713614757003525, guid: 4339a398672b8374db9fc916bc12b0d4, type: 3}
   SpawnComponents:
   - {fileID: 4383187170673936875, guid: 89a1fa90ca07df54ba0d148863839cf5, type: 3}
-  Count: 100
+  childItem: {fileID: 3260447855027435491, guid: 4339a398672b8374db9fc916bc12b0d4,
+    type: 3}
+  Count: 10
   Delay: 3

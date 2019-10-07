@@ -4,19 +4,19 @@
   "displayName": "GBG UniNode System Game Flow Nodes",
   "description": "Game Flow Nodes",
   "unity": "2019.1",
-  "version": "0.0.37",
+  "version": "0.0.39",
   "keywords": [
     "nodes"
   ],
   "dependencies": {
     "com.greenbuttongames.neuecc.unirx": "7.1.0",
     "com.greenbuttongames.neuecc.unirx.async": "1.2.0",
-    "com.greenbuttongames.unicore": "1.2.23",
-    "com.greenbuttongames.contextdata": "1.1.25",
-    "com.greenbuttongames.uniroutine": "1.2.11",
-    "com.greenbuttongames.resourcesystem": "1.0.146",
-    "com.greenbuttongames.unistatemachine": "1.1.33",
-    "com.greenbuttongames.nodesystem": "1.1.43",
-    "com.greenbuttongames.nodesystem.commonnodes": "1.0.174"
+    "com.greenbuttongames.unicore": "1.2.25",
+    "com.greenbuttongames.contextdata": "1.1.27",
+    "com.greenbuttongames.uniroutine": "1.2.13",
+    "com.greenbuttongames.resourcesystem": "1.0.148",
+    "com.greenbuttongames.unistatemachine": "1.1.35",
+    "com.greenbuttongames.nodesystem": "1.1.45",
+    "com.greenbuttongames.nodesystem.commonnodes": "1.0.176"
   }
 }
