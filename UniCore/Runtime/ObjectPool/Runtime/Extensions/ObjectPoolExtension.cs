@@ -58,17 +58,8 @@
             var pawn = ObjectPool.Spawn(prototype, position, rotation, parent, stayWorldPosition);
             return pawn;
         }
-
-        public static T Spawn<T>(this GameObject prototype, Transform parent = null, bool stayWorldPosition = false)
-            where T : Object
-        {
-            if (!prototype) return null;
-            var pawn = ObjectPool.Spawn<T>(prototype.GetComponent<T>(), Vector3.zero, Quaternion.identity,
-                                        parent, stayWorldPosition);
-            return pawn;
-        }
-
-        public static T Spawn<T>(this Object prototype, Transform parent = null, bool stayWorldPosition = false)
+        
+        public static T Spawn<T>(this T prototype, Transform parent = null, bool stayWorldPosition = false)
             where T : Object
         {
             if (!prototype) return null;
