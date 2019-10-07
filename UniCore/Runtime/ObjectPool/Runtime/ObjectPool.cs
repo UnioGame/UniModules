@@ -57,14 +57,19 @@
         public static T Spawn<T>(Object target, Vector3 position, Quaternion rotation, Transform parent = null,bool stayWorld = false)
             where T : Object
         {
+            var isComponent = target is Component;
             // Clone this prefabs's GameObject
-            var asset = target ? (target is Component targetComponent) ? 
-                    (Object)targetComponent.gameObject : target : target;
+            var asset = target ? isComponent ? 
+                    ((Component)target).gameObject : target : target;
             
             var clone = Spawn(asset, position, rotation, parent, stayWorld, 0);
 
+            if (isComponent && clone is GameObject gameAsset) {
+                return gameAsset.GetComponent<T>();
+            }
+            
             // Return the same component from the clone
-            return clone is Component assetComponent ? assetComponent.GetComponent<T>() : clone as T;
+            return clone as T;
         }
 
         // These methods allows you to spawn prefabs via GameObject with varying levels of transform data
