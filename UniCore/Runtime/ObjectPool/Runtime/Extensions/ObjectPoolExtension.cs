@@ -18,12 +18,20 @@
             return pawn;
         }
 
-        public static TComponent Spawn<TComponent>(this TComponent prototype, Vector3 position,
-            Quaternion rotation, Transform parent = null, bool stayWorldPosition = false)
-            where TComponent : Component
+        public static T Spawn<T>(this T prototype)
+            where T : Object
         {
             if (!prototype) return null;
-            var pawn = ObjectPool.Spawn<TComponent>(prototype, position, rotation, parent, stayWorldPosition);
+            var pawn = ObjectPool.Spawn<T>(prototype, Vector3.zero, Quaternion.identity, null, false);
+            return pawn;
+        }
+        
+        public static T Spawn<T>(this T prototype, Vector3 position,
+            Quaternion rotation, Transform parent = null, bool stayWorldPosition = false)
+            where T : Object
+        {
+            if (!prototype) return null;
+            var pawn = ObjectPool.Spawn<T>(prototype, position, rotation, parent, stayWorldPosition);
             return pawn;
         }
 
@@ -76,7 +84,7 @@
             return item ?? new T();
         }
 
-        public static void DespawnGameObject(this GameObject instance, bool destroy = false)
+        public static void DespawnAsset(this Object instance, bool destroy = false)
         {
             if (destroy)
             {
@@ -103,21 +111,19 @@
             if (data == null) return;
 
             GameProfiler.BeginSample("PoolExtension_Despawn");
-            
-            var component = data as Component;
-            if (component != null)
-            {
-                DespawnComponent(component, destroy);
+
+            switch (data) {
+                case Component target :
+                    DespawnComponent(target, destroy);
+                    break;
+                case Object target:
+                    DespawnAsset(target, destroy);
+                    break;
+                default:
+                    ClassPool.Despawn(data);
+                    break;
             }
-            else if (data is GameObject gameObject)
-            {
-                DespawnGameObject(gameObject, destroy);
-            }
-            else
-            {
-                ClassPool.Despawn(data);
-            }
-            
+
             GameProfiler.EndSample();
             
         }

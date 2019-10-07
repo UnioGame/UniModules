@@ -14,14 +14,14 @@
         // All the currently active pools in the scene
         public static List<ObjectPool> AllPools = new List<ObjectPool>();
         // The reference between a spawned GameObject and its pool
-        public static Dictionary<GameObject, ObjectPool> AllLinks = new Dictionary<GameObject, ObjectPool>();
+        public static Dictionary<Object, ObjectPool> AllLinks = new Dictionary<Object, ObjectPool>();
         // The reference between a spawned GameObject and its pool
-        public static Dictionary<GameObject, ObjectPool> AllReleasedLinks = new Dictionary<GameObject, ObjectPool>();
+        public static Dictionary<Object, ObjectPool> AllReleasedLinks = new Dictionary<Object, ObjectPool>();
         //The reference between a spawned source GameObject and its pool
         public static Dictionary<Object, ObjectPool> AllSourceLinks = new Dictionary<Object, ObjectPool>();
 
         [Tooltip("The prefab the clones will be based on")]
-        public GameObject Prefab;
+        public Object Asset;
 
         [Tooltip("Should this pool preload some clones?")]
         public int Preload;
@@ -30,16 +30,16 @@
         public int Capacity;
 
         // All the currently cached prefab instances
-        private Stack<GameObject> cache = new Stack<GameObject>();
+        private Stack<Object> cache = new Stack<Object>();
 
         // The total amount of created prefabs
         private int total;
 
         // These methods allows you to spawn prefabs via Component with varying levels of transform data
-        public static T Spawn<T>(T prefab)
-            where T : Component
+        public static T Spawn<T>(Object asset)
+            where T : Object
         {
-            return Spawn(prefab, Vector3.zero, Quaternion.identity, null,false);
+            return Spawn(asset, Vector3.zero, Quaternion.identity, null,false) as T;
         }
 
         public static T Spawn<T>(GameObject prefab)
@@ -52,37 +52,40 @@
             }
             return result;
         }
+        
 
-        public static T Spawn<T>(T prefab, Vector3 position, Quaternion rotation, Transform parent = null,bool stayWorld = false)
-            where T : Component
+        public static T Spawn<T>(T target, Vector3 position, Quaternion rotation, Transform parent = null,bool stayWorld = false)
+            where T : Object
         {
             // Clone this prefabs's GameObject
-            var gameObject = prefab != null ? prefab.gameObject : null;
-            var clone = Spawn(gameObject, position, rotation, parent, stayWorld, 0);
+            var asset = target ? (target is Component targetComponent) ? 
+                    (Object)targetComponent.gameObject : target : target;
+            
+            var clone = Spawn(asset, position, rotation, parent, stayWorld, 0);
 
             // Return the same component from the clone
-            return clone != null ? clone.GetComponent<T>() : null;
+            return clone is Component assetComponent ? assetComponent.GetComponent<T>() : clone as T;
         }
 
         // These methods allows you to spawn prefabs via GameObject with varying levels of transform data
         public static GameObject Spawn(GameObject prefab)
         {
-            return Spawn(prefab, Vector3.zero, Quaternion.identity, null,false, 0);
+            return Spawn(prefab, Vector3.zero, Quaternion.identity, null,false, 0) as GameObject;
         }
 
         public static GameObject Spawn(GameObject prefab, Vector3 position, Quaternion rotation,bool stayWorld = false)
         {
-            return Spawn(prefab, position, rotation, null, stayWorld, 0);
+            return Spawn(prefab, position, rotation, null, stayWorld, 0) as GameObject;
         }
 
         public static GameObject Spawn(GameObject prefab, Vector3 position, Quaternion rotation, Transform parent,bool stayWorld)
         {
-            return Spawn(prefab, position, rotation, parent, stayWorld, 0);
+            return Spawn(prefab, position, rotation, parent, stayWorld, 0) as GameObject;
         }
 
-        public static GameObject Spawn(GameObject prefab, Vector3 position, Quaternion rotation, Transform parent,bool stayWorld, int preload)
+        public static Object Spawn(Object prefab, Vector3 position, Quaternion rotation, Transform parent,bool stayWorld, int preload)
         {
-            if (prefab == null)
+            if (!prefab)
             {
                 Debug.LogError("Attempting to spawn a null prefab");
                 return null;
@@ -103,20 +106,17 @@
             AllLinks.Add(clone, pool);
             AllReleasedLinks.Remove(clone);
             // Return the clone
-            return clone.gameObject;
+            return clone;
         }
 
 
         public static ObjectPool CreatePool(Object targetPrefab, int preloads = 0)
         {
-            var component = targetPrefab as Component;
-            var prefab = component ? component.gameObject : targetPrefab as GameObject;
-
-            if (!prefab) return null;
+            if (!targetPrefab) return null;
 
             ObjectPool pool;
             // Find the pool that handles this prefab
-            if (AllSourceLinks.TryGetValue(prefab, out pool))
+            if (AllSourceLinks.TryGetValue(targetPrefab, out pool))
             {
                 var preloadCount = preloads - pool.Cached;
                 for (int i = 0; i < preloadCount; i++)
@@ -131,14 +131,15 @@
                 _poolsRoot = new GameObject("PoolsRootObject");
             }
             // Create a new pool for this prefab?
-            pool = new GameObject(prefab.name).AddComponent<ObjectPool>();
-            pool.Prefab = prefab;
+            pool = new GameObject(targetPrefab.name).AddComponent<ObjectPool>();
+            pool.Asset = targetPrefab;
             pool.transform.SetParent(_poolsRoot.transform,false);
-            AllSourceLinks.Add(prefab, pool);
+            AllSourceLinks.Add(targetPrefab, pool);
             if (preloads <= 0) return pool;
             pool.Preload = preloads;
             pool.UpdatePreload();
             return pool;
+            
         }
 
 
@@ -153,7 +154,7 @@
         }
 
         // This allows you to despawn a clone via GameObject, with optional delay
-        public static void Despawn(GameObject clone)
+        public static void Despawn(Object clone)
         {
             if (clone)
             {
@@ -205,9 +206,9 @@
         }
 
         // This will return a clone from the cache, or create a new instance
-        public GameObject FastSpawn(Vector3 position, Quaternion rotation, Transform parent = null,bool stayWorld = false)
+        public Object FastSpawn(Vector3 position, Quaternion rotation, Transform parent = null,bool stayWorld = false)
         {
-            if (!Prefab)
+            if (!Asset)
             {
 
                 Debug.LogError("Attempting to spawn null");
@@ -225,12 +226,9 @@
                 }
 
                 GameProfiler.BeginSample("ObjectPool.FastSpawn");
-                // Execute transform of clone
-                var cloneTransform = clone.transform;
-                cloneTransform.localPosition = position;
-                cloneTransform.localRotation = rotation;
-                if(parent && cloneTransform!= parent)
-                    cloneTransform.SetParent(parent, stayWorld);
+
+                ApplyGameObjectProperties(clone, position, rotation, parent, stayWorld);
+
                 GameProfiler.EndSample();
 
                 return clone;
@@ -247,32 +245,29 @@
         }
 
         // This will despawn a clone and add it to the cache
-        public void FastDespawn(GameObject clone)
+        public void FastDespawn(Object clone)
         {
             if (!clone) return;
             // Add it to the cache
             cache.Push(clone);
 
-            // Hide it
-            clone.SetActive(false);
-
-            // Move it under this GO
-            clone.transform.SetParent(transform, false);
+            if (clone is GameObject targetObject) {
+                // Hide it
+                targetObject.SetActive(false);
+                // Move it under this GO
+                if(targetObject.transform.parent != null) targetObject.transform.SetParent(transform, false);
+            }
         }
 
         // This allows you to make another clone and add it to the cache
         public void FastPreload()
         {
-            if (!Prefab) return;
+            if (!Asset) return;
             // Create clone
             var clone = FastClone(Vector3.zero, Quaternion.identity, null);
 
             // Add it to the cache
             cache.Push(clone);
-
-            // Hide it
-            clone.SetActive(false);
-
         }
 
         // Execute preloaded count
@@ -291,7 +286,7 @@
         protected virtual void OnDisable()
         {
             AllPools.Remove(this);
-            AllSourceLinks.Remove(Prefab);
+            AllSourceLinks.Remove(Asset);
         }
 
         private void OnDestroy()
@@ -302,36 +297,60 @@
         // Makes sure the right amount of prefabs have been preloaded
         public void UpdatePreload()
         {
-            if (Prefab == null) return;
+            if (Asset == null) return;
             for (var i = total; i < Preload; i++)
             {
                 FastPreload();
             }
         }
 
-
-        // Returns a clone of the prefab and increments the total
-        // NOTE: Prefab is assumed to exist
-        private GameObject FastClone(Vector3 position, Quaternion rotation, Transform parent,bool stayWorldPosition = false)
+        private Object FastClone(Vector3 position, Quaternion rotation, Transform parent,bool stayWorldPosition = false)
         {
             GameProfiler.BeginSample("LeanPool.FastClone");
-            var clone = (GameObject)Instantiate(Prefab, position, rotation);
-
+            if (!Asset) return null;
+            
+            var clone = Instantiate(Asset);
             total += 1;
-
-            if(clone.transform != parent)
-                clone.transform.SetParent(parent, stayWorldPosition);
 
             GameProfiler.EndSample();
 
             return clone;
         }
 
+        public static void ApplyGameObjectProperties(
+            Object target,   Vector3   position,
+            Quaternion rotation, Transform parent, bool stayWorldPosition = false)
+        {
+            switch (target) {
+                case Component componentTarget:
+                    ApplyGameObjectProperties(componentTarget.gameObject, position, rotation, parent, stayWorldPosition);
+                    break;
+                case GameObject gameObjectTarget:
+                    ApplyGameObjectProperties(gameObjectTarget, position, rotation, parent, stayWorldPosition);
+                    break;
+            }
+        }
+
+        public static void ApplyGameObjectProperties(GameObject target,Vector3 position,
+            Quaternion rotation, Transform parent, bool stayWorldPosition = false)
+        {
+            var transform = target.transform;
+            transform.position = position;
+            transform.rotation = rotation;
+            
+            if(transform.parent != parent)
+                transform.SetParent(parent, stayWorldPosition);
+            
+            // Hide it
+            target.SetActive(false);
+
+        }
+        
         public static string GetPrefabName(GameObject effect)
         {
             ObjectPool pool;
             if (AllLinks.TryGetValue(effect, out pool))
-                return pool.Prefab.name;
+                return pool.Asset.name;
 
             return null;
         }
