@@ -136,7 +136,7 @@
         private UiModule CreateView(UiModule source)
         {
             //todo add cached version from global manager
-            var uiView = ObjectPool.Spawn(source, options.Position,
+            var uiView = ObjectPool.Spawn<UiModule>(source, options.Position,
                 Quaternion.identity, options.Parent, options.StayAtWorld);
 
             //bind main view to input data

@@ -59,20 +59,20 @@
             return pawn;
         }
 
-        public static TComponent Spawn<TComponent>(this GameObject prototype, Transform parent = null, bool stayWorldPosition = false)
-            where TComponent : Component
+        public static T Spawn<T>(this GameObject prototype, Transform parent = null, bool stayWorldPosition = false)
+            where T : Object
         {
             if (!prototype) return null;
-            var pawn = ObjectPool.Spawn<TComponent>(prototype.GetComponent<TComponent>(), Vector3.zero, Quaternion.identity,
+            var pawn = ObjectPool.Spawn<T>(prototype.GetComponent<T>(), Vector3.zero, Quaternion.identity,
                                         parent, stayWorldPosition);
             return pawn;
         }
 
-        public static TComponent Spawn<TComponent>(this TComponent prototype, Transform parent = null, bool stayWorldPosition = false)
-            where TComponent : Component
+        public static T Spawn<T>(this Object prototype, Transform parent = null, bool stayWorldPosition = false)
+            where T : Object
         {
             if (!prototype) return null;
-            var pawn = ObjectPool.Spawn<TComponent>(prototype, Vector3.zero, Quaternion.identity,
+            var pawn = ObjectPool.Spawn<T>(prototype, Vector3.zero, Quaternion.identity,
                 parent, stayWorldPosition);
             return pawn;
         }

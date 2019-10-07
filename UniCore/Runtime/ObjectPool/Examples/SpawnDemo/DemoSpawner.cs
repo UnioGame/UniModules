@@ -12,7 +12,8 @@ namespace UniGreenModules.UniCore.Runtime.ObjectPool.Examples.SpawnDemo
         private Dictionary<Object,List<Object>> items      = new Dictionary<Object, List<Object>>();
     
         public List<Object> SpawnItems = new List<Object>();
-
+        public List<Transform> SpawnComponents = new List<Transform>();
+        
         public int Count;
 
         public float Delay;
@@ -35,23 +36,8 @@ namespace UniGreenModules.UniCore.Runtime.ObjectPool.Examples.SpawnDemo
             timer = 0;
 
             if (spawnState) {
-                foreach (var item in SpawnItems) {
-
-                    if (!items.TryGetValue(item, out var spawned)) {
-                        spawned     = new List<Object>();
-                        items[item] = spawned;
-                    }
-
-                    for (int i = 0; i < Count; i++) {
-                        var spawnedItem = item.Spawn();
-                        if(spawnedItem is Component component)
-                            component.gameObject.SetActive(true);
-                        if(spawnedItem is GameObject assetObject)
-                            assetObject.SetActive(true);
-                        
-                        spawned.Add(spawnedItem);
-                    }
-                }
+                Spawn<Object>(SpawnItems);
+                Spawn<Transform>(SpawnComponents);
             }
             else {
 
@@ -67,6 +53,28 @@ namespace UniGreenModules.UniCore.Runtime.ObjectPool.Examples.SpawnDemo
         
             spawnState = !spawnState;
 
+        }
+
+        private void Spawn<T>(List<T> targetItems)
+            where T : Object
+        {
+            foreach (var item in targetItems) {
+
+                if (!items.TryGetValue(item, out var spawned)) {
+                    spawned     = new List<Object>();
+                    items[item] = spawned;
+                }
+
+                for (int i = 0; i < Count; i++) {
+                    var spawnedItem = item.Spawn<T>();
+                    if(spawnedItem is Component component)
+                        component.gameObject.SetActive(true);
+                    if(spawnedItem is GameObject assetObject)
+                        assetObject.SetActive(true);
+                        
+                    spawned.Add(spawnedItem);
+                }
+            }
         }
     }
 }

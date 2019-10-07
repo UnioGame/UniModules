@@ -343,5 +343,7 @@ MonoBehaviour:
   - {fileID: 340755927953940582, guid: f3e4ad2a97de18e498764992135bc177, type: 3}
   - {fileID: 4029587351979462174, guid: 759ca237de61b574796bf4404b566777, type: 3}
   - {fileID: 1508713614757003525, guid: 4339a398672b8374db9fc916bc12b0d4, type: 3}
+  SpawnComponents:
+  - {fileID: 4383187170673936875, guid: 89a1fa90ca07df54ba0d148863839cf5, type: 3}
   Count: 100
   Delay: 3

@@ -39,7 +39,7 @@
         public static T Spawn<T>(Object asset)
             where T : Object
         {
-            return Spawn(asset, Vector3.zero, Quaternion.identity, null,false) as T;
+            return Spawn<T>(asset, Vector3.zero, Quaternion.identity, null,false) as T;
         }
 
         public static T Spawn<T>(GameObject prefab)
@@ -54,7 +54,7 @@
         }
         
 
-        public static T Spawn<T>(T target, Vector3 position, Quaternion rotation, Transform parent = null,bool stayWorld = false)
+        public static T Spawn<T>(Object target, Vector3 position, Quaternion rotation, Transform parent = null,bool stayWorld = false)
             where T : Object
         {
             // Clone this prefabs's GameObject
