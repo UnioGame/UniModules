@@ -63,6 +63,8 @@ namespace UniGreenModules.UniCore.Runtime.ObjectPool.Examples.SpawnDemo
         private void Spawn<T>(List<T> targetItems)
             where T : Object
         {
+            var counterItem = 0;
+            
             foreach (var item in targetItems) {
 
                 if (!items.TryGetValue(item, out var spawned)) {
@@ -71,7 +73,7 @@ namespace UniGreenModules.UniCore.Runtime.ObjectPool.Examples.SpawnDemo
                 }
 
                 for (int i = 0; i < Count; i++) {
-                    var spawnedItem = item.Spawn<T>();
+                    var spawnedItem = item.Spawn<T>(new Vector3(i,counterItem,0),Quaternion.identity);
                     if(spawnedItem is Component component)
                         component.gameObject.SetActive(true);
                     if(spawnedItem is GameObject assetObject)
@@ -79,6 +81,8 @@ namespace UniGreenModules.UniCore.Runtime.ObjectPool.Examples.SpawnDemo
                         
                     spawned.Add(spawnedItem);
                 }
+
+                counterItem++;
             }
         }
     }

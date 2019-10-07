@@ -241,7 +241,7 @@
             // Make a new clone?
             if (Capacity <= 0 || total < Capacity)
             {
-                var clone = FastClone(position, rotation, parent);
+                var clone = FastClone(position, rotation, parent,stayWorld);
                 return clone;
             }
 
@@ -314,6 +314,9 @@
             if (!Asset) return null;
             
             var clone = Instantiate(Asset);
+            
+            ApplyGameObjectProperties(clone, position, rotation, parent, stayWorldPosition);
+            
             total += 1;
 
             GameProfiler.EndSample();
