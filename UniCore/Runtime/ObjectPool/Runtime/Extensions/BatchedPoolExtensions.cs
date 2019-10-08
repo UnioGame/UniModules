@@ -23,7 +23,7 @@
         private static Dictionary<GameObject,int> spawnAmountAssets = new Dictionary<GameObject, int>();
         private static Dictionary<GameObject,TimedCounter> timedSpawnAssets = new Dictionary<GameObject, TimedCounter>();
         
-        public static int BatchSize = 20;
+        public static int BatchSize = 40;
         public static bool Enabled = true;
 
         public static GameObject SpawnTimed(this GameObject target,int batchAmount = 20, float     time = 0.1f)
