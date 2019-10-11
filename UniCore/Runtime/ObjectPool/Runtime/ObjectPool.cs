@@ -13,10 +13,9 @@
 
         // All the currently active pools in the scene
         public static List<ObjectPool> AllPools = new List<ObjectPool>();
+        
         // The reference between a spawned GameObject and its pool
         public static Dictionary<Object, ObjectPool> AllLinks = new Dictionary<Object, ObjectPool>();
-        // The reference between a spawned GameObject and its pool
-        public static Dictionary<Object, ObjectPool> AllReleasedLinks = new Dictionary<Object, ObjectPool>();
         //The reference between a spawned source GameObject and its pool
         public static Dictionary<Object, ObjectPool> AllSourceLinks = new Dictionary<Object, ObjectPool>();
 
@@ -109,7 +108,6 @@
             if (clone == null) return null;
             // Associate this clone with this pool
             AllLinks.Add(clone, pool);
-            AllReleasedLinks.Remove(clone);
             // Return the clone
             return clone;
         }
@@ -151,63 +149,44 @@
         // This allows you to despawn a clone via Component, with optional delay
         public static void Despawn(Component clone, float delay = 0.0f)
         {
-            if (clone is IPoolable poolable)
-            {
+            if (clone is IPoolable poolable) 
                 poolable.Release();
-            }
-            if (clone) Despawn(clone.gameObject);
+            
+            if (clone) 
+                Despawn(clone.gameObject);
         }
 
         // This allows you to despawn a clone via GameObject, with optional delay
         public static void Despawn(Object clone)
         {
-            if (clone)
-            {
-                var pool = default(ObjectPool);
-
-                // Try and find the pool associated with this clone
-                if (AllLinks.TryGetValue(clone, out pool))
-                {
-                    // Remove the association
-                    AllLinks.Remove(clone);
-                    AllReleasedLinks.Add(clone, pool);
-                    // Despawn it
-                    pool.FastDespawn(clone);
-                }
-                if (AllReleasedLinks.ContainsKey(clone))
-                {
-                    return;
-                }
-                // Fall back to normal destroying
-                Destroy(clone);
+            if (!clone) {
+                return;
             }
+
+            // Try and find the pool associated with this clone
+            if (AllLinks.TryGetValue(clone, out var pool))
+            {
+                // Remove the association
+                AllLinks.Remove(clone);
+                // Despawn it
+                pool.FastDespawn(clone);
+            }
+
+            // Fall back to normal destroying
+            Destroy(clone);
         }
 
         // Returns the total amount of spawned clones
-        public int Total
-        {
-            get
-            {
-                return total;
-            }
-        }
+        public int Total => total;
 
         // Returns the amount of cached clones
-        public int Cached
-        {
-            get
-            {
-                return cache.Count;
-            }
-        }
+        public int Cached => cache.Count;
 
         public static void RemoveFromPool(GameObject target)
         {
-            ObjectPool pool;
-            if (!AllLinks.TryGetValue(target, out pool)) return;
+            if (!AllLinks.TryGetValue(target, out var pool)) return;
             // Remove the association
             AllLinks.Remove(target);
-            AllReleasedLinks.Remove(target);
         }
 
         // This will return a clone from the cache, or create a new instance
@@ -219,8 +198,10 @@
                 return null;
             }
 
+            Object result = null;
+            
             // Attempt to spawn from the cache
-            while (cache.Count > 0)
+            while (cache.Count > 0 && result == null)
             {
                 var clone = cache.Pop();
                 if (!clone)
@@ -229,23 +210,19 @@
                     continue;
                 }
 
-                GameProfiler.BeginSample("ObjectPool.FastSpawn");
-
-                ApplyGameObjectProperties(clone, position, rotation, parent, stayWorld);
-
-                GameProfiler.EndSample();
-
-                return clone;
+                result = clone;
             }
 
             // Make a new clone?
-            if (Capacity <= 0 || total < Capacity)
+            if (result == null && (Capacity <= 0 || total < Capacity))
             {
                 var clone = FastClone(position, rotation, parent,stayWorld);
-                return clone;
+                result = clone;
             }
 
-            return null;
+            ApplyGameObjectProperties(result, position, rotation, parent, stayWorld);
+
+            return result;
         }
 
         // This will despawn a clone and add it to the cache
@@ -310,14 +287,15 @@
 
         private Object FastClone(Vector3 position, Quaternion rotation, Transform parent,bool stayWorldPosition = false)
         {
-            GameProfiler.BeginSample("LeanPool.FastClone");
             if (!Asset) return null;
+            
+            GameProfiler.BeginSample("ObjectPool.FastClone");
             
             var clone = Instantiate(Asset);
             
             ApplyGameObjectProperties(clone, position, rotation, parent, stayWorldPosition);
             
-            total += 1;
+            total++;
 
             GameProfiler.EndSample();
 
@@ -329,6 +307,8 @@
             Quaternion rotation, Transform parent, bool stayWorldPosition = false)
         {
             switch (target) {
+                case null :
+                    break;
                 case Component componentTarget:
                     ApplyGameObjectProperties(componentTarget.gameObject, position, rotation, parent, stayWorldPosition);
                     break;
@@ -353,13 +333,9 @@
 
         }
         
-        public static string GetPrefabName(GameObject effect)
+        public static string GetPrefabName(GameObject asset)
         {
-            ObjectPool pool;
-            if (AllLinks.TryGetValue(effect, out pool))
-                return pool.Asset.name;
-
-            return null;
+            return AllLinks.TryGetValue(asset, out var pool) ? pool.Asset.name : null;
         }
     }
 }
