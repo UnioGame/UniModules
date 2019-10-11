@@ -49,7 +49,7 @@
         }
     
         [Conditional("UNITY_EDITOR")]
-        private static void DrawCircle(Vector3 position, float radius, Color color, bool useAlpha = false)
+        public static void DrawCircle(Vector3 position, float radius, Color color, bool useAlpha = false)
         {
             radius = Mathf.Abs(radius);
             if (Mathf.Approximately(radius, 0)) return;
