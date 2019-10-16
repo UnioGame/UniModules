@@ -104,14 +104,8 @@ namespace UniGreenModules.UniCore.Runtime.ObjectPool.Runtime
             }
             
             // Add it to the cache
-            cache.Push(clone);
+            cache.Push(OnObjectDespawn(clone));
 
-            if (clone is GameObject targetObject) {
-                // Hide it
-                targetObject.SetActive(false);
-                // Move it under this GO
-                if (targetObject.transform.parent != null) targetObject.transform.SetParent(transform, false);
-            }
         }
 
         // Makes sure the right amount of prefabs have been preloaded
@@ -208,10 +202,34 @@ namespace UniGreenModules.UniCore.Runtime.ObjectPool.Runtime
             var resultTransform = result.transform;
             if (resultTransform.parent != parent)
                 resultTransform.SetParent(parent, stayWorldPosition);
-            result.SetActive(false);
             return result;
         }
+
+        private GameObject ResetGameObjectState(GameObject targetGameObject)
+        {
+            if (!targetGameObject)
+                return targetGameObject;
+            
+            targetGameObject.SetActive(false);
+            // Move it under this GO
+            if (targetGameObject.transform.parent != null) targetGameObject.transform.SetParent(transform, false);
+
+            return targetGameObject;
+        }
         
+        private Object OnObjectDespawn(Object asset)
+        {
+            switch (asset) {
+                case Component componentTarget:
+                    ResetGameObjectState(componentTarget.gameObject);
+                    break;
+                case GameObject gameObjectTarget:
+                    ResetGameObjectState(gameObjectTarget);
+                    break;
+            }
+
+            return asset;
+        }
         
         private Object CreateAsset(Vector3 position,
             Quaternion rotation, Transform parent = null, bool stayWorldPosition = false)

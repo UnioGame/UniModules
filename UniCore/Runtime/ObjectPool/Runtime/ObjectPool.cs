@@ -1,7 +1,6 @@
 ﻿namespace UniGreenModules.UniCore.Runtime.ObjectPool
 {
     using System.Collections.Generic;
-    using Interfaces;
     using ProfilerTools;
     using Runtime;
     using UnityEngine;
