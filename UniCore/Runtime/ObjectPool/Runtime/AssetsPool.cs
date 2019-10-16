@@ -193,8 +193,9 @@ namespace UniGreenModules.UniCore.Runtime.ObjectPool.Runtime
         {
             if (!Asset) return null;
             var result = Instantiate(gameObjectAsset, position, rotation);
-            if (transform.parent != parent)
-                transform.SetParent(parent, stayWorldPosition);
+            var resultTransform = result.transform;
+            if (resultTransform.parent != parent)
+                resultTransform.SetParent(parent, stayWorldPosition);
             return result;
         }
         
