@@ -143,11 +143,23 @@
                 AllLinks.Remove(clone);
                 // Despawn it
                 pool.FastDespawn(clone,destroy);
+                return;
             }
-            else if(destroy)
+            
+            if(destroy)
             {
                 // Fall back to normal destroying
                 Destroy(clone);
+                return;
+            }
+
+            switch (clone) {
+                case GameObject gameObjectAsset:
+                    gameObjectAsset.SetActive(false);
+                    break;
+                case Component componentAsset:
+                    componentAsset.gameObject.SetActive(false);
+                    break;
             }
         }
 
