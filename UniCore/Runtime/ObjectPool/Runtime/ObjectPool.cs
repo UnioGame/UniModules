@@ -130,24 +130,11 @@
             return pool;
             
         }
-
-
-        // This allows you to despawn a clone via Component, with optional delay
-        public static void Despawn(Component clone, float delay = 0.0f)
-        {
-            if (clone is IPoolable poolable)
-            {
-                poolable.Release();
-            }
-            if (clone) Despawn(clone.gameObject);
-        }
-
+        
         // This allows you to despawn a clone via GameObject, with optional delay
-        public static void Despawn(Object clone)
+        public static void Despawn(Object clone,bool destroy = false)
         {
-            if (!clone) {
-                return;
-            }
+            if (!clone) return;
 
             // Try and find the pool associated with this clone
             if (AllLinks.TryGetValue(clone, out var pool))
@@ -155,9 +142,10 @@
                 // Remove the association
                 AllLinks.Remove(clone);
                 // Despawn it
-                pool.FastDespawn(clone);
+                pool.FastDespawn(clone,destroy);
             }
-            else {
+            else if(destroy)
+            {
                 // Fall back to normal destroying
                 Destroy(clone);
             }

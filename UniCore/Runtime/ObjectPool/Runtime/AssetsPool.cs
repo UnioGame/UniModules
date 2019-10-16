@@ -5,6 +5,7 @@ using UnityEngine;
 namespace UniGreenModules.UniCore.Runtime.ObjectPool.Runtime
 {
     using System;
+    using Interfaces;
     using Object = Object;
 
     public class AssetsPool : MonoBehaviour
@@ -88,9 +89,20 @@ namespace UniGreenModules.UniCore.Runtime.ObjectPool.Runtime
         }
 
         // This will despawn a clone and add it to the cache
-        public void FastDespawn(Object clone)
+        public void FastDespawn(Object clone, bool destroy = false)
         {
             if (!clone) return;
+                        
+            if (clone is IPoolable poolable)
+            {
+                poolable.Release();
+            }
+
+            if (destroy) {
+                Destroy(clone);
+                return;
+            }
+            
             // Add it to the cache
             cache.Push(clone);
 
