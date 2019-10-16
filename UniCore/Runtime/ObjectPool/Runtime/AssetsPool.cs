@@ -208,6 +208,7 @@ namespace UniGreenModules.UniCore.Runtime.ObjectPool.Runtime
             var resultTransform = result.transform;
             if (resultTransform.parent != parent)
                 resultTransform.SetParent(parent, stayWorldPosition);
+            result.SetActive(false);
             return result;
         }
         
