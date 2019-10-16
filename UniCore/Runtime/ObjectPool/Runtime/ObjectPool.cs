@@ -4,20 +4,20 @@
     using Interfaces;
     using ProfilerTools;
     using Runtime;
-    using UnityEditor.Experimental.GraphView;
-    using UnityEditor.VersionControl;
     using UnityEngine;
 
     // This component allows you to pool Unity objects for fast instantiation and destruction
     [AddComponentMenu("Utils/ObjectPool/Pool")]
     public class ObjectPool : MonoBehaviour
     {
-        private static GameObject _poolsRoot;
+        private static GameObject poolsRoot;
 
         // All the currently active pools in the scene
         public static List<AssetsPool> AllPools = new List<AssetsPool>();
+        
         // The reference between a spawned GameObject and its pool
         public static Dictionary<Object, AssetsPool> AllLinks = new Dictionary<Object, AssetsPool>();
+        
         //The reference between a spawned source GameObject and its pool
         public static Dictionary<Object, AssetsPool> AllSourceLinks = new Dictionary<Object, AssetsPool>();
 
@@ -108,25 +108,25 @@
             if (AllSourceLinks.TryGetValue(targetPrefab, out var pool))
             {
                 var preloadCount = preloads - pool.cache.Count;
-                for (int i = 0; i < preloadCount; i++)
+                for (var i = 0; i < preloadCount; i++)
                 {
                     pool.FastPreload();
                 }
                 return pool;
             }
             //create root
-            if (!_poolsRoot)
+            if (!poolsRoot)
             {
-                _poolsRoot = new GameObject("PoolsRootObject");
+                poolsRoot = new GameObject("PoolsRootObject");
             }
+
             // Create a new pool for this prefab?
             pool = new GameObject(targetPrefab.name).AddComponent<AssetsPool>();
-            pool.Asset = targetPrefab;
-            pool.transform.SetParent(_poolsRoot.transform,false);
+            pool.transform.SetParent(poolsRoot.transform,false);
+            pool.Initialize(targetPrefab,preloads);
+
             AllSourceLinks.Add(targetPrefab, pool);
-            if (preloads <= 0) return pool;
-            pool.Preload = preloads;
-            pool.UpdatePreload();
+            
             return pool;
             
         }
@@ -145,21 +145,21 @@
         // This allows you to despawn a clone via GameObject, with optional delay
         public static void Despawn(Object clone)
         {
-            if (clone)
-            {
-                // Try and find the pool associated with this clone
-                if (AllLinks.TryGetValue(clone, out var pool))
-                {
-                    // Remove the association
-                    AllLinks.Remove(clone);
-                    // Despawn it
-                    pool.FastDespawn(clone);
-                }
-                else {
-                    // Fall back to normal destroying
-                    Destroy(clone);
-                }
+            if (!clone) {
+                return;
+            }
 
+            // Try and find the pool associated with this clone
+            if (AllLinks.TryGetValue(clone, out var pool))
+            {
+                // Remove the association
+                AllLinks.Remove(clone);
+                // Despawn it
+                pool.FastDespawn(clone);
+            }
+            else {
+                // Fall back to normal destroying
+                Destroy(clone);
             }
         }
 

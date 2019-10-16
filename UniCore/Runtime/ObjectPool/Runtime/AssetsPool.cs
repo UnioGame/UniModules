@@ -5,7 +5,7 @@ using UnityEngine;
 namespace UniGreenModules.UniCore.Runtime.ObjectPool.Runtime
 {
     using System;
-    using Object = UnityEngine.Object;
+    using Object = Object;
 
     public class AssetsPool : MonoBehaviour
     {

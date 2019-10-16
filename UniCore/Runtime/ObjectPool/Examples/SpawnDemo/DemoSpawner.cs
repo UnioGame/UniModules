@@ -3,6 +3,8 @@ using UnityEngine;
 
 namespace UniGreenModules.UniCore.Runtime.ObjectPool.Examples.SpawnDemo
 {
+    using System;
+    using Object = UnityEngine.Object;
     using Time = UnityEngine.Time;
 
     public class DemoSpawner : MonoBehaviour
@@ -13,7 +15,10 @@ namespace UniGreenModules.UniCore.Runtime.ObjectPool.Examples.SpawnDemo
     
         public List<Object> SpawnItems = new List<Object>();
         public List<Transform> SpawnComponents = new List<Transform>();
-
+        
+        public List<SpriteRenderer> SpawnSpriteRenderer;
+        public Sprite Sprite;
+        
         public Transform childItem;
         
         public int Count;
@@ -27,7 +32,7 @@ namespace UniGreenModules.UniCore.Runtime.ObjectPool.Examples.SpawnDemo
             foreach (var spawnItem in SpawnItems) {
                 ObjectPool.CreatePool(spawnItem, Count);
             }
-
+            
             var item = childItem.Spawn(Vector3.one, Quaternion.identity, transform);
             item.gameObject.SetActive(true);
         }
@@ -43,11 +48,18 @@ namespace UniGreenModules.UniCore.Runtime.ObjectPool.Examples.SpawnDemo
             if (spawnState) {
                 Spawn<Object>(SpawnItems);
                 Spawn<Transform>(SpawnComponents);
+                Spawn<SpriteRenderer>(SpawnSpriteRenderer, x => x.sprite = Sprite.Spawn());
             }
             else {
 
                 foreach (var item in items) {
                     foreach (var spawnedItem in item.Value) {
+                        switch (spawnedItem) {
+                            case SpriteRenderer spriteRenderer:
+                                spriteRenderer.sprite.Despawn();
+                                spriteRenderer.sprite = null;
+                                break;
+                        }
                         spawnedItem.Despawn();
                     }
                     item.Value.Clear();
@@ -60,7 +72,7 @@ namespace UniGreenModules.UniCore.Runtime.ObjectPool.Examples.SpawnDemo
 
         }
 
-        private void Spawn<T>(List<T> targetItems)
+        private void Spawn<T>(List<T> targetItems, Action<T> onSpawn = null)
             where T : Object
         {
             var counterItem = 0;
@@ -72,13 +84,20 @@ namespace UniGreenModules.UniCore.Runtime.ObjectPool.Examples.SpawnDemo
                     items[item] = spawned;
                 }
 
-                for (int i = 0; i < Count; i++) {
-                    var spawnedItem = item.Spawn<T>(new Vector3(i,counterItem,0),Quaternion.identity);
-                    if(spawnedItem is Component component)
-                        component.gameObject.SetActive(true);
-                    if(spawnedItem is GameObject assetObject)
-                        assetObject.SetActive(true);
-                        
+                for (var i = 0; i < Count; i++) {
+                    var spawnedItem = item.Spawn<T>(new Vector3(i*2,counterItem*2,0),Quaternion.identity);
+                    
+                    switch (spawnedItem) {
+                        case Component component:
+                            component.gameObject.SetActive(true);
+                            break;
+                        case GameObject assetObject:
+                            assetObject.SetActive(true);
+                            break;
+                    }
+
+                    onSpawn?.Invoke(spawnedItem);
+                    
                     spawned.Add(spawnedItem);
                 }
 

@@ -345,6 +345,9 @@ MonoBehaviour:
   - {fileID: 1508713614757003525, guid: 4339a398672b8374db9fc916bc12b0d4, type: 3}
   SpawnComponents:
   - {fileID: 4383187170673936875, guid: 89a1fa90ca07df54ba0d148863839cf5, type: 3}
+  SpawnSpriteRenderer:
+  - {fileID: 6990867212120735966, guid: ee35570ce0b03694d86ac9daf4526257, type: 3}
+  Sprite: {fileID: 21300000, guid: a834ceeca2472ba4789ed1ed49cca217, type: 3}
   childItem: {fileID: 3260447855027435491, guid: 4339a398672b8374db9fc916bc12b0d4,
     type: 3}
   Count: 10
