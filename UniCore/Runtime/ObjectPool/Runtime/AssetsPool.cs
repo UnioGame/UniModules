@@ -5,7 +5,8 @@ using UnityEngine;
 namespace UniGreenModules.UniCore.Runtime.ObjectPool.Runtime
 {
     using System;
-    using Object = UnityEngine.Object;
+    using Interfaces;
+    using Object = Object;
 
     public class AssetsPool : MonoBehaviour
     {
@@ -71,7 +72,7 @@ namespace UniGreenModules.UniCore.Runtime.ObjectPool.Runtime
 
                 GameProfiler.BeginSample("ObjectPool.FastSpawn");
 
-                ApplyGameObjectProperties(clone, position, rotation, parent, stayWorld);
+                ApplyGameAssetProperties(clone, position, rotation, parent, stayWorld);
 
                 GameProfiler.EndSample();
 
@@ -88,26 +89,41 @@ namespace UniGreenModules.UniCore.Runtime.ObjectPool.Runtime
         }
 
         // This will despawn a clone and add it to the cache
-        public void FastDespawn(Object clone)
+        public void FastDespawn(Object clone, bool destroy = false)
         {
             if (!clone) return;
-            // Add it to the cache
-            cache.Push(clone);
-
-            if (clone is GameObject targetObject) {
-                // Hide it
-                targetObject.SetActive(false);
-                // Move it under this GO
-                if (targetObject.transform.parent != null) targetObject.transform.SetParent(transform, false);
+                        
+            if (clone is IPoolable poolable)
+            {
+                poolable.Release();
             }
+
+            if (destroy) {
+                Destroy(clone);
+                return;
+            }
+            
+            // Add it to the cache
+            cache.Push(OnObjectDespawn(clone));
+
         }
 
+        // This allows you to make another clone and add it to the cache
+        public void PreloadAsset()
+        {
+            if (!Asset) return;
+            // Create clone
+            var clone = FastClone(Vector3.zero, Quaternion.identity, null);
+            // Add it to the cache
+            cache.Push(OnObjectDespawn(clone));
+        }
+        
         // Makes sure the right amount of prefabs have been preloaded
         public void UpdatePreload()
         {
             if (Asset == null) return;
             for (var i = total; i < Preload; i++) {
-                FastPreload();
+                PreloadAsset();
             }
         }
 
@@ -124,44 +140,6 @@ namespace UniGreenModules.UniCore.Runtime.ObjectPool.Runtime
             GameProfiler.EndSample();
 
             return clone;
-        }
-
-        public void ApplyGameObjectProperties(
-            Object target, Vector3 position,
-            Quaternion rotation, Transform parent, bool stayWorldPosition = false)
-        {
-            switch (target) {
-                case Component componentTarget:
-                    ApplyGameObjectProperties(componentTarget.gameObject, position, rotation, parent, stayWorldPosition);
-                    break;
-                case GameObject gameObjectTarget:
-                    ApplyGameObjectProperties(gameObjectTarget, position, rotation, parent, stayWorldPosition);
-                    break;
-            }
-        }
-
-        public void ApplyGameObjectProperties(GameObject target, Vector3 position,
-            Quaternion rotation, Transform parent, bool stayWorldPosition = false)
-        {
-            var transform = target.transform;
-            transform.localPosition = position;
-            transform.localRotation = rotation;
-
-            if (transform.parent != parent)
-                transform.SetParent(parent, stayWorldPosition);
-
-            // Hide it
-            target.SetActive(false);
-        }
-
-        // This allows you to make another clone and add it to the cache
-        public void FastPreload()
-        {
-            if (!Asset) return;
-            // Create clone
-            var clone = FastClone(Vector3.zero, Quaternion.identity, null);
-            // Add it to the cache
-            cache.Push(clone);
         }
 
         // Execute preloaded count
@@ -193,11 +171,65 @@ namespace UniGreenModules.UniCore.Runtime.ObjectPool.Runtime
         {
             if (!Asset) return null;
             var result = Instantiate(gameObjectAsset, position, rotation);
-            if (transform.parent != parent)
-                transform.SetParent(parent, stayWorldPosition);
+            var resultTransform = result.transform;
+            if (resultTransform.parent != parent)
+                resultTransform.SetParent(parent, stayWorldPosition);
             return result;
         }
+
+        private void ApplyGameAssetProperties(
+            Object target, Vector3 position,
+            Quaternion rotation, Transform parent, bool stayWorldPosition = false)
+        {
+            switch (target) {
+                case Component componentTarget:
+                    ApplyGameAssetProperties(componentTarget.gameObject, position, rotation, parent, stayWorldPosition);
+                    break;
+                case GameObject gameObjectTarget:
+                    ApplyGameAssetProperties(gameObjectTarget, position, rotation, parent, stayWorldPosition);
+                    break;
+            }
+        }
+
+        private void ApplyGameAssetProperties(GameObject target, Vector3 position,
+            Quaternion rotation, Transform parent, bool stayWorldPosition = false)
+        {
+            var transform = target.transform;
+            transform.localPosition = position;
+            transform.localRotation = rotation;
+
+            if (transform.parent != parent)
+                transform.SetParent(parent, stayWorldPosition);
+
+            // Hide it
+            target.SetActive(false);
+        }
+
+        private GameObject ResetGameObjectState(GameObject targetGameObject)
+        {
+            if (!targetGameObject)
+                return targetGameObject;
+            
+            targetGameObject.SetActive(false);
+            // Move it under this GO
+            if (targetGameObject.transform.parent != null) targetGameObject.transform.SetParent(transform, false);
+
+            return targetGameObject;
+        }
         
+        private Object OnObjectDespawn(Object asset)
+        {
+            switch (asset) {
+                case Component componentTarget:
+                    ResetGameObjectState(componentTarget.gameObject);
+                    break;
+                case GameObject gameObjectTarget:
+                    ResetGameObjectState(gameObjectTarget);
+                    break;
+            }
+
+            return asset;
+        }
         
         private Object CreateAsset(Vector3 position,
             Quaternion rotation, Transform parent = null, bool stayWorldPosition = false)
