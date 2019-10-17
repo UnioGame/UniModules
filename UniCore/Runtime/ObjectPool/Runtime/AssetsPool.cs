@@ -72,7 +72,7 @@ namespace UniGreenModules.UniCore.Runtime.ObjectPool.Runtime
 
                 GameProfiler.BeginSample("ObjectPool.FastSpawn");
 
-                ApplyGameObjectProperties(clone, position, rotation, parent, stayWorld);
+                ApplyGameAssetProperties(clone, position, rotation, parent, stayWorld);
 
                 GameProfiler.EndSample();
 
@@ -108,12 +108,22 @@ namespace UniGreenModules.UniCore.Runtime.ObjectPool.Runtime
 
         }
 
+        // This allows you to make another clone and add it to the cache
+        public void PreloadAsset()
+        {
+            if (!Asset) return;
+            // Create clone
+            var clone = FastClone(Vector3.zero, Quaternion.identity, null);
+            // Add it to the cache
+            cache.Push(OnObjectDespawn(clone));
+        }
+        
         // Makes sure the right amount of prefabs have been preloaded
         public void UpdatePreload()
         {
             if (Asset == null) return;
             for (var i = total; i < Preload; i++) {
-                FastPreload();
+                PreloadAsset();
             }
         }
 
@@ -130,44 +140,6 @@ namespace UniGreenModules.UniCore.Runtime.ObjectPool.Runtime
             GameProfiler.EndSample();
 
             return clone;
-        }
-
-        public void ApplyGameObjectProperties(
-            Object target, Vector3 position,
-            Quaternion rotation, Transform parent, bool stayWorldPosition = false)
-        {
-            switch (target) {
-                case Component componentTarget:
-                    ApplyGameObjectProperties(componentTarget.gameObject, position, rotation, parent, stayWorldPosition);
-                    break;
-                case GameObject gameObjectTarget:
-                    ApplyGameObjectProperties(gameObjectTarget, position, rotation, parent, stayWorldPosition);
-                    break;
-            }
-        }
-
-        public void ApplyGameObjectProperties(GameObject target, Vector3 position,
-            Quaternion rotation, Transform parent, bool stayWorldPosition = false)
-        {
-            var transform = target.transform;
-            transform.localPosition = position;
-            transform.localRotation = rotation;
-
-            if (transform.parent != parent)
-                transform.SetParent(parent, stayWorldPosition);
-
-            // Hide it
-            target.SetActive(false);
-        }
-
-        // This allows you to make another clone and add it to the cache
-        public void FastPreload()
-        {
-            if (!Asset) return;
-            // Create clone
-            var clone = FastClone(Vector3.zero, Quaternion.identity, null);
-            // Add it to the cache
-            cache.Push(clone);
         }
 
         // Execute preloaded count
@@ -203,6 +175,34 @@ namespace UniGreenModules.UniCore.Runtime.ObjectPool.Runtime
             if (resultTransform.parent != parent)
                 resultTransform.SetParent(parent, stayWorldPosition);
             return result;
+        }
+
+        private void ApplyGameAssetProperties(
+            Object target, Vector3 position,
+            Quaternion rotation, Transform parent, bool stayWorldPosition = false)
+        {
+            switch (target) {
+                case Component componentTarget:
+                    ApplyGameAssetProperties(componentTarget.gameObject, position, rotation, parent, stayWorldPosition);
+                    break;
+                case GameObject gameObjectTarget:
+                    ApplyGameAssetProperties(gameObjectTarget, position, rotation, parent, stayWorldPosition);
+                    break;
+            }
+        }
+
+        private void ApplyGameAssetProperties(GameObject target, Vector3 position,
+            Quaternion rotation, Transform parent, bool stayWorldPosition = false)
+        {
+            var transform = target.transform;
+            transform.localPosition = position;
+            transform.localRotation = rotation;
+
+            if (transform.parent != parent)
+                transform.SetParent(parent, stayWorldPosition);
+
+            // Hide it
+            target.SetActive(false);
         }
 
         private GameObject ResetGameObjectState(GameObject targetGameObject)

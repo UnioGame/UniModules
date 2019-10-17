@@ -109,7 +109,7 @@
                 var preloadCount = preloads - pool.cache.Count;
                 for (var i = 0; i < preloadCount; i++)
                 {
-                    pool.FastPreload();
+                    pool.PreloadAsset();
                 }
                 return pool;
             }
