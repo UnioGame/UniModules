@@ -1,5 +1,5 @@
 ﻿namespace UniTools.UniRoutine.Runtime {
-	
+	using System;
 	using System.Collections;
 	using System.Collections.Generic;
 	using Interfaces;
@@ -7,6 +7,7 @@
 	using UniGreenModules.UniCore.Runtime.Interfaces;
 	using UniGreenModules.UniCore.Runtime.ObjectPool;
 	using UniGreenModules.UniCore.Runtime.ProfilerTools;
+	using UnityEngine;
 
 	public class UniRoutine : IUniRoutine, IResetable
 	{
@@ -50,7 +51,15 @@
 			for (var i = 0; i < routines.Count; i++) {
 				//execute routine
 				var routine = routines[i];
-				var moveNext = routine.MoveNext();
+				var moveNext = false;
+				
+				try {
+					moveNext = routine.MoveNext();
+				}
+				catch (Exception e) {
+					Debug.LogException(e);
+					moveNext = false;
+				}
 
 				//copy to buffer routine
 				if (moveNext) {
