@@ -9,9 +9,10 @@
 
     public static class RxExtension
     {
-        public static void Cancel(this IDisposable disposable)
+        public static IDisposable Cancel(this IDisposable disposable, bool clearValue = true)
         {
             disposable?.Dispose();
+            return clearValue ? null : disposable;
         }
         
         public static void Cancel<TItem>(this List<TItem> disposables)
@@ -23,6 +24,8 @@
             {
                 disposables[i]?.Dispose();
             }
+            
+            disposables.Clear();
         }
 
         public static void Cancel(this List<IDisposable> disposables)
@@ -33,6 +36,8 @@
             {
                 disposables[i]?.Dispose();
             }
+            
+            disposables.Clear();
         }
 
         public static IRecycleObserver<T> CreateRecycleObserver<T>(this object _, 
