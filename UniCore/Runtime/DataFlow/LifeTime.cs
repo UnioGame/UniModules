@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using ObjectPool.Interfaces;
+    using UnityEngine.Profiling;
 
     public class LifeTime : ILifeTime, IPoolable
     {
@@ -18,7 +19,9 @@
         {
             if (cleanAction == null)
                 return this;
+            Profiler.BeginSample("AddCleanUpAction");
             cleanupActions.Add(cleanAction);
+            Profiler.EndSample();
             return this;
         }
     

@@ -24,13 +24,17 @@
             _onDisposed?.Invoke();
             
             Release();
-        
-            ClassPool.Despawn(this);
         }
 
         public void Release()
         {
             _onDisposed = null;
+        }
+
+        public void MakeDespawn()
+        {
+            Dispose();
+            this.Despawn();
         }
     }
 }

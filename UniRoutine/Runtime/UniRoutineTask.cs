@@ -3,16 +3,26 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using UniGreenModules.UniCore.Runtime.DataFlow;
     using UniGreenModules.UniCore.Runtime.ObjectPool.Interfaces;
 
-    public class UniRoutineTask : IEnumerator<IEnumerator>, IPoolable
+    public class UniRoutineTask : IUniRoutineTask
     {
-        private Stack<IEnumerator> awaiters = new Stack<IEnumerator>();
-
+        private readonly Stack<IEnumerator> awaiters = new Stack<IEnumerator>();
+        private readonly LifeTimeDefinition lifeTimeDefinition = new LifeTimeDefinition();
+        
+        public readonly ILifeTime lifeTime;
+        
         private IEnumerator rootEnumerator;
         private RoutineState state = RoutineState.Complete;
-        private Action onCompleteAction;
         
+        public UniRoutineTask()
+        {
+            lifeTime = lifeTimeDefinition.LifeTime;
+        }
+
+        public ILifeTime LifeTime => lifeTime;
+
         public bool IsCompleted => state == RoutineState.Complete;
         
         public IEnumerator Current { get; private set; }
@@ -21,21 +31,16 @@
 
         public void Initialize(
             IEnumerator enumerator,
-            Action onComplete,
             bool moveNextImmediately = false)
         {
             Release();
                         
             rootEnumerator   = enumerator;
             Current          = enumerator;
-            onCompleteAction = onComplete;
 
             state          = RoutineState.Active;
 
-            if (moveNextImmediately)
-            {
-                MoveNext();
-            }
+            if (moveNextImmediately) MoveNext();
         }
 
         /// <summary>
@@ -72,16 +77,15 @@
         public void Complete()
         {
             if (IsCompleted) return;
-            state = RoutineState.Complete;
-            onCompleteAction?.Invoke();
+            Release();
         }
         
         public void Release()
         {
             rootEnumerator = null;
             state          = RoutineState.Complete;
-            onCompleteAction = null;
             awaiters.Clear();
+            lifeTimeDefinition.Release();
         }
         
         public void Reset()

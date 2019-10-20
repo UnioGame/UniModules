@@ -1,10 +1,9 @@
 ﻿namespace UniTools.UniRoutine.Runtime {
+	
 	using System;
 	using System.Collections;
 	using System.Collections.Generic;
 	using Interfaces;
-	using UniGreenModules.UniCore.Runtime.Common;
-	using UniGreenModules.UniCore.Runtime.Extension;
 	using UniGreenModules.UniCore.Runtime.Interfaces;
 	using UniGreenModules.UniCore.Runtime.ObjectPool;
 	using UniGreenModules.UniCore.Runtime.ProfilerTools;
@@ -15,31 +14,24 @@
 		private List<UniRoutineTask> routines = new List<UniRoutineTask>(200);
 		private List<UniRoutineTask> bufferRoutines = new List<UniRoutineTask>(200);
 		
-		public IDisposableItem AddRoutine(IEnumerator enumerator,bool moveNextImmediately = true) {
+		public UniRoutineTask AddRoutine(IEnumerator enumerator,bool moveNextImmediately = true) {
 
 			if (enumerator == null) return null;
 			
-			//create disposable token
-			var disposable = ClassPool.Spawn<DisposableAction>();
 			var routine = ClassPool.Spawn<UniRoutineTask>();
 
 #if UNITY_EDITOR
 			if (routine.IsCompleted == false) {
 				GameLog.LogError("ROUTINE: routine task is not completed");
 			}
-			
-			if (disposable.IsDisposed == false) {
-				GameLog.LogError("ROUTINE: disposable is not completed");
-			}	
 #endif
 			
 			//get routine from pool
-			routine.Initialize(enumerator,disposable.Release, moveNextImmediately);
-			disposable.Initialize(routine.Complete);
+			routine.Initialize(enumerator, moveNextImmediately);
 
 			routines.Add(routine);
 			
-			return disposable;
+			return routine;
 		}
 
 		/// <summary>

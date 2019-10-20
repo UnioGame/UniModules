@@ -36,8 +36,14 @@
             Reset();
         
             //return to pool
-            this.Despawn();
+            //this.Despawn();
         
+        }
+
+        public void MakeDespawn()
+        {
+            Dispose();
+            this.Despawn();
         }
     }
 }

@@ -5,7 +5,7 @@
 
     public interface IUniRoutine
     {
-        IDisposableItem AddRoutine(IEnumerator enumerator, bool moveNextImmediately = true);
+        UniRoutineTask AddRoutine(IEnumerator enumerator, bool moveNextImmediately = true);
         void Update();
     }
 }
