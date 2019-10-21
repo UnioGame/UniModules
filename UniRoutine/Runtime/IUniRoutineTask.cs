@@ -7,6 +7,7 @@ namespace UniTools.UniRoutine.Runtime
 
     public interface IUniRoutineTask : IEnumerator<IEnumerator>, IPoolable
     {
+        int Id { get; }
         ILifeTime LifeTime { get; }
         bool IsCompleted { get; }
         IEnumerator Current { get; }

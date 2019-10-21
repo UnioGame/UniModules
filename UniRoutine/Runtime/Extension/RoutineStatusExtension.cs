@@ -11,13 +11,13 @@ public static class RoutineStatusExtension
 
     public static bool Cancel(this RoutineValue value)
     {
-        return UniRoutineManager.TryStopRoutine(value);
+        return UniRoutineManager.TryToStopRoutine(value);
     }
     
     public static IDisposableItem ToDisposable(this RoutineValue value)
     {
         var disposable = ClassPool.Spawn<DisposableAction>();
-        disposable.Initialize(() => UniRoutineManager.TryStopRoutine(value));
+        disposable.Initialize(() => UniRoutineManager.TryToStopRoutine(value));
         return disposable;
     }
 

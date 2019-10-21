@@ -4,16 +4,10 @@
     using System.Collections;
     using System.Collections.Generic;
     using Interfaces;
-    using UniGreenModules.UniCore.Runtime.Interfaces;
     using UnityEngine;
-    using UnityEngine.Profiling;
 
     public static class UniRoutineManager
     {
-        private static RoutineValue                  emptyRoutineValue = new RoutineValue(0);
-        private static int                              activeRoutineId      = 1;
-        private static Dictionary<RoutineValue, IUniRoutineTask> activeRoutines       = new Dictionary<RoutineValue, IUniRoutineTask>();
-
         private static Lazy<UniRoutineRootObject> routineObject = new Lazy<UniRoutineRootObject>(CreateRoutineManager);
 
         private static List<Lazy<IUniRoutine>> uniRoutines = new List<Lazy<IUniRoutine>>() {
@@ -40,23 +34,11 @@
             var routineItem = routine.Value;
             var routineTask = routineItem.AddRoutine(enumerator, moveNextImmediately);
             if (routineTask == null)
-                return emptyRoutineValue;
-            
-            var id = activeRoutineId++;
-            
-            Profiler.BeginSample("CreateRoutineValue");
-            var routineValue = new RoutineValue(id);
-            activeRoutines[routineValue] = routineTask;
-            Profiler.EndSample();
-            
-            Profiler.BeginSample("AddCleanUpAction");
-            routineTask.lifeTime.AddCleanUpAction(() => TryStopRoutine(routineValue));
-            Profiler.EndSample();
-            
+                return new RoutineValue(0,routineType);
+
+            var routineValue = new RoutineValue(routineTask.Id,routineType);
             return routineValue;
         }
-
-        public static bool IsRoutineActive(RoutineValue value) => activeRoutines.ContainsKey(value);
 
         private static UniRoutineRootObject CreateRoutineManager()
         {
@@ -114,16 +96,13 @@
             routineContainer.StartCoroutine(ExecuteOnUpdate(routine, routineType));
         }
 
-        public static bool TryStopRoutine(RoutineValue value)
+        public static bool TryToStopRoutine(RoutineValue value)
         {
-            if (!activeRoutines.TryGetValue(value, out var routine)) {
-                return false;
-            }
-
-            activeRoutines.Remove(value);
-            routine.Dispose();
-            return true;
-
+            //get routine
+            var routine = uniRoutines[(int) value.Type];
+            //add enumerator to routines
+            var routineItem = routine.Value;
+            return routineItem.CancelRoutine(value.Id);
         }
     }
 }

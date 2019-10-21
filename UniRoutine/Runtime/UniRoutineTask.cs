@@ -1,10 +1,8 @@
 ﻿namespace UniTools.UniRoutine.Runtime
 {
-    using System;
     using System.Collections;
     using System.Collections.Generic;
     using UniGreenModules.UniCore.Runtime.DataFlow;
-    using UniGreenModules.UniCore.Runtime.ObjectPool.Interfaces;
 
     public class UniRoutineTask : IUniRoutineTask
     {
@@ -12,6 +10,8 @@
         private readonly LifeTimeDefinition lifeTimeDefinition = new LifeTimeDefinition();
         
         public readonly ILifeTime lifeTime;
+
+        public int IdValue;
         
         private IEnumerator rootEnumerator;
         private RoutineState state = RoutineState.Complete;
@@ -21,6 +21,8 @@
             lifeTime = lifeTimeDefinition.LifeTime;
         }
 
+        public int Id => IdValue;
+        
         public ILifeTime LifeTime => lifeTime;
 
         public bool IsCompleted => state == RoutineState.Complete;
@@ -30,11 +32,13 @@
         object IEnumerator.Current => Current;
 
         public void Initialize(
+            int id,
             IEnumerator enumerator,
             bool moveNextImmediately = false)
         {
             Release();
-                        
+
+            IdValue = id;
             rootEnumerator   = enumerator;
             Current          = enumerator;
 
@@ -77,11 +81,12 @@
         public void Complete()
         {
             if (IsCompleted) return;
-            Release();
+            state = RoutineState.Complete;
         }
         
         public void Release()
         {
+            IdValue = 0;
             rootEnumerator = null;
             state          = RoutineState.Complete;
             awaiters.Clear();
@@ -92,8 +97,8 @@
         {
             rootEnumerator?.Reset();
             Current = rootEnumerator;
-            state = RoutineState.None;
             awaiters.Clear();
+            state = RoutineState.None;
         }
 
         public void Dispose()

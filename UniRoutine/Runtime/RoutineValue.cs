@@ -3,10 +3,12 @@ namespace UniTools.UniRoutine.Runtime
     public struct RoutineValue
     {
         public readonly int Id;
+        public readonly RoutineType Type;
 
-        public RoutineValue(int id)
+        public RoutineValue(int id, RoutineType routineType)
         {
             Id = id;
+            Type = routineType;
         }
 
         public override int GetHashCode() => Id;
