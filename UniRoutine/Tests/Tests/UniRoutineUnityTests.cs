@@ -48,6 +48,42 @@ namespace UniGreenModules.UniRoutine.Tests
         }
         
         [UnityTest]
+        public IEnumerator DisposePoolingRoutineTest()
+        {
+            //arrange
+            var counter    = new List<int>(){0};
+            var count      = 3;
+            var itemsCount = 20;
+
+            //act
+            var disposable1 = this.OnUpdate(x => {
+                    counter[0] = counter[0] + 1;
+                    return true;
+                }).ExecuteRoutine();
+            disposable1.Dispose();
+            
+            var disposable2 = this.OnUpdate(x => {
+                counter[0] = counter[0] + 1;
+                return true;
+            }).ExecuteRoutine();
+
+            disposable1.Cancel();
+            
+            for (int i = 0; i < count; i++) {
+                yield return null;
+            }
+            yield return null;
+
+            disposable1.Cancel();
+            disposable2.Cancel();
+            
+            //assert
+            Assert.That(counter[0] >= count);
+            
+        }
+
+        
+        [UnityTest]
         public IEnumerator UpdateDisposeRoutineTest()
         {
             //arrange
@@ -199,7 +235,7 @@ namespace UniGreenModules.UniRoutine.Tests
             yield break;
             counter[0]++;
         }
-        
+
         private IEnumerator AddListByTime(List<float> counter, int count,float delay)
         {
             var time = Time.realtimeSinceStartup;

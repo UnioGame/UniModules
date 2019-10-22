@@ -1,10 +1,32 @@
 ﻿namespace UniGreenModules.UniCore.Runtime.ObjectPool.Extensions
 {
+    using System;
     using System.Collections.Generic;
     using Interfaces;
 
     public static class ClassPoolExtensions
     {
+        public static IDisposable DespawnDispose(this object source,ref IDisposable target)
+        {
+            target = target.DespawnDispose();
+            return target;
+        }
+
+        public static IDisposable DespawnDispose(this IDisposable despawnItem)
+        {
+            switch (despawnItem) {
+                case null:
+                    return null;
+                case IDespawnable despawnable:
+                    despawnable.Despawn();
+                    break;
+                default:
+                    despawnItem.Dispose();
+                    break;
+            }
+
+            return null;
+        }
 
         public static void DespawnRecursive<TData>(this IList<TData> data)
             where TData : class

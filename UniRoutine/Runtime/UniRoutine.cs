@@ -1,10 +1,9 @@
 ﻿namespace UniTools.UniRoutine.Runtime {
+	
 	using System;
 	using System.Collections;
 	using System.Collections.Generic;
 	using Interfaces;
-	using UniGreenModules.UniCore.Runtime.Common;
-	using UniGreenModules.UniCore.Runtime.Extension;
 	using UniGreenModules.UniCore.Runtime.Interfaces;
 	using UniGreenModules.UniCore.Runtime.ObjectPool;
 	using UniGreenModules.UniCore.Runtime.ProfilerTools;
@@ -12,36 +11,43 @@
 
 	public class UniRoutine : IUniRoutine, IResetable
 	{
+		private int idCounter = 1;
+		private Dictionary<int,UniRoutineTask> activeRoutines = new Dictionary<int, UniRoutineTask>();
+		
 		private List<UniRoutineTask> routines = new List<UniRoutineTask>(200);
 		private List<UniRoutineTask> bufferRoutines = new List<UniRoutineTask>(200);
 		
-		public IDisposableItem AddRoutine(IEnumerator enumerator,bool moveNextImmediately = true) {
+		public IUniRoutineTask AddRoutine(IEnumerator enumerator,bool moveNextImmediately = true) {
 
 			if (enumerator == null) return null;
 			
-			//create disposable token
-			var disposable = ClassPool.Spawn<DisposableAction>();
 			var routine = ClassPool.Spawn<UniRoutineTask>();
 
 #if UNITY_EDITOR
 			if (routine.IsCompleted == false) {
 				GameLog.LogError("ROUTINE: routine task is not completed");
 			}
-			
-			if (disposable.IsDisposed == false) {
-				GameLog.LogError("ROUTINE: disposable is not completed");
-			}	
 #endif
-			
+			var id = idCounter++;
 			//get routine from pool
-			routine.Initialize(enumerator,disposable.Release, moveNextImmediately);
-			disposable.Initialize(routine.Complete);
+			routine.Initialize(id,enumerator, moveNextImmediately);
 
 			routines.Add(routine);
+			activeRoutines[id] = routine;
 			
-			return disposable;
+			return routine;
 		}
 
+		public bool CancelRoutine(int id)
+		{
+			if(activeRoutines.TryGetValue(id, out var routineTask))
+			{
+				routineTask.Dispose();
+				return true;
+			}
+			return false;
+		}
+		
 		/// <summary>
 		/// update all registered routine tasks
 		/// </summary>
@@ -54,20 +60,15 @@
 				var routine = routines[i];
 				var moveNext = false;
 				
-				try {
-					moveNext = routine.MoveNext();
-				}
-				catch (Exception e) {
-					Debug.LogException(e);
-					moveNext = false;
-				}
+				moveNext = routine.MoveNext();
 
 				//copy to buffer routine
 				if (moveNext) {
 					bufferRoutines.Add(routine);
 					continue;
 				}
-				
+
+				CancelRoutine(routine.IdValue);
 				routine.Despawn();
 			}
 
@@ -85,6 +86,7 @@
 				routine.Despawn();
 			}
 			
+			activeRoutines.Clear();
 			routines.Clear();
 			bufferRoutines.Clear();
 		}

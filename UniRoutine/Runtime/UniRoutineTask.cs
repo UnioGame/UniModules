@@ -1,18 +1,30 @@
 ﻿namespace UniTools.UniRoutine.Runtime
 {
-    using System;
     using System.Collections;
     using System.Collections.Generic;
-    using UniGreenModules.UniCore.Runtime.ObjectPool.Interfaces;
+    using UniGreenModules.UniCore.Runtime.DataFlow;
 
-    public class UniRoutineTask : IEnumerator<IEnumerator>, IPoolable
+    public class UniRoutineTask : IUniRoutineTask
     {
-        private Stack<IEnumerator> awaiters = new Stack<IEnumerator>();
+        private readonly Stack<IEnumerator> awaiters = new Stack<IEnumerator>();
+        private readonly LifeTimeDefinition lifeTimeDefinition = new LifeTimeDefinition();
+        
+        public readonly ILifeTime lifeTime;
 
+        public int IdValue;
+        
         private IEnumerator rootEnumerator;
         private RoutineState state = RoutineState.Complete;
-        private Action onCompleteAction;
         
+        public UniRoutineTask()
+        {
+            lifeTime = lifeTimeDefinition.LifeTime;
+        }
+
+        public int Id => IdValue;
+        
+        public ILifeTime LifeTime => lifeTime;
+
         public bool IsCompleted => state == RoutineState.Complete;
         
         public IEnumerator Current { get; private set; }
@@ -20,22 +32,19 @@
         object IEnumerator.Current => Current;
 
         public void Initialize(
+            int id,
             IEnumerator enumerator,
-            Action onComplete,
             bool moveNextImmediately = false)
         {
             Release();
-                        
+
+            IdValue = id;
             rootEnumerator   = enumerator;
             Current          = enumerator;
-            onCompleteAction = onComplete;
 
             state          = RoutineState.Active;
 
-            if (moveNextImmediately)
-            {
-                MoveNext();
-            }
+            if (moveNextImmediately) MoveNext();
         }
 
         /// <summary>
@@ -73,23 +82,23 @@
         {
             if (IsCompleted) return;
             state = RoutineState.Complete;
-            onCompleteAction?.Invoke();
         }
         
         public void Release()
         {
+            IdValue = 0;
             rootEnumerator = null;
             state          = RoutineState.Complete;
-            onCompleteAction = null;
             awaiters.Clear();
+            lifeTimeDefinition.Release();
         }
         
         public void Reset()
         {
             rootEnumerator?.Reset();
             Current = rootEnumerator;
-            state = RoutineState.None;
             awaiters.Clear();
+            state = RoutineState.None;
         }
 
         public void Dispose()
