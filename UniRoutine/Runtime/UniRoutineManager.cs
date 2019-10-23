@@ -24,7 +24,7 @@
         /// <param name="routineType">routine type</param>
         /// <param name="moveNextImmediately"></param>
         /// <returns>cancelation</returns>
-        public static RoutineValue RunUniRoutine(IEnumerator enumerator,
+        public static RoutineHandler RunUniRoutine(IEnumerator enumerator,
             RoutineType routineType = RoutineType.Update,
             bool moveNextImmediately = true)
         {
@@ -34,9 +34,9 @@
             var routineItem = routine.Value;
             var routineTask = routineItem.AddRoutine(enumerator, moveNextImmediately);
             if (routineTask == null)
-                return new RoutineValue(0,routineType);
+                return new RoutineHandler(0,routineType);
 
-            var routineValue = new RoutineValue(routineTask.Id,routineType);
+            var routineValue = new RoutineHandler(routineTask.Id,routineType);
             return routineValue;
         }
 
@@ -96,13 +96,13 @@
             routineContainer.StartCoroutine(ExecuteOnUpdate(routine, routineType));
         }
 
-        public static bool TryToStopRoutine(RoutineValue value)
+        public static bool TryToStopRoutine(RoutineHandler handler)
         {
             //get routine
-            var routine = uniRoutines[(int) value.Type];
+            var routine = uniRoutines[(int) handler.Type];
             //add enumerator to routines
             var routineItem = routine.Value;
-            return routineItem.CancelRoutine(value.Id);
+            return routineItem.CancelRoutine(handler.Id);
         }
     }
 }

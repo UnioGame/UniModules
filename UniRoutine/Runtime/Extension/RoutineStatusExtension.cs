@@ -9,27 +9,27 @@ using UniTools.UniRoutine.Runtime;
 public static class RoutineStatusExtension
 {
 
-    public static bool Cancel(this RoutineValue value)
+    public static bool Cancel(this RoutineHandler handler)
     {
-        return UniRoutineManager.TryToStopRoutine(value);
+        return UniRoutineManager.TryToStopRoutine(handler);
     }
     
-    public static IDisposableItem ToDisposable(this RoutineValue value)
+    public static IDisposableItem AsDisposable(this RoutineHandler handler)
     {
         var disposable = ClassPool.Spawn<DisposableAction>();
-        disposable.Initialize(() => UniRoutineManager.TryToStopRoutine(value));
+        disposable.Initialize(() => UniRoutineManager.TryToStopRoutine(handler));
         return disposable;
     }
 
-    public static ILifeTime AddTo(this RoutineValue value,ILifeTime lifeTime)
+    public static ILifeTime AddTo(this RoutineHandler handler,ILifeTime lifeTime)
     {
-        lifeTime.AddCleanUpAction(() => value.Cancel());
+        lifeTime.AddCleanUpAction(() => handler.Cancel());
         return lifeTime;
     }
     
-    public static IDisposableItem AddTo(this RoutineValue value,ICollection<IDisposable> collection)
+    public static IDisposableItem AddTo(this RoutineHandler handler,ICollection<IDisposable> collection)
     {
-        var disposable = value.ToDisposable();
+        var disposable = handler.AsDisposable();
         collection.Add(disposable);
         return disposable;
     }

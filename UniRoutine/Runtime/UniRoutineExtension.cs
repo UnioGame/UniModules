@@ -16,10 +16,10 @@
             RoutineType routineType = RoutineType.Update,
             bool moveNextImmediately = false)
         {
-            return Execute(enumerator,routineType,moveNextImmediately).ToDisposable();
+            return Execute(enumerator,routineType,moveNextImmediately).AsDisposable();
         }
 	
-        public static RoutineValue Execute(
+        public static RoutineHandler Execute(
             this IEnumerator enumerator, 
             RoutineType routineType = RoutineType.Update,
             bool moveNextImmediately = false)
