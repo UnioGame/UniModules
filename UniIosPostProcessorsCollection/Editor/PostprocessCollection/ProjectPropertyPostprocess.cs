@@ -1,5 +1,4 @@
-﻿#if UNITY_IOS && UNITY_EDITOR
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEditor.iOS.Xcode;
 
 namespace PostprocessCollection
@@ -14,9 +13,6 @@ namespace PostprocessCollection
     /// </summary>
     public static class ProjectPropertyPostprocess //: MonoBehaviour
     {
-        
-
-        
 //    [PostProcessBuild(700)]
 //    public static void OnPostProcessBuild(BuildTarget target, string pathToBuiltProject)
 //    {
@@ -41,7 +37,5 @@ namespace PostprocessCollection
                 proj.AddBuildProperty(targetGUID, property.Name, property.Value);
             }
         }
-
     }
 }
-#endif

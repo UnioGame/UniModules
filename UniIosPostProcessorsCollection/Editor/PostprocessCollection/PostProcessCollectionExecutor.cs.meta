@@ -1,11 +1,9 @@
 fileFormatVersion: 2
-guid: 0a692b1c06cef59459879bbe98579228
+guid: 76397ae1a894342d7a5f2feb15f9b2a8
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences:
-  - XcodeModificationsScriptableObject: {fileID: 11400000, guid: 613fad7304484fd42bc82b662e9c6164,
-      type: 2}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

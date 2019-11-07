@@ -1,9 +1,9 @@
-﻿using System.IO;
-#if UNITY_IOS && UNITY_EDITOR
+﻿#if UNITY_IOS
+
+using System.IO;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEditor.iOS.Xcode;
-#endif
 using UnityEngine;
 
 namespace PostprocessCollection
@@ -16,7 +16,7 @@ namespace PostprocessCollection
     public class PostProcessCollectionExecutor : ScriptableObject
     {
         public CustomXcodeProjectModifications XcodeModificationsScriptableObject;
-#if UNITY_IOS && UNITY_EDITOR
+
         [PostProcessBuild(999)]
         public static void OnPostprocessBuild(BuildTarget buildTarget, string path)
         {
@@ -50,6 +50,7 @@ namespace PostprocessCollection
 
             DestroyImmediate(dummy);
         }
-#endif
     }
 }
+
+#endif

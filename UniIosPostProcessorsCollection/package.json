@@ -2,7 +2,7 @@
   "name": "com.greenbuttongames.editor.iospostprocessorscollection",
   "displayName": "GBG Unity iOS Post Processors Collection",
   "description": "Post Processors Collection",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "unity": "2018.3",
   "license": "MIT",
   "author": "VMChar (https://github.com/vmchar)",
@@ -10,9 +10,9 @@
   "keywords": [
     "ios",
     "post",
-	"editor",
-	"editor-extension",
-	"tool"
+    "editor",
+    "editor-extension",
+    "tool"
   ],
   "dependencies": {}
 }
