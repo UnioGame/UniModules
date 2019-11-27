@@ -1,0 +1,13 @@
+{
+  "name": "com.unigame.unibuildpipeline",
+  "author": "Mefodei",
+  "displayName": "UniGame Unity Scriptable Build Pipeline",
+  "description": "Allow to configurate unity project build",
+  "unity": "2019.2",
+  "version": "1.0.150",
+  "keywords": ["Build", "Pipeline"],
+  "dependencies": {
+    "com.greenbuttongames.unicore": "1.3.11",
+    "com.unity.test-framework" : "1.0.18"
+  }
+}
