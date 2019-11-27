@@ -1,5 +1,5 @@
 {
-  "name": "com.greenbuttongames.unityspreadsheets",
+  "name": "com.unigame.unityspreadsheets",
   "author": "Mefodei",
   "displayName": "GBG Google Spreadsheets to Unity Entities",
   "description": "Google tables to unity classes",
@@ -11,7 +11,7 @@
   "dependencies": {
     "com.unigame.neuecc.unirx": "7.1.0",
     "com.unigame.neuecc.unirx.async": "1.2.0",
-    "com.greenbuttongames.unicore": "1.3.11",
-    "com.greenbuttongames.uniroutine": "1.3.6"
+    "com.unigame.unicore": "1.3.11",
+    "com.unigame.uniroutine": "1.3.6"
   }
 }

@@ -1,5 +1,5 @@
 {
-  "name": "com.greenbuttongames.contextdata",
+  "name": "com.unigame.contextdata",
   "author": "Mefodei",
   "displayName": "GBG Uni Context Data",
   "description": "",
@@ -9,6 +9,6 @@
   "dependencies": {
     "com.unigame.neuecc.unirx": "7.1.0",
     "com.unigame.neuecc.unirx.async": "1.2.0",
-    "com.greenbuttongames.unicore": "1.3.11"
+    "com.unigame.unicore": "1.3.11"
   }
 }

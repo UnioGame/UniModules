@@ -1,13 +1,12 @@
 {
-    "name": "unigame.unistatemachine",
+    "name": "unigame.nodesystem.examples",
     "references": [
-        "GUID:560b04d1a97f54a4e82edc0cbbb69285",
-        "GUID:f51ebe6a0ceec4240a699833d6309b23",
         "GUID:8e4577c9194c10845984cf27eb974fd1",
-        "GUID:9f8e6b2872ac2ca4683e584b9ba21f29",
-        "GUID:0d24a03ae3e7f2f459f0a0cc9bc544fb"
+        "GUID:5034c963820268e41a1a26d4a3a0ab07",
+        "GUID:d47fc5ef4ff8943449ade80dec65e4ca",
+        "GUID:560b04d1a97f54a4e82edc0cbbb69285",
+        "GUID:f51ebe6a0ceec4240a699833d6309b23"
     ],
-    "optionalUnityReferences": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

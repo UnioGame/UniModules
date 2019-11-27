@@ -1,5 +1,5 @@
 {
-  "name": "com.greenbuttongames.resourcesystem",
+  "name": "com.unigame.resourcesystem",
   "author": "Mefodei",
   "displayName": "GBG UniResource system",
   "description": "",
@@ -7,8 +7,8 @@
   "version": "1.0.166",
   "keywords": [],
   "dependencies": {
-    "com.greenbuttongames.unicore": "1.3.11",
+    "com.unigame.unicore": "1.3.11",
     "com.unity.addressables": "1.1.3-preview",
-    "com.greenbuttongames.uniroutine": "1.3.6"
+    "com.unigame.uniroutine": "1.3.6"
   }
 }

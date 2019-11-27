@@ -1,5 +1,5 @@
 {
-  "name": "com.greenbuttongames.uisystem",
+  "name": "com.unigame.uisystem",
   "author": "Mefodei",
   "displayName": "GBG UI System",
   "description": "Ui system for Unity",
@@ -9,9 +9,9 @@
   "dependencies": {
     "com.unigame.neuecc.unirx": "7.1.0",
     "com.unigame.neuecc.unirx.async": "1.2.0",
-    "com.greenbuttongames.unicore": "1.3.11",
+    "com.unigame.unicore": "1.3.11",
     "com.unity.addressables": "1.1.10",
-    "com.greenbuttongames.uniroutine": "1.3.6",
+    "com.unigame.uniroutine": "1.3.6",
     "com.unity.textmeshpro": "2.0.1"
   }
 }
