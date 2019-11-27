@@ -1,11 +1,12 @@
 {
-    "name": "gbg.unicore.runtime",
+    "name": "unigame.unieditortools",
     "references": [
-        "GUID:560b04d1a97f54a4e82edc0cbbb69285",
-        "GUID:f51ebe6a0ceec4240a699833d6309b23"
+        "GUID:8e4577c9194c10845984cf27eb974fd1"
     ],
     "optionalUnityReferences": [],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

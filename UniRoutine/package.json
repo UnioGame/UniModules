@@ -1,5 +1,5 @@
 {
-  "name": "com.greenbuttongames.uniroutine",
+  "name": "com.unigame.uniroutine",
   "author": "Mefodei",
   "displayName": "GBG UniRoutine",
   "description": "Unity Routine System",
@@ -7,7 +7,7 @@
   "version": "1.3.6",
   "keywords": [],
   "dependencies": {
-    "com.greenbuttongames.unicore": "1.3.11",
+    "com.unigame.unicore": "1.3.11",
     "com.unigame.neuecc.unirx": "7.1.0",
     "com.unigame.neuecc.unirx.async": "1.2.0"
   }

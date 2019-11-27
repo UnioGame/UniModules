@@ -1,7 +1,6 @@
 {
-    "name": "gbg.postprocesscollection.ios.editor",
+    "name": "unigame.postprocesscollection.ios.editor",
     "references": [],
-    "optionalUnityReferences": [],
     "includePlatforms": [
         "iOS"
     ],

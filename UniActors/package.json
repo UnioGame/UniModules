@@ -1,5 +1,5 @@
 {
-  "name": "com.greenbuttongames.nodeactors",
+  "name": "com.unigame.nodeactors",
   "author": "Mefodei",
   "displayName": "GBG Unity Actors System",
   "description": "Actors system for Unity",
@@ -9,11 +9,11 @@
   "dependencies": {
     "com.unigame.neuecc.unirx": "7.1.0",
     "com.unigame.neuecc.unirx.async": "1.2.0",
-    "com.greenbuttongames.unicore": "1.3.11",
-    "com.greenbuttongames.contextdata": "1.1.43",
-    "com.greenbuttongames.uniroutine": "1.3.6",
-    "com.greenbuttongames.resourcesystem": "1.0.166",
-    "com.greenbuttongames.nodesystem": "1.1.63",
-    "com.greenbuttongames.unistatemachine": "1.1.53"
+    "com.unigame.unicore": "1.3.11",
+    "com.unigame.contextdata": "1.1.43",
+    "com.unigame.uniroutine": "1.3.6",
+    "com.unigame.resourcesystem": "1.0.166",
+    "com.unigame.nodesystem": "1.1.63",
+    "com.unigame.unistatemachine": "1.1.53"
   }
 }

@@ -1,5 +1,5 @@
 {
-  "name": "com.greenbuttongames.unistatemachine",
+  "name": "com.unigame.unistatemachine",
   "author": "Mefodei",
   "displayName": "GBG Uni State Machine",
   "description": "Unity state machine core",
@@ -9,8 +9,8 @@
   "dependencies": {
     "com.unigame.neuecc.unirx": "7.1.0",
     "com.unigame.neuecc.unirx.async": "1.2.0",
-    "com.greenbuttongames.unicore": "1.3.11",
-    "com.greenbuttongames.uniroutine": "1.3.6",
-    "com.greenbuttongames.contextdata": "1.1.43"
+    "com.unigame.unicore": "1.3.11",
+    "com.unigame.uniroutine": "1.3.6",
+    "com.unigame.contextdata": "1.1.43"
   }
 }

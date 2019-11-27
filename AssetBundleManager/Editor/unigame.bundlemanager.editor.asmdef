@@ -1,13 +1,9 @@
 {
-    "name": "UniNodeSystem.Editor",
+    "name": "unigame.bundlemanager.editor",
     "references": [
-        "GUID:d47fc5ef4ff8943449ade80dec65e4ca",
         "GUID:2796129a6c23eb84a8181f62bf7332f1",
-        "GUID:b88fdd0bdc1b93848ada31468185c731",
-        "GUID:9d617341afa63df42932d4820413599a",
-        "GUID:5034c963820268e41a1a26d4a3a0ab07",
-        "GUID:8e4577c9194c10845984cf27eb974fd1",
-        "GUID:560b04d1a97f54a4e82edc0cbbb69285"
+        "GUID:2c7f6e4fe8ee5884b94563bb00b24b22",
+        "GUID:8e4577c9194c10845984cf27eb974fd1"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [
