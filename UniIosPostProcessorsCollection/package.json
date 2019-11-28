@@ -7,6 +7,7 @@
   "license": "MIT",
   "author": "VMChar (https://github.com/vmchar)",
   "homepage": "https://github.com/vmchar/iOSPostprocessCollection#readme",
+  "publishConfig": { "registry": "https://npm.pkg.github.com/" },
   "keywords": [
     "ios",
     "post",
