@@ -1,9 +1,10 @@
 {
-    "name": "gbg.uniroutine.runtime",
+    "name": "unigame.uimanager.demo",
     "references": [
-        "GUID:8e4577c9194c10845984cf27eb974fd1"
+        "GUID:8e4577c9194c10845984cf27eb974fd1",
+        "GUID:9e24947de15b9834991c9d8411ea37cf",
+        "GUID:84651a3751eca9349aac36a66bba901b"
     ],
-    "optionalUnityReferences": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

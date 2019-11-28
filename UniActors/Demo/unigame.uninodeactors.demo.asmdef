@@ -1,11 +1,10 @@
 {
-    "name": "gbg.uninodeactors.demo",
+    "name": "unigame.uninodeactors.demo",
     "references": [
         "GUID:8e4577c9194c10845984cf27eb974fd1",
         "GUID:9f8e6b2872ac2ca4683e584b9ba21f29",
         "GUID:35c292a231b33424d95069f611cb5c74"
     ],
-    "optionalUnityReferences": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

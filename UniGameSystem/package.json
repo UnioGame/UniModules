@@ -1,9 +1,9 @@
 {
   "name": "com.unigame.unigamesystem",
   "author": "Mefodei",
-  "displayName": "GBG GameSystem",
-  "description": "Unity Game Controllers",
-  "unity": "2019.1",
+  "displayName": "UniGame GameSystem",
+  "description": "Unity Game Model based controllers",
+  "unity": "2019.2",
   "version": "0.0.45",
   "keywords": [],
   "dependencies": {

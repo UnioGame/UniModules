@@ -1,9 +1,9 @@
 {
   "name": "com.unigame.uniroutine",
   "author": "Mefodei",
-  "displayName": "GBG UniRoutine",
+  "displayName": "UniGame UniRoutine",
   "description": "Unity Routine System",
-  "unity": "2019.1",
+  "unity": "2019.2",
   "version": "1.3.6",
   "keywords": [],
   "dependencies": {

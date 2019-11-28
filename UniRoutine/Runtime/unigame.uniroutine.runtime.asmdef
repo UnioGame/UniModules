@@ -1,9 +1,8 @@
 {
-    "name": "gbg.unistatemachine.examples",
+    "name": "unigame.uniroutine.runtime",
     "references": [
-        "GUID:e924132843abff74a994753a4c5c524b"
+        "GUID:8e4577c9194c10845984cf27eb974fd1"
     ],
-    "optionalUnityReferences": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

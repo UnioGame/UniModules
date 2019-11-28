@@ -1,9 +1,9 @@
 {
   "name": "com.unigame.nodesystem.ui",
   "author": "Mefodei",
-  "displayName": "GBG UniNodes UI system",
+  "displayName": "UniGame UniNodes UI system",
   "description": "UI support for node system",
-  "unity": "2019.1",
+  "unity": "2019.2",
   "version": "1.0.144",
   "keywords": [],
   "dependencies": {

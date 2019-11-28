@@ -1,9 +1,9 @@
 {
   "name": "com.unigame.uisystem",
   "author": "Mefodei",
-  "displayName": "GBG UI System",
+  "displayName": "UniGame UI System",
   "description": "Ui system for Unity",
-  "unity": "2019.1",
+  "unity": "2019.2",
   "version": "0.0.130",
   "keywords": [],
   "dependencies": {

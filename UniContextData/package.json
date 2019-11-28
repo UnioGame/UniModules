@@ -1,9 +1,9 @@
 {
   "name": "com.unigame.contextdata",
   "author": "Mefodei",
-  "displayName": "GBG Uni Context Data",
+  "displayName": "UniGame Context Data",
   "description": "",
-  "unity": "2019.1",
+  "unity": "2019.2",
   "version": "1.1.43",
   "keywords": [],
   "dependencies": {

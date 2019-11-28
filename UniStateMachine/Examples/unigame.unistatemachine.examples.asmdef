@@ -1,13 +1,8 @@
 {
-    "name": "gbg.nodesystem.nodes",
+    "name": "unigame.unistatemachine.examples",
     "references": [
-        "GUID:560b04d1a97f54a4e82edc0cbbb69285",
-        "GUID:f51ebe6a0ceec4240a699833d6309b23",
-        "GUID:d47fc5ef4ff8943449ade80dec65e4ca",
-        "GUID:8e4577c9194c10845984cf27eb974fd1",
         "GUID:e924132843abff74a994753a4c5c524b"
     ],
-    "optionalUnityReferences": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

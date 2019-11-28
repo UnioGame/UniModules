@@ -1,9 +1,9 @@
 {
   "name": "com.unigame.unicore",
   "author": "Mefodei",
-  "displayName": "GBG UniCore",
-  "description": "Unity Tools Core",
-  "unity": "2019.1",
+  "displayName": "UniGame Core module",
+  "description": "UniGame Tools Core",
+  "unity": "2019.2",
   "version": "1.3.11",
   "keywords": [],
   "dependencies": {
