@@ -15,6 +15,8 @@
 #region inspector
         
         public PortIO direction = PortIO.Input;
+
+        public bool bindInOut = true;
         
 #endregion
 
@@ -30,7 +32,7 @@
         {
             base.UpdateNodeCommands(nodeCommands);
             
-            portPairCommand.Initialize(this, ItemName, true);
+            portPairCommand.Initialize(this, ItemName, bindInOut);
             PortValue = Direction == PortIO.Input ? 
                 portPairCommand.InputPort : 
                 portPairCommand.OutputPort;

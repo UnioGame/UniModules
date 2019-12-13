@@ -16,17 +16,17 @@
     {       
         #region private fields
 
-        [NonSerialized] private List<ILifeTimeCommand> commands = 
+        [NonSerialized] public List<ILifeTimeCommand> commands = 
             new List<ILifeTimeCommand>();
- 
+
+        [NonSerialized] public List<IPortValue> portValues = 
+            new List<IPortValue>();
+        
         [NonSerialized] private LifeTimeDefinition lifeTimeDefinition = 
             new LifeTimeDefinition();
 
         [NonSerialized] private Dictionary<string, IPortValue> portValuesMap = 
             new Dictionary<string, IPortValue>();
-
-        [NonSerialized] private List<IPortValue> portValues = 
-            new List<IPortValue>();
 
         [NonSerialized] private bool isInitialized;
 
@@ -36,6 +36,9 @@
 
         #region public properties
 
+        /// <summary>
+        /// Is node currently active
+        /// </summary>
         public bool IsActive => isActive;
 
         public IReadOnlyList<IPortValue> PortValues => portValues;
@@ -64,7 +67,6 @@
             
             //remove deleted ports
             Ports.RemoveItems(this.IsPortRemoved, RemoveInstancePort);
-            
         }
 
         /// <summary>
@@ -90,6 +92,7 @@
 
             StateLogger.LogState(string.Format("STATE EXECUTE {0} TYPE {1}",
                 name, GetType().Name), this);
+            
             //mark as active
             isActive = true;
             
@@ -183,6 +186,6 @@
             Initialize();
         }
         
-        #endregion
+#endregion
     }
 }
