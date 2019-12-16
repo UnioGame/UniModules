@@ -1,8 +1,7 @@
-using UnityEngine;
-
-namespace UniModule.UnityTools.ResourceSystem
+namespace UniGreenModules.UniResourceSystem.Runtime.Interfaces
 {
-    using UniGreenModules.UniCore.Runtime.Interfaces;
+    using UniCore.Runtime.Interfaces;
+    using UnityEngine;
 
     /// <summary>
     /// resource item wrapper

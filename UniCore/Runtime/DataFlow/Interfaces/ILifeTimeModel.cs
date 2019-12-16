@@ -1,7 +1,7 @@
-namespace UniGreenModules.UniCore.Runtime.DataFlow
+namespace UniGreenModules.UniCore.Runtime.DataFlow.Interfaces
 {
-    using Interfaces;
-    using ObjectPool.Interfaces;
+    using ObjectPool.Runtime.Interfaces;
+    using Runtime.Interfaces;
 
     public interface ILifeTimeModel : ILifeTimeContext, IDespawnable
     {

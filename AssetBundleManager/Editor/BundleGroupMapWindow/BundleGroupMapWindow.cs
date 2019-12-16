@@ -1,53 +1,57 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using UniModule.UnityTools.AssetBundleManager;
-using UniModule.UnityTools.EditorTools;
+﻿using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-public class BundleGroupMapWindow : EditorWindow {
+namespace UniGreenModules.AssetBundleManager.Editor.BundleGroupMapWindow
+{
+    using Runtime;
+    using UniCore.EditorTools.Editor.AssetOperations;
+    using Editor = UnityEditor.Editor;
 
-    private static BundleGroupMapWindow _window;
-    private BundleGroupMap _groupMap;
-    private Vector2 _scroll = new Vector2();
+    public class BundleGroupMapWindow : EditorWindow {
 
-    [MenuItem("Tools/AssetBundles/Bundle Group View")]
-    static void Initialize() {
+        private static BundleGroupMapWindow _window;
+        private        BundleGroupMap       _groupMap;
+        private        Vector2              _scroll = new Vector2();
 
-        var asset = AssetEditorTools.GetAssets<BundleGroupMap>().FirstOrDefault();
-        // Get existing open window or if none, make a new one:
-        _window = (BundleGroupMapWindow)EditorWindow.GetWindow(typeof(BundleGroupMapWindow));
-        _window.Initialize(asset);
-        _window.Show();
+        [MenuItem("Tools/AssetBundles/Bundle Group View")]
+        static void Initialize() {
 
-    }
+            var asset = AssetEditorTools.GetAssets<BundleGroupMap>().FirstOrDefault();
+            // Get existing open window or if none, make a new one:
+            _window = (BundleGroupMapWindow)EditorWindow.GetWindow(typeof(BundleGroupMapWindow));
+            _window.Initialize(asset);
+            _window.Show();
 
-    public void Initialize(BundleGroupMap groupMap) {
-        _groupMap = groupMap;
-    }
+        }
 
-    void OnGUI() {
+        public void Initialize(BundleGroupMap groupMap) {
+            _groupMap = groupMap;
+        }
 
-        InitializeWindow();
+        void OnGUI() {
 
-        GUILayout.BeginVertical();
-        _scroll = EditorGUILayout.BeginScrollView(_scroll);
+            InitializeWindow();
+
+            GUILayout.BeginVertical();
+            _scroll = EditorGUILayout.BeginScrollView(_scroll);
         
-        var editor = Editor.CreateEditor(_groupMap);
-        editor.OnInspectorGUI();
+            var editor = Editor.CreateEditor(_groupMap);
+            editor.OnInspectorGUI();
 
-        EditorGUILayout.EndScrollView();
-        GUILayout.EndVertical();
-    }
+            EditorGUILayout.EndScrollView();
+            GUILayout.EndVertical();
+        }
 
-    private void InitializeWindow() {
+        private void InitializeWindow() {
 
-    }
+        }
 
-    private void DrawViewer() {
+        private void DrawViewer() {
 
-        GUILayout.BeginVertical();
+            GUILayout.BeginVertical();
 
-        GUILayout.EndVertical();
+            GUILayout.EndVertical();
+        }
     }
 }

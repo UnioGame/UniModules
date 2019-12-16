@@ -1,4 +1,4 @@
-﻿namespace UniGreenModules.UnityBuild.Editor.ClientBuild.Commands {
+﻿namespace UniGreenModules.UniGame.UnityBuild.Editor.ClientBuild.Commands.PostBuildCommands {
     using Interfaces;
     using UnityEditor.Build.Reporting;
     using UnityEngine;

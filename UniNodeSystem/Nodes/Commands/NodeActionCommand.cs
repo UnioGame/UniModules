@@ -1,10 +1,11 @@
 ﻿namespace UniGreenModules.UniNodeSystem.Nodes.Commands
 {
     using System;
+    using Runtime.Core;
     using Runtime.Extensions;
     using Runtime.Interfaces;
-    using Runtime.Runtime;
     using UniCore.Runtime.DataFlow;
+    using UniCore.Runtime.DataFlow.Interfaces;
     using UniCore.Runtime.Interfaces;
 
     [Serializable]

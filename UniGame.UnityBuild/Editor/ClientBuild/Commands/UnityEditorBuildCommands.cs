@@ -1,8 +1,7 @@
-﻿using UnityEditor;
-
-namespace UniGreenModules.UnityBuild.Editor.ClientBuild.Commands
+﻿namespace UniGreenModules.UniGame.UnityBuild.Editor.ClientBuild.Commands
 {
     using BuildConfiguration;
+    using UnityEditor;
 
     public class UnityEditorBuildCommands 
     {

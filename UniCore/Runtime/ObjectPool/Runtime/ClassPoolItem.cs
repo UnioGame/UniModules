@@ -1,9 +1,7 @@
-﻿namespace UniGreenModules.UniCore.Runtime.ObjectPool
+﻿namespace UniGreenModules.UniCore.Runtime.ObjectPool.Runtime
 {
     using System;
     using System.Collections.Generic;
-    using Interfaces;
-    using UnityEngine;
 
     [Serializable]
     public class ClassPoolItem<T> : BasePoolItem

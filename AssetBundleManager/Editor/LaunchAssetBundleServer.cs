@@ -1,16 +1,10 @@
-﻿using UnityEngine;
-using UnityEditor;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System;
-using System.Net;
-using System.Threading;
-using UnityEditor.Utils;
-
-namespace AssetBundlesModule
+﻿namespace UniGreenModules.AssetBundleManager.Editor
 {
+	using System.Diagnostics;
+	using System.IO;
+	using UnityEditor;
+	using UnityEngine;
+
 	internal class LaunchAssetBundleServer : ScriptableSingleton<LaunchAssetBundleServer>
 	{
 		const string kLocalAssetbundleServerMenu = "Assets/AssetBundles/Local AssetResource Server";

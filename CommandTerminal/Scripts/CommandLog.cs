@@ -1,8 +1,8 @@
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace CommandTerminal
+namespace UniGreenModules.CommandTerminal.Scripts
 {
+    using System.Collections.Generic;
+    using UnityEngine;
+
     public enum TerminalLogType
     {
         Error     = LogType.Error,

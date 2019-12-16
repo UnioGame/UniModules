@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using UniGreenModules.UnityBuild.Editor.ClientBuild.Interfaces;
-using UnityEditor;
-
-namespace UniGreenModules.UnityBuild.Editor.ClientBuild.Parsers
+﻿namespace UniGreenModules.UniGame.UnityBuild.Editor.ClientBuild.Parsers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Interfaces;
+
     public class EnumArgumentParser<TValue> 
         where TValue : struct
     {

@@ -1,10 +1,10 @@
-﻿using System;
-using UniEditorTools;
-using UnityEditor;
-using UnityEngine;
-
-namespace EditorControls
+﻿namespace UniGreenModules.UniCore.EditorTools.Editor.Controls
 {
+    using System;
+    using UnityEditor;
+    using UnityEngine;
+    using Utility;
+
     public class TabPanelControl
     {
         const float DarkGray = 0.4f;

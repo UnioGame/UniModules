@@ -1,8 +1,7 @@
-﻿using UnityEditor;
-using UnityEngine;
-
-namespace PhysicsBallisticsMotion {
-    using UniGreenModules.UniCore.Runtime.Physics;
+﻿namespace UniGreenModules.UniCore.EditorTools.Editor.Physics {
+    using Runtime.Physics;
+    using UnityEditor;
+    using UnityEngine;
 
     public class TrajectoryGizmosDrawer {
 

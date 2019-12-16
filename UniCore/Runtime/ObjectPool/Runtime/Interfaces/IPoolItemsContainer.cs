@@ -1,4 +1,4 @@
-namespace UniGreenModules.UniCore.Runtime.ObjectPool.Runtime
+namespace UniGreenModules.UniCore.Runtime.ObjectPool.Runtime.Interfaces
 {
     using UniCore.Runtime.Interfaces;
 

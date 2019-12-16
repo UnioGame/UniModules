@@ -1,7 +1,7 @@
 namespace UniGreenModules.UniCore.Runtime.Interfaces
 {
     using DataFlow;
-    using ObjectPool.Interfaces;
+    using DataFlow.Interfaces;
 
     public interface ILifeTimeCommand
     {

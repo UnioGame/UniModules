@@ -1,7 +1,7 @@
 ﻿namespace UniGreenModules.UniCore.Runtime.Interfaces.Rx
 {
     using System;
-    using ObjectPool.Interfaces;
+    using ObjectPool.Runtime.Interfaces;
 
     public interface IRecycleObserver<T> : 
         IObserver<T>, 

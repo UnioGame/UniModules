@@ -1,4 +1,4 @@
-namespace UniGreenModules.UniNodeSystem.Runtime.Runtime
+namespace UniGreenModules.UniNodeSystem.Runtime.Core
 {
     public enum PortIO : byte
     {

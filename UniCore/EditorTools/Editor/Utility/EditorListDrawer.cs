@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace UniEditorTools
+﻿namespace UniGreenModules.UniCore.EditorTools.Editor.Utility
 {
+    using System;
+    using System.Collections.Generic;
 
     public class ListDrawerOptions<TItem>
     {

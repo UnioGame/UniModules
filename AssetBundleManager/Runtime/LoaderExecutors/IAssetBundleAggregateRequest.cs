@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using UniModule.UnityTools.AssetBundleManager.Interfaces;
-
-namespace UniModule.UnityTools.AssetBundleManager.LoaderExecutors {
+﻿namespace UniGreenModules.AssetBundleManager.Runtime.LoaderExecutors {
+    using System.Collections.Generic;
+    using Interfaces;
 
     public interface IAssetBundleAggregateRequest : IAssetBundleRequest
     {

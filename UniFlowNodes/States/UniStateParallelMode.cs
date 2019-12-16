@@ -1,8 +1,7 @@
-﻿namespace UniGreenModules.UniNodeSystem.Runtime
+﻿namespace UniGreenModules.UniFlowNodes.States
 {
     using System;
-    using UniTools.UniRoutine.Runtime;
-    using UnityEngine.Serialization;
+    using UniRoutine.Runtime;
 
     [Serializable]
     public class UniStateParallelMode

@@ -5,7 +5,8 @@
     using Interfaces;
     using Interfaces.Rx;
     using ObjectPool;
-    using ObjectPool.Interfaces;
+    using ObjectPool.Runtime;
+    using ObjectPool.Runtime.Interfaces;
     using Rx;
     using UniRx;
 

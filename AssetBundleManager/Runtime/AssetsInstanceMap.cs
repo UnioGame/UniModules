@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-
-namespace UniModule.UnityTools.AssetBundleManager
+﻿namespace UniGreenModules.AssetBundleManager.Runtime
 {
+    using System.Collections.Generic;
+    using UnityEngine;
+
     public static class AssetsInstanceMap {
 
         private static Dictionary<long, long> _idMap = new Dictionary<long, long>();

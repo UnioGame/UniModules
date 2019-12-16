@@ -1,4 +1,4 @@
-﻿namespace UniGreenModules.UnityBuild.Editor.ClientBuild.Extensions
+﻿namespace UniGreenModules.UniGame.UnityBuild.Editor.ClientBuild.Extensions
 {
     using System.Linq;
     using Interfaces;

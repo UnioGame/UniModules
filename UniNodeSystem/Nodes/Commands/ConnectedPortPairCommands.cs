@@ -6,6 +6,7 @@ namespace UniGreenModules.UniNodeSystem.Nodes.Commands
     using System;
     using Runtime.Extensions;
     using Runtime.Interfaces;
+    using UniCore.Runtime.DataFlow.Interfaces;
 
     [Serializable]
     public class ConnectedPortPairCommands : ILifeTimeCommand

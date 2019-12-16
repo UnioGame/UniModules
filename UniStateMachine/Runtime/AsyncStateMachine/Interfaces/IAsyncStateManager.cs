@@ -1,6 +1,6 @@
-﻿namespace UniGreenModules.UniStateMachine.Runtime.AsyncStateMachine
+﻿namespace UniGreenModules.UniStateMachine.Runtime.AsyncStateMachine.Interfaces
 {
-    using Interfaces;
+    using Runtime.Interfaces;
 
     public interface IAsyncStateManager<TStateType>
     {

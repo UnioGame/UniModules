@@ -1,7 +1,8 @@
-﻿namespace UniGreenModules.UniCore.Runtime.Views
+﻿namespace UniGreenModules.UniCore.Runtime.ModelBehaviours
 {
     using System;
     using DataFlow;
+    using DataFlow.Interfaces;
     using Interfaces;
     using Interfaces.Rx;
     using Rx;

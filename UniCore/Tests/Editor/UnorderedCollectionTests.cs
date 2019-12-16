@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace UniGreenModules.UniCore.Tests
+﻿namespace UniGreenModules.UniCore.Tests.Editor
 {
     using NUnit.Framework;
     using Runtime.DataStructure;

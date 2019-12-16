@@ -1,9 +1,9 @@
-﻿using UniModule.UnityTools.ResourceSystem;
-using UnityEditor;
-using UnityEngine;
-
-namespace Modules.UniTools.UniResourceSystem
+﻿namespace UniGreenModules.UniResourceSystem.Editor
 {
+    using Runtime;
+    using UnityEditor;
+    using UnityEngine;
+
     public class EditorResource : ResourceItem
     {
         public string AssetPath => assetPath;

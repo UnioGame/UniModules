@@ -4,6 +4,7 @@
     using Interfaces;
     using Interfaces.Rx;
     using ObjectPool;
+    using ObjectPool.Runtime.Extensions;
 
     public class RecycleActionObserver<T> : IRecycleObserver<T>
     {

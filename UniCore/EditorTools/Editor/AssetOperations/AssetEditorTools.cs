@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
-using UnityEditor;
-using UnityEngine;
-using Object = UnityEngine.Object;
-
-namespace UniModule.UnityTools.EditorTools
+﻿namespace UniGreenModules.UniCore.EditorTools.Editor.AssetOperations
 {
-    using UniGreenModules.UniCore.EditorTools.AssetOperations;
-    using UniGreenModules.UniCore.Runtime.ReflectionUtils;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Text.RegularExpressions;
+    using Runtime.ReflectionUtils;
+    using UnityEditor;
+    using UnityEngine;
+    using Object = UnityEngine.Object;
 
     public partial class AssetEditorTools
     {

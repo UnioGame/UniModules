@@ -1,9 +1,8 @@
-﻿using UnityEngine;
-
-namespace UniGreenModules.UniCore.EditorTools.AssetOperations
+﻿namespace UniGreenModules.UniCore.EditorTools.Editor.AssetOperations
 {
-    using Runtime.ObjectPool.Interfaces;
+    using Runtime.ObjectPool.Runtime.Interfaces;
     using UnityEditor;
+    using UnityEngine;
 
     public class EditorAssetResource : IPoolable
     {

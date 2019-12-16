@@ -1,7 +1,7 @@
 namespace UniGreenModules.UniCore.Runtime.Interfaces
 {
     using System.Collections.Generic;
-    using ObjectPool.Interfaces;
+    using ObjectPool.Runtime.Interfaces;
 
     public interface IContainer<TData> : IPoolable
     {

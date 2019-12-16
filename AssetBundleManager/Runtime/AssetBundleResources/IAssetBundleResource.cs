@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Object = UnityEngine.Object;
-
-namespace UniModule.UnityTools.AssetBundleManager.AssetBundleResources
+﻿namespace UniGreenModules.AssetBundleManager.Runtime.AssetBundleResources
 {
-    using UniGreenModules.UniCore.Runtime.ObjectPool.Interfaces;
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using UniCore.Runtime.ObjectPool.Runtime.Interfaces;
+    using Object = UnityEngine.Object;
 
     public interface IAssetBundleResource : IPoolable
     {

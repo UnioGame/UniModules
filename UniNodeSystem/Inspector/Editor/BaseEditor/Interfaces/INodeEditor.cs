@@ -1,6 +1,7 @@
 namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor.Interfaces
 {
-    using Runtime.Runtime;
+    using Runtime.Core;
+    using UniCore.EditorTools.Editor.Interfaces;
     using UnityEngine;
 
     public interface INodeEditor : IEditorItem

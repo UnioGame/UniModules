@@ -2,7 +2,7 @@
 {
 	using System.Collections.Generic;
 	using System.Threading;
-	using ObjectPool.Interfaces;
+	using Interfaces;
 
 	public class UnorderedCollection<T> : IUnorderedCollection<T> where T:class
 	{

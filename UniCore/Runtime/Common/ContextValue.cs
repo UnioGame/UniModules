@@ -3,6 +3,7 @@
     using System;
     using Interfaces;
     using ObjectPool;
+    using ObjectPool.Runtime.Extensions;
     using Rx;
 
     [Serializable]

@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using UnityEditor;
-using UnityEngine;
-
-namespace DependencyViewer
+﻿namespace UniGreenModules.AssetBundleManager.Editor.DependencyViewer
 {
+    using System.Collections.Generic;
+    using System.IO;
+    using UnityEditor;
+    using UnityEngine;
 
     public enum GraphEdgeType {
 

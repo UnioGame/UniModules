@@ -1,6 +1,7 @@
 namespace UniGreenModules.UniActors.Runtime.Interfaces
 {
-    using UniCore.Runtime.ObjectPool.Interfaces;
+    using UniContextData.Runtime.Interfaces;
+    using UniCore.Runtime.ObjectPool.Runtime.Interfaces;
 
     public interface IActorModel : 
         IContextDataSource,

@@ -1,13 +1,8 @@
-using System;
-using System.Reflection;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using UnityEngine;
-
-namespace CommandTerminal
+namespace UniGreenModules.CommandTerminal.Scripts
 {
-    using System.Linq;
+    using System;
+    using System.Collections.Generic;
+    using System.Reflection;
 
     public enum CommandPermissionLevel
     {

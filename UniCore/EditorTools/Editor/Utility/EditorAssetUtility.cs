@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections;
-using System.IO;
-using System.Linq;
-using UnityEditor;
-using UnityEngine;
-using Object = UnityEngine.Object;
-
-namespace Assets.Editor.Utility
+﻿namespace UniGreenModules.UniCore.EditorTools.Editor.Utility
 {
+    using System;
+    using System.Collections;
+    using System.IO;
+    using System.Linq;
+    using UnityEditor;
+    using UnityEngine;
+    using Object = UnityEngine.Object;
+
     public static class EditorAssetUtility
     {
         /// <summary>

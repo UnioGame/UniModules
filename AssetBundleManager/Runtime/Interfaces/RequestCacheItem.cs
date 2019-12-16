@@ -1,4 +1,4 @@
-﻿namespace UniModule.UnityTools.AssetBundleManager.Interfaces {
+﻿namespace UniGreenModules.AssetBundleManager.Runtime.Interfaces {
 
 	public class RequestCacheItem {
 

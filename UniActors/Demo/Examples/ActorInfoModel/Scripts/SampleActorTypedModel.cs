@@ -3,6 +3,7 @@
     using System;
     using Runtime.Models;
     using UniCore.Runtime.ObjectPool;
+    using UniCore.Runtime.ObjectPool.Runtime.Extensions;
     using UnityEngine;
 
     [Serializable]

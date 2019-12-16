@@ -1,23 +1,24 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
-public class UniPrefabUtility 
+namespace UniGreenModules.UniCore.EditorTools.Editor.Utility
 {
-
-    public static GameObject LoadPrefabContents(GameObject target)
+    public class UniPrefabUtility 
     {
 
-        var path = AssetDatabase.GetAssetPath(target);
-        
-        if (string.IsNullOrEmpty(path))
+        public static GameObject LoadPrefabContents(GameObject target)
         {
-            return target;
+
+            var path = AssetDatabase.GetAssetPath(target);
+        
+            if (string.IsNullOrEmpty(path))
+            {
+                return target;
+            }
+
+            return PrefabUtility.LoadPrefabContents(path);
+
         }
-
-        return PrefabUtility.LoadPrefabContents(path);
-
-    }
     
+    }
 }

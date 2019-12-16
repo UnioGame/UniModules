@@ -1,8 +1,7 @@
-﻿using UniGreenModules.UnityBuild.Editor.ClientBuild.Interfaces;
-
-namespace UniGreenModules.UnityBuild.Editor.ClientBuild.BuildConfiguration
+﻿namespace UniGreenModules.UniGame.UnityBuild.Editor.ClientBuild.BuildConfiguration
 {
     using System;
+    using Interfaces;
 
     [Serializable]
     public class EditorBuildConfiguration : IUniBuilderConfiguration

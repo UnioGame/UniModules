@@ -1,4 +1,4 @@
-﻿namespace UniModule.UnityTools.AssetBundleManager
+﻿namespace UniGreenModules.AssetBundleManager.Runtime
 {
 
     public enum AssetBundleSourceType {

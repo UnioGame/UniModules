@@ -1,19 +1,17 @@
-﻿using UnityEngine;
-
-namespace UniGreenModules.UniRoutine.Tests
+﻿namespace UniGreenModules.UniRoutine.Tests.Tests
 {
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using NUnit.Framework;
+    using Runtime;
+    using Runtime.Extension;
     using UniCore.Runtime.DataFlow;
-    using UniCore.Runtime.Extension;
     using UniCore.Runtime.Interfaces;
-    using UniRx;
+    using UniCore.Runtime.Rx.Extensions;
+    using UnityEngine;
     using UnityEngine.TestTools;
-    using UniTools.UniRoutine.Runtime;
-    using UniTools.UniRoutine.Runtime.Extension;
 
     public class UnityRoutineTests
     {

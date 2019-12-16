@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using UniGreenModules.UniCore.EditorTools.AssetOperations;
-using UniGreenModules.UnityBuild.Editor.ClientBuild.Commands;
-using UniGreenModules.UnityBuild.Editor.ClientBuild.Interfaces;
-using UniModule.UnityTools.EditorTools;
-using UnityEditor;
-using UnityEditor.Build.Reporting;
-using UnityEngine;
-using Object = UnityEngine.Object;
-
-namespace UniGreenModules.UnityBuild.Editor.ClientBuild
+﻿namespace UniGreenModules.UniGame.UnityBuild.Editor.ClientBuild
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Commands.PostBuildCommands;
+    using Commands.PreBuildCommands;
+    using Interfaces;
+    using UniCore.EditorTools.Editor.AssetOperations;
+    using UnityEditor;
+    using UnityEditor.Build.Reporting;
+    using UnityEngine;
+    using Object = UnityEngine.Object;
+
     public class UnityPlayerBuilder : IUnityPlayerBuilder
     {
         private const string BuildFolder = "Build";

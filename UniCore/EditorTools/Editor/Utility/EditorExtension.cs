@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using UniModule.UnityTools.EditorTools;
-using UnityEditor;
-using UnityEngine;
-using Object = UnityEngine.Object;
+﻿namespace UniGreenModules.UniCore.EditorTools.Editor.Utility {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
+    using AssetOperations;
+    using UnityEditor;
+    using UnityEngine;
+    using Object = UnityEngine.Object;
 
-namespace UniEditorTools {
     public static class EditorExtension {
         public static void DrawDefaultEditor(this GameObject target) {
             if (!target) return;

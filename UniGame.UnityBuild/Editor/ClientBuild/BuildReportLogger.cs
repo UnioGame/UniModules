@@ -1,8 +1,8 @@
-﻿using System.Text;
-using UnityEditor.Build.Reporting;
-
-namespace UniGreenModules.UnityBuild.Editor.ClientBuild
+﻿namespace UniGreenModules.UniGame.UnityBuild.Editor.ClientBuild
 {
+    using System.Text;
+    using UnityEditor.Build.Reporting;
+
     public class BuildReportLogger
     {
 

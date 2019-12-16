@@ -1,8 +1,7 @@
-﻿using UniModule.UnityTools.AssetBundleManager.Interfaces;
-
-namespace UniModule.UnityTools.AssetBundleManager
+﻿namespace UniGreenModules.AssetBundleManager.Runtime
 {
-    using UniGreenModules.UniCore.Runtime.Utils;
+    using Interfaces;
+    using UniCore.Runtime.Utils;
 
     public class AssetBundleConfiguration : IAssetBundleConfiguration {
 

@@ -3,7 +3,8 @@
     using System;
     using System.Collections.Generic;
     using ObjectPool;
-    using ObjectPool.Extensions;
+    using ObjectPool.Runtime;
+    using ObjectPool.Runtime.Extensions;
 
     public static class CollectionExtension
     {

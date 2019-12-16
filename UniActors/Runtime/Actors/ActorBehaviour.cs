@@ -6,6 +6,8 @@ using UnityEngine;
 
 namespace UniGreenModules.UniActors.Runtime.Actors
 {
+    using UniCore.Runtime.DataFlow.Interfaces;
+
     public abstract class ActorBehaviour : MonoBehaviour, IContextState<IEnumerator>
     {
         

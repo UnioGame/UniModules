@@ -2,8 +2,8 @@
 {
     using BaseEditor;
     using BaseEditor.Interfaces;
-    using Runtime.Runtime;
-    using UniEditorTools;
+    using Interfaces;
+    using Runtime.Core;
     using UnityEditor;
     using UnityEngine;
 

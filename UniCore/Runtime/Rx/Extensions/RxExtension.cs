@@ -1,10 +1,9 @@
-﻿namespace UniGreenModules.UniCore.Runtime.Extension
+﻿namespace UniGreenModules.UniCore.Runtime.Rx.Extensions
 {
     using System;
     using System.Collections.Generic;
-    using Interfaces;
     using Interfaces.Rx;
-    using ObjectPool;
+    using ObjectPool.Runtime;
     using Rx;
 
     public static class RxExtension

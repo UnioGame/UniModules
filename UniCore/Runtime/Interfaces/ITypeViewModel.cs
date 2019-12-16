@@ -2,7 +2,8 @@ namespace UniGreenModules.UniCore.Runtime.Interfaces
 {
     using System;
     using DataFlow;
-    using ObjectPool.Interfaces;
+    using DataFlow.Interfaces;
+    using ObjectPool.Runtime.Interfaces;
 
     public interface ITypeViewModel : IPoolable
     {

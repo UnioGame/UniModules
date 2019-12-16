@@ -1,6 +1,5 @@
-namespace UniGreenModules.UniNodeSystem.Runtime.Connections
+namespace UniGreenModules.UniNodeSystem.Runtime.Interfaces
 {
-    using Interfaces;
     using UniCore.Runtime.Interfaces;
 
     public interface IBrodcastConnector<TConnection> : 

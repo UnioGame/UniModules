@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using BaseEditor;
     using Drawers;
+    using Drawers.Interfaces;
     using UniNodeSystem.Nodes;
 
     [CustomNodeEditor(typeof(UniGraphNode))]

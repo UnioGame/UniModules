@@ -1,7 +1,7 @@
-﻿using UniModule.UnityTools.AssetBundleManager.AssetBundleResources;
-
-namespace UniModule.UnityTools.AssetBundleManager.LoaderExecutors
+﻿namespace UniGreenModules.AssetBundleManager.Runtime.LoaderExecutors
 {
+    using AssetBundleResources;
+
     public class LoadedAssetBundleRequest : AssetBundleRequest
     {
 

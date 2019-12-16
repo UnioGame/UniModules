@@ -1,8 +1,7 @@
-﻿using UniGreenModules.UniCore.Runtime.Extension;
-
-namespace UniGreenModules.UniCore.Runtime.Views
+﻿namespace UniGreenModules.UniCore.Runtime.ModelBehaviours
 {
     using Interfaces;
+    using Rx.Extensions;
 
     public abstract class ScheduledViewModel<TModel> : ComponentViewModel<TModel>
     {

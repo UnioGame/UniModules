@@ -1,6 +1,6 @@
 namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
 {
-    using Runtime.Runtime;
+    using Runtime.Core;
     using UnityEngine;
 
     public partial class NodeEditorWindow

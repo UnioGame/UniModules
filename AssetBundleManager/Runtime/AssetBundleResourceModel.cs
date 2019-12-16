@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using UniModule.UnityTools.AssetBundleManager.AssetBundleResources;
-
-namespace UniModule.UnityTools.AssetBundleManager
+﻿namespace UniGreenModules.AssetBundleManager.Runtime
 {
-    using UniGreenModules.UniCore.Runtime.ObjectPool.Interfaces;
+    using System.Collections.Generic;
+    using AssetBundleResources;
+    using UniCore.Runtime.ObjectPool.Runtime.Interfaces;
 
     public class AssetBundleResourceModel : IPoolable {
         

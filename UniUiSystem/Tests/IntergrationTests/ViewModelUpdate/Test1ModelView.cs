@@ -3,6 +3,7 @@
 namespace UniGreenModules.UniUiSystem.Tests.IntergrationTests.ViewModelUpdate
 {
     using System.Collections;
+    using UniCore.Runtime.Rx.Extensions;
     using UniRx;
     using UnityEngine;
 

@@ -1,10 +1,9 @@
-﻿namespace ZR.Runtime.Utils.Extensions
+﻿namespace UniGreenModules.UniCore.Runtime.ObjectPool.Runtime.Extensions
 {
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using UniGreenModules.UniCore.Runtime.Extension;
-    using UniGreenModules.UniCore.Runtime.ObjectPool;
+    using Rx.Extensions;
     using UniRx;
     using UnityEngine;
 

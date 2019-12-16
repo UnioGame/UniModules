@@ -1,14 +1,12 @@
-﻿using UnityEngine;
-using UnityEditor;
-using UnityEditor.Callbacks;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Net;
-using System.Net.Sockets;
-
-namespace AssetBundlesModule
+﻿namespace UniGreenModules.AssetBundleManager.Editor
 {
+	using System.Collections.Generic;
+	using System.IO;
+	using System.Net;
+	using System.Net.Sockets;
+	using UnityEditor;
+	using UnityEngine;
+
 	public class BuildScript
 	{
 		public static string overloadedDevelopmentServerURL = "";

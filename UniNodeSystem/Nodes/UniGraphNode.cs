@@ -2,10 +2,11 @@
 
 namespace UniGreenModules.UniNodeSystem.Nodes
 {
+    using Runtime.Core;
     using Runtime.Extensions;
     using Runtime.Interfaces;
-    using Runtime.Runtime;
     using UniCore.Runtime.DataFlow;
+    using UniCore.Runtime.DataFlow.Interfaces;
 
     public abstract class UniGraphNode : UniNode
     {

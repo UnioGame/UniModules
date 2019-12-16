@@ -1,7 +1,7 @@
 namespace UniGreenModules.UniNodeSystem.Runtime.Interfaces
 {
     using System.Collections.Generic;
-    using Runtime;
+    using Core;
 
     public interface INode : IMutableNode
     {

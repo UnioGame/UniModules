@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UniModule.UnityTools.AssetBundleManager.AssetBundleResources;
-using UnityEngine;
-using Object = UnityEngine.Object;
-
-namespace UniModule.UnityTools.AssetBundleManager.Interfaces
+﻿namespace UniGreenModules.AssetBundleManager.Runtime.Interfaces
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using AssetBundleResources;
+    using UnityEngine;
+    using Object = UnityEngine.Object;
+
     public interface IAssetBundleManager 
     {
         AssetBundleManifest AssetBundleManifest { get; }

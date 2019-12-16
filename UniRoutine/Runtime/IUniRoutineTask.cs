@@ -1,9 +1,9 @@
-namespace UniTools.UniRoutine.Runtime
+namespace UniGreenModules.UniRoutine.Runtime
 {
     using System.Collections;
     using System.Collections.Generic;
-    using UniGreenModules.UniCore.Runtime.DataFlow;
-    using UniGreenModules.UniCore.Runtime.ObjectPool.Interfaces;
+    using UniCore.Runtime.DataFlow.Interfaces;
+    using UniCore.Runtime.ObjectPool.Runtime.Interfaces;
 
     public interface IUniRoutineTask : IEnumerator<IEnumerator>, IPoolable
     {

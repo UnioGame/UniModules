@@ -1,8 +1,7 @@
-﻿using UniModule.UnityTools.AssetBundleManager.Interfaces;
-
-namespace UniModule.UnityTools.AssetBundleManager.LoaderExecutors
+﻿namespace UniGreenModules.AssetBundleManager.Runtime.LoaderExecutors
 {
-    using UniGreenModules.UniCore.Runtime.CoroutineTools;
+    using Interfaces;
+    using UniCore.Runtime.CoroutineTools;
 
     public class AssetBundleWithDependenciesSyncRequest : AssetBundleWithDependenciesBaseRequest
     {

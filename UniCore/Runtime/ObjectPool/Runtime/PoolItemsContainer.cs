@@ -2,6 +2,8 @@
 {
     using System;
     using System.Collections.Generic;
+    using Extensions;
+    using Interfaces;
 
     public class PoolItemsContainer<T> : IPoolItemsContainer<T> where T : class
     {

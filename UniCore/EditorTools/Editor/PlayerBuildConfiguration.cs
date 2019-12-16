@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEditor;
-using UnityEngine;
-
-namespace UniTools.BuildTools {
+﻿namespace UniGreenModules.UniCore.EditorTools.Editor {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using UnityEditor;
+    using UnityEngine;
 
     [CreateAssetMenu(menuName = "Build/PlayerBuild Configuration")]
     public class PlayerBuildConfiguration : ScriptableObject {

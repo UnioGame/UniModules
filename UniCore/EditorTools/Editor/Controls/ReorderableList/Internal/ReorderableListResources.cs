@@ -1,11 +1,10 @@
 // Copyright (c) Rotorz Limited. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root.
 
-using System;
-using UnityEditor;
-using UnityEngine;
-
-namespace Rotorz.ReorderableList.Internal {
+namespace UniGreenModules.UniCore.EditorTools.Editor.Controls.ReorderableList.Internal {
+	using System;
+	using UnityEditor;
+	using UnityEngine;
 
 	/// <exclude/>
 	public enum ReorderableListTexture {

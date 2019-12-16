@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using NUnit.Framework;
-
-namespace Tests
+﻿namespace UniGreenModules.UniCore.Tests.Tests
 {
-    using UniGreenModules.UniCore.Runtime.ObjectPool;
-    using UniGreenModules.UniCore.Runtime.ObjectPool.Extensions;
-    using UniGreenModules.UniCore.Runtime.ObjectPool.Interfaces;
+    using System.Collections.Generic;
+    using NUnit.Framework;
+    using Runtime.ObjectPool.Runtime;
+    using Runtime.ObjectPool.Runtime.Extensions;
+    using Runtime.ObjectPool.Runtime.Interfaces;
 
     public class ClassPoolTests
     {

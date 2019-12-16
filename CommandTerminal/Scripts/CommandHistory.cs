@@ -1,7 +1,7 @@
-using System.Collections.Generic;
-
-namespace CommandTerminal
+namespace UniGreenModules.CommandTerminal.Scripts
 {
+    using System.Collections.Generic;
+
     public class CommandHistory
     {
         List<string> history = new List<string>();

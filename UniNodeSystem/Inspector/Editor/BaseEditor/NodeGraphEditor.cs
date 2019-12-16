@@ -1,6 +1,6 @@
 ﻿namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor {
     using System;
-    using Runtime.Runtime;
+    using Runtime.Core;
     using UnityEditor;
     using UnityEngine;
     using Object = UnityEngine.Object;

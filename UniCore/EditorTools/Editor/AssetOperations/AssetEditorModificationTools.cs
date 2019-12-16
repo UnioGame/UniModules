@@ -1,4 +1,4 @@
-namespace UniModule.UnityTools.EditorTools
+namespace UniGreenModules.UniCore.EditorTools.Editor.AssetOperations
 {
     using System;
     using System.Collections.Generic;

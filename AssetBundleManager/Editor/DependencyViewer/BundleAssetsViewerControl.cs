@@ -1,134 +1,138 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-public class BundleAssetsViewerControl {
+namespace UniGreenModules.AssetBundleManager.Editor.DependencyViewer
+{
+    using AssetBundleReferenceViewer;
 
-    private readonly DependencyViewerModel _model;
+    public class BundleAssetsViewerControl {
 
-    private Vector2 _scroll;
-    private List<string> _assetsInBundleCache = new List<string>();
-    private Dictionary<string, bool> _showAssetRefs = new Dictionary<string, bool>();
-    private Dictionary<string,Object> _assets = new Dictionary<string, Object>();
-    private Dictionary<string,AssetBundleReferenceViewer> _referenceViewers = new Dictionary<string, AssetBundleReferenceViewer>();
-    private bool _initialized;
+        private readonly DependencyViewerModel _model;
 
-    public BundleAssetsViewerControl(DependencyViewerModel model) {
-        _assets = new Dictionary<string, Object>();
-        _model = model;
-        var assets =  AssetDatabase.GetAssetPathsFromAssetBundle(model.BundleName);
-        _assetsInBundleCache = new List<string>(assets);
-    }
+        private Vector2                                       _scroll;
+        private List<string>                                  _assetsInBundleCache = new List<string>();
+        private Dictionary<string, bool>                      _showAssetRefs       = new Dictionary<string, bool>();
+        private Dictionary<string,Object>                     _assets              = new Dictionary<string, Object>();
+        private Dictionary<string,AssetBundleReferenceViewer> _referenceViewers    = new Dictionary<string, AssetBundleReferenceViewer>();
+        private bool                                          _initialized;
 
-    public void Draw() {
-
-        if (_initialized == false) {
-            Refresh();
-            _initialized = true;
+        public BundleAssetsViewerControl(DependencyViewerModel model) {
+            _assets = new Dictionary<string, Object>();
+            _model  = model;
+            var assets =  AssetDatabase.GetAssetPathsFromAssetBundle(model.BundleName);
+            _assetsInBundleCache = new List<string>(assets);
         }
 
-        EditorGUI.indentLevel++;
+        public void Draw() {
 
-        EditorGUILayout.BeginVertical(GUILayout.Height(400));
+            if (_initialized == false) {
+                Refresh();
+                _initialized = true;
+            }
 
-        _scroll = EditorGUILayout.BeginScrollView(_scroll);
+            EditorGUI.indentLevel++;
 
-        ShowAssets();
+            EditorGUILayout.BeginVertical(GUILayout.Height(400));
 
-        EditorGUILayout.EndScrollView();
+            _scroll = EditorGUILayout.BeginScrollView(_scroll);
 
-        EditorGUILayout.EndVertical();
-        EditorGUI.indentLevel--;
-    }
+            ShowAssets();
 
-    public void CleanUp() {
-        _showAssetRefs.Clear();
-        _assetsInBundleCache.Clear();
-        _referenceViewers.Clear();
-        _assets.Clear();
-    }
+            EditorGUILayout.EndScrollView();
 
-    private void ShowAssets()
-    {
-        if (_assetsInBundleCache.Count == 0) return;
+            EditorGUILayout.EndVertical();
+            EditorGUI.indentLevel--;
+        }
 
-        EditorGUILayout.LabelField(string.Format("Dependency of [{0}] assets [{1}]",_model.BundleName, _assetsInBundleCache.Count));
+        public void CleanUp() {
+            _showAssetRefs.Clear();
+            _assetsInBundleCache.Clear();
+            _referenceViewers.Clear();
+            _assets.Clear();
+        }
 
-        EditorGUI.indentLevel++;
-        var color = GUI.backgroundColor;
-
-        GUI.backgroundColor = Color.gray;
-        EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.BeginVertical();
-        
-        for (int i = 0; i < _assetsInBundleCache.Count; i++)
+        private void ShowAssets()
         {
-            var asset = _assetsInBundleCache[i];
-            ShowBudnleAsset(asset);
-        }
+            if (_assetsInBundleCache.Count == 0) return;
 
-        EditorGUILayout.EndVertical();
-        EditorGUILayout.EndHorizontal();
-        EditorGUI.indentLevel--;
-        GUI.backgroundColor = color;
-    }
+            EditorGUILayout.LabelField(string.Format("Dependency of [{0}] assets [{1}]",_model.BundleName, _assetsInBundleCache.Count));
 
-    private void Refresh() {
+            EditorGUI.indentLevel++;
+            var color = GUI.backgroundColor;
 
-        for (var i = 0; i < _assetsInBundleCache.Count; i++) {
-            var assetPath = _assetsInBundleCache[i];
-            EditorUtility.DisplayProgressBar("OnEnter AssetBundle Dependencies", "refreshing...",i / (float)_assetsInBundleCache.Count);
-            var asset = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(assetPath);
-            _assets[assetPath] = asset;
-            _showAssetRefs[assetPath] = false;
-
-            var viewer = new AssetBundleReferenceViewer();
-            viewer.Initialize(asset, false);
-            _referenceViewers[assetPath] = viewer;
-            _showAssetRefs[assetPath] = false;
-        }
-        EditorUtility.ClearProgressBar();
-    }
-
-    private void ShowBudnleAsset(string assetPath) {
-
-        var targetAsset = _assets[assetPath];
-        var referenciesViewer = _referenceViewers[assetPath];
-
-        if (referenciesViewer.FoundReferences <= 0) {
-            _showAssetRefs[assetPath] = false;
-            return;
-        }
-
-        var shown = _showAssetRefs[assetPath];
-
-        EditorGUILayout.Space();
-
-        EditorGUILayout.BeginVertical(GUILayout.Height(shown ? 300 : 40));
-
-        EditorGUILayout.ObjectField(targetAsset.name, targetAsset, targetAsset.GetType(), false);
-
-        EditorGUILayout.LabelField(string.Join(": ", referenciesViewer.BundleReferences));
-
-        EditorGUILayout.Space();
-
-        ShowAssetReferences(assetPath);
+            GUI.backgroundColor = Color.gray;
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.BeginVertical();
         
-        EditorGUILayout.EndVertical();
-    }
-
-    private void ShowAssetReferences(string assetPath) {
-        _showAssetRefs[assetPath] = EditorGUILayout.Foldout(_showAssetRefs[assetPath], assetPath);
-        if (_showAssetRefs[assetPath])
-        {
-            var control = _referenceViewers[assetPath];
-            if (control.FoundReferences > 0)
+            for (int i = 0; i < _assetsInBundleCache.Count; i++)
             {
-                EditorGUILayout.BeginVertical();
-                control.Draw();
-                EditorGUILayout.EndVertical();
+                var asset = _assetsInBundleCache[i];
+                ShowBudnleAsset(asset);
+            }
+
+            EditorGUILayout.EndVertical();
+            EditorGUILayout.EndHorizontal();
+            EditorGUI.indentLevel--;
+            GUI.backgroundColor = color;
+        }
+
+        private void Refresh() {
+
+            for (var i = 0; i < _assetsInBundleCache.Count; i++) {
+                var assetPath = _assetsInBundleCache[i];
+                EditorUtility.DisplayProgressBar("OnEnter AssetBundle Dependencies", "refreshing...",i / (float)_assetsInBundleCache.Count);
+                var asset = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(assetPath);
+                _assets[assetPath]        = asset;
+                _showAssetRefs[assetPath] = false;
+
+                var viewer = new AssetBundleReferenceViewer();
+                viewer.Initialize(asset, false);
+                _referenceViewers[assetPath] = viewer;
+                _showAssetRefs[assetPath]    = false;
+            }
+            EditorUtility.ClearProgressBar();
+        }
+
+        private void ShowBudnleAsset(string assetPath) {
+
+            var targetAsset       = _assets[assetPath];
+            var referenciesViewer = _referenceViewers[assetPath];
+
+            if (referenciesViewer.FoundReferences <= 0) {
+                _showAssetRefs[assetPath] = false;
+                return;
+            }
+
+            var shown = _showAssetRefs[assetPath];
+
+            EditorGUILayout.Space();
+
+            EditorGUILayout.BeginVertical(GUILayout.Height(shown ? 300 : 40));
+
+            EditorGUILayout.ObjectField(targetAsset.name, targetAsset, targetAsset.GetType(), false);
+
+            EditorGUILayout.LabelField(string.Join(": ", referenciesViewer.BundleReferences));
+
+            EditorGUILayout.Space();
+
+            ShowAssetReferences(assetPath);
+        
+            EditorGUILayout.EndVertical();
+        }
+
+        private void ShowAssetReferences(string assetPath) {
+            _showAssetRefs[assetPath] = EditorGUILayout.Foldout(_showAssetRefs[assetPath], assetPath);
+            if (_showAssetRefs[assetPath])
+            {
+                var control = _referenceViewers[assetPath];
+                if (control.FoundReferences > 0)
+                {
+                    EditorGUILayout.BeginVertical();
+                    control.Draw();
+                    EditorGUILayout.EndVertical();
+                }
             }
         }
     }

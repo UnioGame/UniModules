@@ -1,7 +1,7 @@
 ﻿namespace UniGreenModules.UniCore.Runtime.Common
 {
     using System;
-    using ObjectPool.Interfaces;
+    using ObjectPool.Runtime.Interfaces;
 
     public class ActionProxy<T> : IPoolable
     {

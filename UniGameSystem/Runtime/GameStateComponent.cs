@@ -1,10 +1,9 @@
-﻿namespace GBG.GameSystem.Runtime
+﻿namespace UniGreenModules.UniGameSystem.Runtime
 {
     using System.Collections.Generic;
     using Interfaces;
-    using UniGreenModules.UniGameSystem.Runtime.Interfaces;
 
-    public class GameStateComponent : GameComponentController
+    public class GameStateComponent : GameComponentService
     {
         private List<IBinder> binders = new List<IBinder>();
 

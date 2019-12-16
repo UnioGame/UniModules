@@ -3,6 +3,7 @@
     using System;
     using Runtime.Interfaces;
     using UniCore.Runtime.DataFlow;
+    using UniCore.Runtime.DataFlow.Interfaces;
     using UniCore.Runtime.Interfaces;
 
     [Serializable]

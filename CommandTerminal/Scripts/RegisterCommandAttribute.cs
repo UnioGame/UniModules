@@ -1,8 +1,7 @@
-using System;
-using System.Reflection;
-
-namespace CommandTerminal
+namespace UniGreenModules.CommandTerminal.Scripts
 {
+    using System;
+
     [AttributeUsage(AttributeTargets.Method)]
     public class RegisterCommandAttribute : Attribute
     {

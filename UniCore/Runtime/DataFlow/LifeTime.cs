@@ -2,7 +2,8 @@
 {
     using System;
     using System.Collections.Generic;
-    using ObjectPool.Interfaces;
+    using Interfaces;
+    using ObjectPool.Runtime.Interfaces;
     using UnityEngine.Profiling;
 
     public class LifeTime : ILifeTime, IPoolable

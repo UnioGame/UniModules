@@ -2,7 +2,7 @@
 {
     using System;
     using Interfaces;
-    using ObjectPool.Interfaces;
+    using ObjectPool.Runtime.Interfaces;
 
     public class CompletionConditionSource : ICompletionStatus , IPoolable
     {

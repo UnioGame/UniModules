@@ -1,15 +1,16 @@
-using System;
-using UniGreenModules.UnityBuild.Editor.ClientBuild;
-using UniGreenModules.UnityBuild.Editor.ClientBuild.BuildConfiguration;
-using UniGreenModules.UnityBuild.Editor.ClientBuild.Commands;
-using UniGreenModules.UnityBuild.Editor.ClientBuild.Extensions;
-using UnityEngine;
 
-    //Use UniGreenModules.CloudBuildHelper.[PreExport || PostExport]
-namespace UniGreenModules
+
+//Use UniGreenModules.CloudBuildHelper.[PreExport || PostExport]
+namespace UniGreenModules.UniGame.UnityBuild.Editor.UnityCloudBuild
 {
-    using UnityBuild.Editor.UnityCloudBuild;
-    using UnityEditor;
+    using System;
+    using ClientBuild;
+    using ClientBuild.BuildConfiguration;
+    using ClientBuild.Commands.PostBuildCommands;
+    using ClientBuild.Commands.PreBuildCommands;
+    using ClientBuild.Extensions;
+    using ClientBuild.Interfaces;
+    using UnityEngine;
 
     //https://docs.unity3d.com/Manual/UnityCloudBuildManifestAsScriptableObject.html
     //https://docs.unity3d.com/Manual/UnityCloudBuildManifest.html

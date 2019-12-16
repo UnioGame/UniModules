@@ -6,7 +6,9 @@ namespace UniGreenModules.UniCore.Tests.IntegrationTests.ClassPoolTests
     using System.Collections;
     using System.Collections.Generic;
     using Runtime.ObjectPool;
-    using UniTools.UniRoutine.Runtime;
+    using Runtime.ObjectPool.Runtime;
+    using Runtime.ObjectPool.Runtime.Extensions;
+    using UniRoutine.Runtime;
 
     public class ClassPoolPrefomanceTest : MonoBehaviour
     {

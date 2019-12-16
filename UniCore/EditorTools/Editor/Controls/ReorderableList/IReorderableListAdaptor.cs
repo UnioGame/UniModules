@@ -1,9 +1,8 @@
 // Copyright (c) Rotorz Limited. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root.
 
-using UnityEngine;
-
-namespace Rotorz.ReorderableList {
+namespace UniGreenModules.UniCore.EditorTools.Editor.Controls.ReorderableList {
+	using UnityEngine;
 
 	/// <summary>
 	/// Adaptor allowing reorderable list control to interface with list data.

@@ -5,8 +5,9 @@
     using UniCore.Runtime.Common;
     using UniCore.Runtime.Interfaces;
     using UniCore.Runtime.ObjectPool;
-    using UniCore.Runtime.ObjectPool.Extensions;
-    using UniCore.Runtime.ObjectPool.Interfaces;
+    using UniCore.Runtime.ObjectPool.Runtime;
+    using UniCore.Runtime.ObjectPool.Runtime.Extensions;
+    using UniCore.Runtime.ObjectPool.Runtime.Interfaces;
 
     public class ContextData<TContext> :
         IContextData<TContext>,

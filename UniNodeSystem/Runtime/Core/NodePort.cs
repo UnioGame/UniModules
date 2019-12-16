@@ -1,9 +1,9 @@
-﻿namespace UniGreenModules.UniNodeSystem.Runtime.Runtime {
+﻿namespace UniGreenModules.UniNodeSystem.Runtime.Core {
     using System;
     using System.Collections.Generic;
     using System.Reflection;
     using UniCore.Runtime.Attributes;
-    using UniCore.Runtime.ObjectPool;
+    using UniCore.Runtime.ObjectPool.Runtime;
     using UnityEngine;
 
     [Serializable]
