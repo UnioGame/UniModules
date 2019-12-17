@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class DemoStateMachine
+﻿namespace UniGreenModules.UniStateMachine.Examples.AsyncStateMachine
 {
+    public class DemoStateMachine
+    {
 
+    }
 }

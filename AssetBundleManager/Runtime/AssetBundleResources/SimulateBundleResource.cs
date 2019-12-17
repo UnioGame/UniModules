@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using UnityEngine;
-using Object = UnityEngine.Object;
-
-
-namespace UniModule.UnityTools.AssetBundleManager.AssetBundleResources
+﻿namespace UniGreenModules.AssetBundleManager.Runtime.AssetBundleResources
 {
-    using UniGreenModules.UniCore.Runtime.ObjectPool;
-    using UniGreenModules.UniCore.Runtime.ProfilerTools;
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Linq;
+    using UniCore.Runtime.ObjectPool.Runtime;
+    using UniCore.Runtime.ProfilerTools;
+    using UnityEngine;
+    using Object = UnityEngine.Object;
 
     public class SimulateBundleResource : IAssetBundleResource
     {

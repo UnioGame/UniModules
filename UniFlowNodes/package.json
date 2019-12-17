@@ -4,19 +4,19 @@
   "displayName": "UniGame Node System Game Flow",
   "description": "Game Flow Nodes",
   "unity": "2019.2",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "keywords": [
     "nodes"
   ],
   "dependencies": {
     "com.unigame.neuecc.unirx": "7.1.1",
     "com.unigame.neuecc.unirx.async": "1.2.0",
-    "com.unigame.unicore": "1.3.17",
-    "com.unigame.contextdata": "1.2.5",
-    "com.unigame.uniroutine": "1.3.13",
-    "com.unigame.resourcesystem": "1.1.5",
-    "com.unigame.unistatemachine": "1.2.5",
-    "com.unigame.nodesystem": "1.2.7",
-    "com.unigame.nodesystem.commonnodes": "1.1.25"
+    "com.unigame.unicore": "1.3.18",
+    "com.unigame.contextdata": "1.2.6",
+    "com.unigame.uniroutine": "1.3.14",
+    "com.unigame.resourcesystem": "1.1.6",
+    "com.unigame.unistatemachine": "1.2.6",
+    "com.unigame.nodesystem": "1.2.8",
+    "com.unigame.nodesystem.commonnodes": "1.1.26"
   }
 }

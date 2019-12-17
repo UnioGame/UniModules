@@ -1,8 +1,7 @@
-﻿namespace UniGreenModules.UniCore.Runtime.ObjectPool
+﻿namespace UniGreenModules.UniCore.Runtime.ObjectPool.Runtime
 {
     using System.Collections.Generic;
     using ProfilerTools;
-    using Runtime;
     using UnityEngine;
 
     // This component allows you to pool Unity objects for fast instantiation and destruction

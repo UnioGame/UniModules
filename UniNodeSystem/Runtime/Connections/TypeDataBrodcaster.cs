@@ -5,7 +5,7 @@ namespace UniGreenModules.UniNodeSystem.Runtime.Connections
     using System.Collections.Generic;
     using Interfaces;
     using UniCore.Runtime.Interfaces;
-    using UniCore.Runtime.ObjectPool.Interfaces;
+    using UniCore.Runtime.ObjectPool.Runtime.Interfaces;
 
     public class TypeDataBrodcaster : 
         IPoolable, ITypeDataBrodcaster

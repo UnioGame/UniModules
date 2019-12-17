@@ -28,10 +28,13 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor
             {
                 NodeEditorWindow.Open(graph);
             }
+#if UNITY_GRAPH_ENABLED
             if (GUILayout.Button("Show Unity Graph", GUILayout.Height(26)))
             {
                 UnityGraphWindow.Show(graph);
-            }
+            }   
+#endif
+
         
             GUILayout.EndVertical();
         

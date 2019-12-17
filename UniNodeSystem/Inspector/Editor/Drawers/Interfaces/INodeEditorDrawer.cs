@@ -1,7 +1,7 @@
-namespace UniGreenModules.UniNodeSystem.Inspector.Editor.Drawers
+namespace UniGreenModules.UniNodeSystem.Inspector.Editor.Drawers.Interfaces
 {
     using BaseEditor.Interfaces;
-    using Runtime.Runtime;
+    using Runtime.Core;
 
     public interface INodeEditorDrawer
     {

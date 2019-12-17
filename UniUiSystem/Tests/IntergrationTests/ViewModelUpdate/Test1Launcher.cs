@@ -3,9 +3,9 @@
 namespace UniGreenModules.UniUiSystem.Tests.IntergrationTests.ViewModelUpdate
 {
     using System.Collections;
+    using UniRoutine.Runtime;
+    using UniRoutine.Runtime.Extension;
     using UniRx;
-    using UniTools.UniRoutine.Runtime;
-    using UniTools.UniRoutine.Runtime.Extension;
 
     public class Test1Launcher : MonoBehaviour
     {

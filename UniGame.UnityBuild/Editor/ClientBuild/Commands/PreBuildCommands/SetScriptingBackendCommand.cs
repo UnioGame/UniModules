@@ -1,8 +1,7 @@
-﻿using UnityEditor;
-
-namespace UniGreenModules.UnityBuild.Editor.ClientBuild.Commands.PreBuildCommands
+﻿namespace UniGreenModules.UniGame.UnityBuild.Editor.ClientBuild.Commands.PreBuildCommands
 {
     using Interfaces;
+    using UnityEditor;
     using UnityEngine;
 
     /// <summary>

@@ -1,8 +1,8 @@
-﻿namespace GBG.UiUtils.Runtime
+﻿namespace UniGreenModules.UniUiSystem.Runtime.Utils
 {
     using System;
     using TMPro;
-    using UniGreenModules.UniCore.Runtime.Utils;
+    using UniCore.Runtime.Utils;
     using UnityEngine;
     using UnityEngine.UI;
 

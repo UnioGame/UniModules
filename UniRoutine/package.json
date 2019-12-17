@@ -4,10 +4,10 @@
   "displayName": "UniGame UniRoutine",
   "description": "Unity Routine System",
   "unity": "2019.2",
-  "version": "1.3.13",
+  "version": "1.3.14",
   "keywords": [],
   "dependencies": {
-    "com.unigame.unicore": "1.3.17",
+    "com.unigame.unicore": "1.3.18",
     "com.unigame.neuecc.unirx": "7.1.1",
     "com.unigame.neuecc.unirx.async": "1.2.0"
   }

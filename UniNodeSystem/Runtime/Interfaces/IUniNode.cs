@@ -1,7 +1,7 @@
 namespace UniGreenModules.UniNodeSystem.Runtime.Interfaces
 {
     using System.Collections.Generic;
-    using Runtime;
+    using Core;
     using UniCore.Runtime.Interfaces;
     using UniStateMachine.Runtime.Interfaces;
 

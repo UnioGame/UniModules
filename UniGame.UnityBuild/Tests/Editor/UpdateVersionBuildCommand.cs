@@ -1,7 +1,7 @@
-﻿namespace UniGreenModules.UnityBuild.Tests
+﻿namespace UniGreenModules.UniGame.UnityBuild.Tests.Editor
 {
     using NUnit.Framework;
-    using UnityBuild.Editor.ClientBuild.Commands.PreBuildCommands;
+    using UnityBuild.Editor.ClientBuild.Commands.PreBuildCommands.UpdateVersionCommand;
     using UnityEditor;
 
     [TestFixture]

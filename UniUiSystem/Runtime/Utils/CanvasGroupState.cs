@@ -1,4 +1,4 @@
-namespace GBG.UiUtils.Runtime
+namespace UniGreenModules.UniUiSystem.Runtime.Utils
 {
     public struct CanvasGroupState
     {

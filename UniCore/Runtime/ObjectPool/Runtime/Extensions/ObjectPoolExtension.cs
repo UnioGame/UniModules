@@ -1,8 +1,6 @@
-﻿namespace UniGreenModules.UniCore.Runtime.ObjectPool
+﻿namespace UniGreenModules.UniCore.Runtime.ObjectPool.Runtime.Extensions
 {
     using System;
-    using System.Collections.Generic;
-    using Interfaces;
     using ProfilerTools;
     using UnityEngine;
     using Object = UnityEngine.Object;

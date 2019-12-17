@@ -1,14 +1,12 @@
-﻿using System;
-using System.Linq;
-using SubjectNerd.Utilities;
-using UniModule.UnityTools.ResourceSystem;
-using UnityEditor;
-using UnityEngine;
-using Object = UnityEngine.Object;
-
-namespace Modules.UniTools.UniResourceSystemEditor
+﻿namespace UniGreenModules.UniResourceSystem.Editor
 {
-    using UniGreenModules.UniCore.Runtime.Attributes;
+    using System.Linq;
+    using Runtime;
+    using UniCore.EditorTools.Editor;
+    using UniCore.Runtime.Attributes;
+    using UnityEditor;
+    using UnityEngine;
+    using Object = UnityEngine.Object;
 
     [CustomPropertyDrawer(typeof(ResourceItem))]
     public class ResourceItemPropertyDrawer :  PropertyDrawer

@@ -1,9 +1,8 @@
 ﻿
-namespace UniGreenModules.UniStateMachine.Runtime
+namespace UniGreenModules.UniStateMachine.Runtime.ContextStateMachine
 {
     using System;
     using System.Collections;
-    using ContextStateMachine;
     using UniCore.Runtime.Interfaces;
 
     public class ProxyState : ContextState

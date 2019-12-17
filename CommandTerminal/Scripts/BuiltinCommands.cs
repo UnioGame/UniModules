@@ -1,9 +1,8 @@
-using System.Text;
-using System.Diagnostics;
-using UnityEngine;
-
-namespace CommandTerminal
+namespace UniGreenModules.CommandTerminal.Scripts
 {
+    using System.Diagnostics;
+    using System.Text;
+
     public static class BuiltinCommands
     {
         [RegisterCommand(Help = "Does nothing")]

@@ -3,7 +3,8 @@
     using System.Collections.Generic;
     using BaseEditor;
     using BaseEditor.Interfaces;
-    using Runtime.Runtime;
+    using Interfaces;
+    using Runtime.Core;
     using UnityEditor;
 
     public class BaseBodyDrawer : INodeEditorDrawer

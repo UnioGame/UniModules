@@ -2,7 +2,7 @@
 {
     using System.Collections;
     using System.Collections.Generic;
-    using ObjectPool.Interfaces;
+    using ObjectPool.Runtime.Interfaces;
 
     public class CoroutineIterator : IPoolable
     {

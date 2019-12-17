@@ -1,11 +1,11 @@
-﻿using UnityEditor;
-
-namespace UniModule.UnityTools.EditorTools
+﻿namespace UniGreenModules.AssetBundleManager.Editor.AssetBundleReferenceViewer
 {
+    using UnityEditor;
+
     public class AssetBundleReferenceWindow : UnityEditor.EditorWindow {
 
         private static AssetBundleReferenceWindow _window;
-        private static global::AssetBundleReferenceViewer _viewer = new global::AssetBundleReferenceViewer();
+        private static global::UniGreenModules.AssetBundleManager.Editor.AssetBundleReferenceViewer.AssetBundleReferenceViewer _viewer = new global::UniGreenModules.AssetBundleManager.Editor.AssetBundleReferenceViewer.AssetBundleReferenceViewer();
 
         // Add menu named "My Window" to the Window menu
         [MenuItem("Tools/AssetBundles/Reference Viewer")]

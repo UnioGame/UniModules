@@ -1,9 +1,9 @@
-﻿namespace UniGreenModules.UniCore.EditorTools
+﻿namespace UniGreenModules.UniCore.EditorTools.Editor.AssetProcessors
 {
     using System;
     using System.Collections.Generic;
+    using AssetOperations;
     using Runtime.Interfaces;
-    using UniModule.UnityTools.EditorTools;
     using UnityEditor;
     using UnityEngine;
     using Object = UnityEngine.Object;

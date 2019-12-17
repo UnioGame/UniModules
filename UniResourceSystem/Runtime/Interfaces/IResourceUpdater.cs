@@ -1,7 +1,7 @@
-using UnityEngine;
-
-namespace UniModule.UnityTools.ResourceSystem
+namespace UniGreenModules.UniResourceSystem.Runtime.Interfaces
 {
+    using UnityEngine;
+
     public interface IResourceUpdater
     {
         /// <summary>

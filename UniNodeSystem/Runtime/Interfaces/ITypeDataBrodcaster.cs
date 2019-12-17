@@ -1,4 +1,4 @@
-namespace UniGreenModules.UniNodeSystem.Runtime.Connections
+namespace UniGreenModules.UniNodeSystem.Runtime.Interfaces
 {
     using UniCore.Runtime.Interfaces;
 

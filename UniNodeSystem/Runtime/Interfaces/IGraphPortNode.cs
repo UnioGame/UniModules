@@ -1,6 +1,6 @@
 namespace UniGreenModules.UniNodeSystem.Runtime.Interfaces
 {
-    using Runtime;
+    using Core;
 
     public interface IGraphPortNode : IUniNode
     {

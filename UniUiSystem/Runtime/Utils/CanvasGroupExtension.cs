@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-
-namespace GBG.UiUtils.Runtime
+﻿namespace UniGreenModules.UniUiSystem.Runtime.Utils
 {
+    using UnityEngine;
+
     public static class CanvasGroupExtension
     {
         public static CanvasGroupState Disabled = new CanvasGroupState();

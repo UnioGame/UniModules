@@ -4,6 +4,8 @@ using UnityEngine;
 namespace UniGreenModules.UniCore.Runtime.ObjectPool.Examples.SpawnDemo
 {
     using System;
+    using Runtime;
+    using Runtime.Extensions;
     using Object = UnityEngine.Object;
     using Time = UnityEngine.Time;
 

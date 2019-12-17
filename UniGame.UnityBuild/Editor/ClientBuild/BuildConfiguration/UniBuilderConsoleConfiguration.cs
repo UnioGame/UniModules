@@ -1,7 +1,5 @@
-﻿namespace UniGreenModules.UnityBuild.Editor.ClientBuild
+﻿namespace UniGreenModules.UniGame.UnityBuild.Editor.ClientBuild.BuildConfiguration
 {
-    using System;
-    using System.Linq;
     using Extensions;
     using Interfaces;
     using Parsers;

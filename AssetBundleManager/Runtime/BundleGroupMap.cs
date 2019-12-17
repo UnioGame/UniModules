@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-
-namespace UniModule.UnityTools.AssetBundleManager {
+﻿namespace UniGreenModules.AssetBundleManager.Runtime {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using UnityEngine;
 
     public enum ResourceGroupTag {
 

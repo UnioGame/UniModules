@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace UniModule.UnityTools.AssetBundleManager
+﻿namespace UniGreenModules.AssetBundleManager.Runtime
 {
+    using System;
+
     [Serializable]
     public class BundleConfiguration {
 

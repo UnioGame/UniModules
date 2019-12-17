@@ -5,7 +5,8 @@
     using Common;
     using Interfaces.Rx;
     using ObjectPool;
-    using ObjectPool.Interfaces;
+    using ObjectPool.Runtime;
+    using ObjectPool.Runtime.Extensions;
 
     public class RecycleReactiveProperty<T> : IRecycleReactiveProperty<T>
     {

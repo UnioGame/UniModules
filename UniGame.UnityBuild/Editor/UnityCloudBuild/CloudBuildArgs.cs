@@ -1,6 +1,5 @@
-namespace UniGreenModules.UnityBuild.Editor.UnityCloudBuild
+namespace UniGreenModules.UniGame.UnityBuild.Editor.UnityCloudBuild
 {
-    using System;
     using System.Text;
 
     internal class CloudBuildArgs

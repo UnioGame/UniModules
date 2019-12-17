@@ -1,4 +1,4 @@
-namespace UniGreenModules.UnityBuild.Editor.ClientBuild
+namespace UniGreenModules.UniGame.UnityBuild.Editor.ClientBuild.Interfaces
 {
     using UnityEditor.Build.Reporting;
 

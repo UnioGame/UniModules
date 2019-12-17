@@ -4,6 +4,7 @@ namespace UniGreenModules.UniUiNodes.Runtime.UiData
     using System;
     using Interfaces;
     using UniNodeSystem.Runtime.Connections;
+    using UniNodeSystem.Runtime.Interfaces;
     using UnityEngine;
     using UnityEngine.EventSystems;
 

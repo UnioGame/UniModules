@@ -1,11 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UniModule.UnityTools.AssetBundleManager.Interfaces;
-
-namespace UniModule.UnityTools.AssetBundleManager.LoaderExecutors
+﻿namespace UniGreenModules.AssetBundleManager.Runtime.LoaderExecutors
 {
-    using UniGreenModules.UniCore.Runtime.AsyncOperations;
-    using UniGreenModules.UniCore.Runtime.ObjectPool;
+    using System.Collections;
+    using System.Collections.Generic;
+    using Interfaces;
+    using UniCore.Runtime.AsyncOperations;
+    using UniCore.Runtime.ObjectPool.Runtime;
+    using UniCore.Runtime.ObjectPool.Runtime.Extensions;
 
     public class AssetBundleWithRoutineDependenciesRequest : AssetBundleWithDependenciesBaseRequest
     {

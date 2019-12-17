@@ -1,4 +1,4 @@
-namespace UniGreenModules.UniStateMachine.Runtime.Interfaces
+namespace UniGreenModules.UniCore.Runtime.Interfaces
 {
     public interface IActiveStatus
     {

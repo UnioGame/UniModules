@@ -5,8 +5,9 @@
     using JetBrains.Annotations;
     using UniCore.Runtime.Extension;
     using UniCore.Runtime.Interfaces;
-    using UniCore.Runtime.Views;
-    using UniTools.UniRoutine.Runtime;
+    using UniCore.Runtime.ModelBehaviours;
+    using UniCore.Runtime.Rx.Extensions;
+    using UniRoutine.Runtime;
     using UnityEngine;
 
     public class UiView<TModel> : ScheduledViewModel<TModel>, IUiView<TModel>

@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine;
-using Object = UnityEngine.Object;
-
-namespace UniEditorTools {
+﻿namespace UniGreenModules.UniCore.EditorTools.Editor.Utility {
+    using System;
+    using System.Collections.Generic;
+    using UnityEditor;
+    using UnityEngine;
+    using Object = UnityEngine.Object;
 
     public class EditorValueItem<TValue> 
     {

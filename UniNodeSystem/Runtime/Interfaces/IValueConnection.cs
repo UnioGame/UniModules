@@ -1,8 +1,8 @@
 ﻿namespace UniGreenModules.UniNodeSystem.Runtime.Interfaces
 {
-    using Runtime;
+    using Core;
     using UniCore.Runtime.Interfaces;
-    using UniCore.Runtime.ObjectPool.Interfaces;
+    using UniCore.Runtime.ObjectPool.Runtime.Interfaces;
 
     public interface IValueConnection<TValue>  : IDataValue<TValue>,IPoolable
     {

@@ -1,4 +1,4 @@
-namespace UniGreenModules.UnityBuild.Editor.ClientBuild.Interfaces {
+namespace UniGreenModules.UniGame.UnityBuild.Editor.ClientBuild.Interfaces {
     using System.Collections.Generic;
     using UnityEditor;
 

@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-namespace UniModule.UnityTools.AssetBundleManager.Interfaces
+﻿namespace UniGreenModules.AssetBundleManager.Runtime.Interfaces
 {
-    using UniGreenModules.UniCore.Runtime.ObjectPool;
+    using System.Collections.Generic;
+    using System.Linq;
+    using UniCore.Runtime.ObjectPool.Runtime;
+    using UniCore.Runtime.ObjectPool.Runtime.Extensions;
 
     public class AssetBundlesRequestCache : IAssetBundlesRequestCache {
 

@@ -1,10 +1,10 @@
-﻿
-using System;
-using UnityEngine;
-using Object = UnityEngine.Object;
-
-namespace UniModule.UnityTools.ResourceSystem
+﻿namespace UniGreenModules.UniResourceSystem.Runtime
 {
+    using System;
+    using Interfaces;
+    using UnityEngine;
+    using Object = UnityEngine.Object;
+
     [Serializable]
     public class ResourceItem : IResource
     {

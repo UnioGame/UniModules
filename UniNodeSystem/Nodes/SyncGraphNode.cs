@@ -2,7 +2,9 @@
 
 namespace UniGreenModules.UniNodeSystem.Nodes
 {
+    using UniCore.Runtime.DataFlow.Interfaces;
     using UniCore.Runtime.ObjectPool;
+    using UniCore.Runtime.ObjectPool.Runtime.Extensions;
 
     public class SyncGraphNode : UniGraphNode
     {

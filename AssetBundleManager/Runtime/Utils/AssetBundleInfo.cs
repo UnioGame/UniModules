@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using UnityEngine;
-
-namespace UniModule.UnityTools.AssetBundleManager.Utils
+﻿namespace UniGreenModules.AssetBundleManager.Runtime.Utils
 {
-    using UniGreenModules.UniCore.Runtime.ProfilerTools;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using UniCore.Runtime.ProfilerTools;
+    using UnityEngine;
 
     public class BundleItemInfo {
 

@@ -1,11 +1,10 @@
-﻿using UniGreenModules.UniCore.Runtime.DataFlow;
-using UniRx;
-using UnityEngine;
-
-namespace UniGreenModules.UniCore.Runtime.Views
+﻿namespace UniGreenModules.UniCore.Runtime.ModelBehaviours
 {
     using System;
+    using DataFlow.Interfaces;
     using Interfaces;
+    using UniRx;
+    using UnityEngine;
 
     public class ComponentViewModel<TModel> : MonoBehaviour , IViewModel<TModel>
     {

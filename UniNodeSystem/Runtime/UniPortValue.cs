@@ -6,8 +6,9 @@
     using UniContextData.Runtime.Entities;
     using UniCore.Runtime.Common;
     using UniCore.Runtime.DataFlow;
+    using UniCore.Runtime.DataFlow.Interfaces;
     using UniCore.Runtime.Interfaces;
-    using UniCore.Runtime.ObjectPool.Interfaces;
+    using UniCore.Runtime.ObjectPool.Runtime.Interfaces;
     using UniRx;
 
     [Serializable]

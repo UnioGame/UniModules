@@ -1,6 +1,7 @@
 ﻿namespace UniGreenModules.UniCore.Runtime.ProfilerTools
 {
     using System;
+    using Interfaces;
     using Utils;
     using UnityEngine;
     using Debug = UnityEngine.Debug;

@@ -1,12 +1,11 @@
 // Copyright (c) Rotorz Limited. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root.
 
-using Rotorz.ReorderableList.Internal;
-using System;
-using UnityEditor;
-using UnityEngine;
-
-namespace Rotorz.ReorderableList {
+namespace UniGreenModules.UniCore.EditorTools.Editor.Controls.ReorderableList {
+	using System;
+	using Internal;
+	using UnityEditor;
+	using UnityEngine;
 
 	/// <summary>
 	/// Reorderable list adaptor for serialized array property.

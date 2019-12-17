@@ -1,11 +1,10 @@
-using System.IO;
-using System.Linq;
-using UniModule.UnityTools.AssetBundleManager;
-using UniModule.UnityTools.EditorTools;
-using UnityEditor;
-using UnityEngine;
-
-namespace AssetBundlesModule {
+namespace UniGreenModules.AssetBundleManager.Editor {
+    using System.IO;
+    using System.Linq;
+    using Runtime;
+    using UniCore.EditorTools.Editor.AssetOperations;
+    using UnityEditor;
+    using UnityEngine;
 
     public class AssetBundlesEditorCommands
     {
@@ -47,7 +46,7 @@ namespace AssetBundlesModule {
         [MenuItem(_removeFolderBundlesTags)]
         public static void RemoveBundlesTagsFromFolder()
         {
-            global::AssetBundlesEditorOperations.RemoveBundlesTagsFromFolder();
+            global::UniGreenModules.AssetBundleManager.Editor.AssetBundlesOperations.AssetBundlesEditorOperations.RemoveBundlesTagsFromFolder();
         }
 
         [MenuItem(_removeAllBundlesTags)]

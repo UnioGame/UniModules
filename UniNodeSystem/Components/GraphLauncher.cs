@@ -5,12 +5,14 @@ namespace UniGreenModules.UniNodeSystem.Components
     using System;
     using System.Collections;
     using Nodes;
-    using UniTools.UniRoutine.Runtime;
-    using UniTools.UniRoutine.Runtime.Extension;
+    using UniRoutine.Runtime;
+    using UniRoutine.Runtime.Extension;
 
     public class GraphLauncher : MonoBehaviour
     {
 
+        public float startDelay = 1;
+        
         public UniGraph graph;
 
         private void OnEnable()
@@ -29,7 +31,7 @@ namespace UniGreenModules.UniNodeSystem.Components
         private IEnumerator Progress()
         {
             
-            yield return this.WaitForSecond(1);
+            yield return this.WaitForSecond(startDelay);
 
             var inputs = graph.InputsPorts;
 

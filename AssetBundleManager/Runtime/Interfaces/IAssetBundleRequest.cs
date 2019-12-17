@@ -1,7 +1,6 @@
-﻿using UniModule.UnityTools.AssetBundleManager.AssetBundleResources;
-
-namespace UniModule.UnityTools.AssetBundleManager.Interfaces {
-    using UniGreenModules.UniCore.Runtime.Interfaces;
+﻿namespace UniGreenModules.AssetBundleManager.Runtime.Interfaces {
+    using AssetBundleResources;
+    using UniCore.Runtime.Interfaces;
 
     public interface IAssetBundleRequest : IAsyncOperation {
 

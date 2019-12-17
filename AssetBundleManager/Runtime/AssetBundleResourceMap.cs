@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using UniModule.UnityTools.AssetBundleManager.AssetBundleResources;
-using UniModule.UnityTools.AssetBundleManager.Interfaces;
-
-namespace UniModule.UnityTools.AssetBundleManager
+﻿namespace UniGreenModules.AssetBundleManager.Runtime
 {
-    using UniGreenModules.UniCore.Runtime.ObjectPool;
-    using UniGreenModules.UniCore.Runtime.ProfilerTools;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using AssetBundleResources;
+    using Interfaces;
+    using UniCore.Runtime.ObjectPool.Runtime.Extensions;
 
     public class AssetBundleResourceMap : IAssetBundleResourceMap {
 

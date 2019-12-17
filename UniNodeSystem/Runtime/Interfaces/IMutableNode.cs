@@ -1,7 +1,7 @@
 namespace UniGreenModules.UniNodeSystem.Runtime.Interfaces
 {
     using System;
-    using Runtime;
+    using Core;
 
     public interface IMutableNode
     {

@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-using Debug = UnityEngine.Debug;
-using Object = UnityEngine.Object;
-
-namespace UniModule.UnityTools.AssetBundleManager.AssetBundleResources
+﻿namespace UniGreenModules.AssetBundleManager.Runtime.AssetBundleResources
 {
-    using UniGreenModules.UniCore.Runtime.ProfilerTools;
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Linq;
+    using UniCore.Runtime.ProfilerTools;
+    using UnityEngine;
+    using Object = UnityEngine.Object;
 
     // Loaded assetBundle contains the references count which can be used to unload dependent assetBundles automatically.
     public class LoadedAssetBundle : IAssetBundleResource {

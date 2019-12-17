@@ -1,8 +1,8 @@
-﻿using System.Collections.ObjectModel;
-using UniModule.UnityTools.AssetBundleManager.AssetBundleResources;
-
-namespace UniModule.UnityTools.AssetBundleManager.Interfaces
+﻿namespace UniGreenModules.AssetBundleManager.Runtime.Interfaces
 {
+    using System.Collections.ObjectModel;
+    using AssetBundleResources;
+
     public interface IAssetBundleResourceMap {
 
         ReadOnlyCollection<string> GetAllNames { get; }

@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections;
-using UnityEngine.Networking;
-
-namespace UniModule.UnityTools.AssetBundleManager.LoaderExecutors
+﻿namespace UniGreenModules.AssetBundleManager.Runtime.LoaderExecutors
 {
+    using System;
+    using System.Collections;
+    using UnityEngine.Networking;
 
     public class AssetBundleFromWebRequest : AssetBundleRequest
     {

@@ -1,5 +1,7 @@
 ﻿namespace UniGreenModules.UniCore.Runtime.DataFlow
 {
+    using Interfaces;
+
     public class LifeTimeDefinition
     {
         private LifeTime _lifeTime;

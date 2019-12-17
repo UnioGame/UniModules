@@ -1,7 +1,5 @@
-namespace UniGreenModules.UniCore.Runtime.ObjectPool.Interfaces
+namespace UniGreenModules.UniCore.Runtime.ObjectPool.Runtime.Interfaces
 {
-    using System;
-
     public interface IPoolContainer
     {
         bool Contains<T>() where T : class;

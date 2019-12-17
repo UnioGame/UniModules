@@ -2,7 +2,7 @@
 
 namespace UniGreenModules.UniNodeSystem.Inspector.Editor.UnityGraph
 {
-    using Runtime.Runtime;
+    using Runtime.Core;
 
     public class UnityGraphUniNode : Node
     {

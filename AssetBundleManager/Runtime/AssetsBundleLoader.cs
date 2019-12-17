@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using UniModule.UnityTools.AssetBundleManager.Interfaces;
-using UnityEngine;
-
-namespace UniModule.UnityTools.AssetBundleManager
+﻿namespace UniGreenModules.AssetBundleManager.Runtime
 {
-    using UniGreenModules.UniCore.Runtime.CoroutineTools;
-    using UniGreenModules.UniCore.Runtime.ObjectPool;
-    using UniGreenModules.UniCore.Runtime.ProfilerTools;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using Interfaces;
+    using UniCore.Runtime.CoroutineTools;
+    using UniCore.Runtime.ObjectPool.Runtime;
+    using UniCore.Runtime.ProfilerTools;
+    using UnityEngine;
 
     public class AssetsBundleLoader : IAssetsBundleLoader {
 

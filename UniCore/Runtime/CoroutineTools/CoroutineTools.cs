@@ -4,7 +4,8 @@
     using System.Collections;
     using System.Collections.Generic;
     using ObjectPool;
-    using ObjectPool.Extensions;
+    using ObjectPool.Runtime;
+    using ObjectPool.Runtime.Extensions;
     using UniRx;
 
     public static class CoroutineTools {

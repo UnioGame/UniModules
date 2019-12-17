@@ -1,11 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine;
+﻿using UnityEditor;
 
-public interface IEditorItem
+namespace UniGreenModules.UniCore.EditorTools.Editor.Interfaces
 {
+    public interface IEditorItem
+    {
     
-    SerializedObject SerializedObject { get; }
+        SerializedObject SerializedObject { get; }
 
+    }
 }

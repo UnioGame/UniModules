@@ -1,8 +1,8 @@
-﻿namespace UniTools.UniRoutine.Runtime.Extension
+﻿namespace UniGreenModules.UniRoutine.Runtime.Extension
 {
     using System;
     using System.Collections;
-    using UniGreenModules.UniCore.Runtime.Interfaces;
+    using UniCore.Runtime.Interfaces;
     using UnityEngine;
 
     public static class RoutineExtension

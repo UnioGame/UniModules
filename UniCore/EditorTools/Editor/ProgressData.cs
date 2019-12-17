@@ -1,4 +1,4 @@
-namespace UniModule.UnityTools.EditorTools
+namespace UniGreenModules.UniCore.EditorTools.Editor
 {
     public struct ProgressData
     {

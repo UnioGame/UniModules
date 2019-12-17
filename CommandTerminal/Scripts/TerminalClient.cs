@@ -1,8 +1,7 @@
-﻿using CommandTerminal;
-using UnityEngine;
-
-namespace _GetOverIt.Content._Programmers.Scripts.TerminalCommands
+﻿namespace UniGreenModules.CommandTerminal.Scripts
 {
+	using UnityEngine;
+
 	public class TerminalClient : MonoBehaviour
 	{
 		private float _lastActivationTime;

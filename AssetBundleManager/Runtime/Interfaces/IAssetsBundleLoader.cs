@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-
-namespace UniModule.UnityTools.AssetBundleManager.Interfaces {
+﻿namespace UniGreenModules.AssetBundleManager.Runtime.Interfaces {
+    using System.Collections.Generic;
+    using UnityEngine;
 
     public interface IAssetsBundleLoader {
 

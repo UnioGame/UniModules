@@ -4,7 +4,8 @@
     using System.Collections;
     using Interfaces;
     using UniCore.Runtime.Extension;
-    using UniTools.UniRoutine.Runtime;
+    using UniCore.Runtime.Rx.Extensions;
+    using UniRoutine.Runtime;
 
     public class RoutineStateExecutor : IStateExecutor<IStateBehaviour<IEnumerator>>
     {

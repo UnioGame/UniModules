@@ -1,10 +1,10 @@
-﻿using UniGreenModules.UniNodeSystem.Runtime.Runtime;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace UniGreenModules.UniNodeSystem.Inspector.Editor
 {
     using BaseEditor;
     using Runtime;
+    using Runtime.Core;
 
     public static class UniNodeEditorExtensions
     {

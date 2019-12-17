@@ -1,8 +1,9 @@
 namespace UniGreenModules.UniActors.Runtime.Interfaces
 {
     using UniCore.Runtime.DataFlow;
+    using UniCore.Runtime.DataFlow.Interfaces;
     using UniCore.Runtime.Interfaces;
-    using UniCore.Runtime.ObjectPool.Interfaces;
+    using UniCore.Runtime.ObjectPool.Runtime.Interfaces;
     using UniRx;
 
     public interface IActor : IPoolable, IProcess

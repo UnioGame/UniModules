@@ -1,10 +1,8 @@
-using UnityEngine;
-using System.Text;
-using System.Collections;
-using UnityEngine.Assertions;
-
-namespace CommandTerminal
+namespace UniGreenModules.CommandTerminal.Scripts
 {
+    using UnityEngine;
+    using UnityEngine.Assertions;
+
     public enum TerminalState
     {
         Close,

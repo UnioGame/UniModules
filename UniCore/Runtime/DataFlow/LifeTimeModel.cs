@@ -2,7 +2,7 @@
 {
     using Interfaces;
     using ObjectPool;
-    using ObjectPool.Interfaces;
+    using ObjectPool.Runtime.Extensions;
 
     public class LifeTimeModel : ILifeTimeModel
     {

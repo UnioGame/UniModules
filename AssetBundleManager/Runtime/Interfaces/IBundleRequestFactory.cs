@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace UniModule.UnityTools.AssetBundleManager.Interfaces
+﻿namespace UniGreenModules.AssetBundleManager.Runtime.Interfaces
 {
+    using System.Collections.Generic;
+
     public interface IBundleRequestFactory {
 
         IAssetBundleRequest Create(string bundleName, AssetBundleSourceType sourceType);

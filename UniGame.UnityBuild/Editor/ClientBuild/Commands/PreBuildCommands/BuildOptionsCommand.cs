@@ -1,5 +1,6 @@
-﻿namespace UniGreenModules.UnityBuild.Editor.ClientBuild.Commands.PreBuildCommands
+﻿namespace UniGreenModules.UniGame.UnityBuild.Editor.ClientBuild.Commands.PreBuildCommands
 {
+    using Interfaces;
     using Parsers;
     using UnityEditor;
     using UnityEngine;

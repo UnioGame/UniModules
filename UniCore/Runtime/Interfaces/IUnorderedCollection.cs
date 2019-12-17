@@ -1,7 +1,7 @@
-namespace UniGreenModules.UniCore.Runtime.DataStructure
+namespace UniGreenModules.UniCore.Runtime.Interfaces
 {
     using System.Collections.Generic;
-    using ObjectPool.Interfaces;
+    using ObjectPool.Runtime.Interfaces;
 
     public interface IUnorderedCollection<T> : IPoolable where T : class
     {
