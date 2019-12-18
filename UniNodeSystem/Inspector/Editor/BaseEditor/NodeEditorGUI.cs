@@ -428,7 +428,7 @@
             }
             else {
                 var target = resource.Target as GameObject;
-                var asset = PrefabUtility.SavePrefabAsset(,out bool saveResult);
+                var asset = PrefabUtility.SavePrefabAsset(target,out bool saveResult);
                 GameLog.Log($"SAVE GRAPH {target.name} status : {saveResult}");
                 return asset.GetComponent<NodeGraph>();
             }
