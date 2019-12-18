@@ -491,7 +491,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 1
   width: 220
-  position: {x: 0, y: 0}
+  position: {x: -24, y: -168}
   ports:
     keys:
     - '[out]input'

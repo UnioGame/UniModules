@@ -406,11 +406,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: UniGraph
       objectReference: {fileID: 0}
-    - target: {fileID: 8746302210011400369, guid: 892ba2dd7c7ecdb4bbd63fa0a897edcb,
-        type: 3}
-      propertyPath: position.y
-      value: -312
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 892ba2dd7c7ecdb4bbd63fa0a897edcb, type: 3}
 --- !u!114 &2561205455583467990 stripped

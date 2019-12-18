@@ -27,18 +27,21 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
         private Dictionary<NodePort, Rect> _portConnectionPoints = new Dictionary<NodePort, Rect>();
         private Dictionary<UniBaseNode, Vector2> _nodeSizes = new Dictionary<UniBaseNode, Vector2>();
 
+        private float _zoom = 1;
+        private Vector2 _panOffset;
+
         [SerializeField] private NodePortReference[] _references = new NodePortReference[0];
         [SerializeField] private Rect[] _rects = new Rect[0];
+
+        public NodeGraph      graph;
+        public EditorResource graphResource;
+        public string         currentAssetPath;
 
         /// <summary> Stores node positions for all nodePorts. </summary>
         public Dictionary<NodePort, Rect> portConnectionPoints
         {
             get { return _portConnectionPoints; }
         }
-
-        public NodeGraph graph;
-        public EditorResource graphResource;
-        public string currentAssetPath;
 
         public Dictionary<UniBaseNode, Vector2> nodeSizes
         {
@@ -55,8 +58,6 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
             }
         }
 
-        private Vector2 _panOffset;
-
         public float zoom
         {
             get { return _zoom; }
@@ -66,8 +67,6 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
                 Repaint();
             }
         }
-
-        private float _zoom = 1;
 
         #region public static methods
         
@@ -273,6 +272,22 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
                 _rects[index] = portConnectionPoint.Value;
                 index++;
             }
+        }
+        
+        private void OnSelectionChange()
+        {
+            var selections = Selection.
+                objects.
+                OfType<GameObject>();
+            
+            NodeGraph target = null;
+            foreach (var selection in selections) {
+                target = selection.GetComponent<NodeGraph>();
+                if(target != null) break;
+            }
+            
+            if(target == null || ActiveGraph== target) return;
+            Open(target);
         }
 
         private void OnEnable()

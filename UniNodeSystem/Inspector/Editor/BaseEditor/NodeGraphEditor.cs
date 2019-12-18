@@ -34,9 +34,9 @@
         public virtual string GetNodeMenuName(Type type) {
             //Check if type has the CreateNodeMenuAttribute
             UniBaseNode.CreateNodeMenuAttribute attrib;
-            if (NodeEditorUtilities.GetAttrib(type, out attrib)) // Return custom path
-                return attrib.menuName;
-            return ObjectNames.NicifyVariableName(type.ToString().Replace('.', '/'));
+            return NodeEditorUtilities.GetAttrib(type, out attrib) ? 
+                attrib.menuName : 
+                ObjectNames.NicifyVariableName(type.ToString().Replace('.', '/'));
         }
 
         public virtual Color GetTypeColor(Type type) {
