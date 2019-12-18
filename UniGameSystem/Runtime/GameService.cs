@@ -27,6 +27,6 @@
 
         public IReadOnlyReactiveProperty<bool> IsReady => isReady;
 
-        protected abstract IContext OnBind(IContext context, ILifeTime lifeTime = null);
+        protected abstract IContext OnBind(IContext context, ILifeTime lifeTime);
     }
 }

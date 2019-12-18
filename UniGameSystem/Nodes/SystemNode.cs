@@ -6,6 +6,10 @@
     using UniNodes.Runtime.Nodes;
     using UniRx;
 
+    /// <summary>
+    /// Base custom game service binder between Unity world and regular classes
+    /// </summary>
+    /// <typeparam name="TService"></typeparam>
     public class SystemNode<TService> : ContextNode
         where TService : IGameService, new()
     {
@@ -17,6 +21,8 @@
         {
             //bind service with context and node lifetime
             service.Bind(data, LifeTime);
+            
+            //is await options is active?
             if (waitForServiceReady) {
                 service.IsReady.
                     Where(x => x).
