@@ -392,10 +392,7 @@
         {
             EditorDrawerUtils.DrawHorizontalLayout(() =>
             {
-                EditorDrawerUtils.DrawButton("Apply Prefab", () => {
-                                                         Save(graph);
-                                                         Open((graphResource?.Target as GameObject)?.GetComponent<NodeGraph>());
-                                                     },
+                EditorDrawerUtils.DrawButton("Apply Prefab", () => Open(Save(ActiveGraph)),
                     GUILayout.Height(20),GUILayout.Width(200));
                 
                 EditorDrawerUtils.DrawButton("Save Scenes", () => EditorSceneManager.SaveOpenScenes(),
@@ -415,13 +412,13 @@
 
         }
         
-        private void Save(NodeGraph nodeGraph)
+        private NodeGraph Save(NodeGraph nodeGraph)
         {
             if (Application.isPlaying)
-                return;
+                return nodeGraph;
             
             if (!nodeGraph)
-                return;
+                return nodeGraph;
             
             var targetGameObject = nodeGraph.gameObject;
             var resource = ActializeActiveGraphAsset(targetGameObject);
@@ -430,9 +427,13 @@
                 PrefabUtility.ApplyObjectOverride(resource.Target,resource.AssetPath,InteractionMode.AutomatedAction);   
             }
             else {
-                PrefabUtility.SaveAsPrefabAssetAndConnect(resource.Target as GameObject, resource.AssetPath, InteractionMode.AutomatedAction);
+                var target = resource.Target as GameObject;
+                var asset = PrefabUtility.SavePrefabAsset(,out bool saveResult);
+                GameLog.Log($"SAVE GRAPH {target.name} status : {saveResult}");
+                return asset.GetComponent<NodeGraph>();
             }
 
+            return nodeGraph;
         }
 
         private Vector2 _historyPosition;

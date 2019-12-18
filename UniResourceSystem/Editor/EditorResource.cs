@@ -9,8 +9,8 @@
     {
         public string AssetPath => assetPath;
 
-        public bool IsInstance => string.IsNullOrEmpty(AssetPath);
-
+        public bool IsInstance { get; protected set; }
+    
         public Object Target => asset;
 
         public PrefabInstanceStatus InstanceStatus { get; protected set; } = PrefabInstanceStatus.NotAPrefab;
@@ -36,8 +36,11 @@
                 if (resultAsset!=null) {
                     resultPath = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(resultAsset);
                 }
+
             }
 
+            IsInstance = resultAsset != null;
+            
             if (resultAsset == null) {
                 resultAsset = targetAsset;
                 resultPath = AssetDatabase.GetAssetPath(targetAsset);
