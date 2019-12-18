@@ -2,7 +2,6 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Runtime;
     using Runtime.Core;
     using UniCore.EditorTools.Editor.AssetOperations;
     using UniNodeSystem.Nodes;
@@ -15,6 +14,7 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
     public partial class NodeEditorWindow : EditorWindow
     {
         public const string ActiveGraphPath = "ActiveGraphPath";
+        public const string UniNodesWindowTitle = "UniNodes";
 
         public static List<UniGraphAsset> NodeGraphs = new List<UniGraphAsset>();
         public static List<EditorResource> GraphsHistory = new List<EditorResource>();
@@ -79,28 +79,31 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
 
         public static bool Open(NodeGraph nodeGraph)
         {
-            if (current != null)
-            {
+            ActiveGraph         = nodeGraph;
+
+            if (current != null) {
                 current.Save();
             }
+
+            if (!nodeGraph) return false;
 
             if (GraphsHistory == null)
                 GraphsHistory = new List<EditorResource>();
 
-            var w = GetWindow(typeof(NodeEditorWindow), false, "UniNodes", true) as NodeEditorWindow;
-
+            var w = GetWindow(typeof(NodeEditorWindow), false, UniNodesWindowTitle, true) as NodeEditorWindow;
+            
             var nodeEditor = w;
             nodeEditor?.portConnectionPoints.Clear();
 
             if (!nodeGraph) return false;
 
-            var targetResource = GetGraphResource(nodeGraph);
+            w.titleContent = new GUIContent(nodeGraph.name);
             
+            var targetResource = GetGraphResource(nodeGraph);
             var targetGraph = Application.isPlaying ? nodeGraph : GetGraphItem(targetResource.AssetPath);
 
-            ActiveGraph = targetGraph;
             ActiveGraphResource = targetResource;
-
+            
             EditorPrefs.SetString(ActiveGraphPath, targetResource.AssetPath);
 
             w.currentAssetPath = targetResource.AssetPath;
@@ -140,7 +143,7 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
 
         public void Save()
         {
-            Save(graph, graphResource);
+            Save(graph);
         }
 
         public void OnInspectorUpdate()
@@ -274,11 +277,15 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
             }
         }
         
+        private List<Object> selectionAssets = new List<Object>();
+        
         private void OnSelectionChange()
         {
-            var selections = Selection.
-                objects.
-                OfType<GameObject>();
+            selectionAssets.Clear();
+            selectionAssets.AddRange(Selection.objects);
+            selectionAssets.AddRange(Selection.gameObjects);
+            
+            var selections = selectionAssets.OfType<GameObject>();
             
             NodeGraph target = null;
             foreach (var selection in selections) {

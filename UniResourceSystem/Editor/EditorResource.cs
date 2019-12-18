@@ -1,6 +1,7 @@
 ﻿namespace UniGreenModules.UniResourceSystem.Editor
 {
     using Runtime;
+    using UniCore.Runtime.ProfilerTools;
     using UnityEditor;
     using UnityEngine;
 
@@ -11,7 +12,11 @@
         public bool IsInstance => string.IsNullOrEmpty(AssetPath);
 
         public Object Target => asset;
-        
+
+        public PrefabInstanceStatus InstanceStatus { get; protected set; } = PrefabInstanceStatus.NotAPrefab;
+
+        public PrefabAssetType PrefabAssetType { get; protected set; } = PrefabAssetType.NotAPrefab;
+
         protected override void OnUpdateAsset(Object targetAsset)
         {
             var resultAsset = targetAsset;
@@ -19,23 +24,25 @@
 
             if (targetAsset is Component componentAsset)
                 resultAsset = componentAsset.gameObject;
-            
             if (resultAsset is GameObject targetGameObject) {
-                             
-                resultPath = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(targetGameObject);
                 
-                var originParent = PrefabUtility.GetCorrespondingObjectFromSource(targetGameObject);
+                InstanceStatus = PrefabUtility.GetPrefabInstanceStatus(targetGameObject);
+                PrefabAssetType = PrefabUtility.GetPrefabAssetType(targetGameObject);
                 
-                resultAsset = 
-                    originParent != null ? originParent : 
-                    string.IsNullOrEmpty(resultPath) ? null :        
-                    AssetDatabase.LoadAssetAtPath<GameObject>(resultPath);
-                    
-            }
-            else {
-                resultPath = AssetDatabase.GetAssetPath(resultAsset);
+                GameLog.Log($"PREFAB {targetGameObject.name} : InstanceStatus {InstanceStatus} PrefabAssetType {PrefabAssetType}");
+                
+                resultAsset = PrefabUtility.GetOutermostPrefabInstanceRoot(targetGameObject);
+                
+                if (resultAsset!=null) {
+                    resultPath = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(resultAsset);
+                }
             }
 
+            if (resultAsset == null) {
+                resultAsset = targetAsset;
+                resultPath = AssetDatabase.GetAssetPath(targetAsset);
+            }
+    
             assetPath = resultPath;
             asset = resultAsset;
         }

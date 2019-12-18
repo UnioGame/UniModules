@@ -404,7 +404,7 @@ PrefabInstance:
     - target: {fileID: 4058458779170658634, guid: 892ba2dd7c7ecdb4bbd63fa0a897edcb,
         type: 3}
       propertyPath: m_Name
-      value: UniGraph
+      value: SimpleSystemGraph
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 892ba2dd7c7ecdb4bbd63fa0a897edcb, type: 3}

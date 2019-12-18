@@ -1,12 +1,15 @@
 ﻿namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
     using Runtime.Core;
     using UniCore.EditorTools.Editor.Utility;
+    using UniCore.Runtime.ProfilerTools;
     using UniResourceSystem.Editor;
     using UnityEditor;
+    using UnityEditor.SceneManagement;
     using UnityEngine;
     using Object = UnityEngine.Object;
 
@@ -387,102 +390,49 @@
         
         private void DrawTopButtons()
         {
-            EditorDrawerUtils.DrawVertialLayout(() =>
+            EditorDrawerUtils.DrawHorizontalLayout(() =>
             {
-                EditorGUILayout.Separator();
-                EditorGUILayout.Space();
-
-                EditorDrawerUtils.DrawButton(_showGraphsList ? "hide graphs" : "show graphs",
-                    () => _showGraphsList = !_showGraphsList, GUILayout.Width(100));
-
-                if (!_showGraphsList)
-                    return;
-
-                EditorDrawerUtils.DrawButton("Update Graphs", UpdateEditorNodeGraphs, GUILayout.Width(100));
-
-                EditorGUILayout.Separator();
-                EditorGUILayout.Space();
-
-                EditorDrawerUtils.DrawScroll(_nodeGraphScroll, () =>
-                {
-                    NodeGraphs.RemoveAll(x => !x);
-                    foreach (var graphAsset in NodeGraphs)
-                    {
-                        var nodeGraph = graphAsset.Graph;
-                        EditorDrawerUtils.DrawButton(nodeGraph.name,
-                            () => Open(nodeGraph), GUILayout.Width(100));
-                    }
-                }, GUILayout.ExpandWidth(true));
-            }, GUILayout.Width(100));
-
-            EditorDrawerUtils.DrawVertialLayout(() =>
-            {
-                EditorDrawerUtils.DrawButton("save", () => {
-                                                         Save(graph, graphResource);
+                EditorDrawerUtils.DrawButton("Apply Prefab", () => {
+                                                         Save(graph);
                                                          Open((graphResource?.Target as GameObject)?.GetComponent<NodeGraph>());
-                                                     });
-
-                EditorDrawerUtils.DrawButton("stop all", () =>
-                {
-                    if (graph) graph.Dispose();
-                    foreach (var graphAsset in NodeGraphs)
-                    {
-                        var item = graphAsset.Graph;
-                        item.Dispose();
-                    }
-                });
-            }, GUILayout.Width(100));
+                                                     },
+                    GUILayout.Height(20),GUILayout.Width(200));
+                
+                EditorDrawerUtils.DrawButton("Save Scenes", () => EditorSceneManager.SaveOpenScenes(),
+                    GUILayout.Height(20),GUILayout.Width(200));
+                
+            },GUILayout.Height(100));
         }
 
-        private EditorResource ActializeActiveGraphAsset(NodeGraph nodeGraph,EditorResource resource)
+        private EditorResource ActializeActiveGraphAsset(GameObject nodeGraph)
         {
+            var resource = new EditorResource();
+            resource.Update(nodeGraph);
+
+            GameLog.Log($"IS INSTANCE {resource.IsInstance} : {resource.AssetPath}");
             
-            if (resource == null)
-            {
-                var  activePath = EditorPrefs.GetString(ActiveGraphPath);
-                if (string.IsNullOrEmpty(activePath))
-                {
-                    Debug.LogError("EMPTY Graph Path");
-                    return null;
-                }
+            return UpdateGraphResource(resource);
 
-                var asset = AssetDatabase.LoadAssetAtPath<GameObject>(activePath);
-                if (!asset || asset.name != nodeGraph.gameObject.name)
-                {
-                    Debug.LogError("WRONG Target Graph Path");
-                    return null;
-                }
-                resource = new EditorResource();
-                resource.Update(asset);
-
-                return UpdateGraphResource(resource);
-            }
-
-            return resource;
         }
         
-        private void Save(NodeGraph nodeGraph, EditorResource resource)
+        private void Save(NodeGraph nodeGraph)
         {
             if (Application.isPlaying)
                 return;
             
             if (!nodeGraph)
                 return;
-
-            resource = ActializeActiveGraphAsset(nodeGraph, resource);
             
             var targetGameObject = nodeGraph.gameObject;
+            var resource = ActializeActiveGraphAsset(targetGameObject);
 
-            var assetType = PrefabUtility.GetPrefabAssetType(nodeGraph);
+            if (resource.IsInstance) {
+                PrefabUtility.ApplyObjectOverride(resource.Target,resource.AssetPath,InteractionMode.AutomatedAction);   
+            }
+            else {
+                PrefabUtility.SaveAsPrefabAssetAndConnect(resource.Target as GameObject, resource.AssetPath, InteractionMode.AutomatedAction);
+            }
 
-            if (PrefabUtility.IsPartOfPrefabInstance(targetGameObject))
-            {
-                PrefabUtility.ApplyPrefabInstance(targetGameObject, InteractionMode.AutomatedAction);
-            }
-            else if(resource!=null)
-            {
-                PrefabUtility.ReplacePrefab(nodeGraph.gameObject, resource.Target);
-            }
         }
 
         private Vector2 _historyPosition;
@@ -508,7 +458,7 @@
 
                     EditorDrawerUtils.DrawButton(historyGraph.ItemName, () =>
                     {
-                        Save(graph, graphResource);
+                        Save(graph);
                         var targetGraph = historyGraph.Load<NodeGraph>();
                         Open(targetGraph);
                     },GUILayout.Width(100), GUILayout.Height(30));
