@@ -4,6 +4,7 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
     using System.Linq;
     using Runtime.Core;
     using UniCore.EditorTools.Editor.AssetOperations;
+    using UniCore.EditorTools.Editor.PrefabTools;
     using UniNodeSystem.Nodes;
     using UniResourceSystem.Editor;
     using UnityEditor;
@@ -16,11 +17,8 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
         public const string ActiveGraphPath = "ActiveGraphPath";
         public const string UniNodesWindowTitle = "UniNodes";
 
-        public static List<UniGraphAsset> NodeGraphs = new List<UniGraphAsset>();
-        public static List<EditorResource> GraphsHistory = new List<EditorResource>();
-        public static NodeEditorWindow current;
-        public static EditorResource ActiveGraphResource;
-        public static NodeGraph ActiveGraph;
+        public static NodeEditorWindow Current;
+        
         public static NodeGraph LastEditorGraph;
         
         private Dictionary<ulong, NodePort> _portsIds = new Dictionary<ulong, NodePort>();
@@ -34,23 +32,23 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
         [SerializeField] private Rect[] _rects = new Rect[0];
 
         public NodeGraph      graph;
-        public EditorResource graphResource;
-        public string         currentAssetPath;
 
+        
+        public static List<UniGraphAsset> NodeGraphs { get; protected set; } = new List<UniGraphAsset>();
+        public static HashSet<NodeEditorWindow> ActiveWindows { get; protected set; } = new HashSet<NodeEditorWindow>();
+        
         /// <summary> Stores node positions for all nodePorts. </summary>
-        public Dictionary<NodePort, Rect> portConnectionPoints
-        {
-            get { return _portConnectionPoints; }
-        }
+        public Dictionary<NodePort, Rect> PortConnectionPoints => _portConnectionPoints;
 
-        public Dictionary<UniBaseNode, Vector2> nodeSizes
-        {
-            get { return _nodeSizes; }
-        }
+        public Dictionary<UniBaseNode, Vector2> NodeSizes => _nodeSizes;
 
-        public Vector2 panOffset
+        public NodeGraph ActiveGraph { get; protected set; } 
+        
+        public string Title { get; protected set; }
+
+        public Vector2 PanOffset
         {
-            get { return _panOffset; }
+            get => _panOffset;
             set
             {
                 _panOffset = value;
@@ -58,9 +56,9 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
             }
         }
 
-        public float zoom
+        public float Zoom
         {
-            get { return _zoom; }
+            get => _zoom;
             set
             {
                 _zoom = Mathf.Clamp(value, 1f, 5f);
@@ -77,41 +75,26 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
             return nodeGraph != null && Open(nodeGraph);
         }
 
-        public static bool Open(NodeGraph nodeGraph)
+        public static NodeEditorWindow Open(NodeGraph nodeGraph,bool replaceActive = false)
         {
-            ActiveGraph         = nodeGraph;
-
-            if (current != null) {
-                current.Save();
+            var window = ActiveWindows.FirstOrDefault(x => x.ActiveGraph == nodeGraph);
+            if (window) {
+                window.Show();
+                window.Focus();
+                return window;
             }
-
-            if (!nodeGraph) return false;
-
-            if (GraphsHistory == null)
-                GraphsHistory = new List<EditorResource>();
-
-            var w = GetWindow(typeof(NodeEditorWindow), false, UniNodesWindowTitle, true) as NodeEditorWindow;
             
-            var nodeEditor = w;
-            nodeEditor?.portConnectionPoints.Clear();
-
-            if (!nodeGraph) return false;
-
-            w.titleContent = new GUIContent(nodeGraph.name);
+            if (Current != null) 
+                Current.Save();
             
-            var targetResource = GetGraphResource(nodeGraph);
-            var targetGraph = Application.isPlaying ? nodeGraph : GetGraphItem(targetResource.AssetPath);
+            if (!nodeGraph) return window;
 
-            ActiveGraphResource = targetResource;
+            window = replaceActive && Current!=null ? Current :
+                CreateInstance<NodeEditorWindow>();
+            window.Initialize(nodeGraph);
+            window.Show();
             
-            EditorPrefs.SetString(ActiveGraphPath, targetResource.AssetPath);
-
-            w.currentAssetPath = targetResource.AssetPath;
-            w.wantsMouseMove = true;
-            w.graph = targetGraph;
-            w.graphResource = targetResource;
-
-            return true;
+            return window;
         }
 
         public static void UpdateEditorNodeGraphs()
@@ -141,6 +124,16 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
         
         #endregion
 
+        public void Initialize(NodeGraph nodeGraph)
+        {
+            PortConnectionPoints.Clear();
+            titleContent   = new GUIContent(nodeGraph.name);
+            Title = nodeGraph.name;
+            wantsMouseMove = true;
+            graph          = nodeGraph;
+            ActiveGraph = nodeGraph;
+        }
+        
         public void Save()
         {
             Save(graph);
@@ -166,12 +159,12 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
 
         public Vector2 WindowToGridPosition(Vector2 windowPosition)
         {
-            return (windowPosition - (position.size * 0.5f) - (panOffset / zoom)) * zoom;
+            return (windowPosition - (position.size * 0.5f) - (PanOffset / Zoom)) * Zoom;
         }
 
         public Vector2 GridToWindowPosition(Vector2 gridPosition)
         {
-            return (position.size * 0.5f) + (panOffset / zoom) + (gridPosition / zoom);
+            return (position.size * 0.5f) + (PanOffset / Zoom) + (gridPosition / Zoom);
         }
 
         public Rect GridToWindowRectNoClipped(Rect gridRect)
@@ -183,15 +176,15 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
         public Rect GridToWindowRect(Rect gridRect)
         {
             gridRect.position = GridToWindowPosition(gridRect.position);
-            gridRect.size /= zoom;
+            gridRect.size /= Zoom;
             return gridRect;
         }
 
         public Vector2 GridToWindowPositionNoClipped(Vector2 gridPosition)
         {
             var center = position.size * 0.5f;
-            var xOffset = (center.x * zoom + (panOffset.x + gridPosition.x));
-            var yOffset = (center.y * zoom + (panOffset.y + gridPosition.y));
+            var xOffset = (center.x * Zoom + (PanOffset.x + gridPosition.x));
+            var yOffset = (center.y * Zoom + (PanOffset.y + gridPosition.y));
             return new Vector2(xOffset, yOffset);
         }
 
@@ -221,23 +214,6 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
             return targetGraph;
         }
 
-        private static EditorResource GetGraphResource(NodeGraph targetGraph)
-        {
-            var resourceItem = new EditorResource();
-            resourceItem.Update(targetGraph.gameObject);
-
-            return UpdateGraphResource(resourceItem);
-        }
-
-        private static EditorResource UpdateGraphResource(EditorResource resource)
-        {
-            GraphsHistory.RemoveAll(x => x == null || x.AssetPath == resource.AssetPath);
-
-            GraphsHistory.Add(resource);
-
-            return resource;
-        }
-        
         private void DraggableWindow(int windowID)
         {
             GUI.DragWindow();
@@ -245,14 +221,9 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
 
         private void OnFocus()
         {
-            current = this;
+            Current = this;
             graphEditor = NodeGraphEditor.GetEditor(graph);
             var settings = NodeEditorPreferences.GetSettings();
-
-            if (GraphsHistory.Count == 0)
-            {
-                GraphsHistory.Add(graphResource);
-            }
 
             if (graphEditor != null && settings.autoSave)
             {
@@ -260,16 +231,19 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
                 AssetDatabase.SaveAssets();
             }
         }
-
+        
         private void OnDisable()
         {
+            ActiveWindows.Remove(this);
             EditorApplication.playModeStateChanged -= OnPlayModeChanged;
+            
             // Cache portConnectionPoints before serialization starts
-            var count = portConnectionPoints.Count;
+            var count = PortConnectionPoints.Count;
             _references = new NodePortReference[count];
             _rects = new Rect[count];
             var index = 0;
-            foreach (var portConnectionPoint in portConnectionPoints)
+            
+            foreach (var portConnectionPoint in PortConnectionPoints)
             {
                 _references[index] = new NodePortReference(portConnectionPoint.Key);
                 _rects[index] = portConnectionPoint.Value;
@@ -300,12 +274,9 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
         private void OnEnable()
         {
             EditorApplication.playModeStateChanged += OnPlayModeChanged;
-            
-            if (GraphsHistory == null)
-                GraphsHistory = new List<EditorResource>();
-            if (NodeGraphs == null)
-                NodeGraphs = new List<UniGraphAsset>();
 
+            ActiveWindows.Add(this);
+            
             // Reload portConnectionPoints if there are any
             var length = _references.Length;
             if (length == _rects.Length)
@@ -343,5 +314,18 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
                     break;
             }
         }
+        
+        
+        private NodeGraph Save(NodeGraph nodeGraph)
+        {
+            if (Application.isPlaying || !nodeGraph)
+                return nodeGraph;
+
+            var prefabResource = nodeGraph.GetPrefabDefinition();
+            prefabResource.SavePrefab();
+
+            return nodeGraph;
+        }
+
     }
 }

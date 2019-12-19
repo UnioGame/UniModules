@@ -23,11 +23,11 @@
         /// <summary> Get settings of current active editor </summary>
         public static NodeEditorSettings GetSettings()
         {
-            if (lastEditor != NodeEditorWindow.current.graphEditor)
+            var currentEditor = NodeEditorWindow.Current;
+            var graphEditor   = currentEditor.graphEditor;
+            
+            if (graphEditor!=null && lastEditor != NodeEditorWindow.Current.graphEditor)
             {
-                var currentEditor = NodeEditorWindow.current;
-                var graphEditor = currentEditor.graphEditor;
-                
                 var attribs = graphEditor.GetType()
                     .GetCustomAttributes(NodeEditorType, true);
                 
@@ -35,7 +35,7 @@
                 {
                     var attrib =
                         attribs[0] as NodeGraphEditor.CustomNodeGraphEditorAttribute;
-                    lastEditor = NodeEditorWindow.current.graphEditor;
+                    lastEditor = NodeEditorWindow.Current.graphEditor;
                     lastKey = attrib.editorPrefsKey;
                 }
                 else return null;

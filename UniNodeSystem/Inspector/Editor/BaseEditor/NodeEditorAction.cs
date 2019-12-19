@@ -90,8 +90,8 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
                 case EventType.MouseMove:
                     break;
                 case EventType.ScrollWheel:
-                    if (e.delta.y > 0) zoom += 0.1f * zoom;
-                    else zoom -= 0.1f * zoom;
+                    if (e.delta.y > 0) Zoom += 0.1f * Zoom;
+                    else Zoom -= 0.1f * Zoom;
                     break;
                 case EventType.MouseDrag:
                     if (e.button == 0)
@@ -147,20 +147,20 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
                                         foreach (var output in node.Outputs)
                                         {
                                             Rect rect;
-                                            if (portConnectionPoints.TryGetValue(output, out rect))
+                                            if (PortConnectionPoints.TryGetValue(output, out rect))
                                             {
                                                 rect.position += offset;
-                                                portConnectionPoints[output] = rect;
+                                                PortConnectionPoints[output] = rect;
                                             }
                                         }
 
                                         foreach (var input in node.Inputs)
                                         {
                                             Rect rect;
-                                            if (portConnectionPoints.TryGetValue(input, out rect))
+                                            if (PortConnectionPoints.TryGetValue(input, out rect))
                                             {
                                                 rect.position += offset;
-                                                portConnectionPoints[input] = rect;
+                                                PortConnectionPoints[input] = rect;
                                             }
                                         }
                                     }
@@ -212,12 +212,12 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
                     }
                     else if (e.button == 1 || e.button == 2)
                     {
-                        var tempOffset = panOffset;
-                        tempOffset += e.delta * zoom;
+                        var tempOffset = PanOffset;
+                        tempOffset += e.delta * Zoom;
                         // Round value to increase crispyness of UI text
                         tempOffset.x = Mathf.Round(tempOffset.x);
                         tempOffset.y = Mathf.Round(tempOffset.y);
-                        panOffset = tempOffset;
+                        PanOffset = tempOffset;
                         isPanning = true;
                     }
 
@@ -453,8 +453,8 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
         /// <summary> Puts all nodes in focus. If no nodes are present, resets view to  </summary>
         public void Home()
         {
-            zoom = 2;
-            panOffset = Vector2.zero;
+            Zoom = 2;
+            PanOffset = Vector2.zero;
         }
 
         public void CreateNode(Type type, Vector2 position)
@@ -591,7 +591,7 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
                 }
 
                 to = draggedOutputTarget != null
-                    ? portConnectionPoints[draggedOutputTarget].center
+                    ? PortConnectionPoints[draggedOutputTarget].center
                     : WindowToGridPosition(Event.current.mousePosition);
                 DrawConnection(from, to, col);
 
@@ -620,9 +620,9 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
             var nodePos = GridToWindowPosition(node.position);
             float width;
             Vector2 size;
-            if (nodeSizes.TryGetValue(node, out size)) width = size.x;
+            if (NodeSizes.TryGetValue(node, out size)) width = size.x;
             else width = 200;
-            var windowRect = new Rect(nodePos, new Vector2(width / zoom, 30 / zoom));
+            var windowRect = new Rect(nodePos, new Vector2(width / Zoom, 30 / Zoom));
             return windowRect.Contains(mousePos);
         }
     }

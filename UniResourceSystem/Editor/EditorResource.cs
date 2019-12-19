@@ -17,6 +17,8 @@
 
         public PrefabAssetType PrefabAssetType { get; protected set; } = PrefabAssetType.NotAPrefab;
 
+        public bool IsVariant { get; protected set; }
+
         protected override void OnUpdateAsset(Object targetAsset)
         {
             var resultAsset = targetAsset;
@@ -37,6 +39,7 @@
                     resultPath = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(resultAsset);
                 }
 
+                IsVariant = PrefabUtility.IsPartOfVariantPrefab(targetGameObject);
             }
 
             IsInstance = resultAsset != null;

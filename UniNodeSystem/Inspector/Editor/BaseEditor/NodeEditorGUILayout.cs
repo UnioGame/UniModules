@@ -156,7 +156,7 @@
                 Color backgroundColor = new Color32(90, 97, 105, 255);
                 Color tint;
                 if (NodeEditorWindow.nodeTint.TryGetValue(port.node.GetType(), out tint)) backgroundColor *= tint;
-                var col = NodeEditorWindow.current.graphEditor.GetTypeColor(port.ValueType);
+                var col = NodeEditorWindow.Current.graphEditor.GetTypeColor(port.ValueType);
                 DrawPortHandle(rect, backgroundColor, col);
 
                 // Register the handle position
@@ -260,7 +260,7 @@
             if (port == null)
                 return Color.magenta;
 
-            return NodeEditorWindow.current.graphEditor.GetTypeColor(port.ValueType);
+            return NodeEditorWindow.Current.graphEditor.GetTypeColor(port.ValueType);
         }
 
         public static Color GetBackgroundPortColor(NodePort port)
@@ -320,7 +320,7 @@
             Color backgroundColor = new Color32(90, 97, 105, 255);
             Color tint;
             if (NodeEditorWindow.nodeTint.TryGetValue(port.node.GetType(), out tint)) backgroundColor *= tint;
-            var col = NodeEditorWindow.current.graphEditor.GetTypeColor(port.ValueType);
+            var col = NodeEditorWindow.Current.graphEditor.GetTypeColor(port.ValueType);
             DrawPortHandle(rect, backgroundColor, col);
 
             // Register the handle position
@@ -461,10 +461,10 @@
                             port.SwapConnections(nextPort);
 
                             // Swap cached positions to mitigate twitching
-                            var rect = NodeEditorWindow.current.portConnectionPoints[port];
-                            NodeEditorWindow.current.portConnectionPoints[port] =
-                                NodeEditorWindow.current.portConnectionPoints[nextPort];
-                            NodeEditorWindow.current.portConnectionPoints[nextPort] = rect;
+                            var rect = NodeEditorWindow.Current.PortConnectionPoints[port];
+                            NodeEditorWindow.Current.PortConnectionPoints[port] =
+                                NodeEditorWindow.Current.PortConnectionPoints[nextPort];
+                            NodeEditorWindow.Current.PortConnectionPoints[nextPort] = rect;
                         }
                     }
                     // Move down
@@ -477,10 +477,10 @@
                             port.SwapConnections(nextPort);
 
                             // Swap cached positions to mitigate twitching
-                            var rect = NodeEditorWindow.current.portConnectionPoints[port];
-                            NodeEditorWindow.current.portConnectionPoints[port] =
-                                NodeEditorWindow.current.portConnectionPoints[nextPort];
-                            NodeEditorWindow.current.portConnectionPoints[nextPort] = rect;
+                            var rect = NodeEditorWindow.Current.PortConnectionPoints[port];
+                            NodeEditorWindow.Current.PortConnectionPoints[port] =
+                                NodeEditorWindow.Current.PortConnectionPoints[nextPort];
+                            NodeEditorWindow.Current.PortConnectionPoints[nextPort] = rect;
                         }
                     }
 
@@ -498,9 +498,9 @@
                     // Apply changes
                     serializedObject.ApplyModifiedProperties();
                     serializedObject.Update();
-                    NodeEditorWindow.current.Repaint();
+                    NodeEditorWindow.Current.Repaint();
                     
-                    EditorApplication.delayCall += NodeEditorWindow.current.Repaint;
+                    EditorApplication.delayCall += NodeEditorWindow.Current.Repaint;
                 };
             list.onAddCallback =
                 (ReorderableList rl) =>
