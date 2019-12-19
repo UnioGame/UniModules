@@ -306,7 +306,7 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
                             if (draggedOutputTarget != null)
                             {
                                 var node = draggedOutputTarget.node;
-                                if (graph.nodes.Count != 0) draggedOutput.Connect(draggedOutputTarget);
+                                if (ActiveGraph.nodes.Count != 0) draggedOutput.Connect(draggedOutputTarget);
 
                                 // ConnectionIndex can be -1 if the connection is removed instantly after creation
                                 var connectionIndex = draggedOutput.GetConnectionIndex(draggedOutputTarget);
@@ -314,14 +314,14 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
                                 {
                                     draggedOutput.GetReroutePoints(connectionIndex).AddRange(draggedOutputReroutes);
                                     if (NodeEditor.OnUpdateNode != null) NodeEditor.OnUpdateNode(node);
-                                    EditorUtility.SetDirty(graph);
+                                    EditorUtility.SetDirty(ActiveGraph);
                                 }
                             }
 
                             //Release dragged connection
                             draggedOutput = null;
                             draggedOutputTarget = null;
-                            EditorUtility.SetDirty(graph);
+                            EditorUtility.SetDirty(ActiveGraph);
                             if (NodeEditorPreferences.GetSettings().autoSave) AssetDatabase.SaveAssets();
                         }
                         else if (currentActivity == NodeActivity.DragNode)
@@ -464,10 +464,10 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
         
         public void CreateNode(Type type,string nodeName, Vector2 position)
         {
-            var node = graph.AddNode(type);
+            var node = ActiveGraph.AddNode(type);
             node.position = position;
             node.name = nodeName;
-            node.transform.parent = graph.transform;
+            node.transform.parent = ActiveGraph.transform;
 
             if (NodeEditorPreferences.GetSettings().autoSave)
             {
@@ -511,10 +511,10 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
         public void MoveNodeToTop(UniBaseNode node)
         {
             int index;
-            while ((index = graph.nodes.IndexOf(node)) != graph.nodes.Count - 1)
+            while ((index = ActiveGraph.nodes.IndexOf(node)) != ActiveGraph.nodes.Count - 1)
             {
-                graph.nodes[index] = graph.nodes[index + 1];
-                graph.nodes[index + 1] = node;
+                ActiveGraph.nodes[index] = ActiveGraph.nodes[index + 1];
+                ActiveGraph.nodes[index + 1] = node;
             }
         }
 
@@ -528,7 +528,7 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
                 if (Selection.objects[i] is UniBaseNode)
                 {
                     var srcNode = Selection.objects[i] as UniBaseNode;
-                    if (srcNode.graph != graph) continue; // ignore nodes selected in another graph
+                    if (srcNode.graph != ActiveGraph) continue; // ignore nodes selected in another graph
                     var newNode = graphEditor.CopyNode(srcNode);
                     substitutes.Add(srcNode, newNode);
                     newNode.position = srcNode.position + new Vector2(30, 30);
@@ -542,7 +542,7 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
                 if (Selection.objects[i] is UniBaseNode)
                 {
                     var srcNode = Selection.objects[i] as UniBaseNode;
-                    if (srcNode.graph != graph) continue; // ignore nodes selected in another graph
+                    if (srcNode.graph != ActiveGraph) continue; // ignore nodes selected in another graph
                     foreach (var port in srcNode.Ports)
                     {
                         for (var c = 0; c < port.ConnectionCount; c++)

@@ -39,15 +39,14 @@
         {
             var e = Event.current;
             var m = GUI.matrix;
-            if (graph == null) {
+            if (ActiveGraph == null) {
                 if (NodeGraph.ActiveGraphs.Count > 0) {
-                    Open(NodeGraph.ActiveGraphs.FirstOrDefault());
+                    Initialize(NodeGraph.ActiveGraphs.FirstOrDefault());
                 }
-
                 return;
             }
 
-            graphEditor          = NodeGraphEditor.GetEditor(graph);
+            graphEditor          = NodeGraphEditor.GetEditor(ActiveGraph);
             graphEditor.position = position;
 
             Controls();
@@ -190,7 +189,7 @@
 
             contextMenu.AddSeparator("");
             contextMenu.AddItem(new GUIContent("Preferences"), false, () => OpenPreferences());
-            AddCustomContextMenuItems(contextMenu, graph);
+            AddCustomContextMenuItems(contextMenu, ActiveGraph);
             contextMenu.DropDown(new Rect(Event.current.mousePosition, Vector2.zero));
         }
 
@@ -270,7 +269,7 @@
             hoveredReroute = new RerouteReference();
 
             var col = GUI.color;
-            foreach (var node in graph.nodes) {
+            foreach (var node in ActiveGraph.nodes) {
                 //If a null node is found, return. This can happen if the nodes associated script is deleted. It is currently not possible in Unity to delete a null asset.
                 if (node == null) continue;
 
@@ -353,15 +352,13 @@
 
         private void DrawActiveGraphs()
         {
+            return;
             EditorDrawerUtils.DrawHorizontalLayout(() => {
                 _activeGraphsScroll = EditorDrawerUtils.DrawScroll(_activeGraphsScroll, () => {
                     EditorGUILayout.BeginHorizontal();
 
-                    var activeGraphs = NodeGraph.ActiveGraphs;
-                    for (var i = 0; i < activeGraphs.Count; i++) {
-                        var graph = activeGraphs[i];
+                    foreach (var graph in NodeGraph.ActiveGraphs) {
                         if (!graph) continue;
-
                         EditorDrawerUtils.DrawButton(graph.name, () => { Open(graph); }, GUILayout.Height(30), GUILayout.MaxWidth(200));
                     }
 
@@ -412,7 +409,7 @@
             if (activeEvent.type == EventType.Layout)
                 culledNodes = new List<UniBaseNode>();
 
-            var nodes = graph.nodes;
+            var nodes = ActiveGraph.nodes;
             for (int i = 0; i < nodes.Count; i++) {
                 var node = nodes[i];
                 if (Selection.Contains(node)) {

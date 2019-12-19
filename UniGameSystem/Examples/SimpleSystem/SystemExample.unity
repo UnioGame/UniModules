@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startDelay: 1
-  graph: {fileID: 0}
+  graph: {fileID: 2561205455583467990}
 --- !u!4 &1930435006
 Transform:
   m_ObjectHideFlags: 0
@@ -408,3 +408,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 892ba2dd7c7ecdb4bbd63fa0a897edcb, type: 3}
+--- !u!114 &2561205455583467990 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3947279238786959826, guid: 892ba2dd7c7ecdb4bbd63fa0a897edcb,
+    type: 3}
+  m_PrefabInstance: {fileID: 2561205455583467989}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 782945db79ce44748b3f294e0edf364e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

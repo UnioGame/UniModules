@@ -11,7 +11,7 @@
     {
         #region static data
 
-        public static List<NodeGraph> ActiveGraphs { get; } = new List<NodeGraph>();
+        public static HashSet<NodeGraph> ActiveGraphs { get; } = new HashSet<NodeGraph>();
 
         #endregion
 

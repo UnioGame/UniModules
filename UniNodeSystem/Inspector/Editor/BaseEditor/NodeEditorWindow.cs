@@ -30,20 +30,18 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
 
         [SerializeField] private NodePortReference[] _references = new NodePortReference[0];
         [SerializeField] private Rect[] _rects = new Rect[0];
-
-        public NodeGraph      graph;
-
         
         public static List<UniGraphAsset> NodeGraphs { get; protected set; } = new List<UniGraphAsset>();
         public static HashSet<NodeEditorWindow> ActiveWindows { get; protected set; } = new HashSet<NodeEditorWindow>();
         
+        
+        public NodeGraph ActiveGraph;
+
         /// <summary> Stores node positions for all nodePorts. </summary>
         public Dictionary<NodePort, Rect> PortConnectionPoints => _portConnectionPoints;
 
         public Dictionary<UniBaseNode, Vector2> NodeSizes => _nodeSizes;
 
-        public NodeGraph ActiveGraph { get; protected set; } 
-        
         public string Title { get; protected set; }
 
         public Vector2 PanOffset
@@ -77,22 +75,28 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
 
         public static NodeEditorWindow Open(NodeGraph nodeGraph,bool replaceActive = false)
         {
-            var window = ActiveWindows.FirstOrDefault(x => x.ActiveGraph == nodeGraph);
-            if (window) {
-                window.Show();
-                window.Focus();
-                return window;
-            }
-            
             if (Current != null) 
                 Current.Save();
             
-            if (!nodeGraph) return window;
+            if (!nodeGraph) return null;
 
-            window = replaceActive && Current!=null ? Current :
-                CreateInstance<NodeEditorWindow>();
+            var window = SelectWindow(nodeGraph,replaceActive);
+            
             window.Initialize(nodeGraph);
             window.Show();
+            return window;
+        }
+
+        private static NodeEditorWindow SelectWindow(NodeGraph nodeGraph,bool replaceActive)
+        {
+            var window = ActiveWindows.FirstOrDefault(x => x.ActiveGraph == nodeGraph);
+            if (window) return window;
+            
+            window = ActiveWindows.FirstOrDefault(x => !x.ActiveGraph);
+            if (window) return window;
+            
+            window = replaceActive && Current!=null ? Current :
+                CreateInstance<NodeEditorWindow>();
             
             return window;
         }
@@ -130,13 +134,12 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
             titleContent   = new GUIContent(nodeGraph.name);
             Title = nodeGraph.name;
             wantsMouseMove = true;
-            graph          = nodeGraph;
-            ActiveGraph = nodeGraph;
+            ActiveGraph          = nodeGraph;
         }
         
         public void Save()
         {
-            Save(graph);
+            Save(ActiveGraph);
         }
 
         public void OnInspectorUpdate()
@@ -152,8 +155,8 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
             if (string.IsNullOrEmpty(path)) return;
             var existingGraph = AssetDatabase.LoadAssetAtPath<NodeGraph>(path);
             if (existingGraph != null) AssetDatabase.DeleteAsset(path);
-            AssetDatabase.CreateAsset(graph, path);
-            EditorUtility.SetDirty(graph);
+            AssetDatabase.CreateAsset(ActiveGraph, path);
+            EditorUtility.SetDirty(ActiveGraph);
             if (NodeEditorPreferences.GetSettings().autoSave) AssetDatabase.SaveAssets();
         }
 
@@ -222,7 +225,7 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
         private void OnFocus()
         {
             Current = this;
-            graphEditor = NodeGraphEditor.GetEditor(graph);
+            graphEditor = NodeGraphEditor.GetEditor(ActiveGraph);
             var settings = NodeEditorPreferences.GetSettings();
 
             if (graphEditor != null && settings.autoSave)
@@ -267,7 +270,8 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
                 if(target != null) break;
             }
             
-            if(target == null || ActiveGraph== target) return;
+            if(target == null) return;
+            
             Open(target);
         }
 
@@ -307,8 +311,8 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
                     LastEditorGraph = null;
                     break;
                 case PlayModeStateChange.ExitingPlayMode:
-                    LastEditorGraph = graph;
-                    graph = null;
+                    LastEditorGraph = ActiveGraph;
+                    ActiveGraph = null;
                     var activeGraph = NodeGraph.ActiveGraphs.FirstOrDefault();
                     Open(activeGraph);
                     break;
