@@ -1,7 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
-<engine:UXML
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:engine="UnityEngine.UIElements"
-    xmlns:editor="UnityEditor.UIElements">
-    <engine:Label text="Hello World! From UXML" />
-</engine:UXML>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:Template name="UniGraphNodesSearch" path="Assets/UniGreenModules/UniNodeSystem/Inspector/Editor/NodesSelectorWindow/Resources/UniGraphNodesSearch.uxml" />
+    <ui:Instance template="UniGraphNodesSearch" style="margin-top: 12px;">
+        <Style path="Assets/UniGreenModules/UniNodeSystem/Inspector/Editor/NodesSelectorWindow/Resources/UniGraphNodesWindowStyle.uss" />
+    </ui:Instance>
+    <ui:VisualElement name="Nodes" style="margin-top: 4px; height: auto; flex-grow: 1; margin-bottom: 16px;">
+        <Style path="Assets/UniGreenModules/UniNodeSystem/Inspector/Editor/NodesSelectorWindow/Resources/UniGraphNodesWindowStyle.uss" />
+        <ui:Scroller high-value="100" direction="Vertical" value="42" style="flex-grow: 1; justify-content: flex-start; visibility: visible; flex-direction: column; align-items: flex-end;" />
+    </ui:VisualElement>
+</ui:UXML>

@@ -1,0 +1,5 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:TextField picking-mode="Ignore" value="seach" text="seach" name="SearchField" style="height: auto; margin-top: 0; margin-left: 0; margin-right: 0; -unity-font-style: italic; color: rgb(0, 0, 0); white-space: no-wrap; font-size: 18px; padding-left: 0; background-color: rgb(255, 255, 255); border-color: rgba(0, 0, 0, 0); opacity: 1;">
+        <Style path="Assets/UniGreenModules/UniNodeSystem/Inspector/Editor/NodesSelectorWindow/Resources/UniGraphNodesSearch.uss" />
+    </ui:TextField>
+</ui:UXML>
