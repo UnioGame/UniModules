@@ -122,7 +122,7 @@
 
         public override object GetValue(NodePort port) => GetPortValue(port);
 
-        public IPortValue GetPortValue(NodePort port) => GetPortValue(port.fieldName);
+        public IPortValue GetPortValue(INodePort port) => GetPortValue(port.fieldName);
 
         public IPortValue GetPortValue(string portName)
         {

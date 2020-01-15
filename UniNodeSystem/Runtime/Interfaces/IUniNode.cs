@@ -13,7 +13,7 @@ namespace UniGreenModules.UniNodeSystem.Runtime.Interfaces
 
         IReadOnlyList<IPortValue> PortValues { get; }
 
-        IPortValue GetPortValue(NodePort port);
+        IPortValue GetPortValue(INodePort port);
         
         IPortValue GetPortValue(string port);
 
