@@ -3,5 +3,5 @@ using UniGreenModules.UniGameSystem.Nodes;
 
 namespace Examples.SimpleSystem
 {
-    public class Simple4Node : SystemNode<SimpleSystem4> { }
+    public class Simple4Node : GameServiceNode<SimpleSystem4> { }
 }

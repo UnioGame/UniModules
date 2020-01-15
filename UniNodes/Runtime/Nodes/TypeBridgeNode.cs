@@ -12,9 +12,9 @@
     [Serializable]
     public class TypeBridgeNode<TData> : UniNode
     {
-        protected override void UpdateNodeCommands(List<ILifeTimeCommand> nodeCommands)
+        protected override void UpdateCommands(List<ILifeTimeCommand> nodeCommands)
         {
-            base.UpdateNodeCommands(nodeCommands);
+            base.UpdateCommands(nodeCommands);
             
             var portCommand = new ConnectedFormatedPairCommand();
             portCommand.Initialize(this,typeof(TData).Name,false);

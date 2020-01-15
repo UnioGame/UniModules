@@ -7,10 +7,12 @@
     using UniRx;
 
     /// <summary>
-    /// Base custom game service binder between Unity world and regular classes
+    /// Base game service binder between Unity world and regular classes
     /// </summary>
     /// <typeparam name="TService"></typeparam>
-    public class SystemNode<TService> : ContextNode
+    [CreateNodeMenuAttribute("Services/Service Node")]
+    public class GameServiceNode<TService> : 
+        ContextNode
         where TService : IGameService, new()
     {
         private TService service = new TService();
@@ -20,18 +22,18 @@
         protected override void OnDataUpdated(IContext data, IContext source, IContext target)
         {
             //bind service with context and node lifetime
-            service.Bind(data, LifeTime);
+            var context = service.Bind(data, LifeTime);
             
             //is await options is active?
             if (waitForServiceReady) {
                 service.IsReady.
                     Where(x => x).
-                    Do(x => base.OnDataUpdated(data, source, target)).
+                    Do(x => base.OnDataUpdated(context, source, target)).
                     Subscribe().
                     AddTo(LifeTime);
             }
             else {
-                base.OnDataUpdated(data, source, target);
+                base.OnDataUpdated(context, source, target);
             }
 
         }

@@ -61,10 +61,10 @@
             isInitialized = true;
             
             //custom node initialization
-            OnNodeInitialize();
+            OnInitialize();
             
             //register node commands
-            UpdateNodeCommands(commands);
+            UpdateCommands(commands);
             
             //remove deleted ports
             Ports.RemoveItems(this.IsPortRemoved, RemoveInstancePort);
@@ -154,7 +154,7 @@
         /// <summary>
         /// Call once on node initialization
         /// </summary>
-        protected virtual void OnNodeInitialize(){}
+        protected virtual void OnInitialize(){}
 
         /// <summary>
         /// base logic realization
@@ -165,7 +165,7 @@
         /// update active list commands
         /// add all supported node commands here
         /// </summary>
-        protected virtual void UpdateNodeCommands(List<ILifeTimeCommand> nodeCommands){}
+        protected virtual void UpdateCommands(List<ILifeTimeCommand> nodeCommands){}
         
         /// <summary>
         /// cleanup all ports values

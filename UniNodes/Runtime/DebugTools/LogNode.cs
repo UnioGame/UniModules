@@ -25,9 +25,9 @@ namespace UniGreenModules.UniNodeSystem.Nodes.DebugTools
             PrintLog(GetMessage(), mode);
         }
 
-        protected override void UpdateNodeCommands(List<ILifeTimeCommand> nodeCommands)
+        protected override void UpdateCommands(List<ILifeTimeCommand> nodeCommands)
         {
-            base.UpdateNodeCommands(nodeCommands);
+            base.UpdateCommands(nodeCommands);
             
             var inputMessagePort = this.UpdatePortValue(logPortName, PortIO.Input);
             nodeCommands.Add(new ContextBroadCastCommand<object>(x => 

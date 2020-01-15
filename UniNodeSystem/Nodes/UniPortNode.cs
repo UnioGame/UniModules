@@ -28,9 +28,9 @@
 
         public bool Visible => false;
 
-        protected override void UpdateNodeCommands(List<ILifeTimeCommand> nodeCommands)
+        protected override void UpdateCommands(List<ILifeTimeCommand> nodeCommands)
         {
-            base.UpdateNodeCommands(nodeCommands);
+            base.UpdateCommands(nodeCommands);
             
             portPairCommand.Initialize(this, ItemName, bindInOut);
             PortValue = Direction == PortIO.Input ? 

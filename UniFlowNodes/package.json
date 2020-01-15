@@ -4,7 +4,7 @@
   "displayName": "UniGame Node System Game Flow",
   "description": "Game Flow Nodes",
   "unity": "2019.2",
-  "version": "1.0.17",
+  "version": "1.0.20",
   "keywords": [
     "nodes"
   ],
@@ -16,7 +16,7 @@
     "com.unigame.uniroutine": "1.3.18",
     "com.unigame.resourcesystem": "1.1.10",
     "com.unigame.unistatemachine": "1.2.10",
-    "com.unigame.nodesystem": "1.2.15",
-    "com.unigame.nodesystem.commonnodes": "1.2.3"
+    "com.unigame.nodesystem": "1.2.18",
+    "com.unigame.nodesystem.commonnodes": "1.2.6"
   }
 }

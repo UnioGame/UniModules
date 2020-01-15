@@ -13,10 +13,10 @@ namespace UniGreenModules.UniNodeSystem.Nodes
         
         public abstract UniGraph LoadOrigin();
         
-        protected override void OnNodeInitialize()
+        protected override void OnInitialize()
         {
             
-            base.OnNodeInitialize();
+            base.OnInitialize();
 
             var sourceGraphPrefab = LoadOrigin();
             

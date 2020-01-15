@@ -52,10 +52,10 @@
         
         #region private methods
 
-        protected override void OnNodeInitialize()
+        protected override void OnInitialize()
         {
             
-            base.OnNodeInitialize();
+            base.OnInitialize();
             
             InitializeGraphNodes();
             
