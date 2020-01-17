@@ -21,9 +21,9 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
         public static int Renaming;
 
 
-        protected List<INodeEditorDrawer> _bodyDrawers = new List<INodeEditorDrawer>();
+        protected List<INodeEditorHandler> _bodyDrawers = new List<INodeEditorHandler>();
         
-        protected List<INodeEditorDrawer> _headerDrawers = new List<INodeEditorDrawer>();
+        protected List<INodeEditorHandler> _headerDrawers = new List<INodeEditorHandler>();
 
         public UniBaseNode Target => target;
 
@@ -32,8 +32,8 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
         public sealed override void OnEnable()
         {
             
-            _bodyDrawers = new List<INodeEditorDrawer>();
-            _headerDrawers = new List<INodeEditorDrawer>();
+            _bodyDrawers = new List<INodeEditorHandler>();
+            _headerDrawers = new List<INodeEditorHandler>();
             
             _bodyDrawers = InitializedBodyDrawers();
             _headerDrawers = InitializeHeaderDrawers();
@@ -102,13 +102,13 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
         
         #region private methods
 
-        protected virtual List<INodeEditorDrawer> InitializeHeaderDrawers()
+        protected virtual List<INodeEditorHandler> InitializeHeaderDrawers()
         {
             _headerDrawers.Add(new BaseHeaderDrawer());
             return _headerDrawers;
         }
 
-        protected virtual List<INodeEditorDrawer> InitializedBodyDrawers()
+        protected virtual List<INodeEditorHandler> InitializedBodyDrawers()
         {
             _bodyDrawers.Add(new BaseBodyDrawer());
             return _bodyDrawers;
@@ -116,12 +116,13 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.BaseEditor
 
         protected virtual void OnEditorEnabled(){}
 
-        protected void Draw(List<INodeEditorDrawer> drawers)
+        protected void Draw(List<INodeEditorHandler> drawers)
         {
             for (var i = 0; i < drawers.Count; i++)
             {
                 var drawer = drawers[i];
-                drawer.Draw(this, target);
+                if(!drawer.Update(this, target)) 
+                    break;
             }
         }
         

@@ -6,7 +6,7 @@
     using Runtime.Core;
     using UniCore.EditorTools.Editor.Utility;
 
-    public class ButtonActionBodyDrawer : INodeEditorDrawer
+    public class ButtonActionBodyDrawer : INodeEditorHandler
     {
         private readonly string _label;
         private readonly Action _action;
@@ -17,7 +17,7 @@
             _action = action;
         }
     
-        public bool Draw(INodeEditor editor, UniBaseNode node)
+        public bool Update(INodeEditor editor, UniBaseNode node)
         {
            
             EditorDrawerUtils.DrawButton(_label,_action);

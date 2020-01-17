@@ -10,6 +10,9 @@
         public GUILayoutOption[] Options;
         public Color Background;
         public Color Color;
+        public Color DataFilledColor;
+        public Color InputEmptyColor;
+        public Color OutputEmptyColor;
 
     }
 }

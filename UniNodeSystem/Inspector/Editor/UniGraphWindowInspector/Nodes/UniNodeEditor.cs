@@ -6,6 +6,7 @@
     using Drawers.Interfaces;
     using Runtime;
     using Runtime.Interfaces;
+    using Styles;
     using UniCore.EditorTools.Editor.Utility;
     using UnityEngine;
 
@@ -23,7 +24,7 @@
 
         #endregion
 
-        protected List<INodeEditorDrawer> bodyDrawers = new List<INodeEditorDrawer>();
+        protected List<INodeEditorHandler> bodyDrawers = new List<INodeEditorHandler>();
         
         public override bool IsSelected()
         {
@@ -73,12 +74,12 @@
         protected override void OnEditorEnabled()
         {
             base.OnEditorEnabled();
-            bodyDrawers = InitializeBodyDrawers(bodyDrawers);
+            bodyDrawers = InitializeBodyHandlers(bodyDrawers);
         }
         
-        protected virtual List<INodeEditorDrawer> InitializeBodyDrawers(List<INodeEditorDrawer> drawers)
+        protected virtual List<INodeEditorHandler> InitializeBodyHandlers(List<INodeEditorHandler> drawers)
         {
-            drawers.Add(new UniNodeBasePortsDrawer());
+            drawers.Add(new UniNodeBasePortsDrawer(new PortStyleSelector()));
             return drawers;
         }
 

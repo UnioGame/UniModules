@@ -6,10 +6,10 @@ namespace UniGreenModules.UniNodeSystem.Inspector.Editor.Drawers
     using Interfaces;
     using Runtime.Core;
 
-    public class RenameFiedDrawer : INodeEditorDrawer
+    public class RenameFiedDrawer : INodeEditorHandler
     {
     
-        public bool Draw(INodeEditor editor, UniBaseNode node)
+        public bool Update(INodeEditor editor, UniBaseNode node)
         {
             var nodeName  = node.GetName();
             var nameValue = EditorGUILayout.TextField("name:", nodeName);

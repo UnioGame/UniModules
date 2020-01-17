@@ -5,7 +5,7 @@
     using Runtime.Core;
     using UnityEngine;
 
-    public class PortStyleSelector : IStyleProvider
+    public class PortStyleSelector : IPortStyleProvider
     {
     
         public virtual NodeGuiLayoutStyle Select(NodePort port)
@@ -22,7 +22,8 @@
             {
                 portStyle.Name = port.fieldName;
                 portStyle.Background = Color.red;
-                portStyle.Color = port.direction == PortIO.Input ? hasData ? new Color(128, 128, 0) : Color.green :
+                portStyle.Color = port.direction == PortIO.Input ? 
+                    hasData ? new Color(128, 128, 0) : Color.green :
                     hasData ? new Color(128, 128, 0) : Color.blue;
             }
 

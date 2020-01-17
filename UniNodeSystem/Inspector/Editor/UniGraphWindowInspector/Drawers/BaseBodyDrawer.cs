@@ -7,7 +7,7 @@
     using Runtime.Core;
     using UnityEditor;
 
-    public class BaseBodyDrawer : INodeEditorDrawer
+    public class BaseBodyDrawer : INodeEditorHandler
     {
         private List<string> _excludes;
     
@@ -16,7 +16,7 @@
             _excludes = new List<string>(){"m_Script", "graph", "position", "ports"};
         }
     
-        public bool Draw(INodeEditor editor, UniBaseNode node)
+        public bool Update(INodeEditor editor, UniBaseNode node)
         {
             var serializedObject = editor.SerializedObject;
 

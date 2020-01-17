@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Interfaces;
     using UnityEngine;
 
@@ -131,6 +132,17 @@
             Clear();
         }
 
+        #region editor
 
+        protected override void OnValidate()
+        {
+            base.OnValidate();
+            if (nodes.Any(x => !x)) {
+                Debug.LogError($"NULL node found at {name}");
+            }
+        }   
+
+        #endregion
+        
     }
 }

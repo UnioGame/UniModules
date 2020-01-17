@@ -7,9 +7,9 @@
     using UnityEditor;
     using UnityEngine;
 
-    public class BaseHeaderDrawer : INodeEditorDrawer
+    public class BaseHeaderDrawer : INodeEditorHandler
     {
-        public virtual bool Draw(INodeEditor editor, UniBaseNode node)
+        public virtual bool Update(INodeEditor editor, UniBaseNode node)
         {
             var target = node;
             var title = target.GetName();

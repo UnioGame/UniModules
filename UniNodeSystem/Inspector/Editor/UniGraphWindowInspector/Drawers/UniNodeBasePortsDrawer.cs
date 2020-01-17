@@ -7,31 +7,36 @@
     using Runtime;
     using Runtime.Core;
     using Runtime.Extensions;
+    using Runtime.Interfaces;
     using Styles;
 
-    public class UniNodeBasePortsDrawer : INodeEditorDrawer
+    public class UniNodeBasePortsDrawer : INodeEditorHandler
     {
+        private readonly IPortStyleProvider styleSelector;
+        
         private Regex bracketsExpr = new Regex(UniNodeExtension.InputPattern);
-        private PortStyleSelector styleSelector = new PortStyleSelector();
         private Dictionary<string, NodePort> _drawedPorts = new Dictionary<string, NodePort>();
 
-        public bool Draw(INodeEditor editor, UniBaseNode baseNode)
+        public UniNodeBasePortsDrawer(IPortStyleProvider styleProvider)
         {
+            this.styleSelector = styleProvider;
+        }
         
+        public bool Update(INodeEditor editor, UniBaseNode baseNode)
+        {
             _drawedPorts.Clear();
-
-            var node = baseNode as UniNode;
-            if (node == null)
-                return true;
-
-            DrawPorts(node,_drawedPorts);
+            
+            if (baseNode is IUniNode node) {
+                DrawPorts(node, _drawedPorts);
+            }
 
             return true;
+
         }
     
         
         public bool DrawPortPair(
-            UniNode node, 
+            IUniNode node, 
             string inputPortName, 
             string outputPortName)
         {
@@ -43,7 +48,7 @@
             
         }
 
-        public bool DrawPortPair(UniNode node,NodePort inputPort, NodePort outputPort)
+        public bool DrawPortPair(IUniNode node,NodePort inputPort, NodePort outputPort)
         {
             if (outputPort == null || inputPort == null)
             {
@@ -58,7 +63,7 @@
             return true;
         }
 
-        private void DrawPorts(UniNode node,IDictionary<string, NodePort> cache)
+        private void DrawPorts(IUniNode node,IDictionary<string, NodePort> cache)
         {
             for (var i = 0; i < node.PortValues.Count; i++)
             {
@@ -71,6 +76,7 @@
                 var portName = bracketsExpr.Replace(outputPortName, string.Empty, 1);
                 var inputPortName = portName.GetFormatedPortName(PortIO.Input);
 
+                //Try Draw port pairs
                 var result = DrawPortPair(node, inputPortName, outputPortName);
                 
                 var portOutput = node.GetPort(outputPortName);

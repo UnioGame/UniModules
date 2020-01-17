@@ -9,9 +9,9 @@
     [CustomNodeEditor(typeof(UniGraphNode))]
     public class GraphNodeEditor : UniNodeEditor
     {
-        protected override List<INodeEditorDrawer> InitializeBodyDrawers(List<INodeEditorDrawer> drawers)
+        protected override List<INodeEditorHandler> InitializeBodyHandlers(List<INodeEditorHandler> drawers)
         {
-            base.InitializeBodyDrawers(drawers);
+            base.InitializeBodyHandlers(drawers);
             drawers.Add(new ButtonActionBodyDrawer("show graph",ShowGraph));
             
             return drawers;
