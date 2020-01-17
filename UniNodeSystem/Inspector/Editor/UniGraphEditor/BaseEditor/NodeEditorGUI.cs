@@ -543,10 +543,13 @@
             Vector2 nodePos,
             NodeEditorGuiState state)
         {
-            if (state.EventType == EventType.Layout) {
+            var eventType  = state.EventType;
+            var stateEvent = state.Event;
+            if (eventType == EventType.Ignore ||
+                stateEvent.type == EventType.Ignore || 
+                stateEvent.rawType == EventType.Ignore)
                 return;
-            }
-
+            
             var mousePos = state.MousePosition;
             var preSelection = state.PreSelection;
             
@@ -581,6 +584,13 @@
         
         private void DrawNodeEditorArea(NodeEditor nodeEditor, UniBaseNode node, NodeEditorGuiState state)
         {
+            var eventType = state.EventType;
+            var stateEvent = state.Event;
+
+            if (eventType == EventType.Ignore ||
+                stateEvent.type == EventType.Ignore || 
+                stateEvent.rawType == EventType.Ignore)
+                return;
             
             var guiColor = GUI.color;
 
@@ -598,7 +608,8 @@
                     GUILayout.BeginVertical(new GUIStyle(highlightStyle));
                 }
                 catch (Exception e) {
-                    Console.WriteLine(e);
+                    GameLog.LogError(e);
+                    GameLog.Log($"EventType {state.EventType} EventData[type: {state.Event.type} rawtype: {state.Event.type}");
                     throw;
                 }
             }
