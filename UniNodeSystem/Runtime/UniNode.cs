@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using Commands;
     using Core;
     using Extensions;
     using Interfaces;
@@ -15,6 +16,12 @@
     [Serializable]
     public abstract class UniNode : UniBaseNode, IUniNode
     {       
+        #region inspector fields
+
+        public List<SerializedNodeCommand> savedCommands = new List<SerializedNodeCommand>();
+
+        #endregion
+        
         #region private fields
 
         [NonSerialized] public List<ILifeTimeCommand> commands = 
@@ -62,9 +69,9 @@
             
             //custom node initialization
             OnInitialize();
-            
-            //register node commands
-            UpdateCommands(commands);
+
+            //initialize all node commandss
+            InitializeCommands();
             
             //remove deleted ports
             Ports.RemoveItems(this.IsPortRemoved, RemoveInstancePort);
@@ -178,6 +185,21 @@
             }
         }
 
+        private void InitializeCommands()
+        {
+            commands.Clear();
+            
+            //register all backed commands to main list
+            for (var i = 0; i < savedCommands.Count; i++) {
+                var command = savedCommands[i];
+                if(command!=null) 
+                    commands.Add(command.Create(this));
+            }
+            
+            //register node commands
+            UpdateCommands(commands);
+        }
+        
         private void OnDestroy() => Exit();
         
 #region inspector call

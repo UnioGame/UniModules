@@ -9,6 +9,6 @@
   "dependencies": {
     "com.unigame.neuecc.unirx": "7.1.1",
     "com.unigame.neuecc.unirx.async": "1.2.0",
-    "com.unity.addressables": "1.4.0"
+    "com.unity.addressables": "1.5.1"
   }
 }

@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using Interfaces;
+    using UniCore.Runtime.ReorderableInspector;
     using UnityEngine;
 
     /// <summary> Base class for all node graphs </summary>
@@ -137,7 +138,9 @@
         protected override void OnValidate()
         {
             base.OnValidate();
-            if (nodes.Any(x => !x)) {
+            
+            //remove all empty nodes
+            if (nodes.RemoveAll(x => !x) > 0) {
                 Debug.LogError($"NULL node found at {name}");
             }
         }   

@@ -26,6 +26,10 @@
 
         public IPortValue PortValue { get; protected set; }
 
+        public IPortValue Input => portPairCommand.InputPort;
+
+        public IPortValue Output => portPairCommand.OutputPort;
+
         public bool Visible => false;
 
         protected override void UpdateCommands(List<ILifeTimeCommand> nodeCommands)
