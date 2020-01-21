@@ -5,6 +5,7 @@
     using UniFlowNodes;
 
     [Serializable]
+    [CreateNodeMenu("Common/ContextNode")]
     public class ContextNode : TypeBridgeNode<IContext>
     {
         

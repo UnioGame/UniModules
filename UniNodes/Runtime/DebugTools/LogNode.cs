@@ -12,6 +12,7 @@ namespace UniGreenModules.UniNodeSystem.Nodes.DebugTools
     using UniNodes.Runtime.Commands;
 
     [Serializable]
+    [CreateNodeMenu("Debug/Log")]
     public class LogNode : UniNode
     {
         private const string logPortName = "log";

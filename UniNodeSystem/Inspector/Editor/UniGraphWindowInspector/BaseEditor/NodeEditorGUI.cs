@@ -610,7 +610,10 @@
                 catch (Exception e) {
                     GameLog.LogError(e);
                     GameLog.Log($"EventType {state.EventType} EventData[type: {state.Event.type} rawtype: {state.Event.type}");
-                    throw;
+                    //throw;
+                    GUILayout.EndVertical();
+                    GUILayout.EndVertical();
+                    return;
                 }
             }
             else {
