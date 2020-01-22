@@ -1,0 +1,3 @@
+[submodule "UniGameFlow"]
+	path = UniGameFlow
+	url = https://github.com/Mefodei/UniGameFlow.git
