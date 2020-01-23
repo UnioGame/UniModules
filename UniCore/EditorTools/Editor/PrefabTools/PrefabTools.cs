@@ -1,5 +1,6 @@
 ﻿namespace UniGreenModules.UniCore.EditorTools.Editor.PrefabTools
 {
+    using System;
     using Runtime.ProfilerTools;
     using UnityEditor;
     using UnityEditor.SceneManagement;
@@ -56,18 +57,24 @@
                 return;
             }
 
-            //prefab instance on scene
-            if (prefabDefinition.IsInstance) {
-                if (prefabDefinition.IsVariantPrefab) {
-                    PrefabUtility.ApplyPrefabInstance(prefabDefinition.Asset, InteractionMode.UserAction);
+            try {
+                //prefab instance on scene
+                if (prefabDefinition.IsInstance) {
+                    if (prefabDefinition.IsVariantPrefab) {
+                        PrefabUtility.ApplyPrefabInstance(prefabDefinition.Asset, InteractionMode.UserAction);
+                    }
+                    else {
+                        PrefabUtility.ApplyPrefabInstance(prefabDefinition.Asset, InteractionMode.UserAction);
+                    }
                 }
                 else {
-                    PrefabUtility.ApplyPrefabInstance(prefabDefinition.Asset, InteractionMode.UserAction);
+                    PrefabUtility.SaveAsPrefabAssetAndConnect(prefabDefinition.SourcePrefab, prefabDefinition.AssetPath,InteractionMode.UserAction);
                 }
             }
-            else {
-                PrefabUtility.SaveAsPrefabAssetAndConnect(prefabDefinition.SourcePrefab, prefabDefinition.AssetPath,InteractionMode.UserAction);
+            catch (Exception e) {
+                GameLog.LogError(e);
             }
+
         }
         
     }

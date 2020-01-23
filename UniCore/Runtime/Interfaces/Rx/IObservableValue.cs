@@ -2,7 +2,7 @@ namespace UniGreenModules.UniCore.Runtime.Interfaces.Rx
 {
     using System;
 
-    public interface IObservableDataValue<T> : 
+    public interface IObservableValue<out T> : 
         IObservable<T>, 
         IDisposable,
         IReadonlyDataValue<T>, 

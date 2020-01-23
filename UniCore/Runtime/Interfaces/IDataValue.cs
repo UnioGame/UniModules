@@ -2,7 +2,9 @@
 {
 	using Rx;
 
-	public interface IDataValue<TData> : IObservableDataValue<TData>,IValueWriter<TData>
+	public interface IDataValue<TData> : 
+		IObservableValue<TData>,
+		IValueWriter<TData>
 	{
 
 	}

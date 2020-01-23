@@ -1,6 +1,6 @@
 ﻿namespace UniGreenModules.UniCore.Runtime.Interfaces
 {
-    public interface IValueWriter<TValue>
+    public interface IValueWriter<in TValue>
     {
         void SetValue(TValue value);
     }

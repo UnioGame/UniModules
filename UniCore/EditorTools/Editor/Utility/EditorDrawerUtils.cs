@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using Runtime.ProfilerTools;
     using UnityEditor;
     using UnityEngine;
     using Object = UnityEngine.Object;
@@ -122,17 +123,24 @@
         public static void DrawHorizontalLayout(Action action, params GUILayoutOption[] guiLayoutOptions) {
             
             if (action == null) return;
-            
-            if (guiLayoutOptions == null) {
-                EditorGUILayout.BeginHorizontal();
-            }
-            else {
-                EditorGUILayout.BeginHorizontal(guiLayoutOptions);
-            }
 
-            action();
-            
-            EditorGUILayout.EndHorizontal();
+            try {
+                if (guiLayoutOptions == null) {
+                    EditorGUILayout.BeginHorizontal();
+                }
+                else {
+                    EditorGUILayout.BeginHorizontal(guiLayoutOptions);
+                }
+
+                action();
+            }
+            catch (Exception e) {
+                GameLog.LogError(e);
+            }
+            finally {
+                
+                EditorGUILayout.EndHorizontal();
+            }
             
         }
 

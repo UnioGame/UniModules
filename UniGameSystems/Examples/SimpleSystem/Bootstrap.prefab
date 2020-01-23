@@ -1,5 +1,91 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2059202638
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2059202640}
+  - component: {fileID: 2059202639}
+  m_Layer: 0
+  m_Name: Game Status Node
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2059202640
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2059202638}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4243253785151902023}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2059202639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2059202638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c154383987fac943b2bd2b253ca8863, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _id: 28
+  width: 220
+  position: {x: 728, y: 120}
+  ports:
+    keys:
+    - '[out]IContext'
+    - '[in]IContext'
+    values:
+    - _id: 29
+      _fieldName: '[out]IContext'
+      _node: {fileID: 2059202639}
+      _typeQualifiedName: UniGreenModules.UniNodeSystem.Runtime.UniPortValue, unigame.nodesystem.runtime,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: log
+        node: {fileID: 2889764106508933953}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _dynamic: 1
+    - _id: 30
+      _fieldName: '[in]IContext'
+      _node: {fileID: 2059202639}
+      _typeQualifiedName: UniGreenModules.UniNodeSystem.Runtime.UniPortValue, unigame.nodesystem.runtime,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: '[out]IContext'
+        node: {fileID: 6930921118652744092}
+        reroutePoints: []
+      - fieldName: '[out]IContext'
+        node: {fileID: 2388735112629393624}
+        reroutePoints: []
+      - fieldName: '[out]IContext'
+        node: {fileID: 8037306991772341070}
+        reroutePoints: []
+      - fieldName: '[out]IContext'
+        node: {fileID: 7014688245974289662}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _dynamic: 1
+  _graph: {fileID: 3947279238786959826}
+  waitForServiceReady: 1
 --- !u!1 &5318060075743729
 GameObject:
   m_ObjectHideFlags: 0
@@ -122,8 +208,8 @@ MonoBehaviour:
       _typeQualifiedName: UniGreenModules.UniNodeSystem.Runtime.UniPortValue, unigame.nodesystem.runtime,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       connections:
-      - fieldName: log
-        node: {fileID: 2889764106508933953}
+      - fieldName: '[in]IContext'
+        node: {fileID: 2059202639}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -199,8 +285,8 @@ MonoBehaviour:
       _typeQualifiedName: UniGreenModules.UniNodeSystem.Runtime.UniPortValue, unigame.nodesystem.runtime,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       connections:
-      - fieldName: log
-        node: {fileID: 2889764106508933953}
+      - fieldName: '[in]IContext'
+        node: {fileID: 2059202639}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -230,7 +316,7 @@ GameObject:
   - component: {fileID: 4243253785151902023}
   - component: {fileID: 3947279238786959826}
   m_Layer: 0
-  m_Name: UniGraph
+  m_Name: Bootstrap
   m_TagString: Untagged
   m_Icon: {fileID: 2800000, guid: 0ad0bab6cf4e9284fa9e02e568080c47, type: 3}
   m_NavMeshLayer: 0
@@ -254,6 +340,7 @@ Transform:
   - {fileID: 8941380827904557971}
   - {fileID: 6882782064254821243}
   - {fileID: 6424615640862399742}
+  - {fileID: 2059202640}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -286,7 +373,7 @@ MonoBehaviour:
       _connectionType: 0
       _dynamic: 1
   _graph: {fileID: 0}
-  _uniqueId: 27
+  _uniqueId: 30
   nodes:
   - {fileID: 6208779352982914149}
   - {fileID: 6930921118652744092}
@@ -295,6 +382,7 @@ MonoBehaviour:
   - {fileID: 7870877572442808584}
   - {fileID: 2889764106508933953}
   - {fileID: 7014688245974289662}
+  - {fileID: 2059202639}
 --- !u!1 &5183761810912439007
 GameObject:
   m_ObjectHideFlags: 0
@@ -352,8 +440,8 @@ MonoBehaviour:
       _typeQualifiedName: UniGreenModules.UniNodeSystem.Runtime.UniPortValue, unigame.nodesystem.runtime,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       connections:
-      - fieldName: log
-        node: {fileID: 2889764106508933953}
+      - fieldName: '[in]IContext'
+        node: {fileID: 2059202639}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -516,8 +604,8 @@ MonoBehaviour:
       _typeQualifiedName: UniGreenModules.UniNodeSystem.Runtime.UniPortValue, unigame.nodesystem.runtime,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       connections:
-      - fieldName: log
-        node: {fileID: 2889764106508933953}
+      - fieldName: '[in]IContext'
+        node: {fileID: 2059202639}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -581,7 +669,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 18
   width: 220
-  position: {x: 712, y: -88}
+  position: {x: 984, y: 264}
   ports:
     keys:
     - log
@@ -593,16 +681,7 @@ MonoBehaviour:
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: '[out]IContext'
-        node: {fileID: 8037306991772341070}
-        reroutePoints: []
-      - fieldName: '[out]IContext'
-        node: {fileID: 7014688245974289662}
-        reroutePoints: []
-      - fieldName: '[out]IContext'
-        node: {fileID: 2388735112629393624}
-        reroutePoints: []
-      - fieldName: '[out]IContext'
-        node: {fileID: 6930921118652744092}
+        node: {fileID: 2059202639}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
