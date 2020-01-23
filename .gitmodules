@@ -1,3 +1,6 @@
 [submodule "UniGameFlow"]
 	path = UniGameFlow
 	url = https://github.com/Mefodei/UniGameFlow.git
+[submodule "UniRoutines"]
+	path = UniRoutines
+	url = https://github.com/Mefodei/UniRoutines.git
