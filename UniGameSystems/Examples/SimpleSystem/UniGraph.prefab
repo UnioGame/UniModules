@@ -244,6 +244,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3481448543356252886}
   - component: {fileID: 615834694751771932}
+  - component: {fileID: 8380518544477607164}
   m_Layer: 0
   m_Name: UniGraph
   m_TagString: Untagged
@@ -304,6 +305,20 @@ MonoBehaviour:
   - {fileID: 1319478693}
   - {fileID: 1878614294}
   - {fileID: 341919275}
+--- !u!114 &8380518544477607164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2405885134667805187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff87142bf9c884741bbcd295bab90ce7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startDelay: 1
+  graph: {fileID: 615834694751771932}
 --- !u!1 &7590290659342902429
 GameObject:
   m_ObjectHideFlags: 0

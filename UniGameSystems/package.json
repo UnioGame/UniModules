@@ -4,13 +4,13 @@
   "displayName": "UniGame GameSystem",
   "description": "Unity Game Model based controllers",
   "unity": "2019.2",
-  "version": "0.1.19",
+  "version": "0.1.21",
   "keywords": [],
   "dependencies": {
     "com.unigame.neuecc.unirx": "7.1.1",
     "com.unigame.neuecc.unirx.async": "1.2.0",
-    "com.unigame.unicore": "1.3.24",
-    "com.unigame.nodessystem": "1.0.0",
-    "com.unigame.uniroutine": "1.3.19"
+    "com.unigame.unicore": "1.3.25",
+    "com.unigame.nodessystem": "1.0.2",
+    "com.unigame.uniroutine": "1.3.21"
   }
 }

@@ -1,0 +1,16 @@
+{
+  "name": "com.unigame.serializablecontext",
+  "author": "Mefodei",
+  "displayName": "UniGame Serializable Context",
+  "description": "Shared serializable context data for Unity",
+  "unity": "2019.2",
+  "version": "1.0.1",
+  "keywords": [],
+  "dependencies": {
+    "com.unigame.unicore": "1.3.25",
+    "com.unity.addressables": "1.5.1",
+    "com.unigame.neuecc.unirx": "7.1.1",
+    "com.unigame.neuecc.unirx.async": "1.2.0",
+    "com.unity.textmeshpro": "2.0.1"
+  }
+}
