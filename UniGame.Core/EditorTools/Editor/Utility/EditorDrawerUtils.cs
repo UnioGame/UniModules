@@ -23,6 +23,7 @@
     }
     
     public static class EditorDrawerUtils {
+        
 
         public static GUIStyle EmptyFoldOutStyle = new GUIStyle(EditorStyles.foldout)
         {
@@ -61,23 +62,30 @@
         public static void DrawVertialLayout(Action action,GUIStyle style, params GUILayoutOption[] options) {
             
             if (action == null) return;
-            
-            if (style != null && options != null) {
-                EditorGUILayout.BeginVertical(style,options);               
+
+            try {
+                if (style != null && options != null) {
+                    EditorGUILayout.BeginVertical(style,options);               
+                }
+                else if(style!=null){
+                    EditorGUILayout.BeginVertical(style);  
+                }
+                else if (options != null) {
+                    EditorGUILayout.BeginVertical(options);
+                }
+                else {
+                    EditorGUILayout.BeginVertical();
+                }
+
+                action();
+
+                EditorGUILayout.EndVertical();
             }
-            else if(style!=null){
-                EditorGUILayout.BeginVertical(style);  
-            }
-            else if (options != null) {
-                EditorGUILayout.BeginVertical(options);
-            }
-            else {
-                EditorGUILayout.BeginVertical();
+            catch (Exception e) {
+                Debug.LogError(e);
+                GUIUtility.ExitGUI();
             }
 
-            action();
-
-            EditorGUILayout.EndVertical();
             
         }
 
@@ -135,11 +143,8 @@
                 action();
             }
             catch (Exception e) {
-                GameLog.LogError(e);
-            }
-            finally {
-                
-                EditorGUILayout.EndHorizontal();
+                Debug.LogError(e);
+                GUIUtility.ExitGUI();
             }
             
         }

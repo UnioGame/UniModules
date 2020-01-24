@@ -6,26 +6,27 @@
     using UnityEngine;
 
     [Serializable]
-    public abstract class TypeDataAsset<TValue> : 
+    public abstract class TypeDataAsset<TValue,TApiValue> : 
         ScriptableObject,
-        IDataValue<TValue>
+        IDataValue<TApiValue>
+        where TValue : TApiValue
     {
         [SerializeField]
         private TValue defaultValue = default(TValue);
         
-        private ContextValue<TValue> contextValue = new ContextValue<TValue>();
+        private ContextValue<TApiValue> contextValue = new ContextValue<TApiValue>();
 
-        public TValue Value => contextValue.Value;
+        public TApiValue Value => contextValue.Value;
 
         public bool HasValue => contextValue.HasValue;
         
         #region public methods
         
-        public IDisposable Subscribe(IObserver<TValue> observer) => contextValue.Subscribe(observer);
+        public IDisposable Subscribe(IObserver<TApiValue> observer) => contextValue.Subscribe(observer);
         
         public void Dispose() => contextValue.Dispose();
         
-        public void SetValue(TValue value) => ApplyValue(value);
+        public void SetValue(TApiValue value) => ApplyValue(value);
         
         #endregion
         
@@ -34,7 +35,7 @@
         /// </summary>
         protected void OnEnable()
         {
-            if(contextValue == null) contextValue = new ContextValue<TValue>();
+            if(contextValue == null) contextValue = new ContextValue<TApiValue>();
             OnInitialize();
         }
         
@@ -42,11 +43,21 @@
         /// Apply Value to context
         /// </summary>
         /// <param name="value"></param>
-        protected virtual void ApplyValue(TValue value) => contextValue.SetValue(value);
+        protected virtual void ApplyValue(TApiValue value) => contextValue.SetValue(value);
 
+        /// <summary>
+        /// Default context value
+        /// </summary>
+        /// <returns></returns>
+        protected virtual TApiValue GetDefaultValue() => defaultValue;
+        
         /// <summary>
         /// initialize default value state
         /// </summary>
-        protected virtual void OnInitialize() => SetValue(defaultValue);
+        protected virtual void OnInitialize() => SetValue(GetDefaultValue());
+        
     }
+
+    [Serializable]
+    public abstract class TypeDataAsset<TValue> : TypeDataAsset<TValue,TValue> {}
 }

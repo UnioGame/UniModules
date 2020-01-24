@@ -10,7 +10,7 @@
     /// Base game service binder between Unity world and regular classes
     /// </summary>
     /// <typeparam name="TService"></typeparam>
-    [CreateNodeMenuAttribute("Services/Service Node")]
+    [CreateNodeMenuAttribute("GameSystem/Service Node")]
     public class GameServiceNode<TService> : 
         ContextNode
         where TService : IGameService, new()

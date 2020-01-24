@@ -1,18 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UniGreenModules.UniContextData.Runtime.Entities;
+using UniGreenModules.UniCore.Runtime.Interfaces;
+using UniGreenModules.UniGame.SerializableContext.Runtime.Abstract;
 
-public class SharedContext : MonoBehaviour
+namespace UniGreenModules.UniGameSystems.Runtime.SharedData
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    using UniContextData.Runtime.Interfaces;
+    using UnityEngine;
 
-    // Update is called once per frame
-    void Update()
-    {
+    [CreateAssetMenu(menuName = "UniGame/GameSystem/Assets/SharedContext" , fileName = nameof(SharedContext))]
+    public class SharedContext : TypeDataAsset<EntityContext,IContext>, IContextDataSource {
+        
+        public void Register(IContext context)
+        {
+            context.Publish(Value);
+        }
         
     }
 }
