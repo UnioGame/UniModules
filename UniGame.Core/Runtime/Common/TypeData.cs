@@ -1,0 +1,115 @@
+﻿namespace UniGreenModules.UniCore.Runtime.Common
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Interfaces;
+    using Interfaces.Rx;
+    using ObjectPool;
+    using ObjectPool.Runtime;
+    using ObjectPool.Runtime.Interfaces;
+    using Rx;
+    using UniRx;
+
+    [Serializable]
+    public class TypeData : ITypeData
+    {
+        /// <summary>
+        /// registered components
+        /// </summary>
+        private Dictionary<Type, IValueContainerStatus> _contextValues = 
+            new Dictionary<Type, IValueContainerStatus>();
+
+        public bool HasValue => _contextValues.Any(value => value.Value.HasValue);
+
+        #region writer methods
+
+        public bool Remove<TData>()
+        {           
+            var type = typeof(TData);
+            return Remove(type);
+        }
+
+        public void CleanUp()
+        {
+            Release();
+        }
+
+        public void Dispose()
+        {
+            Release();
+        }
+
+        public bool Remove(Type type)
+        {
+            if (!_contextValues.TryGetValue(type, out var value)) return false;
+            
+            var removed = _contextValues.Remove(type);
+            //release context value
+            if(value is IDespawnable despawnable)
+                despawnable.MakeDespawn();
+
+            return removed;
+
+        }
+
+        public void Publish<TData>(TData value)
+        {
+            var data = GetData<TData>();
+            data.Value = value;           
+        }
+
+        #endregion
+
+        public IObservable<TData> Receive<TData>()
+        {
+            var data = GetData<TData>();
+            return data;
+        }
+        
+        public TData Get<TData>()
+        {
+            var data = GetData<TData>();
+            return data == null ? default(TData) : data.Value;
+        }
+
+        public bool Contains<TData>()
+        {
+            var type = typeof(TData);
+            return Contains(type);
+        }
+
+        private IRecycleReactiveProperty<TValue> CreateContextValue<TValue>() => ClassPool.Spawn<RecycleReactiveProperty<TValue>>();
+        
+        public bool Contains(Type type) => _contextValues.TryGetValue(type, out var value) && 
+                                           value.HasValue;
+
+        public void Release()
+        {
+            foreach (var contextValue in _contextValues)
+            {
+                if(contextValue.Value is IDisposable disposable)
+                    disposable.Dispose();
+            }
+            
+            _contextValues.Clear();
+        }
+
+
+        private IRecycleReactiveProperty<TValue> GetData<TValue>()
+        {
+            IRecycleReactiveProperty<TValue> data = null;
+            var type = typeof(TValue);
+            
+            if (!_contextValues.TryGetValue(type, out var value)) {
+                value = CreateContextValue<TValue>();
+                _contextValues[type] = value;
+            }
+            
+            data = value as IRecycleReactiveProperty<TValue>;
+            return data;
+        }
+
+
+    }
+}
