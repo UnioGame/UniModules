@@ -9,7 +9,7 @@
 
     [CreateAssetMenu(menuName = "UniGame/GameSystem/Assets/SharedContext" , fileName = nameof(ContextAsset))]
     public class ContextAsset : 
-        TypeDataDefaultAsset<EntityContext,IContext>, 
+        TypeValueDefaultAsset<EntityContext,IContext>, 
         IContextDataSource,
         IAsyncContextDataSource
     {

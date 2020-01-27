@@ -32,7 +32,6 @@
 
             var contextReference = await contextAsset.LoadAssetTaskAsync<ContextAsset>();
             if (contextReference != null) {
-                await contextReference.RegisterAsync(output);
                 context = contextReference.Value;
             }
                 
@@ -40,13 +39,14 @@
             
             var asset = await contextDataSource.LoadAssetTaskAsync<AsyncContextDataSource>();
             LogStatus(asset);
-    
-            if (asset == null) return;
+
+            if (asset != null) {
+                if(context!=null) 
+                    await asset.RegisterAsync(context);
+                await asset.RegisterAsync(output);
+            }
             
-            if(context!=null) 
-                await asset.RegisterAsync(context);
-                
-            await asset.RegisterAsync(output);
+            await contextReference.RegisterAsync(output);
                 
         }
 

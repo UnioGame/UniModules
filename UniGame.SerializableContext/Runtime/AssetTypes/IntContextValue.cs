@@ -4,7 +4,7 @@ using UnityEngine;
 namespace UniGreenModules.UniGame.SerializableContext.Runtime
 {
     [CreateAssetMenu(menuName = "UniGame/Serializable Context/Int Value")]
-    public class IntContextValue : TypeDataAsset<int>
+    public class IntContextValue : TypeValueAsset<int>
     {
         
     }

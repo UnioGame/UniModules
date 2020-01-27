@@ -75,9 +75,6 @@ MonoBehaviour:
   contextAsset:
     m_AssetGUID: 
     m_SubObjectName: 
-  testAsset:
-    m_AssetGUID: 
-    m_SubObjectName: 
   contextDataSource:
     m_AssetGUID: 
     m_SubObjectName: 
@@ -172,9 +169,6 @@ MonoBehaviour:
   portName: data
   bindPorts: 0
   contextAsset:
-    m_AssetGUID: 7ac5f3a92dc42094b9fbb6a31ecd86be
-    m_SubObjectName: 
-  testAsset:
     m_AssetGUID: 7ac5f3a92dc42094b9fbb6a31ecd86be
     m_SubObjectName: 
   contextDataSource:

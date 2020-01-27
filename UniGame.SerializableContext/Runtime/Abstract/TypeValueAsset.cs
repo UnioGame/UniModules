@@ -2,20 +2,32 @@
 {
     using System;
     using UniCore.Runtime.Common;
+    using UniCore.Runtime.DataFlow;
+    using UniCore.Runtime.DataFlow.Interfaces;
     using UniCore.Runtime.Interfaces;
+    using UniCore.Runtime.ProfilerTools;
     using UnityEngine;
 
     [Serializable]
-    public abstract class TypeDataAsset<TValue,TApiValue> : 
+    public abstract class TypeValueAsset<TValue,TApiValue> : 
         ScriptableObject,
-        IDataValue<TApiValue>
+        IDataValue<TApiValue>,
+        ILifeTimeContext
         where TValue : TApiValue
     {
+        #region inspector
+        
         [SerializeField]
         private TValue defaultValue = default(TValue);
         
+        #endregion
+
+        private LifeTimeDefinition lifeTime;
+        
         private ContextValue<TApiValue> contextValue = new ContextValue<TApiValue>();
 
+        public ILifeTime LifeTime => lifeTime.LifeTime;
+        
         public TApiValue Value => contextValue.Value;
 
         public bool HasValue => contextValue.HasValue;
@@ -35,7 +47,9 @@
         /// </summary>
         protected void OnEnable()
         {
-            if(contextValue == null) contextValue = new ContextValue<TApiValue>();
+            contextValue = new ContextValue<TApiValue>();
+            lifeTime = new LifeTimeDefinition();
+            
             OnInitialize();
         }
         
@@ -55,6 +69,14 @@
         /// initialize default value state
         /// </summary>
         protected virtual void OnInitialize() => SetValue(GetDefaultValue());
-        
+
+        private void OnDisable()
+        {
+            //end of value LIFETIME
+            lifeTime.Terminate();
+            
+            GameLog.Log($"TypeValueAsset: {GetType().Name} {name} : VALUE {Value} END OF LIFETIME");
+        }
+
     }
 }
