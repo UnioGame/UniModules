@@ -361,12 +361,8 @@ PrefabInstance:
     m_TransformParent: {fileID: 1930435006}
     m_Modifications:
     - target: {fileID: 1483001907, guid: 892ba2dd7c7ecdb4bbd63fa0a897edcb, type: 3}
-      propertyPath: position.x
-      value: -216
-      objectReference: {fileID: 0}
-    - target: {fileID: 1483001907, guid: 892ba2dd7c7ecdb4bbd63fa0a897edcb, type: 3}
-      propertyPath: position.y
-      value: -152
+      propertyPath: testAsset.m_AssetGUID
+      value: 7ac5f3a92dc42094b9fbb6a31ecd86be
       objectReference: {fileID: 0}
     - target: {fileID: 3173182001011437811, guid: 892ba2dd7c7ecdb4bbd63fa0a897edcb,
         type: 3}

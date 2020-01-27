@@ -1,4 +1,4 @@
-﻿namespace UniGreenModules.UniGame.SerializableContext.Runtime
+﻿namespace UniGreenModules.UniGame.SerializableContext.Runtime.AssetTypes
 {
     using Abstract;
     using UniContextData.Runtime.Entities;
@@ -9,7 +9,7 @@
 
     [CreateAssetMenu(menuName = "UniGame/GameSystem/Assets/SharedContext" , fileName = nameof(ContextAsset))]
     public class ContextAsset : 
-        TypeDataAsset<EntityContext,IContext>, 
+        TypeDataDefaultAsset<EntityContext,IContext>, 
         IContextDataSource,
         IAsyncContextDataSource
     {
@@ -24,5 +24,6 @@
             context.Publish(Value);
             return context;
         }
+        
     }
 }

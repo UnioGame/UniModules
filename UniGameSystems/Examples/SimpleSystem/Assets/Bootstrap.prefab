@@ -75,6 +75,9 @@ MonoBehaviour:
   contextAsset:
     m_AssetGUID: 
     m_SubObjectName: 
+  testAsset:
+    m_AssetGUID: 
+    m_SubObjectName: 
   contextDataSource:
     m_AssetGUID: 
     m_SubObjectName: 
@@ -123,7 +126,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 31
   width: 332
-  position: {x: -184, y: -232}
+  position: {x: -216, y: -152}
   ports:
     keys:
     - '[out]data'
@@ -169,6 +172,9 @@ MonoBehaviour:
   portName: data
   bindPorts: 0
   contextAsset:
+    m_AssetGUID: 7ac5f3a92dc42094b9fbb6a31ecd86be
+    m_SubObjectName: 
+  testAsset:
     m_AssetGUID: 7ac5f3a92dc42094b9fbb6a31ecd86be
     m_SubObjectName: 
   contextDataSource:
