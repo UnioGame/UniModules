@@ -1,6 +1,6 @@
 ﻿namespace UniGreenModules.UniGameSystems.Runtime.Nodes
 {
-    using Boo.Lang;
+    using System.Collections.Generic;
     using UniContextData.Runtime.Interfaces;
     using UniCore.Runtime.Interfaces;
     using UniCore.Runtime.ProfilerTools;
@@ -18,7 +18,7 @@
         public ContextSourceAssetReference contextAsset;
 
         [Header("Node Context Data Source")]
-        public List<ScriptableObjectAssetReference> contextDataSources;
+        public List<ScriptableObjectAssetReference> contextDataSources = new List<ScriptableObjectAssetReference>();
 
         protected override async void OnExecute()
         {
