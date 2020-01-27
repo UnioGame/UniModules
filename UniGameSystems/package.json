@@ -12,6 +12,8 @@
     "com.unigame.unicore": "1.3.25",
     "com.unigame.nodessystem": "1.0.3",
     "com.unigame.uniroutine": "1.3.21",
-    "com.unigame.serializablecontext": "1.0.1"
+    "com.unigame.serializablecontext": "1.0.1",
+    "com.unity.addressables" : "1.5.1",
+    "com.unigame.addressablestools" : "1.0.5"
   }
 }

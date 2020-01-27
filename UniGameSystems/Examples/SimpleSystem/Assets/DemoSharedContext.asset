@@ -10,5 +10,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a51cd3f28f5cc864f9b7adafaabf580e, type: 3}
-  m_Name: SharedContext
+  m_Name: DemoSharedContext
   m_EditorClassIdentifier: 

@@ -1,4 +1,4 @@
-﻿namespace UniGreenModules.UniGame.SerializableContext.Examples.ResourcesTypeContexts
+﻿namespace UniGreenModules.UniGame.SerializableContext.Examples.AddressableTypeContexts
 {
     using Runtime;
     using UniRx;

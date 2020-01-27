@@ -5,6 +5,6 @@
 
     public interface IAsyncContextDataSource
     {
-        UniTask<IContext> Register(IContext context);
+        UniTask<IContext> RegisterAsync(IContext context);
     }
 }

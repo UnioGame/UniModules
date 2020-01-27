@@ -1,25 +1,24 @@
-﻿using UniGreenModules.UniCore.Runtime.Interfaces;
-using UniRx.Async;
-
-namespace UniGreenModules.UniGameSystems.Runtime.Scriptable
+﻿namespace UniGreenModules.UniGame.SerializableContext.Runtime.Scriptable
 {
     using System.Collections.Generic;
+    using UniCore.Runtime.Interfaces;
     using UniCore.Runtime.ObjectPool.Runtime;
     using UniCore.Runtime.ObjectPool.Runtime.Extensions;
+    using UniRx.Async;
     using UnityEngine;
 
-    [CreateAssetMenu(menuName = "GameSystem/Sources/AsyncSources", fileName = nameof(AsyncContextDataSources))]
+    [CreateAssetMenu(menuName = "UniGame/GameSystem/Sources/AsyncSources", fileName = nameof(AsyncContextDataSources))]
     public class AsyncContextDataSources : 
         AsyncContextDataSource
     {
         public List<AsyncContextDataSource> sources = new List<AsyncContextDataSource>();
 
-        public override async UniTask<IContext> Register(IContext context)
+        public override async UniTask<IContext> RegisterAsync(IContext context)
         {
             var taskList = ClassPool.Spawn<List<UniTask<IContext>>>();
 
             foreach (var t in sources) {
-                taskList.Add(t.Register(context));
+                taskList.Add(t.RegisterAsync(context));
             }
             
             await UniTask.WhenAll(taskList);

@@ -45,7 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 17
   width: 220
-  position: {x: 264, y: 104}
+  position: {x: 280, y: -8}
   ports:
     keys:
     - '[out]Value'
@@ -263,7 +263,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3481448543356252886
 Transform:
   m_ObjectHideFlags: 0
@@ -376,7 +376,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 1
   width: 220
-  position: {x: 0, y: 0}
+  position: {x: -8, y: -88}
   ports:
     keys:
     - '[out]input'

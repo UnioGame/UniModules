@@ -2,7 +2,7 @@
   "name": "com.unigame.addressablestools",
   "author": "Mefodei",
   "displayName": "UniGame Addressables Utils",
-  "description": "support for Unity Addressables system",
+  "description": "Custom tools for Unity Addressables system",
   "unity": "2019.1",
   "version": "1.0.5",
   "keywords": [],

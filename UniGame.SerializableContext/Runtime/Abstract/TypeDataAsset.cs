@@ -57,7 +57,4 @@
         protected virtual void OnInitialize() => SetValue(GetDefaultValue());
         
     }
-
-    [Serializable]
-    public abstract class TypeDataAsset<TValue> : TypeDataAsset<TValue,TValue> {}
 }
