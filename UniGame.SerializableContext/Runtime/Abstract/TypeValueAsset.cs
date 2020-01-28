@@ -75,7 +75,8 @@
             //end of value LIFETIME
             lifeTime.Terminate();
             
-            GameLog.Log($"TypeValueAsset: {GetType().Name} {name} : VALUE {Value} END OF LIFETIME");
+            if(Application.isPlaying) 
+                GameLog.Log($"TypeValueAsset: {GetType().Name} {name} : VALUE {Value} END OF LIFETIME");
         }
 
     }

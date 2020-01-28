@@ -360,22 +360,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1930435006}
     m_Modifications:
-    - target: {fileID: 1483001907, guid: 892ba2dd7c7ecdb4bbd63fa0a897edcb, type: 3}
-      propertyPath: contextDataSources.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1483001907, guid: 892ba2dd7c7ecdb4bbd63fa0a897edcb, type: 3}
-      propertyPath: position.x
-      value: -232
-      objectReference: {fileID: 0}
-    - target: {fileID: 1483001907, guid: 892ba2dd7c7ecdb4bbd63fa0a897edcb, type: 3}
-      propertyPath: position.y
-      value: -104
-      objectReference: {fileID: 0}
-    - target: {fileID: 1483001907, guid: 892ba2dd7c7ecdb4bbd63fa0a897edcb, type: 3}
-      propertyPath: contextDataSources.Array.data[0].m_AssetGUID
-      value: 6911209cf53220546afcf3c36227115f
-      objectReference: {fileID: 0}
     - target: {fileID: 3173182001011437811, guid: 892ba2dd7c7ecdb4bbd63fa0a897edcb,
         type: 3}
       propertyPath: m_Name

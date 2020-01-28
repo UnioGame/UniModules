@@ -2,30 +2,33 @@
 
 namespace UniGreenModules.UniGameSystems.Runtime.Nodes
 {
+    using System.Collections.Generic;
+    using Commands;
+    using UniCore.Runtime.Interfaces;
     using UniCore.Runtime.ProfilerTools;
+    using UniGame.AddressableTools.Runtime.Attributes;
     using UniGame.SerializableContext.Runtime.Addressables;
+    using UniRx.Async;
     using UnityEngine;
 
-    [CreateNodeMenu("GameSystem/ContextDataSource")]
+    [CreateNodeMenu("GameSystem/Data Source")]
     public class ContextDataSourceNode : InOutPortNode
     {
         
-        [Header("Node Context Data Source")]
-        public ContextDataSourceAssetReference contextDataSource;
+        [Header("Node Output Data Source")]
+        [ShowAssetReference]
+        public AsyncContextDataSourceAssetReference contextDataSource;
 
-        protected override async void OnExecute()
+        protected override void UpdateCommands(List<ILifeTimeCommand> nodeCommands)
         {
-            if (contextDataSource.RuntimeKey == null) {
-                GameLog.LogError($"{graph.name}:{name} {nameof(contextDataSource)} is EMPTY");
-                return;
-            }
+            base.UpdateCommands(nodeCommands);
 
-            var handler = contextDataSource.LoadAssetAsync();
-            var asset = await handler.Task;
+            //create sync result for task
+            var outputContextTask = UniTask.FromResult<IContext>(PortPair.OutputPort);
+            //create node commands
+            var sourceOutputPortCommand = new RegisterDataSourceCommand(outputContextTask,contextDataSource);
             
-            var output = PortPair.OutputPort;
-            await asset.RegisterAsync(output);
-
+            nodeCommands.Add(sourceOutputPortCommand);
         }
     }
 }

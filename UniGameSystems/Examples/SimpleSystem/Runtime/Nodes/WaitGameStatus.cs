@@ -1,23 +1,23 @@
-﻿namespace UniGreenModules.UniGameSystems.Examples.SimpleSystem.Runtime.Nodes
+﻿namespace UniGreenModules.UniGameSystems.Examples.SimpleSystem.Nodes
 {
-    using System.Linq;
+    using Runtime.Context;
+    using UniCore.Runtime.ProfilerTools;
     using UniCore.Runtime.Rx.Extensions;
     using UniGameFlow.UniNodesSystem.Assets.UniGame.UniNodes.Nodes.Runtime.Nodes;
-    using UniNodeSystem.Runtime.Core;
     using UniRx;
 
-    [UniBaseNode.CreateNodeMenuAttribute("Examples/DemoSystem/WaitGameStatus")]
-    public class WaitGameStatus : InOutPortsNode
+    [CreateNodeMenu("Examples/DemoSystem/WaitGameStatus")]
+    public class WaitGameStatus : InOutPortNode
     {
         protected override void OnExecute()
         {
-
-            var portPair = inOutPorts.FirstOrDefault();
-            if (portPair == null) return;
             
-            portPair.InputPort.Receive<DemoSystemGameStatus>().
-                Where(x => x.IsInitialized).
-                Do(x => portPair.OutputPort.Publish(x)).
+            PortPair.InputPort.Receive<IDemoGameStatus>().
+                Do(x => GameLog.Log("DATA IDemoGameStatus Received")).
+                ContinueWith(x => x.IsGameReady).
+                Where(x => x).
+                Do(x => PortPair.OutputPort.Publish(x)).
+                Do(x => GameLog.Log("GAME INITIALIZED")).
                 Subscribe().
                 AddTo(LifeTime);
             

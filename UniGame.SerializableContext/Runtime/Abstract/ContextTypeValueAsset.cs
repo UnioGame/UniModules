@@ -12,6 +12,9 @@
         public virtual async UniTask<IContext> RegisterAsync(IContext context)
         {
             context.Publish(Value);
+            if (Value is IAsyncContextDataSource dataSource) {
+                await dataSource.RegisterAsync(context);
+            }
             return context;
         }
     }

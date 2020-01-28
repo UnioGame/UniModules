@@ -5,8 +5,8 @@
     using UnityEngine.AddressableAssets;
 
     [Serializable]    
-    public class ContextSourceAssetReference : AssetReferenceT<ContextAsset>
+    public class ContextAssetReference : AssetReferenceT<ContextAsset>
     {
-        public ContextSourceAssetReference(string guid) : base(guid) {}
+        public ContextAssetReference(string guid) : base(guid) {}
     }
 }

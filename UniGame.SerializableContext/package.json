@@ -13,5 +13,6 @@
     "com.unigame.neuecc.unirx.async": "1.2.0",
     "com.unity.textmeshpro": "2.0.1",
     "com.unigame.contextdata" : "1.2.13",
+    "com.unigame.addressablestools" : "1.0.5"
   }
 }

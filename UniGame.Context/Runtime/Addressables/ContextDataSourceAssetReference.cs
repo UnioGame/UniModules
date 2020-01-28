@@ -1,6 +1,7 @@
 ﻿namespace UniGreenModules.UniGame.SerializableContext.Runtime.Addressables
 {
     using System;
+    using Context.Runtime.Interfaces;
     using Scriptable;
     using UnityEngine.AddressableAssets;
 

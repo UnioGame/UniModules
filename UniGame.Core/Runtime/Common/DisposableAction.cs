@@ -25,6 +25,8 @@
             _onDisposed?.Invoke();
             
             Release();
+            
+            this.Despawn();
         }
 
         public void Release()
@@ -34,7 +36,7 @@
 
         public void MakeDespawn()
         {
-            Dispose();
+            Release();
             this.Despawn();
         }
     }

@@ -6,8 +6,14 @@
     [Serializable]
     public class DemoGameStatus : IDemoGameStatus
     {
-        public BoolReactiveProperty isGameReady = new BoolReactiveProperty(false);
+        public BoolReactiveProperty isGameReadyValue = new BoolReactiveProperty(false);
 
-        public IReactiveProperty<bool> IsGameReady => isGameReady;
+        public IReadOnlyReactiveProperty<bool> IsGameReady => isGameReadyValue;
+
+        public IReadOnlyReactiveProperty<bool> SetGameStatus(bool isReady)
+        {
+            isGameReadyValue.Value = isReady;
+            return isGameReadyValue;
+        }
     }
 }

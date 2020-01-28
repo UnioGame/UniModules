@@ -1,6 +1,6 @@
 ﻿namespace UniGreenModules.UniGameSystems.Examples.SimpleSystem.Runtime
 {
-    public struct DemoSystemGameStatus
+    public class DemoSystemGameStatus
     {
         public bool IsInitialized;
     }

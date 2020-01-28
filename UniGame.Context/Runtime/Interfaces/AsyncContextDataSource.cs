@@ -1,4 +1,4 @@
-﻿namespace UniGreenModules.UniGame.SerializableContext.Runtime.Scriptable
+﻿namespace UniGreenModules.UniGame.Context.Runtime.Interfaces
 {
     using UniContextData.Runtime.Interfaces;
     using UniCore.Runtime.Interfaces;

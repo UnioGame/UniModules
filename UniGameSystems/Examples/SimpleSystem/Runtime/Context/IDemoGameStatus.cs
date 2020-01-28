@@ -2,8 +2,9 @@
 {
     using UniRx;
 
-    public interface IDemoGameStatus
+    public interface IDemoGameStatus : IImmutableDemoGameStatus
     {
-        IReactiveProperty<bool> IsGameReady { get; }
+        IReadOnlyReactiveProperty<bool> SetGameStatus(bool isReady);
+
     }
 }
