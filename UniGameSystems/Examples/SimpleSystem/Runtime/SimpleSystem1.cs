@@ -1,9 +1,9 @@
-﻿using UniGreenModules.UniCore.Runtime.DataFlow.Interfaces;
-using UniGreenModules.UniCore.Runtime.Interfaces;
-using UniGreenModules.UniGameSystem.Runtime;
-
-namespace Examples.SimpleSystem.Runtime
+﻿namespace UniGreenModules.UniGameSystems.Examples.SimpleSystem
 {
+    using UniCore.Runtime.DataFlow.Interfaces;
+    using UniCore.Runtime.Interfaces;
+    using UniGameSystem.Runtime;
+
     public class SimpleSystem1 : GameService
     {
         protected override IContext OnBind(IContext context, ILifeTime lifeTime = null)

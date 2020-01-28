@@ -365,6 +365,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bootstrap
       objectReference: {fileID: 0}
+    - target: {fileID: 3947279238786959826, guid: 892ba2dd7c7ecdb4bbd63fa0a897edcb,
+        type: 3}
+      propertyPath: _uniqueId
+      value: 35
+      objectReference: {fileID: 0}
     - target: {fileID: 4243253785151902023, guid: 892ba2dd7c7ecdb4bbd63fa0a897edcb,
         type: 3}
       propertyPath: m_LocalPosition.x

@@ -1,12 +1,11 @@
-﻿using UniGreenModules.UniCore.Runtime.DataFlow.Interfaces;
-using UniGreenModules.UniCore.Runtime.Interfaces;
-using UniGreenModules.UniGameSystem.Runtime;
-
-namespace Examples.SimpleSystem.Runtime
+﻿namespace UniGreenModules.UniGameSystems.Examples.SimpleSystem
 {
     using System.Collections;
-    using UniGreenModules.UniRoutine.Runtime;
-    using UniGreenModules.UniRoutine.Runtime.Extension;
+    using UniCore.Runtime.DataFlow.Interfaces;
+    using UniCore.Runtime.Interfaces;
+    using UniGameSystem.Runtime;
+    using UniRoutine.Runtime;
+    using UniRoutine.Runtime.Extension;
 
     public class SimpleSystem3 : GameService
     {

@@ -1,10 +1,9 @@
-﻿using UniGreenModules.UniCore.Runtime.DataFlow.Interfaces;
-using UniGreenModules.UniCore.Runtime.Interfaces;
-using UniGreenModules.UniGameSystem.Runtime;
-
-namespace Examples.SimpleSystem.Runtime
+﻿namespace UniGreenModules.UniGameSystems.Examples.SimpleSystem
 {
-    using UniGreenModules.UniCore.Runtime.Rx.Extensions;
+    using UniCore.Runtime.DataFlow.Interfaces;
+    using UniCore.Runtime.Interfaces;
+    using UniCore.Runtime.Rx.Extensions;
+    using UniGameSystem.Runtime;
     using UniRx;
 
     public class SimpleSystem4 : GameService
