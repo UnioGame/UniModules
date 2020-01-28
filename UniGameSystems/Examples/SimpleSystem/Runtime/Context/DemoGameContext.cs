@@ -13,7 +13,7 @@
         IAsyncContextDataSource
     {
         [Header("Current Game session status")]
-        public DemoGameStatus gameStatus;
+        public DemoGameStatus gameStatus = new DemoGameStatus();
 
         public IDemoGameStatus GameStatus => gameStatus;
 

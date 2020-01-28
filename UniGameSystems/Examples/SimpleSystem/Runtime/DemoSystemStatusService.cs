@@ -4,6 +4,7 @@ namespace UniGreenModules.UniGameSystems.Examples.SimpleSystem.Runtime
 {
     using Context;
     using global::Examples.SimpleSystem.Runtime;
+    using UniCore.Runtime.Attributes;
     using UniCore.Runtime.DataFlow.Interfaces;
     using UniCore.Runtime.Interfaces;
     using UniCore.Runtime.ProfilerTools;
@@ -13,12 +14,17 @@ namespace UniGreenModules.UniGameSystems.Examples.SimpleSystem.Runtime
 
     public class DemoSystemStatusService : GameService
     {
+        [ReadOnlyValue]
+        [SerializeField]
+        public bool isGameReady = false;
+        
         protected override IContext OnBind(IContext context, ILifeTime lifeTime)    
         {
 
             context.Receive<IDemoGameStatus>().
                 Do(x => GameLog.Log($"DemoGameStatus has value {x.IsGameReady.HasValue} is Ready {x.IsGameReady.Value}")).
-                Where(x => x!=null && x.IsGameReady.Value == false).
+                Do(x => isGameReady = x.IsGameReady.Value).
+                Where(x => x.IsGameReady.Value == false).
                 Do(x => GameLog.Log("Mark Game Status as Ready")).
                 Do(x => x.SetGameStatus(true)).
                 Subscribe().
