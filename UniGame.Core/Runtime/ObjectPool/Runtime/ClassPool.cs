@@ -18,6 +18,9 @@
 				{
 					_container = CreateContainer(false);
 				}
+				else if(Application.isPlaying && _container is DummyPoolContainer) {
+					_container = CreateContainer(false);
+				}
 
 				return _container;
 			}

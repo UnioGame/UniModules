@@ -6,6 +6,7 @@
     using Interfaces;
     using Interfaces.Rx;
     using Rx;
+    using UniGame.Core.Runtime.Rx;
     using UniRx;
 
     public class ViewModel<TModel> : IViewModel<TModel>

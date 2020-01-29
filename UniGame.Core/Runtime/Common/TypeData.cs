@@ -9,11 +9,15 @@
     using ObjectPool.Runtime;
     using ObjectPool.Runtime.Interfaces;
     using Rx;
+    using UniGame.Core.Runtime.Rx;
     using UniRx;
 
     [Serializable]
     public class TypeData : ITypeData
     {
+        private IValueContainerStatus cachedValue;
+        private Type cachedType;
+        
         /// <summary>
         /// registered components
         /// </summary>
@@ -49,6 +53,10 @@
             if(value is IDespawnable despawnable)
                 despawnable.MakeDespawn();
 
+            if (cachedType == type) {
+                ResetCache();
+            }
+            
             return removed;
 
         }
@@ -86,6 +94,8 @@
 
         public void Release()
         {
+            ResetCache();
+            
             foreach (var contextValue in _contextValues)
             {
                 if(contextValue.Value is IDisposable disposable)
@@ -95,10 +105,18 @@
             _contextValues.Clear();
         }
 
+        private void ResetCache()
+        {
+            cachedType  = null;
+            cachedValue = null;
+        }
 
         private IRecycleReactiveProperty<TValue> GetData<TValue>()
         {
-            IRecycleReactiveProperty<TValue> data = null;
+            if (cachedValue is IRecycleReactiveProperty<TValue> data) {
+                return data;
+            }
+            
             var type = typeof(TValue);
             
             if (!_contextValues.TryGetValue(type, out var value)) {
@@ -107,6 +125,9 @@
             }
             
             data = value as IRecycleReactiveProperty<TValue>;
+            cachedType = type;
+            cachedValue = data;
+            
             return data;
         }
 

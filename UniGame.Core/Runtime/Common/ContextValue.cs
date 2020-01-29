@@ -5,6 +5,7 @@
     using ObjectPool;
     using ObjectPool.Runtime.Extensions;
     using Rx;
+    using UniGame.Core.Runtime.Rx;
 
     [Serializable]
     public class ContextValue<TData> : IDataValue<TData>

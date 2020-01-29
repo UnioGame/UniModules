@@ -1,20 +1,19 @@
-﻿namespace UniGreenModules.UniCore.Runtime.Rx
+﻿namespace UniGreenModules.UniGame.Core.Runtime.Rx
 {
     using System;
-    using System.Collections.Generic;
-    using Common;
-    using Interfaces.Rx;
-    using ObjectPool;
-    using ObjectPool.Runtime;
-    using ObjectPool.Runtime.Extensions;
+    using DataStructure.LinkedList;
+    using DataStructure.LinkedList.Interfaces;
+    using UniCore.Runtime.Common;
+    using UniCore.Runtime.Interfaces.Rx;
+    using UniCore.Runtime.ObjectPool.Runtime;
+    using UniCore.Runtime.ObjectPool.Runtime.Extensions;
 
     public class RecycleReactiveProperty<T> : IRecycleReactiveProperty<T>
     {
         private T value = default;
         private bool hasValue;
         
-        private Dictionary<IObserver<T>,DisposableAction> _observers = 
-            new Dictionary<IObserver<T>, DisposableAction>();
+        private UniLinkedList<IObserver<T>> observers = new UniLinkedList<IObserver<T>>();
 
         public T Value {
             get => value;
@@ -26,10 +25,9 @@
         public IDisposable Subscribe(IObserver<T> observer)
         {
             var disposeAction = ClassPool.Spawn<DisposableAction>();
-            disposeAction.Initialize(() => Remove(observer));
-
-            _observers[observer] = disposeAction;
-            
+            var node = observers.Add(observer);
+            disposeAction.Initialize(() => Remove(node));
+              
             //if value already exists - notify
             if(hasValue) observer.OnNext(Value);
             
@@ -40,22 +38,27 @@
         {
             hasValue = true;
             value = propertyValue;
-            foreach (var observer in _observers)
-            {
-                observer.Key.OnNext(value);
-            }
+            
+            var current = observers.Current;
+
+            do {
+                current?.Value.OnNext(value);
+            } while (observers.MoveNext());
+
+            observers.Reset();
         }
     
         public void Release()
         {
             hasValue = false;
+            
             //stop listing all child observers
-            foreach (var observer in _observers)
-            {
-                observer.Key.OnCompleted();
-                observer.Value.Release();
-            }
-            _observers.Clear();
+            var current = observers.Current;
+            do {
+                current?.Value.OnCompleted();
+            } while (observers.MoveNext());
+            
+            observers.Release();
             value = default(T);
         }
 
@@ -64,10 +67,10 @@
             this.Despawn();
         }
 
-        private void Remove(IObserver<T> observer)
+        private void Remove(IListNode<IObserver<T>> observer)
         {
-            observer.OnCompleted();
-            _observers.Remove(observer);
+            observer.Value.OnCompleted();
+            observers.Remove(observer);
         }
 
     }
