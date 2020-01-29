@@ -1,21 +1,16 @@
 ﻿namespace UniGreenModules.UniGame.Core.Runtime.Rx
 {
-    using DataStructure.LinkedList.Interfaces;
     using UniCore.Runtime.ObjectPool.Runtime.Extensions;
-    using UniCore.Runtime.ObjectPool.Runtime.Interfaces;
 
-    public class ListNode<T> : IListNode<T>
+    public class ListNode<T>// : IListNode<T>
     {
-        private T value;
-
-        public IListNode<T> Previous { get; set; }
-        public IListNode<T> Next     { get; set; }
+        public T Value;
+        public ListNode<T> Previous;
+        public ListNode<T> Next;
         
-        public T Value => value;
-        
-        public IListNode<T> SetValue(T target)
+        public ListNode<T> SetValue(T target)
         {
-            value = target;
+            Value = target;
             return this;
         }
 
@@ -26,7 +21,7 @@
 
         public void Release()
         {
-            value    = default;
+            Value    = default;
             Previous = null;
             Next     = null;
         }

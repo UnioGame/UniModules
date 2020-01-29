@@ -2,7 +2,6 @@
 {
     using System;
     using DataStructure.LinkedList;
-    using DataStructure.LinkedList.Interfaces;
     using UniCore.Runtime.Common;
     using UniCore.Runtime.Interfaces.Rx;
     using UniCore.Runtime.ObjectPool.Runtime;
@@ -39,10 +38,8 @@
             hasValue = true;
             value = propertyValue;
             
-            var current = observers.Current;
-
             do {
-                current?.Value.OnNext(value);
+                observers.current?.Value.OnNext(value);
             } while (observers.MoveNext());
 
             observers.Reset();
@@ -53,9 +50,8 @@
             hasValue = false;
             
             //stop listing all child observers
-            var current = observers.Current;
             do {
-                current?.Value.OnCompleted();
+                observers.current?.Value.OnCompleted();
             } while (observers.MoveNext());
             
             observers.Release();
@@ -67,7 +63,7 @@
             this.Despawn();
         }
 
-        private void Remove(IListNode<IObserver<T>> observer)
+        private void Remove(ListNode<IObserver<T>> observer)
         {
             observer.Value.OnCompleted();
             observers.Remove(observer);

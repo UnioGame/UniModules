@@ -6,10 +6,10 @@
     using UniCore.Runtime.ObjectPool.Runtime.Interfaces;
 
     public interface IUniLinkedList<T> : 
-        IEnumerator<IListNode<T>>, 
+        IEnumerator<ListNode<T>>, 
         IPoolable
     {
-        IListNode<T> Add(T value);
-        void Remove(IListNode<T> node);
+        ListNode<T> Add(T value);
+        void Remove(ListNode<T> node);
     }
 }

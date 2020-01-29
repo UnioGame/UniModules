@@ -12,15 +12,15 @@
     [Serializable]
     public class UniLinkedList<T> : IUniLinkedList<T>
     {
-        private IListNode<T> current;
+        public ListNode<T> current;
         
         [NonSerialized]
-        private IListNode<T> root;
+        public ListNode<T> root;
 
         [NonSerialized]
-        private IListNode<T> last;
+        public ListNode<T> last;
 
-        public IListNode<T> Add(T value)
+        public ListNode<T> Add(T value)
         {
             var node = ClassPool.Spawn<ListNode<T>>();
             
@@ -40,7 +40,7 @@
             return next;
         }
 
-        public void Remove(IListNode<T> node)
+        public void Remove(ListNode<T> node)
         {
             if (node == root)
             {
@@ -94,7 +94,7 @@
             current = root;
         }
 
-        public IListNode<T> Current => current;
+        public ListNode<T> Current => current;
 
         object IEnumerator.Current => Current;
         
