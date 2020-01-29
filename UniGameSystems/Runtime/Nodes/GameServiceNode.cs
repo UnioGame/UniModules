@@ -2,6 +2,7 @@
 {
     using Runtime.Interfaces;
     using UniCore.Runtime.Interfaces;
+    using UniCore.Runtime.ProfilerTools;
     using UniCore.Runtime.Rx.Extensions;
     using UniNodes.Runtime.Nodes;
     using UniRx;
@@ -21,6 +22,8 @@
         
         protected override void OnDataUpdated(IContext data, IContext source, IContext target)
         {
+            GameLog.LogMessage($"{graph.name}:{name}: OnDataUpdated with {data.GetType().Name}");
+            
             //bind service with context and node lifetime
             var context = service.Bind(data, LifeTime);
             

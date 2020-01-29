@@ -16,7 +16,6 @@ namespace UniGreenModules.UniGameSystems.Runtime.Nodes
     {
         
         [Header("Node Output Data Source")]
-        [ShowAssetReference]
         public AsyncContextDataSourceAssetReference contextDataSource;
 
         protected override void UpdateCommands(List<ILifeTimeCommand> nodeCommands)

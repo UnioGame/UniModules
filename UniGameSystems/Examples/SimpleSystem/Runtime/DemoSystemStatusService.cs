@@ -3,7 +3,6 @@
 namespace UniGreenModules.UniGameSystems.Examples.SimpleSystem.Runtime
 {
     using Context;
-    using global::Examples.SimpleSystem.Runtime;
     using UniCore.Runtime.Attributes;
     using UniCore.Runtime.DataFlow.Interfaces;
     using UniCore.Runtime.Interfaces;

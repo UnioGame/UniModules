@@ -2,6 +2,7 @@
 {
     using Runtime.Context;
     using UniCore.Runtime.Attributes;
+    using UniCore.Runtime.Interfaces;
     using UniCore.Runtime.ProfilerTools;
     using UniCore.Runtime.Rx.Extensions;
     using UniGameFlow.UniNodesSystem.Assets.UniGame.UniNodes.Nodes.Runtime.Nodes;
@@ -19,7 +20,8 @@
         {
             var context = PortPair.InputPort;
             
-            context.Receive<IDemoGameStatus>().
+            context.Receive<IContext>().
+                ContinueWith(x => x.Receive<IDemoGameStatus>()).
                 Do(x => GameLog.Log($"DemoGameStatus has value {x.IsGameReady.HasValue} is Ready {x.IsGameReady.Value}")).
                 Do(x => isGameReady = x.IsGameReady.Value).
                 Where(x => x.IsGameReady.Value == false).

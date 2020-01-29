@@ -1,7 +1,9 @@
 ﻿namespace UniGreenModules.UniGameSystems.Examples.SimpleSystem
 {
+    using System.Diagnostics;
     using UniCore.Runtime.DataFlow.Interfaces;
     using UniCore.Runtime.Interfaces;
+    using UniCore.Runtime.ProfilerTools;
     using UniGameSystem.Runtime;
 
     public class SimpleSystem1 : GameService

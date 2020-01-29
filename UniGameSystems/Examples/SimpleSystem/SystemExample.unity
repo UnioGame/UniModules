@@ -150,7 +150,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff87142bf9c884741bbcd295bab90ce7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startDelay: 1
   graph: {fileID: 2561205455583467990}
 --- !u!4 &1930435006
 Transform:
@@ -365,11 +364,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bootstrap
       objectReference: {fileID: 0}
-    - target: {fileID: 3947279238786959826, guid: 892ba2dd7c7ecdb4bbd63fa0a897edcb,
-        type: 3}
-      propertyPath: _uniqueId
-      value: 35
-      objectReference: {fileID: 0}
     - target: {fileID: 4243253785151902023, guid: 892ba2dd7c7ecdb4bbd63fa0a897edcb,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -456,6 +450,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: LoadingScreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 2405885134667805187, guid: bb1ebb3818a5f7547b2cd2f986ecc6f8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3481448543356252886, guid: bb1ebb3818a5f7547b2cd2f986ecc6f8,
         type: 3}
