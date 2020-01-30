@@ -1,11 +1,11 @@
-﻿namespace UniGreenModules.UniGameSystem.Nodes
+﻿namespace UniGreenModules.UniGameSystems.Runtime.Nodes
 {
-    using Runtime.Interfaces;
     using UniCore.Runtime.Attributes;
     using UniCore.Runtime.Interfaces;
     using UniCore.Runtime.ProfilerTools;
     using UniCore.Runtime.Rx.Extensions;
-    using UniNodes.Runtime.Nodes;
+    using UniGameFlow.UniNodesSystem.Assets.UniGame.UniNodes.Nodes.Runtime.Nodes;
+    using UniGameSystem.Runtime.Interfaces;
     using UniRx;
     using UnityEngine;
 
@@ -13,7 +13,7 @@
     /// Base game service binder between Unity world and regular classes
     /// </summary>
     /// <typeparam name="TService"></typeparam>
-    [CreateNodeMenuAttribute("GameSystem/Service Node")]
+    [CreateNodeMenu("GameSystem/Service Node")]
     public class GameServiceNode<TService> : 
         ContextNode
         where TService : IGameService, new()

@@ -4,12 +4,12 @@
   "displayName": "UniGame Addressables Utils",
   "description": "Custom tools for Unity Addressables system",
   "unity": "2019.1",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "keywords": [],
   "dependencies": {
     "com.unigame.neuecc.unirx": "7.1.1",
     "com.unigame.neuecc.unirx.async": "1.2.0",
     "com.unity.addressables": "1.5.1",
-    "com.unigame.unicore" : "1.3.25"
+    "com.unigame.unicore": "1.3.26"
   }
 }
