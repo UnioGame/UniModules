@@ -12,7 +12,7 @@
 
             return x => {
 
-                if (cache.TryGetValue(x, out var value) == false) {
+                if (cache.TryGetValue(x, out var value) == false || value == null) {
                     value = factory(x);
                     cache[x] = value;
                 }

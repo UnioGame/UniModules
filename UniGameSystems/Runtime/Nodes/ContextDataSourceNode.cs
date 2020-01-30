@@ -14,7 +14,7 @@ namespace UniGreenModules.UniGameSystems.Runtime.Nodes
     [CreateNodeMenu("GameSystem/Data Source")]
     public class ContextDataSourceNode : InOutPortNode
     {
-        
+        [ShowAssetReference]
         [Header("Node Output Data Source")]
         public AsyncContextDataSourceAssetReference contextDataSource;
 

@@ -96,6 +96,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
+    m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -286,8 +287,9 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2102795263}
   m_Enabled: 1
-  serializedVersion: 9
+  serializedVersion: 10
   m_Type: 1
+  m_Shape: 0
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
   m_Intensity: 1
   m_Range: 10
@@ -359,6 +361,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1930435006}
     m_Modifications:
+    - target: {fileID: 1524947651, guid: 892ba2dd7c7ecdb4bbd63fa0a897edcb, type: 3}
+      propertyPath: contextDataSource.m_AssetGUID
+      value: afd7adc1bde95bd4a859bcbbff8e1f1b
+      objectReference: {fileID: 0}
+    - target: {fileID: 991473993277028984, guid: 892ba2dd7c7ecdb4bbd63fa0a897edcb,
+        type: 3}
+      propertyPath: contextDataSources.m_AssetGUID
+      value: afd7adc1bde95bd4a859bcbbff8e1f1b
+      objectReference: {fileID: 0}
+    - target: {fileID: 991473993277028984, guid: 892ba2dd7c7ecdb4bbd63fa0a897edcb,
+        type: 3}
+      propertyPath: contextAsset.m_AssetGUID
+      value: 7ac5f3a92dc42094b9fbb6a31ecd86be
+      objectReference: {fileID: 0}
     - target: {fileID: 3173182001011437811, guid: 892ba2dd7c7ecdb4bbd63fa0a897edcb,
         type: 3}
       propertyPath: m_Name
@@ -450,11 +466,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: LoadingScreen
-      objectReference: {fileID: 0}
-    - target: {fileID: 2405885134667805187, guid: bb1ebb3818a5f7547b2cd2f986ecc6f8,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3481448543356252886, guid: bb1ebb3818a5f7547b2cd2f986ecc6f8,
         type: 3}

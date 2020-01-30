@@ -478,7 +478,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff87142bf9c884741bbcd295bab90ce7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startDelay: 1
   graph: {fileID: 615834694751771932}
 --- !u!1 &7590290659342902429
 GameObject:

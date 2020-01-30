@@ -1,11 +1,13 @@
 ﻿namespace UniGreenModules.UniGameSystem.Nodes
 {
     using Runtime.Interfaces;
+    using UniCore.Runtime.Attributes;
     using UniCore.Runtime.Interfaces;
     using UniCore.Runtime.ProfilerTools;
     using UniCore.Runtime.Rx.Extensions;
     using UniNodes.Runtime.Nodes;
     using UniRx;
+    using UnityEngine;
 
     /// <summary>
     /// Base game service binder between Unity world and regular classes
@@ -18,6 +20,15 @@
     {
         private TService service = new TService();
 
+        #region inspector
+
+        [Header("Service Status")]
+        [ReadOnlyValue]
+        [SerializeField]
+        private bool isReady;
+        
+        #endregion
+        
         public bool waitForServiceReady = true;
         
         protected override void OnDataUpdated(IContext data, IContext source, IContext target)
@@ -26,6 +37,10 @@
             
             //bind service with context and node lifetime
             var context = service.Bind(data, LifeTime);
+
+            service.IsReady.
+                Subscribe(x => this.isReady = x).
+                AddTo(LifeTime);
             
             //is await options is active?
             if (waitForServiceReady) {

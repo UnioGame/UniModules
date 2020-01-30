@@ -24,8 +24,7 @@
                 ContinueWith(x => x.Receive<IDemoGameStatus>()).
                 Do(x => GameLog.Log($"DemoGameStatus has value {x.IsGameReady.HasValue} is Ready {x.IsGameReady.Value}")).
                 Do(x => isGameReady = x.IsGameReady.Value).
-                Where(x => x.IsGameReady.Value == false).
-                Do(x => GameLog.Log("Mark Game Status as Ready")).
+                Do(x => GameLog.Log("Game Status: Ready")).
                 Do(x => x.SetGameStatus(true)).
                 Subscribe().
                 AddTo(LifeTime);
