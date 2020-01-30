@@ -1,93 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1524947650
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1524947652}
-  - component: {fileID: 1524947651}
-  m_Layer: 0
-  m_Name: Context Data Source Node
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1524947652
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1524947650}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4243253785151902023}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1524947651
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1524947650}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abb77b183c5713543baba593d4690ae6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _id: 38
-  width: 342
-  position: {x: -200, y: -88}
-  ports:
-    keys:
-    - '[out]data'
-    - '[in]data'
-    values:
-    - _id: 39
-      _fieldName: '[out]data'
-      _node: {fileID: 1524947651}
-      _typeQualifiedName: UniGreenModules.UniNodeSystem.Runtime.UniPortValue, unigame.nodesystem.runtime,
-        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: '[in]IContext'
-        node: {fileID: 6930921118652744092}
-        reroutePoints: []
-      - fieldName: '[in]IContext'
-        node: {fileID: 8037306991772341070}
-        reroutePoints: []
-      - fieldName: '[in]IContext'
-        node: {fileID: 2388735112629393624}
-        reroutePoints: []
-      - fieldName: '[in]IContext'
-        node: {fileID: 7014688245974289662}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 0
-      _dynamic: 1
-    - _id: 40
-      _fieldName: '[in]data'
-      _node: {fileID: 1524947651}
-      _typeQualifiedName: UniGreenModules.UniNodeSystem.Runtime.UniPortValue, unigame.nodesystem.runtime,
-        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: '[out]input'
-        node: {fileID: 6208779352982914149}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _dynamic: 1
-  _graph: {fileID: 3947279238786959826}
-  contextDataSource:
-    m_AssetGUID: afd7adc1bde95bd4a859bcbbff8e1f1b
-    m_SubObjectName: 
 --- !u!1 &2059202638
 GameObject:
   m_ObjectHideFlags: 0
@@ -241,7 +153,7 @@ MonoBehaviour:
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: '[out]data'
-        node: {fileID: 1524947651}
+        node: {fileID: 991473993277028984}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -319,7 +231,7 @@ MonoBehaviour:
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: '[out]data'
-        node: {fileID: 1524947651}
+        node: {fileID: 991473993277028984}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -361,7 +273,6 @@ Transform:
   - {fileID: 4381065939165641735}
   - {fileID: 6424615640862399742}
   - {fileID: 2059202640}
-  - {fileID: 1524947652}
   - {fileID: 8040013112235322040}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -403,7 +314,6 @@ MonoBehaviour:
   - {fileID: 8037306991772341070}
   - {fileID: 7014688245974289662}
   - {fileID: 2059202639}
-  - {fileID: 1524947651}
   - {fileID: 991473993277028984}
 --- !u!1 &5183761810912439007
 GameObject:
@@ -475,7 +385,7 @@ MonoBehaviour:
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: '[out]data'
-        node: {fileID: 1524947651}
+        node: {fileID: 991473993277028984}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -541,7 +451,7 @@ MonoBehaviour:
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: '[in]data'
-        node: {fileID: 1524947651}
+        node: {fileID: 991473993277028984}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -628,7 +538,7 @@ MonoBehaviour:
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: '[out]data'
-        node: {fileID: 1524947651}
+        node: {fileID: 991473993277028984}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -665,7 +575,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4243253785151902023}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &991473993277028984
 MonoBehaviour:
@@ -681,7 +591,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 41
   width: 318
-  position: {x: -184, y: 88}
+  position: {x: -184, y: -40}
   ports:
     keys:
     - '[out]data'
@@ -692,7 +602,19 @@ MonoBehaviour:
       _node: {fileID: 991473993277028984}
       _typeQualifiedName: UniGreenModules.UniNodeSystem.Runtime.UniPortValue, unigame.nodesystem.runtime,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      connections: []
+      connections:
+      - fieldName: '[in]IContext'
+        node: {fileID: 6930921118652744092}
+        reroutePoints: []
+      - fieldName: '[in]IContext'
+        node: {fileID: 2388735112629393624}
+        reroutePoints: []
+      - fieldName: '[in]IContext'
+        node: {fileID: 8037306991772341070}
+        reroutePoints: []
+      - fieldName: '[in]IContext'
+        node: {fileID: 7014688245974289662}
+        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _dynamic: 1
@@ -701,7 +623,10 @@ MonoBehaviour:
       _node: {fileID: 991473993277028984}
       _typeQualifiedName: UniGreenModules.UniNodeSystem.Runtime.UniPortValue, unigame.nodesystem.runtime,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      connections: []
+      connections:
+      - fieldName: '[out]input'
+        node: {fileID: 6208779352982914149}
+        reroutePoints: []
       _direction: 0
       _connectionType: 0
       _dynamic: 1

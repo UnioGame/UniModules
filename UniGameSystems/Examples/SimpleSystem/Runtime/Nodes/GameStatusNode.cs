@@ -16,12 +16,15 @@
         [SerializeField]
         public bool isGameReady = false;
         
+        private ReactiveProperty<IDemoGameStatus> demoGameStatus = new ReactiveProperty<IDemoGameStatus>();
+        
         protected override void OnExecute()
         {
             var context = PortPair.InputPort;
             
             context.Receive<IContext>().
-                ContinueWith(x => x.Receive<IDemoGameStatus>()).
+                Select(x => x.Receive<IDemoGameStatus>()).
+                Switch().
                 Do(x => GameLog.Log($"DemoGameStatus has value {x.IsGameReady.HasValue} is Ready {x.IsGameReady.Value}")).
                 Do(x => isGameReady = x.IsGameReady.Value).
                 Do(x => GameLog.Log("Game Status: Ready")).
@@ -46,5 +49,7 @@
                 AddTo(LifeTime);
             
         }
+        
+        
     }
 }

@@ -5,9 +5,26 @@
     using UniRx.Async;
     using UnityEngine;
     using UnityEngine.AddressableAssets;
+    using UnityEngine.ResourceManagement.ResourceProviders;
+    using UnityEngine.SceneManagement;
 
     public static class AddressableExtensions
     {
+        public static async UniTask<SceneInstance> LoadSceneTaskAsync(
+            this AssetReference sceneReference,
+            LoadSceneMode loadSceneMode = LoadSceneMode.Single,
+            bool activateOnLoad = true,
+            int priority = 100)
+        {
+            if (sceneReference.RuntimeKeyIsValid() == false) {
+                GameLog.LogError($"AssetReference key is NULL {sceneReference}");
+                return default;
+            }
+
+            var scene = await sceneReference.LoadSceneAsync(loadSceneMode, activateOnLoad, priority).Task;
+            return scene;
+        }
+        
         public static async UniTask<T> LoadAssetTaskAsync<T>(this AssetReference assetReference)
             where T : class
         {

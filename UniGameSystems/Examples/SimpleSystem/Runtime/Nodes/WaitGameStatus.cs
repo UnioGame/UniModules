@@ -19,8 +19,10 @@
         {
             
             PortPair.InputPort.Receive<IDemoGameStatus>().
+                DistinctUntilChanged().
                 Do(x => GameLog.Log("DATA IDemoGameStatus Received")).
-                ContinueWith(x => x.IsGameReady).
+                Select(x => x.IsGameReady).
+                Switch().
                 Do(x => isGameReady = x).
                 Where(x => x).
                 Do(x => PortPair.OutputPort.Publish(x)).
