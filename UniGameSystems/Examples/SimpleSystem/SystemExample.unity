@@ -361,20 +361,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1930435006}
     m_Modifications:
-    - target: {fileID: 1524947651, guid: 892ba2dd7c7ecdb4bbd63fa0a897edcb, type: 3}
-      propertyPath: contextDataSource.m_AssetGUID
-      value: afd7adc1bde95bd4a859bcbbff8e1f1b
-      objectReference: {fileID: 0}
-    - target: {fileID: 991473993277028984, guid: 892ba2dd7c7ecdb4bbd63fa0a897edcb,
-        type: 3}
-      propertyPath: contextDataSources.m_AssetGUID
-      value: afd7adc1bde95bd4a859bcbbff8e1f1b
-      objectReference: {fileID: 0}
-    - target: {fileID: 991473993277028984, guid: 892ba2dd7c7ecdb4bbd63fa0a897edcb,
-        type: 3}
-      propertyPath: contextAsset.m_AssetGUID
-      value: 7ac5f3a92dc42094b9fbb6a31ecd86be
-      objectReference: {fileID: 0}
     - target: {fileID: 3173182001011437811, guid: 892ba2dd7c7ecdb4bbd63fa0a897edcb,
         type: 3}
       propertyPath: m_Name
