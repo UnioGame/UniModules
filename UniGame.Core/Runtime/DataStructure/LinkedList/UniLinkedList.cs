@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections;
-    using Interfaces;
     using Rx;
     using UniCore.Runtime.ObjectPool.Runtime;
 
@@ -14,10 +13,8 @@
     {
         public ListNode<T> current;
         
-        [NonSerialized]
         public ListNode<T> root;
 
-        [NonSerialized]
         public ListNode<T> last;
 
         public ListNode<T> Add(T value)
