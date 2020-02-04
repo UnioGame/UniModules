@@ -17,8 +17,7 @@
     {
         #region inspector
         
-        [SerializeField]
-        private TValue defaultValue = default(TValue);
+        public TValue defaultValue = default(TValue);
         
         #endregion
 

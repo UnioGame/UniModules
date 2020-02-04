@@ -5,7 +5,7 @@
     using UnityEngine;
     using UnityEngine.AddressableAssets;
 
-    [CreateAssetMenu(menuName = "GBG/UI Manager/Screen Map",fileName = "UiScreenMapData")]
+    [CreateAssetMenu(menuName = "UniGame/UI Manager/Screen Map",fileName = "UiScreenMapData")]
     public class UiScreenMapData : ScriptableObject , IUiScreenMapData
     {
 

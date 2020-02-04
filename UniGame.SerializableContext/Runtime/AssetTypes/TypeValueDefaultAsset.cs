@@ -1,19 +1,20 @@
-﻿namespace UniGreenModules.UniGame.SerializableContext.Runtime.Abstract
+﻿namespace UniGreenModules.UniGame.SerializableContext.Runtime.AssetTypes
 {
     using System;
+    using Abstract;
 
     [Serializable]
     public abstract class TypeValueDefaultAsset<TValue, TApiValue> :
         TypeValueAsset<TValue, TApiValue>
-        where TValue : TApiValue, new()
+        where TValue :class, TApiValue, new()
     {
         protected override TApiValue GetDefaultValue() {
-            return new TValue();
+            return defaultValue ?? new TValue();
         }
     }
     
     [Serializable]
     public abstract class TypeValueDefaultAsset<TValue> : 
         TypeValueDefaultAsset<TValue, TValue> 
-        where TValue : new() { }
+        where TValue :class, new(){ }
 }

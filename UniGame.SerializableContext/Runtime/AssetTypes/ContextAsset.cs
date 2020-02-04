@@ -7,7 +7,7 @@
     using UniRx.Async;
     using UnityEngine;
 
-    [CreateAssetMenu(menuName = "UniGame/GameSystem/Assets/SharedContext" , fileName = nameof(ContextAsset))]
+    [CreateAssetMenu(menuName = "UniGame/GameSystem/Assets/Context" , fileName = nameof(ContextAsset))]
     public class ContextAsset : 
         TypeValueDefaultAsset<EntityContext,IContext>, 
         IContextDataSource,

@@ -13,6 +13,12 @@
             disposable?.Dispose();
             return clearValue ? null : disposable;
         }
+
+        public static void Cancel(this object target, ref IDisposable disposable)
+        {
+            disposable.Cancel();
+            disposable = null;
+        }
         
         public static void Cancel<TItem>(this List<TItem> disposables)
             where TItem : IDisposable

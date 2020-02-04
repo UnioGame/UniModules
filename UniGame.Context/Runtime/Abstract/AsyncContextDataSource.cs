@@ -9,7 +9,7 @@
         ScriptableObject, 
         IAsyncContextDataSource
     {
-        
+     
         public abstract UniTask<IContext> RegisterAsync(IContext context);
 
     }
