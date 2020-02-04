@@ -4,7 +4,7 @@
   "displayName": "UniGame Unity Actors System",
   "description": "Actors system for Unity",
   "unity": "2019.2",
-  "version": "1.2.45",
+  "version": "1.2.46",
   "keywords": [],
   "dependencies": {
     "com.unigame.neuecc.unirx": "7.1.1",
@@ -13,7 +13,7 @@
     "com.unigame.contextdata": "1.2.16",
     "com.unigame.uniroutine": "1.4.8",
     "com.unigame.resourcesystem": "1.1.23",
-    "com.unigame.nodessystem": "1.1.16",
+    "com.unigame.nodessystem": "1.1.17",
     "com.unigame.unistatemachine": "1.2.24"
   }
 }
