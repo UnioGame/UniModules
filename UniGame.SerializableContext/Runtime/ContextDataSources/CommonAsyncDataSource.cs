@@ -8,14 +8,12 @@ namespace UniGreenModules.UniGame.SerializableContext.Runtime.ContextDataSources
     using Context.Runtime.Interfaces;
     using UniContextData.Runtime.Interfaces;
     using UniCore.Runtime.Interfaces;
-    using UniCore.Runtime.ReorderableInspector;
     using UniRx.Async;
 
     
     [CreateAssetMenu(menuName = "UniGame/GameSystem/Sources/AsyncDataSourcesQueue", fileName = nameof(CommonAsyncDataSource))]
     public class CommonAsyncDataSource : AsyncContextDataSource
     {
-        [Reorderable]
         public List<ScriptableObjectAssetReference> sourceAssets = new List<ScriptableObjectAssetReference>();
         
         public override async UniTask<IContext> RegisterAsync(IContext context)
