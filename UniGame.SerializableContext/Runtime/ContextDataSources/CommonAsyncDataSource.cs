@@ -14,7 +14,11 @@ namespace UniGreenModules.UniGame.SerializableContext.Runtime.ContextDataSources
     [CreateAssetMenu(menuName = "UniGame/GameSystem/Sources/AsyncDataSourcesQueue", fileName = nameof(CommonAsyncDataSource))]
     public class CommonAsyncDataSource : AsyncContextDataSource
     {
+        #region inspector
+        
         public List<ScriptableObjectAssetReference> sourceAssets = new List<ScriptableObjectAssetReference>();
+        
+        #endregion
         
         public override async UniTask<IContext> RegisterAsync(IContext context)
         {
