@@ -12,7 +12,7 @@
         
     {
         public static string[] OnWillSaveAssets<TAsset>(string[] paths)
-            where TAsset : Object, IUnique
+            where TAsset : Object, IMutableUnique
         {
             foreach (string path in paths) {
                 var asset = AssetDatabase.LoadAssetAtPath<TAsset>(path);
@@ -27,7 +27,7 @@
         }
 
         public static void ProcessUniqueAssets<TAsset>()
-            where TAsset : Object, IUnique
+            where TAsset : Object, IMutableUnique
         {
             var assetsMap = new HashSet<int>();
             var conflictedAssets = new List<TAsset>();

@@ -1,12 +1,10 @@
 ﻿namespace UniGreenModules.UniGame.AddressableTools.Editor.Inspector
 {
-    using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Reflection;
     using Runtime.Attributes;
     using UniCore.EditorTools.Editor.PropertiesDrawers;
-    using UniCore.EditorTools.Editor.Utility;
-    using UniCore.Runtime.Utils;
     using UnityEditor;
     using UnityEngine;
     using UnityEngine.AddressableAssets;
@@ -65,8 +63,21 @@
             var asset     = AssetDatabase.LoadAssetAtPath(assetPath, mainType);
 
             EditorGUI.ObjectField(position,assetLabel, asset, asset.GetType(),false);
-
             
+            var odinActive = false;
+            DrawOdinInspector(asset);
+
+      
+        }
+
+        [Conditional("ODIN_INSPECTOR")]
+        private void DrawOdinInspector(Object asset)
+        {
+            if (asset == null) return;
+            
+            var drawer = Sirenix.OdinInspector.Editor.PropertyTree.Create(asset);
+            drawer.Draw(false);
+
         }
     }
 }

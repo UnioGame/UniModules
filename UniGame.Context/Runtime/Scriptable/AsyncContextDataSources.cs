@@ -12,6 +12,7 @@
     public class AsyncContextDataSources : 
         AsyncContextDataSource
     {
+        [SerializeReference]
         public List<AsyncContextDataSource> sources = new List<AsyncContextDataSource>();
 
         public override async UniTask<IContext> RegisterAsync(IContext context)

@@ -36,4 +36,8 @@
             return context;
         }
     }
+    
+    public class ContextTypeValueAsset<TValue> : 
+        ContextTypeValueAsset<TValue, TValue> 
+        where TValue : class, new() { }
 }

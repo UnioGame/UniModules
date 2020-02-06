@@ -11,11 +11,14 @@ namespace UniGreenModules.UniGame.SerializableContext.Runtime.ContextDataSources
     using UniRx.Async;
 
     
-    [CreateAssetMenu(menuName = "UniGame/GameSystem/Sources/AsyncDataSourcesQueue", fileName = nameof(CommonAsyncDataSource))]
-    public class CommonAsyncDataSource : AsyncContextDataSource
+    [CreateAssetMenu(menuName = "UniGame/GameSystem/Sources/AsyncDataSources", fileName = nameof(AsyncDataSources))]
+    public class AsyncDataSources : AsyncContextDataSource
     {
         #region inspector
-        
+
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.DrawWithUnity]
+#endif
         public List<ScriptableObjectAssetReference> sourceAssets = new List<ScriptableObjectAssetReference>();
         
         #endregion
