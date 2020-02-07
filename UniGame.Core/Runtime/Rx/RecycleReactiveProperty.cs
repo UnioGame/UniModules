@@ -2,15 +2,22 @@
 {
     using System;
     using DataStructure.LinkedList;
+    using UniCore.Runtime.Attributes;
     using UniCore.Runtime.Common;
     using UniCore.Runtime.Interfaces.Rx;
     using UniCore.Runtime.ObjectPool.Runtime;
     using UniCore.Runtime.ObjectPool.Runtime.Extensions;
+    using UnityEngine;
 
+    [Serializable]
     public class RecycleReactiveProperty<T> : IRecycleReactiveProperty<T>
     {
+        [SerializeField]
         private T value = default;
-        private bool hasValue;
+        
+        [ReadOnlyValue]
+        [SerializeField]
+        private bool hasValue = false;
         
         private UniLinkedList<IObserver<T>> observers = new UniLinkedList<IObserver<T>>();
 

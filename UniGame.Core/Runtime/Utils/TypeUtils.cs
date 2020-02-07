@@ -5,32 +5,46 @@
 
 		public static uint GetJavaHash(string s) {
 
-			uint hash = 0u;
-			foreach (char c in s) {
+			var hash = 0u;
+			for (var i = 0; i < s.Length; i++) {
+				var c = s[i];
 				hash = 31u * hash + c;
 			}
+
 			return hash;
 
 		}
 
-		public static long[] GetTypeIds(this System.Type type) {
+		public static List<long> GetTypeIds(this System.Type type) {
 
 			var typeList = new List<long>();
 			var objectType = typeof(object);
 			while (type != objectType) {
-
 				typeList.Add(type.GetTypeId());
 				type = type.BaseType;
-
 			}
 
-			return typeList.ToArray();
+			return typeList;
 
 		}
+		
+		public static List<string> GetTypeNames(this System.Type type) {
+
+			var typeList   = new List<string>();
+			var objectType = typeof(object);
+			while (type != objectType) {
+				typeList.Add(type.AssemblyQualifiedName);
+				type = type.BaseType;
+			}
+
+			return typeList;
+
+		}
+		
 
 		public static long GetTypeId(this System.Type type)
 		{
-			return (long) GetJavaHash(type.FullName);
+			return GetJavaHash(type.FullName);
 		}
 
 	}

@@ -8,5 +8,6 @@
         IDespawnable
     {
         new TValue Value { get; set; }
+
     }
 }
