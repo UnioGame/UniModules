@@ -1,6 +1,5 @@
 ﻿namespace UniGreenModules.UniGame.SerializableContext.Runtime.AssetTypes
 {
-    using Abstract;
     using UniContextData.Runtime.Entities;
     using UniContextData.Runtime.Interfaces;
     using UniCore.Runtime.Interfaces;

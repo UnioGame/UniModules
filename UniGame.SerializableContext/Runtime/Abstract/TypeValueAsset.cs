@@ -16,7 +16,7 @@
         where TValue : TApiValue
     {
         #region inspector
-        
+
         public TValue defaultValue = default(TValue);
         
         #endregion

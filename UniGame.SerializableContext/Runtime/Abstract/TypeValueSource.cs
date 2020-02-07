@@ -5,12 +5,13 @@
     using UniCore.Runtime.Interfaces;
     using UniRx.Async;
 
-    public class ContextTypeValueAsset<TValue,TApiValue> : 
+    public class TypeValueSource<TValue,TApiValue> : 
         TypeValueDefaultAsset<TValue,TApiValue>,
-        IAsyncContextDataSource
+        ISourceValue<TApiValue>
         where TValue : class, TApiValue, new()
     {
         #region inspector
+        
         /// <summary>
         /// create instance of SO to prevent original data changes
         /// </summary>
@@ -18,16 +19,15 @@
         
         #endregion
         
-        private ContextTypeValueAsset<TValue, TApiValue> sourceValue = null;
+        private TypeValueSource<TValue, TApiValue> sourceValueSource = null;
         
         public virtual async UniTask<IContext> RegisterAsync(IContext context)
         {
-            sourceValue = createSourceInstance ? 
-                sourceValue == null ? 
-                    Instantiate(this) : sourceValue : 
+            sourceValueSource = createSourceInstance ? 
+                sourceValueSource == null ? Instantiate(this) : sourceValueSource : 
                 this;
 
-            var value = sourceValue.Value;
+            var value = sourceValueSource.Value;
             context.Publish(value);
             if (value is IAsyncContextDataSource dataSource) {
                 await dataSource.RegisterAsync(context);
@@ -35,9 +35,10 @@
             
             return context;
         }
+        
     }
     
-    public class ContextTypeValueAsset<TValue> : 
-        ContextTypeValueAsset<TValue, TValue> 
+    public class TypeValueSource<TValue> : 
+        TypeValueSource<TValue, TValue> 
         where TValue : class, new() { }
 }

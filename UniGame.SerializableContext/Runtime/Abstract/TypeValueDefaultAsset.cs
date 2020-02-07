@@ -12,9 +12,4 @@
             return defaultValue ?? new TValue();
         }
     }
-    
-    [Serializable]
-    public abstract class TypeValueDefaultAsset<TValue> : 
-        TypeValueDefaultAsset<TValue, TValue> 
-        where TValue :class, new(){ }
 }
