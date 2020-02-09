@@ -34,11 +34,6 @@
             return Remove(type);
         }
 
-        public void CleanUp()
-        {
-            Release();
-        }
-
         public void Dispose()
         {
             Release();

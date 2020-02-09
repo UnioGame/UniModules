@@ -6,9 +6,9 @@ namespace UniGreenModules.UniCore.Runtime.Interfaces
     public interface ITypeData : 
         IPoolable, 
         IMessageBroker,
-        IContextWriter,
         IValueContainerStatus, 
         IReadOnlyData
     {
+        bool Remove<TData>();
     }
 }
