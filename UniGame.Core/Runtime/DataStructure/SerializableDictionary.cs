@@ -5,10 +5,12 @@ using UnityEngine;
 namespace UniGreenModules.UniGame.Core.Runtime.DataStructure
 {
     [Serializable]
-    public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, ISerializationCallbackReceiver
+    public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, 
+        IReadOnlyDictionary<TKey,TValue>,
+        ISerializationCallbackReceiver
     {
-        [SerializeField] private List<TKey>   keys   = new List<TKey>();
-        [SerializeField] private List<TValue> values = new List<TValue>();
+        [SerializeField] protected List<TKey>   keys   = new List<TKey>();
+        [SerializeField] protected List<TValue> values = new List<TValue>();
 
         public void OnBeforeSerialize()
         {
