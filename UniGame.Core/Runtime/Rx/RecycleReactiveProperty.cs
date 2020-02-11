@@ -13,14 +13,30 @@
     public class RecycleReactiveProperty<T> : IRecycleReactiveProperty<T>
     {
         [SerializeField]
-        private T value = default;
+        protected T value = default;
         
-        [ReadOnlyValue]
+        [Tooltip("Merk this field to true, if you want notify immediately after subscription")]
         [SerializeField]
         private bool hasValue = false;
         
         private UniLinkedList<IObserver<T>> observers = new UniLinkedList<IObserver<T>>();
 
+        #region constructor
+        
+        public RecycleReactiveProperty()
+        {
+            value = default;
+        }
+
+        public RecycleReactiveProperty(T value)
+        {
+            this.value = value;
+            hasValue = true;
+        }
+        
+        #endregion
+        
+        
         public T Value {
             get => value;
             set => SetValue(value);
