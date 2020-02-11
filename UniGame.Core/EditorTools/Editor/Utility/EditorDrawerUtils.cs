@@ -103,6 +103,24 @@
             }
             EditorGUILayout.LabelField(label, style, options);
         }
+
+        public static void WrapDrawer(this object target,Action drawerAction,bool warningMode = false)
+        {
+            try {
+                drawerAction?.Invoke();
+            }
+            catch (Exception e) {
+                if (warningMode) {
+                    GameLog.LogWarning(e.Message);
+                }
+                else {
+                    GameLog.LogError(e.Message);
+                }
+                
+                GUIUtility.ExitGUI();
+                throw e;
+            }
+        }
         
         public static void DrawArrayProperty(SerializedProperty property, Action<SerializedProperty> drawer)
         {
