@@ -10,7 +10,7 @@
     using UnityEngine;
 
     [Serializable]
-    public class RecycleReactiveProperty<T> : IRecycleReactiveProperty<T>
+    public class RecycleReactiveProperty<T> : IRecycleReactiveProperty<T> 
     {
         [SerializeField]
         protected T value = default;
