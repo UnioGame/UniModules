@@ -9,6 +9,25 @@
     using Object = UnityEngine.Object;
 
     public static class EditorExtension {
+        
+        public static void AddToEditorSelection(this Object item, bool add)
+        {
+            if (add)
+            {
+                var selection = new List<Object>(Selection.objects);
+                selection.Add(item);
+                Selection.objects = selection.ToArray();
+            }
+            else Selection.objects = new Object[] {item};
+        }
+
+        public static void DeselectFromEditor(this Object item)
+        {
+            var selection = new List<Object>(Selection.objects);
+            selection.Remove(item);
+            Selection.objects = selection.ToArray();
+        }
+        
         public static void DrawDefaultEditor(this GameObject target) {
             if (!target) return;
             var editor = Editor.CreateEditor(target);
