@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Runtime.CompilerServices;
     using Interfaces;
     using Interfaces.Rx;
     using ObjectPool;
@@ -64,12 +65,14 @@
 
         #endregion
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public IObservable<TData> Receive<TData>()
         {
             var data = GetData<TData>();
             return data;
         }
         
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public TData Get<TData>()
         {
             var data = GetData<TData>();
