@@ -21,6 +21,17 @@
             else Selection.objects = new Object[] {item};
         }
 
+        public static void PingInEditor(this Object item,bool markAsActive = true)
+        {
+            if (!item) return;
+            
+            EditorGUIUtility.PingObject( item );
+            if (markAsActive) {
+                Selection.activeObject = item;
+            }
+            
+        }
+        
         public static void DeselectFromEditor(this Object item)
         {
             var selection = new List<Object>(Selection.objects);
