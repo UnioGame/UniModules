@@ -6,12 +6,9 @@
     using System.Runtime.CompilerServices;
     using Interfaces;
     using Interfaces.Rx;
-    using ObjectPool;
     using ObjectPool.Runtime;
     using ObjectPool.Runtime.Interfaces;
-    using Rx;
     using UniGame.Core.Runtime.Rx;
-    using UniRx;
 
     [Serializable]
     public class TypeData : ITypeData

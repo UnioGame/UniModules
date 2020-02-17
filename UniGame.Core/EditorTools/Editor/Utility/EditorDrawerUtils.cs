@@ -111,10 +111,10 @@
             }
             catch (Exception e) {
                 if (warningMode) {
-                    GameLog.LogWarning(e.Message);
+                    Debug.LogWarning(e);
                 }
                 else {
-                    GameLog.LogError(e.Message);
+                    Debug.LogError(e.Message);
                 }
                 
                 GUIUtility.ExitGUI();
