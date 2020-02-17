@@ -9,16 +9,15 @@
     public static class CollectionExtension
     {
 
-        public static void RemoveItems<T>(this IEnumerable<T> source,
+        public static void RemoveItems<T>(this IReadOnlyList<T> source,
             Func<T, bool> filter, Action<T> removeAction)
         {
             var removedItems = ClassPool.Spawn<List<T>>();
-            
-            foreach (var item in source)
-            {
+
+            for (var i = 0; i < source.Count; i++) {
+                var item  = source[i];
                 var value = filter(item);
-                if (value)
-                {
+                if (value) {
                     removedItems.Add(item);
                 }
             }

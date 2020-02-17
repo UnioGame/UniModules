@@ -3,14 +3,12 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Runtime.CompilerServices;
     using Interfaces;
     using Interfaces.Rx;
-    using ObjectPool;
     using ObjectPool.Runtime;
     using ObjectPool.Runtime.Interfaces;
-    using Rx;
     using UniGame.Core.Runtime.Rx;
-    using UniRx;
 
     [Serializable]
     public class TypeData : ITypeData
@@ -32,11 +30,6 @@
         {           
             var type = typeof(TData);
             return Remove(type);
-        }
-
-        public void CleanUp()
-        {
-            Release();
         }
 
         public void Dispose()
@@ -69,12 +62,14 @@
 
         #endregion
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public IObservable<TData> Receive<TData>()
         {
             var data = GetData<TData>();
             return data;
         }
         
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public TData Get<TData>()
         {
             var data = GetData<TData>();

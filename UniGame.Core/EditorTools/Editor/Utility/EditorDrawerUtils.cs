@@ -94,6 +94,33 @@
             DrawVertialLayout(action, null, options);
 
         }
+
+        public static void DrawLabelField(GUIContent label,GUIStyle style, params GUILayoutOption[] options)
+        {
+            if (style == null) {
+                EditorGUILayout.LabelField(label,GUILayout.MinWidth(30));
+                return;
+            }
+            EditorGUILayout.LabelField(label, style, options);
+        }
+
+        public static void WrapDrawer(this object target,Action drawerAction,bool warningMode = false)
+        {
+            try {
+                drawerAction?.Invoke();
+            }
+            catch (Exception e) {
+                if (warningMode) {
+                    Debug.LogWarning(e);
+                }
+                else {
+                    Debug.LogError(e.Message);
+                }
+                
+                GUIUtility.ExitGUI();
+                throw e;
+            }
+        }
         
         public static void DrawArrayProperty(SerializedProperty property, Action<SerializedProperty> drawer)
         {

@@ -52,11 +52,6 @@
             return _typeData.Remove<TData>();
         }
 
-        public void CleanUp()
-        {
-            _typeData.CleanUp();
-        }
-
         public void Release()
         {
             _typeData.Release();

@@ -37,8 +37,8 @@
 
         public static Type CreateDrawerType(Type targetType)
         {
-            var typeInfo = AppDomain.CurrentDomain.GetAssemblies().Select(a => 
-                a.GetTypes().
+            var typeInfo = AppDomain.CurrentDomain.GetAssemblies().
+                Select(a => a.GetTypes().
                     FirstOrDefault(t => t.Name.Contains(AssembliesFilter))).
                 FirstOrDefault(t => t != null);
 
@@ -56,7 +56,6 @@
             var field  = drawer.GetType().
                 GetField(FieldInfoName, BindingFlags.GetField | BindingFlags.NonPublic | BindingFlags.Instance);
             field?.SetValue(drawer, fieldInfo);
-
             return drawer;
         }
 

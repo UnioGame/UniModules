@@ -1,19 +1,45 @@
 ﻿namespace UniGreenModules.UniGame.Core.Runtime.Rx
 {
     using System;
+    using System.Runtime.CompilerServices;
     using DataStructure.LinkedList;
+    using UniCore.Runtime.Attributes;
     using UniCore.Runtime.Common;
     using UniCore.Runtime.Interfaces.Rx;
     using UniCore.Runtime.ObjectPool.Runtime;
     using UniCore.Runtime.ObjectPool.Runtime.Extensions;
+    using UnityEngine;
 
-    public class RecycleReactiveProperty<T> : IRecycleReactiveProperty<T>
+    [Serializable]
+    public class RecycleReactiveProperty<T> : IRecycleReactiveProperty<T> 
     {
-        private T value = default;
-        private bool hasValue;
+        [SerializeField]
+        protected T value = default;
         
-        private UniLinkedList<IObserver<T>> observers = new UniLinkedList<IObserver<T>>();
+        [Tooltip("Merk this field to true, if you want notify immediately after subscription")]
+        [SerializeField]
+        private bool hasValue = false;
 
+        private UniLinkedList<IObserver<T>> observers;
+        
+        private UniLinkedList<IObserver<T>> Observers => observers = observers ?? new UniLinkedList<IObserver<T>>();
+
+        #region constructor
+        
+        public RecycleReactiveProperty()
+        {
+            value = default;
+        }
+
+        public RecycleReactiveProperty(T value)
+        {
+            this.value = value;
+            hasValue = true;
+        }
+        
+        #endregion
+        
+        
         public T Value {
             get => value;
             set => SetValue(value);
@@ -24,7 +50,7 @@
         public IDisposable Subscribe(IObserver<T> observer)
         {
             var disposeAction = ClassPool.Spawn<DisposableAction>();
-            var node = observers.Add(observer);
+            var node = Observers.Add(observer);
             disposeAction.Initialize(() => Remove(node));
               
             //if value already exists - notify
@@ -33,16 +59,18 @@
             return disposeAction;
         }
 
+        
+        
         public void SetValue(T propertyValue)
         {
             hasValue = true;
             value = propertyValue;
             
             do {
-                observers.current?.Value.OnNext(value);
-            } while (observers.MoveNext());
+                Observers.current?.Value.OnNext(value);
+            } while (Observers.MoveNext());
 
-            observers.Reset();
+            Observers.Reset();
         }
     
         public void Release()
@@ -51,10 +79,10 @@
             
             //stop listing all child observers
             do {
-                observers.current?.Value.OnCompleted();
-            } while (observers.MoveNext());
+                Observers.current?.Value.OnCompleted();
+            } while (Observers.MoveNext());
             
-            observers.Release();
+            Observers.Release();
             value = default(T);
         }
 
@@ -66,7 +94,7 @@
         private void Remove(ListNode<IObserver<T>> observer)
         {
             observer.Value.OnCompleted();
-            observers.Remove(observer);
+            Observers.Remove(observer);
         }
 
     }
