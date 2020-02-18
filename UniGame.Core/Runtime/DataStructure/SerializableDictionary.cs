@@ -5,8 +5,7 @@ using UnityEngine;
 namespace UniGreenModules.UniGame.Core.Runtime.DataStructure
 {
     [Serializable]
-    public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, 
-        IReadOnlyDictionary<TKey,TValue>,
+    public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>,
         ISerializationCallbackReceiver
     {
         [SerializeField] protected List<TKey>   keys   = new List<TKey>();
