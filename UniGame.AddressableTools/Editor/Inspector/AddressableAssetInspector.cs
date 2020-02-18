@@ -34,6 +34,8 @@
 
         private void DrawAssetReferenceDrawer(Rect position, SerializedProperty property, GUIContent label)
         {
+            if (fieldInfo == null) return;
+
             position.y      += FieldHeight;
             position.height =  20f;
 
