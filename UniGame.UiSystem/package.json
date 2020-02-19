@@ -4,14 +4,14 @@
   "displayName": "UniGame UI System",
   "description": "Ui system for Unity",
   "unity": "2019.2",
-  "version": "0.1.35",
+  "version": "0.1.36",
   "keywords": [],
   "dependencies": {
     "com.unigame.neuecc.unirx": "7.1.1",
     "com.unigame.neuecc.unirx.async": "1.2.0",
-    "com.unigame.unicore": "1.4.0",
+    "com.unigame.unicore": "1.4.1",
     "com.unity.addressables": "1.6.0",
-    "com.unigame.uniroutine": "1.4.19",
+    "com.unigame.uniroutine": "1.4.20",
     "com.unity.textmeshpro": "2.0.1"
   }
 }
