@@ -81,7 +81,6 @@
                 drawer.Draw(false);
             }
 
-
         }
     }
 }

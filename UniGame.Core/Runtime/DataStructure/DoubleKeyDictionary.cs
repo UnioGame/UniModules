@@ -22,6 +22,14 @@
             }
         }
 
+        public void Clear()
+        {
+            foreach (var item in _dictionary) {
+                item.Value.Clear();
+            }
+            _dictionary.Clear();
+        }
+
         public bool Contains(TKey key, TSubKey value)
         {
             if (!_dictionary.TryGetValue(key, out var items))

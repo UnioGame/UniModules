@@ -5,6 +5,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using DataStructure;
     using UnityEngine;
     using Object = UnityEngine.Object;
 
@@ -14,7 +15,29 @@
 
         public const BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic;
 
+        public static DoubleKeyDictionary<Type,string,FieldInfo> fieldInfos = new DoubleKeyDictionary<Type,string,FieldInfo>();
 
+        public static void Clear()
+        {
+            fieldInfos.Clear();
+        }
+
+        public static FieldInfo GetFieldInfo(this object target,string name) => GetFieldInfo(target.GetType(),name);
+        
+        public static FieldInfo GetFieldInfo<T>(string name) => GetFieldInfo(typeof(T),name);
+        
+        public static FieldInfo GetFieldInfo(this Type type,string name)
+        {
+            var info = fieldInfos.Get(type, name);
+            if (info != null) return info;
+            info = type.GetField(name,bindingFlags);
+
+            if (info == null) return null;
+            
+            fieldInfos.Add(type,name,info);
+            return info;
+        }
+        
         public static void SearchInFieldsRecursively<T>(object target, Object parent, Action<Object, T> onFoundAction, HashSet<object> validatedObjects, Func<T, T> resourceAction = null)
         {
             if (target == null || !validatedObjects.Add(target)) return;
@@ -117,7 +140,6 @@
 
         }
 
-        
         public static List<Type> GetDerivedTypes(Type aType) {
             
             var  appDomain = System.AppDomain.CurrentDomain;
@@ -226,6 +248,8 @@
             return types.ToList();
         }
 
+        
+        
     }
 
 
