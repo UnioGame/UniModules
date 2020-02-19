@@ -4,7 +4,7 @@
   "displayName": "UniGame Serializable Context",
   "description": "Shared serializable context data for Unity",
   "unity": "2019.2",
-  "version": "1.1.0",
+  "version": "1.1.2",
   "keywords": [],
   "dependencies": {
     "com.unigame.unicore": "1.4.0",
@@ -13,6 +13,6 @@
     "com.unigame.neuecc.unirx.async": "1.2.0",
     "com.unity.textmeshpro": "2.0.1",
     "com.unigame.contextdata": "1.2.27",
-    "com.unigame.addressablestools": "1.0.20"
+    "com.unigame.addressablestools": "1.0.22"
   }
 }

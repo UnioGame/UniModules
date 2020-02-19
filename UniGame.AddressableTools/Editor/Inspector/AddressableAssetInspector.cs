@@ -67,18 +67,20 @@
             EditorGUI.ObjectField(position,assetLabel, asset, asset.GetType(),false);
             
             var odinActive = false;
+            
             DrawOdinInspector(asset);
-
-      
+            
         }
 
         [Conditional("ODIN_INSPECTOR")]
         private void DrawOdinInspector(Object asset)
         {
-            if (asset == null) return;
-            
-            var drawer = Sirenix.OdinInspector.Editor.PropertyTree.Create(asset);
-            drawer.Draw(false);
+            if (!asset) return;
+
+            using (var drawer = Sirenix.OdinInspector.Editor.PropertyTree.Create(asset)) {
+                drawer.Draw(false);
+            }
+
 
         }
     }
