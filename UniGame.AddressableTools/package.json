@@ -1,15 +1,16 @@
 {
   "name": "com.unigame.addressablestools",
   "author": "Mefodei",
-  "displayName": "UniGame Addressables Utils",
-  "description": "Custom tools for Unity Addressables system",
+  "displayName": "UniGame Addressables Tools",
+  "description": "Tools for Unity Addressables System",
   "unity": "2019.1",
-  "version": "1.0.23",
+  "version": "1.1.2",
   "keywords": [],
   "dependencies": {
     "com.unigame.neuecc.unirx": "7.1.1",
     "com.unigame.neuecc.unirx.async": "1.2.0",
     "com.unity.addressables": "1.6.2",
-    "com.unigame.unicore": "1.4.1"
+    "com.unigame.unicore": "1.4.4",
+    "com.unigame.uniroutine": "1.5.1"
   }
 }

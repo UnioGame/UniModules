@@ -2,15 +2,15 @@
 {
     using System.Collections;
     using Interfaces;
-    using JetBrains.Annotations;
-    using UniCore.Runtime.Extension;
     using UniCore.Runtime.Interfaces;
     using UniCore.Runtime.ModelBehaviours;
     using UniCore.Runtime.Rx.Extensions;
     using UniRoutine.Runtime;
     using UnityEngine;
 
-    public class UiView<TModel> : ScheduledViewModel<TModel>, IUiView<TModel>
+    public class UiView<TModel> : 
+        ScheduledViewModel<TModel>, 
+        IUiView<TModel>
     {
         [SerializeField]
         private RoutineType updateType = RoutineType.EndOfFrame;

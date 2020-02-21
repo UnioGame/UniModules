@@ -24,7 +24,9 @@
         public virtual async UniTask<IContext> RegisterAsync(IContext context)
         {
             sourceValueSource = createSourceInstance ? 
-                sourceValueSource == null ? Instantiate(this) : sourceValueSource : 
+                sourceValueSource == null ? 
+                    Instantiate(this) : 
+                    sourceValueSource : 
                 this;
 
             var value = sourceValueSource.Value;

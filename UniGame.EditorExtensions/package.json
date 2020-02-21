@@ -1,0 +1,15 @@
+{
+  "name": "com.unigame.editorextensions",
+  "author": "Mefodei",
+  "displayName": "UniGame Editor Extensions",
+  "description": "Custom Editor Extensions",
+  "unity": "2019.2",
+  "version": "1.0.32",
+  "keywords": [
+    "Editor",
+    "Extension"
+  ],
+  "dependencies": {
+    "com.unigame.unicore": "1.4.4"
+  }
+}

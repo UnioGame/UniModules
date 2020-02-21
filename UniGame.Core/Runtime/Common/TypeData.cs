@@ -19,10 +19,10 @@
         /// <summary>
         /// registered components
         /// </summary>
-        private Dictionary<Type, IValueContainerStatus> _contextValues = 
-            new Dictionary<Type, IValueContainerStatus>();
+        private Dictionary<Type, IValueContainerStatus> contextValues = 
+            new Dictionary<Type, IValueContainerStatus>(32);
 
-        public bool HasValue => _contextValues.Any(value => value.Value.HasValue);
+        public bool HasValue => contextValues.Any(value => value.Value.HasValue);
 
         #region writer methods
 
@@ -39,9 +39,9 @@
 
         public bool Remove(Type type)
         {
-            if (!_contextValues.TryGetValue(type, out var value)) return false;
+            if (!contextValues.TryGetValue(type, out var value)) return false;
             
-            var removed = _contextValues.Remove(type);
+            var removed = contextValues.Remove(type);
             //release context value
             if(value is IDespawnable despawnable)
                 despawnable.MakeDespawn();
@@ -84,20 +84,20 @@
 
         private IRecycleReactiveProperty<TValue> CreateContextValue<TValue>() => ClassPool.Spawn<RecycleReactiveProperty<TValue>>();
         
-        public bool Contains(Type type) => _contextValues.TryGetValue(type, out var value) && 
+        public bool Contains(Type type) => contextValues.TryGetValue(type, out var value) && 
                                            value.HasValue;
 
         public void Release()
         {
             ResetCache();
             
-            foreach (var contextValue in _contextValues)
+            foreach (var contextValue in contextValues)
             {
                 if(contextValue.Value is IDisposable disposable)
                     disposable.Dispose();
             }
             
-            _contextValues.Clear();
+            contextValues.Clear();
         }
 
         private void ResetCache()
@@ -114,9 +114,9 @@
             
             var type = typeof(TValue);
             
-            if (!_contextValues.TryGetValue(type, out var value)) {
+            if (!contextValues.TryGetValue(type, out var value)) {
                 value = CreateContextValue<TValue>();
-                _contextValues[type] = value;
+                contextValues[type] = value;
             }
             
             data = value as IRecycleReactiveProperty<TValue>;
