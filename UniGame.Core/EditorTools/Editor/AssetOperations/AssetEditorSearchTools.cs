@@ -17,6 +17,26 @@ namespace UniGreenModules.UniCore.EditorTools.Editor.AssetOperations
             return assets;
         }
 
+        public static List<Object> FindAssets(List<Object> assets,Type assetType,string[] folders)
+        {
+            var filterText = $"t:{assetType.Name}";
+
+            var ids =  AssetDatabase.FindAssets(filterText, folders);
+            
+            for (var i = 0; i < ids.Length; i++) {
+                var id        = ids[i];
+                var assetPath = AssetDatabase.GUIDToAssetPath(id);
+                if (string.IsNullOrEmpty(assetPath)) {
+                    Debug.LogErrorFormat("Asset importer {0} with NULL path detected", id);
+                    continue;
+                }
+                var asset = AssetDatabase.LoadAssetAtPath(assetPath, assetType);
+                if (asset) assets.Add(asset);
+            }
+
+            return assets;
+        }
+        
         public static List<T> GetAssets<T>(string filter, string[] folders = null) where T : Object
         {
             var assets = new List<T>();

@@ -5,6 +5,7 @@
     using System.Reflection;
     using Runtime.Attributes;
     using UniCore.EditorTools.Editor.PropertiesDrawers;
+    using UniCore.EditorTools.Editor.Utility;
     using UnityEditor;
     using UnityEngine;
     using UnityEngine.AddressableAssets;
@@ -18,6 +19,8 @@
         private const string guiPropertyName = "m_AssetGUID";
 
         private static Dictionary<FieldInfo,PropertyDrawer> drawers = new Dictionary<FieldInfo, PropertyDrawer>();
+
+        private bool isFoldoutOpen = false;
         
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label) => FieldHeight + base.GetPropertyHeight(property, label);
 
@@ -56,7 +59,9 @@
             var assetGuid    = guidProperty.stringValue;
             if (string.IsNullOrEmpty(assetGuid))
             {
-                EditorGUI.ObjectField(position,assetLabel, null, typeof(Object),false);  
+                EditorDrawerUtils.DrawDisabled(() => {
+                    EditorGUI.ObjectField(position,assetLabel, null, typeof(Object),false); 
+                }); 
                 return;
             }
             
@@ -64,23 +69,13 @@
             var mainType  = AssetDatabase.GetMainAssetTypeAtPath(assetPath);
             var asset     = AssetDatabase.LoadAssetAtPath(assetPath, mainType);
 
-            EditorGUI.ObjectField(position,assetLabel, asset, asset.GetType(),false);
+            EditorDrawerUtils.DrawDisabled(() => {
+                EditorGUI.ObjectField(position,assetLabel, asset, asset.GetType(),false);
+            }); 
             
-            var odinActive = false;
-            
-            DrawOdinInspector(asset);
+            isFoldoutOpen = property.DrawOdinPropertyWithFoldout(position,isFoldoutOpen);
             
         }
 
-        [Conditional("ODIN_INSPECTOR")]
-        private void DrawOdinInspector(Object asset)
-        {
-            if (!asset) return;
-
-            using (var drawer = Sirenix.OdinInspector.Editor.PropertyTree.Create(asset)) {
-                drawer.Draw(false);
-            }
-
-        }
     }
 }

@@ -42,6 +42,13 @@
 
             return false;
         }
+
+        public static void DrawDisabled(Action drawerAction, bool disabled = true)
+        {
+            EditorGUI.BeginDisabledGroup(disabled);
+            drawerAction?.Invoke();
+            EditorGUI.EndDisabledGroup();
+        }
         
         public static bool ActionDrawerSwitcher(bool selection,string label,Action selectedDrawer,Action unselectedDrawer)
         {
