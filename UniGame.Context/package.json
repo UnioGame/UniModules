@@ -4,12 +4,12 @@
   "displayName": "UniGame Context Data",
   "description": "",
   "unity": "2019.2",
-  "version": "1.2.32",
+  "version": "1.2.33",
   "keywords": [],
   "dependencies": {
     "com.unigame.neuecc.unirx": "7.1.1",
     "com.unigame.neuecc.unirx.async": "1.2.0",
-    "com.unigame.unicore": "1.4.5",
+    "com.unigame.unicore": "1.4.6",
     "com.unity.addressables": "1.5.1"
   }
 }
