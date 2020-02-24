@@ -10,9 +10,9 @@ public static class OdinExtensions
     
     
     [Conditional("ODIN_INSPECTOR")]
-    public static void DrawOdinPropertyInspector(this Object asset)
+    public static void DrawOdinPropertyInspector(this object asset)
     {
-        if (!asset) return;
+        if (asset == null) return;
 
         using (var drawer = Sirenix.OdinInspector.Editor.PropertyTree.Create(asset)) {
             drawer.Draw(false);

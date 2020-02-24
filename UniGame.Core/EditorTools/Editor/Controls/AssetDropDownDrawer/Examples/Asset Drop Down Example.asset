@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: Asset Drop Down Example
   m_EditorClassIdentifier: 
   Item: {fileID: 11400000, guid: 61e3120a2b098b94b9f7c1c9f2210ea5, type: 2}
+  Item2: {fileID: 11400000, guid: 962a9bfbded30e443b1784cdc619052e, type: 2}

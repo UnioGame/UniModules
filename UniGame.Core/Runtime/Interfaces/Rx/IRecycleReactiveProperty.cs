@@ -7,9 +7,10 @@
         IReactiveProperty<TValue>,
         IReadonlyRecycleReactiveProperty<TValue>,
         IValueContainerStatus,
-        IDespawnable
+        IDespawnable, 
+        IObjectValue
     {
         new TValue Value { get; set; }
-
+        
     }
 }

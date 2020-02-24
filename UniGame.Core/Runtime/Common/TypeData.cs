@@ -126,6 +126,12 @@
             return data;
         }
 
+        //Editor Only API
+#if UNITY_EDITOR
+
+        public IReadOnlyDictionary<Type, IValueContainerStatus> EditorValues => contextValues;
+
+#endif
 
     }
 }

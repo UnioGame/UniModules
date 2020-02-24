@@ -2,6 +2,7 @@
 {
     using System;
     using System.Runtime.CompilerServices;
+    using DataStructure;
     using DataStructure.LinkedList;
     using UniCore.Runtime.Attributes;
     using UniCore.Runtime.Common;
@@ -9,6 +10,7 @@
     using UniCore.Runtime.ObjectPool.Runtime;
     using UniCore.Runtime.ObjectPool.Runtime.Extensions;
     using UnityEngine;
+    using Object = UnityEngine.Object;
 
     [Serializable]
     public class RecycleReactiveProperty<T> : IRecycleReactiveProperty<T> 
@@ -59,8 +61,7 @@
             return disposeAction;
         }
 
-        
-        
+
         public void SetValue(T propertyValue)
         {
             hasValue = true;
@@ -86,10 +87,9 @@
             value = default(T);
         }
 
-        public void MakeDespawn()
-        {
-            this.Despawn();
-        }
+        public void MakeDespawn() => this.Despawn();
+
+        public object GetValue() => value;
 
         private void Remove(ListNode<IObserver<T>> observer)
         {
