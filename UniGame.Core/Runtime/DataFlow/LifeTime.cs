@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using Interfaces;
     using ObjectPool.Runtime.Interfaces;
+    using Rx.Extensions;
     using UnityEngine.Profiling;
 
     public class LifeTime : ILifeTime, IPoolable
@@ -20,9 +21,8 @@
         {
             if (cleanAction == null)
                 return this;
-            Profiler.BeginSample("AddCleanUpAction");
+
             cleanupActions.Add(cleanAction);
-            Profiler.EndSample();
             return this;
         }
     
@@ -64,14 +64,13 @@
         {
             _isTerminated = true;
             
-            for (int i = cleanupActions.Count-1; i >= 0; i--)
+            for (var i = cleanupActions.Count-1; i >= 0; i--)
             {
-                cleanupActions[i]();
+                cleanupActions[i]?.Invoke();
             }
             
-            for (int i = disposables.Count-1; i >= 0; i--)
-            {
-                disposables[i].Dispose();
+            for (var i = disposables.Count-1; i >= 0; i--) {
+                disposables[i].Cancel();
             }
 
             cleanupActions.Clear();

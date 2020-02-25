@@ -4,13 +4,13 @@
   "displayName": "UniGame Unity Scriptable Build Pipeline",
   "description": "Allow to configurate unity project build",
   "unity": "2019.2",
-  "version": "1.1.33",
+  "version": "1.1.38",
   "keywords": [
     "Build",
     "Pipeline"
   ],
   "dependencies": {
-    "com.unigame.unicore": "1.4.7",
+    "com.unigame.unicore": "1.4.12",
     "com.unity.test-framework": "1.1.9"
   }
 }

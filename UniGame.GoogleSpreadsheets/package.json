@@ -4,14 +4,14 @@
   "displayName": "UniGames Google Spreadsheets to Unity",
   "description": "Google tables to unity classes",
   "unity": "2019.1",
-  "version": "1.1.59",
+  "version": "1.1.64",
   "keywords": [
     "nodes"
   ],
   "dependencies": {
     "com.unigame.neuecc.unirx": "7.1.1",
     "com.unigame.neuecc.unirx.async": "1.2.0",
-    "com.unigame.unicore": "1.4.7",
-    "com.unigame.uniroutine": "1.5.4"
+    "com.unigame.unicore": "1.4.12",
+    "com.unigame.uniroutine": "1.5.9"
   }
 }

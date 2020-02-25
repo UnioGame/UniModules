@@ -73,11 +73,13 @@
 
         private void OnDisable()
         {
+            if (!Application.isPlaying)
+                return;
+            
             //end of value LIFETIME
             lifeTime.Terminate();
-            
-            if(Application.isPlaying) 
-                GameLog.Log($"TypeValueAsset: {GetType().Name} {name} : VALUE {Value} END OF LIFETIME");
+
+            GameLog.Log($"TypeValueAsset: {GetType().Name} {name} : VALUE {Value} END OF LIFETIME");
         }
 
     }
