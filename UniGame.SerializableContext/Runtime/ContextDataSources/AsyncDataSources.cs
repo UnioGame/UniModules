@@ -3,16 +3,18 @@
 namespace UniGreenModules.UniGame.SerializableContext.Runtime.ContextDataSources
 {
     using System.Collections.Generic;
+    using Abstract;
     using Addressables;
     using AddressableTools.Runtime.Extensions;
     using Context.Runtime.Interfaces;
     using UniContextData.Runtime.Interfaces;
     using UniCore.Runtime.Interfaces;
+    using UniCore.Runtime.ProfilerTools;
     using UniRx.Async;
 
     
-    [CreateAssetMenu(menuName = "UniGame/GameSystem/Sources/AsyncDataSources", fileName = nameof(AsyncDataSources))]
-    public class AsyncDataSources : AsyncContextDataSource
+    [CreateAssetMenu(menuName = "UniGame/GameSystem/Sources/AddressablesAsyncSources", fileName = nameof(AsyncDataSources))]
+    public class AsyncDataSources : AsyncContextDataSource, IResourceDisposable
     {
         #region inspector
 
@@ -46,5 +48,17 @@ namespace UniGreenModules.UniGame.SerializableContext.Runtime.ContextDataSources
 
         }
 
+        public void Dispose()
+        {
+            foreach (var reference in sourceAssets) {
+                if(reference.Asset == null)
+                    continue;
+                
+                var targetAsset = reference.Asset;
+                GameLog.Log($"UNLOAD AssetReference {targetAsset.name} : {reference.AssetGUID}");
+                
+                reference.ReleaseAsset();
+            }
+        }
     }
 }

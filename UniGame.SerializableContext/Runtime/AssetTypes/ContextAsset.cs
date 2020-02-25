@@ -2,6 +2,7 @@
 {
     using UniContextData.Runtime.Entities;
     using UniContextData.Runtime.Interfaces;
+    using UniCore.Runtime.DataFlow.Interfaces;
     using UniCore.Runtime.Interfaces;
     using UniRx.Async;
     using UnityEngine;
@@ -24,5 +25,9 @@
             return context;
         }
         
+        protected override void OnInitialize(ILifeTime lifeTime)
+        {
+            lifeTime.AddDispose(defaultValue);
+        }
     }
 }

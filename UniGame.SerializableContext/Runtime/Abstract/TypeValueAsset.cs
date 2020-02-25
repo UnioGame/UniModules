@@ -49,7 +49,9 @@
             contextValue = new ContextValue<TApiValue>();
             lifeTime = new LifeTimeDefinition();
             
-            OnInitialize();
+            SetValue(GetDefaultValue());
+            
+            OnInitialize(lifeTime.LifeTime);
         }
         
         /// <summary>
@@ -63,11 +65,11 @@
         /// </summary>
         /// <returns></returns>
         protected virtual TApiValue GetDefaultValue() => defaultValue;
-        
+
         /// <summary>
         /// initialize default value state
         /// </summary>
-        protected virtual void OnInitialize() => SetValue(GetDefaultValue());
+        protected virtual void OnInitialize(ILifeTime lifetime) {}
 
         private void OnDisable()
         {
