@@ -1,6 +1,7 @@
 ﻿namespace UniGreenModules.UniContextData.Runtime.Entities
 {
     using System;
+    using System.Collections.Generic;
     using UniCore.Runtime.Common;
     using UniCore.Runtime.DataFlow;
     using UniCore.Runtime.DataFlow.Interfaces;
@@ -14,24 +15,24 @@
 
     public class EntityContext : IContext
     {
-        private TypeData           _typeData;
-        private LifeTimeDefinition _lifeTimeDefinition;
+        private TypeData           data;
+        private LifeTimeDefinition lifeTimeDefinition;
         private bool hasValue;
 
         public EntityContext()
         {
             //context data container
-            _typeData = new TypeData();
+            data = new TypeData();
             //context lifetime
-            _lifeTimeDefinition = new LifeTimeDefinition();
+            lifeTimeDefinition = new LifeTimeDefinition();
         }
 
         
 #region public properties
 
-        public ILifeTime LifeTime => _lifeTimeDefinition.LifeTime;
+        public ILifeTime LifeTime => lifeTimeDefinition.LifeTime;
 
-        public bool HasValue => _typeData.HasValue;
+        public bool HasValue => data.HasValue;
         
 #endregion
         
@@ -39,23 +40,23 @@
 
         public bool Contains<TData>()
         {
-            return _typeData.Contains<TData>();
+            return data.Contains<TData>();
         }
 
         public virtual TData Get<TData>()
         {
-            return _typeData.Get<TData>();
+            return data.Get<TData>();
         }
 
         public bool Remove<TData>()
         {
-            return _typeData.Remove<TData>();
+            return data.Remove<TData>();
         }
 
         public void Release()
         {
-            _typeData.Release();
-            _lifeTimeDefinition.Release();
+            data.Release();
+            lifeTimeDefinition.Release();
         }
 
         public virtual void Dispose()
@@ -68,16 +69,24 @@
 
         public void Publish<T>(T message)
         {
-            _typeData.Publish(message);
+            data.Publish(message);
         }
 
         public IObservable<T> Receive<T>()
         {
-            return _typeData.Receive<T>();
+            return data.Receive<T>();
         }
 
 #endregion
 
+#endregion
+
+#region Unity Editor Api
+#if UNITY_EDITOR
+        
+        public IReadOnlyDictionary<Type, IValueContainerStatus> EditorValues => data.EditorValues;
+        
+#endif
 #endregion
 
     }
