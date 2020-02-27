@@ -1,26 +1,21 @@
 ﻿namespace UniGreenModules.UniGame.SerializableContext.Runtime.Addressables
 {
     using System;
-    using UnityEngine;
+    using Abstract;
+    using Context.Runtime.Interfaces;
+    using Scriptable;
     using UnityEngine.AddressableAssets;
 
-#if ODIN_INSPECTOR
-    using Sirenix.OdinInspector;
-#endif
-    
-#if ODIN_INSPECTOR
-    [DontApplyToListElements]
-#endif
-    
-    [Serializable]
-    public class ScriptableObjectAssetReference : AssetReferenceT<ScriptableObject>
+    [Serializable]    
+    public class AsyncContextDataSourceAssetReference : AssetReferenceT<AsyncContextDataSource> , IDisposable
     {
-        public ScriptableObjectAssetReference(string guid) : base(guid) {}
-        
+        public AsyncContextDataSourceAssetReference(string guid) : 
+            base(guid) {}
+
         private void ReleaseUnmanagedResources()
         {
             if(Asset is IDisposable disposable)
-                disposable?.Dispose();
+                disposable.Dispose();
             ReleaseAsset();
         }
 
@@ -30,7 +25,7 @@
             GC.SuppressFinalize(this);
         }
 
-        ~ScriptableObjectAssetReference()
+        ~AsyncContextDataSourceAssetReference()
         {
             ReleaseUnmanagedResources();
         }

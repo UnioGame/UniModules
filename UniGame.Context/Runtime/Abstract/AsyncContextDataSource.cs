@@ -1,5 +1,6 @@
 ﻿namespace UniGreenModules.UniGame.Context.Runtime.Interfaces
 {
+    using SerializableContext.Runtime.Abstract;
     using UniContextData.Runtime.Interfaces;
     using UniCore.Runtime.DataFlow;
     using UniCore.Runtime.DataFlow.Interfaces;
@@ -10,8 +11,16 @@
     public abstract class AsyncContextDataSource : 
         ScriptableObject, 
         IAsyncContextDataSource,
-        ILifeTimeContext
+        ILifeTimeContext,
+        IResourceDisposable
     {
+        #region inspector
+        
+        [Tooltip("Unload context asset on SO unloading")]
+        public bool disposeOnUnload = true;
+        
+        #endregion
+        
         private LifeTimeDefinition lifeTimeDefinition;
         
         public ILifeTime LifeTime => lifeTimeDefinition.LifeTime;
@@ -20,14 +29,20 @@
         public abstract UniTask<IContext> RegisterAsync(IContext context);
 
 
+        public virtual void Dispose() { }
+        
         private void OnEnable()
         {
             lifeTimeDefinition = new LifeTimeDefinition();
+            if (disposeOnUnload) {
+                lifeTimeDefinition.LifeTime.AddDispose(this);
+            }
             OnSourceEnable(LifeTime);
         }
 
         private void OnDisable() => lifeTimeDefinition.Terminate();
 
         protected virtual void OnSourceEnable(ILifeTime lifeTime) {}
+        
     }
 }

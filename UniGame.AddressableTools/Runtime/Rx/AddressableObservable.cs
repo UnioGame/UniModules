@@ -6,6 +6,7 @@
     using UniGreenModules.UniCore.Runtime.DataFlow;
     using UniGreenModules.UniCore.Runtime.ObjectPool.Runtime.Extensions;
     using UniGreenModules.UniCore.Runtime.ProfilerTools;
+    using UniGreenModules.UniGame.AddressableTools.Runtime.Extensions;
     using UniGreenModules.UniGame.Core.Runtime.Rx;
     using UniGreenModules.UniRoutine.Runtime;
     using UniGreenModules.UniRoutine.Runtime.Extension;
@@ -104,6 +105,7 @@
             }
 
             var handler = reference.LoadAssetAsync<Object>();
+            
             while (handler.IsDone == false) {
 
                 progress.Value = handler.PercentComplete;
@@ -113,6 +115,7 @@
 
             }
             
+            handler.AddTo(lifeTimeDefinition.LifeTime);
             value.Value = handler.Result as TApi;
         }
         

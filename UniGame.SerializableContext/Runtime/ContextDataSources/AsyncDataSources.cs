@@ -14,7 +14,7 @@ namespace UniGreenModules.UniGame.SerializableContext.Runtime.ContextDataSources
 
     
     [CreateAssetMenu(menuName = "UniGame/GameSystem/Sources/AddressablesAsyncSources", fileName = nameof(AsyncDataSources))]
-    public class AsyncDataSources : AsyncContextDataSource, IResourceDisposable
+    public class AsyncDataSources : AsyncContextDataSource
     {
         #region inspector
 
@@ -23,6 +23,7 @@ namespace UniGreenModules.UniGame.SerializableContext.Runtime.ContextDataSources
 #endif
         public List<ScriptableObjectAssetReference> sourceAssets = new List<ScriptableObjectAssetReference>();
         
+
         #endregion
         
         public override async UniTask<IContext> RegisterAsync(IContext context)
@@ -39,7 +40,7 @@ namespace UniGreenModules.UniGame.SerializableContext.Runtime.ContextDataSources
         
         private async UniTask<bool> RegisterContexts(IContext target,ScriptableObjectAssetReference sourceReference)
         {
-            var source = await sourceReference.LoadAssetTaskAsync<IAsyncContextDataSource>();
+            var source = await sourceReference.LoadAssetTaskAsync<IAsyncContextDataSource>(target.LifeTime);
             if (source == null) {
                 return false;
             }
@@ -48,16 +49,10 @@ namespace UniGreenModules.UniGame.SerializableContext.Runtime.ContextDataSources
 
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
             foreach (var reference in sourceAssets) {
-                if(reference.Asset == null)
-                    continue;
-                
-                var targetAsset = reference.Asset;
-                GameLog.Log($"UNLOAD AssetReference {targetAsset.name} : {reference.AssetGUID}");
-                
-                reference.ReleaseAsset();
+                reference.Dispose();
             }
         }
     }

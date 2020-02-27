@@ -1,38 +1,50 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
-/// <summary>
-/// Odin Inspector extensions methods
-/// </summary>
-public static class OdinExtensions 
+namespace UniGreenModules.UniGame.Core.EditorTools.Editor.DrawersTools
 {
-    
-    
-    [Conditional("ODIN_INSPECTOR")]
-    public static void DrawOdinPropertyInspector(this object asset)
+    /// <summary>
+    /// Odin Inspector extensions methods
+    /// </summary>
+    public static class OdinExtensions
     {
-        if (asset == null) return;
+        public static Type UnityObjectType = typeof(Object);
+    
+        [Conditional("ODIN_INSPECTOR")]
+        public static void DrawOdinPropertyInspector(this object asset)
+        {
+            if (asset == null) return;
 
-        using (var drawer = Sirenix.OdinInspector.Editor.PropertyTree.Create(asset)) {
-            drawer.Draw(false);
+            using (var drawer = Sirenix.OdinInspector.Editor.PropertyTree.Create(asset)) {
+                drawer.Draw(false);
+            }
+
+        }
+    
+        public static bool DrawOdinPropertyWithFoldout(this SerializedProperty property, 
+            Rect position, bool foldOut)
+        {
+            var targetType = Type.GetType(property.type,false,true);
+            if (targetType == null || UnityObjectType.IsAssignableFrom(targetType) == false)
+                return false;
+
+            var asset = property.objectReferenceValue;
+            if (asset == null) return false;
+
+            foldOut = EditorGUI.Foldout(position,foldOut,string.Empty);
+            try {
+                if (foldOut) {
+                    asset.DrawOdinPropertyInspector();
+                }
+            }
+            catch(Exception r) { }
+
+            return foldOut;
         }
 
-    }
     
-    public static bool DrawOdinPropertyWithFoldout(this SerializedProperty property, 
-        Rect position, bool foldOut)
-    {
-        var asset = property.objectReferenceValue;
-        if (!asset) return false;
-        
-        foldOut = EditorGUI.Foldout(position,foldOut,string.Empty);
-        if (foldOut) {
-            asset.DrawOdinPropertyInspector();
-        }
-
-        return foldOut;
     }
-
-    
 }

@@ -1,0 +1,10 @@
+{
+  "name": "com.unigame.gitcleaner",
+  "author": "Mefodei",
+  "displayName": "UniGame Git Cleaner",
+  "description": "Auto remove empty folders from your project",
+  "unity": "2018.3",
+  "version": "1.0.2",
+  "keywords": [],
+  "dependencies": {}
+}
