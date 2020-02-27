@@ -104,7 +104,7 @@
                 yield break;
             }
 
-            var handler = reference.LoadAssetAsync<Object>();
+            var handler = reference.LoadAssetAsync<TData>();
             
             while (handler.IsDone == false) {
 
