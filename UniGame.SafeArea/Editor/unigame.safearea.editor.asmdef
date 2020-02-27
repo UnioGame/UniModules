@@ -1,0 +1,16 @@
+{
+    "name": "unigame.safearea.editor",
+    "references": [
+        "GUID:bb86c3ab415d3794c88252d51fee24f1"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

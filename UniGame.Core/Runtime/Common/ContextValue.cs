@@ -10,7 +10,8 @@
     [Serializable]
     public class ContextValue<TData> : IDataValue<TData>
     {
-        private bool _hasValue = false;
+        private bool hasValue = false;
+        private bool isValueType = typeof(TData).IsValueType;
         
         protected RecycleReactiveProperty<TData> _reactiveValue = new RecycleReactiveProperty<TData>();
 
@@ -20,18 +21,19 @@
             private set => _reactiveValue.SetValue(value);
         }
 
-        public bool HasValue => _hasValue;
-        
+        public bool HasValue => hasValue;
+
+        public bool IsValueType => isValueType;
         
         public void SetValue(TData value)
         {
-            _hasValue = true;
+            hasValue = true;
             Value = value;
         }
 
         public void Dispose()
         {
-            _hasValue = false;
+            hasValue = false;
             _reactiveValue.Release();
             this.Despawn();
         }

@@ -26,8 +26,17 @@
         private ContextValue<TApiValue> contextValue = new ContextValue<TApiValue>();
 
         public ILifeTime LifeTime => lifeTime.LifeTime;
-        
-        public TApiValue Value => contextValue.Value;
+
+        public TApiValue Value {
+
+            get {
+                if (contextValue.IsValueType == false && contextValue.Value == null) {
+                    SetValue(GetDefaultValue());
+                }
+                return contextValue.Value;
+            }
+            
+        }
 
         public bool HasValue => contextValue.HasValue;
         

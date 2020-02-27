@@ -1,0 +1,11 @@
+{
+  "name": "com.unigame.safearea",
+  "author": "Mefodei",
+  "displayName": "UniGame SafeArea",
+  "description": "Unity Safe Area Tool",
+  "unity": "2019.1",
+  "version": "1.0.2",
+  "keywords": [
+    "safe area"
+  ]
+}
