@@ -12,6 +12,8 @@
         
         public static void AddToEditorSelection(this Object item, bool add)
         {
+            if (item == null) return;
+            
             if (add)
             {
                 var selection = new List<Object>(Selection.objects);
@@ -20,6 +22,16 @@
             }
             else Selection.objects = new Object[] {item};
         }
+
+        public static void SetDirty(this object asset)
+        {
+            if(asset is Object assetObject)
+                EditorUtility.SetDirty(assetObject);
+        }
+
+        public static bool IsSelected(this Object item) => item != null && Selection.Contains(item);
+        
+        public static bool IsSelected(this object item) => (item as Object).IsSelected();
 
         public static void PingInEditor(this Object item,bool markAsActive = true)
         {
@@ -34,6 +46,7 @@
         
         public static void DeselectFromEditor(this Object item)
         {
+            if (item == null) return;
             var selection = new List<Object>(Selection.objects);
             selection.Remove(item);
             Selection.objects = selection.ToArray();

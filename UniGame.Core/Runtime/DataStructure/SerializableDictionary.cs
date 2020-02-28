@@ -11,6 +11,14 @@ namespace UniGreenModules.UniGame.Core.Runtime.DataStructure
         [SerializeField] protected List<TKey>   keys   = new List<TKey>();
         [SerializeField] protected List<TValue> values = new List<TValue>();
 
+        #region construcotr
+
+        public SerializableDictionary(int capacity) : base(capacity) { }
+
+        public SerializableDictionary() : base() { }
+
+        #endregion
+        
         public void OnBeforeSerialize()
         {
             keys.Clear();
