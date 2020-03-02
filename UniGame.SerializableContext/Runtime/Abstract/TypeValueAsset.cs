@@ -15,6 +15,8 @@
         ILifeTimeContext
         where TValue : TApiValue
     {
+        private TypeValueAsset<TValue, TApiValue> source;
+        
         #region inspector
 
         public TValue defaultValue = default(TValue);

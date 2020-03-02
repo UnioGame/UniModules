@@ -6,6 +6,7 @@
     using System.Linq;
     using System.Reflection;
     using DataStructure;
+    using ProfilerTools;
     using UnityEngine;
     using Object = UnityEngine.Object;
 
@@ -140,7 +141,7 @@
 
         }
 
-        public static List<Type> GetDerivedTypes(Type aType) {
+        public static List<Type> GetDerivedTypes(this Type aType) {
             
             var  appDomain = System.AppDomain.CurrentDomain;
             var result = new List<System.Type>();
@@ -157,6 +158,30 @@
                 }
             }
             return result;
+        }
+        
+        /// <summary>
+        /// Get all classes deriving from baseType via reflection
+        /// </summary>
+        public static List<Type> GetAssignableTypes(this Type baseType)
+        {
+            var types      = new List<Type>();
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            foreach (var assembly in assemblies)
+            {
+                try
+                {
+                    var asmTypes = assembly.GetTypes();
+                    var items    = asmTypes.Where(t => !t.IsAbstract && baseType.IsAssignableFrom(t));
+                    types.AddRange(items);
+                }
+                catch (ReflectionTypeLoadException e)
+                {
+                    GameLog.LogWarning($"assembly : {assembly.FullName} {e}");
+                };
+            }
+            
+            return types;
         }
         
         public static bool Validate(object item, Type searchType)
