@@ -118,17 +118,17 @@
         }
         
         
-        public static void AddToEditorSelection(this Object item, bool add)
+        public static void AddToEditorSelection(this object item, bool add)
         {
-            if (item == null) return;
+            if (!(item is Object asset)) return;
             
             if (add)
             {
                 var selection = new List<Object>(Selection.objects);
-                selection.Add(item);
+                selection.Add(asset);
                 Selection.objects = selection.ToArray();
             }
-            else Selection.objects = new Object[] {item};
+            else Selection.objects = new[] {asset};
         }
 
         public static void SetDirty(this object asset)
