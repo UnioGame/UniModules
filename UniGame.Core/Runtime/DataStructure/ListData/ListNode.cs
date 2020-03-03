@@ -16,6 +16,7 @@
 
         public void Dispose()
         {
+            Release();
             this.Despawn();
         }
 

@@ -4,11 +4,11 @@
   "displayName": "UniGame UniResource system",
   "description": "",
   "unity": "2019.2",
-  "version": "1.1.58",
+  "version": "1.1.59",
   "keywords": [],
   "dependencies": {
-    "com.unigame.unicore": "1.5.0",
+    "com.unigame.unicore": "1.5.2",
     "com.unity.addressables": "1.5.1",
-    "com.unigame.uniroutine": "1.5.19"
+    "com.unigame.uniroutine": "1.5.20"
   }
 }

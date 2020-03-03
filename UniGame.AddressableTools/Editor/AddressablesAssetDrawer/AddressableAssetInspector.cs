@@ -28,12 +28,31 @@
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             EditorGUI.BeginProperty(position, new GUIContent(), property);
-            
+
+            if (property.isArray) {
+                var targetRect = position;
+                for (int i = 0; i < property.arraySize; i++) {
+                    var item = property.GetArrayElementAtIndex(i);
+                    DrawAssetReferenceInspector(targetRect,item,label);
+                    targetRect.x += GetPropertyHeight(item, label);
+                    position.height += targetRect.height;
+                    EditorGUILayout.Separator();
+                }
+            }
+            else {
+                DrawAssetReferenceInspector(position, property, label);
+            }
+
+
+            EditorGUI.EndProperty();
+        }
+
+        public void DrawAssetReferenceInspector(Rect position, SerializedProperty property, GUIContent label)
+        {
             DrawOnGuiAssetReferenceInspector(position,property);
 
             DrawAssetReferenceDrawer(position, property, label);
 
-            EditorGUI.EndProperty();
         }
 
         private void DrawAssetReferenceDrawer(Rect position, SerializedProperty property, GUIContent label)
