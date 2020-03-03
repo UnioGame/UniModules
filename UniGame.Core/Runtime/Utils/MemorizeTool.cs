@@ -8,7 +8,7 @@
 
         public static Func<TKey,TData> Create<TKey,TData>(Func<TKey,TData> factory) {
 
-            var cache = new Dictionary<TKey,TData>();
+            var cache = new Dictionary<TKey,TData>(16);
 
             return x => {
 
