@@ -15,7 +15,7 @@
             if(!group)
                 return Disabled;
             
-            var state = group.GetState();
+            var state = CanvasGroupExtension.GetState(group);
 
             var resultState = CreateState(alpha, interactable, blockRaycasts, ignoreParent);
             group.SetState(resultState);

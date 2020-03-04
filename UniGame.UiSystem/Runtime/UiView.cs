@@ -1,49 +1,58 @@
-﻿namespace UniGreenModules.UniUiSystem.Runtime
+﻿using UnityEngine;
+
+namespace Taktika.UI
 {
-    using System.Collections;
-    using Interfaces;
-    using UniCore.Runtime.Interfaces;
-    using UniCore.Runtime.ModelBehaviours;
-    using UniCore.Runtime.Rx.Extensions;
-    using UniRoutine.Runtime;
-    using UnityEngine;
+    using System;
+    using MVVM.Abstracts;
+    using UniGreenModules.UniCore.Runtime.Common;
+    using UniGreenModules.UniCore.Runtime.DataFlow;
+    using UniGreenModules.UniCore.Runtime.DataFlow.Interfaces;
+    using UniGreenModules.UniCore.Runtime.ObjectPool.Runtime;
 
-    public class UiView<TModel> : 
-        ScheduledViewModel<TModel>, 
-        IUiView<TModel>
+    public abstract class UiView<TModel> : 
+        MonoBehaviour, IView
+        where TModel : class, IViewModel
     {
-        [SerializeField]
-        private RoutineType updateType = RoutineType.EndOfFrame;
-        [SerializeField]
-        private bool immediateUpdate = false;
-
-        public RectTransform RectTransform  => transform as RectTransform;
-
-        #region private methods
-
-        //schedule single ui update at next EndOfFrame call
-        protected override IDisposableItem ScheduleUpdate()
+        private LifeTimeDefinition lifeTimeDefinition = new LifeTimeDefinition();
+        
+        protected TModel context;
+        
+        public void SetViewModel(IViewModel model)
         {
-            return OnScheduledUpdate().
-                ExecuteRoutine(updateType,immediateUpdate);
-        }
-
-        private IEnumerator OnScheduledUpdate()
-        {
-            //update ui view
-            yield return OnUpdateView();
+            //restart view lifetime
+            lifeTimeDefinition.Release();
             
-            //cancel disposable item
-            updateDisposable.Cancel();
-            updateDisposable = null;
-        }
+            //save model as context data
+            if (model is TModel viewModel) {
+                context = viewModel;
+            }
+            else {
+                throw  new ArgumentException($"VIEW: {name} wrong model type. Target type {typeof(TModel).Name} : model Type {model?.GetType().Name}");
+            }
+            
+            //custom initialization
+            OnInitialize(context,LifeTime);
 
-        protected virtual IEnumerator OnUpdateView()
-        {
-            yield break;
+            var terminateAction = ClassPool.Spawn<DisposableAction>();
+            
+            //bind local lifetime to 
+            terminateAction.Initialize(lifeTimeDefinition.Terminate);
+            var lifeTime = model.LifeTime;
+            
         }
+        
+        public abstract void Open();
 
+        public void Release() => lifeTimeDefinition.Terminate();
+        
+        #region public properties
+
+        public ILifeTime LifeTime => lifeTimeDefinition.LifeTime;
+        
         #endregion
+        
+        protected virtual void OnInitialize(TModel model, ILifeTime lifeTime) { }
 
+        private void OnDestroy() => lifeTimeDefinition.Terminate();
     }
 }

@@ -10,18 +10,18 @@
         private Action<TArg> _onDisposed;
         private TArg _arg;
     
-        public bool IsDisposed { get; protected set; }
+        public bool IsCompleted { get; protected set; }
     
         public void Initialize(Action<TArg> action, TArg arg)
         {
-            IsDisposed = false;
+            IsCompleted = false;
             _onDisposed = action;
             _arg = arg;
         }
 
         public void Reset()
         {
-            IsDisposed = true;
+            IsCompleted = true;
             _onDisposed = null;
             _arg = default(TArg);
         }
@@ -29,7 +29,7 @@
         public void Dispose()
         {
 
-            if (!IsDisposed)
+            if (!IsCompleted)
             {
                 _onDisposed?.Invoke(_arg);
             }

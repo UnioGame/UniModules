@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b71e3508fe8ed7418db94ea23c131b5, type: 3}
+  m_Name: UiManagerSettings
+  m_EditorClassIdentifier: 
+  sourceName: 
+  addressableGroupName: 
+  uiViewsDefaultFolders:
+  - Assets/Taktika.UI/Examples/BaseUiManager/Windows
+  uiViewsSkinFolders:
+  - Assets/Taktika.UI/Examples/BaseUiManager/Windows/Skins
+  uiViews:
+  - Tag: Skin1
+    Type:
+      fullTypeName: Taktika.UI.Examples.BaseUiManager.DemoWindowView, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    View:
+      m_AssetGUID: cf75ae255241bae46a51715d04c34a3d
+      m_SubObjectName: 
+  - Tag: Skin2
+    Type:
+      fullTypeName: Taktika.UI.Examples.BaseUiManager.DemoWindowView, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    View:
+      m_AssetGUID: 9c250758e2f098944a704a26bd89138d
+      m_SubObjectName: 
+  - Tag: Skin3
+    Type:
+      fullTypeName: Taktika.UI.Examples.BaseUiManager.DemoWindowView, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    View:
+      m_AssetGUID: 394de9acf49f1444ebd93cce754a2b44
+      m_SubObjectName: 
+  - Tag: 
+    Type:
+      fullTypeName: Taktika.UI.Examples.BaseUiManager.DemoWindowView, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    View:
+      m_AssetGUID: 1a06a41b9a738234bb8a17e15409398b
+      m_SubObjectName: 
+  sources:
+  - m_AssetGUID: 5c5cd9d26f1f7ac479c12e997568f976
+    m_SubObjectName: 
+  - m_AssetGUID: 28cda470d6401fe479675ef9ac62e039
+    m_SubObjectName: 

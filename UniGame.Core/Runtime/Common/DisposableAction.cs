@@ -9,34 +9,35 @@
     {
         private Action _onDisposed;
 
-        public bool IsDisposed { get; protected set; } = true;
+        public bool IsComplete { get; protected set; } = true;
     
         public void Initialize(Action action)
         {
-            IsDisposed = false;
+            IsComplete = false;
             _onDisposed = action;
         }
 
         public void Dispose()
         {
-            if (IsDisposed) return;
-            IsDisposed = true;
+            if (IsComplete) return;
+            IsComplete = true;
             
             _onDisposed?.Invoke();
             
-            Release();
+            Complete();
             
             this.Despawn();
         }
 
-        public void Release()
+        public void Complete()
         {
+            IsComplete = true;
             _onDisposed = null;
         }
 
         public void MakeDespawn()
         {
-            Release();
+            Complete();
             this.Despawn();
         }
     }

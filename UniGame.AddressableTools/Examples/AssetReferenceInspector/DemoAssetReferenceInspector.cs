@@ -2,8 +2,8 @@
 
 namespace UniGreenModules.UniGame.AddressableTools.Editor.AddressablesAssetDrawer.Examples
 {
-        using System.Collections.Generic;
-        using Runtime.Attributes;
+    using System.Collections.Generic;
+    using Runtime.Attributes;
     using UnityEngine.AddressableAssets;
 
     public class DemoAssetReferenceInspector : MonoBehaviour

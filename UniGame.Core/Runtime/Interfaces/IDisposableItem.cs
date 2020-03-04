@@ -3,8 +3,10 @@
     using System;
     using ObjectPool.Runtime.Interfaces;
 
-    public interface IDisposableItem : IDisposable,IDespawnable
+    public interface IDisposableItem : 
+        IDisposable, 
+        IDespawnable, 
+        ICompletionSource
     {
-        bool IsDisposed { get; }
     }
 }

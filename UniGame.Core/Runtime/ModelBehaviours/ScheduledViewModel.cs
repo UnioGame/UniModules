@@ -12,7 +12,7 @@
         public void UpdateView()
         {
             //is update already scheduled?
-            if (updateDisposable != null && updateDisposable.IsDisposed == false)
+            if (updateDisposable != null && updateDisposable.IsCompleted == false)
                 return;
 
             //release dispose items
