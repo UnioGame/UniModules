@@ -1,19 +1,21 @@
 ﻿namespace UniGreenModules.UniGame.UiSystem.Runtime
 {
-    using System;
     using Abstracts;
     using Settings;
-    using Sirenix.OdinInspector;
+    using UniCore.Runtime.DataFlow;
+    using UniCore.Runtime.DataFlow.Interfaces;
+    using UniCore.Runtime.Rx.Extensions;
     using UniRx.Async;
     using UnityEngine;
 
-    public class GameUiViewManager : MonoBehaviour, IUiManager
+    public class GameUiViewManager : MonoBehaviour, 
+        IUiManager
     {
         #region inspector data
         
 #if ODIN_INSPECTOR
         [Sirenix.OdinInspector.Required]
-        [InlineEditor]
+        [Sirenix.OdinInspector.InlineEditor]
 #endif
         public UiViewSourceSettings settings;
         
@@ -25,31 +27,54 @@
         
         #region private fields
 
-        private ViewController windowsController;
-        private ViewController screensController;
+        private LifeTimeDefinition lifeTimeDefinition = new LifeTimeDefinition();
+        
+        private CanvasViewController windowsController;
+        private CanvasViewController screensController;
         private ViewController elementsController;
         
         #endregion
 
-        public void Dispose()
-        {
-            throw new System.NotImplementedException();
-        }
+
+        public ILifeTime LifeTime => lifeTimeDefinition.LifeTime;
         
-        public UniTask<T> Open<T>(IViewModel viewModel) where T : class, IView => throw new System.NotImplementedException();
+        public void Dispose() => lifeTimeDefinition.Terminate();
 
-        public UniTask<T> OpenWindow<T>(IViewModel viewModel) where T : class, IView => throw new System.NotImplementedException();
+        public async UniTask<T> Open<T>(IViewModel viewModel) where T : Component, IView
+        {
+            return await elementsController.Open<T>(viewModel);
+        }
 
-        public UniTask<T> OpenScreen<T>(IViewModel viewModel) where T : class, IView => throw new System.NotImplementedException();
+        public async UniTask<T> OpenWindow<T>(IViewModel viewModel) where T : Component, IView
+        {
+            return await windowsController.Open<T>(viewModel);
+        }
 
-        public UniTask<T> CloseWindow<T>() where T : class, IView => throw new System.NotImplementedException();
+        public async UniTask<T> OpenScreen<T>(IViewModel viewModel) where T : Component, IView
+        {
+            return await screensController.Open<T>(viewModel);
+        }
 
-        public UniTask<T> CloseScreen<T>() where T : class, IView => throw new System.NotImplementedException();
+        public bool CloseWindow<T>() where T : Component, IView
+        {
+            return windowsController.Close<T>();
+        }
+
+        public bool CloseScreen<T>() where T : Component, IView
+        {
+            return screensController.Close<T>();
+        }
 
         
-        private void Awake()
+        private void Start()
         {
-               
+            var resourceProvider = settings.UIResourceProvider;
+            
+            windowsController = new CanvasViewController(windowsCanvas,resourceProvider).AddTo(LifeTime);
+            screensController = new CanvasViewController(screenCanvas,resourceProvider).AddTo(LifeTime);
+            elementsController = new ViewController(resourceProvider).AddTo(LifeTime);
+            
         }
+
     }
 }

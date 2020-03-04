@@ -15,35 +15,35 @@ MonoBehaviour:
   sourceName: 
   addressableGroupName: 
   uiViewsDefaultFolders:
-  - Assets/Taktika.UI/Examples/BaseUiManager/Windows
+  - Assets/UniGreenModules/UniGame.UiSystem/Examples/BaseUiManager/Windows
   uiViewsSkinFolders:
-  - Assets/Taktika.UI/Examples/BaseUiManager/Windows/Skins
+  - Assets/UniGreenModules/UniGame.UiSystem/Examples/BaseUiManager/Windows/Skins
   uiViews:
   - Tag: Skin1
     Type:
-      fullTypeName: Taktika.UI.Examples.BaseUiManager.DemoWindowView, Assembly-CSharp,
-        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      fullTypeName: UniGreenModules.UniGame.UiSystem.Examples.BaseUiManager.DemoWindowView,
+        Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     View:
       m_AssetGUID: cf75ae255241bae46a51715d04c34a3d
       m_SubObjectName: 
   - Tag: Skin2
     Type:
-      fullTypeName: Taktika.UI.Examples.BaseUiManager.DemoWindowView, Assembly-CSharp,
-        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      fullTypeName: UniGreenModules.UniGame.UiSystem.Examples.BaseUiManager.DemoWindowView,
+        Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     View:
       m_AssetGUID: 9c250758e2f098944a704a26bd89138d
       m_SubObjectName: 
   - Tag: Skin3
     Type:
-      fullTypeName: Taktika.UI.Examples.BaseUiManager.DemoWindowView, Assembly-CSharp,
-        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      fullTypeName: UniGreenModules.UniGame.UiSystem.Examples.BaseUiManager.DemoWindowView,
+        Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     View:
       m_AssetGUID: 394de9acf49f1444ebd93cce754a2b44
       m_SubObjectName: 
   - Tag: 
     Type:
-      fullTypeName: Taktika.UI.Examples.BaseUiManager.DemoWindowView, Assembly-CSharp,
-        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      fullTypeName: UniGreenModules.UniGame.UiSystem.Examples.BaseUiManager.DemoWindowView,
+        Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     View:
       m_AssetGUID: 1a06a41b9a738234bb8a17e15409398b
       m_SubObjectName: 
