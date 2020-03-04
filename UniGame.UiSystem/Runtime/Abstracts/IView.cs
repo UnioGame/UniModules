@@ -1,10 +1,9 @@
 ﻿namespace UniGreenModules.UniGame.UiSystem.Runtime.Abstracts
 {
     using UniCore.Runtime.Interfaces;
-    using UniCore.Runtime.ObjectPool.Runtime.Interfaces;
     using UniRx;
 
-    public interface IView : ILifeTimeContext, IPoolable
+    public interface IView : ILifeTimeContext
     {
         IReadOnlyReactiveProperty<bool> IsActive { get; }
 

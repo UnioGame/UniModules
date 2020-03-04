@@ -37,9 +37,19 @@
             //bind model lifetime to local
             var modelLifeTime = model.LifeTime;
             modelLifeTime.AddTo(Close);
-            
+
             //custom initialization
             OnInitialize(context,LifeTime);
+            
+            model.IsActive.
+                Where(x => x).
+                Subscribe(x => Show()).
+                AddTo(lifeTimeDefinition.LifeTime);
+            
+            model.IsActive.
+                Where(x => !x).
+                Subscribe(x => Close()).
+                AddTo(lifeTimeDefinition.LifeTime);
         }
 
         /// <summary>

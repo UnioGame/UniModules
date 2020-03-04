@@ -9,9 +9,11 @@
     {
         private LifeTimeDefinition  lifeTimeDefinition = new LifeTimeDefinition();
         
-        public  ILifeTime LifeTime => lifeTimeDefinition.LifeTime;
+        public BoolReactiveProperty isActive = new BoolReactiveProperty(true);
         
-        public IReadOnlyReactiveProperty<bool> IsActive { get; }
+        public  ILifeTime LifeTime => lifeTimeDefinition.LifeTime;
+
+        public IReadOnlyReactiveProperty<bool> IsActive => isActive;
         
         public void Dispose()
         {
