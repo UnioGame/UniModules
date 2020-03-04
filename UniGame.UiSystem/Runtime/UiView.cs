@@ -1,13 +1,12 @@
-﻿using UnityEngine;
-
-namespace Taktika.UI
+﻿namespace UniGreenModules.UniGame.UiSystem.Runtime
 {
     using System;
-    using MVVM.Abstracts;
-    using UniGreenModules.UniCore.Runtime.Common;
-    using UniGreenModules.UniCore.Runtime.DataFlow;
-    using UniGreenModules.UniCore.Runtime.DataFlow.Interfaces;
-    using UniGreenModules.UniCore.Runtime.ObjectPool.Runtime;
+    using Abstracts;
+    using UniCore.Runtime.DataFlow;
+    using UniCore.Runtime.DataFlow.Interfaces;
+    using UniCore.Runtime.Rx.Extensions;
+    using UniRx;
+    using UnityEngine;
 
     public abstract class UiView<TModel> : 
         MonoBehaviour, IView
@@ -16,7 +15,12 @@ namespace Taktika.UI
         private LifeTimeDefinition lifeTimeDefinition = new LifeTimeDefinition();
         
         protected TModel context;
-        
+        protected BoolReactiveProperty visibility = new BoolReactiveProperty(false);
+                
+        #region public methods
+
+        public IReadOnlyReactiveProperty<bool> IsActive => visibility;
+
         public void SetViewModel(IViewModel model)
         {
             //restart view lifetime
@@ -29,21 +33,32 @@ namespace Taktika.UI
             else {
                 throw  new ArgumentException($"VIEW: {name} wrong model type. Target type {typeof(TModel).Name} : model Type {model?.GetType().Name}");
             }
+
+            //bind model lifetime to local
+            var modelLifeTime = model.LifeTime;
+            modelLifeTime.AddTo(Close);
             
             //custom initialization
             OnInitialize(context,LifeTime);
-
-            var terminateAction = ClassPool.Spawn<DisposableAction>();
-            
-            //bind local lifetime to 
-            terminateAction.Initialize(lifeTimeDefinition.Terminate);
-            var lifeTime = model.LifeTime;
-            
         }
-        
-        public abstract void Open();
 
-        public void Release() => lifeTimeDefinition.Terminate();
+        /// <summary>
+        /// show active view
+        /// </summary>
+        public virtual void Show() {}
+
+        /// <summary>
+        /// hide view without release it
+        /// </summary>
+        public virtual void Hide() {}
+
+        /// <summary>
+        /// end of view lifetime
+        /// </summary>
+        public virtual void Close() => lifeTimeDefinition.Terminate();
+
+        
+        #endregion
         
         #region public properties
 
@@ -51,8 +66,13 @@ namespace Taktika.UI
         
         #endregion
         
+        /// <summary>
+        /// custom initialization methods
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="lifeTime"></param>
         protected virtual void OnInitialize(TModel model, ILifeTime lifeTime) { }
 
-        private void OnDestroy() => lifeTimeDefinition.Terminate();
+        private void OnDestroy() => Close();
     }
 }

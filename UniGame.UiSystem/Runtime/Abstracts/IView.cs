@@ -1,11 +1,20 @@
-﻿namespace Taktika.MVVM.Abstracts
+﻿namespace UniGreenModules.UniGame.UiSystem.Runtime.Abstracts
 {
-    using UniGreenModules.UniCore.Runtime.Interfaces;
-    using UniGreenModules.UniCore.Runtime.ObjectPool.Runtime.Interfaces;
+    using UniCore.Runtime.Interfaces;
+    using UniCore.Runtime.ObjectPool.Runtime.Interfaces;
+    using UniRx;
 
     public interface IView : ILifeTimeContext, IPoolable
     {
+        IReadOnlyReactiveProperty<bool> IsActive { get; }
+
         void SetViewModel(IViewModel vm);
-        void Open();
+        
+        void Close();
+
+        void Show();
+
+        void Hide();
+
     }
 }

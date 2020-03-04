@@ -1,13 +1,10 @@
 ﻿namespace UniGreenModules.UniGame.UiSystem.Examples.BaseUiManager
 {
-    using Taktika.MVVM.Abstracts;
-    using Taktika.UI;
+    using Runtime;
+    using Runtime.Abstracts;
 
     public class DemoWindowView : UiView<IViewModel>
     {
-        public override void Open()
-        {
-        
-        }
+
     }
 }

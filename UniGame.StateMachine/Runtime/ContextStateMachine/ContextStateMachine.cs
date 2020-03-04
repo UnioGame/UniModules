@@ -61,7 +61,7 @@
 
         public IContext Context { get; protected set; }
 
-        public bool IsActive => _stateExecution != null && _stateExecution.IsCompleted == false;
+        public bool IsActive => _stateExecution != null && _stateExecution.IsComplete == false;
 
         #endregion
 

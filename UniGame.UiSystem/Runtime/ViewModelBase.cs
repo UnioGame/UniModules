@@ -1,8 +1,8 @@
-﻿namespace Taktika.UI.Runtime
+﻿namespace UniGreenModules.UniGame.UiSystem.Runtime
 {
-    using MVVM.Abstracts;
-    using UniGreenModules.UniCore.Runtime.DataFlow;
-    using UniGreenModules.UniCore.Runtime.DataFlow.Interfaces;
+    using Abstracts;
+    using UniCore.Runtime.DataFlow;
+    using UniCore.Runtime.DataFlow.Interfaces;
     using UniRx;
 
     public class ViewModelBase : IViewModel

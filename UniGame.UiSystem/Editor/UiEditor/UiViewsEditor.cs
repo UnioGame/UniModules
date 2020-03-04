@@ -2,7 +2,7 @@
 
 namespace Taktika.UI.Editor.UiEditor
 {
-    using MVVM.Runtime.Settings;
+    using UniGreenModules.UniGame.UiSystem.Runtime.Settings;
     using UnityEditor;
 
     public class UiViewsEditor : Editor

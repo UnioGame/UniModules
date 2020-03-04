@@ -1,8 +1,8 @@
-﻿using UnityEngine;
-
-namespace Taktika.GameRuntime.Types
+﻿namespace UniGreenModules.UniGame.Core.Runtime.SerializableType
 {
     using System;
+    using Taktika.GameRuntime.Types;
+    using UnityEngine;
 
     [Serializable]
     public class SType : ISerializationCallbackReceiver, IReadOnlyType
@@ -15,7 +15,9 @@ namespace Taktika.GameRuntime.Types
             get => GetItemType();
             set {
                 type = value;
+                #if UNITY_EDITOR
                 fullTypeName = type.AssemblyQualifiedName;
+                #endif
             }
         }
 

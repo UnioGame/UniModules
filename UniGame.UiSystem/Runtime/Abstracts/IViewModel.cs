@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Taktika.MVVM.Abstracts
+﻿namespace UniGreenModules.UniGame.UiSystem.Runtime.Abstracts
 {
-    using UniGreenModules.UniCore.Runtime.Interfaces;
+    using System;
+    using UniCore.Runtime.Interfaces;
     using UniRx;
 
     public interface IViewModel: IDisposable, ILifeTimeContext

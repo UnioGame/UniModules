@@ -113,6 +113,15 @@
             return (result,result as TResult);
         }
 
+        public static async UniTask<T> LoadAssetTaskAsync<T>(
+            this AssetReferenceGameObject assetReference,
+            ILifeTime lifeTime)
+            where T : class
+        {
+            var result = await LoadAssetTaskAsync<GameObject>(assetReference as AssetReference,lifeTime);
+            return result != null ? result.GetComponent<T>() : null;
+        }
+
         
         public static async UniTask<T> LoadAssetTaskAsync<T>(
             this ScriptableObjectAssetReference assetReference, 

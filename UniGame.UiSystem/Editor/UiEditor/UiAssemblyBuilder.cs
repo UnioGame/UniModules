@@ -5,10 +5,10 @@ namespace Taktika.UI.Editor.UiEditor
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using MVVM.Abstracts;
-    using MVVM.Runtime.Settings;
     using UniGreenModules.UniCore.EditorTools.Editor.AssetOperations;
     using UniGreenModules.UniCore.Runtime.ProfilerTools;
+    using UniGreenModules.UniGame.UiSystem.Runtime.Abstracts;
+    using UniGreenModules.UniGame.UiSystem.Runtime.Settings;
     using UnityEditor;
     using UnityEditor.AddressableAssets;
     using UnityEditor.AddressableAssets.Settings;

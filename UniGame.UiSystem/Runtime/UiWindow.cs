@@ -1,22 +1,11 @@
-namespace Taktika.UI
+namespace UniGreenModules.UniGame.UiSystem.Runtime
 {
-    using MVVM.Abstracts;
+    using Abstracts;
 
-    public class UiWindow : UiView<>
+    public class UiWindow<TWindowModel> : 
+        UiView<TWindowModel> 
+        where TWindowModel : class, IViewModel
     {
-        public override void SetViewModel(IViewModel vm)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override void Close()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override void Open()
-        {
-            throw new System.NotImplementedException();
-        }
+       
     }
 }

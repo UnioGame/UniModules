@@ -1,10 +1,13 @@
 ﻿using System;
 
-public class ResourceAttribute : Attribute
+namespace UniGreenModules.UniGame.UiSystem.Runtime.Attributes
 {
-    public string Address;
-    public ResourceAttribute(string address)
+    public class ResourceAttribute : Attribute
     {
-        this.Address = address;
+        public string Address;
+        public ResourceAttribute(string address)
+        {
+            this.Address = address;
+        }
     }
 }

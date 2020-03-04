@@ -1,15 +1,14 @@
-namespace Taktika.MVVM.Runtime.Settings
+namespace UniGreenModules.UniGame.UiSystem.Runtime.Settings
 {
     using System;
-    using System.Collections.Generic;
     using Abstracts;
-    using GameRuntime.Types;
-    using GameRuntime.Types.Attributes;
+    using AddressableTools.Runtime.Attributes;
+    using Core.Runtime.SerializableType;
+    using Core.Runtime.SerializableType.Attributes;
     using Sirenix.OdinInspector;
-    using UniGreenModules.UniGame.AddressableTools.Runtime.Attributes;
+    using Taktika.GameRuntime.Types;
     using UnityEngine;
     using UnityEngine.AddressableAssets;
-    using UnityEngine.ResourceManagement.Util;
 
     [Serializable]
     public class UiViewDescription

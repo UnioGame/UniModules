@@ -1,9 +1,8 @@
-namespace Taktika.MVVM.Runtime.Settings
+namespace UniGreenModules.UniGame.UiSystem.Runtime.Settings
 {
     using System;
     using System.Collections.Generic;
     using Sirenix.OdinInspector;
-    using UniGreenModules.UniGame.AddressableTools.Runtime.Attributes;
     using UnityEngine.AddressableAssets;
 
     [Serializable]

@@ -1,4 +1,4 @@
-namespace Taktika.MVVM.Runtime.Settings
+namespace UniGreenModules.UniGame.UiSystem.Runtime.Settings
 {
     using System;
     using UnityEngine.AddressableAssets;

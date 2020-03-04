@@ -1,8 +1,7 @@
-﻿using UnityEngine;
-
-namespace Taktika.GameRuntime.Types.Attributes
+﻿namespace UniGreenModules.UniGame.Core.Runtime.SerializableType.Attributes
 {
     using System;
+    using UnityEngine;
 
     [AttributeUsage(AttributeTargets.Field)]
     public class STypeFilterAttribute : PropertyAttribute
