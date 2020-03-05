@@ -3,6 +3,7 @@
 namespace Taktika.Addressables.Reactive
 {
     using UniGreenModules.UniCore.Runtime.ObjectPool.Runtime;
+    using UnityEngine;
     using UnityEngine.AddressableAssets;
     using Object = UnityEngine.Object;
 
@@ -34,6 +35,13 @@ namespace Taktika.Addressables.Reactive
             return observable;
         }
         
+        public static IAddressableObservable<TApi> ToObservable<TApi>(this AssetReferenceGameObject reference) 
+            where TApi : class
+        {
+            var observable = ClassPool.Spawn<AddressableObservable<AssetReference, GameObject,TApi>>();
+            observable.Initialize(reference);
+            return observable;
+        }
         
         public static IAddressableObservable<Object> ToObservable(this AssetReference reference) 
         {

@@ -68,12 +68,12 @@
         
         private void Start()
         {
+            settings.Initialize();
             var resourceProvider = settings.UIResourceProvider;
             
             windowsController = new CanvasViewController(windowsCanvas,resourceProvider).AddTo(LifeTime);
             screensController = new CanvasViewController(screenCanvas,resourceProvider).AddTo(LifeTime);
             elementsController = new ViewController(resourceProvider).AddTo(LifeTime);
-            
         }
 
     }

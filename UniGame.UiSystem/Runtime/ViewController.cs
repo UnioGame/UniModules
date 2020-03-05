@@ -43,8 +43,7 @@
 
         public async UniTask<T> Open<T>(IViewModel viewModel) where T : Component, IView
         {
-            var viewPromise = resourceProvider.
-                LoadViewAsync<T>();
+            var viewPromise = resourceProvider.LoadViewAsync<T>();
 
             //start resource load, save disposable token
             var disposable = viewPromise.Subscribe();
@@ -53,9 +52,13 @@
             await UniTask.WaitUntil(() => viewPromise.IsReady.Value);
 
             var asset = viewPromise.Value.Value;
+            
+            //release promise
+            viewPromise.Dispose();
+            
             //if loading failed release resource immediately
             if (asset == null) {
-                GameLog.LogError($"{nameof(ViewController)} View of Type {nameof(T)} not loaded");
+                GameLog.LogError($"{nameof(ViewController)} View of Type {typeof(T).Name} not loaded");
                 disposable.Dispose();
                 return null;
             }

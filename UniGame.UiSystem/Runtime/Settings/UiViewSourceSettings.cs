@@ -17,51 +17,51 @@
     [CreateAssetMenu(menuName = "Taktika/Ui/UiSettings", fileName = "UiManagerSettings")]
     public class UiViewSourceSettings : UiViewsSource, IUiManager
     {
-        private LifeTimeDefinition lifeTimeDefinition;
-        private IViewResourceProvider uiResourceProvider;
-
-        [Header("async sources")]
         [SerializeField]
         [ShowAssetReference]
         [DrawWithUnity]
         private List<UiViewsSourceReference> sources = new List<UiViewsSourceReference>();
 
+        private                 LifeTimeDefinition    lifeTimeDefinition;
+        private                 IViewResourceProvider uiResourceProvider;
+        [NonSerialized] private bool                  isInitialized;
+        
         public void Dispose() => lifeTimeDefinition?.Terminate();
 
         public IViewResourceProvider UIResourceProvider => uiResourceProvider;
-        
-        #region private methods
-        
-        private void OnEnable()
-        {
-            lifeTimeDefinition = new LifeTimeDefinition();
-            uiResourceProvider = new UiResourceProvider();
 
-            if (Application.isPlaying == false)
-                return;
+
+        public void Initialize()
+        {
+            if (isInitialized) return;
+            isInitialized = true;
+
+            lifeTimeDefinition = lifeTimeDefinition ?? new LifeTimeDefinition();
+            uiResourceProvider = uiResourceProvider ?? new UiResourceProvider();
 
             uiResourceProvider.RegisterViews(uiViews);
-            
+
             DownloadAllAsyncSources(lifeTimeDefinition.LifeTime);
         }
+
+        #region private methods
 
         private void DownloadAllAsyncSources(ILifeTime lifeTime)
         {
             //load ui views async
             foreach (var reference in sources) {
                 reference.ToObservable().
-                    Catch<UiViewsSource,Exception>(x => {
+                    Catch<UiViewsSource, Exception>(x => {
                         GameLog.LogError($"UiManagerSettings Load Ui Source failed {reference.AssetGUID}");
                         GameLog.LogError(x);
-                        return Observable.Empty<UiViewsSource>();
-                    }).
-                    Where(x => x!=null).
+                        return Observable.Empty<UiViewsSource>();}).
+                    Where(x => x != null).
                     Do(x => uiResourceProvider.RegisterViews(x.uiViews)).
                     Subscribe().
                     AddTo(lifeTime);
             }
         }
-        
+
         private void OnDisable()
         {
             Dispose();

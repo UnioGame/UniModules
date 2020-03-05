@@ -3,10 +3,14 @@
     using System;
     using System.Collections;
     using UniGreenModules.UniCore.Runtime.Attributes;
+    using UniGreenModules.UniCore.Runtime.Common;
     using UniGreenModules.UniCore.Runtime.DataFlow;
+    using UniGreenModules.UniCore.Runtime.ObjectPool.Runtime;
     using UniGreenModules.UniCore.Runtime.ObjectPool.Runtime.Extensions;
     using UniGreenModules.UniCore.Runtime.ProfilerTools;
+    using UniGreenModules.UniCore.Runtime.Rx.Extensions;
     using UniGreenModules.UniGame.AddressableTools.Runtime.Extensions;
+    using UniGreenModules.UniGame.Core.Runtime.Extension;
     using UniGreenModules.UniGame.Core.Runtime.Rx;
     using UniGreenModules.UniRoutine.Runtime;
     using UniGreenModules.UniRoutine.Runtime.Extension;
@@ -23,8 +27,6 @@
         where TData : Object
         where TApi : class
     {
-        private static Type componentType = typeof(Component);
-        
         #region inspector
 
         [SerializeField] protected RecycleReactiveProperty<TApi> value = new RecycleReactiveProperty<TApi>();
@@ -70,7 +72,7 @@
         /// initialize property with target Addressable Asset 
         /// </summary>
         /// <param name="addressable"></param>
-        public void Initialize(TAddressable addressable, bool releaseAssetOnDispose = true)
+        public void Initialize(TAddressable addressable)
         {
             lifeTimeDefinition = lifeTimeDefinition ?? new LifeTimeDefinition();
             progress = progress ?? new FloatRecycleReactiveProperty();
@@ -80,43 +82,36 @@
             lifeTimeDefinition.Release();
             
             reference = addressable;
-            releaseOnDispose = releaseAssetOnDispose;
+            releaseOnDispose = true;
+            lifeTimeDefinition.LifeTime.AddCleanUpAction(CleanUp);
+            
         }
 
         public IDisposable Subscribe(IObserver<TApi> observer)
         {
-            if (reference?.Asset != false) {
-                return value.Subscribe(observer);
-            }
-
-            routineHandler.Cancel();
+//            if (reference?.Asset != false) {
+//                return value.Subscribe(observer);
+//            }
+//
+//            routineHandler.Cancel();
             routineHandler = LoadReference().Execute();
-            routineHandler.AddTo(lifeTimeDefinition.LifeTime);
-            return value.Subscribe(observer);
+            //routineHandler.AddTo(lifeTimeDefinition.LifeTime);
+
+            var disposableValue = value.Subscribe(observer);
+            var disposableAction = ClassPool.Spawn<DisposableAction>();
+
+            var assetReference = reference;
+            disposableAction.Initialize(() => {
+                disposableValue.Cancel();
+                assetReference?.ReleaseAsset();
+            });
+            
+            return disposableAction;
         }
 
         public void Dispose()
         {
             lifeTimeDefinition.Terminate();
-            
-            status.Release();
-            status.Value = AsyncOperationStatus.None;
-            
-            progress.Release();
-            progress.Value = 0;
-            
-            isReady.Release();
-            isReady.Value = false;
-            
-            if (releaseOnDispose) {
-                reference?.ReleaseAsset();
-            }
-            
-            reference = null;
-            
-            value.Release();
-            value.Value = default;
-            
             this.Despawn();
         }
 
@@ -131,7 +126,11 @@
             }
 
             var targetType = typeof(TData);
-            var isComponent = componentType.IsAssignableFrom(targetType);
+            var apiType = typeof(TApi);
+
+            var isComponent =   reference is AssetReferenceGameObject ||
+                                targetType.IsComponent() ||
+                                apiType.IsComponent();
 
             var routine = isComponent
                 ? LoadHandle<GameObject>(x => value.Value = x.GetComponent<TApi>()) 
@@ -160,6 +159,23 @@
             
             handler.AddTo(lifeTimeDefinition.LifeTime);
             result(handler.Result);
+        }
+
+        private void CleanUp()
+        {
+            status.Release();
+            status.Value = AsyncOperationStatus.None;
+            
+            progress.Release();
+            progress.Value = 0;
+            
+            isReady.Release();
+            isReady.Value = false;
+            
+            reference = null;
+            
+            value.Release();
+            value.Value = default;
         }
         
     }
