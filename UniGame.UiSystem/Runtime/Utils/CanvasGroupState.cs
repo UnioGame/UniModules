@@ -1,5 +1,8 @@
 namespace UniGreenModules.UniUiSystem.Runtime.Utils
 {
+    using System;
+
+    [Serializable]
     public struct CanvasGroupState
     {
         public float Alpha;

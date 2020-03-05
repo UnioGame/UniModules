@@ -517,6 +517,7 @@ GameObject:
   - component: {fileID: 5450203315111153504}
   - component: {fileID: 5450203315111153507}
   - component: {fileID: 7442527147360814775}
+  - component: {fileID: 6921429995379675990}
   m_Layer: 5
   m_Name: ScreemView
   m_TagString: Untagged
@@ -616,6 +617,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cc3b09144ff4ec42b7b602f74d65218, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 6921429995379675990}
+--- !u!225 &6921429995379675990
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5450203315111153506}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &7876801754161329250
 GameObject:
   m_ObjectHideFlags: 0

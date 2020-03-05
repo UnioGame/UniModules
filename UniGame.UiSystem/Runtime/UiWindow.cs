@@ -17,23 +17,32 @@ namespace UniGreenModules.UniGame.UiSystem.Runtime
 #if ODIN_INSPECTOR
         [Sirenix.OdinInspector.Required]
 #endif
-        [SerializeField] protected CanvasGroup canvasGroup;
-
-        #endregion
         
+        [SerializeField] protected CanvasGroup canvasGroup;
+        
+#if ODIN_INSPECTOR   
+        [Sirenix.OdinInspector.FoldoutGroup(nameof(canvasGroup),false)]  
+#endif
         [SerializeField]
         private CanvasGroupState hiddenState = new CanvasGroupState() {
-            Alpha = 0,
+            Alpha         = 0,
             BlockRaycasts = false,
-            Interactable = false
+            Interactable  = false
         };
-        
+                
+#if ODIN_INSPECTOR   
+        [Sirenix.OdinInspector.FoldoutGroup(nameof(canvasGroup),false)]  
+#endif 
         [SerializeField]
         private CanvasGroupState visibleState = new CanvasGroupState() {
-            Alpha         = 0,
+            Alpha         = 1,
             BlockRaycasts = true,
             Interactable  = true
         };
+        
+        #endregion
+
+
         
         protected override void OnInitialize(TWindowModel model, ILifeTime lifeTime)
         {
