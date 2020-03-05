@@ -6,13 +6,13 @@
 
     public static class ClassPoolExtensions
     {
-        public static IDisposable DespawnDispose(this object source,ref IDisposable target)
+        public static IDisposable DespawnDisposable(this object source,ref IDisposable target)
         {
-            target = target.DespawnDispose();
+            target = target.DespawnDisposable();
             return target;
         }
 
-        public static IDisposable DespawnDispose(this IDisposable despawnItem)
+        public static IDisposable DespawnDisposable(this IDisposable despawnItem)
         {
             switch (despawnItem) {
                 case null:

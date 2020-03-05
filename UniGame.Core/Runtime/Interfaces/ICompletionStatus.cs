@@ -1,8 +1,6 @@
 ﻿namespace UniGreenModules.UniCore.Runtime.Interfaces
 {
-    using System;
-
-    public interface ICompletionStatus : IDisposable
+    public interface ICompletionStatus
     {
 
         bool IsComplete { get; }

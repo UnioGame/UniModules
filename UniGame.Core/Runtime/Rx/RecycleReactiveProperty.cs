@@ -93,7 +93,7 @@
 
         private void Remove(ListNode<IObserver<T>> observer)
         {
-            observer.Value.OnCompleted();
+            observer.Value?.OnCompleted();
             Observers.Remove(observer);
         }
 
