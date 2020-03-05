@@ -4,6 +4,7 @@
     using Abstract;
     using Addressables;
     using AddressableTools.Runtime.Attributes;
+    using AddressableTools.Runtime.Extensions;
     using Context.Runtime.Interfaces;
     using UniCore.Runtime.DataFlow.Interfaces;
     using UniCore.Runtime.Interfaces;
@@ -19,17 +20,15 @@
 
         public override async UniTask<IContext> RegisterAsync(IContext context)
         {
-            var contextReference = await contextAsset.LoadAssetAsync().Task;
+            var contextReference = await contextAsset.LoadAssetTaskAsync(LifeTime);
             await contextReference.RegisterAsync(context);
-            return context;
-        }
 
-        public override void Dispose()
-        {
-            if(contextAsset.Asset is IDisposable disposable)
-                disposable?.Dispose();
+            if (contextAsset.Asset is IDisposable disposable)
+                LifeTime.AddDispose(disposable);
             
-            contextAsset.ReleaseAsset();
+            LifeTime.AddCleanUpAction(contextAsset.ReleaseAsset);
+            
+            return context;
         }
 
         protected override void OnSourceEnable(ILifeTime lifeTime)

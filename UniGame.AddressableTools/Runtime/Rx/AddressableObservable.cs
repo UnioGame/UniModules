@@ -5,11 +5,13 @@
     using UniGreenModules.UniCore.Runtime.Attributes;
     using UniGreenModules.UniCore.Runtime.Common;
     using UniGreenModules.UniCore.Runtime.DataFlow;
+    using UniGreenModules.UniCore.Runtime.DataFlow.Interfaces;
     using UniGreenModules.UniCore.Runtime.ObjectPool.Runtime;
     using UniGreenModules.UniCore.Runtime.ObjectPool.Runtime.Extensions;
     using UniGreenModules.UniCore.Runtime.ProfilerTools;
     using UniGreenModules.UniCore.Runtime.Rx.Extensions;
     using UniGreenModules.UniGame.AddressableTools.Runtime.Extensions;
+    using UniGreenModules.UniGame.Core.Runtime.Common;
     using UniGreenModules.UniGame.Core.Runtime.Extension;
     using UniGreenModules.UniGame.Core.Runtime.Rx;
     using UniGreenModules.UniRoutine.Runtime;
@@ -89,23 +91,16 @@
 
         public IDisposable Subscribe(IObserver<TApi> observer)
         {
-//            if (reference?.Asset != false) {
-//                return value.Subscribe(observer);
-//            }
-//
-//            routineHandler.Cancel();
-            routineHandler = LoadReference().Execute();
-            //routineHandler.AddTo(lifeTimeDefinition.LifeTime);
-
             var disposableValue = value.Subscribe(observer);
-            var disposableAction = ClassPool.Spawn<DisposableAction>();
-
-            var assetReference = reference;
-            disposableAction.Initialize(() => {
-                disposableValue.Cancel();
-                assetReference?.ReleaseAsset();
-            });
+            var disposableAction = ClassPool.Spawn<DisposableLifetime>();
             
+            disposableAction.Initialize();
+            disposableAction.AddDispose(disposableValue);
+            
+            routineHandler = LoadReference(disposableAction).
+                Execute().
+                AddTo(disposableAction);
+
             return disposableAction;
         }
 
@@ -117,7 +112,7 @@
 
         #endregion
         
-        private IEnumerator LoadReference()
+        private IEnumerator LoadReference(ILifeTime lifeTime)
         {
             if (reference == null || reference.RuntimeKeyIsValid() == false) {
                 GameLog.LogError($"AddressableObservable : LOAD Addressable Failled {reference}");
@@ -133,31 +128,27 @@
                                 apiType.IsComponent();
 
             var routine = isComponent
-                ? LoadHandle<GameObject>(x => value.Value = x.GetComponent<TApi>()) 
-                : LoadHandle<TData>(x => value.Value = x as TApi);
+                ? LoadHandle<GameObject>(lifeTime,x => value.Value = x.GetComponent<TApi>()) 
+                : LoadHandle<TData>(lifeTime,x => value.Value = x as TApi);
             
             yield return routine;
 
         }
 
-        private IEnumerator LoadHandle<TValue>(Action<TValue> result) 
+        private IEnumerator LoadHandle<TValue>(ILifeTime lifeTime,Action<TValue> result) 
             where TValue : Object
         {
-                      
-            var handler = reference.LoadAssetAsync<TValue>();
+            var handler = reference.
+                LoadAssetAsync<TValue>().
+                AddTo(lifeTime);
             
             while (handler.IsDone == false) {
-
                 progress.Value = handler.PercentComplete;
                 status.Value   = handler.Status;
-                
                 yield return null;
-
             }
-
-            isReady.Value = true;
             
-            handler.AddTo(lifeTimeDefinition.LifeTime);
+            isReady.Value = true;
             result(handler.Result);
         }
 

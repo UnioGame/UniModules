@@ -6,6 +6,7 @@
     using Interfaces;
     using ObjectPool.Runtime;
     using ObjectPool.Runtime.Interfaces;
+    using UniGame.Core.Runtime.Common;
 
     public static class RxLifetimeExtension 
     {
@@ -18,10 +19,10 @@
             return disposable;
         }
         
-        public static ICompletionSource AddTo(this ILifeTime lifeTime, Action cleanupAction)
+        public static IDisposableLifetime AddTo(this ILifeTime lifeTime, Action cleanupAction)
         {
-            var disposableAction = ClassPool.Spawn<DisposableAction>();
-            disposableAction.Initialize(cleanupAction);
+            var disposableAction = ClassPool.Spawn<DisposableLifetime>();
+            disposableAction.AddCleanUpAction(cleanupAction);
             lifeTime.AddDispose(disposableAction);
             return disposableAction;
         }

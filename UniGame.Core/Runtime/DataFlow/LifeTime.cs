@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Threading;
     using Interfaces;
     using ObjectPool.Runtime.Interfaces;
     using Rx.Extensions;
@@ -12,7 +13,7 @@
         private List<IDisposable> disposables = new List<IDisposable>();
         private List<object> referencies = new List<object>();
         private List<Action> cleanupActions = new List<Action>();
-        private bool _isTerminated;
+        private bool isTerminated;
 
         /// <summary>
         /// cleanup action, call when life time terminated
@@ -21,7 +22,11 @@
         {
             if (cleanAction == null)
                 return this;
-
+            //call cleanup immediate. lite time already ended
+            if (isTerminated) {
+                cleanAction?.Invoke();
+                return this;
+            }
             cleanupActions.Add(cleanAction);
             return this;
         }
@@ -31,6 +36,11 @@
         /// </summary>
         public ILifeTime AddDispose(IDisposable item)
         {
+            if (isTerminated) {
+                item.Cancel();
+                return this;
+            }
+            
             disposables.Add(item);
             return this;
         }
@@ -38,7 +48,10 @@
         /// <summary>
         /// save object from GC
         /// </summary>
-        public ILifeTime AddRef(object o) {
+        public ILifeTime AddRef(object o)
+        {
+            if (isTerminated)
+                return this;
             referencies.Add(o);
             return this;
         }
@@ -46,7 +59,7 @@
         /// <summary>
         /// is lifetime terminated
         /// </summary>
-        public bool IsTerminated => _isTerminated;
+        public bool IsTerminated => isTerminated;
 
         /// <summary>
         /// restart lifetime
@@ -54,7 +67,7 @@
         public void Restart()
         {
             Release();
-            _isTerminated = false;
+            isTerminated = false;
         }
         
         /// <summary>
@@ -62,7 +75,10 @@
         /// </summary>
         public void Release()
         {
-            _isTerminated = true;
+            if (isTerminated)
+                return;
+            
+            isTerminated = true;
             
             for (var i = cleanupActions.Count-1; i >= 0; i--)
             {
@@ -78,5 +94,16 @@
             referencies.Clear();
         }
 
+                
+        #region type convertion
+
+        public static implicit operator CancellationTokenSource(LifeTime lifeTime)
+        {
+            var tokenSource = new CancellationTokenSource();
+            lifeTime.AddDispose(tokenSource);
+            return tokenSource;
+        } 
+
+        #endregion
     }
 }

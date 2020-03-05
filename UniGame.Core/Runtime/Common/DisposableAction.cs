@@ -35,10 +35,5 @@
             _onDisposed = null;
         }
 
-        public void MakeDespawn()
-        {
-            Complete();
-            this.Despawn();
-        }
     }
 }

@@ -7,7 +7,7 @@
 
     public interface IViewController : IDisposable
     {
-        UniTask<T> Open<T>(IViewModel viewModel) 
+        UniTask<T> Open<T>(IViewModel viewModel,string skinTag = "") 
             where T :Component, IView;
 
         bool Hide<T>() where T :Component, IView;

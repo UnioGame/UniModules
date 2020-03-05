@@ -7,13 +7,13 @@
 
     public interface IUiManager : ILifeTimeContext
     {
-        UniTask<T> Open<T>(IViewModel viewModel) 
+        UniTask<T> Open<T>(IViewModel viewModel,string skinTag = "") 
             where T :Component, IView;
         
-        UniTask<T> OpenWindow<T>(IViewModel viewModel) 
+        UniTask<T> OpenWindow<T>(IViewModel viewModel,string skinTag = "") 
             where T :Component, IView;
 
-        UniTask<T> OpenScreen<T>(IViewModel viewModel) 
+        UniTask<T> OpenScreen<T>(IViewModel viewModel,string skinTag = "") 
             where T :Component, IView;
                 
         bool CloseWindow<T>() where T :Component, IView;

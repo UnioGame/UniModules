@@ -19,6 +19,7 @@
     {
         public static async UniTask<SceneInstance> LoadSceneTaskAsync(
             this AssetReference sceneReference,
+            ILifeTime lifeTime,
             LoadSceneMode loadSceneMode = LoadSceneMode.Single,
             bool activateOnLoad = true,
             int priority = 100)
@@ -28,8 +29,13 @@
                 return default;
             }
 
-            var scene = await sceneReference.LoadSceneAsync(loadSceneMode, activateOnLoad, priority).Task;
-            return scene;
+            var sceneHandle = sceneReference.LoadSceneAsync(loadSceneMode, activateOnLoad, priority);
+            //add to resource unloading
+            sceneHandle.AddTo(lifeTime);
+
+            await sceneHandle.Task;
+            
+            return sceneHandle.IsValid() ? sceneHandle.Result : default;
         }
 
         public static void UnloadReference(this AssetReference reference)
@@ -140,8 +146,7 @@
         
         #region lifetime
         
-        public static ILifeTime AddTo<TAsset>(this AsyncOperationHandle<TAsset> handle, ILifeTime lifeTime)
-            where TAsset : Object
+        public static AsyncOperationHandle<TAsset> AddTo<TAsset>(this AsyncOperationHandle<TAsset> handle, ILifeTime lifeTime)
         {
             lifeTime.AddCleanUpAction(() => {
                 if (handle.IsValid() == false)
@@ -150,7 +155,7 @@
                     disposable.Dispose();
                 Addressables.Release(handle);
             });
-            return lifeTime;
+            return handle;
         }
         
         public static ILifeTime AddTo<TAsset>(this AssetReferenceT<TAsset> handle, ILifeTime lifeTime) 

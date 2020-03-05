@@ -11,7 +11,8 @@ namespace UniGreenModules.UniGame.UiSystem.Runtime
         #region constructor
         
         public CanvasViewController(Canvas canvas,
-            IViewResourceProvider viewResourceProvider) : base(viewResourceProvider)
+            IViewResourceProvider viewResourceProvider) : 
+            base(viewResourceProvider)
         {
             this.canvas = canvas;
         }

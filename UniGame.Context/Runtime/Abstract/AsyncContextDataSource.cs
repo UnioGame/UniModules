@@ -27,9 +27,8 @@
         
 
         public abstract UniTask<IContext> RegisterAsync(IContext context);
-
-
-        public virtual void Dispose() { }
+        
+        public void Dispose() => lifeTimeDefinition.Terminate();
         
         private void OnEnable()
         {
@@ -40,7 +39,7 @@
             OnSourceEnable(LifeTime);
         }
 
-        private void OnDisable() => lifeTimeDefinition.Terminate();
+        private void OnDisable() => Dispose();
 
         protected virtual void OnSourceEnable(ILifeTime lifeTime) {}
         

@@ -5,7 +5,6 @@
 
     public interface IDisposableItem : 
         IDisposable, 
-        IDespawnable, 
         ICompletionSource
     {
     }

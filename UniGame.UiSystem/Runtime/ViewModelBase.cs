@@ -15,10 +15,7 @@
 
         public IReadOnlyReactiveProperty<bool> IsActive => isActive;
         
-        public void Dispose()
-        {
-            lifeTimeDefinition.Terminate();
-        }
+        public void Dispose() => lifeTimeDefinition.Terminate();
 
     }
 }

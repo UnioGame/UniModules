@@ -41,9 +41,10 @@
 
         public void Dispose() => lifeTime.Terminate();
 
-        public async UniTask<T> Open<T>(IViewModel viewModel) where T : Component, IView
+        public async UniTask<T> Open<T>(IViewModel viewModel,string skinTag = "") where T : Component, IView
         {
-            var viewPromise = resourceProvider.LoadViewAsync<T>();
+            var viewPromise = resourceProvider.
+                LoadViewAsync<T>(skinTag);
 
             //start resource load, save disposable token
             var disposable = viewPromise.Subscribe();
