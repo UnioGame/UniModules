@@ -8,6 +8,7 @@ namespace UniGreenModules.UniGame.SerializableContext.Runtime.ContextDataSources
     using AddressableTools.Runtime.Extensions;
     using Context.Runtime.Interfaces;
     using UniContextData.Runtime.Interfaces;
+    using UniCore.Runtime.DataFlow.Interfaces;
     using UniCore.Runtime.Interfaces;
     using UniCore.Runtime.ProfilerTools;
     using UniRx.Async;
@@ -49,11 +50,12 @@ namespace UniGreenModules.UniGame.SerializableContext.Runtime.ContextDataSources
 
         }
 
-        public override void Dispose()
+        protected override void OnSourceEnable(ILifeTime lifeTime)
         {
             foreach (var reference in sourceAssets) {
-                reference.Dispose();
+                lifeTime.AddDispose(reference);
             }
         }
+        
     }
 }

@@ -13,7 +13,7 @@
 #endif
     
     [Serializable]
-    public class ScriptableObjectAssetReference : AssetReferenceT<ScriptableObject>
+    public class ScriptableObjectAssetReference : AssetReferenceT<ScriptableObject> , IDisposable
     {
         public ScriptableObjectAssetReference(string guid) : base(guid) {}
         

@@ -30,9 +30,12 @@
                 this;
 
             var value = sourceValueSource.Value;
-            context.Publish(value);
+            
             if (value is IAsyncContextDataSource dataSource) {
                 await dataSource.RegisterAsync(context);
+            }
+            else {
+                context.Publish(value);
             }
             
             return context;
