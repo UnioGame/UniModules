@@ -69,8 +69,11 @@ namespace UniGreenModules.UniGame.UiSystem.Examples.BaseUiManager.Scripts
 
         private void Update()
         {
-            if(view == null) return;
             var index = transform.GetSiblingIndex();
+            if (view == null) {
+                text.text = $"Open {index}";
+                return;
+            }
             text.text = view.IsActive.Value
                 ? $"Hide {index}"
                 : $"Show {index}";
