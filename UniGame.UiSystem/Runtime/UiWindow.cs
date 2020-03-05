@@ -13,7 +13,10 @@ namespace UniGreenModules.UniGame.UiSystem.Runtime
         where TWindowModel : class, IViewModel
     {
         #region inspector
-        
+
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.Required]
+#endif
         [SerializeField] protected CanvasGroup canvasGroup;
 
         #endregion

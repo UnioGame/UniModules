@@ -452,6 +452,7 @@ GameObject:
   - component: {fileID: 2702285930351581312}
   - component: {fileID: 2702285930351581315}
   - component: {fileID: 2702285930410949820}
+  - component: {fileID: 2582475345652678837}
   m_Layer: 5
   m_Name: WindowView
   m_TagString: Untagged
@@ -554,6 +555,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a49a229419dbd7c41a52bb7b9ae261f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 2582475345652678837}
+--- !u!225 &2582475345652678837
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2702285930351581314}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &2702285930355683969
 GameObject:
   m_ObjectHideFlags: 0
