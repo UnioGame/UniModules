@@ -51,6 +51,19 @@
             
         }
 
+        public static void OpenScript<T>(params string[] folders)
+        {
+            var typeName = typeof(T);
+            var filter = $"t:script {typeName}.cs";
+            var assetGuid = AssetDatabase.FindAssets(filter, folders).FirstOrDefault();
+            if (string.IsNullOrEmpty(assetGuid))
+                return;
+            var asset = AssetDatabase.LoadAssetAtPath<Object>(AssetDatabase.GUIDToAssetPath(assetGuid));
+            if (asset == null)
+                return;
+            AssetDatabase.OpenAsset(asset.GetInstanceID(), 0, 0);
+        }
+
         public static void FindItems<T>(Action<Object, T> action)
         {
 
