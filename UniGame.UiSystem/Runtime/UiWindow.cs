@@ -23,7 +23,7 @@ namespace UniGreenModules.UniGame.UiSystem.Runtime
         
         [SerializeField]
         private CanvasGroupState hiddenState = new CanvasGroupState() {
-            Alpha = 1,
+            Alpha = 0,
             BlockRaycasts = false,
             Interactable = false
         };
