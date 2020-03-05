@@ -36,7 +36,10 @@ namespace UniGreenModules.UniGame.UiSystem.Examples.BaseUiManager.Scripts
         private async UniTask OnClick()
         {
             if (view == null) {
+                
                 view = await Show();
+                view.LifeTime.AddCleanUpAction(() => view = null);
+                
                 return;
             }
 

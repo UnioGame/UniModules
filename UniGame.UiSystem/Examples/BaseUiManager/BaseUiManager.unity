@@ -1540,7 +1540,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1000
   m_TargetDisplay: 0
 --- !u!1 &1505533160
 GameObject:
@@ -1619,7 +1619,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 100
   m_TargetDisplay: 0
 --- !u!224 &1505533164
 RectTransform:
@@ -1773,7 +1773,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonTrigger: {fileID: 0}
   text: {fileID: 0}
-  skin: skin1
+  skin: skin2
   type: 2
   windowManager: {fileID: 301216101}
 --- !u!1 &1531949169
@@ -2045,7 +2045,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonTrigger: {fileID: 0}
   text: {fileID: 0}
-  skin: skin1
+  skin: skin3
   type: 2
   windowManager: {fileID: 301216101}
 --- !u!1 &1595356738
@@ -2125,7 +2125,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_TargetDisplay: 0
 --- !u!224 &1595356742
 RectTransform:
