@@ -23,11 +23,11 @@
             fieldInfos.Clear();
         }
 
-        public static FieldInfo GetFieldInfo(this object target,string name) => GetFieldInfo(target.GetType(),name);
+        public static FieldInfo GetFieldInfoCached(this object target,string name) => GetFieldInfoCached(target.GetType(),name);
         
-        public static FieldInfo GetFieldInfo<T>(string name) => GetFieldInfo(typeof(T),name);
+        public static FieldInfo GetFieldInfoCached<T>(string name) => GetFieldInfoCached(typeof(T),name);
         
-        public static FieldInfo GetFieldInfo(this Type type,string name)
+        public static FieldInfo GetFieldInfoCached(this Type type,string name)
         {
             var info = fieldInfos.Get(type, name);
             if (info != null) return info;
