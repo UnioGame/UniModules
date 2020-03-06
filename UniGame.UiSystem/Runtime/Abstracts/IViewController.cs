@@ -5,11 +5,8 @@
     using UnityEngine;
     using Object = UnityEngine.Object;
 
-    public interface IViewController : IDisposable
+    public interface IViewController : IDisposable, IViewFactory
     {
-        UniTask<T> Open<T>(IViewModel viewModel,string skinTag = "") 
-            where T :Component, IView;
-
         bool Hide<T>() where T :Component, IView;
 
         void HideAll();

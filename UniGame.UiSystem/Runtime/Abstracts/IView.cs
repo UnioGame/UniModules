@@ -7,7 +7,7 @@
     {
         IReadOnlyReactiveProperty<bool> IsActive { get; }
 
-        void SetViewModel(IViewModel vm);
+        void Initialize(IViewModel vm,IViewFactory viewFactory);
         
         void Close();
 

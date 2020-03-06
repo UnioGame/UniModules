@@ -41,7 +41,7 @@
 
         public void Dispose() => lifeTime.Terminate();
 
-        public async UniTask<T> Open<T>(IViewModel viewModel,string skinTag = "") where T : Component, IView
+        public async UniTask<T> Create<T>(IViewModel viewModel,string skinTag = "") where T : Component, IView
         {
             var viewPromise = resourceProvider.
                 LoadViewAsync<T>(skinTag);
@@ -70,6 +70,7 @@
             var viewLifeTime = view.LifeTime;
             viewLifeTime.AddDispose(disposable);
             viewLifeTime.AddCleanUpAction(() => Close(view));
+            
             //handle all view visibility changes
             view.IsActive.
                 Subscribe(x => visibilityChanged.Value = (Unit.Default)).
@@ -153,11 +154,14 @@
         private TView Add<TView>(TView asset, IViewModel model) where TView : Component, IView
         {
             //create instance of view
-            var view = Object.Instantiate(asset);
+            var view = Object.
+                Instantiate(asset.gameObject).
+                GetComponent<TView>();
+            
             //add view to loaded view items
             views.Add(view);
             //initialize view with model data
-            view.SetViewModel(model);
+            view.Initialize(model,this);
             //custom view method call
             OnViewOpen(view);
             

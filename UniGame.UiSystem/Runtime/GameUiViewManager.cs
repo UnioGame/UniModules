@@ -42,17 +42,17 @@
 
         public async UniTask<T> Open<T>(IViewModel viewModel,string skinTag = "") where T : Component, IView
         {
-            return await elementsController.Open<T>(viewModel,skinTag);
+            return await elementsController.Create<T>(viewModel,skinTag);
         }
 
         public async UniTask<T> OpenWindow<T>(IViewModel viewModel,string skinTag = "") where T : Component, IView
         {
-            return await windowsController.Open<T>(viewModel,skinTag);
+            return await windowsController.Create<T>(viewModel,skinTag);
         }
 
         public async UniTask<T> OpenScreen<T>(IViewModel viewModel,string skinTag = "") where T : Component, IView
         {
-            return await screensController.Open<T>(viewModel,skinTag);
+            return await screensController.Create<T>(viewModel,skinTag);
         }
 
         public bool CloseWindow<T>() where T : Component, IView
