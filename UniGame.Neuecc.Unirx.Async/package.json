@@ -1,0 +1,14 @@
+{
+  "name": "com.unigame.neuecc.unirx.async",
+  "author": "neuecc",
+  "displayName": "UniGame UniRx Async",
+  "description": "UniTask Extensions for Unity",
+  "unity": "2019.1",
+  "version": "1.2.0",
+  "keywords": [],
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Cysharp/UniTask"
+  }
+}
