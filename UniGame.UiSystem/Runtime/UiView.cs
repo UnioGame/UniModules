@@ -37,7 +37,7 @@
         
         #region public methods
 
-        public void SetViewModel(IViewModel model)
+        public void Initialize(IViewModel model,IViewFactory viewFactory)
         {
             //restart view lifetime
             lifeTimeDefinition.Release();
