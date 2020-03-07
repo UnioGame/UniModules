@@ -4,12 +4,12 @@
   "displayName": "UniGame Editor Extensions",
   "description": "Custom Editor Extensions",
   "unity": "2019.2",
-  "version": "1.0.56",
+  "version": "1.0.58",
   "keywords": [
     "Editor",
     "Extension"
   ],
   "dependencies": {
-    "com.unigame.unicore": "1.5.7"
+    "com.unigame.unicore": "1.5.9"
   }
 }
