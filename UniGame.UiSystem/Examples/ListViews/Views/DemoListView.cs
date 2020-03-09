@@ -22,15 +22,18 @@ namespace UniGreenModules.UniGame.UiSystem.Examples.ListViews.Views
         protected override void OnWindowInitialize(DemoListViewModel model, ILifeTime lifeTime)
         {
             var items = model.ListItems;
-            this.Bind(items.ObserveAdd(), x => CreateItem(x.Value));
-            this.Bind(items.ObserveRemove(), x => RemoveItem(x.Index));
-            this.Bind(addItem.onClick.AsObservable(), model.Add);
+            
+            this.
+                Bind(items.ObserveAdd(), x => CreateItem(x.Value)).
+                Bind(items.ObserveRemove(), x => RemoveItem(x.Index)).
+                Bind(addItem.onClick.AsObservable(), model.Add);
         }
 
         private async UniTask<DemoItemView> CreateItem(DemoItemViewModel itemModel)
         {
             var view = await ViewFactory.Open<DemoItemView>(itemModel);
             view.transform.SetParent(itemsParent);
+            itemViews.Add(view);
             return view;
         }
 

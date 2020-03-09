@@ -375,7 +375,7 @@ GameObject:
   - component: {fileID: 137572910}
   - component: {fileID: 137572909}
   m_Layer: 0
-  m_Name: Canvas
+  m_Name: Screens
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -473,7 +473,7 @@ GameObject:
   - component: {fileID: 1407327937}
   - component: {fileID: 1407327936}
   m_Layer: 0
-  m_Name: Canvas (1)
+  m_Name: Windows
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -623,7 +623,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1585916172}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e85493deacd991545a79ba352eb75392, type: 3}
+  m_Script: {fileID: 11500000, guid: d3ece18abf6856a47a88488183b2fa5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   settings: {fileID: 11400000, guid: ea39ad98ea1807846ad123d28b337f6f, type: 2}

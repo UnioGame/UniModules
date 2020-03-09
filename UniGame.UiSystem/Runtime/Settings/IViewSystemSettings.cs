@@ -3,7 +3,7 @@
     using System;
     using Abstracts;
 
-    public interface IUiManager : IDisposable
+    public interface IViewSystemSettings : IDisposable
     {
         IViewResourceProvider UIResourceProvider { get; }
     }

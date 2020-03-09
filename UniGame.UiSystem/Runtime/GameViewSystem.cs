@@ -1,31 +1,17 @@
 ﻿namespace UniGreenModules.UniGame.UiSystem.Runtime
 {
+    using System;
+    using System.Collections.Generic;
     using Abstracts;
-    using Settings;
     using UniCore.Runtime.DataFlow;
     using UniCore.Runtime.DataFlow.Interfaces;
     using UniCore.Runtime.Rx.Extensions;
-    using UniRx;
     using UniRx.Async;
     using UnityEngine;
 
-    public class GameViewSystem : MonoBehaviour, 
-        IUiManager
+    [Serializable]
+    public class GameViewSystem : IGameViewSystem
     {
-        #region inspector data
-        
-#if ODIN_INSPECTOR
-        [Sirenix.OdinInspector.Required]
-        [Sirenix.OdinInspector.InlineEditor]
-#endif
-        public UiViewSourceSettings settings;
-        
-        public Canvas screenCanvas;
-
-        public Canvas windowsCanvas;
-        
-        #endregion
-        
         #region private fields
 
         private LifeTimeDefinition lifeTimeDefinition = new LifeTimeDefinition();
@@ -34,31 +20,38 @@
         private CanvasViewController screensController;
         private ViewController elementsController;
         
+        private IViewFactory viewFactory;
+
+        private List<IViewController> viewControllers = new List<IViewController>();
+        
         #endregion
 
+        public GameViewSystem(IViewResourceProvider resourceProvider, Canvas windowsCanvas, Canvas screenCanvas)
+        {
+            viewFactory = new ViewFactory(resourceProvider);
+            
+            windowsController  = new CanvasViewController(windowsCanvas,viewFactory,this).AddTo(LifeTime);
+            screensController  = new CanvasViewController(screenCanvas,viewFactory,this).AddTo(LifeTime);
+            elementsController = new ViewController(viewFactory,this).AddTo(LifeTime);
+        }
+        
         public ILifeTime LifeTime => lifeTimeDefinition.LifeTime;
         
         public void Dispose() => lifeTimeDefinition.Terminate();
 
         public async UniTask<T> Open<T>(IViewModel viewModel,string skinTag = "") where T : Component, IView
         {
-            return InitializeView(
-                await elementsController.Create<T>(skinTag),
-                viewModel);
+            return await elementsController.Open<T>(viewModel,skinTag);
         }
 
         public async UniTask<T> OpenWindow<T>(IViewModel viewModel,string skinTag = "") where T : Component, IView
         {
-            return InitializeView(
-                await windowsController.Create<T>(skinTag),
-                viewModel);
+            return await windowsController.Open<T>(viewModel,skinTag);
         }
 
         public async UniTask<T> OpenScreen<T>(IViewModel viewModel,string skinTag = "") where T : Component, IView
         {
-            return InitializeView(
-                await screensController.Create<T>(skinTag),
-                viewModel);
+            return await screensController.Open<T>(viewModel,skinTag);
         }
 
         public bool CloseWindow<T>() where T : Component, IView
@@ -71,47 +64,14 @@
             return screensController.Close<T>();
         }
 
-                
-        private void Close<T>(T view) where T : Component, IView
-        {
-            //custom user action before cleanup view
-            OnBeforeClose(view);
-            //remove view Object
-            views.Remove(view);
-            //destroy view GameObject
-            Object.Destroy(view.gameObject);
-        }
 
-        private T InitializeView<T>(T view, IViewModel viewModel)
-            where T : Component, IView
+        private void Close<TView>(TView view) where TView : Component, IView
         {
-                        
-            //initialize view with model data
-            view.Initialize(viewModel,this);
-            
-            //update view active state by base view model data
-            viewModel.IsActive.
-                Where(x => x).
-                Subscribe(x => view.Show()).
-                AddTo(view.LifeTime);
-            
-            viewModel.IsActive.
-                Where(x => !x).
-                Subscribe(x => view.Close()).
-                AddTo(view.LifeTime);
-
-            return view;
+            foreach (var viewController in viewControllers) {
+                if(viewController.Close(view))
+                    break;
+            }
         }
         
-        private void Start()
-        {
-            settings.Initialize();
-            var resourceProvider = settings.UIResourceProvider;
-            
-            windowsController = new CanvasViewController(windowsCanvas,resourceProvider).AddTo(LifeTime);
-            screensController = new CanvasViewController(screenCanvas,resourceProvider).AddTo(LifeTime);
-            elementsController = new ViewController(resourceProvider).AddTo(LifeTime);
-        }
-
     }
 }

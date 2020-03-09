@@ -56,7 +56,8 @@ namespace UniGreenModules.UniGame.UiSystem.Runtime
                 Where(x => !x).
                 Subscribe(x => canvasGroup.SetState(hiddenState)).
                 AddTo(LifeTime);
-            
+
+            OnWindowInitialize(model, lifeTime);
         }
 
         protected virtual void OnWindowInitialize(TWindowModel model, ILifeTime lifeTime)

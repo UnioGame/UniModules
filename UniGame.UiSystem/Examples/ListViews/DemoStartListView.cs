@@ -4,13 +4,14 @@ using UnityEngine;
 namespace UniGreenModules.UniGame.UiSystem.Examples.ListViews
 {
     using Runtime;
+    using UniCore.Runtime.ProfilerTools;
     using UniRx;
     using ViewModels;
     using Views;
 
     public class DemoStartListView : MonoBehaviour
     {
-        public GameViewSystem viewSystem;
+        public GameViewSystemComponent viewSystem;
     
         public DemoItemViewModel demoItemViewModel = new DemoItemViewModel();
     
@@ -23,7 +24,9 @@ namespace UniGreenModules.UniGame.UiSystem.Examples.ListViews
 
             listModel.AddTo(this);
 
-            listModel.Add.Subscribe(x => 
+            listModel.Add.
+                Do(x => GameLog.Log($"ADD NEW Demo List Item")).
+                Subscribe(x => 
                     listModel.ListItems.Add(new DemoItemViewModel() {
                         Armor = new IntReactiveProperty(demoItemViewModel.Armor.Value),
                         Damage = new IntReactiveProperty(demoItemViewModel.Damage.Value),
