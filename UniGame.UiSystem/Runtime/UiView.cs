@@ -62,7 +62,7 @@
             //bind model lifetime to local
             var modelLifeTime = model.LifeTime;
             //terminate if model lifetime ended
-            lifeTimeDefinition.AddTo(modelLifeTime);
+            modelLifeTime.AddCleanUpAction(Close);
             
             //terminate model when view closed
             LifeTime.AddDispose(model);

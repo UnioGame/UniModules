@@ -8,7 +8,7 @@ namespace UniGreenModules.UniGame.UiSystem.Runtime
     using UniUiSystem.Runtime.Utils;
 
     [RequireComponent(typeof(CanvasGroup))]
-    public class UiWindow<TWindowModel> : 
+    public class WindowView<TWindowModel> : 
         UiView<TWindowModel> 
         where TWindowModel : class, IViewModel
     {
@@ -41,8 +41,6 @@ namespace UniGreenModules.UniGame.UiSystem.Runtime
         };
         
         #endregion
-
-
         
         protected sealed override void OnInitialize(TWindowModel model, ILifeTime lifeTime)
         {

@@ -57,6 +57,9 @@
             
             var view = await viewFactory.Create<T>(skinTag);
             
+            //register view
+            views.Add(view);
+            
             //initialize view with model data
             InitializeView(view, viewModel);
 

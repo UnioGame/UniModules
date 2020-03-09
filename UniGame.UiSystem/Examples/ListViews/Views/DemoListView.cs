@@ -11,9 +11,9 @@ namespace UniGreenModules.UniGame.UiSystem.Examples.ListViews.Views
     using UniRx.Async;
     using UnityEngine.UI;
 
-    public class DemoListView : UiWindow<DemoListViewModel>
+    public class DemoListView : WindowView<DemoListViewModel>
     {
-        public Transform itemsParent;
+        public RectTransform itemsParent;
 
         public Button addItem;
         
@@ -34,6 +34,7 @@ namespace UniGreenModules.UniGame.UiSystem.Examples.ListViews.Views
             var view = await ViewFactory.Open<DemoItemView>(itemModel);
             view.transform.SetParent(itemsParent);
             itemViews.Add(view);
+            LayoutRebuilder.MarkLayoutForRebuild(itemsParent);
             return view;
         }
 

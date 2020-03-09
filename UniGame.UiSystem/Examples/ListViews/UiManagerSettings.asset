@@ -32,4 +32,11 @@ MonoBehaviour:
     View:
       m_AssetGUID: 088f0d6896b367d40805c45af0148cb6
       m_SubObjectName: 
+  - Tag: 
+    Type:
+      fullTypeName: UniGreenModules.UniGame.UiSystem.Examples.BaseUiManager.Scripts.DemoResourcePanelScreenView,
+        Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    View:
+      m_AssetGUID: e8000e6d8589f8e4eaea219f7d1a3e05
+      m_SubObjectName: 
   sources: []
