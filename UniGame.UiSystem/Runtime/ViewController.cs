@@ -41,7 +41,7 @@
 
         public void Dispose() => lifeTime.Terminate();
 
-        public async UniTask<T> Create<T>(IViewModel viewModel,string skinTag = "") where T : Component, IView
+        public async UniTask<T> Create<T>(string skinTag = "") where T : Component, IView
         {
             var viewPromise = resourceProvider.
                 LoadViewAsync<T>(skinTag);
@@ -64,13 +64,13 @@
                 return null;
             }
 
-            var view = Add(asset, viewModel);
+            var view = Add(asset);
 
             //bind disposable to View lifeTime
             var viewLifeTime = view.LifeTime;
             viewLifeTime.AddDispose(disposable);
             viewLifeTime.AddCleanUpAction(() => Close(view));
-            
+
             //handle all view visibility changes
             view.IsActive.
                 Subscribe(x => visibilityChanged.Value = (Unit.Default)).
@@ -131,12 +131,16 @@
         
         private void Close<T>(T view) where T : Component, IView
         {
+            if (!view)
+                return;
+            
             //custom user action before cleanup view
             OnBeforeClose(view);
             //remove view Object
-            views.Remove(view);
-            //destroy view GameObject
-            Object.Destroy(view.gameObject);
+            if (views.Remove(view)) {
+                //destroy view GameObject
+                Object.Destroy(view.gameObject);
+            }
         }
         
         private TView Select<TView>() where TView : Object, IView
@@ -151,7 +155,7 @@
         /// <param name="model">view model data</param>
         /// <typeparam name="TView"></typeparam>
         /// <returns>created view</returns>
-        private TView Add<TView>(TView asset, IViewModel model) where TView : Component, IView
+        private TView Add<TView>(TView asset) where TView : Component, IView
         {
             //create instance of view
             var view = Object.
@@ -160,8 +164,7 @@
             
             //add view to loaded view items
             views.Add(view);
-            //initialize view with model data
-            view.Initialize(model,this);
+
             //custom view method call
             OnViewOpen(view);
             

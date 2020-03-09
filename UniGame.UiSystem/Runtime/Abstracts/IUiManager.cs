@@ -5,21 +5,10 @@
     using UniRx.Async;
     using UnityEngine;
 
-    public interface IUiManager : ILifeTimeContext
+    public interface IUiManager : ILifeTimeContext, IViewElementFactory
     {
-        UniTask<T> Open<T>(IViewModel viewModel,string skinTag = "") 
-            where T :Component, IView;
-        
-        UniTask<T> OpenWindow<T>(IViewModel viewModel,string skinTag = "") 
-            where T :Component, IView;
-
-        UniTask<T> OpenScreen<T>(IViewModel viewModel,string skinTag = "") 
-            where T :Component, IView;
-                
         bool CloseWindow<T>() where T :Component, IView;
 
         bool CloseScreen<T>() where T :Component, IView;
-
-
     }
 }

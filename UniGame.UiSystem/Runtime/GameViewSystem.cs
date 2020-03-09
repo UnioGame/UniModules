@@ -5,10 +5,11 @@
     using UniCore.Runtime.DataFlow;
     using UniCore.Runtime.DataFlow.Interfaces;
     using UniCore.Runtime.Rx.Extensions;
+    using UniRx;
     using UniRx.Async;
     using UnityEngine;
 
-    public class GameUiViewManager : MonoBehaviour, 
+    public class GameViewSystem : MonoBehaviour, 
         IUiManager
     {
         #region inspector data
@@ -35,24 +36,29 @@
         
         #endregion
 
-
         public ILifeTime LifeTime => lifeTimeDefinition.LifeTime;
         
         public void Dispose() => lifeTimeDefinition.Terminate();
 
         public async UniTask<T> Open<T>(IViewModel viewModel,string skinTag = "") where T : Component, IView
         {
-            return await elementsController.Create<T>(viewModel,skinTag);
+            return InitializeView(
+                await elementsController.Create<T>(skinTag),
+                viewModel);
         }
 
         public async UniTask<T> OpenWindow<T>(IViewModel viewModel,string skinTag = "") where T : Component, IView
         {
-            return await windowsController.Create<T>(viewModel,skinTag);
+            return InitializeView(
+                await windowsController.Create<T>(skinTag),
+                viewModel);
         }
 
         public async UniTask<T> OpenScreen<T>(IViewModel viewModel,string skinTag = "") where T : Component, IView
         {
-            return await screensController.Create<T>(viewModel,skinTag);
+            return InitializeView(
+                await screensController.Create<T>(skinTag),
+                viewModel);
         }
 
         public bool CloseWindow<T>() where T : Component, IView
@@ -65,6 +71,37 @@
             return screensController.Close<T>();
         }
 
+                
+        private void Close<T>(T view) where T : Component, IView
+        {
+            //custom user action before cleanup view
+            OnBeforeClose(view);
+            //remove view Object
+            views.Remove(view);
+            //destroy view GameObject
+            Object.Destroy(view.gameObject);
+        }
+
+        private T InitializeView<T>(T view, IViewModel viewModel)
+            where T : Component, IView
+        {
+                        
+            //initialize view with model data
+            view.Initialize(viewModel,this);
+            
+            //update view active state by base view model data
+            viewModel.IsActive.
+                Where(x => x).
+                Subscribe(x => view.Show()).
+                AddTo(view.LifeTime);
+            
+            viewModel.IsActive.
+                Where(x => !x).
+                Subscribe(x => view.Close()).
+                AddTo(view.LifeTime);
+
+            return view;
+        }
         
         private void Start()
         {

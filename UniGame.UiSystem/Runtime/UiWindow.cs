@@ -44,7 +44,7 @@ namespace UniGreenModules.UniGame.UiSystem.Runtime
 
 
         
-        protected override void OnInitialize(TWindowModel model, ILifeTime lifeTime)
+        protected sealed override void OnInitialize(TWindowModel model, ILifeTime lifeTime)
         {
             
             IsActive.
@@ -58,7 +58,11 @@ namespace UniGreenModules.UniGame.UiSystem.Runtime
                 AddTo(LifeTime);
             
         }
-        
+
+        protected virtual void OnWindowInitialize(TWindowModel model, ILifeTime lifeTime)
+        {
+            
+        }
         
         protected virtual void OnAwake() { }
     

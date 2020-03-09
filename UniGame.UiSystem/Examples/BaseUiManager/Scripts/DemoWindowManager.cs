@@ -17,7 +17,7 @@ namespace UniGreenModules.UniGame.UiSystem.Examples.BaseUiManager
     
     public class DemoWindowManager : MonoBehaviour
     {
-        public GameUiViewManager uiViewManager;
+        public GameViewSystem uiViewManager;
 
         [ShowAssetReference]
         public AssetReference nextScene;
