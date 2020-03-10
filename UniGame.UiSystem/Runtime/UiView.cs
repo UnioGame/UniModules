@@ -4,7 +4,7 @@
     using Abstracts;
     using UniCore.Runtime.DataFlow;
     using UniCore.Runtime.DataFlow.Interfaces;
-    using UniCore.Runtime.Rx.Extensions;
+    using UniCore.Runtime.ProfilerTools;
     using UniRx;
     using UnityEngine;
 
@@ -14,6 +14,7 @@
     {
         
         private LifeTimeDefinition lifeTimeDefinition = new LifeTimeDefinition();
+        private IViewElementFactory viewFactory;
         
         /// <summary>
         /// view model context
@@ -24,24 +25,30 @@
         /// ui element visibility status
         /// </summary>
         protected BoolReactiveProperty visibility = new BoolReactiveProperty(false);
-          
+
         #region public properties
 
+        /// <summary>
+        /// Is View Active
+        /// </summary>
         public IReadOnlyReactiveProperty<bool> IsActive => visibility;
 
-        
+        /// <summary>
+        /// View LifeTime
+        /// </summary>
         public ILifeTime LifeTime => lifeTimeDefinition.LifeTime;
 
+        public IViewElementFactory ViewFactory => viewFactory;
 
         #endregion
         
         #region public methods
 
-        public void Initialize(IViewModel model,IViewFactory viewFactory)
+        public void Initialize(IViewModel model,IViewElementFactory viewFactory)
         {
             //restart view lifetime
             lifeTimeDefinition.Release();
-            
+
             //save model as context data
             if (model is TViewModel viewModel) {
                 context = viewModel;
@@ -49,26 +56,21 @@
             else {
                 throw  new ArgumentException($"VIEW: {name} wrong model type. Target type {typeof(TViewModel).Name} : model Type {model?.GetType().Name}");
             }
+            
+            this.viewFactory = viewFactory;
 
             //bind model lifetime to local
             var modelLifeTime = model.LifeTime;
             //terminate if model lifetime ended
-            lifeTimeDefinition.AddTo(modelLifeTime);
+            modelLifeTime.AddCleanUpAction(Close);
+            
             //terminate model when view closed
             LifeTime.AddDispose(model);
+            LifeTime.AddCleanUpAction(() => viewFactory = null);
 
             //custom initialization
             OnInitialize(context,LifeTime);
-            
-            model.IsActive.
-                Where(x => x).
-                Subscribe(x => Show()).
-                AddTo(lifeTimeDefinition.LifeTime);
-            
-            model.IsActive.
-                Where(x => !x).
-                Subscribe(x => Close()).
-                AddTo(lifeTimeDefinition.LifeTime);
+
         }
 
         /// <summary>
@@ -96,7 +98,11 @@
         /// <param name="lifeTime"></param>
         protected virtual void OnInitialize(TViewModel model, ILifeTime lifeTime) { }
 
-        private void OnDestroy() => Close();
+        private void OnDestroy()
+        {
+            GameLog.Log($"View {name} Destroyed");
+            Close();
+        }
 
         
         

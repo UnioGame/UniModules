@@ -28,9 +28,9 @@ namespace UniGreenModules.UniGame.UiSystem.Runtime
         {
             var items = FindItemsByType(typeof(TView), strongMatching);
             
-            var item = items.
-                FirstOrDefault(x => string.IsNullOrEmpty(skin) || 
-                                    string.Equals(x.Tag,skin,StringComparison.InvariantCultureIgnoreCase));
+            var item = items.FirstOrDefault(
+                x => string.IsNullOrEmpty(skin) || 
+                     string.Equals(x.Tag,skin,StringComparison.InvariantCultureIgnoreCase));
             
             //return collection to pool
             items.DespawnCollection();
@@ -39,8 +39,6 @@ namespace UniGreenModules.UniGame.UiSystem.Runtime
                 Debug.LogError($"{nameof(UiResourceProvider)} ITEM MISSING skin:{skin} type {typeof(TView).Name}");
                 return null;
             }
-            
-            GameLog.Log($"LOAD View : {typeof(TView).Name} : skin {skin}");
             
             return item.View.ToObservable<TView>();
         }

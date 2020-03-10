@@ -3,7 +3,7 @@
     using Runtime;
     using Runtime.Abstracts;
 
-    public class DemoWindowView : UiWindow<IViewModel>
+    public class DemoWindowView : WindowView<IViewModel>
     {
         
     }

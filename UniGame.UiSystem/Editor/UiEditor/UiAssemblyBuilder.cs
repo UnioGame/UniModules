@@ -31,13 +31,20 @@ namespace Taktika.UI.Editor.UiEditor
             }
             
             Reset(settings);
+
+            var skinsFolders = settings.uiViewsSkinFolders;
+            var defaultFolders = settings.uiViewsDefaultFolders;
+
+            if (skinsFolders.Count > 0) {
+                var views = LoadUiViews<IView>(skinsFolders);
+                views.ForEach(x => AddView(settings.uiViews,x,false));
+            }
+
+            if (defaultFolders.Count > 0) {
+                var views = LoadUiViews<IView>(defaultFolders);
+                views.ForEach(x => AddView(settings.uiViews,x,true));
+            }
             
-            var views = LoadUiViews<IView>(settings.uiViewsSkinFolders);
-            views.ForEach(x => AddView(settings,settings.uiViews,x,false));
-
-            views = LoadUiViews<IView>(settings.uiViewsDefaultFolders);
-            views.ForEach(x => AddView(settings,settings.uiViews,x,true));
-
             settings?.SetDirty();
         }
 
@@ -62,7 +69,7 @@ namespace Taktika.UI.Editor.UiEditor
         }
 
 
-        private void AddView(UiViewsSource viewsSource, List<UiViewDescription> views,IView view, bool defaultView)
+        private void AddView(List<UiViewDescription> views,IView view, bool defaultView)
         {
             var assetView = view as MonoBehaviour;
             if (assetView == null) {

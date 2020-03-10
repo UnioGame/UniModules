@@ -4,6 +4,7 @@
     using System.Linq;
     using Abstracts;
     using Core.Runtime.Rx;
+    using Taktika.Addressables.Reactive;
     using UniCore.Runtime.DataFlow;
     using UniCore.Runtime.ObjectPool.Runtime;
     using UniCore.Runtime.ObjectPool.Runtime.Extensions;
@@ -16,21 +17,24 @@
 
     public class ViewController : IViewController
     {
-        private IViewResourceProvider resourceProvider;
-        
+        private readonly IViewFactory viewFactory;
+        private readonly IViewElementFactory elementFactory;
+
         private List<IView> views = new List<IView>();
 
         private LifeTimeDefinition lifeTime = new LifeTimeDefinition();
 
-        private RecycleReactiveProperty<Unit> visibilityChanged = new RecycleReactiveProperty<Unit>();
+        private ReactiveCommand visibilityChanged = new ReactiveCommand();
         
         #region constructor
         
-        public ViewController(IViewResourceProvider viewResourceProvider)
+        public ViewController(IViewFactory viewFactory,IViewElementFactory elementFactory)
         {
-            resourceProvider = viewResourceProvider;
+            this.viewFactory = viewFactory;
+            this.elementFactory = elementFactory;
+
             visibilityChanged.
-                ThrottleFrame(2).
+                ThrottleFrame(1).
                 Subscribe(x => VisibilityStatusChanged()).
                 AddTo(lifeTime.LifeTime);
         }
@@ -41,41 +45,27 @@
 
         public void Dispose() => lifeTime.Terminate();
 
-        public async UniTask<T> Create<T>(IViewModel viewModel,string skinTag = "") where T : Component, IView
+        /// <summary>
+        /// Open new view element
+        /// </summary>
+        /// <param name="viewModel">target element model data</param>
+        /// <param name="skinTag">target element skin</param>
+        /// <returns>created view element</returns>
+        public async UniTask<T> Open<T>(IViewModel viewModel,string skinTag = "") 
+            where T : Component, IView
         {
-            var viewPromise = resourceProvider.
-                LoadViewAsync<T>(skinTag);
-
-            //start resource load, save disposable token
-            var disposable = viewPromise.Subscribe();
             
-            //wait until resource is load
-            await UniTask.WaitUntil(() => viewPromise.IsReady.Value);
-
-            var asset = viewPromise.Value.Value;
+            var view = await viewFactory.Create<T>(skinTag);
             
-            //release promise
-            viewPromise.Dispose();
+            //register view
+            views.Add(view);
             
-            //if loading failed release resource immediately
-            if (asset == null) {
-                GameLog.LogError($"{nameof(ViewController)} View of Type {typeof(T).Name} not loaded");
-                disposable.Dispose();
-                return null;
-            }
+            //initialize view with model data
+            InitializeView(view, viewModel);
 
-            var view = Add(asset, viewModel);
-
-            //bind disposable to View lifeTime
-            var viewLifeTime = view.LifeTime;
-            viewLifeTime.AddDispose(disposable);
-            viewLifeTime.AddCleanUpAction(() => Close(view));
+            //update view properties
+            OnViewOpen(view);
             
-            //handle all view visibility changes
-            view.IsActive.
-                Subscribe(x => visibilityChanged.Value = (Unit.Default)).
-                AddTo(viewLifeTime);
-
             return view;
 
         }
@@ -118,9 +108,36 @@
             }
             buffer.DespawnCollection();
         }
+        
+        public bool Close<T>(T view) where T : Component, IView
+        {
+            if (!view)
+                return false;
+            
+            //custom user action before cleanup view
+            OnBeforeClose(view);
+            
+            //remove view Object
+            if (!views.Remove(view)) {
+                return false;
+            }
+            
+            //make sure to view is close already
+            view.Close();
 
+            OnViewClosed(view);
+            
+            return true;
+        }
+        
         #endregion
 
+        protected virtual void OnViewClosed<TView>(TView view) where TView : Component, IView
+        {
+            //destroy view GameObject
+            Object.Destroy(view.gameObject);
+        }
+        
         /// <summary>
         /// proceed visibility changes on target view
         /// </summary>
@@ -129,16 +146,38 @@
             OnVisibilityStatusChanged();
         }
         
-        private void Close<T>(T view) where T : Component, IView
+        private T InitializeView<T>(T view, IViewModel viewModel)
+            where T : Component, IView
         {
-            //custom user action before cleanup view
-            OnBeforeClose(view);
-            //remove view Object
-            views.Remove(view);
-            //destroy view GameObject
-            Object.Destroy(view.gameObject);
+                        
+            //initialize view with model data
+            view.Initialize(viewModel,elementFactory);
+            
+            //bind disposable to View lifeTime
+            var viewLifeTime = view.LifeTime;
+            
+            viewLifeTime.AddCleanUpAction(() => Close(view));
+
+            //handle all view visibility changes
+            view.IsActive.
+                Subscribe(x => visibilityChanged.Execute()).
+                AddTo(viewLifeTime);
+            
+            //update view active state by base view model data
+            viewModel.IsActive.
+                Where(x => x).
+                Subscribe(x => view.Show()).
+                AddTo(view.LifeTime);
+            
+            viewModel.IsActive.
+                Where(x => !x).
+                Subscribe(x => view.Hide()).
+                AddTo(view.LifeTime);
+
+            return view;
         }
         
+   
         private TView Select<TView>() where TView : Object, IView
         {
             return views.FirstOrDefault(x => typeof(TView) == x.GetType()) as TView;
@@ -148,10 +187,9 @@
         /// Create View instance and place it in controller space
         /// </summary>
         /// <param name="asset">asset source</param>
-        /// <param name="model">view model data</param>
         /// <typeparam name="TView"></typeparam>
         /// <returns>created view</returns>
-        private TView Add<TView>(TView asset, IViewModel model) where TView : Component, IView
+        private TView Create<TView>(TView asset) where TView : Component, IView
         {
             //create instance of view
             var view = Object.
@@ -160,8 +198,7 @@
             
             //add view to loaded view items
             views.Add(view);
-            //initialize view with model data
-            view.Initialize(model,this);
+
             //custom view method call
             OnViewOpen(view);
             
