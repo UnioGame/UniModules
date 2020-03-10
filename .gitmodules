@@ -4,3 +4,6 @@
 [submodule "UniRoutines"]
 	path = UniRoutines
 	url = https://github.com/Mefodei/UniRoutines.git
+[submodule "UniGame.UISystem"]
+	path = UniGame.UISystem
+	url = https://github.com/UniGameTeam/UniGame.UISystem.git
