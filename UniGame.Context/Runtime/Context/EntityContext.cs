@@ -12,12 +12,14 @@
     using UniCore.Runtime.ProfilerTools;
     using UniCore.Runtime.Rx;
     using UniRx;
+    using UnityEngine;
 
+    [Serializable]
     public class EntityContext : IContext
     {
-        private TypeData           data;
-        private LifeTimeDefinition lifeTimeDefinition;
-        private bool hasValue;
+        private TypeData         data;
+        private                  LifeTimeDefinition lifeTimeDefinition;
+        private                  bool               hasValue;
 
         public EntityContext()
         {
@@ -27,16 +29,16 @@
             lifeTimeDefinition = new LifeTimeDefinition();
         }
 
-        
-#region public properties
+
+        #region public properties
 
         public ILifeTime LifeTime => lifeTimeDefinition.LifeTime;
 
         public bool HasValue => data.HasValue;
-        
-#endregion
-        
-#region public methods
+
+        #endregion
+
+        #region public methods
 
         public bool Contains<TData>()
         {
@@ -65,7 +67,7 @@
             this.Despawn();
         }
 
-#region rx 
+        #region rx
 
         public void Publish<T>(T message)
         {
@@ -77,17 +79,18 @@
             return data.Receive<T>();
         }
 
-#endregion
+        #endregion
 
-#endregion
+        #endregion
 
-#region Unity Editor Api
+        #region Unity Editor Api
+
 #if UNITY_EDITOR
-        
-        public IReadOnlyDictionary<Type, IValueContainerStatus> EditorValues => data.EditorValues;
-        
-#endif
-#endregion
 
+        public IReadOnlyDictionary<Type, IValueContainerStatus> EditorValues => data.EditorValues;
+
+#endif
+
+        #endregion
     }
 }

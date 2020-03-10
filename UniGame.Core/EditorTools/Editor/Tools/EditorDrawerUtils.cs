@@ -24,7 +24,8 @@
     
     public static class EditorDrawerUtils {
         
-
+        public static Type UnityObjectType = typeof(Object);
+        
         public static GUIStyle EmptyFoldOutStyle = new GUIStyle(EditorStyles.foldout)
         {
             fixedWidth = 10,
@@ -41,6 +42,25 @@
             }
 
             return false;
+        }
+
+        public static bool DrawObjectFoldout(Object asset,bool foldOut,Type targetType,string label = "")
+        {
+            if (targetType == null || asset == null) {
+                EditorDrawerUtils.DrawDisabled(() => {
+                    EditorGUILayout.ObjectField(label, asset, UnityObjectType, true);
+                });
+                return false;
+            }
+
+            foldOut = EditorGUILayout.Foldout(foldOut,string.Empty);            
+            var rect = GUILayoutUtility.GetLastRect();
+            rect.x += 14;
+            EditorDrawerUtils.DrawDisabled(() => {
+                EditorGUI.ObjectField(rect,label, asset, targetType, true);
+            });
+
+            return foldOut;
         }
 
         public static void DrawDisabled(Action drawerAction, bool disabled = true)

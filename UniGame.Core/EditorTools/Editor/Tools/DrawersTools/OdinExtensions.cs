@@ -6,6 +6,8 @@ using Object = UnityEngine.Object;
 
 namespace UniGreenModules.UniGame.Core.EditorTools.Editor.DrawersTools
 {
+    using UniCore.EditorTools.Editor.Utility;
+
     /// <summary>
     /// Odin Inspector extensions methods
     /// </summary>
@@ -23,18 +25,15 @@ namespace UniGreenModules.UniGame.Core.EditorTools.Editor.DrawersTools
             }
 
         }
-    
-        public static bool DrawOdinPropertyWithFoldout(this SerializedProperty property, 
-            Rect position, bool foldOut)
+        
+        public static bool DrawOdinPropertyWithFoldout(
+            this Object asset,
+            bool foldOut,
+            string label = "")
         {
-            var targetType = Type.GetType(property.type,false,true);
-            if (targetType == null || UnityObjectType.IsAssignableFrom(targetType) == false)
-                return false;
-
-            var asset = property.objectReferenceValue;
-            if (asset == null) return false;
-
-            foldOut = EditorGUI.Foldout(position,foldOut,string.Empty);
+            var targetType = asset == null ? null : asset.GetType();
+            foldOut = EditorDrawerUtils.DrawObjectFoldout(asset, foldOut,targetType, label);
+            
             try {
                 if (foldOut) {
                     asset.DrawOdinPropertyInspector();
@@ -43,6 +42,46 @@ namespace UniGreenModules.UniGame.Core.EditorTools.Editor.DrawersTools
             catch(Exception r) { }
 
             return foldOut;
+        }
+        
+        public static bool DrawOdinPropertyWithFoldout(
+            this Object asset,
+            Rect position,
+            bool foldOut,
+            string label = "")
+        {
+            var targetType = asset == null ? null : asset.GetType();
+            if (targetType == null || asset == null) {
+                EditorDrawerUtils.DrawDisabled(() => {
+                    EditorGUI.ObjectField(position,label, asset, UnityObjectType, true);
+                });
+                return false;
+            }
+
+            foldOut = EditorGUI.Foldout(position,foldOut,string.Empty);            
+            var rect = GUILayoutUtility.GetLastRect();
+            rect.x += 14;
+            
+            EditorDrawerUtils.DrawDisabled(() => {
+                EditorGUI.ObjectField(rect,label, asset, targetType, true);
+            });
+            
+            try {
+                if (foldOut) {
+                    asset.DrawOdinPropertyInspector();
+                }
+            }
+            catch(Exception r) { }
+
+            return foldOut;
+        }
+
+        public static bool DrawOdinPropertyWithFoldout(
+            this SerializedProperty property, 
+            Rect position, 
+            bool foldOut)
+        {
+            return DrawOdinPropertyWithFoldout(property.objectReferenceValue, position, foldOut, property.name);
         }
 
     
