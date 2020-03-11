@@ -1,6 +1,7 @@
 ﻿namespace UniGreenModules.UniGame.SerializableContext.Runtime.Addressables
 {
     using System;
+    using AddressableTools.Runtime.AssetReferencies;
     using UnityEngine;
     using UnityEngine.AddressableAssets;
 
@@ -13,26 +14,9 @@
 #endif
     
     [Serializable]
-    public class ScriptableObjectAssetReference : AssetReferenceT<ScriptableObject> , IDisposable
+    public class ScriptableObjectAssetReference : DisposableAssetReference<ScriptableObject> 
     {
         public ScriptableObjectAssetReference(string guid) : base(guid) {}
-        
-        private void ReleaseUnmanagedResources()
-        {
-            if(Asset is IDisposable disposable)
-                disposable?.Dispose();
-            ReleaseAsset();
-        }
 
-        public void Dispose()
-        {
-            ReleaseUnmanagedResources();
-            GC.SuppressFinalize(this);
-        }
-
-        ~ScriptableObjectAssetReference()
-        {
-            ReleaseUnmanagedResources();
-        }
     }
 }

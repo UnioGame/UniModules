@@ -1,33 +1,13 @@
 ﻿namespace UniGreenModules.UniGame.SerializableContext.Runtime.Addressables
 {
     using System;
-    using Abstract;
+    using AddressableTools.Runtime.AssetReferencies;
     using Context.Runtime.Interfaces;
-    using Scriptable;
-    using UnityEngine.AddressableAssets;
 
     [Serializable]    
-    public class AsyncContextDataSourceAssetReference : AssetReferenceT<AsyncContextDataSource> , IDisposable
+    public class AsyncContextDataSourceAssetReference : DisposableAssetReference<AsyncContextDataSource> 
     {
-        public AsyncContextDataSourceAssetReference(string guid) : 
-            base(guid) {}
-
-        private void ReleaseUnmanagedResources()
-        {
-            if(Asset is IDisposable disposable)
-                disposable.Dispose();
-            ReleaseAsset();
-        }
-
-        public void Dispose()
-        {
-            ReleaseUnmanagedResources();
-            GC.SuppressFinalize(this);
-        }
-
-        ~AsyncContextDataSourceAssetReference()
-        {
-            ReleaseUnmanagedResources();
-        }
+        public AsyncContextDataSourceAssetReference(string guid) : base(guid) {}
+        
     }
 }
