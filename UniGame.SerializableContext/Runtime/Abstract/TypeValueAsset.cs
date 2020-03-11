@@ -4,25 +4,23 @@
     using UniCore.Runtime.Common;
     using UniCore.Runtime.DataFlow;
     using UniCore.Runtime.DataFlow.Interfaces;
-    using UniCore.Runtime.Interfaces;
     using UniCore.Runtime.ProfilerTools;
     using UnityEngine;
 
     [Serializable]
     public abstract class TypeValueAsset<TValue,TApiValue> : 
         ScriptableObject,
-        IDataValue<TApiValue>,
-        ILifeTimeContext
+        ITypeValueAsset<TApiValue>
         where TValue : TApiValue
     {
-        private TypeValueAsset<TValue, TApiValue> source;
-        
         #region inspector
 
         public TValue defaultValue = default(TValue);
         
         #endregion
 
+        private TypeValueAsset<TValue, TApiValue> source;
+   
         private LifeTimeDefinition lifeTime;
         
         private ContextValue<TApiValue> contextValue = new ContextValue<TApiValue>();

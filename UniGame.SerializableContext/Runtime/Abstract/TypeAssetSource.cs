@@ -1,15 +1,14 @@
 ﻿namespace UniGreenModules.UniGame.SerializableContext.Runtime.Abstract
 {
-    using AssetTypes;
     using UniContextData.Runtime.Interfaces;
     using UniCore.Runtime.Interfaces;
     using UniCore.Runtime.Rx.Extensions;
     using UniRx.Async;
 
-    public class TypeValueSource<TValue,TApiValue> : 
-        TypeValueDefaultAsset<TValue,TApiValue>,
+    public class TypeAssetSource<TValue,TApiValue> : 
+        TypeValueAsset<TValue,TApiValue>,
         ISourceValue<TApiValue>
-        where TValue : class, TApiValue, new() 
+        where TValue : class, TApiValue
         where TApiValue : class
     {
         /// <summary>
@@ -35,8 +34,4 @@
             return value;
         }
     }
-
-    public class TypeValueSource<TValue> : 
-        TypeValueSource<TValue, TValue> 
-        where TValue : class, new() { }
 }
