@@ -6,7 +6,7 @@
     using UnityEngine.AddressableAssets;
 
     [Serializable]    
-    public class ContextAssetReference : DisposableAssetReference<ContextAsset>
+    public class ContextAssetReference : AssetReferenceT<ContextAsset>
     {
         public ContextAssetReference(string guid) : base(guid) {}
     }

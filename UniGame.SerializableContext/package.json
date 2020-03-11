@@ -4,7 +4,7 @@
   "displayName": "UniGame Serializable Context",
   "description": "Shared serializable context data for Unity",
   "unity": "2019.2",
-  "version": "1.2.15",
+  "version": "1.2.16",
   "keywords": [],
   "dependencies": {
     "com.unigame.unicore": "1.5.12",
