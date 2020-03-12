@@ -56,6 +56,10 @@
             foldOut = EditorGUILayout.Foldout(foldOut,string.Empty);            
             var rect = GUILayoutUtility.GetLastRect();
             rect.x += 14;
+            var width = rect.width;
+            var newWidth = width - 14;
+            rect.width = newWidth > 0 ? newWidth : width;
+            
             EditorDrawerUtils.DrawDisabled(() => {
                 EditorGUI.ObjectField(rect,label, asset, targetType, true);
             });

@@ -93,7 +93,7 @@
                 EditorGUI.ObjectField(position,assetLabel, asset, asset.GetType(),false);
             }); 
             
-            isFoldoutOpen = property.DrawOdinPropertyWithFoldout(position,isFoldoutOpen);
+            isFoldoutOpen = asset.DrawOdinPropertyWithFoldout(isFoldoutOpen);
             
         }
 
