@@ -21,8 +21,9 @@
         
         public async UniTask<IContext> RegisterAsync(IContext context)
         {
-            sourceValueSource = sourceValueSource ?? new AsyncAssetSourceContainer<TApiValue>().
-                Initialize(this, createSourceInstance);
+            sourceValueSource = sourceValueSource ?? 
+                                new AsyncAssetSourceContainer<TApiValue>().Initialize(
+                                    this, createSourceInstance);
             await sourceValueSource.RegisterAsync(context);
             return context;
         }

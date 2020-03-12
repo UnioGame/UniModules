@@ -5,6 +5,7 @@ namespace UniGreenModules.UniGame.SerializableContext.Runtime.ContextDataSources
     using System.Collections.Generic;
     using Abstract;
     using Addressables;
+    using AddressableTools.Runtime.Attributes;
     using AddressableTools.Runtime.Extensions;
     using Context.Runtime.Interfaces;
     using UniContextData.Runtime.Interfaces;
@@ -22,6 +23,7 @@ namespace UniGreenModules.UniGame.SerializableContext.Runtime.ContextDataSources
 #if ODIN_INSPECTOR
         [Sirenix.OdinInspector.DrawWithUnity]
 #endif
+        [ShowAssetReference]
         public List<ScriptableObjectAssetReference> sourceAssets = new List<ScriptableObjectAssetReference>();
         
 
