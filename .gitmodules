@@ -1,9 +1,12 @@
 [submodule "UniGameFlow"]
 	path = UniGameFlow
 	url = https://github.com/Mefodei/UniGameFlow.git
+	branch = master
 [submodule "UniRoutines"]
 	path = UniRoutines
 	url = https://github.com/Mefodei/UniRoutines.git
+	branch = master
 [submodule "UniGame.UISystem"]
 	path = UniGame.UISystem
 	url = https://github.com/UniGameTeam/UniGame.UISystem.git
+	branch = master
