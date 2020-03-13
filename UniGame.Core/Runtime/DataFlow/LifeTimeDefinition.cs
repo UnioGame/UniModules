@@ -1,10 +1,11 @@
 ﻿namespace UniGreenModules.UniCore.Runtime.DataFlow
 {
+    using System;
     using Interfaces;
     using Runtime.Interfaces;
     using UniGame.Core.Runtime.DataFlow;
 
-    public class LifeTimeDefinition : IUnique
+    public class LifeTimeDefinition : IUnique, ILifeTime
     {
         private LifeTime lifeTime;
         private int id;
@@ -14,7 +15,7 @@
             lifeTime = new LifeTime();
             id = Unique.GetId();
         }
-
+        
         public bool IsTerminated => lifeTime.IsTerminated;
 
         public ILifeTime LifeTime => lifeTime;
@@ -30,6 +31,16 @@
         {
             lifeTime.Restart();
         }
+        
+        #region ilifetime api
+
+        public ILifeTime AddCleanUpAction(Action cleanAction) => lifeTime.AddCleanUpAction(cleanAction);
+
+        public ILifeTime AddDispose(IDisposable item) => lifeTime.AddDispose(item);
+
+        public ILifeTime AddRef(object o) => lifeTime.AddRef(o);
+        
+        #endregion
 
     }
 }
