@@ -28,7 +28,12 @@
                 GameLog.LogError($"AssetReference key is NULL {sceneReference}");
                 return default;
             }
-
+            
+            var dependencies = Addressables.DownloadDependenciesAsync(sceneReference.RuntimeKey);
+            dependencies.AddTo(lifeTime);
+            if(dependencies.Task != null)
+                await dependencies.Task;
+            
             var sceneHandle = sceneReference.LoadSceneAsync(loadSceneMode, activateOnLoad, priority);
             //add to resource unloading
             sceneHandle.AddTo(lifeTime);
@@ -91,11 +96,18 @@
                 GameLog.LogError($"AssetReference key is NULL {assetReference}");
                 return null;
             }
+
+            var result = default(T);
+            var dependencies = Addressables.DownloadDependenciesAsync(assetReference.RuntimeKey);
+            dependencies.AddTo(lifeTime);
+            if(dependencies.Task != null)
+                await dependencies.Task;
             
             var handle = assetReference.LoadAssetAsync<T>();
-            
-            var result = await handle.Task;
-            handle.AddTo(lifeTime);
+            if (handle.Task != null) {
+                result = await handle.Task;
+                handle.AddTo(lifeTime);
+            }
             
             return result;
             
@@ -106,19 +118,11 @@
             where TAsset : Object
             where TResult : class
         {
-            if (assetReference.RuntimeKeyIsValid() == false) {
-                GameLog.LogError($"AssetReference key is NULL {assetReference}");
-                return (null,null);
-            }
-            
-            var handle = assetReference.LoadAssetAsync<TAsset>();
-
-            var result = await handle.Task;
-            handle.AddTo(lifeTime);
-
+            var result = await assetReference.LoadAssetTaskAsync<TAsset>(lifeTime);
             return (result,result as TResult);
         }
 
+        
         public static async UniTask<T> LoadAssetTaskAsync<T>(
             this AssetReferenceGameObject assetReference,
             ILifeTime lifeTime)

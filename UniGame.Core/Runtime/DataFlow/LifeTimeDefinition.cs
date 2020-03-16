@@ -2,10 +2,11 @@
 {
     using System;
     using Interfaces;
+    using ObjectPool.Runtime.Interfaces;
     using Runtime.Interfaces;
     using UniGame.Core.Runtime.DataFlow;
 
-    public class LifeTimeDefinition : IUnique, ILifeTime
+    public class LifeTimeDefinition : IUnique, ILifeTime, IPoolable
     {
         private LifeTime lifeTime;
         private int id;
