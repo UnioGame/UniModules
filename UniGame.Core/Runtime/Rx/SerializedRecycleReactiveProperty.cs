@@ -7,9 +7,19 @@ namespace UniGreenModules.UniGame.Core.Runtime.Rx
 
     [Serializable]
     public class FloatRecycleReactiveProperty : RecycleReactiveProperty<float> {}
-    
+
     [Serializable]
-    public class BoolRecycleReactiveProperty : RecycleReactiveProperty<bool> {}
+    public class BoolRecycleReactiveProperty : RecycleReactiveProperty<bool>
+    {
+        public BoolRecycleReactiveProperty() : base()
+        {
+        }
+
+        public BoolRecycleReactiveProperty(bool defaultValue) : base(defaultValue)
+        {
+            
+        }
+    }
     
     [Serializable]
     public class StringRecycleReactiveProperty : RecycleReactiveProperty<string> {}
