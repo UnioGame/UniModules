@@ -6,7 +6,9 @@
     using Runtime.Interfaces;
     using UniGame.Core.Runtime.DataFlow;
 
-    public class LifeTimeDefinition : IUnique, ILifeTime, IPoolable
+    public class LifeTimeDefinition : IUnique, 
+        ILifeTime, 
+        IPoolable
     {
         private LifeTime lifeTime;
         private int id;
@@ -23,15 +25,10 @@
 
         public int Id => id;
         
-        public void Terminate()
-        {
-            lifeTime.Release();
-        }
+        public void Terminate() => lifeTime.Release();
 
-        public void Release()
-        {
-            lifeTime.Restart();
-        }
+        public void Release() => lifeTime.Restart();
+        
         
         #region ilifetime api
 

@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
-    using ObjectPool;
     using ObjectPool.Runtime;
     using ObjectPool.Runtime.Extensions;
     using UniRx;
@@ -28,7 +27,7 @@
                 yield return null;
             }
 
-            counter.Despawn();
+            counter.DespawnCollection<List<int>,int>();
         }
         
         

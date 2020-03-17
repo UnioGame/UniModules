@@ -2,9 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using UniGame.Core.Runtime.Common;
+using UniGame.Core.Runtime.DataFlow;
 using UniGreenModules.UniCore.Runtime.DataFlow;
 using UniGreenModules.UniCore.Runtime.DataFlow.Interfaces;
 using UniGreenModules.UniCore.Runtime.Interfaces;
+using UniGreenModules.UniCore.Runtime.ObjectPool.Runtime;
 using UnityEngine;
 
 public static class LifetimeExtension
@@ -20,6 +23,23 @@ public static class LifetimeExtension
     {
         context.LifeTime.AddCleanUpAction(action);
         return context;
+    }
+    
+    public static ILifeTimedAction CreateLifeTimedAction<TLifeTime>(
+        this ILifeTime lifeTime,
+        Action action,
+        Action onLifetimeFinished = null)
+    {
+        var lifetimeAction = ClassPool.Spawn<LifeTimedAction>();
+        lifetimeAction.Initialize(lifeTime,action,onLifetimeFinished);
+        return lifetimeAction;
+    }
+    
+    public static IDisposableCommand CreateLifeTimeCommand<TLifeTime>(this Action<ILifeTime> action)
+    {
+        var lifetimeAction = ClassPool.Spawn<LifeTimeContextCommand>();
+        lifetimeAction.Initialize(action);
+        return lifetimeAction;
     }
     
     public static TLifeTime AddDisposable<TLifeTime>(this TLifeTime context,IDisposable action)

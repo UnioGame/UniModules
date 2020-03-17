@@ -2,10 +2,10 @@
 {
     using System;
     using Interfaces;
-    using ObjectPool;
     using ObjectPool.Runtime.Extensions;
+    using ObjectPool.Runtime.Interfaces;
 
-    public class DisposableAction<TArg> : IDisposableItem
+    public class DisposableAction<TArg> : IDisposableItem,IPoolable
     {
         private Action<TArg> _onDisposed;
         private TArg _arg;
@@ -33,16 +33,14 @@
                 _onDisposed?.Invoke(_arg);
             }
             
-            Complete();
-        
             //return to pool
             this.Despawn();
         }
 
-        public void MakeDespawn()
+        public void Release()
         {
-            Dispose();
-            this.Despawn();
+            Complete();
         }
+
     }
 }

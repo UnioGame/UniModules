@@ -17,8 +17,8 @@
             var item2 = new List<int>(){2,3,4,5,6};
             
             //action
-            item1.DespawnCollection();
-            item2.DespawnCollection();
+            item1.Despawn();
+            item2.Despawn();
             
             //assert
             Assert.That(item1.Count == 0);
@@ -35,8 +35,8 @@
             var item2 = new List<int>(){2,3,4,5,6};
             
             //action
-            item1.DespawnCollection();
-            item2.DespawnCollection();
+            item1.Despawn();
+            item2.Despawn();
 
             var result1 = ClassPool.SpawnExists<List<int>>();
             var result2 = ClassPool.SpawnExists<List<int>>();

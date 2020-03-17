@@ -6,7 +6,6 @@
     using Interfaces;
     using ObjectPool.Runtime.Interfaces;
     using Rx.Extensions;
-    using UnityEngine.Profiling;
 
     public class LifeTime : ILifeTime, IPoolable
     {

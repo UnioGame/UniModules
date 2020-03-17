@@ -1,5 +1,6 @@
 ﻿namespace UniGreenModules.UniStateMachine.Runtime.AsyncStateMachine
 {
+    using global::UniCore.Runtime.ProfilerTools;
     using Interfaces;
     using UniCore.Runtime.ProfilerTools;
     using UnityEngine;

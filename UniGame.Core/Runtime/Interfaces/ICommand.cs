@@ -1,10 +1,14 @@
 ﻿namespace UniGreenModules.UniCore.Runtime.Interfaces
 {
+    using System;
+
     public interface ICommand
     {
         void Execute();
     }
 
+    public interface IDisposableCommand : ICommand, IDisposable{}
+    
     public interface IRoutine<out TResult>
     {
         TResult Execute();

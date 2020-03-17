@@ -25,7 +25,7 @@
             
             await UniTask.WhenAll(taskList);
             
-            taskList.DespawnCollection();
+            taskList.Despawn();
 
             return context;
         }
