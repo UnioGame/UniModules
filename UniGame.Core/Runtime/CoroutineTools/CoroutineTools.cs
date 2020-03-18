@@ -3,7 +3,6 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using ObjectPool;
     using ObjectPool.Runtime;
     using ObjectPool.Runtime.Extensions;
     using UniRx;
@@ -37,9 +36,8 @@
                 }
 
             } while (wait == true);
-
-
-            stack.Despawn();
+            
+            stack.DespawnObject(stack.Clear);
 
         }
 
@@ -75,7 +73,7 @@
                 yield return null;
             }
 
-            iterators.DespawnRecursive();
+            iterators.DespawnRecursive<List<CoroutineIterator>,CoroutineIterator>();
         }
 
         public static IEnumerator WaitCoroutinesAsync(this List<IEnumerator> enumerators)
@@ -95,7 +93,7 @@
                 yield return null;
             }
 
-            awaiters.Despawn();
+            awaiters.DespawnCollection<List<bool>,bool>();
         }
     }
 }

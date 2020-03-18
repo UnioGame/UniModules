@@ -5,6 +5,7 @@ using UnityEngine;
 namespace UniGreenModules.UniCore.Runtime.ObjectPool.Runtime
 {
     using System;
+    using global::UniCore.Runtime.ProfilerTools;
     using Interfaces;
     using Object = Object;
 
@@ -66,7 +67,7 @@ namespace UniGreenModules.UniCore.Runtime.ObjectPool.Runtime
             
                 var clone = cache.Pop();
                 if (!clone) {
-                    GameLog.LogError("The " + name + " pool contained a null cache entry");
+                    GameLog.LogErrorFormat("The {0} pool contained a null cache entry",name);
                     continue;
                 }
 

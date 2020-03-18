@@ -1,6 +1,9 @@
 ﻿namespace UniGreenModules.UniCore.Runtime.ObjectPool.Runtime.Extensions
 {
     using System;
+    using System.Collections;
+    using global::UniCore.Runtime.ProfilerTools;
+    using Interfaces;
     using ProfilerTools;
     using UnityEngine;
     using Object = UnityEngine.Object;
@@ -92,14 +95,16 @@
             }
             ObjectPool.Despawn(data);
         }
-        
+
+
         public static void Despawn<T>(this T data, bool destroy = false)
-            where T:class
+            where T:Object
         {
 
-            if (data == null) return;
-
-            GameProfiler.BeginSample("PoolExtension_Despawn");
+            if (data == null) {
+                GameLog.LogErrorFormat("Trying to Despawn NULL Asset {0}",typeof(T).Name);
+                return;
+            }
 
             switch (data) {
                 case Component target :
@@ -108,13 +113,8 @@
                 case Object target:
                     DespawnAsset(target, destroy);
                     break;
-                default:
-                    ClassPool.Despawn(data);
-                    break;
             }
 
-            GameProfiler.EndSample();
-            
         }
     }
 }

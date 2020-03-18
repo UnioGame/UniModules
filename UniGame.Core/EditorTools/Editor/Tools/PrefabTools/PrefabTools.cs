@@ -2,6 +2,7 @@
 {
     using System;
     using System.Diagnostics;
+    using global::UniCore.Runtime.ProfilerTools;
     using Runtime.ProfilerTools;
     using UnityEditor;
     using UnityEditor.SceneManagement;

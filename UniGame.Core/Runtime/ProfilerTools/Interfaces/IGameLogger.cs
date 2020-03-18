@@ -1,4 +1,4 @@
-namespace UniGreenModules.UniCore.Runtime.ProfilerTools.Interfaces
+namespace UniCore.Runtime.ProfilerTools.Interfaces
 {
     using System;
     using UnityEngine;

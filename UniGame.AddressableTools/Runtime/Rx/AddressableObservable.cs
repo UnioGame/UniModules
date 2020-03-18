@@ -1,21 +1,19 @@
-﻿namespace Taktika.Addressables.Reactive
+﻿namespace UniGame.Addressables.Reactive
 {
     using System;
     using System.Collections;
+    using UniCore.Runtime.ProfilerTools;
     using UniGreenModules.UniCore.Runtime.Attributes;
-    using UniGreenModules.UniCore.Runtime.Common;
     using UniGreenModules.UniCore.Runtime.DataFlow;
     using UniGreenModules.UniCore.Runtime.DataFlow.Interfaces;
     using UniGreenModules.UniCore.Runtime.ObjectPool.Runtime;
     using UniGreenModules.UniCore.Runtime.ObjectPool.Runtime.Extensions;
-    using UniGreenModules.UniCore.Runtime.ProfilerTools;
-    using UniGreenModules.UniCore.Runtime.Rx.Extensions;
+    using UniGreenModules.UniCore.Runtime.ObjectPool.Runtime.Interfaces;
     using UniGreenModules.UniGame.AddressableTools.Runtime.Extensions;
     using UniGreenModules.UniGame.Core.Runtime.Common;
     using UniGreenModules.UniGame.Core.Runtime.Extension;
     using UniGreenModules.UniGame.Core.Runtime.Rx;
     using UniGreenModules.UniRoutine.Runtime;
-    using UniGreenModules.UniRoutine.Runtime.Extension;
     using UniRx;
     using UnityEngine;
     using UnityEngine.AddressableAssets;
@@ -24,7 +22,8 @@
 
     [Serializable]
     public class AddressableObservable<TAddressable,TData,TApi> : 
-        IAddressableObservable<TApi> 
+        IAddressableObservable<TApi> ,
+        IPoolable
         where TAddressable : AssetReference 
         where TData : Object
         where TApi : class
@@ -104,11 +103,9 @@
             return disposableAction;
         }
 
-        public void Dispose()
-        {
-            lifeTimeDefinition.Terminate();
-            this.Despawn();
-        }
+        public void Dispose() => this.Despawn();
+        
+        public void Release() => lifeTimeDefinition.Terminate();
 
         #endregion
         

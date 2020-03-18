@@ -2,13 +2,12 @@
 {
     using System;
     using Interfaces;
-    using ObjectPool;
     using ObjectPool.Runtime.Extensions;
-    using Rx;
+    using ObjectPool.Runtime.Interfaces;
     using UniGame.Core.Runtime.Rx;
 
     [Serializable]
-    public class ContextValue<TData> : IDataValue<TData>
+    public class ContextValue<TData> : IDataValue<TData> , IPoolable
     {
         private bool hasValue = false;
         private bool isValueType = typeof(TData).IsValueType;
@@ -31,17 +30,17 @@
             Value = value;
         }
 
-        public void Dispose()
-        {
-            hasValue = false;
-            _reactiveValue.Release();
-            this.Despawn();
-        }
+        public void Dispose() => this.Despawn();
 
         public IDisposable Subscribe(IObserver<TData> action)
         {
             return _reactiveValue.Subscribe(action);
         }
 
+        public void Release()
+        {
+            hasValue = false;
+            _reactiveValue.Release();
+        }
     }
 }

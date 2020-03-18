@@ -2,7 +2,6 @@
 {
     using System;
     using Runtime.Models;
-    using UniCore.Runtime.ObjectPool;
     using UniCore.Runtime.ObjectPool.Runtime.Extensions;
     using UnityEngine;
 
@@ -18,13 +17,16 @@
 
         public override void MakeDespawn()
         {
+            this.DespawnObject(Release);
+        }
+
+        public void Release()
+        {
             if(target)
                 GameObject.Destroy(target);
 
-            value = 0;
+            value     = 0;
             modelName = string.Empty;
-            
-            this.Despawn();
         }
     }
 }
