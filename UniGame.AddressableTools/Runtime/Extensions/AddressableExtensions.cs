@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using SerializableContext.Runtime.Addressables;
     using UniCore.Runtime.DataFlow.Interfaces;
     using UniCore.Runtime.ObjectPool.Runtime;
@@ -54,24 +55,57 @@
             
             reference.ReleaseAsset();
         }
+        
+        public static async Task<IEnumerable<TSource>> LoadAssetsTaskAsync<TSource, TAsset>(
+            this IEnumerable<TAsset> assetReference, 
+            List<TSource> resultContainer, ILifeTime lifeTime)
+            where TAsset : AssetReference
+            where TSource : Object
+        {
+            return await assetReference.LoadAssetsTaskAsync<TSource, TSource, TAsset>(resultContainer, lifeTime);
+        }
+        
+        public static async Task<IEnumerable<TResult>> LoadAssetsTaskAsync<TSource,TResult,TAsset>(
+            this IEnumerable<TAsset> assetReference, 
+            IList<TResult> resultContainer, ILifeTime lifeTime)
+            where TResult : class
+            where TAsset : AssetReference
+            where TSource : Object
+        {
+            var taskList = ClassPool.Spawn<List<Task<TSource>>>();
 
-        public static async UniTask<IReadOnlyList<TSource>> LoadAssetsTaskAsync<TSource, TAsset>(
+            foreach (var asset in assetReference) {
+                var assetTask = asset.LoadAssetTaskAsync<TSource>(lifeTime);
+                taskList.Add(assetTask);
+            }
+
+            var result = await Task.WhenAll(taskList);
+            for (var j = 0; j < result.Length; j++) {
+                if(result[j] is TResult item) resultContainer.Add(item);
+            }
+            
+            taskList.DespawnCollection();
+
+            return resultContainer;
+        }
+
+        public static async Task<IReadOnlyList<TSource>> LoadAssetsTaskAsync<TSource, TAsset>(
             this IReadOnlyList<TAsset> assetReference, 
             List<TSource> resultContainer, ILifeTime lifeTime)
             where TAsset : AssetReference
             where TSource : Object
         {
-            return await assetReference.LoadAssetsTaskAsync<TSource, TSource, TAsset>(resultContainer,lifeTime);
+            return await assetReference.LoadAssetsTaskAsync<TSource, TSource, TAsset>(resultContainer, lifeTime);
         }
 
-        public static async UniTask<IReadOnlyList<TResult>> LoadAssetsTaskAsync<TSource,TResult,TAsset>(
+        public static async Task<IReadOnlyList<TResult>> LoadAssetsTaskAsync<TSource,TResult,TAsset>(
             this IReadOnlyList<TAsset> assetReference, 
             List<TResult> resultContainer,ILifeTime lifeTime)
             where TResult : class
             where TAsset : AssetReference
             where TSource : Object
         {
-            var taskList = ClassPool.Spawn<List<UniTask<TSource>>>();
+            var taskList = ClassPool.Spawn<List<Task<TSource>>>();
             
             for (var i = 0; i < assetReference.Count; i++) {
                 var asset = assetReference[i];
@@ -79,7 +113,7 @@
                 taskList.Add(assetTask);
             }
             
-            var result = await UniTask.WhenAll(taskList);
+            var result = await Task.WhenAll(taskList);
             for (var j = 0; j < result.Length; j++) {
                 if(result[j] is TResult item) resultContainer.Add(item);
             }
@@ -89,7 +123,7 @@
             return resultContainer;
         }
         
-        public static async UniTask<T> LoadAssetTaskAsync<T>(this AssetReference assetReference,ILifeTime lifeTime)
+        public static async Task<T> LoadAssetTaskAsync<T>(this AssetReference assetReference,ILifeTime lifeTime)
             where T : Object
         {
             if (assetReference.RuntimeKeyIsValid() == false) {
