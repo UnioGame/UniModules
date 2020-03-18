@@ -9,4 +9,4 @@
 [submodule "UniGame.UISystem"]
 	path = UniGame.UISystem
 	url = https://github.com/UniGameTeam/UniGame.UISystem.git
-	branch = master
+	branch = develop
