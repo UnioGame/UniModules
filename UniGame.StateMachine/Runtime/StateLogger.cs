@@ -1,6 +1,7 @@
 ﻿namespace UniGreenModules.UniStateMachine.Runtime
 {
     using System.Diagnostics;
+    using global::UniCore.Runtime.ProfilerTools;
     using UniCore.Runtime.ProfilerTools;
     using UnityEngine;
 

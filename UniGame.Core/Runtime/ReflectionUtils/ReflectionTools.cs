@@ -6,6 +6,7 @@
     using System.Linq;
     using System.Reflection;
     using DataStructure;
+    using global::UniCore.Runtime.ProfilerTools;
     using ProfilerTools;
     using UnityEngine;
     using Object = UnityEngine.Object;
@@ -177,7 +178,7 @@
                 }
                 catch (ReflectionTypeLoadException e)
                 {
-                    GameLog.LogWarning($"assembly : {assembly.FullName} {e}");
+                    GameLog.LogWarningFormat("assembly : {0} {1}",assembly.FullName,e);
                 };
             }
             

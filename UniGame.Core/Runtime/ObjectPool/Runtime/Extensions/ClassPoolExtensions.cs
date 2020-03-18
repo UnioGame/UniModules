@@ -6,56 +6,77 @@
 
     public static class ClassPoolExtensions
     {
-        public static IDisposable DespawnDisposable(this object source,ref IDisposable target)
+        public static void Despawn<T>(this T data)
+            where T:class, IPoolable
         {
-            target = target.DespawnDisposable();
-            return target;
-        }
-
-        public static IDisposable DespawnDisposable(this IDisposable despawnItem)
-        {
-            switch (despawnItem) {
-                case null:
-                    return null;
-                case IDespawnable despawnable:
-                    despawnable.Despawn();
-                    break;
-                default:
-                    despawnItem.Dispose();
-                    break;
-            }
-
-            return null;
-        }
-
-        public static void DespawnRecursive<TData>(this IList<TData> data)
-            where TData : class
-        {
-            DespawnItems(data);
-            data.DespawnCollection();
+            if (data == null) return;
+            ClassPool.Despawn(data);
         }
         
-        public static void DespawnCollection<TData>(this ICollection<TData> data)
+        public static void DespawnObject<T>(this T data, Action cleanupAction)
+            where T: class
         {
-            data.Clear();
-            data.Despawn();
+            if (data == null) return;
+            cleanupAction?.Invoke();
+            ClassPool.Despawn(data);
+        }
+        
+        public static void DespawnRecursive<TValue,TData>(this TValue data)
+            where TValue : class, ICollection<TData> 
+        {
+            DespawnItems(data);
+            DespawnCollection<TValue,TData>(data);
+        }
+        
+        public static void Despawn<TData>(this List<TData> value)
+        {
+            value.Clear();
+            ClassPool.Despawn(value);
+        }
+        
+        public static void Despawn<TData>(this HashSet<TData> value)
+        {
+            value.Clear();
+            ClassPool.Despawn(value);
+        }
+        
+        public static void Despawn<TData>(this Stack<TData> value)
+        {
+            value.Clear();
+            ClassPool.Despawn(value);
+        }
+        
+        public static void Despawn<TKey,TValue>(this Dictionary<TKey,TValue> value)
+        {
+            value.Clear();
+            ClassPool.Despawn(value);
+        }
+        
+        public static void Despawn<TData>(this Queue<TData> value)
+        {
+            value.Clear();
+            ClassPool.Despawn(value);
+        }
+        
+        public static void DespawnCollection<TValue,TData>(this TValue value)
+            where  TValue : class, ICollection<TData> 
+        {
+            value.Clear();
+            ClassPool.Despawn(value);
         }
 
-
-        public static void DespawnDictionary<TKey,TData>(this IDictionary<TKey,TData> data)
-            where TData : class
+        public static void DespawnDictionary<TData,TKey,TValue>(this TData data)
+            where TData : class, IDictionary<TKey,TValue>
         {
             data.Clear();
-            data.Despawn();
+            ClassPool.Despawn(data);
         }
 
-        public static void DespawnItems<TData>(this IList<TData> data)
-            where TData : class 
+        public static void DespawnItems<TData>(this ICollection<TData> data)
         {
-            for (int i = 0; i < data.Count; i++)
-            {
-                if (data[i] is IPoolable)
-                    data[i].Despawn();
+            foreach (var item in data) {
+                if (item is IPoolable poolable)
+                    poolable.Despawn();
             }
             data.Clear();
         }

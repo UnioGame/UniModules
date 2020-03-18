@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using global::UniCore.Runtime.ProfilerTools;
     using UnityEngine.Profiling;
     using Debug = UnityEngine.Debug;
 

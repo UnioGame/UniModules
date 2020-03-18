@@ -1,4 +1,4 @@
-namespace Taktika.Addressables.Reactive
+namespace UniGame.Addressables.Reactive
 {
     using System;
     using UniRx;

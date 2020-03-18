@@ -1,8 +1,9 @@
-﻿namespace UniGreenModules.UniCore.Runtime.ProfilerTools
+﻿namespace UniCore.Runtime.ProfilerTools
 {
     using System;
+    using Cysharp.Text;
     using Interfaces;
-    using Utils;
+    using UniGreenModules.UniCore.Runtime.Utils;
     using UnityEngine;
     using Debug = UnityEngine.Debug;
     using Object = UnityEngine.Object;
@@ -98,19 +99,20 @@
         public void LogWarning(string message, Object source = null)
         {
             if (!Enabled) return;
+            
             if (source) {
-                Debug.LogWarningFormat(GetLogMessageWithPrefix(message), source);
+                Debug.LogWarning(GetLogMessageWithPrefix(message), source);
                 return;
             }
 
-            Debug.LogWarningFormat(GetLogMessageWithPrefix(message));
+            Debug.LogWarning(GetLogMessageWithPrefix(message));
         }
 
         public void LogWarningFormat(string template, params object[] values)
         {
             if (!Enabled) return;
-            var message = string.Format(template, values);
-            Debug.LogWarningFormat(GetLogMessageWithPrefix(message));
+            var message = ZString.Format(template, values);
+            Debug.LogWarning(GetLogMessageWithPrefix(message));
         }
 
         public void LogError(string message, Object source = null)
@@ -135,7 +137,8 @@
 
         public void LogErrorFormat(string message, params object[] objects)
         {
-            Debug.LogErrorFormat(message, objects);
+            var value = ZString.Format(message, objects);
+            Debug.LogError(value);
         }
 
         public void LogFormatRuntime(string template, params object[] values)
@@ -153,7 +156,7 @@
 
         public string GetColorTemplate(string message, Color color)
         {
-            var colorMessage = string.Format("<color=#{0:X2}{1:X2}{2:X2}>{3}</color>",
+            var colorMessage = ZString.Format("<color=#{0:X2}{1:X2}{2:X2}>{3}</color>",
                                              (byte) (color.r * 255f), (byte) (color.g * 255f), (byte) (color.b * 255f),
                                              message);
             return colorMessage;
@@ -175,12 +178,14 @@
 
         private string GetNamePrefix()
         {
-            return string.Format(NameTemplate, Name, _counter.ToStringFromCache());
+            return ZString.Format(NameTemplate, Name, _counter.ToStringFromCache());
         }
 
         private string GetLogMessageWithPrefix(string message)
         {
-            return string.Format(LogTemplate,DateTime.Now.ToLongTimeString(), LogPrefix, message);
+            return ZString.Format(LogTemplate,
+                DateTime.Now.ToLongTimeString(), 
+                LogPrefix, message);
         }
     }
 }

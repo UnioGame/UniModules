@@ -1,4 +1,4 @@
-﻿namespace UniGreenModules.UniCore.Runtime.ProfilerTools
+﻿namespace UniCore.Runtime.ProfilerTools
 {
     using System;
     using System.Diagnostics;

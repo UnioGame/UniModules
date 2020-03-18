@@ -2,11 +2,11 @@
 {
     using System;
     using System.Collections.Generic;
+    using global::UniCore.Runtime.ProfilerTools;
     using SerializableContext.Runtime.Addressables;
     using UniCore.Runtime.DataFlow.Interfaces;
     using UniCore.Runtime.ObjectPool.Runtime;
     using UniCore.Runtime.ObjectPool.Runtime.Extensions;
-    using UniCore.Runtime.ProfilerTools;
     using UniRx.Async;
     using UnityEngine;
     using UnityEngine.AddressableAssets;
@@ -84,7 +84,7 @@
                 if(result[j] is TResult item) resultContainer.Add(item);
             }
             
-            taskList.DespawnCollection();
+            taskList.Despawn();
 
             return resultContainer;
         }

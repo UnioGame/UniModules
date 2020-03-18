@@ -4,6 +4,8 @@ using UnityEngine;
 
 namespace UniGreenModules.UniCore.EditorTools.Editor.BuildTools
 {
+    using global::UniCore.Runtime.ProfilerTools;
+
     public class BuildReportUtils  {
 
 

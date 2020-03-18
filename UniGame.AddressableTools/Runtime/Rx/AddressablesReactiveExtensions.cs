@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Taktika.Addressables.Reactive
+namespace UniGame.Addressables.Reactive
 {
     using UniGreenModules.UniCore.Runtime.ObjectPool.Runtime;
     using UniRx;

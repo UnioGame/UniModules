@@ -66,7 +66,8 @@
             
             Count = 0;
             Queue.Clear();
-            Queue.Despawn();
+            Queue.DespawnObject(Queue.Clear);
+            
             Queue = null;
             factory = null;
             onDespawn = null;
