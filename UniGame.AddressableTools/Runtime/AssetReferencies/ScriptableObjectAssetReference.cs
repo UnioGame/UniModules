@@ -17,6 +17,5 @@
     public class ScriptableObjectAssetReference : DisposableAssetReference<ScriptableObject> 
     {
         public ScriptableObjectAssetReference(string guid) : base(guid) {}
-
     }
 }

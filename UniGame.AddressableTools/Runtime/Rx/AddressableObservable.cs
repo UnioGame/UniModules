@@ -123,16 +123,13 @@
             var targetType = typeof(TData);
             var apiType = typeof(TApi);
 
-            var isComponent =   reference is AssetReferenceGameObject ||
-                                targetType.IsComponent() ||
-                                apiType.IsComponent();
+            var isComponent = targetType.IsComponent() || apiType.IsComponent();
 
             var routine = isComponent
                 ? LoadHandle<GameObject>(lifeTime,x => value.Value = x.GetComponent<TApi>()) 
                 : LoadHandle<TData>(lifeTime,x => value.Value = x as TApi);
             
             yield return routine;
-
         }
 
         private IEnumerator LoadHandle<TValue>(ILifeTime lifeTime,Action<TValue> result) 
@@ -168,6 +165,5 @@
             value.Release();
             value.Value = default;
         }
-        
     }
 }
