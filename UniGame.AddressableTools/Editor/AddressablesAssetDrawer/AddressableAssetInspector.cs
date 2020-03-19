@@ -51,7 +51,6 @@
             DrawOnGuiAssetReferenceInspector(position,property);
 
             DrawAssetReferenceDrawer(position, property, label);
-
         }
 
         private void DrawAssetReferenceDrawer(Rect position, SerializedProperty property, GUIContent label)

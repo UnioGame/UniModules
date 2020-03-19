@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using DrawersTools;
     using Runtime.Attributes;
     using UniCore.EditorTools.Editor.AssetOperations;
     using UnityEditor;
@@ -18,8 +17,6 @@
         private static List<Object> assets = new List<Object>();
         private static List<string> assetsItems = new List<string>();
 
-        private bool foldOut = false;
-        
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             var target          = property.objectReferenceValue;
@@ -46,16 +43,16 @@
 
             var controlPosition = position;
             EditorGUI.PropertyField(controlPosition, property, label,true);
-
-            foldOut = property.DrawOdinPropertyWithFoldout(controlPosition, foldOut);
-
-            var fieldRect = EditorGUILayout.GetControlRect();
-            controlPosition =  fieldRect;
-            position.height += controlPosition.height;
             
-            var newIndex = EditorGUI.Popup(controlPosition, string.Empty, 
-                index, assetsItems.ToArray());
-                
+            var fieldRect = EditorGUILayout.GetControlRect();
+            controlPosition   =  fieldRect;
+            var newIndex = EditorGUI.Popup(controlPosition, 
+                string.Empty, 
+                index, 
+                assetsItems.ToArray());
+            
+            position.height += fieldRect.height;
+            
             if (newIndex == index) {
                 return;
             }
