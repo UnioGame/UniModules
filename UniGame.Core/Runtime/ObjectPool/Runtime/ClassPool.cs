@@ -26,6 +26,12 @@
 			}
 		}
 
+		public static TResult Spawn<TResult>(this object _, Action<TResult> onSpawn = null)
+			where TResult : class, new()
+		{
+			return Spawn<TResult>(onSpawn);
+		}
+
 		public static TResult Spawn<TResult>(Action<TResult> onSpawn = null)
             where TResult : class, new()
         {
