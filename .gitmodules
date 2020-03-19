@@ -1,7 +1,7 @@
 [submodule "UniGameFlow"]
 	path = UniGameFlow
 	url = https://github.com/UniGameTeam/UniGameFlow.git
-	branch = master
+	branch = develop
 [submodule "UniRoutines"]
 	path = UniRoutines
 	url = https://github.com/UniGameTeam/UniRoutines.git

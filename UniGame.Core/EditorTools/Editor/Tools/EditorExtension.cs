@@ -22,6 +22,43 @@
             return property.GetChildrens();
         }
 
+        public static bool IsEquals(this SerializedProperty source, SerializedProperty target)
+        {
+            return SerializedProperty.EqualContents(source, target);
+        }
+
+        public static int GetArrayPropertyIndex(this SerializedProperty source, SerializedProperty target)
+        {
+            if (source.isArray == false)
+                return -1;
+            for (int i = 0; i < source.arraySize; i++) {
+                var element = source.GetArrayElementAtIndex(i);
+                if (element.IsEquals(target)) {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+        
+        public static SerializedProperty GetNextArrayProperty(this SerializedProperty source, SerializedProperty target)
+        {
+            if (source.isArray == false)
+                return null;
+            
+            var found = false;
+            for (int i = 0; i < source.arraySize; i++) {
+                var element = source.GetArrayElementAtIndex(i);
+                if (found) return element;
+                if (element.IsEquals(target)) {
+                    found = true;
+                }
+                
+            }
+
+            return null;
+        }
+        
         /// <summary>
         /// Gets all childrens of `SerializedObjects`
         /// at 1 level depth if includeChilds == false.
