@@ -74,8 +74,7 @@
             
             assets.Clear();
 
-            AssetEditorTools.FindAssets(assets, filterType, 
-                string.IsNullOrEmpty(folderFilter) ? 
+            AssetEditorTools.FindAssets(assets, filterType, string.IsNullOrEmpty(folderFilter) ? 
                     null :
                     new []{folderFilter});
 
