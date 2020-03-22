@@ -16,6 +16,7 @@
     {
 
         private HashSet<object> shownValues;
+        private Func<object, bool> valueFilter;
         private Dictionary<Type,Func<object,VisualElement>> drawers;
 
         public UiElementValueDrawer()
@@ -24,10 +25,13 @@
             drawers = CreateDrawers();
         }
         
-        public VisualElement Create(object data)
+        public VisualElement Create(object data, Func<object,bool> filter = null)
         {
             shownValues.Clear();
-            return CreateVisualElement(data);
+            valueFilter = filter;
+            var result = CreateVisualElement(data);
+            valueFilter = null;
+            return result;
         }
         
         public VisualElement CreateObjectView(Object target,string label = "")
@@ -42,6 +46,7 @@
                 allowSceneObjects = true,
                 visible = true,
             };
+            
             if (string.IsNullOrEmpty(label) == false) {
                 field.label = label;
             }
@@ -200,6 +205,7 @@
                 { typeof(Sprite), x => CreateSpriteView(x as Sprite)},
                 { typeof(Texture), x => CreateTextureView(x as Texture)},
                 { typeof(ScriptableObject), x => CreateUnityObjectView(x as ScriptableObject)},
+                { typeof(Component), x => CreateUnityObjectView(x as Component)},
                 { typeof(GameObject), x => CreateObjectView(x as GameObject)},
                 { typeof(Object), x => CreateObjectView(x as Object)},
                 { typeof(ICollection), x => CreateCollectionView(x as ICollection)},
@@ -213,9 +219,14 @@
             if (data == null) return null;
 
             var type = data.GetType();
+            
             if (type.IsClass && shownValues.Add(data) == false)
                 return null;
-
+            
+            //user defined filterings
+            if (valueFilter != null && valueFilter(data) == false)
+                return null;
+            
             foreach (var drawer in drawers) {
                 var drawerType = drawer.Key;
                 if(drawerType.IsAssignableFrom(type) == false)

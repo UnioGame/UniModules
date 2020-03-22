@@ -58,6 +58,8 @@ namespace UniGreenModules.UniCore.EditorTools.Editor
 		}
 		#endregion
 
+		
+		
 		/// <summary>
 		/// Set isExpanded of the SerializedProperty and propogate the change up the hierarchy
 		/// </summary>
