@@ -9,6 +9,10 @@ namespace UniGreenModules.UniGame.AddressableTools.Runtime.AssetReferencies
     /// disposable asset reference handler
     /// </summary>
     /// <typeparam name="TAsset">target asset type</typeparam>
+    [Serializable]
+#if ODIN_INSPECTOR
+    [Sirenix.OdinInspector.DontApplyToListElements]
+#endif
     public class DisposableAssetReference<TAsset> : AssetReferenceT<TAsset> , IDisposable
         where TAsset : Object 
     {

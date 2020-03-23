@@ -159,13 +159,18 @@
         {
             if (!(item is Object asset)) return;
             
-            if (add)
-            {
+            if (add) {
+                if (Selection.objects.Contains(item))
+                    return;
                 var selection = new List<Object>(Selection.objects);
                 selection.Add(asset);
                 Selection.objects = selection.ToArray();
             }
-            else Selection.objects = new[] {asset};
+            else {
+                if (Selection.objects.Length == 1 && Selection.objects[0] == item)
+                    return;
+                Selection.objects = new[] {asset};
+            }
         }
 
         public static void SetDirty(this object asset)

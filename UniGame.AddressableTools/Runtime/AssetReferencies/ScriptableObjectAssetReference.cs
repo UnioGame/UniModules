@@ -12,7 +12,6 @@
 #if ODIN_INSPECTOR
     [DontApplyToListElements]
 #endif
-    
     [Serializable]
     public class ScriptableObjectAssetReference : DisposableAssetReference<ScriptableObject> 
     {

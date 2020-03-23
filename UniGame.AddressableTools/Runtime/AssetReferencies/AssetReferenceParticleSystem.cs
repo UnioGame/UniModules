@@ -5,6 +5,9 @@ namespace UniModules.UniGame.AddressableTools.Runtime.AssetReferencies
     using UnityEngine;
     using UnityEngine.AddressableAssets;
 
+#if ODIN_INSPECTOR
+    [Sirenix.OdinInspector.DontApplyToListElements]
+#endif
     [Serializable]
     public class AssetReferenceParticleSystem : AssetReferenceT<ParticleSystem>
     {
