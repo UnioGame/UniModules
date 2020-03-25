@@ -59,10 +59,16 @@
         public static bool OpenScript(Type type,params string[] folders)
         {
             var typeName  = type.Name;
-            var filter    = $"t:script {typeName}.cs";
-            var assetGuid = AssetDatabase.FindAssets(filter, folders).FirstOrDefault();
+            var filter    = $"t:script {typeName}";
+            
+            var assets = AssetDatabase.FindAssets(filter, folders);
+            var assetGuid = assets.FirstOrDefault(
+                    x => string.Equals(typeName,
+                    Path.GetFileNameWithoutExtension(x),StringComparison.OrdinalIgnoreCase));
+            
             if (string.IsNullOrEmpty(assetGuid))
                 return false;
+            
             var asset = AssetDatabase.LoadAssetAtPath<Object>(AssetDatabase.GUIDToAssetPath(assetGuid));
             if (asset == null)
                 return false;
