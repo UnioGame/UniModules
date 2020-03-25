@@ -8,6 +8,7 @@
     using Runtime.ReflectionUtils;
     using UnityEditor;
     using UnityEngine;
+    using Utility;
     using Object = UnityEngine.Object;
 
     public partial class AssetEditorTools
@@ -64,12 +65,13 @@
             var assets = AssetDatabase.FindAssets(filter, folders);
             var assetGuid = assets.FirstOrDefault(
                     x => string.Equals(typeName,
-                    Path.GetFileNameWithoutExtension(x),StringComparison.OrdinalIgnoreCase));
+                        Path.GetFileNameWithoutExtension(x.AssetGuidToPath()),
+                        StringComparison.OrdinalIgnoreCase));
             
             if (string.IsNullOrEmpty(assetGuid))
                 return false;
             
-            var asset = AssetDatabase.LoadAssetAtPath<Object>(AssetDatabase.GUIDToAssetPath(assetGuid));
+            var asset = AssetDatabase.LoadAssetAtPath<Object>(assetGuid.AssetGuidToPath());
             if (asset == null)
                 return false;
             return AssetDatabase.OpenAsset(asset.GetInstanceID(), 0, 0);

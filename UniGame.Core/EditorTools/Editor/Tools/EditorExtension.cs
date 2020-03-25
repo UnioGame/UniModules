@@ -15,6 +15,10 @@
         public static bool OpenEditorScript(this Type type,params string[] folders) => AssetEditorTools.OpenScript(type,folders);
         
         public static bool OpenEditorScript<T>(this Type type,params string[] folders) => AssetEditorTools.OpenScript<T>(folders);
+
+        public static string AssetGuidToPath(this string guid) => AssetDatabase.GUIDToAssetPath(guid);
+        
+        public static string AssetPathToGuid(this string path) => AssetDatabase.AssetPathToGUID(path);
         
         
         /// <summary>
