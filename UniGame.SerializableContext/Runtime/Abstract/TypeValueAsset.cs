@@ -11,7 +11,7 @@
     [Serializable]
     public abstract class TypeValueAsset<TValue,TApiValue> : 
         ScriptableObject,
-        ITypeValueAsset<TApiValue>
+        ITypeValueAsset<TValue,TApiValue>
         where TValue : TApiValue
     {
         #region inspector
@@ -25,6 +25,8 @@
         private LifeTimeDefinition lifeTime;
         
         private ContextValue<TApiValue> contextValue = new ContextValue<TApiValue>();
+
+        protected TValue _activeValue;
 
         public ILifeTime LifeTime => lifeTime.LifeTime;
 
@@ -46,8 +48,12 @@
         public IDisposable Subscribe(IObserver<TApiValue> observer) => contextValue.Subscribe(observer);
         
         public void Dispose() => contextValue.Dispose();
-        
-        public void SetValue(TApiValue value) => ApplyValue(value);
+
+        public void SetValue(TValue value)
+        {
+            _activeValue = value;
+            ApplyValue(value);
+        }
         
         #endregion
         
@@ -74,7 +80,7 @@
         /// Default context value
         /// </summary>
         /// <returns></returns>
-        protected virtual TApiValue GetDefaultValue() => defaultValue;
+        protected virtual TValue GetDefaultValue() => defaultValue;
 
         /// <summary>
         /// initialize default value state

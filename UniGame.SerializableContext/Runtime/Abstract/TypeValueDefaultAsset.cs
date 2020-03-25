@@ -8,7 +8,7 @@
         TypeValueAsset<TValue, TApiValue>
         where TValue :class, TApiValue, new()
     {
-        protected override TApiValue GetDefaultValue() {
+        protected override TValue GetDefaultValue() {
             return defaultValue ?? new TValue();
         }
     }
