@@ -8,7 +8,15 @@
     using UnityEngine;
     using Object = UnityEngine.Object;
 
-    public static class EditorExtension {
+    public static class EditorExtension
+    {
+
+
+        public static bool OpenEditorScript(this Type type,params string[] folders) => AssetEditorTools.OpenScript(type,folders);
+        
+        public static bool OpenEditorScript<T>(this Type type,params string[] folders) => AssetEditorTools.OpenScript<T>(folders);
+        
+        
         /// <summary>
         /// Gets all childrens of `SerializedObjects`
         /// at 1 level depth if includeChilds == false.

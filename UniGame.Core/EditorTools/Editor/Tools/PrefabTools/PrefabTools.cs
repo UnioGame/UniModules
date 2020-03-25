@@ -23,7 +23,6 @@
                 return asset;
             
             asset.SetDirty();
-            asset.SaveScenes();
             AssetDatabase.SaveAssets();
 
             var prefabResource = asset.GetPrefabDefinition();
