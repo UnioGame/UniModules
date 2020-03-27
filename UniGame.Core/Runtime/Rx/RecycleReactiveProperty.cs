@@ -1,37 +1,42 @@
 ﻿namespace UniGreenModules.UniGame.Core.Runtime.Rx
 {
     using System;
+    using System.Collections.Generic;
     using System.Runtime.CompilerServices;
     using DataStructure;
     using DataStructure.LinkedList;
+    using global::UniGame.Core.Runtime.Utils;
     using UniCore.Runtime.Attributes;
     using UniCore.Runtime.Common;
+    using UniCore.Runtime.DataFlow;
+    using UniCore.Runtime.DataFlow.Interfaces;
     using UniCore.Runtime.Interfaces.Rx;
     using UniCore.Runtime.ObjectPool.Runtime;
     using UniCore.Runtime.ObjectPool.Runtime.Extensions;
+    using UniRx;
     using UnityEngine;
     using Object = UnityEngine.Object;
 
     [Serializable]
-    public class RecycleReactiveProperty<T> : IRecycleReactiveProperty<T> 
+    public class RecycleReactiveProperty<T> : 
+        IRecycleReactiveProperty<T> 
     {
+        private IEqualityComparer<T> _equalityComparer;
+        private LifeTimeDefinition _lifeTimeDefinition = new LifeTimeDefinition();
+        private UniLinkedList<IObserver<T>> _observers;
+
         [SerializeField]
         protected T value = default;
         
         [Tooltip("Merk this field to true, if you want notify immediately after subscription")]
         [SerializeField]
-        private bool hasValue = false;
+        protected bool hasValue = false;
 
-        private UniLinkedList<IObserver<T>> observers;
-        
-        private UniLinkedList<IObserver<T>> Observers => observers = observers ?? new UniLinkedList<IObserver<T>>();
+        protected UniLinkedList<IObserver<T>> Observers => _observers = _observers ?? new UniLinkedList<IObserver<T>>();
 
         #region constructor
-        
-        public RecycleReactiveProperty()
-        {
-            value = default;
-        }
+
+        public RecycleReactiveProperty(){}
 
         public RecycleReactiveProperty(T value)
         {
@@ -40,7 +45,10 @@
         }
         
         #endregion
+
+        public ILifeTime LifeTime => _lifeTimeDefinition ?? (_lifeTimeDefinition = new LifeTimeDefinition());
         
+        IEqualityComparer<T> EqualityComparer => _equalityComparer ?? (_equalityComparer = CreateComparer());
         
         public T Value {
             get => value;
@@ -49,9 +57,18 @@
 
         public bool HasValue => hasValue;
 
+        #region public methods
+        
         public IDisposable Subscribe(IObserver<T> observer)
         {
-            var disposeAction = ClassPool.Spawn<DisposableAction>();
+            if (LifeTime.IsTerminated) {
+                observer.OnCompleted();
+                return Disposable.Empty;
+            }
+            
+            var disposeAction = ClassPool.
+                Spawn<DisposableAction>();
+            
             var node = Observers.Add(observer);
             disposeAction.Initialize(() => Remove(node));
               
@@ -61,11 +78,21 @@
             return disposeAction;
         }
 
+        public void Dispose() => _lifeTimeDefinition.Terminate();
 
         public void SetValue(T propertyValue)
         {
+            if (hasValue && EqualityComparer.Equals(this.value, propertyValue)) {
+                return;
+            }
+
+            SetValueForce(propertyValue);
+        }
+
+        public void SetValueForce(T propertyValue)
+        {
             hasValue = true;
-            value = propertyValue;
+            value    = propertyValue;
             
             do {
                 Observers.current?.Value.OnNext(value);
@@ -76,6 +103,26 @@
     
         public void Release()
         {
+            _lifeTimeDefinition.Release();
+            _lifeTimeDefinition.AddCleanUpAction(CleanUp);
+        }
+
+        public object GetValue() => value;
+
+        #endregion
+        
+        protected virtual IEqualityComparer<T> CreateComparer() => UnityEqualityComparer.GetDefault<T>();
+
+        protected virtual void OnRelease(){}
+        
+        private void Remove(ListNode<IObserver<T>> observer)
+        {
+            observer.Value?.OnCompleted();
+            Observers.Remove(observer);
+        }
+
+        private void CleanUp()
+        {
             hasValue = false;
             
             //stop listing all child observers
@@ -85,17 +132,9 @@
             
             Observers.Release();
             value = default(T);
+                     
+            OnRelease();
         }
-
-        public void MakeDespawn() => this.Despawn();
-
-        public object GetValue() => value;
-
-        private void Remove(ListNode<IObserver<T>> observer)
-        {
-            observer.Value?.OnCompleted();
-            Observers.Remove(observer);
-        }
-
+        
     }
 }
