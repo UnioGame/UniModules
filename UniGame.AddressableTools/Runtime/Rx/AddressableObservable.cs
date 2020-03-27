@@ -103,7 +103,9 @@
             return disposableAction;
         }
 
-        public void Dispose() => this.Despawn();
+        public void Dispose() {
+            this.Despawn();
+        }
         
         public void Release() => lifeTimeDefinition.Terminate();
 
@@ -162,5 +164,11 @@
             value.Release();
             value.Value = default;
         }
+        
+        #region deconstructor
+        
+        ~AddressableObservable() => Release();
+        
+        #endregion
     }
 }

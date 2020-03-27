@@ -7,6 +7,7 @@
     using Interfaces;
     using Interfaces.Rx;
     using ObjectPool.Runtime;
+    using ObjectPool.Runtime.Extensions;
     using ObjectPool.Runtime.Interfaces;
     using UniGame.Core.Runtime.Rx;
 
@@ -43,8 +44,8 @@
             
             var removed = contextValues.Remove(type);
             //release context value
-            if(value is IDespawnable despawnable)
-                despawnable.MakeDespawn();
+            if(value is IPoolable poolable)
+                poolable.Despawn();
 
             if (cachedType == type) {
                 ResetCache();
