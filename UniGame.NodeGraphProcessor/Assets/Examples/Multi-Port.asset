@@ -71,7 +71,6 @@ MonoBehaviour:
     inputPortIdentifier: 0
     outputPortIdentifier: 
   groups: []
-  stackNodes: []
   pinnedElements:
   - position:
       serializedVersion: 2
@@ -104,7 +103,5 @@ MonoBehaviour:
       serializedType: GraphProcessor.ExposedParameterView, com.alelievr.NodeGraphProcessor.Editor,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   exposedParameters: []
-  position: {x: 38, y: 195, z: 0}
-  scale: {x: 0.7561437, y: 0.7561437, z: 1}
-  references:
-    version: 1
+  position: {x: -16, y: 270, z: 0}
+  scale: {x: 1, y: 1, z: 1}

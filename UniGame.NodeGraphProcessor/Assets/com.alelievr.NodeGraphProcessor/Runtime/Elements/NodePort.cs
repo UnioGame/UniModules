@@ -7,8 +7,6 @@ using System;
 
 namespace GraphProcessor
 {
-	using Object = System.Object;
-
 	/// <summary>
 	/// Class that describe port attributes for it's creation
 	/// </summary>
@@ -30,14 +28,28 @@ namespace GraphProcessor
 		/// If the port accept multiple connection
 		/// </summary>
 		public bool		acceptMultipleEdges;
+		/// <summary>
+		/// Port size, will also affect the size of the connected edge
+		/// </summary>
+		public int		sizeInPixel;
 
         public bool Equals(PortData other)
         {
 			return identifier == other.identifier
 				&& displayName == other.displayName
 				&& displayType == other.displayType
-				&& acceptMultipleEdges == other.acceptMultipleEdges;
+				&& acceptMultipleEdges == other.acceptMultipleEdges
+				&& sizeInPixel == other.sizeInPixel;
         }
+
+		public void CopyFrom(PortData other)
+		{
+			identifier = other.identifier;
+			displayName = other.displayName;
+			displayType = other.displayType;
+			acceptMultipleEdges = other.acceptMultipleEdges;
+			sizeInPixel = other.sizeInPixel;
+		}
     }
 
 	/// <summary>
@@ -53,10 +65,6 @@ namespace GraphProcessor
 		/// The node on which the port is
 		/// </summary>
 		public BaseNode				owner;
-		/// <summary>
-		/// field info owner
-		/// </summary>
-		private readonly object valueOwner;
 		/// <summary>
 		/// The fieldInfo from the fieldName
 		/// </summary>
@@ -84,29 +92,14 @@ namespace GraphProcessor
 		/// <param name="owner">owner node</param>
 		/// <param name="fieldName">the C# property name</param>
 		/// <param name="portData">Data of the port</param>
-		public NodePort(BaseNode owner, string fieldName, PortData portData) :
-			this(owner, owner, fieldName, portData)
-		{
-			
-		}
-
-		/// <summary>
-		/// Constructor
-		/// </summary>
-		/// <param name="owner">owner node</param>
-		/// <param name="fieldOwner"></param>
-		/// <param name="fieldName">the C# property name</param>
-		/// <param name="portData">Data of the port</param>
-		public NodePort(BaseNode owner,object fieldOwner, string fieldName, PortData portData)
+		public NodePort(BaseNode owner, string fieldName, PortData portData)
 		{
 			this.fieldName = fieldName;
-			this.owner     = owner;
-			this.portData  = portData;
-			this.valueOwner = fieldOwner;
+			this.owner = owner;
+			this.portData = portData;
 
-			fieldInfo = valueOwner.GetType().GetField(
-				fieldName,
-				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+			fieldInfo = owner.GetType().GetField(fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+
 			customPortIOMethod = CustomPortIO.GetCustomPortMethod(owner.GetType(), fieldName);
 		}
 
@@ -118,7 +111,7 @@ namespace GraphProcessor
 		{
 			if (!edges.Contains(edge))
 				edges.Add(edge);
-				
+
 			if (edge.inputNode == owner)
 			{
 				if (edge.outputPort.customPortIOMethod != null)
@@ -158,7 +151,7 @@ namespace GraphProcessor
 
 				Expression inputParamField = Expression.Field(Expression.Constant(edge.inputNode), inputField);
 				Expression outputParamField = Expression.Field(Expression.Constant(edge.outputNode), outputField);
-				
+
 				var inType = edge.inputPort.portData.displayType ?? inputField.FieldType;
 				var outType = edge.outputPort.portData.displayType ?? outputField.FieldType;
 
@@ -231,17 +224,11 @@ namespace GraphProcessor
 		/// </summary>
 		public void ResetToDefault()
 		{
-			var type = fieldInfo.FieldType;
 			// When type is nullable, we set it to null instead of allocating a dummy class
-			if (Nullable.GetUnderlyingType(type) != null) {
+			if (fieldInfo.FieldType.IsClass)
 				fieldInfo.SetValue(owner, null);
-			}
-			else if (type.IsValueType == false) {
-				fieldInfo.SetValue(owner, null);
-			}
-			else {
-				fieldInfo.SetValue(owner, Activator.CreateInstance(type));
-			}
+			else
+				fieldInfo.SetValue(owner, Activator.CreateInstance(fieldInfo.FieldType));
 		}
 
 		/// <summary>
@@ -262,7 +249,8 @@ namespace GraphProcessor
 
 			// Only one input connection is handled by this code, if you want to
 			// take multiple inputs, you must create a custom input function see CustomPortsNode.cs
-			fieldInfo.SetValue(owner, edges.First().passThroughBuffer);
+			if (edges.Count > 0)
+				fieldInfo.SetValue(owner, edges.First().passThroughBuffer);
 		}
 	}
 

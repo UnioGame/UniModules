@@ -11,7 +11,8 @@ TrueTypeFontImporter:
   fontName: GLYPHICONS Halflings
   fontNames:
   - GLYPHICONS Halflings
-  fallbackFontReferences: []
+  fallbackFontReferences:
+  - {instanceID: 0}
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1

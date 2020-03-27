@@ -46,7 +46,6 @@ namespace GraphProcessor
 		/// </summary>
 		[NonSerialized]
 		public readonly NodeInputPortContainer	inputPorts;
-		
 		/// <summary>
 		/// Container of output ports
 		/// </summary>
@@ -228,7 +227,7 @@ namespace GraphProcessor
 					}
 
 					// patch the port datas
-					port.portData = portData;
+					port.portData.CopyFrom(portData);
 				}
 
 				finalPorts.Add(portData.identifier);
@@ -382,21 +381,10 @@ namespace GraphProcessor
 		/// <param name="portData">Data of the port</param>
 		public void AddPort(bool input, string fieldName, PortData portData)
 		{
-			AddPort(input, this, fieldName, portData);
-		}
-		
-		/// <summary>
-		/// Add a port
-		/// </summary>
-		/// <param name="input">is input port</param>
-		/// <param name="fieldName">C# field name</param>
-		/// <param name="portData">Data of the port</param>
-		public void AddPort(bool input,object fieldOwner, string fieldName, PortData portData)
-		{
 			if (input)
-				inputPorts.Add(new NodePort(this,fieldOwner, fieldName, portData));
+				inputPorts.Add(new NodePort(this, fieldName, portData));
 			else
-				outputPorts.Add(new NodePort(this,fieldOwner, fieldName, portData));
+				outputPorts.Add(new NodePort(this, fieldName, portData));
 		}
 
 		/// <summary>

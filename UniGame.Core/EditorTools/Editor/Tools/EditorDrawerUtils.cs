@@ -44,12 +44,14 @@
             return false;
         }
 
-        public static bool DrawObjectFoldout(Object asset,bool foldOut,Type targetType,string label = "")
+        public static bool DrawObjectFoldout(Object asset, bool foldOut, Type targetType, string label = "", Action<Object> onValueChanged = null)
         {
             if (targetType == null || asset == null) {
-                EditorDrawerUtils.DrawDisabled(() => {
-                    EditorGUILayout.ObjectField(label, asset, UnityObjectType, true);
-                });
+                var target = EditorGUILayout.ObjectField(label, asset, UnityObjectType, true);
+                if (target != asset) {
+                    asset = target;
+                    onValueChanged?.Invoke(target);
+                }
                 return false;
             }
 
@@ -60,9 +62,11 @@
             var newWidth = width - 14;
             rect.width = newWidth > 0 ? newWidth : width;
             
-            EditorDrawerUtils.DrawDisabled(() => {
-                EditorGUI.ObjectField(rect,label, asset, targetType, true);
-            });
+            var newAsset = EditorGUI.ObjectField(rect,label, asset, targetType, true);
+            if (newAsset != asset) {
+                asset = newAsset;
+                onValueChanged?.Invoke(newAsset);
+            }
 
             return foldOut;
         }

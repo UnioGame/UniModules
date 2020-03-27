@@ -40,7 +40,8 @@
         }
         
         #endregion
-        
+
+        public Type Type => typeof(T);
         
         public T Value {
             get => value;

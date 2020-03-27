@@ -7,7 +7,30 @@ using Object = UnityEngine.Object;
 namespace UniGreenModules.UniGame.Core.EditorTools.Editor.DrawersTools
 {
     using UniCore.EditorTools.Editor.Utility;
+    using UnityEngine.UIElements;
 
+    public class OdinValueView
+    {
+        public Action<Object> AssetAction;
+        public Object Value;
+        public bool IsOpen;
+        public string Label;
+
+        public VisualElement View;
+
+        public OdinValueView()
+        {
+            View = new IMGUIContainer(() => {
+                var target = Value;
+                IsOpen = target.DrawOdinPropertyWithFoldout(IsOpen,Label, x => {
+                    Value = x;
+                    AssetAction?.Invoke(x);
+                });
+            });
+        }
+
+    }
+    
     /// <summary>
     /// Odin Inspector extensions methods
     /// </summary>
@@ -26,13 +49,37 @@ namespace UniGreenModules.UniGame.Core.EditorTools.Editor.DrawersTools
 
         }
         
+        public static Object DrawOdinPropertyField(
+            this Object asset,
+            Type type,
+            Action<Object> onValueChanged,
+            bool allowSceneObjects = true,
+            string label = "")
+        {
+            var newValue = EditorGUILayout.ObjectField(label, asset, type, allowSceneObjects);
+            if (newValue != asset) {
+                onValueChanged?.Invoke(newValue);
+            }
+
+            try {
+                newValue?.DrawOdinPropertyInspector();
+            }
+            catch(Exception r) { }
+
+            return newValue;
+        }
+        
         public static bool DrawOdinPropertyWithFoldout(
             this Object asset,
             bool foldOut,
-            string label = "")
+            string label = "",
+            Action<Object> onValueChanged = null)
         {
             var targetType = asset == null ? null : asset.GetType();
-            foldOut = EditorDrawerUtils.DrawObjectFoldout(asset, foldOut,targetType, label);
+            foldOut = EditorDrawerUtils.DrawObjectFoldout(asset, foldOut,targetType, label, x => {
+                asset = x;
+                onValueChanged?.Invoke(x);
+            });
             
             try {
                 if (foldOut) {
