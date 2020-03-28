@@ -43,9 +43,10 @@ namespace UniModules.UniGame.Core.Runtime.Extension
         public static T GetRandomValue<T>(this IEnumerable<T> enumerable, Predicate<T> predicate, T withoutElement)
         {
             var result = default(T);
-            
+
+            var items = enumerable.ToList();
             while (result == null || result.Equals(withoutElement)) {
-                result = enumerable.GetRandomValue(predicate);
+                result = items.GetRandomValue(predicate);
             }
             
             return result;
