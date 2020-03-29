@@ -1,5 +1,6 @@
 ﻿namespace UniGreenModules.UniCore.Runtime.Interfaces.Rx
 {
+    using System;
     using ObjectPool.Runtime.Interfaces;
     using UniRx;
 
@@ -7,7 +8,8 @@
         IReactiveProperty<TValue>,
         IReadonlyRecycleReactiveProperty<TValue>,
         IValueContainerStatus,
-        IDespawnable, 
+        ILifeTimeContext,
+        IDisposable,
         IObjectValue
     {
         new TValue Value { get; set; }
