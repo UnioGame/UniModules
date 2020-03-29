@@ -2,20 +2,15 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Runtime.CompilerServices;
     using DataStructure;
-    using DataStructure.LinkedList;
     using global::UniGame.Core.Runtime.Utils;
-    using UniCore.Runtime.Attributes;
     using UniCore.Runtime.Common;
     using UniCore.Runtime.DataFlow;
     using UniCore.Runtime.DataFlow.Interfaces;
     using UniCore.Runtime.Interfaces.Rx;
     using UniCore.Runtime.ObjectPool.Runtime;
-    using UniCore.Runtime.ObjectPool.Runtime.Extensions;
     using UniRx;
     using UnityEngine;
-    using Object = UnityEngine.Object;
 
     [Serializable]
     public class RecycleReactiveProperty<T> : 
@@ -107,8 +102,10 @@
             _lifeTimeDefinition.AddCleanUpAction(CleanUp);
         }
 
-        public object GetValue() => value;
+        public Type Type => typeof(T);
 
+        public object GetValue() => value;
+        
         #endregion
         
         protected virtual IEqualityComparer<T> CreateComparer() => UnityEqualityComparer.GetDefault<T>();
