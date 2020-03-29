@@ -15,6 +15,7 @@ namespace UniGreenModules.UniGame.Core.EditorTools.Editor.DrawersTools
         public Object Value;
         public bool IsOpen;
         public string Label;
+        public bool ShowFoldout;
 
         public VisualElement View;
 
@@ -22,10 +23,16 @@ namespace UniGreenModules.UniGame.Core.EditorTools.Editor.DrawersTools
         {
             View = new IMGUIContainer(() => {
                 var target = Value;
-                IsOpen = target.DrawOdinPropertyWithFoldout(IsOpen,Label, x => {
-                    Value = x;
-                    AssetAction?.Invoke(x);
-                });
+                if (ShowFoldout) {
+                    IsOpen = target.DrawOdinPropertyWithFoldout(IsOpen,Label, x => {
+                        Value = x;
+                        AssetAction?.Invoke(x);
+                    });
+                }
+                else {
+                    target.DrawOdinPropertyInspector();
+                }
+
             });
         }
 

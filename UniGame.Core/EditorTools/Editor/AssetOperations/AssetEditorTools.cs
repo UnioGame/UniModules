@@ -71,7 +71,7 @@
             if (string.IsNullOrEmpty(assetGuid))
                 return false;
             
-            var asset = AssetDatabase.LoadAssetAtPath<Object>(assetGuid.AssetGuidToPath());
+            var asset = AssetDatabase.LoadAssetAtPath<MonoScript>(assetGuid.AssetGuidToPath());
             if (asset == null)
                 return false;
             return AssetDatabase.OpenAsset(asset.GetInstanceID(), 0, 0);

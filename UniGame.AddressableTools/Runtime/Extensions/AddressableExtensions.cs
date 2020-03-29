@@ -168,7 +168,7 @@
 
         
         public static async UniTask<T> LoadAssetTaskAsync<T>(
-            this ScriptableObjectAssetReference assetReference, 
+            this AssetReferenceDisposableObject assetReference, 
             ILifeTime lifeTime)
             where T : class
         {

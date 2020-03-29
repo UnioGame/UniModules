@@ -57,11 +57,7 @@
         {
             if (type.IsValueType)
                 return false;
-//            if (
-//                UiElementFactory.GameObjectType.IsAssignableFrom(type) ||
-//                UiElementFactory.ComponentType.IsAssignableFrom(type) ||
-//                UiElementFactory.ScriptableType.IsAssignableFrom(type)
-//            ) return false;
+
             if (typeof(IList).IsAssignableFrom(type))
                 return true;
             

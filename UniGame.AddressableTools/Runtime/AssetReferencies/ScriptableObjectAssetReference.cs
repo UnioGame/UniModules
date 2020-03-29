@@ -3,7 +3,6 @@
     using System;
     using AddressableTools.Runtime.AssetReferencies;
     using UnityEngine;
-    using UnityEngine.AddressableAssets;
 
 #if ODIN_INSPECTOR
     using Sirenix.OdinInspector;
@@ -13,8 +12,8 @@
     [DontApplyToListElements]
 #endif
     [Serializable]
-    public class ScriptableObjectAssetReference : DisposableAssetReference<ScriptableObject> 
+    public class AssetReferenceDisposableObject : DisposableAssetReference<ScriptableObject> 
     {
-        public ScriptableObjectAssetReference(string guid) : base(guid) {}
+        public AssetReferenceDisposableObject(string guid) : base(guid) {}
     }
 }

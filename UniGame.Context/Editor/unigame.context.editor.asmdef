@@ -1,0 +1,21 @@
+{
+    "name": "unigame.context.editor",
+    "references": [
+        "GUID:2796129a6c23eb84a8181f62bf7332f1",
+        "GUID:8e4577c9194c10845984cf27eb974fd1",
+        "GUID:9f8e6b2872ac2ca4683e584b9ba21f29",
+        "GUID:36e7a0119b7032945a982b4f96b73f47",
+        "GUID:ab2596dba8b275d45ab41e03d00510b8",
+        "GUID:560b04d1a97f54a4e82edc0cbbb69285",
+        "GUID:f51ebe6a0ceec4240a699833d6309b23"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
