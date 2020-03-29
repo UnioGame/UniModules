@@ -10,3 +10,6 @@
 	path = UniGame.UISystem
 	url = https://github.com/UniGameTeam/UniGame.UISystem.git
 	branch = develop
+[submodule "UniGame.DoTweenRx"]
+	path = UniGame.DoTweenRx
+	url = https://github.com/UniGameTeam/UniGame.DoTweenRx.git
