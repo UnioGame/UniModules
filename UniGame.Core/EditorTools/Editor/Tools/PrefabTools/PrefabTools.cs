@@ -7,10 +7,30 @@
     using UnityEditor;
     using UnityEditor.SceneManagement;
     using UnityEngine;
+    using Utility;
     using Debug = UnityEngine.Debug;
 
     public static class PrefabTools 
     {
+        
+
+        public static TAsset Save<TAsset>(this TAsset asset)
+            where TAsset : Component
+        {
+            if (EditorApplication.isPlaying || 
+                EditorApplication.isPlayingOrWillChangePlaymode ||
+                !asset)
+                return asset;
+            
+            asset.SetDirty();
+            AssetDatabase.SaveAssets();
+
+            var prefabResource = asset.GetPrefabDefinition();
+            prefabResource.SavePrefab();
+
+            return asset;
+        }
+        
         public static bool ApplyComponent(this GameObject target, Component component)
         {
             var definition = target.GetPrefabDefinition();

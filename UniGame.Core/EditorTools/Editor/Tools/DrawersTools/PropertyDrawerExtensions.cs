@@ -54,7 +54,10 @@
         {
             var drawer = GetDrawer(target,cached);
             var field  = drawer.GetType().
-                GetField(FieldInfoName, BindingFlags.GetField | BindingFlags.NonPublic | BindingFlags.Instance);
+                GetField(FieldInfoName, 
+                    BindingFlags.GetField | 
+                    BindingFlags.NonPublic | 
+                    BindingFlags.Instance);
             field?.SetValue(drawer, fieldInfo);
             return drawer;
         }

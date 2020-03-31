@@ -95,5 +95,26 @@
             
         }
 
+        public void DrawOnGuiAssetReferenceInspector(string assetGuid)
+        {
+            if (string.IsNullOrEmpty(assetGuid))
+            {
+                EditorDrawerUtils.DrawDisabled(() => {
+                    EditorGUILayout.ObjectField(assetLabel, null, typeof(Object),false); 
+                }); 
+                return;
+            }
+            
+            var assetPath = AssetDatabase.GUIDToAssetPath(assetGuid);
+            var mainType  = AssetDatabase.GetMainAssetTypeAtPath(assetPath);
+            var asset     = AssetDatabase.LoadAssetAtPath(assetPath, mainType);
+
+            EditorDrawerUtils.DrawDisabled(() => {
+                EditorGUILayout.ObjectField(assetLabel, asset, asset.GetType(),false);
+            }); 
+            
+            isFoldoutOpen = asset.DrawOdinPropertyWithFoldout(isFoldoutOpen);
+        }
+
     }
 }

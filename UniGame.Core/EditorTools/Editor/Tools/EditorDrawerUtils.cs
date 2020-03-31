@@ -44,29 +44,42 @@
             return false;
         }
 
-        public static bool DrawObjectFoldout(Object asset,bool foldOut,Type targetType,string label = "")
+        public static bool DrawObjectFoldout(Object asset, bool foldOut, Type targetType, string label = "", Action<Object> onValueChanged = null)
         {
             if (targetType == null || asset == null) {
-                EditorDrawerUtils.DrawDisabled(() => {
-                    EditorGUILayout.ObjectField(label, asset, UnityObjectType, true);
-                });
+                var target = EditorGUILayout.ObjectField(label, asset, UnityObjectType, true);
+                if (target != asset) {
+                    asset = target;
+                    onValueChanged?.Invoke(target);
+                }
                 return false;
             }
 
             foldOut = EditorGUILayout.Foldout(foldOut,string.Empty);            
             var rect = GUILayoutUtility.GetLastRect();
-            rect.x += 14;
-            var width = rect.width;
-            var newWidth = width - 14;
-            rect.width = newWidth > 0 ? newWidth : width;
-            
-            EditorDrawerUtils.DrawDisabled(() => {
-                EditorGUI.ObjectField(rect,label, asset, targetType, true);
-            });
+
+            var newAsset = EditorGUI.ObjectField(rect,label, asset, targetType, true);
+            if (newAsset != asset) {
+                asset = newAsset;
+                onValueChanged?.Invoke(newAsset);
+            }
 
             return foldOut;
         }
 
+        public static bool DrawFieldFoldout(
+            SerializedProperty property, 
+            bool foldOut, 
+            GUIContent label,
+            bool includeChildren = true)
+        {
+            EditorGUILayout.PropertyField(property,label, includeChildren);
+            var rect = GUILayoutUtility.GetLastRect();
+            rect.x -= 14;
+            foldOut = EditorGUI.Foldout(rect,foldOut,string.Empty);            
+            return foldOut;
+        }
+        
         public static void DrawDisabled(Action drawerAction, bool disabled = true)
         {
             EditorGUI.BeginDisabledGroup(disabled);

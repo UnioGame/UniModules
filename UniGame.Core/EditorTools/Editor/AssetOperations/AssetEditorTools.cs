@@ -8,6 +8,7 @@
     using Runtime.ReflectionUtils;
     using UnityEditor;
     using UnityEngine;
+    using Utility;
     using Object = UnityEngine.Object;
 
     public partial class AssetEditorTools
@@ -24,6 +25,10 @@
         public const string ModificationTemplate = @"\n( *)(m_Modifications:[\w,\W]*)(?=\n( *)m_RemovedComponents)";
         public static List<string> _modificationsIgnoreList = new List<string>() { ".fbx" };
 
+        
+        public static bool IsPureEditorMode => EditorApplication.isPlayingOrWillChangePlaymode == false && 
+                                               EditorApplication.isCompiling == false && 
+                                               EditorApplication.isUpdating == false;
 
         public static string GetAssetExtension(Object asset)
         {
@@ -51,19 +56,31 @@
             
         }
 
-        public static void OpenScript<T>(params string[] folders)
+        public static bool OpenScript<T>(params string[] folders)
         {
-            var typeName = typeof(T);
-            var filter = $"t:script {typeName}.cs";
-            var assetGuid = AssetDatabase.FindAssets(filter, folders).FirstOrDefault();
-            if (string.IsNullOrEmpty(assetGuid))
-                return;
-            var asset = AssetDatabase.LoadAssetAtPath<Object>(AssetDatabase.GUIDToAssetPath(assetGuid));
-            if (asset == null)
-                return;
-            AssetDatabase.OpenAsset(asset.GetInstanceID(), 0, 0);
+            return OpenScript(typeof(T),folders);
         }
 
+        public static bool OpenScript(Type type,params string[] folders)
+        {
+            var typeName  = type.Name;
+            var filter    = $"t:script {typeName}";
+            
+            var assets = AssetDatabase.FindAssets(filter, folders);
+            var assetGuid = assets.FirstOrDefault(
+                    x => string.Equals(typeName,
+                        Path.GetFileNameWithoutExtension(x.AssetGuidToPath()),
+                        StringComparison.OrdinalIgnoreCase));
+            
+            if (string.IsNullOrEmpty(assetGuid))
+                return false;
+            
+            var asset = AssetDatabase.LoadAssetAtPath<MonoScript>(assetGuid.AssetGuidToPath());
+            if (asset == null)
+                return false;
+            return AssetDatabase.OpenAsset(asset.GetInstanceID(), 0, 0);
+        }
+        
         public static void FindItems<T>(Action<Object, T> action)
         {
 

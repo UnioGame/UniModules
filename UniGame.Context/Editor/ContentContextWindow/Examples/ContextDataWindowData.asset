@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c155c12b7d13eb2428a8d3195baae200, type: 3}
+  m_Name: ContextDataWindowData
+  m_EditorClassIdentifier: 
+  so: {fileID: 11400000, guid: f4cc33369beb9c944bd6389120d019b6, type: 2}
+  intListValue: 050000000400000021000000de00000001000000
+  vectorItems:
+  - {x: 1, y: 0, z: 0}
+  - {x: 3333, y: 0, z: 0}
+  - {x: 34, y: 0, z: 0}
+  - {x: 4444, y: 0, z: 0}
+  soItems:
+  - {fileID: 11400000, guid: f4cc33369beb9c944bd6389120d019b6, type: 2}
+  - {fileID: 11400000, guid: 9383da37c6b3d914e80b5a335ed07890, type: 2}
+  - {fileID: 11400000, guid: 10dcf724f0e54fd4290805cc7aac1676, type: 2}
+  - {fileID: 11400000, guid: 0ef5738cf7ada094486f441f4d839b12, type: 2}
+  gameObjects:
+  - {fileID: 2491950161893618800, guid: 681bdd6090a287945a9ac1f52b705da5, type: 3}
+  - {fileID: 2491950161893618800, guid: 9d98c89e1ead5e74d905e7365b25b9c8, type: 3}
+  objects:
+  - {fileID: 11400000, guid: 10dcf724f0e54fd4290805cc7aac1676, type: 2}
+  - {fileID: 11400000, guid: 0ef5738cf7ada094486f441f4d839b12, type: 2}
+  go: {fileID: 2491950161893618800, guid: 120d442eba42d85428c514437a7fb9b8, type: 3}
+  sprite: {fileID: 21300000, guid: a834ceeca2472ba4789ed1ed49cca217, type: 3}
+  texture: {fileID: 2800000, guid: df76853ac96fd084e9c828a4ce858a50, type: 3}
+  stringValue: STRINGSTRING
+  vector2Value: {x: 2, y: 2}
+  vector3Value: {x: 3, y: 0, z: 1}
+  serializableClassValue:
+    intReactiveProperties:
+    - value: 77
+    - value: 44
+    - value: 88
+    - value: 99
+    One: 3
+    FloatValue: 4
+    SOValue: {fileID: 11400000, guid: a006d68afabe7cd4a9dbe20cbd2d67b6, type: 2}
+    Text: DemoContextClass Text0

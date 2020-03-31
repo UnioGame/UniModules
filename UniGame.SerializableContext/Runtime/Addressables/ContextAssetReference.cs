@@ -5,7 +5,11 @@
     using AssetTypes;
     using UnityEngine.AddressableAssets;
 
-    [Serializable]    
+    
+    #if ODIN_INSPECTOR
+    [Sirenix.OdinInspector.DontApplyToListElements]
+    #endif
+    [Serializable]   
     public class ContextAssetReference : AssetReferenceT<ContextAsset>
     {
         public ContextAssetReference(string guid) : base(guid) {}
