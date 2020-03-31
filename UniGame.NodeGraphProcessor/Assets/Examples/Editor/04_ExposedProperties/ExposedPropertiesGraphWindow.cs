@@ -37,5 +37,6 @@ public class ExposedPropertiesGraphWindow : BaseGraphWindow
 	protected override void InitializeGraphView(BaseGraphView view)
 	{
 		view.OpenPinned< ExposedParameterView >();
+
 	}
 }

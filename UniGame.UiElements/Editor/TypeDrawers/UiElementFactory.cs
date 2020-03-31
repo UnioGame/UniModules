@@ -5,7 +5,9 @@
     using System.Linq;
     using System.Reflection;
     using Runtime.Attributes.FieldTypeDrawer;
+    using UniGame.UiElements.Runtime.Attributes;
     using UniGreenModules.UniCore.Runtime.ReflectionUtils;
+    using UniGreenModules.UniCore.Runtime.Utils;
     using UniGreenModules.UniGame.Core.Runtime.Attributes.FieldTypeDrawer;
     using UnityEditor;
     using UnityEditor.UIElements;
@@ -17,8 +19,28 @@
     {
 
         private static List<IUiElementsTypeDrawer> drawers;
+        private static List<IUiElementsFieldDrawer> fieldDrawers;
         private static IUiElementsTypeDrawer defaultDrawer = new ClassUiElementsDrawer();
+        private static Dictionary<object,VisualElement> visualElementsCache = new Dictionary<object, VisualElement>(16);
 
+        private static Func<Type, IUiElementsTypeDrawer> GetDrawer =
+            MemorizeTool.Create<Type,IUiElementsTypeDrawer>((type => {
+                foreach (var drawer in drawers) {
+                    if (drawer.IsTypeSupported(type)) 
+                        return drawer;
+                }
+                return null;
+            }));
+        
+        private static Func<Type, IUiElementsFieldDrawer> GetFieldDrawer =
+            MemorizeTool.Create<Type,IUiElementsFieldDrawer>((type => {
+                foreach (var drawer in fieldDrawers) {
+                    if (drawer.IsTypeSupported(type)) 
+                        return drawer;
+                }
+                return null;
+            }));
+        
         public static Type GameObjectType = typeof(GameObject);
         public static Type ComponentType = typeof(Component);
         public static Type ScriptableType = typeof(ScriptableObject);
@@ -29,23 +51,60 @@
         static UiElementFactory()
         {
             drawers = new List<IUiElementsTypeDrawer>();
-
+            fieldDrawers = new List<IUiElementsFieldDrawer>();
+            
             LoadDrawers();
+            LoadFiedlInfoDrawers();
+            
             //reload drawers on code changes
             AssemblyReloadEvents.afterAssemblyReload += LoadDrawers;
         }
+        
+        public static VisualElement CachedDrawer(
+            object data, 
+            Type type,
+            Action<object> valueChanged = null,
+            string label = "")
+        {
+            visualElementsCache.Clear();
+            var result = Create(data, type, valueChanged, label);
+            visualElementsCache.Clear();
+            return result;
+        }
 
+        public static VisualElement CreateField(
+            object data,FieldInfo info,
+            Action<object> valueChanged = null,
+            string label ="")
+        {
+            VisualElement result = null;
+            
+            try {
+                result = CreateVisualElementInner(
+                    data,info.FieldType,
+                    null,valueChanged,label);
+            }
+            catch (Exception e) {
+                Debug.LogException(e);
+            }
+
+            return result;
+        }
+        
         public static VisualElement Create(object data)
         {
             return Create(data, data?.GetType());
         }
 
-        public static VisualElement Create(object data,Type targetType, Action<object> valueChanged = null,string label ="")
+        public static VisualElement Create(
+            object data,
+            Type targetType, 
+            Action<object> valueChanged = null,
+            string label ="")
         {
             VisualElement result = null;
-            
             try {
-                result = CreateVisualElement(data,targetType,valueChanged,label);
+                result = CreateVisualElementInner(data,targetType,null,valueChanged,label);
             }
             catch (Exception e) {
                 Debug.LogException(e);
@@ -89,8 +148,12 @@
             return foldout;
         }
 
-        public static ObjectField CreateObjectField(object data,Type targetType, 
-            Action<object> valueChanged = null,bool allowSceneObjects = true,string label ="")
+        public static ObjectField CreateObjectField(
+            object data,
+            Type targetType, 
+            Action<object> valueChanged = null,
+            bool allowSceneObjects = true,
+            string label ="")
         {
             var objectField = new ObjectField(label) {
                 value = data as Object,
@@ -101,35 +164,21 @@
             return objectField;
         }
         
-        public static VisualElement CreateVisualElement(object data,Type type, Action<object> onValueChanged = null,string label  = "")
+        private static VisualElement CreateVisualElementInner(
+            object data,
+            Type type,
+            FieldInfo fieldInfo = null,
+            Action<object> onValueChanged = null, 
+            string label  = "")
         {
-            var result = CreateVisualElementInner(data, type, onValueChanged, label);
+            if (data != null && visualElementsCache.TryGetValue(data, out var visualElement))
+                return visualElement;
+
+            visualElement = fieldInfo == null ? 
+                GetDrawer(type)?.Draw(data, type, label, onValueChanged) : 
+                GetFieldDrawer(type)?.Draw(data,fieldInfo, type, label, onValueChanged);
             
-            if(result == null)
-                return new VisualElement();
-
-            return result;
-            
-        }
-
-        private static VisualElement CreateVisualElement(object data,  Action<object> onValueChanged = null, string label = "")
-        {
-            return CreateVisualElement(data, data?.GetType(), onValueChanged, label);
-        }
-
-        private static VisualElement CreateVisualElementInner(object data,Type type, Action<object> onValueChanged = null,string label  = "")
-        {
-            VisualElement result = null;
-
-            foreach (var drawer in drawers) {
-                if (!drawer.IsTypeSupported(type)) 
-                    continue;
-                result = drawer.Draw(data, type, label, onValueChanged);
-                break;
-            }
-
-            result = result ?? defaultDrawer.Draw(data, type, label, onValueChanged);
-            return result;
+            return visualElement ?? new VisualElement();
         }
 
         private static void LoadDrawers()
@@ -141,13 +190,31 @@
                 GetAssignableTypes().
                 Where(x => x.IsAbstract == false).
                 Select(x => (attribute : x.GetCustomAttribute<UiElementsDrawerAttribute>(),type : x)).
-                Where(x => x.attribute != null && x.attribute.IsActive).
+                Where(x => x.attribute != null).
                 OrderByDescending(x => x.attribute.Priority).
                 Select(x => Activator.CreateInstance(x.type)).
                 OfType<IUiElementsTypeDrawer>().
                 ToList();
             
             drawers.AddRange(allDrawers);
+        }
+        
+        private static void LoadFiedlInfoDrawers()
+        {
+            fieldDrawers.Clear();
+            
+            //find all active ui elements drawers
+            var allDrawers = typeof(IUiElementsFieldDrawer).
+                GetAssignableTypes().
+                Where(x => x.IsAbstract == false).
+                Select(x => (attribute : x.GetCustomAttribute<UiElementsFieldDrawerAttribute>(),type : x)).
+                Where(x => x.attribute != null).
+                OrderByDescending(x => x.attribute.Priority).
+                Select(x => Activator.CreateInstance(x.type)).
+                OfType<IUiElementsFieldDrawer>().
+                ToList();
+            
+            fieldDrawers.AddRange(allDrawers);
         }
     }
 }

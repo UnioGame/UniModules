@@ -25,6 +25,10 @@
         public const string ModificationTemplate = @"\n( *)(m_Modifications:[\w,\W]*)(?=\n( *)m_RemovedComponents)";
         public static List<string> _modificationsIgnoreList = new List<string>() { ".fbx" };
 
+        
+        public static bool IsPureEditorMode => EditorApplication.isPlayingOrWillChangePlaymode == false && 
+                                               EditorApplication.isCompiling == false && 
+                                               EditorApplication.isUpdating == false;
 
         public static string GetAssetExtension(Object asset)
         {

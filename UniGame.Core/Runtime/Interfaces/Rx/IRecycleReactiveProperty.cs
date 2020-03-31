@@ -9,8 +9,12 @@
         IReadonlyRecycleReactiveProperty<TValue>,
         IValueContainerStatus,
         ILifeTimeContext,
-        IDisposable,
-        IObjectValue
+        IDisposable
+#if UNITY_EDITOR
+        ,IReadonlyObjectValue
+        ,IObjectValue
+#endif
+        
     {
         new TValue Value { get; set; }
         

@@ -93,7 +93,10 @@ public class DemoTypeDataContainer : ScriptableObject
         
         data.Publish(innerContext);
         
-        ContextContentWindow.Open(data);
+        ContextContentWindow.Open(new ContextDescription() {
+            Data = data,
+            Label = nameof(DemoTypeDataContainer)
+        });
     }
     
 }

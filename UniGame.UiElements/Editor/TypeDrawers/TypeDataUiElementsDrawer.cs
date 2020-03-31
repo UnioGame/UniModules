@@ -17,37 +17,36 @@
         {
             var values = source as ITypeData;
             
-            var container    = new ListView();
-            var foldOutItems = new ListView();
+            var container    = new VisualElement();
 
             foreach (var pair in values.EditorValues) {
                 var valueContainer = pair.Value;
-                var objectValue    = valueContainer as IObjectValue;
+                var objectReadOnlyValue    = valueContainer as IReadonlyObjectValue;
+                var valueWriter = valueContainer as IObjectValue;
                 var type           = pair.Key;
 
-                if (valueContainer.HasValue == false || objectValue == null)
+                if (objectReadOnlyValue == null)
                     continue;
 
-                var value     = objectValue.GetValue();
-                var valueType = objectValue.Type;
+                var value     = objectReadOnlyValue.GetValue();
+                var valueType = objectReadOnlyValue.Type;
+                var labelText = $"[Registered as :{type.Name}] : [Value Type :{valueType?.Name}]";
 
-                var foldout = UiElementFactory.
-                    CreateFoldout($"[Registered Type :{type.Name}] : [Value Type :{valueType?.Name}]");
-
-                foldout.Add(foldOutItems);
-                container.Add(foldout);
-
-                var element = UiElementFactory.CreateVisualElement(
+                var element = UiElementFactory.Create(
                     value,
                     valueType,
-                    x => { },
+                    x => {
+                        valueWriter?.SetObjectValue(x);
+                        onValueChanged?.Invoke(source);
+                    },
                     valueType?.Name);
-                
-                //is empty value or value already shown
-                if (element == null)
-                    continue;
-  
-                foldOutItems.Add(element);
+                  
+                var foldout = UiElementFactory.CreateFoldout(labelText,16);
+                element = element == null ? new Label($"EMPTY") : element;
+
+                foldout.Add(element);
+                container.Add(foldout);
+
             }
             
             return container;

@@ -67,6 +67,19 @@
             return foldOut;
         }
 
+        public static bool DrawFieldFoldout(
+            SerializedProperty property, 
+            bool foldOut, 
+            GUIContent label,
+            bool includeChildren = true)
+        {
+            EditorGUILayout.PropertyField(property,label, includeChildren);
+            var rect = GUILayoutUtility.GetLastRect();
+            rect.x -= 14;
+            foldOut = EditorGUI.Foldout(rect,foldOut,string.Empty);            
+            return foldOut;
+        }
+        
         public static void DrawDisabled(Action drawerAction, bool disabled = true)
         {
             EditorGUI.BeginDisabledGroup(disabled);

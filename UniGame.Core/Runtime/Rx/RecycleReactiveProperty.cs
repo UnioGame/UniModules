@@ -14,7 +14,7 @@
 
     [Serializable]
     public class RecycleReactiveProperty<T> : 
-        IRecycleReactiveProperty<T> 
+        IRecycleReactiveProperty<T>  
     {
         private IEqualityComparer<T> _equalityComparer;
         private LifeTimeDefinition _lifeTimeDefinition = new LifeTimeDefinition();
@@ -106,6 +106,13 @@
 
         public object GetValue() => value;
         
+        public void SetObjectValue(object value)
+        {
+            if (value is T targetValue) {
+                SetValue(targetValue);
+            }
+        }
+        
         #endregion
         
         protected virtual IEqualityComparer<T> CreateComparer() => UnityEqualityComparer.GetDefault<T>();
@@ -132,6 +139,6 @@
                      
             OnRelease();
         }
-        
+
     }
 }

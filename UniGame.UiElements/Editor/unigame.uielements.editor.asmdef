@@ -1,6 +1,7 @@
 {
     "name": "unigame.uielements.editor",
     "references": [
+        "GUID:ab2596dba8b275d45ab41e03d00510b8",
         "GUID:2796129a6c23eb84a8181f62bf7332f1",
         "GUID:8e4577c9194c10845984cf27eb974fd1",
         "GUID:6cf219c1b8612014a948ff3571a01aac",

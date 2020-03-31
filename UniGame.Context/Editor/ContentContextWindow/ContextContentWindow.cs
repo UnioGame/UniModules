@@ -1,9 +1,7 @@
 ﻿namespace UniGame.UniNodes.NodeSystem.Inspector.Editor.ContentContextWindow
 {
-    using System.Linq;
+    using System.Collections.Generic;
     using Core.EditorTools.Editor.UiElements;
-    using UniGreenModules.UniCore.Runtime.Interfaces;
-    using UniGreenModules.UniCore.Runtime.Interfaces.Rx;
     using UnityEditor;
     using UnityEngine;
     using UnityEngine.UIElements;
@@ -15,31 +13,39 @@
         private const string uiIconViewPath = "";
         private const string refreshLabel   = "refresh";
 
-        private ITypeData            containerValue;
-        private string               portName;
-
+        private Color                    defaultBackgroundColor = new Color(0.7f, 0.7f, 0.7f);
+        private List<ContextDescription> values;
+        private List<VisualElement>      views = new List<VisualElement>();
+        private string                   portName;
 
         private ScrollView scrollView;
         private Button     refreshButton;
 
-        public static void Open(ITypeData data)
+        public static void Open(ContextDescription source)
+        {
+            Open(new List<ContextDescription>() {
+                source
+            });
+        }
+
+        public static void Open(List<ContextDescription> sources)
         {
             var window = GetWindow<ContextContentWindow>();
-            window.Initialize(data);
+            window.Initialize(sources);
             window.minSize      = new Vector2(400, 200);
             window.titleContent = new GUIContent("Context Data");
             window.Show();
         }
 
-        public void Initialize(ITypeData contextData)
+        public void Initialize(List<ContextDescription> sources)
         {
-            this.containerValue = contextData;
+            this.values = sources;
             Refresh();
         }
 
         public void Refresh()
         {
-            CreateContent(scrollView, containerValue);
+            CreateContent(scrollView, values);
         }
 
         public void OnEnable()
@@ -53,8 +59,8 @@
 
             scrollView = new ScrollView() {
                 style = {
-                    marginTop = 20,
-                    backgroundColor = new StyleColor(new Color(0.5f,0.5f,0.5f)),
+                    marginTop       = 20,
+                    backgroundColor = new StyleColor(defaultBackgroundColor),
                 },
                 showVertical = true,
             };
@@ -62,43 +68,37 @@
         }
 
 
-        public void CreateContent(VisualElement container, ITypeData data)
+        public void CreateContent(VisualElement container, List<ContextDescription> source)
         {
             container.Clear();
+            views.Clear();
 
-            if (data == null) return;
+            if (source == null) return;
 
-            foreach (var pair in data.EditorValues) {
-                var valueContainer = pair.Value;
-                var objectValue    = valueContainer as IObjectValue;
-                var type           = pair.Key;
-
-                if (valueContainer.HasValue == false || objectValue == null)
+            for (var i = 0; i < source.Count; i++) {
+                var item = source[i];
+                if (item.Data == null)
                     continue;
 
-                var value     = objectValue.GetValue();
-                var valueType = value?.GetType();
+                var data  = item.Data;
+                var title = string.IsNullOrEmpty(item.Label) ? $"Item {1}" : item.Label;
 
-                var valueTypeLabel = valueType?.Name;
-                var genericTypes = valueType?.GenericTypeArguments.Select(x => x.Name).ToArray();
-                var genericLabel = genericTypes == null || genericTypes.Length == 0 ? string.Empty : string.Join(",", genericTypes);
                 var foldout = new Foldout() {
-                    text = $"[Registered Type :{type.Name}] : [Value Type :{valueTypeLabel} {genericLabel}]",
+                    text = $"[{i}] {title} : {data.GetType()}",
+                    style = {
+                        borderBottomColor = new StyleColor(Color.black),
+                        borderBottomWidth = 4,
+                        marginBottom      = 4
+                    }
                 };
 
-                foldout.style.backgroundColor = new StyleColor(new Color(0.8f, 0.8f, 0.8f));
-                foldout.style.marginBottom   = 4;
-                foldout.style.borderTopColor = new StyleColor(Color.black);
-                foldout.style.borderTopWidth = 1;
-                
-                container.Add(foldout);
-
-                var element = UiElementFactory.Create(value);
+                var element = UiElementFactory.Create(data);
                 //is empty value or value already shown
                 if (element == null)
                     continue;
 
                 foldout.Add(element);
+                container.Add(foldout);
             }
         }
     }

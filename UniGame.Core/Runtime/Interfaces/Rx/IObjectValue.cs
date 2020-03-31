@@ -2,9 +2,14 @@
 {
     using System;
 
-    public interface IObjectValue
+    public interface IReadonlyObjectValue
     {
         Type Type { get; }
         object GetValue();
+    }
+    
+    public interface IObjectValue
+    {
+        void SetObjectValue(object value);
     }
 }

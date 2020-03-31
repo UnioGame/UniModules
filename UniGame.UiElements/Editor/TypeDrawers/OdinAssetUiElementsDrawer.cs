@@ -8,10 +8,10 @@
     using Object = UnityEngine.Object;
 
 
-    [UiElementsDrawer(-1)]
+    [UiElementsDrawer]
     public class ScriptableObjectFieldDrawer : OdinAssetUiElementsDrawer<ScriptableObject>{}
     
-    [UiElementsDrawer(-1)]
+    [UiElementsDrawer]
     public class ComponentObjectFieldDrawer : OdinAssetUiElementsDrawer<Component>{}
     
 

@@ -117,7 +117,7 @@ namespace GraphProcessor
 
 			edges.Remove(edge as EdgeView);
 		}
-
+	
 		public void UpdatePortView(string displayName, Type displayType)
 		{
 			if (displayType != null)

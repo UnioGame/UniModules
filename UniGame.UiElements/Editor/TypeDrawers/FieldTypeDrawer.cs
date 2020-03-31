@@ -44,17 +44,15 @@
         }
     }
         
-    public class ObjectFieldDrawer<TValue> : BaseValueFieldDrawer<Object, ObjectField>
+    public class ObjectFieldViewDrawer<TValue,TView> : BaseValueFieldDrawer<Object, TView>
         where TValue : Object
+        where TView : ObjectField, new()
     {
-        public override bool IsTypeSupported(Type type)
-        {
-            return typeof(TValue).IsAssignableFrom(type);
-        }
+        public override bool IsTypeSupported(Type type) => typeof(TValue).IsAssignableFrom(type);
         
-        protected override ObjectField CreateView(object source, Type type, string label = "")
+        protected override TView CreateView(object source, Type type, string label = "")
         {
-            var view = new ObjectField() {
+            var view = new TView() {
                 objectType = typeof(TValue),
                 value      = source as TValue,
                 label      = label,
@@ -62,6 +60,9 @@
             return view;
         }
     }
+    
+    public class ObjectFieldDrawer<TValue> : ObjectFieldViewDrawer<TValue, ObjectField>
+        where TValue : Object{}
 
     [UiElementsDrawer] public class IntFieldDrawer : BaseValueFieldDrawer<int,IntegerField>{}
     [UiElementsDrawer] public class LongFieldDrawer : BaseValueFieldDrawer<long,LongField>{}

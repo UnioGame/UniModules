@@ -36,7 +36,7 @@
                 (x, i) => {
                     var item       = list[i];
                     var targetType = genericType != null ? genericType : item?.GetType();
-                    x.Add(UiElementFactory.CreateVisualElement(
+                    x.Add(UiElementFactory.Create(
                         list[i],targetType,
                         value => list[i] = value,
                         i.ToStringFromCache()));   

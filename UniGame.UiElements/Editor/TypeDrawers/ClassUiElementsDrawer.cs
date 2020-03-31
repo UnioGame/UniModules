@@ -33,7 +33,7 @@
 
                 var fieldContainer = container;
                 var value = field.GetValue(source);
-                var element = UiElementFactory.CreateVisualElement(
+                var element = UiElementFactory.Create(
                     value,
                     field.FieldType,
                     x => field.SetValue(source,x),
