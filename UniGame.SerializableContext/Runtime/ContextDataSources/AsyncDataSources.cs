@@ -24,7 +24,7 @@ namespace UniGreenModules.UniGame.SerializableContext.Runtime.ContextDataSources
         [Sirenix.OdinInspector.DrawWithUnity]
 #endif
         [ShowAssetReference]
-        public List<AssetReferenceDisposableObject> sourceAssets = new List<AssetReferenceDisposableObject>();
+        public List<AssetReferenceScriptableObject> sourceAssets = new List<AssetReferenceScriptableObject>();
         
 
         #endregion
@@ -41,7 +41,7 @@ namespace UniGreenModules.UniGame.SerializableContext.Runtime.ContextDataSources
         }
         
         
-        private async UniTask<bool> RegisterContexts(IContext target,AssetReferenceDisposableObject sourceReference)
+        private async UniTask<bool> RegisterContexts(IContext target,AssetReferenceScriptableObject sourceReference)
         {
             var source = await sourceReference.LoadAssetTaskAsync<IAsyncContextDataSource>(target.LifeTime);
             if (source == null) {

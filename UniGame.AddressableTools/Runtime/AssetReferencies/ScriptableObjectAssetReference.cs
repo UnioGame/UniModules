@@ -12,8 +12,8 @@
     [DontApplyToListElements]
 #endif
     [Serializable]
-    public class AssetReferenceDisposableObject : DisposableAssetReference<ScriptableObject> 
+    public class AssetReferenceScriptableObject : DisposableAssetReference<ScriptableObject> 
     {
-        public AssetReferenceDisposableObject(string guid) : base(guid) {}
+        public AssetReferenceScriptableObject(string guid) : base(guid) {}
     }
 }
