@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if UNITY_EDITOR
+
+using System;
 using System.Collections.Generic;
 using UniGame.UniNodes.NodeSystem.Inspector.Editor.ContentContextWindow;
 using UniGreenModules.UniContextData.Runtime.Entities;
@@ -25,6 +27,7 @@ public class DemoContextClass
 
     public string Text = "DemoContextClass Text0";
 }
+
 
 [CreateAssetMenu(menuName = "UniGame/GameSystem/Examples/ContextDataWindowData",fileName = "ContextDataWindowData")]
 public class DemoTypeDataContainer : ScriptableObject
@@ -100,3 +103,5 @@ public class DemoTypeDataContainer : ScriptableObject
     }
     
 }
+
+#endif

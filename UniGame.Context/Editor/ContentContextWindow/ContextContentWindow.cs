@@ -1,5 +1,6 @@
 ﻿namespace UniGame.UniNodes.NodeSystem.Inspector.Editor.ContentContextWindow
 {
+    #if UNITY_EDITOR
     using System.Collections.Generic;
     using Core.EditorTools.Editor.UiElements;
     using UnityEditor;
@@ -102,4 +103,5 @@
             }
         }
     }
+    #endif
 }
