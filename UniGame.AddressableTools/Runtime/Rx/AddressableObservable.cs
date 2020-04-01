@@ -95,11 +95,15 @@
             
             disposableAction.Initialize();
             disposableAction.AddDispose(disposableValue);
+
+            if (!ValidateReference()) {
+                return disposableAction;
+            }
             
             routineHandler = LoadReference(disposableAction).
                 Execute().
                 AddTo(disposableAction);
-
+            
             return disposableAction;
         }
 
@@ -110,12 +114,21 @@
         public void Release() => lifeTimeDefinition.Terminate();
 
         #endregion
-        
-        private IEnumerator LoadReference(ILifeTime lifeTime)
+
+        private bool ValidateReference()
         {
             if (reference == null || reference.RuntimeKeyIsValid() == false) {
                 GameLog.LogError($"AddressableObservable : LOAD Addressable Failled {reference}");
                 status.Value = AsyncOperationStatus.Failed;
+                return false;
+            }
+
+            return true;
+        }
+        
+        private IEnumerator LoadReference(ILifeTime lifeTime)
+        {
+            if (!ValidateReference()) {
                 yield break;
             }
 

@@ -1,38 +1,36 @@
-﻿namespace UniGreenModules.UniGame.Context.Runtime.Interfaces
+﻿namespace UniModules.UniGame.Core.Runtime.ScriptableObjects
 {
-    using SerializableContext.Runtime.Abstract;
-    using UniCore.Runtime.DataFlow;
-    using UniCore.Runtime.DataFlow.Interfaces;
-    using UniCore.Runtime.Interfaces;
+    using UniGreenModules.UniCore.Runtime.DataFlow;
+    using UniGreenModules.UniCore.Runtime.DataFlow.Interfaces;
+    using UniGreenModules.UniCore.Runtime.Interfaces;
+    using UniGreenModules.UniGame.SerializableContext.Runtime.Abstract;
     using UnityEngine;
 
     public class DisposableScriptableObject : ScriptableObject,
         ILifeTimeContext,
         IResourceDisposable
     {
-        #region inspector
+        private LifeTimeDefinition _lifeTimeDefinition;
         
-        [Tooltip("Unload context asset on SO unloading")]
-        public bool disposeOnUnload = true;
-        
-        #endregion
-        
-        private LifeTimeDefinition lifeTimeDefinition;
-        
-        public ILifeTime LifeTime => lifeTimeDefinition;
-        
-        public void Dispose() => lifeTimeDefinition.Terminate();
+        public ILifeTime LifeTime => _lifeTimeDefinition;
+
+        public void Dispose()
+        {
+            if (_lifeTimeDefinition.IsTerminated)
+                return;
+            _lifeTimeDefinition.Terminate();
+        }
 
         private void OnEnable()
         {
-            lifeTimeDefinition = new LifeTimeDefinition();
-            if (disposeOnUnload) {
-                lifeTimeDefinition.LifeTime.AddDispose(this);
-            }
+            _lifeTimeDefinition = new LifeTimeDefinition();
             OnSourceEnable(LifeTime);
         }
 
-        private void OnDisable() => Dispose();
+        private void OnDisable()
+        {
+            Dispose();
+        }
 
         protected virtual void OnSourceEnable(ILifeTime lifeTime) {}
     }

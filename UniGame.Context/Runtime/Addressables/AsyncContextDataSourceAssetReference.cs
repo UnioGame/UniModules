@@ -2,7 +2,7 @@
 {
     using System;
     using AddressableTools.Runtime.AssetReferencies;
-    using Context.Runtime.Interfaces;
+    using UniModules.UniGame.Context.Runtime.Abstract;
 
     [Serializable]    
 #if ODIN_INSPECTOR

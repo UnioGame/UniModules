@@ -1,7 +1,8 @@
-﻿namespace UniGreenModules.UniGame.Context.Runtime.Interfaces
+﻿namespace UniModules.UniGame.Context.Runtime.Abstract
 {
-    using UniContextData.Runtime.Interfaces;
-    using UniCore.Runtime.Interfaces;
+    using Core.Runtime.ScriptableObjects;
+    using UniGreenModules.UniContextData.Runtime.Interfaces;
+    using UniGreenModules.UniCore.Runtime.Interfaces;
     using UniRx.Async;
 
     public abstract class AsyncContextDataSource : 
