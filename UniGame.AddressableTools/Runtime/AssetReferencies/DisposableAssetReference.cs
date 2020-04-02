@@ -12,6 +12,7 @@ namespace UniGreenModules.UniGame.AddressableTools.Runtime.AssetReferencies
     [Serializable]
 #if ODIN_INSPECTOR
     [Sirenix.OdinInspector.DontApplyToListElements]
+    [Sirenix.OdinInspector.DrawWithUnity]
 #endif
     public class DisposableAssetReference<TAsset> : AssetReferenceT<TAsset> , IDisposable
         where TAsset : Object 

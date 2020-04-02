@@ -84,7 +84,8 @@
             
             reference = addressable;
             releaseOnDispose = true;
-            lifeTimeDefinition.LifeTime.AddCleanUpAction(CleanUp);
+            
+            lifeTimeDefinition.AddCleanUpAction(CleanUp);
             
         }
 
@@ -175,7 +176,6 @@
             reference = null;
             
             value.Release();
-            value.Value = default;
         }
         
         #region deconstructor
