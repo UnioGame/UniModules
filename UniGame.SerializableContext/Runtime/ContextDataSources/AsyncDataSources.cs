@@ -7,12 +7,10 @@ namespace UniGreenModules.UniGame.SerializableContext.Runtime.ContextDataSources
     using AddressableTools.Runtime.Attributes;
     using AddressableTools.Runtime.Extensions;
     using UniContextData.Runtime.Interfaces;
-    using UniCore.Runtime.DataFlow.Interfaces;
     using UniCore.Runtime.Interfaces;
     using UniModules.UniGame.Context.Runtime.Abstract;
     using UniRx.Async;
 
-    
     [CreateAssetMenu(menuName = "UniGame/GameSystem/Sources/AddressablesAsyncSources", fileName = nameof(AsyncDataSources))]
     public class AsyncDataSources : AsyncContextDataSource
     {
@@ -50,10 +48,10 @@ namespace UniGreenModules.UniGame.SerializableContext.Runtime.ContextDataSources
 
         }
 
-        protected override void OnSourceEnable(ILifeTime lifeTime)
+        protected override void OnReset()
         {
             foreach (var reference in sourceAssets) {
-                lifeTime.AddDispose(reference);
+                LifeTime.AddDispose(reference);
             }
         }
         

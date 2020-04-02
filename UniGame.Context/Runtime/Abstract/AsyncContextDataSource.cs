@@ -6,7 +6,7 @@
     using UniRx.Async;
 
     public abstract class AsyncContextDataSource : 
-        DisposableScriptableObject, 
+        LifetimeScriptableObject, 
         IAsyncContextDataSource
 
     {
