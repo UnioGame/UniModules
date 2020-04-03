@@ -13,6 +13,26 @@ namespace UniModules.UniGame.Core.Runtime.Extension
             return list[randomIndex];
         }
 
+        public static IList<T> GetRandomValues<T>(this IList<T> source, int count)
+        {
+            var result = new List<T>();
+            var temp = new List<T>(source);
+
+            for (var i = 0; i < count; i++) {
+                var randomIndex = Random.Range(0, temp.Count);
+                result.Add(temp[randomIndex]);
+                
+                temp.RemoveAt(randomIndex);
+            }
+
+            return result;
+        }
+
+        public static IEnumerable<T> GetRandomValues<T>(this IEnumerable<T> source, int count)
+        {
+            return GetRandomValues(source.ToList(), count);
+        }
+
         public static T GetRandomValue<T>(this IList<T> list, Predicate<T> predicate)
         {
             var validValues = list.Where(x=>predicate(x)).ToArray();
