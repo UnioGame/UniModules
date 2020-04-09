@@ -17,7 +17,9 @@
 
         public void Reset()
         {
-            _lifeTimeDefinition.Release();
+            if(_lifeTimeDefinition != null) {
+                _lifeTimeDefinition.Release();
+            }
             OnReset();
         }
         
