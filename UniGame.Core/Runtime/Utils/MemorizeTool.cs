@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using UnityEditor;
 
     public class MemorizeTool
     {
@@ -20,10 +19,10 @@
             }
 
             void ClearCache() => cache.Clear();
-
+#if UNITY_EDITOR
             //clean up cache if Assembly Reload
-            AssemblyReloadEvents.beforeAssemblyReload += ClearCache;
-            
+            UnityEditor.AssemblyReloadEvents.beforeAssemblyReload += ClearCache;
+#endif      
             return CacheMapFunc;
 
         }
