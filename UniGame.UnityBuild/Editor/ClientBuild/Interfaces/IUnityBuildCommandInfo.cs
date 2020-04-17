@@ -2,11 +2,10 @@ namespace UniGreenModules.UniGame.UnityBuild.Editor.ClientBuild.Interfaces
 {
     public interface IUnityBuildCommandInfo {
         
-        int Order { get; }
+        int Priority { get; }
 
         bool IsActive { get; }
 
         string Name { get; }
-
     }
 }

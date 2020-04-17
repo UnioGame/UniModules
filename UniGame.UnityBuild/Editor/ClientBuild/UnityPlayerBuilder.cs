@@ -80,18 +80,18 @@
         public void ExecuteCommands<TTarget>(List<EditorAssetResource> targetCommands, Action<TTarget> action)
             where TTarget : Object, IUnityBuildCommand
         {
-        
-            targetCommands.Sort((x,y) => x.Load<TTarget>().
-                Info.Order.CompareTo(y.Load<TTarget>().Info.Order));
+            var executingCommands = targetCommands.
+                OrderByDescending(x => x.Load<TTarget>().Priority).
+                ToList();
 
-            foreach (var command in targetCommands) {
+            foreach (var command in executingCommands) {
 
                 var commandAsset = command.Load<TTarget>();
                 if(commandAsset== null)
                     continue;
         
                 var commandName    = commandAsset.name;
-                var executionOrder = commandAsset.Info.Order;
+                var executionOrder = commandAsset.Info.Priority;
         
                 Debug.Log($"\n\n=====EXECUTE COMMAND {commandName} with priority {executionOrder}=====");
                 var startTime = DateTime.Now;
