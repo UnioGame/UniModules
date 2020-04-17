@@ -19,11 +19,11 @@
         public BuildReport Build(IUniBuilderConfiguration configuration)
         {
 
-            ExecuteCommands<UnityPreBuildCommand>(x => x.Execute(configuration));
+            ExecuteCommands<UnityPreBuildCommand>(configuration,x => x.Execute(configuration));
     
             var result = ExecuteBuild(configuration);
     
-            ExecuteCommands<UnityPostBuildCommand>(x => x.Execute(configuration,result));
+            ExecuteCommands<UnityPostBuildCommand>(configuration,x => x.Execute(configuration,result));
 
             return result;
 
@@ -63,15 +63,22 @@
             return $"{folder}/{buildParameters.BuildTarget.ToString()}/{file}";
         }
 
-        public void ExecuteCommands<TTarget>(Action<TTarget> action) 
+        public void ExecuteCommands<TTarget>(
+            IUniBuilderConfiguration configuration,
+            Action<TTarget> action) 
             where  TTarget : Object,IUnityBuildCommand
         {
 
             var targetCommands = AssetEditorTools.GetEditorResources<TTarget>().
                 Where(x => {
                     var asset = x.Load<TTarget>();
-                    return asset != null && asset.Info.IsActive;
-                }).ToList();
+                    var isValid = asset != null && asset.Info.IsActive;
+                    if (asset is IUnityBuildCommandValidator validator) {
+                        isValid = isValid && validator.Validate(configuration);
+                    }
+                    return isValid;
+                }).
+                ToList();
 
             ExecuteCommands(targetCommands, action);
 

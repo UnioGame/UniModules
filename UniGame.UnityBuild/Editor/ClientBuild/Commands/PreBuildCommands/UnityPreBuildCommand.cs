@@ -11,7 +11,9 @@
         public UnityBuildCommandInfo commandCommandInfo;
 
         public IUnityBuildCommandInfo Info => commandCommandInfo;
-        
+
+        public bool Validate(IUniBuilderConfiguration config) => true;
+
         public abstract void Execute(IUniBuilderConfiguration buildParameters);
 
         public int Priority => Info.Priority;

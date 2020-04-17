@@ -14,6 +14,7 @@
         
         public abstract void Execute(IUniBuilderConfiguration configuration,BuildReport buildReport);
 
+        public virtual bool Validate(IUniBuilderConfiguration config) => true;
         
         public int    Priority => Info.Priority;
         public bool   IsActive => Info.IsActive;
