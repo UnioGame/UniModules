@@ -93,10 +93,9 @@
                 Object.DestroyImmediate(data.gameObject);
                 return;
             }
-            ObjectPool.Despawn(data);
+            ObjectPool.Despawn(data.gameObject);
         }
-
-
+        
         public static void Despawn<T>(this T data, bool destroy = false)
             where T:Object
         {

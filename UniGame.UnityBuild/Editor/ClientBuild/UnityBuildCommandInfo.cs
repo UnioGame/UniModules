@@ -9,19 +9,19 @@ namespace UniGreenModules.UniGame.UnityBuild.Editor.ClientBuild {
         #region inspector data
         
         [SerializeField]
-        protected int order;
+        public int priority;
 
         [SerializeField]
-        protected bool isActive = true;
+        public bool isActive = true;
 
         [SerializeField]
-        protected string name = string.Empty;
+        public string name = string.Empty;
         
         #endregion
 
         public string Name => name;
         
-        public int Order => order;
+        public int Priority => priority;
 
         public bool IsActive => this.isActive;
     }

@@ -103,9 +103,10 @@ namespace UniGreenModules.UniCore.Runtime.ObjectPool.Runtime
                 Destroy(clone);
                 return;
             }
-            
+
+            var target = OnObjectDespawn(clone);
             // Add it to the cache
-            cache.Push(OnObjectDespawn(clone));
+            cache.Push(target);
 
         }
 

@@ -18,7 +18,9 @@
             var arguments = configuration.Arguments;
             var buildParameters = configuration.BuildParameters;
             
-            var scriptingBackend = arguments.Contains(l2cppEnabled) ? ScriptingImplementation.IL2CPP : ScriptingImplementation.Mono2x;
+            var scriptingBackend = arguments.Contains(l2cppEnabled) ? 
+                ScriptingImplementation.IL2CPP : 
+                ScriptingImplementation.Mono2x;
             
 #if FORCE_MONO
             scriptingBackend = ScriptingImplementation.Mono2x;

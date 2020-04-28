@@ -1,18 +1,16 @@
 ﻿namespace UniGreenModules.UniGame.SerializableContext.Runtime.Scriptable
 {
     using System;
-    using Abstract;
     using Addressables;
     using AddressableTools.Runtime.Attributes;
     using AddressableTools.Runtime.Extensions;
-    using Context.Runtime.Interfaces;
-    using UniCore.Runtime.DataFlow.Interfaces;
     using UniCore.Runtime.Interfaces;
+    using UniModules.UniGame.Context.Runtime.Abstract;
     using UniRx.Async;
     using UnityEngine;
 
     [CreateAssetMenu(menuName = "UniGame/GameSystem/Sources/AddressableContextSource", fileName = nameof(AsyncContextSource))]
-    public class AsyncContextSource : AsyncContextDataSource , IResourceDisposable
+    public class AsyncContextSource : AsyncContextDataSource
     {
         [ShowAssetReference]
         public ContextAssetReference contextAsset;
@@ -31,12 +29,5 @@
             return context;
         }
 
-        protected override void OnSourceEnable(ILifeTime lifeTime)
-        {
-            base.OnSourceEnable(lifeTime);
-            if (disposeOnUnload) {
-                lifeTime.AddDispose(this);
-            }
-        }
     }
 }
