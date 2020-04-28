@@ -3,18 +3,14 @@
 namespace UniGreenModules.UniGame.SerializableContext.Runtime.ContextDataSources
 {
     using System.Collections.Generic;
-    using Abstract;
     using Addressables;
     using AddressableTools.Runtime.Attributes;
     using AddressableTools.Runtime.Extensions;
-    using Context.Runtime.Interfaces;
     using UniContextData.Runtime.Interfaces;
-    using UniCore.Runtime.DataFlow.Interfaces;
     using UniCore.Runtime.Interfaces;
-    using UniCore.Runtime.ProfilerTools;
+    using UniModules.UniGame.Context.Runtime.Abstract;
     using UniRx.Async;
 
-    
     [CreateAssetMenu(menuName = "UniGame/GameSystem/Sources/AddressablesAsyncSources", fileName = nameof(AsyncDataSources))]
     public class AsyncDataSources : AsyncContextDataSource
     {
@@ -24,7 +20,7 @@ namespace UniGreenModules.UniGame.SerializableContext.Runtime.ContextDataSources
         [Sirenix.OdinInspector.DrawWithUnity]
 #endif
         [ShowAssetReference]
-        public List<AssetReferenceDisposableObject> sourceAssets = new List<AssetReferenceDisposableObject>();
+        public List<AssetReferenceScriptableObject> sourceAssets = new List<AssetReferenceScriptableObject>();
         
 
         #endregion
@@ -41,7 +37,7 @@ namespace UniGreenModules.UniGame.SerializableContext.Runtime.ContextDataSources
         }
         
         
-        private async UniTask<bool> RegisterContexts(IContext target,AssetReferenceDisposableObject sourceReference)
+        private async UniTask<bool> RegisterContexts(IContext target,AssetReferenceScriptableObject sourceReference)
         {
             var source = await sourceReference.LoadAssetTaskAsync<IAsyncContextDataSource>(target.LifeTime);
             if (source == null) {
@@ -52,10 +48,10 @@ namespace UniGreenModules.UniGame.SerializableContext.Runtime.ContextDataSources
 
         }
 
-        protected override void OnSourceEnable(ILifeTime lifeTime)
+        protected override void OnReset()
         {
             foreach (var reference in sourceAssets) {
-                lifeTime.AddDispose(reference);
+                LifeTime.AddDispose(reference);
             }
         }
         

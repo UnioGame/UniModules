@@ -3,14 +3,13 @@
     using System;
     using global::UniCore.Runtime.ProfilerTools;
     using UniCore.Runtime.Common;
-    using UniCore.Runtime.DataFlow;
     using UniCore.Runtime.DataFlow.Interfaces;
-    using UniCore.Runtime.ProfilerTools;
+    using UniModules.UniGame.Core.Runtime.ScriptableObjects;
     using UnityEngine;
 
     [Serializable]
     public abstract class TypeValueAsset<TValue,TApiValue> : 
-        ScriptableObject,
+        DisposableScriptableObject,
         ITypeValueAsset<TValue,TApiValue>
         where TValue : TApiValue
     {
@@ -21,15 +20,11 @@
         #endregion
 
         private TypeValueAsset<TValue, TApiValue> source;
-   
-        private LifeTimeDefinition lifeTime;
-        
+
         private ContextValue<TApiValue> contextValue = new ContextValue<TApiValue>();
 
         protected TValue _activeValue;
-
-        public ILifeTime LifeTime => lifeTime.LifeTime;
-
+        
         public TApiValue Value {
 
             get {
@@ -46,8 +41,6 @@
         #region public methods
         
         public IDisposable Subscribe(IObserver<TApiValue> observer) => contextValue.Subscribe(observer);
-        
-        public void Dispose() => contextValue.Dispose();
 
         public void SetValue(TValue value)
         {
@@ -56,18 +49,22 @@
         }
         
         #endregion
-        
-        /// <summary>
-        /// Initialize when SO loaded
-        /// </summary>
-        protected void OnEnable()
+
+        protected sealed override void OnActivate()
         {
             contextValue = new ContextValue<TApiValue>();
-            lifeTime = new LifeTimeDefinition();
+            LifeTime.AddDispose(contextValue);
             
             SetValue(GetDefaultValue());
-            
-            OnInitialize(lifeTime.LifeTime);
+            OnInitialize(LifeTime);
+        }
+
+
+        protected override void OnReset()
+        {
+            SetValue(GetDefaultValue());
+            LifeTime.AddDispose(contextValue);
+            LifeTime.AddCleanUpAction(OnResetAction);
         }
         
         /// <summary>
@@ -87,15 +84,11 @@
         /// </summary>
         protected virtual void OnInitialize(ILifeTime lifetime) {}
 
-        private void OnDisable()
+        private void OnResetAction()
         {
             if (!Application.isPlaying)
                 return;
-            
-            //end of value LIFETIME
-            lifeTime.Terminate();
-
-            GameLog.Log($"TypeValueAsset: {GetType().Name} {name} : VALUE {Value} END OF LIFETIME");
+            GameLog.Log($"TypeValueAsset: {GetType().Name} {name} : VALUE {Value} END OF LIFETIME",Color.red);
         }
 
     }

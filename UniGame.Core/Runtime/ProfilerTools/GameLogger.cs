@@ -25,7 +25,7 @@
         {
             Name = name;
         }
-
+        
         public void Log(string message, Object source = null)
         {
 #if UNITY_EDITOR || GAME_LOGS_ENABLED

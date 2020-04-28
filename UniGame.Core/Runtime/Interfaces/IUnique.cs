@@ -3,6 +3,5 @@
    public interface IUnique
    {
       int Id {get;}
-
    }
 }

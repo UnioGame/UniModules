@@ -43,7 +43,7 @@ namespace UniGreenModules.UniGame.UnityBuild.Editor.UnityCloudBuild
             var parameters = CreateCommandParameters();
             var builder    = new UnityPlayerBuilder();
 
-            builder.ExecuteCommands<UnityPreBuildCommand>(x => x.Execute(parameters));
+            builder.ExecuteCommands<UnityPreBuildCommand>(parameters,x => x.Execute(parameters));
         }
 
         public static void PostExport(string exportPath)
@@ -60,7 +60,7 @@ namespace UniGreenModules.UniGame.UnityBuild.Editor.UnityCloudBuild
             var parameters = CreateCommandParameters();
             var builder    = new UnityPlayerBuilder();
 
-            builder.ExecuteCommands<UnityPostBuildCommand>(x => x.Execute(parameters, null));
+            builder.ExecuteCommands<UnityPostBuildCommand>(parameters,x => x.Execute(parameters, null));
         }
 
         private static IUniBuilderConfiguration CreateCommandParameters()

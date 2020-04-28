@@ -127,6 +127,7 @@
 
         private void CleanUp()
         {
+            value = default;
             hasValue = false;
             
             //stop listing all child observers

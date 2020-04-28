@@ -19,11 +19,11 @@
         public BuildReport Build(IUniBuilderConfiguration configuration)
         {
 
-            ExecuteCommands<UnityPreBuildCommand>(x => x.Execute(configuration));
+            ExecuteCommands<UnityPreBuildCommand>(configuration,x => x.Execute(configuration));
     
             var result = ExecuteBuild(configuration);
     
-            ExecuteCommands<UnityPostBuildCommand>(x => x.Execute(configuration,result));
+            ExecuteCommands<UnityPostBuildCommand>(configuration,x => x.Execute(configuration,result));
 
             return result;
 
@@ -63,15 +63,22 @@
             return $"{folder}/{buildParameters.BuildTarget.ToString()}/{file}";
         }
 
-        public void ExecuteCommands<TTarget>(Action<TTarget> action) 
+        public void ExecuteCommands<TTarget>(
+            IUniBuilderConfiguration configuration,
+            Action<TTarget> action) 
             where  TTarget : Object,IUnityBuildCommand
         {
 
             var targetCommands = AssetEditorTools.GetEditorResources<TTarget>().
                 Where(x => {
                     var asset = x.Load<TTarget>();
-                    return asset != null && asset.Info.IsActive;
-                }).ToList();
+                    var isValid = asset != null && asset.Info.IsActive;
+                    if (asset is IUnityBuildCommandValidator validator) {
+                        isValid = isValid && validator.Validate(configuration);
+                    }
+                    return isValid;
+                }).
+                ToList();
 
             ExecuteCommands(targetCommands, action);
 
@@ -80,18 +87,18 @@
         public void ExecuteCommands<TTarget>(List<EditorAssetResource> targetCommands, Action<TTarget> action)
             where TTarget : Object, IUnityBuildCommand
         {
-        
-            targetCommands.Sort((x,y) => x.Load<TTarget>().
-                Info.Order.CompareTo(y.Load<TTarget>().Info.Order));
+            var executingCommands = targetCommands.
+                OrderByDescending(x => x.Load<TTarget>().Priority).
+                ToList();
 
-            foreach (var command in targetCommands) {
+            foreach (var command in executingCommands) {
 
                 var commandAsset = command.Load<TTarget>();
                 if(commandAsset== null)
                     continue;
         
                 var commandName    = commandAsset.name;
-                var executionOrder = commandAsset.Info.Order;
+                var executionOrder = commandAsset.Info.Priority;
         
                 Debug.Log($"\n\n=====EXECUTE COMMAND {commandName} with priority {executionOrder}=====");
                 var startTime = DateTime.Now;
