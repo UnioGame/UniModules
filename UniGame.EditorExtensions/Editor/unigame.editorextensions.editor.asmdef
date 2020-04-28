@@ -1,3 +1,22 @@
-﻿{
-	"name": "unigame.editorextensions.editor"
+{
+    "name": "unigame.editorextensions.editor",
+    "references": [
+        "GUID:deb366498a4890546b989ab38e5dcce3",
+        "GUID:2796129a6c23eb84a8181f62bf7332f1",
+        "GUID:8e4577c9194c10845984cf27eb974fd1",
+        "GUID:9e24947de15b9834991c9d8411ea37cf",
+        "GUID:69448af7b92c7f342b298e06a37122aa",
+        "GUID:84651a3751eca9349aac36a66bba901b"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }
