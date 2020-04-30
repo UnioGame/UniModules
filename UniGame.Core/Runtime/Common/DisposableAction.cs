@@ -21,10 +21,11 @@
         public void Dispose()
         {
             if (IsComplete) return;
-            IsComplete = true;
-            
-            _onDisposed?.Invoke();
 
+            _onDisposed?.Invoke();
+            
+            Complete();
+            
             this.Despawn();
         }
 
