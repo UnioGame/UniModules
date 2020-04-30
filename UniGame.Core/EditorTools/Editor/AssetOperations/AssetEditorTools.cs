@@ -49,7 +49,7 @@
                 var asset = assets[i];
                 if (asset == null) continue;
                 var progress = i / ((float)count);
-                EditorUtility.DisplayProgressBar(string.Format("Progress [{0} of {1}] :", i, count), asset.ToString(), progress);
+                EditorUtility.DisplayProgressBar($"Progress [{i} of {count}] :", asset.ToString(), progress);
                 action(asset);
 
             }
