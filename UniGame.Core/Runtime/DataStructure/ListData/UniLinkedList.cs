@@ -31,7 +31,7 @@
             {
                 last.Next     = next;
                 next.Previous = last;
-                last          = next;
+                last = next;
             }
             
             return next;
@@ -67,6 +67,7 @@
         {
             Reset();
             var node          = root;
+            
             current = root = last = null;
 
             while (node != null)

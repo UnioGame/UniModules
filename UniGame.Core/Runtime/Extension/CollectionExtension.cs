@@ -3,6 +3,9 @@ namespace UniModules.UniGame.Core.Runtime.Extension
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using UniGreenModules.UniCore.Runtime.ObjectPool.Runtime;
+    using UniGreenModules.UniCore.Runtime.ObjectPool.Runtime.Extensions;
+    using UniRx;
     using Random = UnityEngine.Random;
 
     public static class CollectionExtension
@@ -41,12 +44,26 @@ namespace UniModules.UniGame.Core.Runtime.Extension
             return validValues[randomIndex];
         }
 
+        public static List<T> AddEnumerableRange<T>(this IEnumerable<T> range, List<T> target)
+        {
+            target.AddRange(range);
+            return target;
+        }
+        
         public static T GetRandomValue<T>(this IEnumerable<T> enumerable, Predicate<T> predicate)
         {
-            var validValues = enumerable.Where(x => predicate(x)).ToArray();
-            var randomIndex = Random.Range(0, validValues.Length);
+            var cache = ClassPool.Spawn<List<T>>();
+            
+            var validValues = enumerable.
+                Where(x => predicate(x)).
+                AddEnumerableRange(cache);
+            
+            var randomIndex = Random.Range(0, cache.Count);
 
-            return validValues[randomIndex];
+            var result = validValues[randomIndex];
+            validValues.Despawn();
+            return result;
+            
         }
 
         public static T GetRandomValue<T>(this IList<T> list, Predicate<T> predicate, T withoutElement)
