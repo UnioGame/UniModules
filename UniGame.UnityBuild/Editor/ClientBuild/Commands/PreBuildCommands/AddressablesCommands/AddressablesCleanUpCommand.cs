@@ -1,6 +1,7 @@
 ﻿namespace UniGame.UnityBuild.Editor.ClientBuild.Commands.PreBuildCommands.AddressablesCommands
 {
     using System.IO;
+    using UniCore.Runtime.ProfilerTools;
     using UniGreenModules.UniGame.UnityBuild.Editor.ClientBuild.Commands.PreBuildCommands;
     using UniGreenModules.UniGame.UnityBuild.Editor.ClientBuild.Interfaces;
     using UnityEditor;
@@ -68,6 +69,7 @@
 
         private void RemoveFolder(string path)
         {
+            GameLog.Log($"{this.Name} RemoveFolder");
             if (Directory.Exists(path)) {
                 Debug.Log($"BUILDER REMOVE {path}");
                 Directory.Delete(path,true);
