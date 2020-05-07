@@ -31,7 +31,7 @@ namespace UniModules.UniGame.GitTools.Runtime
         public static Process StartGitProcess(string parameters)
         {
             var startinfo = new ProcessStartInfo("git") {
-                UseShellExecute        = true,
+                UseShellExecute        = false,
                 WorkingDirectory       = Application.dataPath,
                 RedirectStandardInput  = true,
                 RedirectStandardOutput = true,
