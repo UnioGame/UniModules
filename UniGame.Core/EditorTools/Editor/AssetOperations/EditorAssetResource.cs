@@ -1,17 +1,27 @@
 ﻿namespace UniGreenModules.UniCore.EditorTools.Editor.AssetOperations
 {
+    using System;
     using Runtime.ObjectPool.Runtime.Interfaces;
     using UnityEditor;
-    using UnityEngine;
+    using Object = UnityEngine.Object;
 
-    public class EditorAssetResource : IPoolable
+    [Serializable]
+    public class EditorAssetResource : IPoolable, IEditorAssetResource
     {
         private string path;
         private Object asset;
 
-        public void Initialize(string assetPath)
+        public IEditorAssetResource Initialize(string assetPath)
         {
             path = assetPath;
+            return this;
+        }
+        
+        public IEditorAssetResource Initialize(Object sourceAsset)
+        {
+            asset = sourceAsset;
+            path = AssetDatabase.GetAssetPath(sourceAsset);
+            return this;
         }
 
         public bool HasData<T>()

@@ -1,7 +1,8 @@
 ﻿namespace UniGreenModules.UniCore.Runtime.Extension
 {
-    public static class EnumFlagExtension  {
+    using System;
 
+    public static class EnumFlagExtension  {
 
         public static bool IsFlagSet(this long value, long flag) 
         {

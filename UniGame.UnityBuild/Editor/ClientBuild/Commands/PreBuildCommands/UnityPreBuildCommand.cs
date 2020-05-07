@@ -2,22 +2,11 @@
     using Interfaces;
     using UnityEngine;
 
-    public abstract class UnityPreBuildCommand : ScriptableObject,
+    public abstract class UnityPreBuildCommand : 
+        UnityBuildCommand,
         IUnityPreBuildCommand,
         IUnityBuildCommandInfo
     {
-
-        [SerializeField]
-        public UnityBuildCommandInfo commandCommandInfo;
-
-        public IUnityBuildCommandInfo Info => commandCommandInfo;
-
-        public bool Validate(IUniBuilderConfiguration config) => true;
-
         public abstract void Execute(IUniBuilderConfiguration buildParameters);
-
-        public int Priority => Info.Priority;
-        public bool IsActive => Info.IsActive;
-        public string Name => Info.Name;
     }
 }
