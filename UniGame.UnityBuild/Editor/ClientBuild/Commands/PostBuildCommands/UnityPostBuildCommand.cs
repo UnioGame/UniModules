@@ -18,7 +18,6 @@
 
         public virtual bool Validate(IUniBuilderConfiguration config) => true;
         
-        public int    Priority => Info.Priority;
         public bool   IsActive => Info.IsActive;
         public string Name     => Info.Name;
     }

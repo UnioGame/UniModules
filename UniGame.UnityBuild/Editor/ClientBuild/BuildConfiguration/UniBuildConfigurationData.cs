@@ -7,10 +7,14 @@
     [Serializable]
     public class UniBuildConfigurationData
     {
-        public List<BuildTarget> BuildTargets = new List<BuildTarget>();
+
+        public string ArtifactName = string.Empty;
         
-        public List<BuildTargetGroup> BuildTargetGroups = new List<BuildTargetGroup>();
+        public BuildTarget BuildTarget;
+        
+        public BuildTargetGroup BuildTargetGroup;
 
         public bool CloudBuild = false;
+        
     }
 }

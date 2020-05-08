@@ -8,31 +8,28 @@
         [MenuItem("UnityPlayerBuild/Android")]
         public static void BuildAndroid()
         {
-            var argumentsProvider = new ArgumentsProvider(new string[] {
-                $"{BuildArguments.BuildOutputFolderKey}:Build",
-                $"{BuildArguments.BuildOutputNameKey}:android.apk",
-            });
-
-            var buildConfiguration = new EditorBuildConfiguration(argumentsProvider, 
-                new BuildParameters(BuildTarget.Android, BuildTargetGroup.Android, argumentsProvider));
-            
-            UnityBuildTool.BuildPlayer(buildConfiguration);
+            ExecuteBuild("android.apk",BuildTarget.Android, BuildTargetGroup.Android);
         }
 
         [MenuItem("UnityPlayerBuild/iOS Release")]
         public static void BuildIOS()
         {
-            var argumentsProvider = new ArgumentsProvider(new string[] {
-                $"{BuildArguments.BuildOutputFolderKey}:Build",
-            });
-            
-            
-            var buildConfiguration = new EditorBuildConfiguration(argumentsProvider, 
-                new BuildParameters(BuildTarget.iOS, BuildTargetGroup.iOS, argumentsProvider));
+            ExecuteBuild(string.Empty,BuildTarget.iOS, BuildTargetGroup.iOS);
+        }
 
+
+        public static void ExecuteBuild(string outputFileName,BuildTarget buildTarget,BuildTargetGroup targetGroup)
+        {
+            var argumentsProvider = new ArgumentsProvider(new[] {
+                $"{BuildArguments.BuildOutputFolderKey}:Builds",
+                $"{BuildArguments.BuildOutputNameKey}:{outputFileName}",
+            });
+
+            var buildConfiguration = new EditorBuildConfiguration(
+                argumentsProvider, 
+                new BuildParameters(buildTarget, targetGroup, argumentsProvider));
             
             UnityBuildTool.BuildPlayer(buildConfiguration);
         }
-
     }
 }

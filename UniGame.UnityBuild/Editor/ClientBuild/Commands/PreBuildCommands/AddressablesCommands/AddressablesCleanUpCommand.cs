@@ -21,8 +21,8 @@
     public class AddressablesCleanUpCommand : UnityPreBuildCommand
     {
                 
-        public const string AddressablesCachePath = "/Library/com.unity.addressables/StreamingAssetsCopy";
-        public const string StreamingAddressablesPath = "/StreamingAssets/aa";
+        public const string AddressablesCachePath = "./Library/com.unity.addressables/StreamingAssetsCopy";
+        public const string StreamingAddressablesPath = "/aa";
         
 
         [Tooltip("Clean Addressables Library cache")]
@@ -55,7 +55,7 @@
         {
             if (CleanUpLibraryCache == false) return;
             
-            var targetPath = EditorApplication.applicationPath + AddressablesCachePath;
+            var targetPath = AddressablesCachePath;
             RemoveFolder(targetPath);
         }
         
@@ -63,16 +63,19 @@
         {
             if (CleanUpStreamingCache == false) return;
             
-            var targetPath = Application.dataPath + StreamingAddressablesPath;
+            var targetPath = Application.streamingAssetsPath + StreamingAddressablesPath;
             RemoveFolder(targetPath);
         }
 
         private void RemoveFolder(string path)
         {
-            GameLog.Log($"{this.Name} RemoveFolder");
+            GameLog.Log($"COMMAND: {this.Name} \nRemove Addressables Folder {path}");
             if (Directory.Exists(path)) {
-                Debug.Log($"BUILDER REMOVE {path}");
+                GameLog.Log($"COMMAND: {this.Name} REMOVE {path}");
                 Directory.Delete(path,true);
+            }
+            else {
+                GameLog.Log($"COMMAND: {this.Name}: FAILED Remove addressable folder {path} NOT FOUND");
             }
         }
         

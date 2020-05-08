@@ -5,9 +5,9 @@ namespace UniModules.UniGame.UnityBuild.Editor.ClientBuild.BuildConfiguration
     using System;
     using System.Collections.Generic;
     using UniGreenModules.UniCore.EditorTools.Editor.AssetOperations;
-    using UniGreenModules.UniCore.Runtime.Extension;
     using UniGreenModules.UniCore.Runtime.ObjectPool.Runtime;
     using UniGreenModules.UniCore.Runtime.ObjectPool.Runtime.Extensions;
+    using UniGreenModules.UniGame.UnityBuild.Editor.ClientBuild.Commands;
     using UniGreenModules.UniGame.UnityBuild.Editor.ClientBuild.Commands.PostBuildCommands;
     using UniGreenModules.UniGame.UnityBuild.Editor.ClientBuild.Commands.PreBuildCommands;
     using UniGreenModules.UniGame.UnityBuild.Editor.ClientBuild.Interfaces;
@@ -15,11 +15,20 @@ namespace UniModules.UniGame.UnityBuild.Editor.ClientBuild.BuildConfiguration
     [CreateAssetMenu(menuName = "UnityBuild/UniBuildConfiguration", fileName = nameof(UniBuildCommandsMap))]
     public class UniBuildCommandsMap : ScriptableObject, IUniBuildCommandsMap
     {
-        
+#if  ODIN_INSPECTOR
+        [Sirenix.OdinInspector.InlineProperty()]
+#endif
         public UniBuildConfigurationData BuildData = new UniBuildConfigurationData();
-        
+
+        [Space]
+#if  ODIN_INSPECTOR
+        [Sirenix.OdinInspector.InlineEditor()]
+#endif
         public List<UnityPreBuildCommand> PreBuildCommands = new List<UnityPreBuildCommand>();
         
+#if  ODIN_INSPECTOR
+        [Sirenix.OdinInspector.InlineEditor()]
+#endif
         public List<UnityPostBuildCommand> PostBuildCommands = new List<UnityPostBuildCommand>();
 
         public string ItemName => name;
@@ -52,10 +61,10 @@ namespace UniModules.UniGame.UnityBuild.Editor.ClientBuild.BuildConfiguration
         {
             var buildParameters = config.BuildParameters;
 
-            if (!BuildData.BuildTargets.Contains(buildParameters.BuildTarget))
+            if (BuildData.BuildTarget != buildParameters.BuildTarget)
                 return false;
 
-            if (!BuildData.BuildTargetGroups.Contains(buildParameters.BuildTargetGroup))
+            if (BuildData.BuildTargetGroup!=buildParameters.BuildTargetGroup)
                 return false;
 
             var isUnderCloud = false;
@@ -70,6 +79,14 @@ namespace UniModules.UniGame.UnityBuild.Editor.ClientBuild.BuildConfiguration
             return ValidatePlatform(config);
         }
 
+#if  ODIN_INSPECTOR
+        [Sirenix.OdinInspector.Button("Execute")]
+#endif
+        public void ExecuteBuild()
+        {
+            UnityEditorBuildCommands.ExecuteBuild(BuildData.ArtifactName,BuildData.BuildTarget,BuildData.BuildTargetGroup);
+        }
+        
         protected virtual bool ValidatePlatform(IUniBuilderConfiguration config)
         {
             return true;

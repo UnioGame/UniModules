@@ -7,9 +7,6 @@ namespace UniGreenModules.UniGame.UnityBuild.Editor.ClientBuild {
     public class UnityBuildCommandInfo : IUnityBuildCommandInfo 
     {
         #region inspector data
-        
-        [SerializeField]
-        public int priority;
 
         [SerializeField]
         public bool isActive = true;
@@ -20,8 +17,6 @@ namespace UniGreenModules.UniGame.UnityBuild.Editor.ClientBuild {
         #endregion
 
         public string Name => name;
-        
-        public int Priority => priority;
 
         public bool IsActive => this.isActive;
     }
