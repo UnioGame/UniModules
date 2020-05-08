@@ -21,8 +21,6 @@
         {
             ExecuteCommands<UnityPreBuildCommand>(configuration,x => x.Execute(configuration));
 
-            return null;
-            
             var result = ExecuteBuild(configuration);
     
             ExecuteCommands<UnityPostBuildCommand>(configuration,x => x.Execute(configuration,result));
