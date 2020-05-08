@@ -9,9 +9,7 @@
         public UnityBuildCommandInfo commandCommandInfo;
         
         public IUnityBuildCommandInfo Info => commandCommandInfo;
-        
-        public int Priority => Info.Priority;
-        
+
         public bool IsActive => Info.IsActive;
         public string Name => Info.Name;
         

@@ -21,6 +21,8 @@
         {
             ExecuteCommands<UnityPreBuildCommand>(configuration,x => x.Execute(configuration));
 
+            return null;
+            
             var result = ExecuteBuild(configuration);
     
             ExecuteCommands<UnityPostBuildCommand>(configuration,x => x.Execute(configuration,result));
@@ -105,20 +107,17 @@
             Action<TTarget> action)
             where TTarget : Object, IUnityBuildCommand
         {
-            var executingCommands = targetCommands.
-                OrderByDescending(x => x.Load<TTarget>().Priority).
-                ToList();
+            var executingCommands = targetCommands;
 
             foreach (var command in executingCommands) {
 
                 var commandAsset = command.Load<TTarget>();
-                if(commandAsset== null)
+                if(commandAsset== null || !commandAsset.IsActive)
                     continue;
         
                 var commandName    = commandAsset.name;
-                var priority = commandAsset.Info.Priority;
                 
-                LogBuildStep($"EXECUTE COMMAND {commandName} with priority {priority}");
+                LogBuildStep($"EXECUTE COMMAND {commandName} with priority");
                 
                 var startTime = DateTime.Now;
         
