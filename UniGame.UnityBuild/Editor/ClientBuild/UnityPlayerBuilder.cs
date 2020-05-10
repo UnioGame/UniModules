@@ -5,11 +5,12 @@
     using System.Linq;
     using Commands.PostBuildCommands;
     using Commands.PreBuildCommands;
+    using global::UniCore.Runtime.ProfilerTools;
     using Interfaces;
     using UniCore.EditorTools.Editor.AssetOperations;
+    using UniModules.UniGame.UnityBuild.Editor.ClientBuild.BuildConfiguration;
     using UnityEditor;
     using UnityEditor.Build.Reporting;
-    using UnityEngine;
     using Object = UnityEngine.Object;
 
     public class UnityPlayerBuilder : IUnityPlayerBuilder
@@ -18,15 +19,13 @@
 
         public BuildReport Build(IUniBuilderConfiguration configuration)
         {
-
             ExecuteCommands<UnityPreBuildCommand>(configuration,x => x.Execute(configuration));
-    
+
             var result = ExecuteBuild(configuration);
     
             ExecuteCommands<UnityPostBuildCommand>(configuration,x => x.Execute(configuration,result));
 
             return result;
-
         }
 
         private BuildReport ExecuteBuild(IUniBuilderConfiguration configuration)
@@ -37,12 +36,12 @@
             var outputLocation = GetTargetBuildLocation(configuration.BuildParameters);
             var buildOptions   = buildParameters.BuildOptions;
     
-            Debug.Log($"OUTPUT LOCATION : {outputLocation}");
-    
+            LogBuildStep($"OUTPUT LOCATION : {outputLocation}");
+
             var report = BuildPipeline.BuildPlayer(scenes, outputLocation,
                 buildParameters.BuildTarget, buildOptions);
 
-            Debug.Log(report.ReportMessage());
+            LogBuildStep(report.ReportMessage());
 
             return report;
 
@@ -68,39 +67,56 @@
             Action<TTarget> action) 
             where  TTarget : Object,IUnityBuildCommand
         {
+            //load build command maps
+            var commandsMap = AssetEditorTools.
+                GetEditorResources<UniBuildCommandsMap>();
+            
+            var commandsResources = new List<IEditorAssetResource>();
+            //filter all valid commands map
+            foreach (var mapResource in commandsMap) {
 
-            var targetCommands = AssetEditorTools.GetEditorResources<TTarget>().
-                Where(x => {
-                    var asset = x.Load<TTarget>();
-                    var isValid = asset != null && asset.Info.IsActive;
-                    if (asset is IUnityBuildCommandValidator validator) {
-                        isValid = isValid && validator.Validate(configuration);
-                    }
-                    return isValid;
-                }).
-                ToList();
+                var commandMap = mapResource.Load<IUniBuildCommandsMap>();
+                if(!commandMap.Validate(configuration) ) 
+                    continue;
 
-            ExecuteCommands(targetCommands, action);
+                LogBuildStep($"BUILD: USE COMMAND MAP {commandMap.ItemName}");
+                
+                var assetResources = commandMap.
+                    LoadCommands<TTarget>(x => ValidateCommand(configuration,x));
+                
+                commandsResources.AddRange(assetResources);
+            }
 
+            ExecuteCommands(commandsResources, action);
         }
 
-        public void ExecuteCommands<TTarget>(List<EditorAssetResource> targetCommands, Action<TTarget> action)
+        public bool ValidateCommand( IUniBuilderConfiguration configuration,IUnityBuildCommand command)
+        {
+            var asset = command;
+            var isValid = asset != null && asset.Info.IsActive;
+            if (asset is IUnityBuildCommandValidator validator) {
+                isValid = isValid && validator.Validate(configuration);
+            }
+            return isValid;
+        }
+
+        public void ExecuteCommands<TTarget>(
+            List<IEditorAssetResource> targetCommands, 
+            Action<TTarget> action)
             where TTarget : Object, IUnityBuildCommand
         {
-            var executingCommands = targetCommands.
-                OrderByDescending(x => x.Load<TTarget>().Priority).
-                ToList();
+            var executingCommands = targetCommands;
 
             foreach (var command in executingCommands) {
 
                 var commandAsset = command.Load<TTarget>();
-                if(commandAsset== null)
+                if(commandAsset== null || !commandAsset.IsActive)
                     continue;
         
                 var commandName    = commandAsset.name;
-                var executionOrder = commandAsset.Info.Priority;
-        
-                Debug.Log($"\n\n=====EXECUTE COMMAND {commandName} with priority {executionOrder}=====");
+                
+                LogBuildStep($"EXECUTE COMMAND {commandName} with priority");
+                
                 var startTime = DateTime.Now;
         
                 action?.Invoke(commandAsset);
@@ -108,11 +124,14 @@
                 var endTime       = DateTime.Now;
                 var executionTime = endTime - startTime;
                 
-                Debug.Log($"=====EXECUTE COMMAND FINISHED {commandName} DURATION:{executionTime.TotalSeconds}=====\n\n");
-        
+                LogBuildStep($"EXECUTE COMMAND FINISHED {commandName} DURATION: {executionTime.TotalSeconds}");
             }
         }
 
-    
+        public void LogBuildStep(string message)
+        {
+            GameLog.Log($"=====BUILD : \n\t{message} =====\n");
+        }
+        
     }
 }

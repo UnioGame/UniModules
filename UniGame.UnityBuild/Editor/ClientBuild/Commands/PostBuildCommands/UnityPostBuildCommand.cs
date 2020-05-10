@@ -1,9 +1,11 @@
 ﻿namespace UniGreenModules.UniGame.UnityBuild.Editor.ClientBuild.Commands.PostBuildCommands {
     using Interfaces;
+    using PreBuildCommands;
     using UnityEditor.Build.Reporting;
     using UnityEngine;
 
-    public abstract class UnityPostBuildCommand : ScriptableObject,
+    public abstract class UnityPostBuildCommand : 
+        UnityBuildCommand,
         IUnityBuildCommandInfo,
         IUnityPostBuildCommand
     {
@@ -16,7 +18,6 @@
 
         public virtual bool Validate(IUniBuilderConfiguration config) => true;
         
-        public int    Priority => Info.Priority;
         public bool   IsActive => Info.IsActive;
         public string Name     => Info.Name;
     }
