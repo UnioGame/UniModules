@@ -60,10 +60,15 @@ namespace UniModules.UniGame.Core.Runtime.Extension
             
             var randomIndex = Random.Range(0, cache.Count);
 
+            if (validValues.Count == 0) {
+                validValues.Despawn();
+                return default;
+            }
+            
             var result = validValues[randomIndex];
             validValues.Despawn();
-            return result;
             
+            return result;
         }
 
         public static T GetRandomValue<T>(this IList<T> list, Predicate<T> predicate, T withoutElement)
