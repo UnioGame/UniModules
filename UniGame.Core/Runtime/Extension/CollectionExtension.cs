@@ -41,6 +41,9 @@ namespace UniModules.UniGame.Core.Runtime.Extension
             var validValues = list.Where(x=>predicate(x)).ToArray();
             var randomIndex = Random.Range(0, validValues.Length);
 
+            if (randomIndex < 0 || validValues.Length == 0)
+                return default;
+            
             return validValues[randomIndex];
         }
 
@@ -61,12 +64,12 @@ namespace UniModules.UniGame.Core.Runtime.Extension
             var randomIndex = Random.Range(0, cache.Count);
 
             if (validValues.Count == 0) {
-                validValues.Despawn();
+                cache.Despawn();
                 return default;
             }
             
             var result = validValues[randomIndex];
-            validValues.Despawn();
+            cache.Despawn();
             
             return result;
         }
