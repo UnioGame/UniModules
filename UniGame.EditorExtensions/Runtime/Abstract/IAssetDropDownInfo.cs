@@ -2,7 +2,7 @@
 {
     using System;
 
-    public interface IAssetReferenceDropDownInfo
+    public interface IAssetDropDownInfo
     {
         Type BaseType { get; }
         bool FoldOutOpen { get; }

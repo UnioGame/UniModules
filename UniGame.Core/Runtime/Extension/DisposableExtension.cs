@@ -2,6 +2,8 @@
 {
     using System;
     using System.Collections.Generic;
+    using Common;
+    using ObjectPool.Runtime;
 
     public static class DisposableExtension
     {
@@ -15,5 +17,24 @@
             }
             disposables.Clear();
         }
+
+        public static IDisposable AsDisposable<T>(
+            this T source, 
+            Action<T> cancelationAction)
+        {
+            var disposable = ClassPool.Spawn<DisposableAction>();
+            disposable.Initialize(() => cancelationAction?.Invoke(source));
+            return disposable;
+        }
+        
+        public static IDisposable AsDisposable(
+            this object source, 
+            Action cancelationAction)
+        {
+            var disposable = ClassPool.Spawn<DisposableAction>();
+            disposable.Initialize(() => cancelationAction?.Invoke());
+            return disposable;
+        }
+        
     }
 }

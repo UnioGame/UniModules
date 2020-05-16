@@ -4,13 +4,12 @@ namespace UniModules.UniGame.EditorExtensions.Runtime.Attributes
 {
     using UnityEngine;
 
-    public class AssetReferenceDropDownAttribute : PropertyAttribute, IAssetReferenceDropDownInfo
+    public class ImplementationDropDownAttribute : PropertyAttribute, IAssetDropDownInfo
     {
         public Type   baseType;
         public bool   foldOutOpen;
-
-
-        public AssetReferenceDropDownAttribute(Type baseType = null,bool foldOutOpen = false)
+        
+        public ImplementationDropDownAttribute(Type baseType = null,bool foldOutOpen = false)
         {
             this.baseType = baseType;
             this.foldOutOpen  = foldOutOpen;
