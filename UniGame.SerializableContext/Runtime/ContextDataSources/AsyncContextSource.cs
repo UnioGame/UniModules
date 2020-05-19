@@ -15,7 +15,6 @@
         [ShowAssetReference]
         public ContextAssetReference contextAsset;
 
-
         public override async UniTask<IContext> RegisterAsync(IContext context)
         {
             var contextReference = await contextAsset.LoadAssetTaskAsync(LifeTime);

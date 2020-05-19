@@ -205,6 +205,12 @@
             
             return types;
         }
+
+        public static bool HasDefaultConstructor(this Type target)
+        {
+            var constructor = target.GetConstructor(Type.EmptyTypes);
+            return constructor != null;
+        }
         
         public static bool Validate(object item, Type searchType)
         {

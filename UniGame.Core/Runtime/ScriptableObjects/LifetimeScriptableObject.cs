@@ -25,16 +25,20 @@
         
         private void OnEnable()
         {
-            GameLog.Log($"LIFETIME: {GetType().Name} {name} : OnEnable STARTED",_logColor,this);
+            if (Application.isPlaying) {
+                GameLog.Log($"LIFETIME: {GetType().Name} {name} : OnEnable STARTED",_logColor,this);
+            }
+            
             _lifeTimeDefinition = new LifeTimeDefinition();
             OnActivate();
         }
 
         private void OnDisable()
         {
-//            if (!Application.isPlaying)
-//                return;
-            GameLog.Log($"LIFETIME: {GetType().Name} {name} : OnDisable END OF LIFETIME",_logColor,this);
+            if (Application.isPlaying) {
+                GameLog.Log($"LIFETIME: {GetType().Name} {name} : OnDisable END OF LIFETIME",_logColor,this);
+            }
+            
             _lifeTimeDefinition.Terminate();
         }
 

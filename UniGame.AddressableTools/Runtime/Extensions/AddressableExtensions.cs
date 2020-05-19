@@ -182,6 +182,24 @@
             return await LoadAssetTaskAsync<T>(assetReference as AssetReference,lifeTime);
         }
         
+        public static async UniTask<T> LoadGameObjectAssetTaskAsync<T>(this AssetReferenceT<T> assetReference, ILifeTime lifeTime)
+            where T : Component
+        {
+            var result = await LoadAssetTaskAsync<GameObject>(assetReference ,lifeTime);
+            return result ? 
+                result.GetComponent<T>() : 
+                null;
+        }
+        
+        public static async UniTask<T> LoadGameObjectAssetTaskAsync<T>(this AssetReference assetReference, ILifeTime lifeTime)
+            where T : class
+        {
+            var result = await LoadAssetTaskAsync<GameObject>(assetReference ,lifeTime);
+            return result ? 
+                result.GetComponent<T>() : 
+                null;
+        }
+        
         #region lifetime
         
         public static AsyncOperationHandle<TAsset> AddTo<TAsset>(this AsyncOperationHandle<TAsset> handle, ILifeTime lifeTime)
