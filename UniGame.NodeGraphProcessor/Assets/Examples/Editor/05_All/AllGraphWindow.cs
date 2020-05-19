@@ -29,11 +29,13 @@ public class AllGraphWindow : BaseGraphWindow
 	{
 		titleContent = new GUIContent("All Graph");
 
-		var graphView = new AllGraphView(this);
+		if (graphView == null)
+		{
+			graphView = new AllGraphView(this);
+			graphView.Add(new CustomToolbarView(graphView));
+		}
 
 		rootView.Add(graphView);
-
-		graphView.Add(new CustomToolbarView(graphView));
 	}
 
 	protected override void InitializeGraphView(BaseGraphView view)

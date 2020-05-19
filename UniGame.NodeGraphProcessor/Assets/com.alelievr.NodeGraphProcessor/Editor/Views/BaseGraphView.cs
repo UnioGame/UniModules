@@ -29,7 +29,7 @@ namespace GraphProcessor
 		/// <summary>
 		/// Connector listener that will create the edges between ports
 		/// </summary>
-		public BaseEdgeConnectorListener				connectorListener;
+		public BaseEdgeConnectorListener			connectorListener;
 
 		/// <summary>
 		/// List of all node views in the graph
@@ -411,13 +411,6 @@ namespace GraphProcessor
 			{
 				// Close all settings windows:
 				nodeViews.ForEach(v => v.CloseSettings());
-
-				if (e.clickCount == 2)
-				{
-					RegisterCompleteObjectUndo("Added relay node ");
-					Vector2 mousePos = (e.currentTarget as VisualElement).ChangeCoordinatesTo(contentViewContainer, e.localMousePosition);
-					AddNode(BaseNode.CreateFromType<RelayNode>(mousePos));
-				}
 			}
 		}
 
@@ -475,6 +468,7 @@ namespace GraphProcessor
 			RemoveNodeViews();
 			RemoveEdges();
 			RemoveGroups();
+			RemoveStackNodeViews();
 
 			// And re-add with new up to date datas
 			InitializeNodeViews();
@@ -499,6 +493,11 @@ namespace GraphProcessor
 			// When pressing ctrl-s, we save the graph
 			EditorSceneManager.sceneSaved += _ => SaveGraphToDisk();
 
+			RemoveNodeViews();
+			RemoveEdges();
+			RemoveGroups();
+			RemoveStackNodeViews();
+
 			InitializeGraphView();
 			InitializeNodeViews();
 			InitializeEdgeViews();
@@ -507,7 +506,6 @@ namespace GraphProcessor
 			InitializeStackNodes();
 
 			UpdateComputeOrder();
-
 			initialized?.Invoke();
 
 			InitializeView();
@@ -641,6 +639,13 @@ namespace GraphProcessor
 				RemoveElement(nodeView);
 			nodeViews.Clear();
 			nodeViewsPerNode.Clear();
+		}
+
+		void RemoveStackNodeViews()
+		{
+			foreach (var stackView in stackNodeViews)
+				RemoveElement(stackView);
+			stackNodeViews.Clear();
 		}
 
         public GroupView AddGroup(Group block)
