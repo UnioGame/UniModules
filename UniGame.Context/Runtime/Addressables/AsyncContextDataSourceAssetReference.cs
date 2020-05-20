@@ -4,10 +4,7 @@
     using AddressableTools.Runtime.AssetReferencies;
     using UniModules.UniGame.Context.Runtime.Abstract;
 
-    [Serializable]    
-#if ODIN_INSPECTOR
-    [Sirenix.OdinInspector.DontApplyToListElements]
-#endif
+    [Serializable]
     public class AsyncContextDataSourceAssetReference : DisposableAssetReference<AsyncContextDataSource> 
     {
         public AsyncContextDataSourceAssetReference(string guid) : base(guid) {}
