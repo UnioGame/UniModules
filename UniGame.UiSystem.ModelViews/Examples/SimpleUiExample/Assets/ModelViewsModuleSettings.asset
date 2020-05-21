@@ -42,9 +42,9 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
     - fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.ComboPanelViewModel, Assembly-CSharp,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    - fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.DefeatEnergyWindowViewModel,
+    - fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.DefeatEnergyScreenViewModel,
         Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    - fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.DefeatTimeWindowViewModel,
+    - fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.DefeatTimeScreenViewModel,
         Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     - fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.HintItemViewModel, Assembly-CSharp,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -62,7 +62,7 @@ MonoBehaviour:
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     - fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.StringItemsPanelViewModel,
         Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    - fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.TimerPanelViewModel, Assembly-CSharp,
+    - fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.TimerViewModel, Assembly-CSharp,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     - fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.WinWindowViewModel, Assembly-CSharp,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -168,13 +168,17 @@ MonoBehaviour:
           Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       Views: []
     - Model:
-        fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.DefeatEnergyWindowViewModel,
+        fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.DefeatEnergyScreenViewModel,
           Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      Views: []
+      Views:
+      - fullTypeName: Taktika.HOG.Runtime.UI.Views.DefeatEnergyScreenView, Assembly-CSharp,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     - Model:
-        fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.DefeatTimeWindowViewModel,
+        fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.DefeatTimeScreenViewModel,
           Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      Views: []
+      Views:
+      - fullTypeName: Taktika.HOG.Runtime.UI.Views.DefeatTimeScreenView, Assembly-CSharp,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     - Model:
         fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.HintItemViewModel, Assembly-CSharp,
           Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -208,7 +212,7 @@ MonoBehaviour:
           Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       Views: []
     - Model:
-        fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.TimerPanelViewModel, Assembly-CSharp,
+        fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.TimerViewModel, Assembly-CSharp,
           Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       Views: []
     - Model:
