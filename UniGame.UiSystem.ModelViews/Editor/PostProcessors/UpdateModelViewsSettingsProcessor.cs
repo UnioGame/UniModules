@@ -1,6 +1,7 @@
 ﻿namespace UniGame.UiSystem.ModelViews.Editor.PostProcessors
 {
     using System;
+    using System.Linq;
     using ModelViewsMap.Runtime.Settings;
     using UiSystem.Runtime;
     using UiSystem.Runtime.Abstracts;
@@ -12,6 +13,16 @@
     {
         public static string[] OnWillSaveAssets(string[] paths)
         {
+            var settingsAssets = AssetEditorTools.
+                GetAssets<ModelViewsModuleSettings>();
+            
+            foreach (var asset in settingsAssets) {
+                if(!ValidateTarget(asset,paths))
+                    continue;
+                
+                Rebuild(asset);
+                EditorUtility.SetDirty(asset);
+            }
             Rebuild();
             return paths;
         }        
@@ -47,6 +58,20 @@
 
             }
             
+        }
+
+        private static bool ValidateTarget(ModelViewsModuleSettings asset, string[] paths)
+        {
+            if (!asset || asset.isRebuildActive == false) return false;
+            if (asset.updateTargets.Count == 0) return true;
+            
+            foreach (var targetPath in asset.updateTargets) {
+                if (paths.Any(x => x.IndexOf(targetPath, StringComparison.OrdinalIgnoreCase) >= 0)) {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
     }

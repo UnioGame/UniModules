@@ -21,6 +21,16 @@ namespace UniGame.ModelViewsMap.Runtime.Settings
     {
         private static List<SType> _emptyList = new List<SType>();
 
+        [Header("is auto rebuild active")]
+        public bool isRebuildActive = true;
+        
+        [Header("Project paths that triggers rebuild on asset changes")]
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.FolderPath]
+#endif
+        public List<string> updateTargets = new List<string>();
+        
+        [Space]
         [ReadOnlyValue]
         [SerializeField]
         private ModelViewsTypeMap modelViewsTypeMap = new ModelViewsTypeMap();
