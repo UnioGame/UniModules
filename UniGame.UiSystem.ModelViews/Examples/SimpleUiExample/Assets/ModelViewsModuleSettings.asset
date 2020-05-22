@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67ca534b36c1a044895e64ba505325ac, type: 3}
   m_Name: ModelViewsModuleSettings
   m_EditorClassIdentifier: 
-  isRebuildActive: 0
+  isRebuildActive: 1
   updateTargets: []
   modelViewsTypeMap:
     keys:
