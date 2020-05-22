@@ -22,6 +22,7 @@
 #if UNITY_EDITOR
             //clean up cache if Assembly Reload
             UnityEditor.AssemblyReloadEvents.beforeAssemblyReload += ClearCache;
+            UnityEditor.EditorApplication.playModeStateChanged += x => ClearCache();
 #endif      
             return CacheMapFunc;
 
