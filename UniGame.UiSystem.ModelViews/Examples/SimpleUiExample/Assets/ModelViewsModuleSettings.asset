@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67ca534b36c1a044895e64ba505325ac, type: 3}
   m_Name: ModelViewsModuleSettings
   m_EditorClassIdentifier: 
-  isRebuildActive: 1
+  isRebuildActive: 0
   updateTargets: []
   modelViewsTypeMap:
     keys:
@@ -42,31 +42,31 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
     - fullTypeName: Taktika.MVVM.ViewModelBase, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
-    - fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.ComboPanelViewModel, Assembly-CSharp,
+    - fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.Timer.TimerViewModel, Assembly-CSharp,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    - fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.DefeatEnergyWindowViewModel,
+    - fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.Screens.MainScreenViewModel,
         Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    - fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.DefeatTimeWindowViewModel,
+    - fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.ProgressBar.ProgressBarViewModel,
         Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    - fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.HintItemViewModel, Assembly-CSharp,
-        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    - fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.HintItemsPanelViewModel, Assembly-CSharp,
-        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    - fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.MainScreenViewModel, Assembly-CSharp,
-        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    - fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.PauseWindowViewModel, Assembly-CSharp,
-        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    - fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.ProgressBarViewModel, Assembly-CSharp,
-        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    - fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.ReadyScreenViewModel, Assembly-CSharp,
-        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    - fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.StringItemViewModel, Assembly-CSharp,
-        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    - fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.StringItemsPanelViewModel,
+    - fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.Popups.DefeatTimePopupViewModel,
         Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    - fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.TimerPanelViewModel, Assembly-CSharp,
+    - fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.Popups.PausePopupViewModel,
+        Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.Popups.ReadyPopupViewModel,
+        Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.Popups.WinPopupViewModel, Assembly-CSharp,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    - fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.WinWindowViewModel, Assembly-CSharp,
+    - fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.Pause.PauseViewModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.ItemsPanel.StringItemViewModel,
+        Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.ItemsPanel.StringItemsPanelViewModel,
+        Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.Hints.HintItemViewModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.Hints.HintItemsPanelViewModel,
+        Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.Combo.ComboViewModel, Assembly-CSharp,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     - fullTypeName: Taktika.Lobby.Runtime.UI.Views.ArrowHintViewModel, Assembly-CSharp,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -166,55 +166,55 @@ MonoBehaviour:
           Culture=neutral, PublicKeyToken=null
       Views: []
     - Model:
-        fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.ComboPanelViewModel, Assembly-CSharp,
+        fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.Timer.TimerViewModel, Assembly-CSharp,
           Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       Views: []
     - Model:
-        fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.DefeatEnergyWindowViewModel,
+        fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.Screens.MainScreenViewModel,
           Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       Views: []
     - Model:
-        fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.DefeatTimeWindowViewModel,
+        fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.ProgressBar.ProgressBarViewModel,
           Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       Views: []
     - Model:
-        fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.HintItemViewModel, Assembly-CSharp,
-          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      Views: []
-    - Model:
-        fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.HintItemsPanelViewModel,
+        fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.Popups.DefeatTimePopupViewModel,
           Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       Views: []
     - Model:
-        fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.MainScreenViewModel, Assembly-CSharp,
-          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      Views: []
-    - Model:
-        fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.PauseWindowViewModel, Assembly-CSharp,
-          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      Views: []
-    - Model:
-        fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.ProgressBarViewModel, Assembly-CSharp,
-          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      Views: []
-    - Model:
-        fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.ReadyScreenViewModel, Assembly-CSharp,
-          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      Views: []
-    - Model:
-        fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.StringItemViewModel, Assembly-CSharp,
-          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      Views: []
-    - Model:
-        fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.StringItemsPanelViewModel,
+        fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.Popups.PausePopupViewModel,
           Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       Views: []
     - Model:
-        fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.TimerPanelViewModel, Assembly-CSharp,
+        fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.Popups.ReadyPopupViewModel,
+          Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      Views: []
+    - Model:
+        fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.Popups.WinPopupViewModel,
+          Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      Views: []
+    - Model:
+        fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.Pause.PauseViewModel, Assembly-CSharp,
           Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       Views: []
     - Model:
-        fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.WinWindowViewModel, Assembly-CSharp,
+        fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.ItemsPanel.StringItemViewModel,
+          Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      Views: []
+    - Model:
+        fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.ItemsPanel.StringItemsPanelViewModel,
+          Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      Views: []
+    - Model:
+        fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.Hints.HintItemViewModel,
+          Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      Views: []
+    - Model:
+        fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.Hints.HintItemsPanelViewModel,
+          Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      Views: []
+    - Model:
+        fullTypeName: Taktika.HOG.Runtime.UI.ViewModels.Combo.ComboViewModel, Assembly-CSharp,
           Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       Views: []
     - Model:
