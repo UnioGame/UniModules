@@ -51,7 +51,13 @@
             }
         }
 
-        public override int GetHashCode() => Type.GetHashCode();
+        public override int GetHashCode()
+        {
+           var typeValue = Type;
+           return typeValue == null ? 
+               0 : 
+               typeValue.GetHashCode();
+        }
 
         #region ISerializationCallbackReceiver
         
