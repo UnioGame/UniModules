@@ -67,6 +67,8 @@
             Action<TTarget> action) 
             where  TTarget : Object,IUnityBuildCommand
         {
+            LogBuildStep($"ExecuteCommands: {nameof(ExecuteCommands)} : \n {configuration}");
+            
             //load build command maps
             var commandsMap = AssetEditorTools.
                 GetEditorResources<UniBuildCommandsMap>();
@@ -110,12 +112,15 @@
             foreach (var command in executingCommands) {
 
                 var commandAsset = command.Load<TTarget>();
-                if(commandAsset== null || !commandAsset.IsActive)
+                if (commandAsset == null || !commandAsset.IsActive) 
+                {
+                    LogBuildStep($"SKIP COMMAND {command}");
                     continue;
+                }
         
                 var commandName    = commandAsset.name;
                 
-                LogBuildStep($"EXECUTE COMMAND {commandName} with priority");
+                LogBuildStep($"EXECUTE COMMAND {commandName}");
                 
                 var startTime = DateTime.Now;
         
@@ -130,7 +135,7 @@
 
         public void LogBuildStep(string message)
         {
-            GameLog.Log($"=====BUILD : \n\t{message} =====\n");
+            GameLog.LogRuntime($"UNIBUILD : {message}\n");
         }
         
     }
