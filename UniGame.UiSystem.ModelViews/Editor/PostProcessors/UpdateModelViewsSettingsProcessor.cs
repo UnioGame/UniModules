@@ -19,11 +19,9 @@
             foreach (var asset in settingsAssets) {
                 if(!ValidateTarget(asset,paths))
                     continue;
-                
                 Rebuild(asset);
-                EditorUtility.SetDirty(asset);
             }
-            Rebuild();
+            
             return paths;
         }        
         
@@ -57,7 +55,8 @@
                 settings.UpdateValue(modelType,viewTypes);
 
             }
-            
+
+            settings?.SetDirty();
         }
 
         private static bool ValidateTarget(ModelViewsModuleSettings asset, string[] paths)
