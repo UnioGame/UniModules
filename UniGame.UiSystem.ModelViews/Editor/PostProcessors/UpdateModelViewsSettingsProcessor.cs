@@ -1,20 +1,27 @@
 ﻿namespace UniGame.UiSystem.ModelViews.Editor.PostProcessors
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using ModelViewsMap.Runtime.Settings;
     using UiSystem.Runtime;
     using UiSystem.Runtime.Abstracts;
     using UniGreenModules.UniCore.EditorTools.Editor.AssetOperations;
     using UniGreenModules.UniCore.Runtime.ReflectionUtils;
+    using UniGreenModules.UniCore.Runtime.Utils;
     using UnityEditor;
 
     public class UpdateModelViewsSettingsProcessor : AssetModificationProcessor
     {
+        private const string cacheKey = "";
+        
+        public static Func<object,List<ModelViewsModuleSettings>> settingsCache = MemorizeTool.
+            Create<object,List<ModelViewsModuleSettings>>(x => AssetEditorTools.
+            GetAssets<ModelViewsModuleSettings>());
+        
         public static string[] OnWillSaveAssets(string[] paths)
         {
-            var settingsAssets = AssetEditorTools.
-                GetAssets<ModelViewsModuleSettings>();
+            var settingsAssets = settingsCache(cacheKey);
             
             foreach (var asset in settingsAssets) {
                 if(!ValidateTarget(asset,paths))
