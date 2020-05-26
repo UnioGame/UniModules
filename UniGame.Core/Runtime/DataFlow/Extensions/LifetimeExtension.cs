@@ -8,6 +8,7 @@ using UniGreenModules.UniCore.Runtime.DataFlow;
 using UniGreenModules.UniCore.Runtime.DataFlow.Interfaces;
 using UniGreenModules.UniCore.Runtime.Interfaces;
 using UniGreenModules.UniCore.Runtime.ObjectPool.Runtime;
+using UniModules.UniGame.Core.Runtime.DataFlow;
 using UnityEngine;
 
 public static class LifetimeExtension
@@ -34,7 +35,7 @@ public static class LifetimeExtension
         lifetimeAction.Initialize(lifeTime,action,onLifetimeFinished);
         return lifetimeAction;
     }
-    
+
     public static IDisposableCommand CreateLifeTimeCommand<TLifeTime>(this Action<ILifeTime> action)
     {
         var lifetimeAction = ClassPool.Spawn<LifeTimeContextCommand>();
@@ -48,7 +49,15 @@ public static class LifetimeExtension
         context.LifeTime.AddDispose(action);
         return context;
     }
-                    
+       
+    public static ILifeTime ComposeCleanUp(this ILifeTime source, ILifeTime additional, Action cleanup)
+    {
+        var composeAction = ClassPool.Spawn<LifeTimeCompose>();
+        composeAction.Initialize(cleanup,source,additional);
+        return source;
+    }
+
+
     #region type convertion
 
     public static CancellationTokenSource AsCancellationSource(this ILifeTime lifeTime)
