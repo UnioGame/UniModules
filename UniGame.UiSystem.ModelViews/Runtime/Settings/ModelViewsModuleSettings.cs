@@ -91,5 +91,29 @@ namespace UniGame.ModelViewsMap.Runtime.Settings
         }
         
         #endregion
+        
+        
+        #region Editor methods
+
+#if UNITY_EDITOR
+
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.Button("Reset")]
+#endif
+        private void EditorReset()
+        {
+            isRebuildActive = false;
+            modelViewsTypeMap.Clear();
+            uiViewSystemSource = new AssetReferenceUiSystemSource(Guid.Empty.ToString());
+            updateTargets.Clear();
+            
+            UnityEditor.EditorUtility.SetDirty(this);
+        }
+        
+#endif
+        
+        
+        #endregion
+        
    }
 }

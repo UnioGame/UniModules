@@ -57,7 +57,6 @@ public static class LifetimeExtension
         return source;
     }
 
-
     #region type convertion
 
     public static CancellationTokenSource AsCancellationSource(this ILifeTime lifeTime)

@@ -62,8 +62,8 @@
                 settings.UpdateValue(modelType,viewTypes);
 
             }
-
-            settings?.SetDirty();
+            
+            EditorUtility.SetDirty(settings);
         }
 
         private static bool ValidateTarget(ModelViewsModuleSettings asset, string[] paths)
