@@ -131,7 +131,7 @@
 
             view.Status.
                 Do(x => _rxStatus.Value = x).
-                Where(x => x == ViewStatus.Destroyed).
+                Where(x => x == ViewStatus.Closed).
                 Do(x => _view = null).
                 Do(x => _viewLifeTime.Release()).
                 Subscribe().
