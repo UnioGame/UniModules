@@ -4,6 +4,8 @@ using UnityEngine;
 
 namespace UniGreenModules.UniGame.Core.Runtime.DataStructure
 {
+    using global::UniCore.Runtime.ProfilerTools;
+
     [Serializable]
     public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>,
         ISerializationCallbackReceiver
@@ -33,12 +35,20 @@ namespace UniGreenModules.UniGame.Core.Runtime.DataStructure
         {
             this.Clear();
 
-            if (keys.Count != values.Count)
+            if (keys.Count != values.Count) {
                 throw new System.Exception("there are " + keys.Count + " keys and " + values.Count +
                                            " values after deserialization. Make sure that both key and value types are serializable.");
+            }
 
-            for (var i = 0; i < keys.Count; i++)
-                this.Add(keys[i], values[i]);
+            for (var i = 0; i < keys.Count; i++) {
+                try {
+                    this.Add(keys[i], values[i]);
+                }
+                catch (Exception e) {
+                    GameLog.LogError($"{GetType().Name} {nameof(OnAfterDeserialize)} KEY {keys[i]} VALUE {values[i]} EXEP {e}");
+                    throw;
+                }
+            }
         }
     }
 }
