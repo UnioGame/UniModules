@@ -30,8 +30,7 @@
 
         public void Release()
         {
-            _lifeTime.Despawn();
-            _lifeTime = null;
+            ClassPool.Despawn(ref _lifeTime);
             _action = null;
         }
     }
