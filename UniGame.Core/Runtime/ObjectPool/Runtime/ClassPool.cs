@@ -105,10 +105,10 @@
 			GameProfiler.EndSample();
 		}
 
-		public static void Despawn<T>(ref T instance, T @default = null) where T : class
+		public static void Despawn<T>(ref T instance, T defaultValue = null) where T : class
 		{
 			Despawn(instance);
-			instance = @default;
+			instance = defaultValue;
 		}
 
 		private static readonly DummyPoolContainer dummyPoolContainer = new DummyPoolContainer();
