@@ -44,8 +44,7 @@
                 return;
             
             isCompleted = true;
-            lifeTimeDefinition.Despawn();
-            lifeTimeDefinition = null;
+            ClassPool.Despawn(ref lifeTimeDefinition);
             lifeTime = null;
         }
         
