@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Core.Runtime.Extension;
     using global::UniCore.Runtime.ProfilerTools;
     using SerializableContext.Runtime.Addressables;
     using UniCore.Runtime.DataFlow.Interfaces;
@@ -130,23 +131,29 @@
                 GameLog.LogError($"AssetReference key is NULL {assetReference}");
                 return null;
             }
-
-            var result = default(T);
+            
             var dependencies = Addressables.DownloadDependenciesAsync(assetReference.RuntimeKey);
             dependencies.AddTo(lifeTime);
             if(dependencies.Task != null)
                 await dependencies.Task;
+
+            var isComponent = typeof(T).IsComponent();
+            var asset = isComponent ? 
+                await LoadAssetAsync<GameObject>(assetReference,lifeTime) :
+                await LoadAssetAsync<T>(assetReference,lifeTime);
+
+            var result = default(T);
+            if (asset == null)
+                return result;
             
-            var handle = assetReference.LoadAssetAsync<T>();
-            if (handle.Task != null) {
-                result = await handle.Task;
-                handle.AddTo(lifeTime);
-            }
-            
+            result = asset is GameObject gameObjectAsset && isComponent ? 
+                gameObjectAsset.GetComponent<T>():
+                asset as T;
+
             return result;
             
         }
-        
+
         public static async UniTask<(TAsset,TResult)> LoadAssetTaskAsync<TAsset,TResult>(
             this AssetReference assetReference,ILifeTime lifeTime)
             where TAsset : Object
@@ -252,5 +259,22 @@
         }
         
         #endregion
+        
+        
+        private static async UniTask<Object> LoadAssetAsync<TResult>(AssetReference assetReference, ILifeTime lifeTime)
+            where TResult : Object
+        {
+            var result = default(TResult);
+            var handle = assetReference.LoadAssetAsync<TResult>();
+                
+            
+            if (handle.Task != null) {
+                result = await handle.Task;
+                handle.AddTo(lifeTime);
+            }
+
+            return result;
+        }
+
     }
 }
