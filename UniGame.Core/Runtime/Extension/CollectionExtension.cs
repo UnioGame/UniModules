@@ -36,6 +36,20 @@ namespace UniModules.UniGame.Core.Runtime.Extension
             return GetRandomValues(source.ToList(), count);
         }
 
+        public static T Find<T>(this IReadOnlyList<T> items, Predicate<T> predicate)
+        {
+            if (predicate == null)
+                throw new ApplicationException("NULL predicate");
+
+            for (int index = 0; index < items.Count; ++index) {
+                var item = items[index];
+                if (predicate(item))
+                    return item;
+            }
+            
+            return default (T);
+        }
+
         public static T GetRandomValue<T>(this IList<T> list, Predicate<T> predicate)
         {
             var validValues = list.Where(x=>predicate(x)).ToArray();
