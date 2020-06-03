@@ -19,11 +19,18 @@
 
         public BuildReport Build(IUniBuilderConfiguration configuration)
         {
-            ExecuteCommands<UnityPreBuildCommand>(configuration,x => x.Execute(configuration));
+            var commandMap = SelectActualBuildMap(configuration);
+            
+            return Build(configuration,commandMap);
+        }
+        
+        public BuildReport Build(IUniBuilderConfiguration configuration,IUniBuildCommandsMap commandsMap)
+        {
+            ExecuteCommands<UnityPreBuildCommand>(configuration,commandsMap,x => x.Execute(configuration));
 
             var result = ExecuteBuild(configuration);
     
-            ExecuteCommands<UnityPostBuildCommand>(configuration,x => x.Execute(configuration,result));
+            ExecuteCommands<UnityPostBuildCommand>(configuration,commandsMap,x => x.Execute(configuration,result));
 
             return result;
         }
@@ -67,35 +74,50 @@
             Action<TTarget> action) 
             where  TTarget : Object,IUnityBuildCommand
         {
+            var commandMap = SelectActualBuildMap(configuration);
+
+            ExecuteCommands(configuration, commandMap, action);
+        }
+        
+        public void ExecuteCommands<TTarget>(
+            IUniBuilderConfiguration configuration,
+            IUniBuildCommandsMap commandsMap,
+            Action<TTarget> action) 
+            where  TTarget : Object,IUnityBuildCommand
+        {
             LogBuildStep($"ExecuteCommands: {nameof(ExecuteCommands)} : \n {configuration}");
-            
+
+            var assetResources = commandsMap.
+                LoadCommands<TTarget>(x => ValidateCommand(configuration,x));
+
+            ExecuteCommands(assetResources, action);
+        }
+        
+
+        public IUniBuildCommandsMap SelectActualBuildMap(IUniBuilderConfiguration configuration)
+        {
             //load build command maps
-            var commandsMap = AssetEditorTools.
+            var commandsMapsResources = AssetEditorTools.
                 GetEditorResources<UniBuildCommandsMap>();
             
-            var commandsResources = new List<IEditorAssetResource>();
             //filter all valid commands map
-            foreach (var mapResource in commandsMap) {
+            foreach (var mapResource in commandsMapsResources) {
 
                 var commandMap = mapResource.Load<IUniBuildCommandsMap>();
                 if(!commandMap.Validate(configuration) ) 
                     continue;
-
-                LogBuildStep($"BUILD: USE COMMAND MAP {commandMap.ItemName}");
                 
-                var assetResources = commandMap.
-                    LoadCommands<TTarget>(x => ValidateCommand(configuration,x));
-                
-                commandsResources.AddRange(assetResources);
+                LogBuildStep($"SELECT BUILD MAP {commandMap.ItemName}");
+                return commandMap;
             }
 
-            ExecuteCommands(commandsResources, action);
+            return null;
         }
 
         public bool ValidateCommand( IUniBuilderConfiguration configuration,IUnityBuildCommand command)
         {
             var asset = command;
-            var isValid = asset != null && asset.Info.IsActive;
+            var isValid = asset != null && asset.IsActive;
             if (asset is IUnityBuildCommandValidator validator) {
                 isValid = isValid && validator.Validate(configuration);
             }

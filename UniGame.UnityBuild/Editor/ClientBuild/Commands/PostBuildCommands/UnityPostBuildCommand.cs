@@ -6,19 +6,10 @@
 
     public abstract class UnityPostBuildCommand : 
         UnityBuildCommand,
-        IUnityBuildCommandInfo,
         IUnityPostBuildCommand
     {
-        [SerializeField]
-        private UnityBuildCommandInfo commandCommandInfo;
 
-        public IUnityBuildCommandInfo Info => commandCommandInfo;
-        
         public abstract void Execute(IUniBuilderConfiguration configuration,BuildReport buildReport);
 
-        public virtual bool Validate(IUniBuilderConfiguration config) => true;
-        
-        public bool   IsActive => Info.IsActive;
-        public string Name     => Info.Name;
     }
 }

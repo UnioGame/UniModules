@@ -3,16 +3,14 @@
     using Interfaces;
     using UnityEngine;
 
-    public abstract class UnityBuildCommand : ScriptableObject,IUnityBuildCommandValidator
+    public abstract class UnityBuildCommand : ScriptableObject,IUnityBuildCommand
     {
         [SerializeField]
-        public UnityBuildCommandInfo commandCommandInfo;
-        
-        public IUnityBuildCommandInfo Info => commandCommandInfo;
+        public bool _isActive = true;
 
-        public bool IsActive => Info.IsActive;
-        public string Name => Info.Name;
+        public bool IsActive => _isActive;
+        public string Name => name;
         
-        public bool Validate(IUniBuilderConfiguration config) => true;
+        public virtual bool Validate(IUniBuilderConfiguration config) => _isActive;
     }
 }

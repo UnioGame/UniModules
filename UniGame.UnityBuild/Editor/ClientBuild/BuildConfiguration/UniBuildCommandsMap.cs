@@ -18,29 +18,42 @@ namespace UniModules.UniGame.UnityBuild.Editor.ClientBuild.BuildConfiguration
 #if  ODIN_INSPECTOR
         [Sirenix.OdinInspector.InlineProperty()]
 #endif
-        public UniBuildConfigurationData BuildData = new UniBuildConfigurationData();
+        [SerializeField]
+        private UniBuildConfigurationData _buildData = new UniBuildConfigurationData();
 
         [Space]
 #if  ODIN_INSPECTOR
         [Sirenix.OdinInspector.InlineEditor()]
 #endif
-        public List<UnityPreBuildCommand> PreBuildCommands = new List<UnityPreBuildCommand>();
+        [SerializeField]
+        private List<UnityPreBuildCommand> _preBuildCommands = new List<UnityPreBuildCommand>();
         
 #if  ODIN_INSPECTOR
         [Sirenix.OdinInspector.InlineEditor()]
 #endif
-        public List<UnityPostBuildCommand> PostBuildCommands = new List<UnityPostBuildCommand>();
+        [SerializeField]
+        private List<UnityPostBuildCommand> _postBuildCommands = new List<UnityPostBuildCommand>();
 
+        #region public properties
+
+        public IUniBuildConfigurationData BuildData => _buildData;
+        
+        public IReadOnlyList<IUnityPreBuildCommand> PreBuildCommands => _preBuildCommands;
+
+        public IReadOnlyList<IUnityPostBuildCommand> PostBuildCommands => _postBuildCommands;
+        
         public string ItemName => name;
         
+        #endregion
+
         public List<IEditorAssetResource> LoadCommands<T>(Func<T,bool> filter = null)
             where T : IUnityBuildCommand 
         {
             var result = new List<IEditorAssetResource>();
             
             var commandsBuffer = ClassPool.Spawn<List<UnityBuildCommand>>();
-            commandsBuffer.AddRange(PreBuildCommands);
-            commandsBuffer.AddRange(PostBuildCommands);
+            commandsBuffer.AddRange(_preBuildCommands);
+            commandsBuffer.AddRange(_postBuildCommands);
             
             foreach (var command in commandsBuffer) {
                 if (command is T targetCommand) {

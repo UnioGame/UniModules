@@ -54,8 +54,9 @@
 
         public void Close()
         {
-            if (!_asset)
+            if (!_asset) {
                 return;
+            }
             Save();
             OnClose(_asset);
             DestroyImmediate(_asset,true);

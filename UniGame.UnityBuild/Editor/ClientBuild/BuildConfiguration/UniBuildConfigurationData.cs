@@ -3,18 +3,27 @@
     using System;
     using System.Collections.Generic;
     using UnityEditor;
+    using UnityEngine;
 
     [Serializable]
-    public class UniBuildConfigurationData
+    public class UniBuildConfigurationData : IUniBuildConfigurationData
     {
 
-        public string ArtifactName = string.Empty;
-        
-        public BuildTarget BuildTarget;
-        
-        public BuildTargetGroup BuildTargetGroup;
+        [SerializeField]
+        private string _artifactName = string.Empty;
+        [SerializeField]
+        private BuildTarget _buildTarget;
+        [SerializeField]
+        private BuildTargetGroup _buildTargetGroup;
+        [SerializeField]
+        private bool _cloudBuild = false;
 
-        public bool CloudBuild = false;
-        
+        public bool CloudBuild => _cloudBuild;
+
+        public BuildTargetGroup BuildTargetGroup => _buildTargetGroup;
+
+        public BuildTarget BuildTarget => _buildTarget;
+
+        public string ArtifactName => _artifactName;
     }
 }

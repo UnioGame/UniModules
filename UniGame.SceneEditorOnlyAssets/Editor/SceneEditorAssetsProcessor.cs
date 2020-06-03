@@ -158,15 +158,16 @@
         
         private static void OnSceneSaved(Scene scene)
         {
-            foreach (var container in GetContainers()) {
-                container.Save();
+            foreach (var container in GetContainers(scene)) {
+                container.Open();
             }
         }
 
         private static void OnSceneSaving(Scene scene,string value)
         {
-            foreach (var container in GetContainers()) {
+            foreach (var container in GetContainers(scene)) {
                 container.Save();
+                container.Close();
             }
         }
 

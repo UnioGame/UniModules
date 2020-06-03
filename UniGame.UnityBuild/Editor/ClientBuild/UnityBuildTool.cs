@@ -6,6 +6,7 @@ namespace UniGreenModules.UniGame.UnityBuild.Editor.ClientBuild
 {
     using BuildConfiguration;
     using Interfaces;
+    using UniModules.UniGame.UnityBuild.Editor.ClientBuild.BuildConfiguration;
 
     public static class UnityBuildTool
     {
@@ -32,5 +33,11 @@ namespace UniGreenModules.UniGame.UnityBuild.Editor.ClientBuild
             return report;
         }
 
+        public static BuildReport BuildPlayer(IUniBuilderConfiguration configuration, IUniBuildCommandsMap commandsMap)
+        {
+            var report = builder.Build(configuration,commandsMap);
+            return report;
+        }
+        
     }
 }
