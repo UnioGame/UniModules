@@ -11,11 +11,11 @@
     using Object = UnityEngine.Object;
 
     [InitializeOnLoad]
-    public static class SceneContainersProcessor
+    public static class SceneEditorAssetsProcessor
     {
         private static LifeTimeDefinition _lifeTimeDefinition;
         
-        static SceneContainersProcessor()
+        static SceneEditorAssetsProcessor()
         {
             _lifeTimeDefinition = new LifeTimeDefinition();
             Observable.FromEvent(
@@ -25,6 +25,19 @@
             
             Release();
             Initialize();
+        }
+
+        public static bool IsActive { get; private set; }
+
+        public static void SetActive(bool active)
+        {
+            IsActive = active;
+            if (active) {
+                OpenAll();
+            }
+            else {
+                CloseAll();
+            }
         }
 
         private static void OnPlaymodeChanged(PlayModeStateChange modeStateChange)
@@ -47,7 +60,7 @@
         public static void OpenAll()
         {
             foreach (var container in GetContainers()) {
-                container.Open();        
+                Open(container);  
             }
         }
         
@@ -84,7 +97,7 @@
         public static void Open(Scene scene)
         {
             foreach (var container in GetContainers(scene)) {
-                container.Open();        
+                Open(container);
             }
         }
         
@@ -132,6 +145,15 @@
         private static void OnSceneClosing(Scene scene, bool removingScene)
         {
             Close(scene);
+        }
+
+        private static void Open(ISceneEditorAsset asset)
+        {
+            if (IsActive == false) {
+                asset.Close();
+                return;
+            }
+            asset.Open();
         }
         
         private static void OnSceneSaved(Scene scene)
