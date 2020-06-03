@@ -107,6 +107,8 @@
 
 		public static void Despawn<T>(ref T instance, T defaultValue = null) where T : class
 		{
+			if (instance == null)
+				return;
 			Despawn(instance);
 			instance = defaultValue;
 		}

@@ -9,7 +9,7 @@
 
     public class DisposableLifetime : IDisposableLifetime, IPoolable
     {
-        private LifeTimeDefinition lifeTimeDefinition;
+        private LifeTimeDefinition lifeTimeDefinition = new LifeTimeDefinition();
         private ILifeTime lifeTime;
         private bool isCompleted = true;
         
@@ -22,7 +22,6 @@
         /// </summary>
         public void Initialize()
         {
-            lifeTimeDefinition = ClassPool.Spawn<LifeTimeDefinition>();
             lifeTime = lifeTimeDefinition.LifeTime;
             lifeTimeDefinition.Release();
             isCompleted = false;
@@ -36,17 +35,14 @@
             this.Despawn();
         }
 
-        public void Release(){}
-
-        public void Complete()
+        public void Release()
         {
-            if (isCompleted)
-                return;
-            
             isCompleted = true;
-            ClassPool.Despawn(ref lifeTimeDefinition);
-            lifeTime = null;
+            lifeTime    = null;
+            lifeTimeDefinition.Terminate();
         }
+
+        public void Complete() => Release();
         
         #region lifetime api
 
