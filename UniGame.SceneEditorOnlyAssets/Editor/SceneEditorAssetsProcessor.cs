@@ -27,7 +27,7 @@
             Initialize();
         }
 
-        public static bool IsActive { get; private set; }
+        public static bool IsActive { get; private set; } = true;
 
         public static void SetActive(bool active)
         {
