@@ -170,6 +170,7 @@
             where T : class
         {
             var result = await LoadAssetTaskAsync<GameObject>(assetReference as AssetReference,lifeTime);
+            if (result is T tResult) return tResult; 
             return result != null ? result.GetComponent<T>() : null;
         }
 

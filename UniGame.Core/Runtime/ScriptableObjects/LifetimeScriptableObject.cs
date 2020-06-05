@@ -9,7 +9,7 @@
     public class LifetimeScriptableObject : ScriptableObject, 
         ILifeTimeContext
     {
-        private static Color _logColor = new Color(0.290f, 0.490f, 0.290f);
+        private static Color _logColor = new Color(0.50f, 1f, 0.290f);
         
         protected LifeTimeDefinition _lifeTimeDefinition;
         
@@ -30,6 +30,9 @@
             }
             
             _lifeTimeDefinition = new LifeTimeDefinition();
+#if UNITY_EDITOR
+            LifetimeObjectData.Add(this);
+#endif
             OnActivate();
         }
 
@@ -39,7 +42,11 @@
                 GameLog.Log($"LIFETIME: {GetType().Name} {name} : OnDisable END OF LIFETIME",_logColor,this);
             }
             
+#if UNITY_EDITOR
+            LifetimeObjectData.Remove(this);
+#endif    
             _lifeTimeDefinition.Terminate();
+            
         }
 
         protected virtual void OnActivate() {}
