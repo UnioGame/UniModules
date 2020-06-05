@@ -94,7 +94,7 @@
             }
 
             var asset = await _target.LoadAssetTaskAsync<GameObject>(_lifeTime);
-            _asset = GameObject.Instantiate(asset);
+            _asset = GameObject.Instantiate(asset,Parent);
             OnStart(_asset);
         }
 
