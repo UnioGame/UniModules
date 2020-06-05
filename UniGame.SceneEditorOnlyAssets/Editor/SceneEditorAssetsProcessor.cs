@@ -18,6 +18,7 @@
         static SceneEditorAssetsProcessor()
         {
             _lifeTimeDefinition = new LifeTimeDefinition();
+            
             Observable.FromEvent(
                 x => EditorApplication.playModeStateChanged += OnPlaymodeChanged,
                 x => EditorApplication.playModeStateChanged += OnPlaymodeChanged).
@@ -57,6 +58,7 @@
 
         public static void Release() => _lifeTimeDefinition.Release();
 
+        [MenuItem("GameObject/EditorOnlyAssets/Open All", false, 0)]
         public static void OpenAll()
         {
             foreach (var container in GetContainers()) {
@@ -64,6 +66,7 @@
             }
         }
         
+        [MenuItem("GameObject/EditorOnlyAssets/Close All", false, 0)]
         public static void CloseAll()
         {
             foreach (var container in GetContainers()) {
@@ -106,6 +109,7 @@
             if (EditorApplication.isPlaying) {
                 return;
             }
+            
             Release();
             OpenAll();
             
@@ -118,18 +122,21 @@
                     x => EditorSceneManager.sceneSaved -= OnSceneSaved).
                 Subscribe().
                 AddTo(_lifeTimeDefinition);
+            
             Observable.FromEvent(x => EditorSceneManager.sceneClosing += OnSceneClosing,
                     x => EditorSceneManager.sceneClosing -= OnSceneClosing).
                 Subscribe().
                 AddTo(_lifeTimeDefinition);
-            Observable.FromEvent(x => EditorSceneManager.sceneOpened += OnSceneOpened,
-                    x => EditorSceneManager.sceneOpened -= OnSceneOpened).
-                Subscribe().
-                AddTo(_lifeTimeDefinition);
-            Observable.FromEvent(x =>EditorSceneManager.sceneLoaded += OnSceneLoaded,
-                    x => EditorSceneManager.sceneLoaded += OnSceneLoaded).
-                Subscribe().
-                AddTo(_lifeTimeDefinition);
+            
+            // Observable.FromEvent(x => EditorSceneManager.sceneOpened += OnSceneOpened,
+            //         x => EditorSceneManager.sceneOpened -= OnSceneOpened).
+            //     Subscribe().
+            //     AddTo(_lifeTimeDefinition);
+            //
+            // Observable.FromEvent(x =>EditorSceneManager.sceneLoaded += OnSceneLoaded,
+            //         x => EditorSceneManager.sceneLoaded += OnSceneLoaded).
+            //     Subscribe().
+            //     AddTo(_lifeTimeDefinition);
         }
 
         private static void OnSceneLoaded(Scene scene, LoadSceneMode mode)
