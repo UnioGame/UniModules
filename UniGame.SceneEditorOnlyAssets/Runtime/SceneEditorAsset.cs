@@ -2,6 +2,8 @@
 {
     using System;
     using UniCore.Runtime.ProfilerTools;
+    using UniGreenModules.UniCore.Runtime.DataFlow;
+    using UniGreenModules.UniGame.AddressableTools.Runtime.Extensions;
     using UnityEngine;
     using UnityEngine.AddressableAssets;
 
@@ -18,7 +20,12 @@
         [SerializeField]
         private GameObject _asset;
 
+        [SerializeField]
+        public bool _createInstanceAtPlayMode;
+
         #endregion
+
+        private LifeTimeDefinition _lifeTime = new LifeTimeDefinition();
         
         #region public properties
 
@@ -33,6 +40,8 @@
 
         public Transform Parent => _parent ?? transform;
 
+        public GameObject Asset => _asset;
+        
         public bool IsOpen => _asset != null;
 
         #endregion
@@ -77,6 +86,25 @@
 #endif
 
         }
+
+        protected async void Start()
+        {
+            if (!Application.isPlaying || !_createInstanceAtPlayMode) {
+                return;
+            }
+
+            var asset = await _target.LoadAssetTaskAsync<GameObject>(_lifeTime);
+            _asset = GameObject.Instantiate(asset);
+            OnStart(_asset);
+        }
+
+        protected void OnDestroy() => _lifeTime.Terminate();
+
+        protected virtual void OnStart(GameObject asset)
+        {
+            
+        }
+        
 
         protected virtual void OnOpen(GameObject asset)
         {
