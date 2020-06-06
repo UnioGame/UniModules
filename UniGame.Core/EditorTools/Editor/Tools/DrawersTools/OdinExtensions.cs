@@ -7,68 +7,29 @@ using Object = UnityEngine.Object;
 namespace UniGreenModules.UniGame.Core.EditorTools.Editor.DrawersTools
 {
     using UniCore.EditorTools.Editor.Utility;
-    using UnityEngine.UIElements;
-
-    public class OdinValueView
-    {
-        public Action<Object> AssetAction;
-        public Object         Value;
-        public bool           IsOpen;
-        public string         Label;
-        public bool           ShowFoldout;
-
-        public VisualElement View;
-
-        public OdinValueView()
-        {
-            View = new IMGUIContainer(() => {
-                var target = Value;
-                if (ShowFoldout) {
-                    IsOpen = target.DrawOdinPropertyWithFoldout(IsOpen, Label, x => {
-                        Value = x;
-                        AssetAction?.Invoke(x);
-                    });
-                }
-                else {
-                    target.DrawOdinPropertyInspector();
-                }
-            });
-        }
-    }
-
-    public class OdinFieldView
-    {
-        public SerializedProperty Property;
-        public bool               IsOpen;
-        public bool               IncludeChildren = true;
-        public GUIContent         Label;
-
-        public VisualElement View;
-
-        public OdinFieldView()
-        {
-            View = new IMGUIContainer(() => {
-                var target = Property;
-                IsOpen = target.OdinFieldFoldout(IsOpen, Label, IncludeChildren);
-            });
-        }
-    }
+    using UniCore.Runtime.Utils;
 
     /// <summary>
     /// Odin Inspector extensions methods
     /// </summary>
     public static class OdinExtensions
     {
+#if ODIN_INSPECTOR
+        private static Func<object, Sirenix.OdinInspector.Editor.PropertyTree> _propertyFactory = MemorizeTool.
+            Create((object x) => Sirenix.OdinInspector.Editor.PropertyTree.Create(x),
+                x => x.Dispose());
+#endif
+        
         public static Type UnityObjectType = typeof(Object);
+        
 
         [Conditional("ODIN_INSPECTOR")]
         public static void DrawOdinPropertyInspector(this object asset)
         {
             if (asset == null) return;
-
-            using (var drawer = Sirenix.OdinInspector.Editor.PropertyTree.Create(asset)) {
-                drawer.Draw(false);
-            }
+            
+            var drawer = _propertyFactory(asset);
+            drawer.Draw(false);
         }
 
         public static Object DrawOdinPropertyField(
