@@ -98,19 +98,13 @@
             
             //regular scene instance
             if (!prefabDefinition.SourcePrefab) {
-                EditorSceneManager.SaveOpenScenes();
                 return;
             }
 
             try {
                 //prefab instance on scene
                 if (prefabDefinition.IsInstance) {
-                    if (prefabDefinition.IsVariantPrefab) {
-                        PrefabUtility.ApplyPrefabInstance(prefabDefinition.Asset, InteractionMode.UserAction);
-                    }
-                    else {
-                        PrefabUtility.ApplyPrefabInstance(prefabDefinition.Asset, InteractionMode.UserAction);
-                    }
+                    PrefabUtility.ApplyPrefabInstance(prefabDefinition.Asset, InteractionMode.UserAction);
                 }
                 else {
                     prefabDefinition.Asset = PrefabUtility.SaveAsPrefabAssetAndConnect(prefabDefinition.SourcePrefab, prefabDefinition.AssetPath,InteractionMode.UserAction);
