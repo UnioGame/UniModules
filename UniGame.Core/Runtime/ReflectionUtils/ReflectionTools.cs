@@ -199,7 +199,7 @@
                 }
                 catch (ReflectionTypeLoadException e)
                 {
-                    GameLog.LogWarningFormat("assembly : {0} {1}",assembly.FullName,e);
+                    Debug.LogWarning(e);
                 };
             }
             

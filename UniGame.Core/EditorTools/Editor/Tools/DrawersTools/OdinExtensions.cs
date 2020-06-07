@@ -15,20 +15,28 @@ namespace UniGreenModules.UniGame.Core.EditorTools.Editor.DrawersTools
     public static class OdinExtensions
     {
 #if ODIN_INSPECTOR
-        private static Func<object, Sirenix.OdinInspector.Editor.PropertyTree> _propertyFactory = MemorizeTool.
+        public static Func<object, Sirenix.OdinInspector.Editor.PropertyTree> PropertyTreeFactory = MemorizeTool.
             Create((object x) => Sirenix.OdinInspector.Editor.PropertyTree.Create(x),
                 x => x.Dispose());
 #endif
         
         public static Type UnityObjectType = typeof(Object);
-        
 
+#if ODIN_INSPECTOR
+        public static Sirenix.OdinInspector.Editor.PropertyTree GetPropertyTree(this Object target)
+        {
+            return PropertyTreeFactory(target);
+        }
+#endif
+        
         [Conditional("ODIN_INSPECTOR")]
         public static void DrawOdinPropertyInspector(this object asset)
         {
-            if (asset == null) return;
+            if (asset == null) {
+                return;
+            }
             
-            var drawer = _propertyFactory(asset);
+            var drawer = PropertyTreeFactory(asset);
             drawer.Draw(false);
         }
 

@@ -49,6 +49,34 @@ namespace UniModules.UniGame.Core.Runtime.Extension
             
             return default (T);
         }
+        
+        public static int IndexOf<T>(this IReadOnlyList<T> items, T target)
+        {
+            if (items == null)
+                return -1;
+
+            for (int index = 0; index < items.Count; ++index) {
+                var item = items[index];
+                if (Equals(item, target))
+                    return index;
+            }
+
+            return -1;
+        }
+        
+        public static int IndexOf<T>(this IReadOnlyList<T> items, Predicate<T> predicate)
+        {
+            if (items == null)
+                return -1;
+
+            for (int index = 0; index < items.Count; ++index) {
+                var item = items[index];
+                if (predicate(item))
+                    return index;
+            }
+
+            return -1;
+        }
 
         public static T GetRandomValue<T>(this IList<T> list, Predicate<T> predicate)
         {
