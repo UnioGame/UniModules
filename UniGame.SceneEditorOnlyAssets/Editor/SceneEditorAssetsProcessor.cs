@@ -19,20 +19,20 @@
         {
             _lifeTimeDefinition = new LifeTimeDefinition();
             
-            Observable.FromEvent(
-                x => EditorApplication.playModeStateChanged += OnPlaymodeChanged,
-                x => EditorApplication.playModeStateChanged += OnPlaymodeChanged).
-                Subscribe();
+            // Observable.FromEvent(
+            //     x => EditorApplication.playModeStateChanged += OnPlaymodeChanged,
+            //     x => EditorApplication.playModeStateChanged += OnPlaymodeChanged).
+            //     Subscribe();
             
             Release();
             Initialize();
         }
 
-        public static bool IsActive { get; private set; } = true;
+        public static BoolReactiveProperty IsActive { get; private set; } = new BoolReactiveProperty(false);
 
         public static void SetActive(bool active)
         {
-            IsActive = active;
+            IsActive.Value = active;
             if (active) {
                 OpenAll();
             }
@@ -44,14 +44,14 @@
         private static void OnPlaymodeChanged(PlayModeStateChange modeStateChange)
         {
             switch (modeStateChange) {
-                case PlayModeStateChange.EnteredEditMode:
-                    Initialize();
-                    break;
                 case PlayModeStateChange.ExitingPlayMode:
+                case PlayModeStateChange.ExitingEditMode:
+                case PlayModeStateChange.EnteredPlayMode:
                     Release();
                     CloseAll();
                     break;
-                case PlayModeStateChange.ExitingEditMode:
+                case PlayModeStateChange.EnteredEditMode:
+                    Initialize();
                     break;
             }
         }
@@ -59,6 +59,19 @@
         public static void Release() => _lifeTimeDefinition.Release();
 
         [MenuItem("GameObject/EditorOnlyAssets/Open All", false, 0)]
+        public static void OpenAllCommand()
+        {
+            SetActive(true);
+            OpenAll();
+        }
+        
+        [MenuItem("GameObject/EditorOnlyAssets/Close All", false, 0)]
+        public static void CloseAllCommands()
+        {
+            SetActive(false);
+            CloseAll();
+        }
+        
         public static void OpenAll()
         {
             foreach (var container in GetContainers()) {
@@ -69,6 +82,8 @@
         [MenuItem("GameObject/EditorOnlyAssets/Close All", false, 0)]
         public static void CloseAll()
         {
+            if (EditorApplication.isPlayingOrWillChangePlaymode)
+                return;
             foreach (var container in GetContainers()) {
                 container.Close();        
             }
@@ -83,6 +98,8 @@
 
         public static void Close(Scene scene)
         {
+            if (EditorApplication.isPlayingOrWillChangePlaymode)
+                return;
             foreach (var container in GetContainers(scene)) {
                 container.Save();
                 container.Close();
@@ -99,6 +116,8 @@
 
         public static void Open(Scene scene)
         {
+            if (EditorApplication.isPlayingOrWillChangePlaymode || IsActive.Value == false)
+                return;
             foreach (var container in GetContainers(scene)) {
                 Open(container);
             }
@@ -106,13 +125,17 @@
         
         private static void Initialize()
         {
-            if (EditorApplication.isPlaying) {
+            if (EditorApplication.isPlayingOrWillChangePlaymode) {
                 return;
             }
             
             Release();
-            OpenAll();
-            
+
+            IsActive.
+                Where(x => x).
+                Subscribe(x => OpenAll()).
+                AddTo(_lifeTimeDefinition);
+
             Observable.FromEvent(x => EditorSceneManager.sceneSaving += OnSceneSaving,
                     x => EditorSceneManager.sceneSaving -= OnSceneSaving).
                 Subscribe().
@@ -156,7 +179,7 @@
 
         private static void Open(ISceneEditorAsset asset)
         {
-            if (IsActive == false) {
+            if (IsActive.Value == false) {
                 asset.Close();
                 return;
             }
@@ -165,8 +188,8 @@
         
         private static void OnSceneSaved(Scene scene)
         {
-            foreach (var container in GetContainers(scene)) {
-                container.Open();
+            if (IsActive.Value) {
+                Open(scene);
             }
         }
 
