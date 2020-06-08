@@ -13,6 +13,14 @@
         public string KeyStorePass      = "-keystorePass";
         public string KeyStoreAlias     = "-keystoreAlias";
         public string KeyStoreAliasPass = "-keystoreAliasPass";
+
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.FilePath(AbsolutePath = false)]
+#endif
+        public string _defaultKeyStorePath = string.Empty;
+        public string _defaultStorePass = string.Empty;
+        public string _defaultStoreAliasPass = string.Empty;
+        public string _defaultStoreAlias = string.Empty;
         
         public override void Execute(IUniBuilderConfiguration configuration) 
         {
@@ -28,15 +36,15 @@
 
             //update android key store parameters
             arguments.GetStringValue(KeyStorePath, 
-                out var keystore, string.Empty);
+                out var keystore, _defaultKeyStorePath);
             arguments.GetStringValue(KeyStorePass,
-                out var keypass, PlayerSettings.Android.keystorePass);
+                out var keypass, string.IsNullOrEmpty(_defaultStorePass) ? PlayerSettings.Android.keystorePass : _defaultStorePass);
 
             arguments.GetStringValue(KeyStoreAlias,
-                out var alias, PlayerSettings.Android.keyaliasName);
+                out var alias, string.IsNullOrEmpty(_defaultStoreAlias) ? PlayerSettings.Android.keyaliasName : _defaultStoreAlias);
 
             arguments.GetStringValue(KeyStoreAliasPass,
-                out var aliaspass, PlayerSettings.Android.keyaliasPass);
+                out var aliaspass, string.IsNullOrEmpty(_defaultStoreAliasPass) ? PlayerSettings.Android.keyaliasPass : _defaultStoreAliasPass);
 
             var stringBuilder = new StringBuilder(300);
             stringBuilder.Append("KEYSTORE : ");

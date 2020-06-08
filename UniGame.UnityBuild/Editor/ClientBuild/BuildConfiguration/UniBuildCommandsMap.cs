@@ -97,7 +97,7 @@ namespace UniModules.UniGame.UnityBuild.Editor.ClientBuild.BuildConfiguration
 #endif
         public void ExecuteBuild()
         {
-            UnityEditorBuildCommands.ExecuteBuild(BuildData.ArtifactName,BuildData.BuildTarget,BuildData.BuildTargetGroup);
+            UniEditorBuildCommands.ExecuteBuild(BuildData.ArtifactName,BuildData.BuildTarget,BuildData.BuildTargetGroup);
         }
         
         protected virtual bool ValidatePlatform(IUniBuilderConfiguration config)

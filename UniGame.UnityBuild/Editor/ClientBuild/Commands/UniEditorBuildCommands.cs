@@ -5,19 +5,26 @@
     using UnityEditor;
     using UnityEditor.Build.Reporting;
 
-    public class UnityEditorBuildCommands 
+    public class UniEditorBuildCommands 
     {
-        [MenuItem("UnityPlayerBuild/Android")]
+        [MenuItem("UniBuild/Android")]
         public static void BuildAndroid()
         {
             ExecuteBuild("android.apk",BuildTarget.Android, BuildTargetGroup.Android);
         }
 
-        [MenuItem("UnityPlayerBuild/iOS Release")]
+        [MenuItem("UniBuild/iOS")]
         public static void BuildIOS()
         {
             ExecuteBuild(string.Empty,BuildTarget.iOS, BuildTargetGroup.iOS);
         }
+        
+        [MenuItem("UniBuild/Windows")]
+        public static void BuildWindows()
+        {
+            ExecuteBuild(string.Empty,BuildTarget.StandaloneWindows64, BuildTargetGroup.Standalone);
+        }
+
 
         public static EditorBuildConfiguration CreateConfiguration(string outputFileName,BuildTarget buildTarget,BuildTargetGroup targetGroup)
         {
