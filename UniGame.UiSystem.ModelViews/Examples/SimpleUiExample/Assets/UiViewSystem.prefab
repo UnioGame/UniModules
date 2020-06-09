@@ -164,8 +164,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2255a6df9791d6244a8e68a58b579d39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layoutCanvas: {fileID: 9204040805369021830}
-  background: {fileID: 0}
+  _layoutCanvas: {fileID: 0}
+  _backgroundFactory: {fileID: 0}
 --- !u!1 &5271082333932349521
 GameObject:
   m_ObjectHideFlags: 0
@@ -277,8 +277,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2255a6df9791d6244a8e68a58b579d39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layoutCanvas: {fileID: 5383436920319130428}
-  background: {fileID: 0}
+  _layoutCanvas: {fileID: 0}
+  _backgroundFactory: {fileID: 0}
 --- !u!1 &7981240931537382541
 GameObject:
   m_ObjectHideFlags: 0
@@ -390,5 +390,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2255a6df9791d6244a8e68a58b579d39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layoutCanvas: {fileID: 2466042088040093560}
-  background: {fileID: 0}
+  _layoutCanvas: {fileID: 0}
+  _backgroundFactory: {fileID: 0}

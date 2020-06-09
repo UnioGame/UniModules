@@ -20,7 +20,7 @@ namespace UniModules.UniGame.SceneEditorOnlyAssets.Editor
 
         public void OnPreprocessBuild(BuildReport report)
         {
-            SceneEditorAssetsProcessor.SetActive(false);
+            SceneEditorAssetsProcessor.CloseAllCommands();
         }
     }
 }

@@ -25,9 +25,7 @@
             return context;
         }
         
-        protected override void OnInitialize(ILifeTime lifeTime)
-        {
-            lifeTime.AddDispose(defaultValue);
-        }
+        protected override void OnInitialize(ILifeTime lifeTime) => lifeTime.AddDispose(defaultValue);
+
     }
 }

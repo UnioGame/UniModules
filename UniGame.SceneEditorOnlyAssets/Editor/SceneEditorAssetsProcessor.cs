@@ -19,12 +19,11 @@
         {
             _lifeTimeDefinition = new LifeTimeDefinition();
             
-            // Observable.FromEvent(
-            //     x => EditorApplication.playModeStateChanged += OnPlaymodeChanged,
-            //     x => EditorApplication.playModeStateChanged += OnPlaymodeChanged).
-            //     Subscribe();
+            Observable.FromEvent(
+                x => EditorApplication.playModeStateChanged += OnPlaymodeChanged,
+                x => EditorApplication.playModeStateChanged += OnPlaymodeChanged).
+                Subscribe();
             
-            Release();
             Initialize();
         }
 
@@ -44,14 +43,9 @@
         private static void OnPlaymodeChanged(PlayModeStateChange modeStateChange)
         {
             switch (modeStateChange) {
-                case PlayModeStateChange.ExitingPlayMode:
                 case PlayModeStateChange.ExitingEditMode:
                 case PlayModeStateChange.EnteredPlayMode:
-                    Release();
-                    CloseAll();
-                    break;
-                case PlayModeStateChange.EnteredEditMode:
-                    Initialize();
+                    CloseAllCommands();
                     break;
             }
         }
@@ -79,7 +73,6 @@
             }
         }
         
-        [MenuItem("GameObject/EditorOnlyAssets/Close All", false, 0)]
         public static void CloseAll()
         {
             if (EditorApplication.isPlayingOrWillChangePlaymode)
@@ -125,29 +118,23 @@
         
         private static void Initialize()
         {
-            if (EditorApplication.isPlayingOrWillChangePlaymode) {
-                return;
-            }
-            
             Release();
-
-            IsActive.
-                Where(x => x).
-                Subscribe(x => OpenAll()).
-                AddTo(_lifeTimeDefinition);
 
             Observable.FromEvent(x => EditorSceneManager.sceneSaving += OnSceneSaving,
                     x => EditorSceneManager.sceneSaving -= OnSceneSaving).
+                Where(x => !EditorApplication.isPlayingOrWillChangePlaymode).
                 Subscribe().
                 AddTo(_lifeTimeDefinition);
             
             Observable.FromEvent(x => EditorSceneManager.sceneSaved += OnSceneSaved,
                     x => EditorSceneManager.sceneSaved -= OnSceneSaved).
+                Where(x => !EditorApplication.isPlayingOrWillChangePlaymode).
                 Subscribe().
                 AddTo(_lifeTimeDefinition);
             
             Observable.FromEvent(x => EditorSceneManager.sceneClosing += OnSceneClosing,
                     x => EditorSceneManager.sceneClosing -= OnSceneClosing).
+                Where(x => !EditorApplication.isPlayingOrWillChangePlaymode).
                 Subscribe().
                 AddTo(_lifeTimeDefinition);
             
