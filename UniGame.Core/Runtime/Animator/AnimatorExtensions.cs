@@ -5,7 +5,7 @@
 
     public static class AnimatorExtensions
     {
-        public static IEnumerator PlayAndWaitForEnd(this Animator animator, int stateHash, int layer = 0)
+        public static IEnumerator WaitForEnd(this Animator animator, int stateHash, int layer = 0)
         {
             while (animator.GetCurrentAnimatorStateInfo(layer).shortNameHash != stateHash) {
                 yield return null;
