@@ -30,7 +30,6 @@
             _lifeTimeDefinition = new LifeTimeDefinition();
 #if UNITY_EDITOR
             LifetimeObjectData.Add(this);
-            _lifeTimeDefinition.AddCleanUpAction(() => GameLog.Log($"LIFETIME: {GetType().Name} {name} : OnDisable END OF LIFETIME", Color.red, this));
 #endif
             OnActivate();
         }

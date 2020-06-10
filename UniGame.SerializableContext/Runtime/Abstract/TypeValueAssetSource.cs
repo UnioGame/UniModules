@@ -8,7 +8,7 @@
     using UnityEngine;
 
     [Serializable]
-    public abstract class TypeValueAsset<TValue,TApiValue> : 
+    public abstract class TypeValueAssetSource<TValue,TApiValue> : 
         DisposableScriptableObject,
         ITypeValueAsset<TValue,TApiValue>
         where TValue : TApiValue
@@ -19,7 +19,7 @@
         
         #endregion
 
-        private TypeValueAsset<TValue, TApiValue> source;
+        private TypeValueAssetSource<TValue, TApiValue> source;
 
         private ContextValue<TApiValue> contextValue = new ContextValue<TApiValue>();
 

@@ -29,7 +29,7 @@ namespace UniGreenModules.UniGame.SerializableContext.Runtime.ContextDataSources
         
         private async UniTask<bool> RegisterContexts(IContext target,AssetReferenceScriptableObject sourceReference)
         {
-            target.LifeTime.AddCleanUpAction(() => GameLog.Log($"{name} END LIFETIME CONTEXT"));
+            target.LifeTime.AddCleanUpAction(() => GameLog.Log($"{name} {target.GetType().Name} END LIFETIME CONTEXT"));
             
             var source = await sourceReference.LoadAssetTaskAsync<IAsyncContextDataSource>(target.LifeTime);
             if (source == null) {
