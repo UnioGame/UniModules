@@ -26,6 +26,17 @@ ExportedObj/
 *.booproj
 *.svd
 *.vs/
+
+# Addressable Importer Module
+UnityAddressableImporter/CHANGELOG.md.meta
+UnityAddressableImporter/Editor.meta
+UnityAddressableImporter/LICENSE.md.meta
+UnityAddressableImporter/Media.meta
+UnityAddressableImporter/package.json.meta
+UnityAddressableImporter/README.md.meta
+UnityAddressableImporter/Runtime.meta
+UnityAddressableImporter/Tests.meta
+
  
 # Builds
 *.apk
