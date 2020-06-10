@@ -288,5 +288,26 @@ namespace UniRx
         {
             return new ForEachAsyncObservable<T>(source, onNext);
         }
+
+        public static IObservable<T> ToChain<T>(this IObservable<T> source)
+        {
+            return new ChainObservable<T>(source);
+        }
+
+        public static IObservable<T> AddToChain<T>(this IObservable<T> source, IObservable<T> other)
+        {
+            if (source is ChainObservable<T> chainObservable) {
+                return chainObservable.Add(other);
+            }
+
+            return ToChain(source).AddToChain(other);
+        }
+
+        public static void SkipChainState<T>(this IObservable<T> source)
+        {
+            if (source is ChainObservable<T> chainObservable) {
+                chainObservable.Skip();
+            }
+        }
     }
 }
