@@ -49,7 +49,7 @@
             Stop();
 
             //register data context 
-            dataSource.Register(_entity);
+            //dataSource.Register(_entity);
             //set current behaviour
             _behaviour = behaviour;
 
