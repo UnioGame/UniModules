@@ -6,16 +6,13 @@
     internal class ChainObservable<TSource> : OperatorObservableBase<TSource>
     {
         private readonly IObservable<TSource> _source;
+        private readonly IObservable<Unit> _skipSource;
         private readonly Queue<IObservable<TSource>> _queue = new Queue<IObservable<TSource>>();
 
-        public ChainObservable(IObservable<TSource> source) : base(true)
+        public ChainObservable(IObservable<TSource> source, IObservable<Unit> skipSource) : base(true)
         {
             _source = source;
-        }
-
-        public void Skip()
-        {
-            // TODO: ???
+            _skipSource = skipSource;
         }
 
         public IObservable<TSource> Add(IObservable<TSource> observable)
@@ -42,6 +39,7 @@
         {
             private readonly ChainObservable<TSource> _parent;
             private readonly SerialDisposable _serialDisposable = new SerialDisposable();
+            private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
 
             private ChainElement _currentChainElement;
 
@@ -52,13 +50,19 @@
 
             public IDisposable Run()
             {
+                var skipHandler = _parent._skipSource?.Subscribe(_ => _currentChainElement?.OnCompleted());
+
                 var disposable = new SingleAssignmentDisposable();
                 _serialDisposable.Disposable = disposable;
 
                 _currentChainElement = new ChainElement(this, _serialDisposable);
                 
                 disposable.Disposable = _parent._source.Subscribe(_currentChainElement);
-                return _serialDisposable;
+                
+                _compositeDisposable.Add(skipHandler);
+                _compositeDisposable.Add(_serialDisposable);
+                
+                return _compositeDisposable;
             }
 
             public override void OnNext(TSource value)
@@ -116,7 +120,7 @@
 
             public override void OnNext(TSource value)
             {
-                // TODO: ???
+                // Do nothing
             }
 
             public override void OnError(Exception error)
