@@ -6,7 +6,7 @@
     using UniRx.Async;
 
     public class TypeAssetSource<TValue,TApiValue> : 
-        TypeValueAsset<TValue,TApiValue>,
+        TypeValueAssetSource<TValue,TApiValue>,
         ISourceValue<TApiValue>
         where TValue : class, TApiValue
         where TApiValue : class

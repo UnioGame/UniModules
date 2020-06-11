@@ -5,7 +5,7 @@
 
     [Serializable]
     public abstract class TypeValueDefaultAsset<TValue, TApiValue> :
-        TypeValueAsset<TValue, TApiValue>
+        TypeValueAssetSource<TValue, TApiValue>
         where TValue :class, TApiValue, new()
     {
         protected override TValue GetDefaultValue() {

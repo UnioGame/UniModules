@@ -10,7 +10,7 @@
     [Sirenix.OdinInspector.DontApplyToListElements]
     #endif
     [Serializable]   
-    public class ContextAssetReference : AssetReferenceT<ContextAsset>
+    public class ContextAssetReference : DisposableAssetReference<ContextAsset>
     {
         public ContextAssetReference(string guid) : base(guid) {}
     }

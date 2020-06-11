@@ -3,5 +3,5 @@
     using System;
 
     [Serializable]
-    public abstract class TypeValueAsset<TValue> : TypeValueAsset<TValue,TValue> {}
+    public abstract class TypeValueAsset<TValue> : TypeValueAssetSource<TValue,TValue> {}
 }

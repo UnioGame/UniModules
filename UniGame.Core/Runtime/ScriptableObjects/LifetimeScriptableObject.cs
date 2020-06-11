@@ -9,7 +9,7 @@
     public class LifetimeScriptableObject : ScriptableObject, 
         ILifeTimeContext
     {
-        private static Color _logColor = new Color(0.50f, 1f, 0.290f);
+        private static Color _logColor = new Color(0.30f, 0.8f, 0.490f);
         
         protected LifeTimeDefinition _lifeTimeDefinition;
         
@@ -17,9 +17,7 @@
 
         public void Reset()
         {
-            if(_lifeTimeDefinition != null) {
-                _lifeTimeDefinition.Release();
-            }
+            _lifeTimeDefinition?.Release();
             OnReset();
         }
         
