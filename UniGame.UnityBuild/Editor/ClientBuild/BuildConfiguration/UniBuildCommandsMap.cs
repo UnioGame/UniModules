@@ -7,6 +7,7 @@ namespace UniModules.UniGame.UnityBuild.Editor.ClientBuild.BuildConfiguration
     using UniGreenModules.UniCore.EditorTools.Editor.AssetOperations;
     using UniGreenModules.UniCore.Runtime.ObjectPool.Runtime;
     using UniGreenModules.UniCore.Runtime.ObjectPool.Runtime.Extensions;
+    using UniGreenModules.UniGame.UnityBuild.Editor.ClientBuild;
     using UniGreenModules.UniGame.UnityBuild.Editor.ClientBuild.Commands;
     using UniGreenModules.UniGame.UnityBuild.Editor.ClientBuild.Commands.PostBuildCommands;
     using UniGreenModules.UniGame.UnityBuild.Editor.ClientBuild.Commands.PreBuildCommands;
@@ -97,7 +98,7 @@ namespace UniModules.UniGame.UnityBuild.Editor.ClientBuild.BuildConfiguration
 #endif
         public void ExecuteBuild()
         {
-            UniEditorBuildCommands.ExecuteBuild(BuildData.ArtifactName,BuildData.BuildTarget,BuildData.BuildTargetGroup);
+            UniBuildTool.ExecuteBuild(BuildData.ArtifactName,BuildData.BuildTarget,BuildData.BuildTargetGroup);
         }
         
         protected virtual bool ValidatePlatform(IUniBuilderConfiguration config)
