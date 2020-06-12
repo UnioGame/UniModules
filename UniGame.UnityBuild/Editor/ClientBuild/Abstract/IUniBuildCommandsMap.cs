@@ -10,7 +10,7 @@
         IUnityBuildCommandValidator,
         INamedItem
     {
-
+        
         IUniBuildConfigurationData BuildData { get; }
 
         List<IEditorAssetResource> LoadCommands<T>(Func<T,bool> filter = null)
