@@ -1,9 +1,7 @@
 ﻿namespace UniGreenModules.UniGame.UnityBuild.Editor.ClientBuild.Commands
 {
-    using BuildConfiguration;
     using UniModules.UniGame.UnityBuild.Editor.ClientBuild.BuildConfiguration;
     using UnityEditor;
-    using UnityEditor.Build.Reporting;
 
     public class UniEditorBuildCommands 
     {
@@ -12,6 +10,8 @@
         {
             UniBuildTool.ExecuteBuild("android.apk",BuildTarget.Android, BuildTargetGroup.Android);
         }
+
+        //public static void Build(string guid) => UniBuildTool.BuildByConfigurationId("");
 
         [MenuItem("UniBuild/iOS")]
         public static void BuildIOS()

@@ -28,6 +28,14 @@ namespace UniGreenModules.UniGame.UnityBuild.Editor.ClientBuild
                 new BuildParameters(buildTarget, targetGroup, argumentsProvider));
             return buildConfiguration;
         }
+        
+                
+        public static void BuildByConfigurationId(string guid)
+        {
+            var assetPath = AssetDatabase.GUIDToAssetPath(guid);
+            var asset     = AssetDatabase.LoadAssetAtPath<UniBuildCommandsMap>(assetPath);
+            UniBuildTool.ExecuteBuild(asset);
+        }
 
         public static BuildReport ExecuteBuild(string outputFileName,BuildTarget buildTarget,BuildTargetGroup targetGroup)
         {

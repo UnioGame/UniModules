@@ -109,8 +109,7 @@ namespace UniGreenModules.UniCore.EditorTools.Editor.AssetOperations
             }
         }
 
-        [MenuItem("Tools/Remove ALL modifications")]
-        public static void SetAllDirty()
+        private static void SetAllDirty()
         {
             var assets = new List<Object>();
             assets.AddRange(GetAssets<GameObject>().OfType<Object>());
@@ -128,9 +127,7 @@ namespace UniGreenModules.UniCore.EditorTools.Editor.AssetOperations
             EditorUtility.ClearProgressBar();
         }
         
-        [MenuItem("Tools/Remove Selected modifications")]
-        [MenuItem("Assets/Remove modifications")]
-        public static void RemoveSelectedModifications()
+        private static void RemoveSelectedModifications()
         {
             var selections = Selection.assetGUIDs;
             var assets = selections.Select(x => AssetDatabase.LoadAssetAtPath<Object>(AssetDatabase.GUIDToAssetPath(x))).

@@ -16,6 +16,7 @@ namespace UniModules.UniGame.UnityBuild.Editor.ClientBuild.BuildConfiguration
     [CreateAssetMenu(menuName = "UnityBuild/UniBuildConfiguration", fileName = nameof(UniBuildCommandsMap))]
     public class UniBuildCommandsMap : ScriptableObject, IUniBuildCommandsMap
     {
+
 #if  ODIN_INSPECTOR
         [Sirenix.OdinInspector.InlineProperty()]
 #endif

@@ -13,6 +13,7 @@
     "com.unigame.unicore": "1.5.14",
     "com.unity.scriptablebuildpipeline": "1.5.10",
     "com.unity.addressables": "1.7.5",
-    "com.unity.test-framework": "1.1.9"
+    "com.unity.test-framework": "1.1.9",
+    "com.unigame.codewriter" : "2020.0.0"
   }
 }
