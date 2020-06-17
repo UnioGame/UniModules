@@ -9,11 +9,20 @@
 
     public class LifeTime : ILifeTime, IPoolable
     {
+        public readonly static ILifeTime TerminatedLifetime;
+        
         private List<IDisposable> disposables = new List<IDisposable>();
         private List<object> referencies = new List<object>();
         private List<Action> cleanupActions = new List<Action>();
-        private bool isTerminated;
+        public bool isTerminated;
 
+        static LifeTime()
+        {
+            var completedLifetime = new LifeTime();
+            completedLifetime.Release();
+            TerminatedLifetime = completedLifetime;
+        }
+        
         /// <summary>
         /// cleanup action, call when life time terminated
         /// </summary>

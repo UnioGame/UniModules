@@ -19,7 +19,7 @@
             id = Unique.GetId();
         }
         
-        public bool IsTerminated => lifeTime.IsTerminated;
+        public bool IsTerminated => lifeTime.isTerminated;
 
         public ILifeTime LifeTime => lifeTime;
 
