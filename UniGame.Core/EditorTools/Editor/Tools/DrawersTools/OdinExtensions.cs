@@ -28,16 +28,19 @@ namespace UniGreenModules.UniGame.Core.EditorTools.Editor.DrawersTools
             return PropertyTreeFactory(target);
         }
 #endif
+     
         
         [Conditional("ODIN_INSPECTOR")]
         public static void DrawOdinPropertyInspector(this object asset)
         {
+#if ODIN_INSPECTOR
             if (asset == null) {
                 return;
             }
             
             var drawer = PropertyTreeFactory(asset);
             drawer.Draw(false);
+#endif
         }
 
         public static Object DrawOdinPropertyField(
