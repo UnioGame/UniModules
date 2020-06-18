@@ -6,5 +6,7 @@
   "unity": "2018.3",
   "version": "1.0.3",
   "keywords": [],
-  "dependencies": {}
+  "dependencies": {
+    "com.unigame.codewriter" : "2020.0.0"
+  }
 }

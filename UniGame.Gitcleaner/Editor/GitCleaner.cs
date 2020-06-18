@@ -3,30 +3,73 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using UniModules.UniGame.CodeWriter.Editor.UnityTools;
 using UnityEditor;
 using UnityEngine;
 
 public class GitCleaner : EditorWindow
 {
+    private const string _ignorePathFilterPath = "UniGame.Generated/GitCleaner/ignore-list.txt";
+    private static List<string> _ignoreContent = new List<string>();
+    private static List<string> _removedItems = new List<string>();
+
+    private List<string> _ignoredLocations = new List<string>();
+
     [InitializeOnLoadMethod]
     [MenuItem("Tools/Git/Cleaner")]
     static void Startup()
     {
-        ThreadPool.QueueUserWorkItem(CheckEmptyFolders, Application.dataPath);
+        CheckEmptyFolders();
     }
 
-    static void CheckEmptyFolders(object pathObj)
+
+    [MenuItem("UniGame/GitCleaner/Check Empty Folders")]
+    public static void CheckEmptyFolders()
     {
-        var rootPath = (string)pathObj;
-        var list = new List<string>();
+        var rootPath = Application.dataPath;
+        var list     = new List<string>();
         DirectoryUtil.ListEmptyDirs(list, rootPath);
-        if (list.Any())
-        {
-            var pathes = list.Select(p => p.Substring(rootPath.Length - "Assets".Length)).ToList();
-            EditorApplication.delayCall += () => ShowWindow(pathes);
+        
+        if (!Validate(list)) {
+            return;
         }
+
+        var pathes = list.Select(p => p.Substring(rootPath.Length - "Assets".Length)).ToList();
+        EditorApplication.delayCall += () => ShowWindow(pathes);
     }
 
+    public static bool Validate(List<string> paths)
+    {
+        if (paths.Any() == false)
+            return false;
+
+        _removedItems.Clear();
+        var ignoreList = ReloadIgnoreList();
+        foreach (var path in paths) {
+            if(string.IsNullOrEmpty(path))
+                continue;
+            if (ignoreList.All(x => path.IndexOf(x) < 0)) {
+                return true;
+            }
+            _removedItems.Add(path);
+        }
+
+        foreach (var removedItem in _removedItems) {
+            paths.Remove(removedItem);
+        }
+
+        return false;
+    }
+
+    static List<string> ReloadIgnoreList()
+    {
+        _ignorePathFilterPath.ReadUnityFile(out var content,true);
+        _ignoreContent = content.
+            Split('\n').
+            ToList();
+        return _ignoreContent;
+    }
+    
     static void ShowWindow(List<string> pathes)
     {
         var window = GetWindow<GitCleaner>();
@@ -42,8 +85,8 @@ public class GitCleaner : EditorWindow
     private void OnGUI()
     {
         var message =
-            "В проекте обнаружены пустые папки не синхронизируемые Git.\n" +
-            "Хотите удалить их?";
+            "Git non-sync folders found in project.\n" +
+            "Want to delete them?";
 
         using (new GUILayout.VerticalScope(EditorStyles.helpBox))
         {
@@ -81,6 +124,8 @@ public class GitCleaner : EditorWindow
 
             if (GUILayout.Button("IGNORE", GUI.skin.button, GUILayout.Width(70), GUILayout.Height(25)))
             {
+                _ignoreContent.AddRange(_ignoredLocations);
+                _ignorePathFilterPath.WriteUnityFile(string.Join("\n", _ignoreContent));
                 Close();
             }
         }
@@ -88,10 +133,26 @@ public class GitCleaner : EditorWindow
         scroll = GUILayout.BeginScrollView(scroll, false, true);
         foreach (var directory in directories)
         {
+            GUILayout.BeginHorizontal();
+            
             if (GUILayout.Button(directory, EditorStyles.helpBox, GUILayout.MinWidth(100)))
             {
                 EditorUtil.PingFolder(directory);
             }
+
+            var isToggleActive = _ignoredLocations.Contains(directory);
+            var newState = GUILayout.Toggle(isToggleActive, string.Empty,GUILayout.ExpandWidth(false));
+;           if(newState != isToggleActive)
+            {
+                if (newState) {
+                    _ignoredLocations.Add(directory);
+                }
+                else {
+                    _ignoredLocations.Remove(directory);
+                }
+            }
+
+GUILayout.EndHorizontal();
         }
         GUILayout.EndScrollView();
     }

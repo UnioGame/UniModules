@@ -1,7 +1,8 @@
 {
     "name": "GitCleaner",
-    "references": [],
-    "optionalUnityReferences": [],
+    "references": [
+        "GUID:47336d8c547834e4e926518cb45a846d"
+    ],
     "includePlatforms": [
         "Editor"
     ],
@@ -11,5 +12,6 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": []
+    "versionDefines": [],
+    "noEngineReferences": false
 }
