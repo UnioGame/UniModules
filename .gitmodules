@@ -23,3 +23,6 @@
 [submodule "UniGame.UniBuild"]
 	path = UniGame.UniBuild
 	url = https://github.com/UniGameTeam/UniBuild.git
+[submodule "NpmPublisherSupport"]
+	path = NpmPublisherSupport
+	url = https://github.com/UniGameTeam/NpmPublisherSupport.git
