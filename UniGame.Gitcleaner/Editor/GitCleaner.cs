@@ -13,7 +13,7 @@ public class GitCleaner : EditorWindow
     private static List<string> _ignoreContent = new List<string>();
     private static List<string> _removedItems = new List<string>();
 
-    private List<string> _ignoredLocations = new List<string>();
+    private List<string> _ignoredCheckBoxes = new List<string>();
 
     [InitializeOnLoadMethod]
     [MenuItem("Tools/Git/Cleaner")]
@@ -23,7 +23,7 @@ public class GitCleaner : EditorWindow
     }
 
 
-    [MenuItem("UniGame/GitCleaner/Check Empty Folders")]
+    [MenuItem("UniGame/Git Cleaner/Check Empty Folders")]
     public static void CheckEmptyFolders()
     {
         var rootPath = Application.dataPath;
@@ -70,11 +70,11 @@ public class GitCleaner : EditorWindow
         return _ignoreContent;
     }
     
-    static void ShowWindow(List<string> pathes)
+    static void ShowWindow(List<string> paths)
     {
         var window = GetWindow<GitCleaner>();
         window.titleContent = new GUIContent("Git Cleaner");
-        window.directories = pathes;
+        window.Initialize(paths);
         window.minSize = new Vector2(450, 250);
         window.Show();
     }
@@ -82,6 +82,13 @@ public class GitCleaner : EditorWindow
     private List<string> directories;
     private Vector2 scroll;
 
+    public void Initialize(List<string> targetDirectories)
+    {
+        directories = targetDirectories.
+            Where(x => !_ignoreContent.Contains(x)).
+            ToList();
+    }
+    
     private void OnGUI()
     {
         var message =
@@ -124,7 +131,7 @@ public class GitCleaner : EditorWindow
 
             if (GUILayout.Button("IGNORE", GUI.skin.button, GUILayout.Width(70), GUILayout.Height(25)))
             {
-                _ignoreContent.AddRange(_ignoredLocations);
+                _ignoreContent.AddRange(_ignoredCheckBoxes);
                 _ignorePathFilterPath.WriteUnityFile(string.Join("\n", _ignoreContent));
                 Close();
             }
@@ -140,15 +147,15 @@ public class GitCleaner : EditorWindow
                 EditorUtil.PingFolder(directory);
             }
 
-            var isToggleActive = _ignoredLocations.Contains(directory);
+            var isToggleActive = _ignoredCheckBoxes.Contains(directory);
             var newState = GUILayout.Toggle(isToggleActive, string.Empty,GUILayout.ExpandWidth(false));
 ;           if(newState != isToggleActive)
             {
                 if (newState) {
-                    _ignoredLocations.Add(directory);
+                    _ignoredCheckBoxes.Add(directory);
                 }
                 else {
-                    _ignoredLocations.Remove(directory);
+                    _ignoredCheckBoxes.Remove(directory);
                 }
             }
 
