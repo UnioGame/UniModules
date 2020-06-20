@@ -5,8 +5,10 @@
     using ObjectPool.Runtime.Interfaces;
     using Runtime.Interfaces;
     using UniGame.Core.Runtime.DataFlow;
+    using UniModules.UniGame.Core.Runtime.DataFlow.Interfaces;
 
-    public class LifeTimeDefinition : IUnique, 
+    public class LifeTimeDefinition : 
+        IUnique, 
         ILifeTime, 
         IPoolable
     {

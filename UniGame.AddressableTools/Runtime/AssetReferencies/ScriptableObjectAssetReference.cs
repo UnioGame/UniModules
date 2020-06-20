@@ -7,10 +7,14 @@
 #if ODIN_INSPECTOR
     using Sirenix.OdinInspector;
 #endif
-    
-#if ODIN_INSPECTOR
-    [DontApplyToListElements]
-#endif
+
+    [Serializable]
+    public class AssetReferenceScriptableObject<T> : DisposableAssetReference<T> 
+        where T : ScriptableObject
+    {
+        public AssetReferenceScriptableObject(string guid) : base(guid) {}
+    }
+
     [Serializable]
     public class AssetReferenceScriptableObject : DisposableAssetReference<ScriptableObject> 
     {

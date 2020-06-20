@@ -7,6 +7,7 @@
     using ObjectPool.Runtime;
     using ObjectPool.Runtime.Interfaces;
     using UniGame.Core.Runtime.Common;
+    using UniModules.UniGame.Core.Runtime.DataFlow.Interfaces;
 
     public static class RxLifetimeExtension 
     {

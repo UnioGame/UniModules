@@ -4,6 +4,7 @@
     using global::UniCore.Runtime.ProfilerTools;
     using UniCore.Runtime.Common;
     using UniCore.Runtime.DataFlow.Interfaces;
+    using UniModules.UniGame.Core.Runtime.DataFlow.Interfaces;
     using UniModules.UniGame.Core.Runtime.ScriptableObjects;
     using UnityEngine;
 

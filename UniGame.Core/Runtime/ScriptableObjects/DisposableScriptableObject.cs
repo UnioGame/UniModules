@@ -12,6 +12,7 @@
         {
             if (_lifeTimeDefinition.IsTerminated)
                 return;
+            
             GameLog.Log($"DisposableAsset: {GetType().Name} {name} : DISPOSED",Color.blue,this);
             
             OnDispose();

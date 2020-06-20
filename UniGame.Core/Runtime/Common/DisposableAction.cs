@@ -21,7 +21,8 @@
         public void Dispose()
         {
             if (IsComplete) return;
-
+            IsComplete = true;
+            
             _onDisposed?.Invoke();
             
             Complete();

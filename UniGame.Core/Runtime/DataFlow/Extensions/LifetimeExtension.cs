@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Threading;
 using UniGame.Core.Runtime.Common;
 using UniGame.Core.Runtime.DataFlow;
@@ -9,7 +7,8 @@ using UniGreenModules.UniCore.Runtime.DataFlow.Interfaces;
 using UniGreenModules.UniCore.Runtime.Interfaces;
 using UniGreenModules.UniCore.Runtime.ObjectPool.Runtime;
 using UniModules.UniGame.Core.Runtime.DataFlow;
-using UnityEngine;
+using UniModules.UniGame.Core.Runtime.DataFlow.Interfaces;
+using UniModules.UniGame.Core.Runtime.Interfaces;
 
 public static class LifetimeExtension
 {
@@ -50,10 +49,30 @@ public static class LifetimeExtension
         return context;
     }
        
-    public static ILifeTime ComposeCleanUp(this ILifeTime source, ILifeTime additional, Action cleanup)
+    public static IComposedLifeTime Compose(this ILifeTime source, params  ILifeTime[] lifeTimes)
+    {
+        var composeAction = ClassPool.Spawn<ComposedLifeTime>();
+        return composeAction.
+            Bind(source).
+            Bind(lifeTimes);
+    }
+
+    public static ILifeTime ComposeCleanUp(
+        this ILifeTime source,
+        ILifeTime additional,
+        Action cleanup) => ComposeCleanUp(source, cleanup, additional);
+    
+    public static ILifeTime ComposeCleanUp(
+        this ILifeTime source, 
+        Action cleanup,
+        params ILifeTime[] additional)
     {
         var composeAction = ClassPool.Spawn<LifeTimeCompose>();
-        composeAction.Initialize(cleanup,source,additional);
+        
+        composeAction.AddCleanUpAction(cleanup);
+        composeAction.Add(source);
+        composeAction.Add(additional);
+        
         return source;
     }
 

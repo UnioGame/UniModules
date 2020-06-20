@@ -5,8 +5,8 @@
     using AssetTypes;
     
     [Serializable]   
-    public class ContextContainerAssetReference : DisposableAssetReference<ContextContainerAsset>
+    public class AssetReferenceContextContainer : DisposableAssetReference<ContextContainerAsset>
     {
-        public ContextContainerAssetReference(string guid) : base(guid) {}
+        public AssetReferenceContextContainer(string guid) : base(guid) {}
     }
 }

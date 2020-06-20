@@ -9,6 +9,7 @@
     using UniCore.Runtime.DataFlow.Interfaces;
     using UniCore.Runtime.ObjectPool.Runtime;
     using UniCore.Runtime.ObjectPool.Runtime.Extensions;
+    using UniModules.UniGame.Core.Runtime.DataFlow.Interfaces;
     using UniRx.Async;
     using UnityEngine;
     using UnityEngine.AddressableAssets;
