@@ -1,4 +1,4 @@
-# GBG Safe Area
+# UniGame Safe Area
 
 ===============================
 Safe Area Helper

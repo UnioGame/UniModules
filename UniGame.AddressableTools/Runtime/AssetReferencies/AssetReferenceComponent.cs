@@ -1,11 +1,13 @@
 namespace UniModules.UniGame.AddressableTools.Runtime.AssetReferencies
 {
+    using System;
     using UniGreenModules.UniGame.AddressableTools.Runtime.AssetReferencies;
     using UnityEngine;
 #if UNITY_EDITOR
     using UnityEditor;
 #endif
     
+    [Serializable]
     public class AssetReferenceComponentValue<TApi> : 
         AssetReferenceComponent<Component, TApi> where TApi : class
     {
@@ -14,7 +16,7 @@ namespace UniModules.UniGame.AddressableTools.Runtime.AssetReferencies
         }
     }
     
-    
+    [Serializable]
     public class AssetReferenceComponent<TAsset> : 
         AssetReferenceComponent<TAsset, TAsset> where TAsset : Component
     {
@@ -23,6 +25,7 @@ namespace UniModules.UniGame.AddressableTools.Runtime.AssetReferencies
         }
     }
 
+    [Serializable]
     public class AssetReferenceComponent<TAsset,TApi> : DisposableAssetReference<TAsset> 
         where TAsset : Component
         where TApi : class

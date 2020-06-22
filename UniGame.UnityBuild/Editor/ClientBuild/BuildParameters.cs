@@ -37,12 +37,25 @@ namespace UniGreenModules.UniGame.UnityBuild.Editor.ClientBuild
         public BuildTargetGroup BuildTargetGroup => buildTargetGroup;
 
         public int BuildNumber => this.buildNumber;
-        public string OutputFile => this.outputFile;
+        public string OutputFile
+        {
+            get {
+                return this.outputFile;
+            }
+            set {
+                this.outputFile = value;
+            }
+        }
+        
         public string OutputFolder => this.outputFolder;       
         public BuildOptions BuildOptions => this.buildOptions;
+        
         public string ProjectId => projectId;
+        
         public string BundleId => bundleId;
+        
         public BuildEnvironmentType EnvironmentType => environmentType;
+        
         public string Branch => branch;
 
         public IReadOnlyList<EditorBuildSettingsScene> Scenes => scenes;

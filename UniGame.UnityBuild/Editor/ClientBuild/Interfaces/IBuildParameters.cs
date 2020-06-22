@@ -9,7 +9,7 @@ namespace UniGreenModules.UniGame.UnityBuild.Editor.ClientBuild.Interfaces {
         BuildTargetGroup BuildTargetGroup { get; }
 
         int BuildNumber { get; }
-        string OutputFile { get; }
+        string OutputFile { get; set; }
         string OutputFolder { get; }
         BuildOptions BuildOptions { get; }
 

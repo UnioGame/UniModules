@@ -3,6 +3,9 @@ namespace UniModules.UniGame.Core.Runtime.Extension
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using UniGreenModules.UniCore.Runtime.ObjectPool.Runtime;
+    using UniGreenModules.UniCore.Runtime.ObjectPool.Runtime.Extensions;
+    using UniRx;
     using Random = UnityEngine.Random;
 
     public static class CollectionExtension
@@ -33,20 +36,84 @@ namespace UniModules.UniGame.Core.Runtime.Extension
             return GetRandomValues(source.ToList(), count);
         }
 
+        public static T Find<T>(this IReadOnlyList<T> items, Predicate<T> predicate)
+        {
+            if (predicate == null)
+                throw new ApplicationException("NULL predicate");
+
+            for (int index = 0; index < items.Count; ++index) {
+                var item = items[index];
+                if (predicate(item))
+                    return item;
+            }
+            
+            return default (T);
+        }
+        
+        public static int IndexOf<T>(this IReadOnlyList<T> items, T target)
+        {
+            if (items == null)
+                return -1;
+
+            for (int index = 0; index < items.Count; ++index) {
+                var item = items[index];
+                if (Equals(item, target))
+                    return index;
+            }
+
+            return -1;
+        }
+        
+        public static int IndexOf<T>(this IReadOnlyList<T> items, Predicate<T> predicate)
+        {
+            if (items == null)
+                return -1;
+
+            for (int index = 0; index < items.Count; ++index) {
+                var item = items[index];
+                if (predicate(item))
+                    return index;
+            }
+
+            return -1;
+        }
+
         public static T GetRandomValue<T>(this IList<T> list, Predicate<T> predicate)
         {
             var validValues = list.Where(x=>predicate(x)).ToArray();
             var randomIndex = Random.Range(0, validValues.Length);
 
+            if (randomIndex < 0 || validValues.Length == 0)
+                return default;
+            
             return validValues[randomIndex];
         }
 
+        public static List<T> AddEnumerableRange<T>(this IEnumerable<T> range, List<T> target)
+        {
+            target.AddRange(range);
+            return target;
+        }
+        
         public static T GetRandomValue<T>(this IEnumerable<T> enumerable, Predicate<T> predicate)
         {
-            var validValues = enumerable.Where(x => predicate(x)).ToArray();
-            var randomIndex = Random.Range(0, validValues.Length);
+            var cache = ClassPool.Spawn<List<T>>();
+            
+            var validValues = enumerable.
+                Where(x => predicate(x)).
+                AddEnumerableRange(cache);
+            
+            var randomIndex = Random.Range(0, cache.Count);
 
-            return validValues[randomIndex];
+            if (validValues.Count == 0) {
+                cache.Despawn();
+                return default;
+            }
+            
+            var result = validValues[randomIndex];
+            cache.Despawn();
+            
+            return result;
         }
 
         public static T GetRandomValue<T>(this IList<T> list, Predicate<T> predicate, T withoutElement)

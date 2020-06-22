@@ -33,8 +33,14 @@ namespace UniRx.Triggers
             if (!calledDestroy)
             {
                 calledDestroy = true;
-                if (disposablesOnDestroy != null) disposablesOnDestroy.Dispose();
-                if (onDestroy != null) { onDestroy.OnNext(Unit.Default); onDestroy.OnCompleted(); }
+                try {
+                    if (disposablesOnDestroy != null) disposablesOnDestroy.Dispose();
+                    if (onDestroy != null) { onDestroy.OnNext(Unit.Default); onDestroy.OnCompleted(); }
+                }
+                catch (Exception e) {
+                    Debug.LogError($"RX ONDESTROY ERROR {this.name} {GetType().Name}",this);
+                    throw;
+                }
             }
         }
 

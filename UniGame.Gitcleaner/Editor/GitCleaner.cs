@@ -57,12 +57,22 @@ public class GitCleaner : EditorWindow
             GUI.color = Color.yellow;
             if (GUILayout.Button("DELETE ALL", GUI.skin.button, GUILayout.Width(100), GUILayout.Height(25)))
             {
-                foreach (var d in directories)
+                try
                 {
-                    AssetDatabase.DeleteAsset(d);
+
+                    AssetDatabase.DisallowAutoRefresh();
+                    foreach (var d in directories)
+                    {
+                        AssetDatabase.DeleteAsset(d);
+                    }
+
+                }
+                finally
+                {
+                    Close();
+                    AssetDatabase.AllowAutoRefresh();
                 }
 
-                Close();
                 AssetDatabase.Refresh();
 
                 Startup();

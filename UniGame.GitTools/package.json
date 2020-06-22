@@ -1,0 +1,12 @@
+{
+  "name": "com.unigame.gittools",
+  "author": "UniGame",
+  "displayName": "UniGames Git Tools",
+  "description": "Git Commands & Tools",
+  "unity": "2019.1",
+  "version": "2020.0.0",
+  "keywords": [
+    "git"
+  ],
+  "dependencies": {}
+}

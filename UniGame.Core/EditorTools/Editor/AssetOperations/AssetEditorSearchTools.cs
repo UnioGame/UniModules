@@ -11,8 +11,6 @@ namespace UniGreenModules.UniCore.EditorTools.Editor.AssetOperations
     {
         #region asset loading
 
-        
-        
         public static List<Object> GetAssets(Type assetType, string[] folders = null)
         {
             var filterText = $"t:{assetType.Name}";

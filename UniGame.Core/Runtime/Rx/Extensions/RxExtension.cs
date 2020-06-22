@@ -5,9 +5,19 @@
     using Interfaces.Rx;
     using ObjectPool.Runtime;
     using Rx;
+    using UniRx;
 
     public static class RxExtension
     {
+        public static IObservable<TResult> CombineLatestFunc<TValue,TValue2, TResult>(
+            this IObservable<TValue> source, 
+            Func<IObservable<TValue>,IObservable<TValue2>> func,
+            Func<TValue,TValue2,TResult> resultFunc)
+        {
+            var funcObservable = func(source);
+            return source.CombineLatest(funcObservable, resultFunc);
+        }
+        
         public static IDisposable Cancel(this IDisposable disposable, bool clearValue = true)
         {
             disposable?.Dispose();

@@ -6,8 +6,18 @@
 
     public static class ClassPoolExtensions
     {
+        public static void Despawn<T>(this T source, ref T instance, T defaultValue = null) where T : class
+        {
+            if(source == null || !source.Equals(instance))
+                return;
+            
+            source.Despawn();
+            
+            instance = defaultValue;
+        }
+
         public static void Despawn<T>(this T data)
-            where T:class, IPoolable
+            where T : class
         {
             if (data == null) return;
             ClassPool.Despawn(data);

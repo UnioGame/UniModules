@@ -47,7 +47,6 @@ MonoBehaviour:
     inputPortIdentifier: 
     outputPortIdentifier: 
   groups: []
-  stackNodes: []
   pinnedElements:
   - position:
       serializedVersion: 2
@@ -82,5 +81,3 @@ MonoBehaviour:
   exposedParameters: []
   position: {x: 150, y: -152, z: 0}
   scale: {x: 1.15, y: 1.15, z: 1}
-  references:
-    version: 1

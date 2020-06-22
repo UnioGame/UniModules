@@ -23,7 +23,7 @@
         [SerializeField]
         protected T value = default;
         
-        [Tooltip("Merk this field to true, if you want notify immediately after subscription")]
+        [Tooltip("Mark this field to true, if you want notify immediately after subscription")]
         [SerializeField]
         protected bool hasValue = false;
 
@@ -98,8 +98,8 @@
     
         public void Release()
         {
+            CleanUp();
             _lifeTimeDefinition.Release();
-            _lifeTimeDefinition.AddCleanUpAction(CleanUp);
         }
 
         public Type Type => typeof(T);
@@ -121,7 +121,8 @@
         
         private void Remove(ListNode<IObserver<T>> observer)
         {
-            observer.Value?.OnCompleted();
+            if (!LifeTime.IsTerminated)
+                observer.Value?.OnCompleted();
             Observers.Remove(observer);
         }
 

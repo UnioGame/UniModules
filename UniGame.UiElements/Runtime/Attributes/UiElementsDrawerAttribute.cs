@@ -3,17 +3,21 @@
 namespace UniGame.Core.Runtime.Attributes.FieldTypeDrawer
 {
     [AttributeUsage(AttributeTargets.Class,AllowMultiple = true)]
-    public class UiElementsDrawerAttribute : Attribute
+    public class UiElementsDrawerAttribute : Attribute, IPriorityValue
     {
-        public int Priority = 0;
-        public Type[] Types;
-        
+        public int priority = 0;
+        public Type[] types;
+
+        public int Priority => priority;
+
+        public Type[] Types => types;
+
         public UiElementsDrawerAttribute(
             int priority = 0,
             params Type[] targetTypes)
         {
-            this.Priority = priority;
-            this.Types = targetTypes;
+            this.priority = priority;
+            this.types = targetTypes;
         }
     }
 }

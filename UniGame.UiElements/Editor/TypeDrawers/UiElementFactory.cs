@@ -9,20 +9,28 @@
     using UniGreenModules.UniCore.Runtime.ReflectionUtils;
     using UniGreenModules.UniCore.Runtime.Utils;
     using UniGreenModules.UniGame.Core.Runtime.Attributes.FieldTypeDrawer;
+    using UniRx;
     using UnityEditor;
     using UnityEditor.UIElements;
     using UnityEngine;
     using UnityEngine.UIElements;
     using Object = UnityEngine.Object;
 
+    [InitializeOnLoad]
     public static class UiElementFactory 
     {
-
+        private static BoolReactiveProperty ready = new BoolReactiveProperty();
         private static List<IUiElementsTypeDrawer> drawers;
         private static List<IUiElementsFieldDrawer> fieldDrawers;
+        
         private static IUiElementsTypeDrawer defaultDrawer = new ClassUiElementsDrawer();
+        
         private static Dictionary<object,VisualElement> visualElementsCache = new Dictionary<object, VisualElement>(16);
 
+        public static IReadOnlyList<IUiElementsTypeDrawer> Drawers => drawers;
+        public static IReadOnlyList<IUiElementsFieldDrawer> FieldDrawers => fieldDrawers;
+        public static IReadOnlyReactiveProperty<bool> Ready => ready;
+        
         private static Func<Type, IUiElementsTypeDrawer> GetDrawer =
             MemorizeTool.Create<Type,IUiElementsTypeDrawer>((type => {
                 foreach (var drawer in drawers) {
@@ -52,12 +60,18 @@
         {
             drawers = new List<IUiElementsTypeDrawer>();
             fieldDrawers = new List<IUiElementsFieldDrawer>();
-            
-            LoadDrawers();
-            LoadFiedlInfoDrawers();
+
+            ReloadDrawers();
             
             //reload drawers on code changes
-            AssemblyReloadEvents.afterAssemblyReload += LoadDrawers;
+            AssemblyReloadEvents.afterAssemblyReload += ReloadDrawers;
+        }
+
+        public static void ReloadDrawers()
+        {
+            LoadDrawers();
+            LoadFieldInfoDrawers();
+            ready.SetValueAndForceNotify(true);
         }
         
         public static VisualElement CachedDrawer(
@@ -181,40 +195,27 @@
             return visualElement ?? new VisualElement();
         }
 
-        private static void LoadDrawers()
+        private static void LoadDrawers() => LoadDrawers<UiElementsDrawerAttribute,IUiElementsTypeDrawer>(drawers);
+
+        private static void LoadFieldInfoDrawers() => LoadDrawers<UiElementsFieldDrawerAttribute,IUiElementsFieldDrawer>(fieldDrawers);
+
+        private static void LoadDrawers<TSource,TApi>(List<TApi> container)
+            where TSource : Attribute,IPriorityValue
         {
-            drawers.Clear();
+            container.Clear();
             
             //find all active ui elements drawers
-            var allDrawers = typeof(IUiElementsTypeDrawer).
+            var allDrawers = typeof(TApi).
                 GetAssignableTypes().
                 Where(x => x.IsAbstract == false).
-                Select(x => (attribute : x.GetCustomAttribute<UiElementsDrawerAttribute>(),type : x)).
+                Select(x => (attribute : x.GetCustomAttribute<TSource>(),type : x)).
                 Where(x => x.attribute != null).
                 OrderByDescending(x => x.attribute.Priority).
                 Select(x => Activator.CreateInstance(x.type)).
-                OfType<IUiElementsTypeDrawer>().
+                OfType<TApi>().
                 ToList();
             
-            drawers.AddRange(allDrawers);
-        }
-        
-        private static void LoadFiedlInfoDrawers()
-        {
-            fieldDrawers.Clear();
-            
-            //find all active ui elements drawers
-            var allDrawers = typeof(IUiElementsFieldDrawer).
-                GetAssignableTypes().
-                Where(x => x.IsAbstract == false).
-                Select(x => (attribute : x.GetCustomAttribute<UiElementsFieldDrawerAttribute>(),type : x)).
-                Where(x => x.attribute != null).
-                OrderByDescending(x => x.attribute.Priority).
-                Select(x => Activator.CreateInstance(x.type)).
-                OfType<IUiElementsFieldDrawer>().
-                ToList();
-            
-            fieldDrawers.AddRange(allDrawers);
+            container.AddRange(allDrawers);
         }
     }
 }

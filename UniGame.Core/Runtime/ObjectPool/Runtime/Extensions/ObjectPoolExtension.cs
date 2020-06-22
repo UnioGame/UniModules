@@ -101,7 +101,6 @@
         {
 
             if (data == null) {
-                GameLog.LogErrorFormat("Trying to Despawn NULL Asset {0}",typeof(T).Name);
                 return;
             }
 

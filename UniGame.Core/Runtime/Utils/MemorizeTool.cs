@@ -5,7 +5,7 @@
 
     public class MemorizeTool
     {
-        public static Func<TKey,TData> Create<TKey,TData>(Func<TKey,TData> factory) {
+        public static Func<TKey,TData> Create<TKey,TData>(Func<TKey,TData> factory, Action<TData> disposableAction = null) {
 
             var cache = new Dictionary<TKey,TData>(16);
 
@@ -18,10 +18,18 @@
                 return value;
             }
 
-            void ClearCache() => cache.Clear();
+            void ClearCache()
+            {
+                foreach (var data in cache) {
+                    disposableAction?.Invoke(data.Value);
+                }
+                cache.Clear();
+            }
+            
 #if UNITY_EDITOR
             //clean up cache if Assembly Reload
             UnityEditor.AssemblyReloadEvents.beforeAssemblyReload += ClearCache;
+            UnityEditor.EditorApplication.playModeStateChanged += x => ClearCache();
 #endif      
             return CacheMapFunc;
 

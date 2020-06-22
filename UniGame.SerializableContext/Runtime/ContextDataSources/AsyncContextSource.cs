@@ -12,9 +12,8 @@
     [CreateAssetMenu(menuName = "UniGame/GameSystem/Sources/AddressableContextSource", fileName = nameof(AsyncContextSource))]
     public class AsyncContextSource : AsyncContextDataSource
     {
-        [ShowAssetReference]
-        public ContextAssetReference contextAsset;
 
+        public ContextAssetReference contextAsset;
 
         public override async UniTask<IContext> RegisterAsync(IContext context)
         {

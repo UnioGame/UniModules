@@ -13,3 +13,7 @@
 [submodule "UniGame.DoTweenRx"]
 	path = UniGame.DoTweenRx
 	url = https://github.com/UniGameTeam/UniGame.DoTweenRx.git
+[submodule "UnityAddressableImporter"]
+	path = UnityAddressableImporter
+	url = https://github.com/UniGameTeam/unity-addressable-importer.git
+	branch = master

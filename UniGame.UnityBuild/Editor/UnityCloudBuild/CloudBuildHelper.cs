@@ -1,15 +1,17 @@
 
 
-//Use UniGreenModules.CloudBuildHelper.[PreExport || PostExport]
-namespace UniGreenModules.UniGame.UnityBuild.Editor.UnityCloudBuild
+//Use UniGame.CloudBuildHelper.[PreExport || PostExport]
+namespace UniGame
 {
     using System;
-    using ClientBuild;
-    using ClientBuild.BuildConfiguration;
-    using ClientBuild.Commands.PostBuildCommands;
-    using ClientBuild.Commands.PreBuildCommands;
-    using ClientBuild.Extensions;
-    using ClientBuild.Interfaces;
+    using UniCore.Runtime.ProfilerTools;
+    using UniGreenModules.UniGame.UnityBuild.Editor.ClientBuild;
+    using UniGreenModules.UniGame.UnityBuild.Editor.ClientBuild.BuildConfiguration;
+    using UniGreenModules.UniGame.UnityBuild.Editor.ClientBuild.Commands.PostBuildCommands;
+    using UniGreenModules.UniGame.UnityBuild.Editor.ClientBuild.Commands.PreBuildCommands;
+    using UniGreenModules.UniGame.UnityBuild.Editor.ClientBuild.Extensions;
+    using UniGreenModules.UniGame.UnityBuild.Editor.ClientBuild.Interfaces;
+    using UniGreenModules.UniGame.UnityBuild.Editor.UnityCloudBuild;
     using UnityEngine;
 
     //https://docs.unity3d.com/Manual/UnityCloudBuildManifestAsScriptableObject.html
@@ -19,7 +21,7 @@ namespace UniGreenModules.UniGame.UnityBuild.Editor.UnityCloudBuild
         private static CloudBuildArgs args;
 
 #if UNITY_CLOUD_BUILD
-    public static void PreExport(UnityEngine.CloudBuild.BuildManifestObject manifest) {
+        public static void PreExport(UnityEngine.CloudBuild.BuildManifestObject manifest) {
 #else
         public class DummyManifest
         {
@@ -30,7 +32,8 @@ namespace UniGreenModules.UniGame.UnityBuild.Editor.UnityCloudBuild
         public static void PreExport(DummyManifest manifest)
         {
 #endif
-
+            GameLog.Log("UNITY BUILD: START PreExport COMMAND");
+            
             args = new CloudBuildArgs(
                 manifest.GetValue<int>("buildNumber"),
                 manifest.GetValue<string>("bundleId"),
@@ -40,6 +43,8 @@ namespace UniGreenModules.UniGame.UnityBuild.Editor.UnityCloudBuild
                 manifest.GetValue<string>("cloudBuildTargetName")
             );
 
+            GameLog.Log($"UNITY BUILD: ARGS\n {args}");
+            
             var parameters = CreateCommandParameters();
             var builder    = new UnityPlayerBuilder();
 
@@ -48,6 +53,8 @@ namespace UniGreenModules.UniGame.UnityBuild.Editor.UnityCloudBuild
 
         public static void PostExport(string exportPath)
         {
+            GameLog.Log($"UNITY BUILD: START PostExport Path {exportPath} COMMAND");
+            
             if (string.IsNullOrEmpty(exportPath)) {
                 Debug.LogError("ExportPath is EMPTY PreExport methods can be skipped");
             }

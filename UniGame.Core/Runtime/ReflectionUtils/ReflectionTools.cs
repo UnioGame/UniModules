@@ -199,11 +199,17 @@
                 }
                 catch (ReflectionTypeLoadException e)
                 {
-                    GameLog.LogWarningFormat("assembly : {0} {1}",assembly.FullName,e);
+                    Debug.LogWarning(e);
                 };
             }
             
             return types;
+        }
+
+        public static bool HasDefaultConstructor(this Type target)
+        {
+            var constructor = target.GetConstructor(Type.EmptyTypes);
+            return constructor != null;
         }
         
         public static bool Validate(object item, Type searchType)

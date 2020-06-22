@@ -63,22 +63,28 @@
 
         public static bool OpenScript(Type type,params string[] folders)
         {
-            var typeName  = type.Name;
-            var filter    = $"t:script {typeName}";
-            
-            var assets = AssetDatabase.FindAssets(filter, folders);
-            var assetGuid = assets.FirstOrDefault(
-                    x => string.Equals(typeName,
-                        Path.GetFileNameWithoutExtension(x.AssetGuidToPath()),
-                        StringComparison.OrdinalIgnoreCase));
-            
-            if (string.IsNullOrEmpty(assetGuid))
-                return false;
-            
-            var asset = AssetDatabase.LoadAssetAtPath<MonoScript>(assetGuid.AssetGuidToPath());
+            var asset = GetScriptAsset(type, folders);
             if (asset == null)
                 return false;
             return AssetDatabase.OpenAsset(asset.GetInstanceID(), 0, 0);
+        }
+
+        public static MonoScript GetScriptAsset(Type type, params string[] folders)
+        {
+            var typeName = type.Name;
+            var filter   = $"t:script {typeName}";
+            
+            var assets = AssetDatabase.FindAssets(filter, folders);
+            var assetGuid = assets.FirstOrDefault(
+                x => string.Equals(typeName,
+                    Path.GetFileNameWithoutExtension(x.AssetGuidToPath()),
+                    StringComparison.OrdinalIgnoreCase));
+            
+            if (string.IsNullOrEmpty(assetGuid))
+                return null;
+            
+            var asset = AssetDatabase.LoadAssetAtPath<MonoScript>(assetGuid.AssetGuidToPath());
+            return asset;
         }
         
         public static void FindItems<T>(Action<Object, T> action)

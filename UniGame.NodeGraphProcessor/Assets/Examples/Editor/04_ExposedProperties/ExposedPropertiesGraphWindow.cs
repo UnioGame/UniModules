@@ -29,7 +29,8 @@ public class ExposedPropertiesGraphWindow : BaseGraphWindow
 	{
 		titleContent = new GUIContent("Properties Graph");
 
-		var graphView = new ExposedPropertiesGraphView(this);
+		if (graphView == null)
+			graphView = new ExposedPropertiesGraphView(this);
 
 		rootView.Add(graphView);
 	}
@@ -37,6 +38,5 @@ public class ExposedPropertiesGraphWindow : BaseGraphWindow
 	protected override void InitializeGraphView(BaseGraphView view)
 	{
 		view.OpenPinned< ExposedParameterView >();
-
 	}
 }

@@ -98,6 +98,7 @@
             disposableAction.AddDispose(disposableValue);
 
             if (!ValidateReference()) {
+                value.Value = default;
                 return disposableAction;
             }
             
@@ -119,7 +120,7 @@
         private bool ValidateReference()
         {
             if (reference == null || reference.RuntimeKeyIsValid() == false) {
-                GameLog.LogError($"AddressableObservable : LOAD Addressable Failled {reference}");
+                GameLog.LogWarning($"AddressableObservable : LOAD Addressable Failled {reference}");
                 status.Value = AsyncOperationStatus.Failed;
                 return false;
             }
@@ -130,6 +131,7 @@
         private IEnumerator LoadReference(ILifeTime lifeTime)
         {
             if (!ValidateReference()) {
+                value.Value = default;
                 yield break;
             }
 

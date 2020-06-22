@@ -35,8 +35,8 @@
 		public static TResult Spawn<TResult>(Action<TResult> onSpawn = null)
             where TResult : class, new()
         {
-            var item = SpawnExists(onSpawn);
-	        
+	        var item = SpawnExists(onSpawn);
+
 	        if (item == null)
 	        {
 		        return new TResult();
@@ -68,40 +68,34 @@
 		public static T SpawnExists<T>(Action<T> onSpawn)
 			where T : class 
 		{
-			var type = typeof(T);
-			
-		    if (!Container.Contains<T>())
+			if (!Container.Contains<T>())
 		        return null;
 			// Get the matched index, or the last index
 		    var item = Container.Pop<T>();
+
 		    // Run action?
 			onSpawn?.Invoke(item);
 			
 			return item;
-
 		}
 
-		
 		public static void Despawn<T>(T instance, Action<T> onDespawn)
 			where T : class 
 		{
-			
 			// Run action on it?
 			onDespawn?.Invoke(instance);
 			
 			Despawn(instance);
-
 		}
 
 		public static void Despawn<T>(T instance)
 			where T:class
 		{
-			
 			if (instance == null)
 				return;
 			
 			GameProfiler.BeginSample("ObjectPool.Despawn");
-			
+
 			if(instance is IPoolable poolable) 
 				poolable.Release();
 
@@ -109,14 +103,20 @@
 			Container.Push(instance);
 			
 			GameProfiler.EndSample();
-			
 		}
 
-		private static DummyPoolContainer dummyPoolContainer = new DummyPoolContainer();
+		public static void Despawn<T>(ref T instance, T defaultValue = null) where T : class
+		{
+			if (instance == null)
+				return;
+			Despawn(instance);
+			instance = defaultValue;
+		}
+
+		private static readonly DummyPoolContainer dummyPoolContainer = new DummyPoolContainer();
 
 		private static IPoolContainer CreateContainer(bool persistent)
 		{
-
 			if (!Application.isPlaying)
 				return dummyPoolContainer;
 				
@@ -129,7 +129,6 @@
 			}
 			
 			return container;
-			
 		}
 	}
 }
