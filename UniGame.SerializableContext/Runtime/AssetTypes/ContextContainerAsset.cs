@@ -1,7 +1,11 @@
 ﻿namespace UniGreenModules.UniGame.SerializableContext.Runtime.AssetTypes
 {
+    using System;
+    using global::UniCore.Runtime.ProfilerTools;
     using UniContextData.Runtime.Entities;
     using UniCore.Runtime.Interfaces;
+    using UniCore.Runtime.Rx.Extensions;
+    using UniRx;
     using UnityEngine;
 
     [CreateAssetMenu(menuName = "UniGame/GameSystem/Assets/ContextContainerAsset", fileName = nameof(ContextContainerAsset))]
@@ -17,6 +21,21 @@
             if (_createDefaultOnLoad) {
                 SetValue(new EntityContext());
             }
+            
+            this.Do(OnContextUpdated).
+                Subscribe().
+                AddTo(LifeTime);
+
         }
+
+        private void OnContextUpdated(IContext context)
+        {
+            if (context == null)
+                return;
+            context.LifeTime.
+                AddCleanUpAction(() => GameLog.LogRuntime($"CONTEXT CONTAINER{name} CONTEXT FINISHED",Color.red));
+            GameLog.LogRuntime($"CONTEXT CONTAINER {name} CONTEXT VALUE UPDATE {context}",Color.red);
+        }
+
     }
 }

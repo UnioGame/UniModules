@@ -37,26 +37,19 @@
         
         private void OnEnable()
         {
-            if (Application.isPlaying) {
-                GameLog.Log($"LIFETIME: {GetType().Name} {name} : OnEnable STARTED",_logColor,this);
-            }
-            
             _lifeTimeDefinition = new LifeTimeDefinition();
-#if UNITY_EDITOR
-            LifetimeObjectData.Add(this);
-#endif
+// #if UNITY_EDITOR
+//             LifetimeObjectData.Add(this);
+// #endif
             OnActivate();
         }
 
         private void OnDisable()
         {
-            if (Application.isPlaying) {
-                GameLog.Log($"LIFETIME: {GetType().Name} {name} : OnDisable END OF LIFETIME",_logColor,this);
-            }
-            
-#if UNITY_EDITOR
-            LifetimeObjectData.Remove(this);
-#endif    
+//             
+// #if UNITY_EDITOR
+//             LifetimeObjectData.Remove(this);
+// #endif    
             _lifeTimeDefinition.Terminate();
             
         }
