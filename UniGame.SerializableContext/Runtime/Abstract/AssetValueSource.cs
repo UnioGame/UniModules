@@ -5,6 +5,7 @@
     using UniCore.Runtime.DataFlow.Interfaces;
     using UniCore.Runtime.Interfaces;
     using UniCore.Runtime.ProfilerTools;
+    using UniModules.UniGame.Core.Runtime.DataFlow.Interfaces;
     using UniRx.Async;
     using UnityEngine;
 

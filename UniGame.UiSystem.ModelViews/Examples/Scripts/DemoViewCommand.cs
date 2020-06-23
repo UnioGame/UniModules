@@ -4,6 +4,7 @@
     using UniGreenModules.UniCore.Runtime.DataFlow;
     using UniGreenModules.UniCore.Runtime.DataFlow.Interfaces;
     using UniGreenModules.UniCore.Runtime.Extension;
+    using UniModules.UniGame.Core.Runtime.DataFlow.Interfaces;
     using UnityEngine;
 
     [Serializable]

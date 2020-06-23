@@ -11,6 +11,7 @@
     using UniCore.Runtime.ObjectPool.Runtime.Extensions;
     using UniCore.Runtime.ProfilerTools;
     using UniCore.Runtime.Rx;
+    using UniModules.UniGame.Core.Runtime.DataFlow.Interfaces;
     using UniRx;
     using UnityEngine;
 

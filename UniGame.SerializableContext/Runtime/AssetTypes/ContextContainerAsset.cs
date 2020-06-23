@@ -8,6 +8,15 @@
     public class ContextContainerAsset :
         TypeContainerAssetSource<EntityContext, IContext>
     {
-        
+        [SerializeField]
+        private bool _createDefaultOnLoad = false;
+
+        protected override void OnActivate()
+        {
+            base.OnActivate();
+            if (_createDefaultOnLoad) {
+                SetValue(new EntityContext());
+            }
+        }
     }
 }

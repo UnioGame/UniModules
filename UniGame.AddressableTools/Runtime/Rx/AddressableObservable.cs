@@ -14,6 +14,7 @@
     using UniGreenModules.UniGame.Core.Runtime.Extension;
     using UniGreenModules.UniGame.Core.Runtime.Rx;
     using UniGreenModules.UniRoutine.Runtime;
+    using UniModules.UniGame.Core.Runtime.DataFlow.Interfaces;
     using UniRx;
     using UnityEngine;
     using UnityEngine.AddressableAssets;
@@ -49,7 +50,7 @@
        
         private bool releaseOnDispose = true;
 
-        private RoutineHandler routineHandler;
+        private RoutineHandle routineHandler;
 
         protected RecycleReactiveProperty<bool> isReady = new RecycleReactiveProperty<bool>();
         

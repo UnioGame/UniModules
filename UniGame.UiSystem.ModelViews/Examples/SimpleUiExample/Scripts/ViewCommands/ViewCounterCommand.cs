@@ -3,6 +3,7 @@
     using System;
     using Examples.Scripts;
     using UniGreenModules.UniCore.Runtime.DataFlow.Interfaces;
+    using UniModules.UniGame.Core.Runtime.DataFlow.Interfaces;
 
     [Serializable]
     public class ViewCounterCommand : DemoViewCommand

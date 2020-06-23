@@ -7,6 +7,7 @@ namespace UniModules.UniGame.EditorTools.Editor.LifetimeStatusWindow
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Core.Runtime.DataFlow.Interfaces;
     using Core.Runtime.ScriptableObjects;
     using Sirenix.OdinInspector;
     using UniGreenModules.UniCore.Runtime.DataFlow;
@@ -45,7 +46,8 @@ namespace UniModules.UniGame.EditorTools.Editor.LifetimeStatusWindow
         public void InitializeWindow()
         {
             foreach (var lifeTime in LifetimeObjectData.LifeTimes) {
-                Add(lifeTime);
+                lifeTime.TryGetTarget(out var item);
+                Add(item);
             }
             
             LifetimeObjectData.LifeTimes.
@@ -81,9 +83,17 @@ namespace UniModules.UniGame.EditorTools.Editor.LifetimeStatusWindow
             _lifeTime.Terminate();
         }
 
-        private void Add(LifetimeScriptableObject lifetime)
+        private void Add(WeakReference<ILifeTime> lifetimeReference)
         {
-            _lifeTimesObjects.Add(Create(lifetime));
+            lifetimeReference.TryGetTarget(out var lifeTime);
+            Add(lifeTime);
+        }
+        
+        private void Add(ILifeTime lifetime)
+        {
+            if (lifetime is LifetimeScriptableObject lifetimeScriptableObject) {
+                _lifeTimesObjects.Add(Create(lifetimeScriptableObject));
+            }
         }
         
         private void Remove(LifetimeScriptableObject lifetime)

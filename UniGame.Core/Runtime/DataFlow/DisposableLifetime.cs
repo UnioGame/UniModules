@@ -6,6 +6,7 @@
     using UniCore.Runtime.ObjectPool.Runtime;
     using UniCore.Runtime.ObjectPool.Runtime.Extensions;
     using UniCore.Runtime.ObjectPool.Runtime.Interfaces;
+    using UniModules.UniGame.Core.Runtime.DataFlow.Interfaces;
 
     public class DisposableLifetime : IDisposableLifetime, IPoolable
     {
