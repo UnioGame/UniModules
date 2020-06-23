@@ -58,12 +58,23 @@
             reference.ReleaseAsset();
         }
 
+        public static async Task<List<TResult>> LoadScriptableAssetsTaskAsync<TResult>(
+            this IEnumerable<AssetReference> assetReference, 
+            ILifeTime lifeTime)
+            where TResult : class
+        {
+            var container = new List<TResult>();
+            await assetReference.LoadAssetsTaskAsync<ScriptableObject, TResult, AssetReference>(container, lifeTime);
+            return container;
+        }
+        
         public static async Task<IEnumerable<TSource>> LoadAssetsTaskAsync<TSource, TAsset>(
             this IEnumerable<TAsset> assetReference, 
             List<TSource> resultContainer, ILifeTime lifeTime)
             where TAsset : AssetReference
             where TSource : Object
         {
+            
             return await assetReference.LoadAssetsTaskAsync<TSource, TSource, TAsset>(resultContainer, lifeTime);
         }
         

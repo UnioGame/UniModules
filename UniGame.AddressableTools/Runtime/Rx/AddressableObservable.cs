@@ -50,7 +50,7 @@
        
         private bool releaseOnDispose = true;
 
-        private RoutineHandler routineHandler;
+        private RoutineHandle routineHandler;
 
         protected RecycleReactiveProperty<bool> isReady = new RecycleReactiveProperty<bool>();
         
