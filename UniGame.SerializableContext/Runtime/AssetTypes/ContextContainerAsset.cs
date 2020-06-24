@@ -1,10 +1,9 @@
-﻿namespace UniGreenModules.UniGame.SerializableContext.Runtime.AssetTypes
+﻿namespace UniModules.UniGame.SerializableContext.Runtime.AssetTypes
 {
-    using System;
-    using global::UniCore.Runtime.ProfilerTools;
-    using UniContextData.Runtime.Entities;
-    using UniCore.Runtime.Interfaces;
-    using UniCore.Runtime.Rx.Extensions;
+    using UniCore.Runtime.ProfilerTools;
+    using UniGreenModules.UniContextData.Runtime.Entities;
+    using UniGreenModules.UniCore.Runtime.Interfaces;
+    using UniGreenModules.UniCore.Runtime.Rx.Extensions;
     using UniRx;
     using UnityEngine;
 

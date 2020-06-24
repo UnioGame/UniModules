@@ -2,7 +2,7 @@
 
 [assembly: AlwaysLinkAssembly]
 
-namespace UniGame
+namespace UniModules.UniGame.SerializableContext.Runtime
 {
     public class LinkRuntimeAssembly 
     {
