@@ -2,6 +2,7 @@
 {
     using Runtime;
     using TMPro;
+    using UniModules.UniGame.SerializableContext.Runtime.AssetTypes;
     using UniRx;
     using UnityEngine;
     using UnityEngine.AddressableAssets;

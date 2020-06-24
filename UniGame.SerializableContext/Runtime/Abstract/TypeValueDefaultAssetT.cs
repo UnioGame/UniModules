@@ -1,4 +1,4 @@
-﻿namespace UniGreenModules.UniGame.SerializableContext.Runtime.AssetTypes
+﻿namespace UniModules.UniGame.SerializableContext.Runtime.Abstract
 {
     using System;
 

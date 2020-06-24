@@ -4,6 +4,7 @@ namespace UniGreenModules.UniGame.SerializableContext.Examples.TypeContexts
 {
     using Runtime;
     using TMPro;
+    using UniModules.UniGame.SerializableContext.Runtime.AssetTypes;
     using UniRx;
 
     public class DemoContextValueView : MonoBehaviour

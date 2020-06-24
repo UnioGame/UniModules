@@ -1,9 +1,9 @@
-﻿namespace Taktika.GameResources
+﻿namespace UniModules.UniGame.SerializableContext.Runtime.Components
 {
+    using Context.Runtime.Abstract;
     using UniCore.Runtime.ProfilerTools;
     using UniGreenModules.UniCore.Runtime.Interfaces;
     using UniGreenModules.UniGame.AddressableTools.Runtime.Extensions;
-    using UniModules.UniGame.Context.Runtime.Abstract;
     using UniRx.Async;
     using UnityEngine;
     using UnityEngine.AddressableAssets;

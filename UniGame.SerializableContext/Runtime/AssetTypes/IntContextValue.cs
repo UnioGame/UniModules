@@ -1,8 +1,8 @@
-﻿using UniGreenModules.UniGame.SerializableContext.Runtime.Abstract;
-using UnityEngine;
-
-namespace UniGreenModules.UniGame.SerializableContext.Runtime
+﻿namespace UniModules.UniGame.SerializableContext.Runtime.AssetTypes
 {
+    using Abstract;
+    using UnityEngine;
+
     [CreateAssetMenu(menuName = "UniGame/Serializable Context/Int Value")]
     public class IntContextValue : TypeValueAsset<int>
     {
