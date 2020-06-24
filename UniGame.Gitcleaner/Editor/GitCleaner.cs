@@ -79,14 +79,14 @@ public class GitCleaner : EditorWindow
         window.Show();
     }
 
-    private List<string> directories;
+    private List<string> directories = new List<string>();
     private Vector2 scroll;
 
     public void Initialize(List<string> targetDirectories)
     {
-        directories = targetDirectories.
-            Where(x => !_ignoreContent.Contains(x)).
-            ToList();
+        directories.Clear();
+        directories.AddRange(targetDirectories.
+            Where(x => !_ignoreContent.Contains(x)));
     }
     
     private void OnGUI()
