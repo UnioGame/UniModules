@@ -17,6 +17,7 @@
         protected override void OnActivate()
         {
             base.OnActivate();
+            
             if (_createDefaultOnLoad) {
                 SetValue(new EntityContext());
             }
@@ -31,8 +32,13 @@
         {
             if (context == null)
                 return;
+            
+            context.LifeTime.
+                AddCleanUpAction(() => SetValue(null));
+
             context.LifeTime.
                 AddCleanUpAction(() => GameLog.LogRuntime($"CONTEXT CONTAINER{name} CONTEXT FINISHED",Color.red));
+            
             GameLog.LogRuntime($"CONTEXT CONTAINER {name} CONTEXT VALUE UPDATE {context}",Color.red);
         }
 

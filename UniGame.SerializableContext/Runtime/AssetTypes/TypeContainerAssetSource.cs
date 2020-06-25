@@ -19,7 +19,11 @@
         where TValue : TApi
     {
         private RecycleReactiveProperty<TValue> _value;
-
+        
+        public TApi Value => _value.Value;
+        
+        public bool HasValue => _value.HasValue;
+        
         public override async UniTask<IContext> RegisterAsync(IContext context)
         {
             await UniTask.WaitWhile(() => HasValue == false);
@@ -32,11 +36,9 @@
 
         public void Dispose() => Reset();
 
-        public TApi Value => _value.Value;
-        
-        public bool HasValue => _value.HasValue;
-        
         public void SetValue(TValue value) => _value.Value = value;
+      
+        #region private methods
         
         protected override void OnActivate()
         {
@@ -45,10 +47,19 @@
             LifeTime.AddCleanUpAction(_value.Release);
         }
 
-        protected override void OnReset()
+        protected sealed override void OnReset()
         {
             base.OnReset();
-            _lifeTimeDefinition.AddCleanUpAction(_value.Release);
+            LifeTime.AddCleanUpAction(_value.Release);
+            ResetValue();
         }
+
+        protected virtual void ResetValue()
+        {
+            
+        }
+
+        #endregion
+        
     }
 }
