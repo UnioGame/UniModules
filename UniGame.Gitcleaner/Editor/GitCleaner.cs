@@ -132,7 +132,7 @@ public class GitCleaner : EditorWindow
             if (GUILayout.Button("IGNORE", GUI.skin.button, GUILayout.Width(70), GUILayout.Height(25)))
             {
                 _ignoreContent.AddRange(_ignoredCheckBoxes);
-                _ignorePathFilterPath.WriteUnityFile(string.Join("\n", _ignoreContent));
+                string.Join("\n", _ignoreContent).WriteUnityFile(_ignorePathFilterPath);
                 Close();
             }
         }
