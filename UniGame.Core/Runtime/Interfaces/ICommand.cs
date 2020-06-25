@@ -7,6 +7,11 @@
         void Execute();
     }
 
+    public interface ICommand<TResult,TValue>
+    {
+        TResult Execute(TValue value);
+    }
+    
     public interface IDisposableCommand : ICommand, IDisposable{}
     
     public interface IRoutine<out TResult>

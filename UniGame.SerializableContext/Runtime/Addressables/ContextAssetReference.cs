@@ -1,12 +1,10 @@
-﻿namespace UniGreenModules.UniGame.SerializableContext.Runtime.Addressables
+﻿namespace UniModules.UniGame.SerializableContext.Runtime.Addressables
 {
     using System;
-    using AddressableTools.Runtime.AssetReferencies;
     using AssetTypes;
-    using UnityEngine.AddressableAssets;
+    using UniGreenModules.UniGame.AddressableTools.Runtime.AssetReferencies;
 
-    
-    #if ODIN_INSPECTOR
+#if ODIN_INSPECTOR
     [Sirenix.OdinInspector.DontApplyToListElements]
     #endif
     [Serializable]   

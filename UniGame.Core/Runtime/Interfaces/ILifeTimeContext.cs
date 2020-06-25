@@ -1,4 +1,4 @@
-namespace UniGreenModules.UniCore.Runtime.Interfaces
+namespace UniModules.UniGame.Core.Runtime.Interfaces
 {
     using DataFlow.Interfaces;
 

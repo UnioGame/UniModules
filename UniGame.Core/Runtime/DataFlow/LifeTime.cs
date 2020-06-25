@@ -6,6 +6,7 @@
     using Interfaces;
     using ObjectPool.Runtime.Interfaces;
     using Rx.Extensions;
+    using UniModules.UniGame.Core.Runtime.DataFlow.Interfaces;
 
     public class LifeTime : ILifeTime, IPoolable
     {
