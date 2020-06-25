@@ -6,16 +6,17 @@
     using System.Linq;
     using UniRx;
 
-    public interface IObservableDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IObservable<TKey> { };
-
-    public class MutableDictionary<TValue> : MutableChild<Dictionary<string, TValue>>, IObservableDictionary<string, TValue>
+    public class MutableDictionary<TValue> : MutableChild<Dictionary<string, TValue>>, IReactiveDictionary<string, TValue>
     {
-        private ReactiveCommand<string> _itemChangedCommand;
-
         public MutableDictionary(Func<Dictionary<string, TValue>> getter, string fullPath, IRemoteChangesStorage storage) : base(getter, fullPath, storage)
         {
-            _itemChangedCommand = new ReactiveCommand<string>();
+
         }
+
+        private Subject<DictionaryAddEvent<string, TValue>> _addObserver = new Subject<DictionaryAddEvent<string, TValue>>();
+        private Subject<DictionaryReplaceEvent<string, TValue>> _replaceObserver = new Subject<DictionaryReplaceEvent<string, TValue>>();
+        private Subject<DictionaryRemoveEvent<string, TValue>> _removeObserver = new Subject<DictionaryRemoveEvent<string, TValue>>();
+        private ReactiveProperty<int> _reactiveCount = new ReactiveProperty<int>();
 
         public TValue this[string key] { get => Object[key]; set => AddUpdateChange(key, value); }
 
@@ -86,22 +87,19 @@
             return Object.TryGetValue(key, out value);
         }
 
+        public IObservable<DictionaryAddEvent<string, TValue>> ObserveAdd() => _addObserver;
+
+        public IObservable<int> ObserveCountChanged(bool notifyCurrentCount = false) => _reactiveCount; // TODO убрать первую нотификацию по notifyCurrentCount == true
+
+        public IObservable<DictionaryRemoveEvent<string, TValue>> ObserveRemove() => throw new NotImplementedException();
+
+        public IObservable<DictionaryReplaceEvent<string, TValue>> ObserveReplace() => throw new NotImplementedException();
+
+        public IObservable<Unit> ObserveReset() => throw new NotImplementedException(); //TODO
+
         IEnumerator IEnumerable.GetEnumerator()
         {
             return Object.GetEnumerator();
-        }
-
-        private void ClearApply(RemoteDataChange change)
-        {
-            var keys = Object.Keys.ToArray();
-            Object.Clear();
-            foreach (var key in keys)
-                OnItemChanged(key);
-        }
-
-        private void OnItemChanged(string key)
-        {
-            _itemChangedCommand.Execute(key);
         }
 
         private void AddRemoveChange(string key)
@@ -110,27 +108,29 @@
             AddChange(remove);
         }
 
-        private void RemoveApply(RemoteDataChange change)
-        {
-            Object.Remove(change.FieldName);
-            OnItemChanged(change.FieldName);
-        }
-
         private void AddUpdateChange(string key, TValue value)
         {
             var update = RemoteDataChange.Create(FullPath + key, key, value, UpdateApply);
             AddChange(update);
         }
 
+        private void ClearApply(RemoteDataChange change)
+        {
+            Object.Clear();
+        }
+
+        private void RemoveApply(RemoteDataChange change)
+        {
+            var val = Object[change.FieldName];
+            var e = new DictionaryRemoveEvent<string, TValue>(change.FieldName, val);
+            Object.Remove(change.FieldName);
+            _removeObserver.OnNext(e);
+        }
+
         private void UpdateApply(RemoteDataChange change)
         {
             Object[change.FieldName] = (TValue)change.FieldValue;
-            OnItemChanged(change.FieldName);
         }
 
-        public IDisposable Subscribe(IObserver<string> observer)
-        {
-            return _itemChangedCommand.Subscribe(observer);
-        }
     }
 }

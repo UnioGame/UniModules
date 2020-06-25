@@ -12,11 +12,11 @@
 
         public abstract Task<RemoteObjectHandler<T>> LoadData(bool keepSynched = false, Func<T> initialDataProvider = null);
 
-        public abstract Task UpdateRemoteData(T newData);
+        //public abstract Task UpdateRemoteData(T newData);
 
-        public abstract event Action<RemoteObjectHandler<T>> ValueChanged;
+        //public abstract event Action<RemoteObjectHandler<T>> ValueChanged;
 
-        public abstract RemoteObjectHandler<TChild> GetChild<TChild>(string path) where TChild : class;
+        //public abstract RemoteObjectHandler<TChild> GetChild<TChild>(string path) where TChild : class;
 
         public abstract RemoteDataChange CreateChange(string fieldName, object fieldValue);
 
@@ -35,9 +35,9 @@
 
         public abstract string GetFullPath();
 
-        public abstract Task<TResult> PerformTransaction<TResult>(UpdateFunc<TResult, T> updateFunc) where TResult : struct;
+        //public abstract Task<TResult> PerformTransaction<TResult>(UpdateFunc<TResult, T> updateFunc) where TResult : struct;
 
-        public delegate TRes UpdateFunc<TRes, Tin>(object oldValue, out Tin newValue) where TRes : struct;
+        //public delegate TRes UpdateFunc<TRes, Tin>(object oldValue, out Tin newValue) where TRes : struct;
 
         protected abstract Task ApplyChangeRemote(RemoteDataChange change);
     }
