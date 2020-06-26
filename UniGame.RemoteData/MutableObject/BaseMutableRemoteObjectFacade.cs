@@ -7,9 +7,12 @@
     using System.Threading.Tasks;
     using RemoteData;
     using UniGreenModules.UniCore.Runtime.ObjectPool.Runtime;
+    using UniRx;
 
     public class BaseMutableRemoteObjectFacade<T> : IRemoteChangesStorage where T : class
     {
+        public ReactiveProperty<bool> HaveNewChanges { get; } = new ReactiveProperty<bool>(false);
+
         protected RemoteObjectHandler<T> _objectHandler;
 
         private ConcurrentStack<RemoteDataChange> _pendingChanges;
@@ -54,6 +57,7 @@
         {
             ChangeApplied(change);
             _pendingChanges.Push(change);
+            HaveNewChanges.Value = true;
         }
 
         /// <summary>
@@ -71,6 +75,7 @@
                 changes = _pendingChanges.ToList();
                 changes.Reverse();
                 _pendingChanges.Clear();
+                HaveNewChanges.Value = false;
             }
 
             foreach (var change in changes)
@@ -89,6 +94,7 @@
         {
             var result = _pendingChanges.ToList();
             _pendingChanges.Clear();
+            HaveNewChanges.Value = false;
             return result;
         }
 
