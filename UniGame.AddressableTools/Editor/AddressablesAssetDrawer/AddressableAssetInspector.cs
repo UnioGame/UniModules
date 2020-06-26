@@ -88,7 +88,7 @@
             var asset     = AssetDatabase.LoadAssetAtPath(assetPath, mainType);
 
             EditorDrawerUtils.DrawDisabled(() => {
-                EditorGUI.ObjectField(position,assetLabel, asset, asset.GetType(),false);
+                EditorGUI.ObjectField(position,assetLabel, asset, asset != null ? asset.GetType() : null,false);
             }); 
             
             isFoldoutOpen = asset.DrawOdinPropertyWithFoldout(isFoldoutOpen);
