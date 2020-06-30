@@ -47,9 +47,7 @@
         protected LifeTimeDefinition lifeTimeDefinition = new LifeTimeDefinition();
 
         #endregion
-       
-        private bool releaseOnDispose = true;
-
+        
         private RoutineHandle routineHandler;
 
         protected RecycleReactiveProperty<bool> isReady = new RecycleReactiveProperty<bool>();
@@ -84,7 +82,6 @@
             lifeTimeDefinition.Release();
             
             reference = addressable;
-            releaseOnDispose = true;
             
             lifeTimeDefinition.AddCleanUpAction(CleanUp);
             
@@ -92,36 +89,33 @@
 
         public IDisposable Subscribe(IObserver<TApi> observer)
         {
-            var disposableValue = value.Subscribe(observer);
-            var disposableAction = ClassPool.Spawn<DisposableLifetime>();
-            
-            disposableAction.Initialize();
-            disposableAction.AddDispose(disposableValue);
-
             if (!ValidateReference()) {
                 value.Value = default;
-                return disposableAction;
+                return Disposable.Empty;
             }
             
-            routineHandler = LoadReference(disposableAction).
+            var disposableValue = value.
+                Subscribe(observer);
+
+            routineHandler = LoadReference(lifeTimeDefinition).
                 Execute().
-                AddTo(disposableAction);
+                AddTo(lifeTimeDefinition);
             
-            return disposableAction;
+            return disposableValue;
         }
 
-        public void Dispose() {
-            this.Despawn();
-        }
+        public void Dispose() => this.Despawn();
         
         public void Release() => lifeTimeDefinition.Terminate();
 
         #endregion
+        
+        #region private methods
 
         private bool ValidateReference()
         {
             if (reference == null || reference.RuntimeKeyIsValid() == false) {
-                GameLog.LogWarning($"AddressableObservable : LOAD Addressable Failled {reference}");
+                GameLog.LogWarning($"AddressableObservable : LOAD Addressable Failed {reference}");
                 status.Value = AsyncOperationStatus.Failed;
                 return false;
             }
@@ -167,6 +161,7 @@
 
         private void CleanUp()
         {
+            routineHandler.Cancel();
             status.Release();
             status.Value = AsyncOperationStatus.None;
             
@@ -181,6 +176,8 @@
             value.Release();
         }
         
+        #endregion
+
         #region deconstructor
         
         ~AddressableObservable() => Release();
