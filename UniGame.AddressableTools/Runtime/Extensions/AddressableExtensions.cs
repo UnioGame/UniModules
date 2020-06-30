@@ -186,6 +186,24 @@
             return result != null ? result.GetComponent<T>() : null;
         }
 
+        public static async UniTask<T> LoadAssetTaskAsync<T>(
+            this AssetReferenceScriptableObject<T> assetReference, 
+            ILifeTime lifeTime)
+            where T : class
+        {
+            var result = await LoadAssetTaskAsync<ScriptableObject>(assetReference as AssetReference,lifeTime);
+            return result as T;
+        }
+        
+        public static async UniTask<TApi> LoadAssetTaskAsync<T,TApi>(
+            this AssetReferenceScriptableObject<T,TApi> assetReference, 
+            ILifeTime lifeTime)
+            where T : ScriptableObject 
+            where TApi : class
+        {
+            var result = await LoadAssetTaskAsync<ScriptableObject>(assetReference,lifeTime);
+            return result as TApi;
+        }
         
         public static async UniTask<T> LoadAssetTaskAsync<T>(
             this AssetReferenceScriptableObject assetReference, 

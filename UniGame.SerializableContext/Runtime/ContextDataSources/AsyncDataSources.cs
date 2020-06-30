@@ -7,6 +7,7 @@
     using UniGreenModules.UniCore.Runtime.Interfaces;
     using UniGreenModules.UniGame.AddressableTools.Runtime.Extensions;
     using UniGreenModules.UniGame.SerializableContext.Runtime.Addressables;
+    using UniRx;
     using UniRx.Async;
     using UnityEngine;
 
@@ -15,7 +16,7 @@
     {
         #region inspector
 
-        public List<AssetReferenceScriptableObject> sourceAssets = new List<AssetReferenceScriptableObject>();
+        public List<AssetReferenceDataSource> sourceAssets = new List<AssetReferenceDataSource>();
         
         #endregion
         
@@ -26,12 +27,16 @@
             return context;
         }
         
-        private async UniTask<bool> RegisterContexts(IContext target,AssetReferenceScriptableObject sourceReference)
+        private async UniTask<bool> RegisterContexts(IContext target,AssetReferenceDataSource sourceReference)
         {
-            target.LifeTime.AddCleanUpAction(() => GameLog.Log($"{name} {target.GetType().Name} END LIFETIME CONTEXT"));
+            GameLog.Log($"RegisterContexts {name} {target.GetType().Name} LIFETIME CONTEXT");
+                
+            var lifetime = target.LifeTime;
+            lifetime.AddCleanUpAction(() => GameLog.Log($"RegisterContexts {name} {target.GetType().Name} END LIFETIME CONTEXT"));
             
-            var source = await sourceReference.LoadAssetTaskAsync<IAsyncContextDataSource>(target.LifeTime);
+            var source = await sourceReference.LoadAssetTaskAsync(lifetime);
             if (source == null) {
+                GameLog.LogError($"Empty Data source found {sourceReference} GUID {sourceReference.AssetGUID}");
                 return false;
             }
             await source.RegisterAsync(target);

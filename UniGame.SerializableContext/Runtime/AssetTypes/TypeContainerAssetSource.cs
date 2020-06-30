@@ -9,7 +9,7 @@
     using UniRx.Async;
 
     public class TypeContainerAssetSource<TValue> :
-        TypeValueAssetSource<TValue, TValue>
+        TypeContainerAssetSource<TValue, TValue>
     {
     }
 

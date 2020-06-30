@@ -28,13 +28,13 @@ namespace UniGreenModules.UniGame.AddressableTools.Runtime.AssetReferencies
 
         public void Dispose()
         {
-            ReleaseUnmanagedResources();
-            GC.SuppressFinalize(this);
+            //ReleaseUnmanagedResources();
+            //GC.SuppressFinalize(this);
         }
 
-        ~DisposableAssetReference()
-        {
-            ReleaseUnmanagedResources();
-        }
+        // ~DisposableAssetReference()
+        // {
+        //     ReleaseUnmanagedResources();
+        // }
     }
 }

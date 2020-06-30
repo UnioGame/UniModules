@@ -38,25 +38,30 @@
         private void OnEnable()
         {
             _lifeTimeDefinition = new LifeTimeDefinition();
-// #if UNITY_EDITOR
-//             LifetimeObjectData.Add(this);
-// #endif
+            
+            if (Application.isPlaying == false) {
+                _lifeTimeDefinition.Terminate();
+                return;
+            }
+            
             OnActivate();
+            OnReset();
         }
 
         private void OnDisable()
         {
-//             
-// #if UNITY_EDITOR
-//             LifetimeObjectData.Remove(this);
-// #endif    
-            _lifeTimeDefinition.Terminate();
+            _lifeTimeDefinition?.Terminate();
             
+            OnDisabled();
         }
 
         protected virtual void OnActivate() {}
 
         protected virtual void OnReset() {}
 
+        protected virtual void OnDisabled()
+        {
+            
+        }
     }
 }

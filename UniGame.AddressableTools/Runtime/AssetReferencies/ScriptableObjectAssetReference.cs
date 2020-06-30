@@ -9,8 +9,7 @@
 #endif
 
     [Serializable]
-    public class AssetReferenceScriptableObject<T> : DisposableAssetReference<T> 
-        where T : ScriptableObject
+    public class AssetReferenceScriptableObject<T> : AssetReferenceScriptableObject<ScriptableObject,T>
     {
         public AssetReferenceScriptableObject(string guid) : base(guid) {}
     }
@@ -25,7 +24,7 @@
         {
 #if UNITY_EDITOR
             var asset = UnityEditor.AssetDatabase.LoadAssetAtPath<ScriptableObject>(path);
-            return asset is TApi;
+            return asset is T && asset is TApi;
 #else
             return false;
 #endif
@@ -33,7 +32,7 @@
 
         public override bool ValidateAsset(Object obj)
         {
-            return obj is TApi;
+            return obj is T && obj is TApi;
         }
     }
 
