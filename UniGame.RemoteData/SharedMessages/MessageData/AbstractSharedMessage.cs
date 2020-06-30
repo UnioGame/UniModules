@@ -24,7 +24,7 @@
         public string FullPath { get; private set; }
 
         /// <summary>
-        /// TO DO вместо ииспользования этого метода надо настроить
+        /// TODO вместо ииспользования этого метода надо настроить
         /// Newtonsoft.Json чтобы он сериализовал инфу о типе в валидные поля
         /// </summary>
         public void AssureType()
