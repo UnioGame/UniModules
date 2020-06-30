@@ -3,6 +3,8 @@
     using System;
     using System.Collections.Generic;
     using System.Reflection;
+    using System.Threading.Tasks;
+    using UniRx;
 
     public class MutableChild<T> : IMutableChildBase
     {
@@ -12,6 +14,8 @@
         protected IRemoteChangesStorage _storage;
         private readonly Dictionary<string, INotifyable> _properties;
         private Dictionary<string, IMutableChildBase> _childObjects;
+
+        public ReactiveProperty<bool> HaveNewChanges => _storage.HaveNewChanges;
         protected T Object => _getter();
 
         public MutableChild(Func<T> getter, string fullPath, IRemoteChangesStorage storage)
@@ -40,10 +44,10 @@
             fieldInfo.SetValue(Object, change.FieldValue);
             PropertyChanged(change.FieldName);
         }
-        
+
         private FieldInfo GetFieldInfo(string fieldName)
         {
-            if(!_fieldInfoCache.TryGetValue(fieldName, out var fieldInfo))
+            if (!_fieldInfoCache.TryGetValue(fieldName, out var fieldInfo))
             {
                 fieldInfo = typeof(T).GetField(fieldName);
                 _fieldInfoCache.Add(fieldName, fieldInfo);
@@ -78,6 +82,11 @@
         public bool IsRootLoaded()
         {
             return _storage.IsRootLoaded();
+        }
+
+        public Task CommitChanges()
+        {
+            return _storage.CommitChanges();
         }
     }
 }
