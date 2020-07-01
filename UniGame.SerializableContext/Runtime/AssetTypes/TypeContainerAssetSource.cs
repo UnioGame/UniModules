@@ -21,8 +21,8 @@
         private RecycleReactiveProperty<TValue> _value;
         
         public TApi Value => _value.Value;
-        
-        public bool HasValue => _value.HasValue;
+
+        public bool HasValue => _value != null && _value.HasValue;
         
         public override async UniTask<IContext> RegisterAsync(IContext context)
         {
