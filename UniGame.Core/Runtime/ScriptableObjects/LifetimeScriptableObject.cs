@@ -38,14 +38,7 @@
         private void OnEnable()
         {
             _lifeTimeDefinition = new LifeTimeDefinition();
-            
-            if (Application.isPlaying == false) {
-                _lifeTimeDefinition.Terminate();
-                return;
-            }
-            
             OnActivate();
-            OnReset();
         }
 
         private void OnDisable()

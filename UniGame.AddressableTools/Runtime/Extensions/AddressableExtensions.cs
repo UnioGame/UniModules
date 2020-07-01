@@ -52,9 +52,9 @@
             var targetAsset = reference.editorAsset;
             GameLog.Log($"UNLOAD AssetReference {targetAsset?.name} : {reference.AssetGUID}");    
 #endif
-            if(reference.Asset is IDisposable disposable)
-                disposable.Dispose();
-            
+            // if(reference.Asset is IDisposable disposable)
+            //     disposable.Dispose();
+            //
             reference.ReleaseAsset();
         }
 
@@ -245,8 +245,8 @@
             lifeTime.AddCleanUpAction(() => {
                 if (handle.IsValid() == false)
                     return;
-                if(handle.Result is IDisposable disposable)
-                    disposable.Dispose();
+                // if(handle.Result is IDisposable disposable)
+                //     disposable.Dispose();
                 Addressables.Release(handle);
             });
             return handle;
@@ -258,8 +258,8 @@
             lifeTime.AddCleanUpAction(() => {
                 if (handle.IsValid() == false)
                     return;
-                if(handle.Asset is IDisposable disposable)
-                    disposable.Dispose();
+                // if(handle.Asset is IDisposable disposable)
+                //     disposable.Dispose();
                 Addressables.Release(handle);
             });
             return lifeTime;
@@ -270,8 +270,8 @@
             lifeTime.AddCleanUpAction(() => {
                 if (handle.IsValid() == false)
                     return;
-                if(handle.Result is IDisposable disposable)
-                    disposable.Dispose();
+                // if(handle.Result is IDisposable disposable)
+                //     disposable.Dispose();
                 Addressables.Release(handle);
             });
             return lifeTime;
@@ -282,8 +282,8 @@
             lifeTime.AddCleanUpAction(() => {
                 if (handle.IsValid() == false)
                     return;
-                if(handle.Asset is IDisposable disposable)
-                    disposable.Dispose();
+                // if(handle.Asset is IDisposable disposable)
+                //     disposable.Dispose();
                 Addressables.Release(handle);
             });
             return lifeTime;
