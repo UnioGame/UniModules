@@ -7,6 +7,7 @@
     using UniGreenModules.UniCore.Runtime.Rx.Extensions;
     using UniGreenModules.UniGame.AddressableTools.Runtime.Extensions;
     using UniRx;
+    using UniRx.Async;
     using UnityEngine;
     using UnityEngine.AddressableAssets;
 
@@ -26,6 +27,9 @@
         [SerializeField]
         public bool _createInstanceAtPlayMode;
 
+        [SerializeField]
+        public float _spawnDelay = 0.1f;
+        
         #endregion
 
         private LifeTimeDefinition _lifeTime = new LifeTimeDefinition();
@@ -98,18 +102,27 @@
 
         protected async void Start()
         {
+            _lifeTime?.Terminate();
+            
             if (!Application.isPlaying || !_createInstanceAtPlayMode) {
                 return;
             }
+
+            _lifeTime = new LifeTimeDefinition();
             
-            _target.ToObservable()
-                .ObserveOnMainThread()
-                .Do((a) => {
-                    GameObject.Instantiate(a, Parent);
-                    OnStart(_asset);
-                }).
-                Subscribe().
-                AddTo(_lifeTime);
+            await UniTask.Delay(TimeSpan.FromSeconds(_spawnDelay));
+            
+            var asset = await _target.
+                LoadAssetTaskAsync<GameObject>(_lifeTime);
+            
+            if (!asset)
+                return;
+            
+            _asset = GameObject.
+                Instantiate(asset, Parent);
+            
+            OnStart(_asset);
+
         }
 
         protected void OnDestroy() => _lifeTime.Terminate();
