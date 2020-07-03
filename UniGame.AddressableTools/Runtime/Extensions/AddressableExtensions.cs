@@ -31,7 +31,7 @@
                 GameLog.LogError($"AssetReference key is NULL {sceneReference}");
                 return default;
             }
-            
+
             var dependencies = Addressables.DownloadDependenciesAsync(sceneReference.RuntimeKey);
             dependencies.AddTo(lifeTime);
             if(dependencies.Task != null)
