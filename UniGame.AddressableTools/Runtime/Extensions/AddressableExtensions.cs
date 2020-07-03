@@ -74,7 +74,6 @@
             where TAsset : AssetReference
             where TSource : Object
         {
-            
             return await assetReference.LoadAssetsTaskAsync<TSource, TSource, TAsset>(resultContainer, lifeTime);
         }
         

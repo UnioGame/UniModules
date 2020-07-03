@@ -7,8 +7,9 @@ namespace UniModules.UniGame.Core.Runtime.DataFlow
     using UniGreenModules.UniCore.Runtime.DataFlow;
     using UniGreenModules.UniCore.Runtime.DataFlow.Interfaces;
     using UniGreenModules.UniCore.Runtime.ObjectPool.Runtime;
+    using UniGreenModules.UniCore.Runtime.ObjectPool.Runtime.Interfaces;
 
-    public class LifeTimeCompose : IDisposable
+    public class LifeTimeCompose : IDisposable, IPoolable
     {
         private int _counter;
         private LifeTimeDefinition _lifeTime = new LifeTimeDefinition();
@@ -24,6 +25,12 @@ namespace UniModules.UniGame.Core.Runtime.DataFlow
         public bool IsTerminated => _lifeTime.IsTerminated;  
 
         #endregion
+        
+        public void Release()
+        {
+            _lifeTime.Release();
+            _counter = 0;
+        }
         
         public void Add(params ILifeTime[] lifeTimes)
         {

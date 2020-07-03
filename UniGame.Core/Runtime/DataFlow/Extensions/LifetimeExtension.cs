@@ -67,7 +67,7 @@ public static class LifetimeExtension
         Action cleanup,
         params ILifeTime[] additional)
     {
-        var composeAction = ClassPool.Spawn<LifeTimeCompose>();
+        var composeAction = new LifeTimeCompose();
         
         composeAction.AddCleanUpAction(cleanup);
         composeAction.Add(source);
