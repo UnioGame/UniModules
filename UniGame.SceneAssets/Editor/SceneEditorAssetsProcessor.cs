@@ -7,13 +7,16 @@
     using UniRx;
     using UnityEditor;
     using UnityEditor.SceneManagement;
+    using UnityEngine;
     using UnityEngine.SceneManagement;
     using Object = UnityEngine.Object;
+    using SceneAsset = Runtime.SceneAsset;
 
     [InitializeOnLoad]
     public static class SceneEditorAssetsProcessor
     {
         private static LifeTimeDefinition _lifeTimeDefinition;
+        private const string SceneAssetName = "SceneAsset";
         
         static SceneEditorAssetsProcessor()
         {
@@ -59,6 +62,12 @@
             OpenAll();
         }
         
+        [MenuItem("GameObject/EditorOnlyAssets/Create Asset", false, 0)]
+        public static void CreateAsset()
+        {
+            var gameObject = new GameObject(SceneAssetName, typeof(SceneAsset));
+        }
+        
         [MenuItem("GameObject/EditorOnlyAssets/Close All", false, 0)]
         public static void CloseAllCommands()
         {
@@ -84,7 +93,7 @@
         
         public static void Save(Scene scene)
         {
-            foreach (var container in GetContainers(scene)) {
+            foreach (var container in GetContainers(scene,Object.FindObjectsOfType<SceneAsset>())) {
                 container.Save();        
             }
         }
@@ -93,7 +102,7 @@
         {
             if (EditorApplication.isPlayingOrWillChangePlaymode)
                 return;
-            foreach (var container in GetContainers(scene)) {
+            foreach (var container in GetContainers(scene,Object.FindObjectsOfType<SceneAsset>())) {
                 container.Save();
                 container.Close();
                 EditorSceneManager.SaveScene(scene);
@@ -102,7 +111,7 @@
         
         public static void Remove(Scene scene)
         {
-            foreach (var container in GetContainers(scene)) {
+            foreach (var container in GetContainers(scene,Object.FindObjectsOfType<SceneAsset>())) {
                 container.Close();        
             }
         }
@@ -111,7 +120,7 @@
         {
             if (EditorApplication.isPlayingOrWillChangePlaymode || IsActive.Value == false)
                 return;
-            foreach (var container in GetContainers(scene)) {
+            foreach (var container in GetContainers(scene,Object.FindObjectsOfType<SceneAsset>())) {
                 Open(container);
             }
         }
@@ -182,26 +191,26 @@
 
         private static void OnSceneSaving(Scene scene,string value)
         {
-            foreach (var container in GetContainers(scene)) {
+            var containers = Object.
+                FindObjectsOfType<SceneAsset>();
+            foreach (var container in GetContainers(scene,containers)) {
                 container.Save();
                 container.Close();
             }
         }
 
-        private static IEnumerable<SceneEditorAsset> GetContainers(Scene scene)
+        private static IEnumerable<SceneAsset> GetContainers(Scene scene, SceneAsset[] assets)
         {
-            var containers = Object.
-                FindObjectsOfType<SceneEditorAsset>();
-            foreach (var container in containers) {
+            foreach (var container in assets) {
                 if (container.gameObject.scene == scene)
                     yield return container;
             }
         }
         
-        private static SceneEditorAsset[] GetContainers()
+        private static SceneAsset[] GetContainers()
         {
             var containers = Object.
-                FindObjectsOfType<SceneEditorAsset>();
+                FindObjectsOfType<SceneAsset>();
             return containers;
         }
     }

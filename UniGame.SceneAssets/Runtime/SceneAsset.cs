@@ -11,7 +11,7 @@
     using UnityEngine;
     using UnityEngine.AddressableAssets;
 
-    public class SceneEditorAsset : MonoBehaviour, ISceneEditorAsset
+    public class SceneAsset : MonoBehaviour, ISceneEditorAsset
     {
         #region inspector
 
@@ -57,20 +57,7 @@
 
         public virtual void Save()
         {
-#if  UNITY_EDITOR
-            if (!_asset)
-            {
-                return;
-            }
-            try
-            {
-                UnityEditor.PrefabUtility.ApplyPrefabInstance(_asset, UnityEditor.InteractionMode.AutomatedAction);
-            }
-            catch (Exception e)
-            {
-                GameLog.LogError(e);
-            }
-#endif
+
         }
 
         public void Close()
@@ -81,8 +68,33 @@
             }
             Save();
             OnClose(_asset);
-            DestroyImmediate(_asset, true);
-            _asset = null;
+            Reset();
+        }
+
+        public void Reset()
+        {
+            if (_asset) {
+                DestroyImmediate(_asset, true);
+                _asset = null;
+            }
+            _lifeTime?.Release();
+        }
+
+        public async UniTask<GameObject> OpenRuntime()
+        {
+            if (_asset)
+                return _asset;
+            
+            await UniTask.Delay(TimeSpan.FromSeconds(_spawnDelay));
+            
+            var asset = await _target.
+                LoadAssetTaskAsync(_lifeTime);
+
+            if (_asset)
+                return asset;
+            
+            return GameObject.Instantiate(asset, Parent);
+            
         }
 
         public void Open()
@@ -100,38 +112,31 @@
 
         }
 
+        private void Awake()
+        {
+            _lifeTime = new LifeTimeDefinition();
+        }
+
         protected async void Start()
         {
-            _lifeTime?.Terminate();
+            _lifeTime?.Release();
             
             if (!Application.isPlaying || !_createInstanceAtPlayMode) {
                 return;
             }
 
-            _lifeTime = new LifeTimeDefinition();
+            var asset = await OpenRuntime();
             
-            await UniTask.Delay(TimeSpan.FromSeconds(_spawnDelay));
-            
-            var asset = await _target.
-                LoadAssetTaskAsync<GameObject>(_lifeTime);
-            
-            if (!asset)
-                return;
-            
-            _asset = GameObject.
-                Instantiate(asset, Parent);
-            
-            OnStart(_asset);
+            OnStart(asset);
 
         }
 
-        protected void OnDestroy() => _lifeTime.Terminate();
+        protected void OnDestroy() => _lifeTime?.Terminate();
 
         protected virtual void OnStart(GameObject asset)
         {
 
         }
-
 
         protected virtual void OnOpen(GameObject asset)
         {
@@ -142,6 +147,16 @@
         {
 
         }
+
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.Button]
+#endif
+        private void CreateAsset() => OpenRuntime();
+        
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.Button]
+#endif
+        private void UnloadAsset() => Reset();
 
     }
 }
