@@ -1,7 +1,7 @@
 ﻿namespace UniModules.UniGame.AddressableTools.Runtime.SpriteAtlases
 {
     using System;
-    using SerializableContext.Runtime.Addressables;
+    using AssetReferencies;
     using UniGreenModules.UniGame.Core.Runtime.DataStructure;
 
     [Serializable]

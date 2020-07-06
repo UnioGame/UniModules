@@ -3,8 +3,8 @@
     using System.Collections.Generic;
     using System.Linq;
     using AddressableExtensions.Editor;
+    using Runtime.AssetReferencies;
     using Runtime.SpriteAtlases;
-    using SerializableContext.Runtime.Addressables;
     using UniGreenModules.UniCore.EditorTools.Editor.AssetOperations;
     using UniGreenModules.UniCore.EditorTools.Editor.Utility;
     using UnityEditor;
@@ -12,8 +12,8 @@
 
     public class AddressableSpriteAtlasesEditorHandler 
     {
-        [MenuItem("UniGame/Addressables/Validate SpriteAtlasManager")]
-        public static void ValidateAtlasManager()
+        [MenuItem("UniGame/Addressables/Reimport Atlases")]
+        public static void Reimport()
         {
             var atlases = AssetEditorTools.GetAssets<SpriteAtlas>();
             var addressablesAtlases = atlases.
@@ -38,6 +38,8 @@
                 var atlas = atlasRef.editorAsset;
                 map[atlas.tag] = atlasRef;
             }
+            
+            handler.Validate();
         }
         
     }

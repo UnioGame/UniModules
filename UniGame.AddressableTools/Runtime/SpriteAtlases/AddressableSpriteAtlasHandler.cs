@@ -6,8 +6,8 @@ namespace UniModules.UniGame.AddressableTools.Runtime.SpriteAtlases
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
+    using AssetReferencies;
     using Core.Runtime.ScriptableObjects;
-    using SerializableContext.Runtime.Addressables;
     using UniCore.Runtime.ProfilerTools;
     using UniGreenModules.UniCore.Runtime.DataFlow;
     using UniGreenModules.UniCore.Runtime.Rx.Extensions;
@@ -20,9 +20,11 @@ namespace UniModules.UniGame.AddressableTools.Runtime.SpriteAtlases
     {
         #region inspector
         
-        public List<AssetReferenceSpriteAtlas> _unloadableAtlases = new List<AssetReferenceSpriteAtlas>();
+        public List<AssetReferenceSpriteAtlas> _immortalAtlases = new List<AssetReferenceSpriteAtlas>();
 
         public AddressbleAtlasesTagsMap _atlasesTagsMap = new AddressbleAtlasesTagsMap();
+
+        public bool _preloadunImmortalAtlases = true;
         
         #endregion
 
@@ -35,10 +37,21 @@ namespace UniModules.UniGame.AddressableTools.Runtime.SpriteAtlases
                     x => SpriteAtlasManager.atlasRequested -= OnSpriteAtlasRequested).
                 Subscribe().
                 AddTo(LifeTime);
+
+            if (_preloadunImmortalAtlases) {
+                //load unloadable immisiate
+                foreach (var referenceSpriteAtlas in _immortalAtlases) {
+                    referenceSpriteAtlas.LoadAssetTaskAsync(LifeTime);
+                }
+            }
+
             return this;
         }
         
         public void Unload() => _atlasesLifetime.Release();
+
+        [ContextMenu("Validate")]
+        public void Validate() => OnValidate();
 
         private async void OnSpriteAtlasRequested(string tag, Action<SpriteAtlas> atlasAction)
         {
@@ -47,7 +60,7 @@ namespace UniModules.UniGame.AddressableTools.Runtime.SpriteAtlases
             
             GameLog.Log($"OnSpriteAtlasRequested : TAG {tag}", Color.blue);
 
-            var isUnloadable = _unloadableAtlases.
+            var isUnloadable = _immortalAtlases.
                 FirstOrDefault(x => x.AssetGUID == atlasReference.AssetGUID) != null;
 
             var lifetime = isUnloadable ? LifeTime : _atlasesLifetime;
@@ -65,6 +78,21 @@ namespace UniModules.UniGame.AddressableTools.Runtime.SpriteAtlases
         {
             _atlasesLifetime = new LifeTimeDefinition();
             _lifeTimeDefinition.AddCleanUpAction(() => _atlasesLifetime.Terminate());
+        }
+
+
+        protected void OnValidate()
+        {
+#if UNITY_EDITOR
+            _immortalAtlases.RemoveAll(x => x == null || x.editorAsset == null);
+
+            var keys = _atlasesTagsMap.Keys.ToList();
+            foreach (var key in keys) {
+                var reference = _atlasesTagsMap[key];
+                if (reference == null || reference.editorAsset == null)
+                    _atlasesTagsMap.Remove(key);
+            }
+#endif
         }
     }
 }

@@ -37,6 +37,7 @@
         
         private void OnEnable()
         {
+            _lifeTimeDefinition?.Terminate();
             _lifeTimeDefinition = new LifeTimeDefinition();
             OnActivate();
         }
@@ -46,6 +47,11 @@
             _lifeTimeDefinition?.Terminate();
             
             OnDisabled();
+        }
+
+        private void Awake()
+        {
+            _lifeTimeDefinition?.Release();
         }
 
         protected virtual void OnActivate() {}
