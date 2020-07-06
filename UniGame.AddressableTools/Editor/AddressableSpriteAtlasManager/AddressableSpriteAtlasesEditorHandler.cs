@@ -1,5 +1,6 @@
 ﻿namespace UniModules.UniGame.AddressableTools.Editor.AddressableSpriteAtlasManager
 {
+    using System.Collections.Generic;
     using System.Linq;
     using AddressableExtensions.Editor;
     using Runtime.SpriteAtlases;
@@ -23,8 +24,19 @@
             var atlaseManagers = AssetEditorTools.GetAssets<AddressableSpriteAtlasHandler>();
 
             foreach (var manager in atlaseManagers) {
-                manager.Set(addressablesAtlases);
+                SetupMap(manager,addressablesAtlases);
                 manager.MarkDirty();
+            }
+        }
+        
+        public static void SetupMap(AddressableSpriteAtlasHandler handler,IReadOnlyList<AssetReferenceSpriteAtlas> atlases)
+        {
+            var map = handler._atlasesTagsMap;
+            map.Clear();
+
+            foreach (var atlasRef in atlases) {
+                var atlas = atlasRef.editorAsset;
+                map[atlas.tag] = atlasRef;
             }
         }
         

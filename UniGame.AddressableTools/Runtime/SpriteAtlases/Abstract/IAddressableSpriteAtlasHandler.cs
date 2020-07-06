@@ -7,7 +7,6 @@
     public interface IAddressableSpriteAtlasHandler 
     {
         IDisposable Execute();
-        void Set(IReadOnlyList<AssetReferenceSpriteAtlas> atlases);
         void Unload();
         
     }

@@ -4,6 +4,7 @@ namespace UniModules.UniGame.AddressableTools.Runtime.SpriteAtlases
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using Core.Runtime.ScriptableObjects;
     using SerializableContext.Runtime.Addressables;
@@ -36,17 +37,7 @@ namespace UniModules.UniGame.AddressableTools.Runtime.SpriteAtlases
                 AddTo(LifeTime);
             return this;
         }
-
-        public void Set(IReadOnlyList<AssetReferenceSpriteAtlas> atlases)
-        {
-            _atlasesTagsMap.Clear();
-
-            foreach (var atlasRef in atlases) {
-                var atlas = atlasRef.editorAsset;
-                _atlasesTagsMap[atlas.tag] = atlasRef;
-            }
-        }
-
+        
         public void Unload() => _atlasesLifetime.Release();
 
         private async void OnSpriteAtlasRequested(string tag, Action<SpriteAtlas> atlasAction)
