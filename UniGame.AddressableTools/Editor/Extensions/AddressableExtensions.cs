@@ -105,8 +105,10 @@
                 return false;
 
             var group = source.GetCurrentAddressableAssetGroup();
-            return group != null && group.Name == groupName;
+            return group != null && (string.IsNullOrEmpty(groupName) || group.Name == groupName);
         }
+
+        public static bool IsInAnyAddressableAssetGroup(this Object source) => IsInAddressableAssetGroup(source, string.Empty);
 
         public static AddressableAssetGroup GetCurrentAddressableAssetGroup(this Object source)
         {
