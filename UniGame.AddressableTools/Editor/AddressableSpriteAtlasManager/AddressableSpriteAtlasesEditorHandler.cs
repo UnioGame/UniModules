@@ -21,7 +21,7 @@
                 Select(x => new AssetReferenceSpriteAtlas(AssetEditorTools.GetGUID(x))).
                 ToList();
 
-            var atlaseManagers = AssetEditorTools.GetAssets<AddressableSpriteAtlasHandler>();
+            var atlaseManagers = AssetEditorTools.GetAssets<AddressableSpriteAtlasConfiguration>();
 
             foreach (var manager in atlaseManagers) {
                 SetupMap(manager,addressablesAtlases);
@@ -29,7 +29,7 @@
             }
         }
         
-        public static void SetupMap(AddressableSpriteAtlasHandler handler,IReadOnlyList<AssetReferenceSpriteAtlas> atlases)
+        public static void SetupMap(AddressableSpriteAtlasConfiguration handler,IReadOnlyList<AssetReferenceSpriteAtlas> atlases)
         {
             var map = handler._atlasesTagsMap;
             map.Clear();

@@ -4,7 +4,6 @@ namespace UniModules.UniGame.AddressableTools.Runtime.SpriteAtlases
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Linq;
     using AssetReferencies;
     using Core.Runtime.ScriptableObjects;
@@ -15,8 +14,8 @@ namespace UniModules.UniGame.AddressableTools.Runtime.SpriteAtlases
     using UniRx;
     using UnityEngine.U2D;
 
-    [CreateAssetMenu(menuName = "UniGame/Addressables/SpriteAtlasManager",fileName = nameof(AddressableSpriteAtlasHandler))]
-    public class AddressableSpriteAtlasHandler : DisposableScriptableObject, IAddressableSpriteAtlasHandler
+    [CreateAssetMenu(menuName = "UniGame/Addressables/SpriteAtlasManager",fileName = nameof(AddressableSpriteAtlasConfiguration))]
+    public class AddressableSpriteAtlasConfiguration : DisposableScriptableObject, IAddressableSpriteAtlasHandler
     {
         #region inspector
         
@@ -60,10 +59,10 @@ namespace UniModules.UniGame.AddressableTools.Runtime.SpriteAtlases
             
             GameLog.Log($"OnSpriteAtlasRequested : TAG {tag}", Color.blue);
 
-            var isUnloadable = _immortalAtlases.
+            var isImmortal = _immortalAtlases.
                 FirstOrDefault(x => x.AssetGUID == atlasReference.AssetGUID) != null;
 
-            var lifetime = isUnloadable ? LifeTime : _atlasesLifetime;
+            var lifetime = isImmortal ? LifeTime : _atlasesLifetime;
             var result = await atlasReference.LoadAssetTaskAsync(lifetime);
             if (result == null) {
                 GameLog.LogError($"Null Atlas Result by TAG {tag}");
@@ -72,7 +71,7 @@ namespace UniModules.UniGame.AddressableTools.Runtime.SpriteAtlases
             atlasAction(result);
         }
 
-        protected override void OnDispose() => _atlasesLifetime.Release();
+        protected override void OnDispose() => _lifeTimeDefinition.Release();
 
         protected override void OnActivate()
         {
