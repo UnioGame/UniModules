@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace UniModules.UniGame.SerializableContext.Runtime.Addressables
+﻿namespace UniModules.UniGame.AddressableTools.Runtime.AssetReferencies
 {
     using System;
     using UnityEngine.AddressableAssets;

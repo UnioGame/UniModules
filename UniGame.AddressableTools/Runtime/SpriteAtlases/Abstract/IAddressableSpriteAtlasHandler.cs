@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using SerializableContext.Runtime.Addressables;
 
     public interface IAddressableSpriteAtlasHandler 
     {

@@ -4,9 +4,9 @@
     using UnityEngine.AddressableAssets;
 
     [Serializable]
-    public class AssetReferenceAtlasHandler : AssetReferenceT<AddressableSpriteAtlasHandler>
+    public class AssetReferenceAtlasConfiguration : AssetReferenceT<AddressableSpriteAtlasConfiguration>
     {
-        public AssetReferenceAtlasHandler(string guid) : base(guid)
+        public AssetReferenceAtlasConfiguration(string guid) : base(guid)
         {
         }
     }
