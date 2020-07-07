@@ -39,7 +39,7 @@ namespace UniModules.UniGame.AddressableTools.Runtime.SpriteAtlases
                 AddTo(LifeTime);
 
             if (preloadImmortalAtlases) {
-                //load unloadable immisiate
+                //load unloadable immediate
                 foreach (var referenceSpriteAtlas in immortalAtlases) {
                     referenceSpriteAtlas.LoadAssetTaskAsync(LifeTime);
                 }
