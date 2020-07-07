@@ -5,9 +5,13 @@ namespace UniModules.UniGame.AddressableTools.Runtime.SpriteAtlases
     using System;
     using System.Collections.Generic;
     using System.Linq;
+#if UNITY_EDITOR
+    using System.Reflection;
+#endif
     using AssetReferencies;
     using Core.Runtime.ScriptableObjects;
     using UniCore.Runtime.ProfilerTools;
+    using UniGreenModules.UniCore.Runtime.Attributes;
     using UniGreenModules.UniCore.Runtime.DataFlow;
     using UniGreenModules.UniCore.Runtime.Rx.Extensions;
     using UniGreenModules.UniGame.AddressableTools.Runtime.Extensions;
@@ -26,6 +30,10 @@ namespace UniModules.UniGame.AddressableTools.Runtime.SpriteAtlases
         [SerializeField]
         public bool preloadImmortalAtlases = true;
         
+        [SerializeField]
+        [ReadOnlyValue]
+        public bool isFastMode;
+
         #endregion
 
         private LifeTimeDefinition _atlasesLifetime;
@@ -44,6 +52,14 @@ namespace UniModules.UniGame.AddressableTools.Runtime.SpriteAtlases
                     referenceSpriteAtlas.LoadAssetTaskAsync(LifeTime);
                 }
             }
+            
+#if UNITY_EDITOR
+            if(isFastMode) {
+                foreach (var atlasPair in atlasesTagsMap) {
+                    RegisterAtlas(atlasPair.Value.editorAsset);
+                }
+            }
+#endif
 
             return this;
         }
@@ -92,5 +108,12 @@ namespace UniModules.UniGame.AddressableTools.Runtime.SpriteAtlases
             _lifeTimeDefinition.AddCleanUpAction(() => _atlasesLifetime.Terminate());
         }
 
+#if UNITY_EDITOR
+        private void RegisterAtlas(SpriteAtlas atlas)
+        {
+            var methodInfo = typeof(SpriteAtlasManager).GetMethod("Register", BindingFlags.Static | BindingFlags.NonPublic);
+            methodInfo?.Invoke(null, new object[] {atlas});
+        }
+#endif
     }
 }
