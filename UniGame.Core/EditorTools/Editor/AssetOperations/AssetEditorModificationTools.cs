@@ -53,6 +53,7 @@ namespace UniGreenModules.UniCore.EditorTools.Editor.AssetOperations
             return true;
         }
 
+
         public static Object SaveAssetAsNested(Object root, Type assetType, string name = null)
         {
             var asset  = ScriptableObject.CreateInstance(assetType);
