@@ -34,7 +34,13 @@
             _lifeTimeDefinition?.Release();
             OnReset();
         }
-        
+
+        private void Awake()
+        {
+            _lifeTimeDefinition?.Terminate();
+            _lifeTimeDefinition = new LifeTimeDefinition();
+        }
+
         private void OnEnable()
         {
             _lifeTimeDefinition = new LifeTimeDefinition();
