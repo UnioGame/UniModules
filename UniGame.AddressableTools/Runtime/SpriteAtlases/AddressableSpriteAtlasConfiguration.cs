@@ -29,13 +29,11 @@ namespace UniModules.UniGame.AddressableTools.Runtime.SpriteAtlases
         public AddressblesAtlasesTagsMap atlasesTagsMap = new AddressblesAtlasesTagsMap();
         [SerializeField]
         public bool preloadImmortalAtlases = true;
-
-#if UNITY_EDITOR
+        
         [SerializeField]
         [ReadOnlyValue]
         public bool isFastMode;
-#endif
-        
+
         #endregion
 
         private LifeTimeDefinition _atlasesLifetime;
