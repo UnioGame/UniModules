@@ -5,7 +5,9 @@ namespace UniModules.UniGame.AddressableTools.Runtime.SpriteAtlases
     using System;
     using System.Collections.Generic;
     using System.Linq;
+#if UNITY_EDITOR
     using System.Reflection;
+#endif
     using AssetReferencies;
     using Core.Runtime.ScriptableObjects;
     using UniCore.Runtime.ProfilerTools;
