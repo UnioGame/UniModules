@@ -31,7 +31,7 @@
         
         public static void SetupMap(AddressableSpriteAtlasConfiguration handler,IReadOnlyList<AssetReferenceSpriteAtlas> atlases)
         {
-            var map = handler._atlasesTagsMap;
+            var map = handler.atlasesTagsMap;
             map.Clear();
 
             foreach (var atlasRef in atlases) {

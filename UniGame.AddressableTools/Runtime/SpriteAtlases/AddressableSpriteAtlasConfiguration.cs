@@ -14,16 +14,17 @@ namespace UniModules.UniGame.AddressableTools.Runtime.SpriteAtlases
     using UniRx;
     using UnityEngine.U2D;
 
-    [CreateAssetMenu(menuName = "UniGame/Addressables/SpriteAtlasManager",fileName = nameof(AddressableSpriteAtlasConfiguration))]
+    [CreateAssetMenu(menuName = "UniGame/Addressables/SpriteAtlasConfiguration",fileName = nameof(AddressableSpriteAtlasConfiguration))]
     public class AddressableSpriteAtlasConfiguration : DisposableScriptableObject, IAddressableSpriteAtlasHandler
     {
         #region inspector
         
-        public List<AssetReferenceSpriteAtlas> _immortalAtlases = new List<AssetReferenceSpriteAtlas>();
-
-        public AddressbleAtlasesTagsMap _atlasesTagsMap = new AddressbleAtlasesTagsMap();
-
-        public bool _preloadunImmortalAtlases = true;
+        [SerializeField]
+        public List<AssetReferenceSpriteAtlas> immortalAtlases = new List<AssetReferenceSpriteAtlas>();
+        [SerializeField]
+        public AddressblesAtlasesTagsMap atlasesTagsMap = new AddressblesAtlasesTagsMap();
+        [SerializeField]
+        public bool preloadImmortalAtlases = true;
         
         #endregion
 
@@ -37,9 +38,9 @@ namespace UniModules.UniGame.AddressableTools.Runtime.SpriteAtlases
                 Subscribe().
                 AddTo(LifeTime);
 
-            if (_preloadunImmortalAtlases) {
+            if (preloadImmortalAtlases) {
                 //load unloadable immisiate
-                foreach (var referenceSpriteAtlas in _immortalAtlases) {
+                foreach (var referenceSpriteAtlas in immortalAtlases) {
                     referenceSpriteAtlas.LoadAssetTaskAsync(LifeTime);
                 }
             }
@@ -50,16 +51,28 @@ namespace UniModules.UniGame.AddressableTools.Runtime.SpriteAtlases
         public void Unload() => _atlasesLifetime.Release();
 
         [ContextMenu("Validate")]
-        public void Validate() => OnValidate();
+        public void Validate()
+        {
+#if UNITY_EDITOR
+            immortalAtlases.RemoveAll(x => x == null || x.editorAsset == null);
+
+            var keys = atlasesTagsMap.Keys.ToList();
+            foreach (var key in keys) {
+                var reference = atlasesTagsMap[key];
+                if (reference == null || reference.editorAsset == null)
+                    atlasesTagsMap.Remove(key);
+            }
+#endif
+        }
 
         private async void OnSpriteAtlasRequested(string tag, Action<SpriteAtlas> atlasAction)
         {
-            if (_atlasesTagsMap.TryGetValue(tag, out var atlasReference) == false)
+            if (atlasesTagsMap.TryGetValue(tag, out var atlasReference) == false)
                 return;
             
             GameLog.Log($"OnSpriteAtlasRequested : TAG {tag}", Color.blue);
 
-            var isImmortal = _immortalAtlases.
+            var isImmortal = immortalAtlases.
                 FirstOrDefault(x => x.AssetGUID == atlasReference.AssetGUID) != null;
 
             var lifetime = isImmortal ? LifeTime : _atlasesLifetime;
@@ -79,19 +92,5 @@ namespace UniModules.UniGame.AddressableTools.Runtime.SpriteAtlases
             _lifeTimeDefinition.AddCleanUpAction(() => _atlasesLifetime.Terminate());
         }
 
-
-        protected void OnValidate()
-        {
-#if UNITY_EDITOR
-            _immortalAtlases.RemoveAll(x => x == null || x.editorAsset == null);
-
-            var keys = _atlasesTagsMap.Keys.ToList();
-            foreach (var key in keys) {
-                var reference = _atlasesTagsMap[key];
-                if (reference == null || reference.editorAsset == null)
-                    _atlasesTagsMap.Remove(key);
-            }
-#endif
-        }
     }
 }
