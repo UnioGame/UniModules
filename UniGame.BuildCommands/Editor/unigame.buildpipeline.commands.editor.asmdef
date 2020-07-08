@@ -3,7 +3,13 @@
     "references": [
         "unigame.buildpipeline.editor",
         "unigame.addressables.editor",
-        "Unity.AddressableImporter.Editor"
+        "unigame.unicore.runtime",
+        "Unity.AddressableImporter.Editor",
+        "Unity.ResourceManager",
+        "Unity.Addressables",
+        "Unity.Addressables.Editor",
+        "Unity.ScriptableBuildPipeline",
+        "Unity.ScriptableBuildPipeline.Editor"
     ],
     "includePlatforms": [
         "Editor"

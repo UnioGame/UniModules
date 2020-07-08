@@ -7,6 +7,7 @@
 
     public static class AddressableHelper
     {
+        
         public static AddressableAssetEntry CreateAssetEntry<T>(T source, string groupName, string label) where T : Object
         {
             var entry = CreateAssetEntry(source, groupName);
