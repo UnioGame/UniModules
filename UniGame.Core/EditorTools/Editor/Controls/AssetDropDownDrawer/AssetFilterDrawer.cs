@@ -3,24 +3,26 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using DrawersTools;
     using Runtime.Attributes;
+    using Runtime.Extension;
     using UniCore.EditorTools.Editor.AssetOperations;
     using UniCore.Runtime.Utils;
     using UnityEditor;
     using UnityEngine;
     using Object = UnityEngine.Object;
 
-    [CustomPropertyDrawer(typeof(AssetDropDownAttribute))]
-    public class AssetDropDownDrawer : PropertyDrawer
+    [CustomPropertyDrawer(typeof(AssetFilterAttribute))]
+    public class AssetFilterDrawer : PropertyDrawer
     {
         private const string emptyValue = "none";
         
         private static List<string> assetsItems = new List<string>();
-        private static Func<AssetDropDownAttribute, List<Object>> typeAssets = MemorizeTool.Create<AssetDropDownAttribute,List<Object>>(FindFiltered);
+        private static Func<AssetFilterAttribute, List<Object>> typeAssets = MemorizeTool.Create<AssetFilterAttribute,List<Object>>(FindFiltered);
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            var targetAttribute = attribute as AssetDropDownAttribute;
+            var targetAttribute = attribute as AssetFilterAttribute;
 
             var filterType = targetAttribute.FilterType == null ?
                 fieldInfo.FieldType : targetAttribute.FilterType;
@@ -30,10 +32,11 @@
             assetsItems.Clear();
             assetsItems.Add(emptyValue);
             
-            var searchTarget = new AssetDropDownAttribute() {
+            var searchTarget = new AssetFilterAttribute() {
                 FilterType = filterType,
                 FolderFilter = folderFilter,
-                FoldOutOpen = targetAttribute.FoldOutOpen
+                FoldOutOpen = targetAttribute.FoldOutOpen,
+                DrawWithOdin = targetAttribute.DrawWithOdin
             };
 
             var assets = typeAssets(searchTarget);
@@ -45,8 +48,18 @@
             assetsItems.AddRange(assets.Select(x => x.name));
             
             var controlPosition = position;
-            EditorGUI.PropertyField(controlPosition, property, label,true);
             
+            EditorGUI.PropertyField(controlPosition, property, label,true);
+
+#if ODIN_INSPECTOR
+            if (searchTarget.DrawWithOdin) {
+                var assetValue = property.objectReferenceValue;
+                if (assetValue) {
+                    assetValue.DrawOdinPropertyInspector();
+                }
+            }
+#endif
+
             var fieldRect = EditorGUILayout.GetControlRect();
             controlPosition   =  fieldRect;
             var newIndex = EditorGUI.Popup(controlPosition, 
@@ -66,13 +79,18 @@
 
         }
 
-        private static List<Object> FindFiltered(AssetDropDownAttribute targetAttribute)
+        private static List<Object> FindFiltered(AssetFilterAttribute targetAttribute)
         {
-            var searchAsset = new List<Object>();
-            return AssetEditorTools.FindAssets(searchAsset, targetAttribute.FilterType,
-                string.IsNullOrEmpty(targetAttribute.FolderFilter) ? 
-                    null :
-                    new []{targetAttribute.FolderFilter});
+            var isObject = targetAttribute.FilterType.IsAsset();
+            var filterType = targetAttribute.FilterType;
+            var folderFilter = string.IsNullOrEmpty(targetAttribute.FolderFilter) ? null : new[] {targetAttribute.FolderFilter};
+            if (isObject) {
+                return AssetEditorTools.GetAssets(filterType, folderFilter);
+            }
+            return AssetEditorTools.
+                GetAssets(UnityTypeExtension.scriptableType,folderFilter).
+                Where(x => filterType.IsInstanceOfType(x)).
+                ToList();
         }
         
     }

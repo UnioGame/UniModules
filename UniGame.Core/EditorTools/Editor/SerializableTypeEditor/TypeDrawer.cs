@@ -7,7 +7,7 @@
     using UnityEditor;
     using UnityEngine;
 
-    public static class TypDrawer
+    public static class TypeDrawer
     {
 
         private static Func<Type, List<Type>> getAssagnableTypes = MemorizeTool.Create<Type, List<Type>>(ReflectionTools.GetAssignableTypes);

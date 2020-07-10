@@ -16,12 +16,27 @@
     {
         #region inspector
 
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.InlineEditor()]
+#endif
+        public List<ScriptableObject> sources = new List<ScriptableObject>();
+
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.LabelText("Async Sources")]
+#endif
         public List<AssetReferenceDataSource> sourceAssets = new List<AssetReferenceDataSource>();
         
         #endregion
         
         public override async UniTask<IContext> RegisterAsync(IContext context)
         {
+            foreach (var source in sources) {
+                var asyncSource = source as IAsyncContextDataSource;
+                if(asyncSource == null) 
+                    continue;
+                asyncSource.RegisterAsync(context);
+            }
+            
             await UniTask.WhenAll(sourceAssets.Select(x => RegisterContexts(context, x)));
 
             return context;

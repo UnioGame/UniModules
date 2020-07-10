@@ -7,10 +7,10 @@
     public class AssetDropDownExample : ScriptableObject
     {
 
-        [AssetDropDown]
+        [AssetFilter]
         public DemoAssetDropDownAsset Item;
 
-        [AssetDropDown]
+        [AssetFilter]
         public DemoAssetDropDownAsset Item2;
         
     }
