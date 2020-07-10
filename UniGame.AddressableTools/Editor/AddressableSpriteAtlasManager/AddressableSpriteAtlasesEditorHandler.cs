@@ -1,5 +1,6 @@
 ﻿namespace UniModules.UniGame.AddressableTools.Editor.AddressableSpriteAtlasManager
 {
+    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using AddressableExtensions.Editor;
@@ -8,6 +9,7 @@
     using UniCore.Runtime.ProfilerTools;
     using UniGreenModules.UniCore.EditorTools.Editor.AssetOperations;
     using UniGreenModules.UniCore.EditorTools.Editor.Utility;
+    using Unity.EditorCoroutines.Editor;
     using UnityEditor;
     using UnityEditor.AddressableAssets;
     using UnityEditor.AddressableAssets.Settings;
@@ -42,19 +44,41 @@
                 return;
             }
 
+            EditorCoroutineUtility.StartCoroutineOwnerless(UpdateMode());
+
             AddressableAssetSettings.OnModificationGlobal += OnModification;
+        }
+
+        private static IEnumerator UpdateMode()
+        {
+            var settings = AddressableAssetSettingsDefaultObject.Settings;
+            while (settings == null) {
+                settings = AddressableAssetSettingsDefaultObject.Settings;
+
+                yield return null;
+            }
+            
+            var isFastMode = settings.ActivePlayModeDataBuilderIndex == FastModeIndex;
+            SetFastModeToManagers(isFastMode);
         }
 
         private static void OnModification(AddressableAssetSettings settings, AddressableAssetSettings.ModificationEvent modificationEvent, object o)
         {
             if (modificationEvent == AddressableAssetSettings.ModificationEvent.ActivePlayModeScriptChanged) {
                 var isFastMode = settings.ActivePlayModeDataBuilderIndex == FastModeIndex;
-                var atlasManagers = AssetEditorTools.GetAssets<AddressableSpriteAtlasConfiguration>();
+                SetFastModeToManagers(isFastMode);
+            }
+        }
 
-                foreach (var manager in atlasManagers) {
-                    manager.isFastMode = isFastMode;
-                    manager.MarkDirty();
-                }
+        private static void SetFastModeToManagers(bool isFastMode)
+        {
+            var atlasManagers = AssetEditorTools.GetAssets<AddressableSpriteAtlasConfiguration>();
+            
+            foreach (var manager in atlasManagers) {
+                manager.isFastMode = isFastMode;
+                manager.MarkDirty();
+                
+                GameLog.Log($"Set fast mode [{isFastMode}] to {manager.name}");
             }
         }
 
