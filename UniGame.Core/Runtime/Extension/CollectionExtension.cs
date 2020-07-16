@@ -116,6 +116,13 @@ namespace UniModules.UniGame.Core.Runtime.Extension
             return result;
         }
 
+        public static TValue AddToCollection<TValue, TCollectionValue>(this TValue value, ICollection<TCollectionValue> collection)
+            where TValue : TCollectionValue
+        {
+            collection.Add(value);
+            return value;
+        }
+
         public static T GetRandomValue<T>(this IList<T> list, Predicate<T> predicate, T withoutElement)
         {
             var result = default(T);
