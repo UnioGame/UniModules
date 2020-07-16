@@ -10,6 +10,7 @@ namespace UniModules.UniGame.EditorTools.Editor.AssetSearchWindow
     using Sirenix.Utilities;
     using UniGreenModules.UniCore.EditorTools.Editor.AssetOperations;
     using UniGreenModules.UniCore.EditorTools.Editor.Utility;
+    using UniGreenModules.UniGame.Core.Runtime.Extension;
     using UnityEditor;
     using UnityEngine;
     using Object = UnityEngine.Object;
@@ -96,7 +97,10 @@ namespace UniModules.UniGame.EditorTools.Editor.AssetSearchWindow
             var assets = AssetEditorTools.GetAssets<Object>(searchFilter, searchFolders.ToArray());
             
             foreach (var asset in assets) {
-                resultAssets.Add(FilterResultByTypes(asset,_filterTypes));
+                var result = FilterResultByTypes(asset, _filterTypes);
+                if (result) {
+                    resultAssets.Add(result);
+                }
             }
         }
 
@@ -110,12 +114,28 @@ namespace UniModules.UniGame.EditorTools.Editor.AssetSearchWindow
         {
             if (!source || types == null || types.Count == 0)
                 return source;
+            
+            var assetPath = AssetDatabase.GetAssetPath(source);
+            
             var gameObject = source as GameObject;
+            if (!gameObject && types.Any(x => x.IsInstanceOfType(source))) {
+                return source;
+            }
+            
+            var importer     = AssetImporter.GetAtPath(assetPath);
+            var importerType = importer.GetType();
+            foreach (var type in types) {
+                if (type.IsAssignableFrom(importerType))
+                    return importer;
+            }
+
             if (!gameObject) {
-                return types.Any(x => x.IsInstanceOfType(source)) ? source : null;
+                return null;
             }
 
             foreach (var assetType in types) {
+                if(!assetType.IsComponent()) 
+                    continue;
                 var target = gameObject.GetComponent(assetType);
                 if (target) {
                     return target;
