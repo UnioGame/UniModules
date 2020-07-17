@@ -16,8 +16,8 @@
         [MenuItem("UniGame/Addressables/Clean Library Cache")]
         public static void RemoveLibraryCache()
         {
-            EditorFilesUtils.DeleteDirectoryFiles(AddressablesCachePath);
-            EditorFilesUtils.DeleteSubDirectories(AddressablesCachePath);
+            EditorFileUtils.DeleteDirectoryFiles(AddressablesCachePath);
+            EditorFileUtils.DeleteSubDirectories(AddressablesCachePath);
             GameLog.Log("Addressables Library Cache Removed");
         }
 
@@ -45,7 +45,7 @@
         public static void RemoveStreamingCache()
         {
             var targetPath = Application.streamingAssetsPath + StreamingAddressablesPath;
-            EditorFilesUtils.DeleteDirectory(targetPath);
+            EditorFileUtils.DeleteDirectory(targetPath);
         }
 
 

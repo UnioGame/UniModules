@@ -1,7 +1,7 @@
-﻿namespace UniGreenModules.UniResourceSystem.Runtime
+﻿namespace UniModules.UniGame.Core.EditorTools.Editor.EditorResources
 {
     using System;
-    using Interfaces;
+    using UniGreenModules.UniResourceSystem.Runtime.Interfaces;
     using UnityEngine;
     using Object = UnityEngine.Object;
 
@@ -13,18 +13,18 @@
         
         [HideInInspector]
         [SerializeField]
-        protected string assetPath;
+        public string assetPath;
         
         [HideInInspector]
         [SerializeField]
-        protected string guid;
+        public string guid;
 
         [HideInInspector]
         [SerializeField]
-        protected string assetName;
+        public string assetName;
         
         [SerializeField]
-        protected Object asset;
+        public Object asset;
 
         public string ItemName => assetName;
         
@@ -62,20 +62,20 @@
             return result;
         }
         
-        public void Update(Object target)
+        public ResourceItem Update(Object target)
         {
             this.asset = target;
             assetName = target.name;
             
-            OnUpdateAsset(this.asset);
+            return OnUpdateAsset(this.asset);
         }
 
-        public void Update() {
+        public ResourceItem Update() {
             
             if (this.asset)
             {
                 Update(this.asset);
-                return;
+                return this;
             }
 
             var target = Load<Object>();
@@ -83,7 +83,8 @@
             {
                 Update(target);
             }
-            
+
+            return this;
         }
 
         #endregion
@@ -124,9 +125,9 @@
             return null;
         }
 
-        protected virtual void OnUpdateAsset(Object targetAsset)
+        protected virtual ResourceItem OnUpdateAsset(Object targetAsset)
         {
-            
+            return this;
         }
         
     }

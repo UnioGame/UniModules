@@ -6,7 +6,7 @@ namespace UniGreenModules.UniResourceSystem.Runtime.Interfaces
     /// <summary>
     /// resource item wrapper
     /// </summary>
-    public interface IResource : INamedItem, IResourceUpdater
+    public interface IResource : INamedItem
     {
         /// <summary>
         /// is value assigned

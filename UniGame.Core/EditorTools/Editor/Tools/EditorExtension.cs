@@ -72,6 +72,12 @@
         }
         
         
+        public static Object AssetPathToAsset(this string assetPath)
+        {
+            if (string.IsNullOrEmpty(assetPath)) return null;
+            return AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(assetPath);
+        }
+        
         public static Object MarkDirty(this Object asset)
         {
             if (!asset) return asset;

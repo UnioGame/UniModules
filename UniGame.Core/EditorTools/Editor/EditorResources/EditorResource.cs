@@ -1,13 +1,11 @@
-﻿namespace UniGreenModules.UniResourceSystem.Editor
+﻿namespace UniModules.UniGame.Core.EditorTools.Editor.EditorResources
 {
-    using global::UniCore.Runtime.ProfilerTools;
-    using Runtime;
-    using UniCore.Runtime.ProfilerTools;
     using UnityEditor;
     using UnityEngine;
 
     public class EditorResource : ResourceItem
     {
+       
         public string AssetPath => assetPath;
 
         public bool IsInstance { get; protected set; }
@@ -20,7 +18,7 @@
 
         public bool IsVariant { get; protected set; }
 
-        protected override void OnUpdateAsset(Object targetAsset)
+        protected override ResourceItem OnUpdateAsset(Object targetAsset)
         {
             var resultAsset = targetAsset;
             var resultPath = string.Empty;
@@ -31,8 +29,6 @@
                 
                 InstanceStatus = PrefabUtility.GetPrefabInstanceStatus(targetGameObject);
                 PrefabAssetType = PrefabUtility.GetPrefabAssetType(targetGameObject);
-                
-                GameLog.Log($"PREFAB {targetGameObject.name} : InstanceStatus {InstanceStatus} PrefabAssetType {PrefabAssetType}");
                 
                 resultAsset = PrefabUtility.GetOutermostPrefabInstanceRoot(targetGameObject);
                 
@@ -51,7 +47,10 @@
             }
     
             assetPath = resultPath;
+            guid = string.IsNullOrEmpty(assetPath) ? string.Empty : AssetDatabase.AssetPathToGUID(assetPath);
             asset = resultAsset;
+
+            return this;
         }
 
         protected override TResult LoadAsset<TResult>()
@@ -59,9 +58,9 @@
             if (string.IsNullOrEmpty(AssetPath))
                 return null;
             
-            var asset = AssetDatabase.LoadAssetAtPath<Object>(AssetPath);
+            var loadedAsset = AssetDatabase.LoadAssetAtPath<Object>(AssetPath);
             
-            return GetTargetFromSource<TResult>(asset);
+            return GetTargetFromSource<TResult>(loadedAsset);
         }
     }
 }
