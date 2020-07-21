@@ -5,7 +5,7 @@
     using UnityEngine;
     using Object = UnityEngine.Object;
 #if ODIN_INSPECTOR
-    using Sirenix.OdinInspector;
+
 #endif
 
     [Serializable]

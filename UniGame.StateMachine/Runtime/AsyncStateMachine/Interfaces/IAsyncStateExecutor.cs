@@ -1,7 +1,8 @@
 ﻿namespace UniGreenModules.UniStateMachine.Runtime.AsyncStateMachine.Interfaces
 {
     using System;
-    using UniRx.Async;
+    using Cysharp.Threading.Tasks;
+
 
     public interface IAsyncStateExecutor : IDisposable
     {

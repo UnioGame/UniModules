@@ -1,6 +1,7 @@
 ﻿namespace UniModules.UniGame.Core.EditorTools.Editor.EditorResources
 {
     using System;
+    using Sirenix.OdinInspector;
     using UniGreenModules.UniResourceSystem.Runtime.Interfaces;
     using UnityEngine;
     using Object = UnityEngine.Object;
@@ -11,19 +12,20 @@
         [NonSerialized]
         protected Object _loadedItem;
         
-        [HideInInspector]
+        [SerializeField]
+        public string assetName;
+
         [SerializeField]
         public string assetPath;
         
-        [HideInInspector]
         [SerializeField]
         public string guid;
 
-        [HideInInspector]
         [SerializeField]
-        public string assetName;
-        
-        [SerializeField]
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.InlineEditor()]
+        [Sirenix.OdinInspector.PreviewField(ObjectFieldAlignment.Center)]
+#endif
         public Object asset;
 
         public string ItemName => assetName;

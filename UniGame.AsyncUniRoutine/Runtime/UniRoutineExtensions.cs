@@ -1,7 +1,7 @@
 ﻿namespace UniModules.UniGame.AsyncUniRoutine.Runtime
 {
     using System.Threading.Tasks;
-    using UniRx.Async;
+    using Cysharp.Threading.Tasks;
 
     public static class UniRoutineExtensions
     {

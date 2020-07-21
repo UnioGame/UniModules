@@ -1,9 +1,9 @@
 ﻿namespace UniGreenModules.UniGame.SerializableContext.Runtime.Scriptable
 {
     using System.Collections.Generic;
+    using Cysharp.Threading.Tasks;
     using UniCore.Runtime.Interfaces;
     using UniModules.UniGame.Context.Runtime.Abstract;
-    using UniRx.Async;
     using UnityEngine;
 
     [CreateAssetMenu(menuName = "UniGame/GameSystem/Sources/AsyncSourceQueue", fileName = nameof(AsyncContextQueueDataSources))]

@@ -2,7 +2,6 @@
 {
     using System;
     using UniCore.Runtime.Interfaces;
-    using UniCore.Runtime.ObjectPool;
     using UniCore.Runtime.ObjectPool.Runtime;
 
     public static class ContextDataExtension
