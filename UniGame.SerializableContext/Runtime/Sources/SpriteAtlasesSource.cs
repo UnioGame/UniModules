@@ -4,9 +4,10 @@
     using Addressables;
     using AddressableTools.Runtime.AssetReferencies;
     using Context.Runtime.Abstract;
+    using Cysharp.Threading.Tasks;
     using UniGreenModules.UniCore.Runtime.Interfaces;
     using UniGreenModules.UniGame.AddressableTools.Runtime.Extensions;
-    using UniRx.Async;
+    
     using UnityEngine;
     using UnityEngine.U2D;
 

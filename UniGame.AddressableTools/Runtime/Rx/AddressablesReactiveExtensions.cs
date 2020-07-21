@@ -1,10 +1,6 @@
-﻿using System;
-
-namespace UniGame.Addressables.Reactive
+﻿namespace UniGame.Addressables.Reactive
 {
     using UniGreenModules.UniCore.Runtime.ObjectPool.Runtime;
-    using UniRx;
-    using UniRx.Async;
     using UnityEngine;
     using UnityEngine.AddressableAssets;
     using Object = UnityEngine.Object;

@@ -46,7 +46,7 @@
                 resultPath = AssetDatabase.GetAssetPath(targetAsset);
             }
     
-            assetPath = resultPath;
+            assetPath = string.IsNullOrEmpty(resultPath) ? AssetDatabase.GetAssetPath(resultAsset) : resultPath;
             guid = string.IsNullOrEmpty(assetPath) ? string.Empty : AssetDatabase.AssetPathToGUID(assetPath);
             asset = resultAsset;
 

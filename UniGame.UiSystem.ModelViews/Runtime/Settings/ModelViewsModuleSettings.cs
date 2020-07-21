@@ -5,6 +5,7 @@ namespace UniGame.ModelViewsMap.Runtime.Settings
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Cysharp.Threading.Tasks;
     using Taktika.GameRuntime.Types;
     using UiSystem.ModelViews.Runtime.Flow;
     using UiSystem.Runtime;
@@ -14,7 +15,7 @@ namespace UniGame.ModelViewsMap.Runtime.Settings
     using UniGreenModules.UniGame.Core.Runtime.SerializableType;
     using UniModules.UniGame.Context.Runtime.Abstract;
     using UniModules.UniGame.UISystem.Runtime.DataSources;
-    using UniRx.Async;
+    
 
     [CreateAssetMenu(menuName = "UniGame/UiSystem/ModelViewsModuleSettings", fileName = "ModelViewsModuleSettings")]
     public class ModelViewsModuleSettings : AsyncContextDataSource, IModelViewsSettings

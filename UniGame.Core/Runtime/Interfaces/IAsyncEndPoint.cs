@@ -1,10 +1,10 @@
 ﻿namespace UniGreenModules.UniCore.Runtime.Interfaces
 {
-    using UniRx.Async;
+    using Cysharp.Threading.Tasks;
 
     public interface IAsyncEndPoint<T>
     {
-        UniTask<T> Exit();
+        UniTask Exit();
     }
 
 }
