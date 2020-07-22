@@ -1,20 +1,22 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using UnityEditor;
-using UnityEngine;
-
-namespace UniModules.UniGame.EditorTools.Editor.AssetReferences
+﻿namespace UniModules.UniGame.Core.EditorTools.Editor.AssetOperations.AssetReferenceTool
 {
     using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.IO;
     using System.Linq;
     using System.Threading;
-    using Core.EditorTools.Editor.EditorResources;
-    using Core.EditorTools.Editor.Tools;
+    using EditorResources;
     using Sirenix.Utilities;
+    using Tools;
+    using UniGame.EditorTools.Editor.AssetReferences;
     using UniGreenModules.UniCore.EditorTools.Editor;
     using UniGreenModules.UniCore.EditorTools.Editor.AssetOperations;
     using UniGreenModules.UniCore.EditorTools.Editor.Utility;
-    using Object = Object;
+    using UniGreenModules.UniCore.Runtime.Rx.Extensions;
+    using UnityEditor;
+    using UnityEngine;
+    using Object = UnityEngine.Object;
 
     public class AssetReferenceFinder
     {
@@ -24,8 +26,8 @@ namespace UniModules.UniGame.EditorTools.Editor.AssetReferences
             "*.mat",
             "*.asset",
         };
-        
-        public static SearchResult FindReferences(SearchData searchData)
+
+        public static SearchResultData FindReferences(SearchData searchData)
         {
             var result = LoadTargetAssets(searchData);
 
@@ -40,58 +42,75 @@ namespace UniModules.UniGame.EditorTools.Editor.AssetReferences
             
         }
 
-        public static SearchResult UpdateReferences(SearchResult result, HashSet<string> files)
+        public static SearchResultData UpdateReferences(SearchResultData searchResult, HashSet<string> files)
         {
-            foreach (var item in result.referenceMap) {
+            foreach (var item in searchResult.referenceMap) {
                 item.Value.Clear();
             }
 
-            AssetEditorTools.ShowActionProgress(FindAsssetReferences(result, files));
-            
-            return result;
+            AssetEditorTools.ShowActionProgress(searchResult.Progression,searchResult.LifeTime).
+                AddTo(searchResult.LifeTime);
+            searchResult = FindAsssetReferences(searchResult, files);
+            searchResult.Complete();
+            return searchResult;
         }
 
-        public static IEnumerator<ProgressData> FindAsssetReferences(SearchResult result, HashSet<string> files)
+        public static SearchResultData FindAsssetReferences(SearchResultData searchData, HashSet<string> files)
         {
+            var lifetime = searchData.LifeTime;
             var filesCount = files.Count;
             var allItems = filesCount;
             var progressIndex = 0;
             var referencesCount = 0;
+            var cancelationToken = lifetime.AsCancellationSource().Token;
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
             
+            files.AsParallel().
+                WithCancellation(cancelationToken).
+                AsUnordered().
+                ForEach(file => {
+                                    
+                    Interlocked.Increment(ref progressIndex);
+
+                    if (Directory.Exists(file))
+                        return;
+                    
+                    var localPath = EditorFileUtils.ToProjectPath(file);
+                    var fileValue = File.ReadAllText(file);
+                    var assets = searchData.assets;
+
+                    assets.AsParallel().WithCancellation(cancelationToken).AsUnordered().Select(x => x.Value).ForEach(x => {
+                        var guid        = x.guid;
+                        var targetAsset = x.asset;
+
+                        var timespan = TimeSpan.FromMilliseconds(stopwatch.ElapsedMilliseconds);
+
+                        searchData.ReportProgress(new ProgressData() {
+                            Title    = localPath,
+                            Progress = progressIndex / (float) allItems,
+                            Content  = $"Found References: {referencesCount} : time {timespan.TotalSeconds}..."
+                        });
+
+                        if (fileValue.IndexOf(guid, StringComparison.OrdinalIgnoreCase) < 0)
+                            return;
+                        var referenceItem = searchData.referenceMap[targetAsset];
+                        var asset         = localPath.AssetPathToAsset();
+                        if (asset == targetAsset)
+                            return;
+                        if (!asset)
+                            return;
+
+                        referenceItem.Add(new EditorResource().Update(asset));
+                        Interlocked.Increment(ref referencesCount);
+                    });
+
+                });
             
-            foreach (var file in files) {
-                
-                var localPath = EditorFileUtils.ToProjectPath(file);
-                var fileValue = File.ReadAllText(file);
-                
-                Interlocked.Increment(ref progressIndex);
-
-                foreach (var info in result.assetsInfos) {
-                    var guid        = info.Value.guid;
-                    var targetAsset = info.Value.asset;
-
-                    yield return new ProgressData() {
-                        Title    = localPath,
-                        Progress = progressIndex/(float)allItems,
-                        Content  = $"Found References: {referencesCount}"
-                    };
-                        
-                    if (fileValue.IndexOf(guid, StringComparison.OrdinalIgnoreCase) < 0) 
-                        continue;
-                    var referenceItem = result.referenceMap[info.Key];
-                    var asset         = localPath.AssetPathToAsset();
-                    if(asset == targetAsset)
-                        continue;
-                    if(!asset) 
-                        continue;
-                            
-                    referenceItem.Add(new EditorResource().Update(asset));
-                    Interlocked.Increment(ref referencesCount);
-                }
-
-            }
+            stopwatch.Stop();
+            return searchData;
         }
-        
+
         public static HashSet<string> SearchReferenceFiles(string[] filters,string[] excludeFilters = null)
         {
             var filterResult = new HashSet<string>();
@@ -106,9 +125,9 @@ namespace UniModules.UniGame.EditorTools.Editor.AssetReferences
             return filterResult;
         }
 
-        public static SearchResult LoadTargetAssets(SearchData filter)
+        public static SearchResultData LoadTargetAssets(SearchData filter)
         {
-            var result = new SearchResult();
+            var result = new SearchResultData();
             
             foreach (var guid in filter.assetsGuids) {
                 var path = AssetDatabase.GUIDToAssetPath(guid);

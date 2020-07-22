@@ -86,6 +86,20 @@ namespace UniModules.UniGame.Core.EditorTools.Editor.Tools
             return a + "/" + b;
         }
 
+        public static string FixUnityPath(this string path)
+        {
+            if (string.IsNullOrEmpty(path))
+                return path;
+            switch (Path.DirectorySeparatorChar) {
+                case '\\':
+                    return path.Replace("/", "\\").TrimEnd('\\');
+                case '/':
+                    return path.Replace("\\", "/").TrimEnd('/');
+            }
+
+            return path.Replace("\\", "/").TrimEnd('/');
+        }
+        
         public static string ValidateUnityPath(this string path)
         {
             if (string.IsNullOrEmpty(path))

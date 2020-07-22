@@ -7,7 +7,7 @@
     using Object = UnityEngine.Object;
 
     [Serializable]
-    public class AssetReferencesMap : SerializableDictionary<Object, List<ResourceItem>>
+    public class AssetReferencesMap : SerializableDictionary<Object, List<ResourceHandle>>
     {
         public AssetReferencesMap(int capacity)
             : base(capacity)

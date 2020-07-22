@@ -2,6 +2,7 @@
 {
     using System;
     using System.Linq;
+    using Core.EditorTools.Editor.AssetOperations.AssetReferenceTool;
 
     [Serializable]
     public class SearchData

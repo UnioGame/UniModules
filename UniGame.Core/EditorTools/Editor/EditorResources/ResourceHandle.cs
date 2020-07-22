@@ -7,7 +7,7 @@
     using Object = UnityEngine.Object;
 
     [Serializable]
-    public class ResourceItem : IResource
+    public class ResourceHandle : IResource
     {
         [NonSerialized]
         protected Object _loadedItem;
@@ -64,7 +64,7 @@
             return result;
         }
         
-        public ResourceItem Update(Object target)
+        public ResourceHandle Update(Object target)
         {
             this.asset = target;
             assetName = target.name;
@@ -72,7 +72,7 @@
             return OnUpdateAsset(this.asset);
         }
 
-        public ResourceItem Update() {
+        public ResourceHandle Update() {
             
             if (this.asset)
             {
@@ -127,7 +127,7 @@
             return null;
         }
 
-        protected virtual ResourceItem OnUpdateAsset(Object targetAsset)
+        protected virtual ResourceHandle OnUpdateAsset(Object targetAsset)
         {
             return this;
         }

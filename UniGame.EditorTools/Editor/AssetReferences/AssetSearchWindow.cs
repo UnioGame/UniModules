@@ -5,7 +5,9 @@ namespace UniModules.UniGame.EditorTools.Editor.AssetReferences
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Core.EditorTools.Editor.AssetOperations.AssetReferenceTool;
     using Core.EditorTools.Editor.EditorResources;
+    using Core.EditorTools.Editor.Tools;
     using Core.Runtime.Extension;
     using Sirenix.OdinInspector.Editor;
     using UniGreenModules.UniCore.EditorTools.Editor.AssetOperations;
@@ -32,16 +34,28 @@ namespace UniModules.UniGame.EditorTools.Editor.AssetReferences
         public string filter;
         
         [Tooltip("If target is MonoScript, when type is real target class type")]
+        [Sirenix.OdinInspector.OnValueChanged("OnTargetAssetChanged")]
         public Object objectTypeFilter;
 
+        [Sirenix.OdinInspector.ReadOnly]
+        [Sirenix.OdinInspector.InlineProperty]
+        public ResourceHandle targetAsset;
+        
         [Sirenix.OdinInspector.FolderPath]
         public List<string> folderFilter = new List<string>();
-
+        
+        [Space(6)]
+        [Sirenix.OdinInspector.FoldoutGroup("Advanced")]
         public List<string> typeFilter = AssetReferenceFinder.DefaultSearchTargets.ToList();
 
+        [Sirenix.OdinInspector.FoldoutGroup("Advanced")]
         [Space(8)]        
         public List<string> ignoreFilter = new List<string>();
-        
+
+        [Sirenix.OdinInspector.FoldoutGroup("Advanced")]
+        [Sirenix.OdinInspector.FolderPath]
+        public List<string> ignoreFolders = new List<string>();
+
         [Sirenix.OdinInspector.OnValueChanged("FilterReferences")]
         public bool showEmptyReferences = false;
         
@@ -90,11 +104,15 @@ namespace UniModules.UniGame.EditorTools.Editor.AssetReferences
 
             var searchData = new SearchData() {
                 assets = assets.ToArray(),
-                excludeReferenceSearchFilters = ignoreFilter.ToArray(),
+                excludeReferenceSearchFilters = ignoreFilter.
+                    Concat(ignoreFolders).
+                    Select(EditorFileUtils.FixUnityPath).
+                    ToArray(),
                 referenceFilters = typeFilter.ToArray(),
             };
 
             var result = AssetReferenceFinder.FindReferences(searchData);
+            
             foreach (var reference in result.referenceMap) {
                 var assetItem = reference.Key;
                 var referencesData = reference.Value.
@@ -152,6 +170,12 @@ namespace UniModules.UniGame.EditorTools.Editor.AssetReferences
         }
 
 
+        private Object OnTargetAssetChanged()
+        {
+            targetAsset = new EditorResource().Update(objectTypeFilter);
+            return objectTypeFilter;
+        }
+        
         private void FilterReferences()
         {
             references.Clear();
