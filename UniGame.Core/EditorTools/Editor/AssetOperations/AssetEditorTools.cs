@@ -5,7 +5,11 @@
     using System.IO;
     using System.Linq;
     using System.Text.RegularExpressions;
+    using System.Threading;
     using Runtime.ReflectionUtils;
+    using Runtime.Rx.Extensions;
+    using UniModules.UniGame.Core.Runtime.DataFlow.Interfaces;
+    using UniRx;
     using UnityEditor;
     using UnityEngine;
     using Utility;
@@ -378,6 +382,32 @@
             result = GetValidBundleTag(result);
 
             return result;
+        }
+        
+        public static IDisposable ShowActionProgress(IObservable<ProgressData> progressObservable, ILifeTime lifeTime)
+        {
+
+            var disposable = Disposable.Empty;
+            var cancelation = lifeTime.AsCancellationSource();
+            var isCanceled = EditorUtility.DisplayCancelableProgressBar(string.Empty, string.Empty, 0);
+            if (isCanceled)
+                return Disposable.Empty;
+            
+            disposable = progressObservable.
+                Do(progress => {
+                    isCanceled = EditorUtility.DisplayCancelableProgressBar(progress.Title, progress.Content, progress.Progress);
+                    if (isCanceled) {
+                        disposable.Cancel();
+                        cancelation.Cancel();
+                    }
+                }).
+                Finally(() => disposable.Cancel()).
+                Finally(EditorUtility.ClearProgressBar).
+                Subscribe().
+                AddTo(lifeTime);
+            
+            return disposable;
+            
         }
         
         public static void ShowActionProgress(IEnumerator<ProgressData> awaiter)
