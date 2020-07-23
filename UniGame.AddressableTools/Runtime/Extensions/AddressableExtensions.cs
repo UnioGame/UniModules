@@ -1,16 +1,13 @@
 ﻿namespace UniGreenModules.UniGame.AddressableTools.Runtime.Extensions
 {
-    using System;
     using System.Collections.Generic;
-    using System.Threading.Tasks;
     using Core.Runtime.Extension;
+    using Cysharp.Threading.Tasks;
     using global::UniCore.Runtime.ProfilerTools;
     using SerializableContext.Runtime.Addressables;
-    using UniCore.Runtime.DataFlow.Interfaces;
     using UniCore.Runtime.ObjectPool.Runtime;
     using UniCore.Runtime.ObjectPool.Runtime.Extensions;
     using UniModules.UniGame.Core.Runtime.DataFlow.Interfaces;
-    using UniRx.Async;
     using UnityEngine;
     using UnityEngine.AddressableAssets;
     using UnityEngine.ResourceManagement.AsyncOperations;

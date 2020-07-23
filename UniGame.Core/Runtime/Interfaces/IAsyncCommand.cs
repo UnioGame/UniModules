@@ -1,6 +1,6 @@
 ﻿namespace UniGreenModules.UniCore.Runtime.Interfaces
 {
-    using UniRx.Async;
+    using Cysharp.Threading.Tasks;
 
     public interface IAsyncCommand<T>
     {

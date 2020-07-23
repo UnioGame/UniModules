@@ -8,7 +8,7 @@
   "keywords": [],
   "dependencies": {
     "com.unigame.neuecc.unirx": "7.1.1",
-    "com.unigame.neuecc.unirx.async": "1.3.0",
+    "com.unigame.neuecc.unitask": "2.0.26",
     "com.unigame.unicore": "2020.0.1",
     "com.unigame.uniroutine": "1.5.32",
     "com.unigame.contextdata": "1.3.15"

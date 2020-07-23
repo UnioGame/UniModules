@@ -3,7 +3,7 @@
     using UnityEditor;
     using UnityEngine;
 
-    public class EditorResource : ResourceItem
+    public class EditorResource : ResourceHandle
     {
        
         public string AssetPath => assetPath;
@@ -18,7 +18,7 @@
 
         public bool IsVariant { get; protected set; }
 
-        protected override ResourceItem OnUpdateAsset(Object targetAsset)
+        protected override ResourceHandle OnUpdateAsset(Object targetAsset)
         {
             var resultAsset = targetAsset;
             var resultPath = string.Empty;
@@ -46,7 +46,7 @@
                 resultPath = AssetDatabase.GetAssetPath(targetAsset);
             }
     
-            assetPath = resultPath;
+            assetPath = string.IsNullOrEmpty(resultPath) ? AssetDatabase.GetAssetPath(resultAsset) : resultPath;
             guid = string.IsNullOrEmpty(assetPath) ? string.Empty : AssetDatabase.AssetPathToGUID(assetPath);
             asset = resultAsset;
 

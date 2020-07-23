@@ -3,7 +3,6 @@ namespace UniGame.Addressables.Reactive
     using System;
     using UniRx;
     using UnityEngine.ResourceManagement.AsyncOperations;
-    using Object = UnityEngine.Object;
 
     public interface IAddressableObservable<TData> : 
         IObservable<TData>, 
