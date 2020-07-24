@@ -138,10 +138,13 @@
         /// <returns>list of updated ids</returns>
         public static async UniTask<List<string>> ResetAddressablesCacheForUpdatedContent(this object _)
         {
-            var updatedIds = await Addressables.CheckForCatalogUpdates(true).Task;
+            var handle = Addressables.CheckForCatalogUpdates();
+            var updatedIds = await handle.Task;
+            if (updatedIds == null || updatedIds.Count == 0)
+                return updatedIds;
             Addressables.ClearDependencyCacheAsync(updatedIds);   
             return updatedIds;
-        }
+        }    
         
         public static async UniTask<T> LoadAssetTaskAsync<T>(this AssetReference assetReference,ILifeTime lifeTime)
             where T : Object
