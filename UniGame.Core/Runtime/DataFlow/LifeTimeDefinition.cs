@@ -17,7 +17,7 @@
         
         public LifeTimeDefinition()
         {
-            lifeTime = new LifeTime();
+            lifeTime = DataFlow.LifeTime.Create();
             id = Unique.GetId();
         }
         

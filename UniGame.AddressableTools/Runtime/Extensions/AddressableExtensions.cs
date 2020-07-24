@@ -131,6 +131,17 @@
 
             return resultContainer;
         }
+
+        /// <summary>
+        /// request local cache update by actual catalog
+        /// </summary>
+        /// <returns>list of updated ids</returns>
+        public static async UniTask<List<string>> ResetAddressablesCacheForUpdatedContent(this object source)
+        {
+            var updatedIds = await Addressables.CheckForCatalogUpdates(true).Task;
+            //Addressables.ClearDependencyCacheAsync(updatedIds);   
+            return updatedIds;
+        }
         
         public static async UniTask<T> LoadAssetTaskAsync<T>(this AssetReference assetReference,ILifeTime lifeTime)
             where T : Object
