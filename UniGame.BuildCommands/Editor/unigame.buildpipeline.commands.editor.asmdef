@@ -3,6 +3,7 @@
     "references": [
         "unigame.buildpipeline.editor",
         "unigame.addressables.editor",
+        "unigame.unieditortools",
         "unigame.unicore.runtime",
         "Unity.AddressableImporter.Editor",
         "Unity.ResourceManager",

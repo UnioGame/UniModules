@@ -409,6 +409,21 @@
             return disposable;
             
         }
+
+        public static bool ShowProgress(ProgressData progress)
+        {
+            if (progress.IsDone) {
+                EditorUtility.ClearProgressBar();
+                return true;
+            }
+            var isCanceled = EditorUtility.DisplayCancelableProgressBar(progress.Title, progress.Content, progress.Progress);
+            if (isCanceled) {
+                EditorUtility.ClearProgressBar();
+            }
+
+            return isCanceled;
+        }
+        
         
         public static void ShowActionProgress(IEnumerator<ProgressData> awaiter)
         {
