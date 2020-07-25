@@ -299,50 +299,14 @@
 
         public static List<T> GetAssets<T>(string[] folders = null) where T : Object
         {
-            
             var targetType = typeof(T);
             return GetAssets<T>(targetType, folders);
-
         }
         
         public static List<T> GetAssets<T>(Type targetType,string[] folders = null) where T : Object
         {
-            if (IsComponent(targetType))
-            {
-                var components = GetComponentAssets<T>(folders);
-                return components;
-            }
             var items = GetAssets(targetType, folders);
             return items.OfType<T>().ToList();
-        }
-
-        public static List<T> GetComponentAssets<T>(string[] folders = null) where T : Object
-        {
-
-            var result = new List<T>();
-            ShowActionProgress(GetComponentAssets(result, folders));
-            return result;
-
-        }
-
-        public static IEnumerator<ProgressData> GetComponentAssets<T>(List<T> container, string[] folders = null)
-        {
-
-            var progress = new ProgressData()
-            {
-                Content = "Loading...",
-                Title = "GetComponentAssets " + typeof(T).Name,
-            };
-            yield return progress;
-            var items = GetAssets<GameObject>(folders);
-            for (var i = 0; i < items.Count; i++)
-            {
-                var item = items[i];
-                var targetComponents = item.GetComponents<T>();
-                container.AddRange(targetComponents);
-                progress.Progress = (float)i / items.Count;
-            }
-
         }
 
         public static List<T> GetAssetsWithChilds<T>(string[] folders = null) where T : Object
@@ -427,20 +391,22 @@
         
         public static void ShowActionProgress(IEnumerator<ProgressData> awaiter)
         {
+            var isShown = false;
 
-            var isCanceled = EditorUtility.DisplayCancelableProgressBar(string.Empty, string.Empty, 0);
-
-            while (isCanceled == false && awaiter.MoveNext())
-            {
-
-                var progress = awaiter.Current;
-                isCanceled = EditorUtility.DisplayCancelableProgressBar(progress.Title, progress.Content, progress.Progress);
-                if (isCanceled)
-                    break;
+            try {
+                while (awaiter.MoveNext())
+                {
+                    isShown = true;
+                    var progress   = awaiter.Current;
+                    var isCanceled = EditorUtility.DisplayCancelableProgressBar(progress.Title, progress.Content, progress.Progress);
+                    
+                    if (isCanceled)
+                        break;
+                }
             }
-
-            EditorUtility.ClearProgressBar();
-
+            finally{
+                if(isShown) EditorUtility.ClearProgressBar();
+            }
         }
         
         public static string GetGUID(Object asset)
