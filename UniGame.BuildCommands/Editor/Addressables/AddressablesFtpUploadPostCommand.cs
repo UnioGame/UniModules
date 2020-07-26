@@ -12,8 +12,8 @@ namespace UniModules.UniGame.BuildCommands.Editor.Ftp
     using UnityEditor.AddressableAssets.Settings;
     using UnityEngine;
 
-    [CreateAssetMenu(menuName = "UniGame/UniBuild/Commands/FTP Upload", fileName = nameof(AddressablesFtpUploadCommand))]
-    public class AddressablesFtpUploadCommand : UnityPostBuildCommand
+    [CreateAssetMenu(menuName = "UniGame/UniBuild/Commands/FTP Upload", fileName = nameof(AddressablesFtpUploadPostCommand))]
+    public class AddressablesFtpUploadPostCommand : UnityPostBuildCommand
     {
 #if ODIN_INSPECTOR
         [Sirenix.OdinInspector.BoxGroup("Auth")]
