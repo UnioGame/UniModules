@@ -1,8 +1,6 @@
 {
-    "name": "unigame.dotweenroutines.runtime",
-    "references": [
-        "GUID:5254f5f18f39c1649ac686f3937b577e"
-    ],
+    "name": "UniGame.FluentFTP",
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
