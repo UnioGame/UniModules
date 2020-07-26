@@ -1,10 +1,6 @@
-﻿using System;
-
-namespace UniGame.Addressables.Reactive
+﻿namespace UniGame.Addressables.Reactive
 {
     using UniGreenModules.UniCore.Runtime.ObjectPool.Runtime;
-    using UniRx;
-    using UniRx.Async;
     using UnityEngine;
     using UnityEngine.AddressableAssets;
     using Object = UnityEngine.Object;
@@ -52,20 +48,5 @@ namespace UniGame.Addressables.Reactive
             return observable;
         }
 
-        public static async UniTask<(TData value,IDisposable disposable)> ToAddressableUniTask<TData>(this IAddressableObservable<TData> observable)
-        {
-            //start resource load, save disposable token
-            var disposable = observable.Subscribe();
-            
-            //wait until resource is load
-            await UniTask.WaitUntil(() => observable.IsReady.Value);
-
-            var value = observable.Value.Value;
-            
-            observable.Dispose();
-            
-            return (value,disposable);
-        }
-        
     }
 }

@@ -17,3 +17,12 @@
 	path = UnityAddressableImporter
 	url = https://github.com/UniGameTeam/unity-addressable-importer.git
 	branch = master
+[submodule "UniGame.CodeWriter"]
+	path = UniGame.CodeWriter
+	url = https://github.com/UniGameTeam/CodeWriter.git
+[submodule "UniGame.UniBuild"]
+	path = UniGame.UniBuild
+	url = https://github.com/UniGameTeam/UniBuild.git
+[submodule "NpmPublisherSupport"]
+	path = NpmPublisherSupport
+	url = https://github.com/UniGameTeam/NpmPublisherSupport.git

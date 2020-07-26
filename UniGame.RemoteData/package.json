@@ -1,0 +1,21 @@
+{
+  "name": "com.greenbuttongames.userdata",
+  "displayName": "GBG User Data",
+  "description": "User data library for Unity",
+  "version": "0.2.12",
+  "unity": "2019.1",
+  "license": "MIT",
+  "author": "Ivan Ilyushkin (https://github.com/Glongooo)",
+  "keywords": [
+    "unity",
+    "user data",
+    "remote",
+    "unity3d",
+    "analytics"
+  ],
+  "dependencies": {
+    "com.greenbuttongames.neuecc.unirx": "7.0.2",
+    "com.greenbuttongames.newtonsoft.json": "2.0.6",
+    "com.greenbuttongames.unicore": "1.1.30"
+  }
+}

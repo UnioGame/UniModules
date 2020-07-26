@@ -5,9 +5,25 @@
     using UnityEditor.AddressableAssets;
     using UnityEditor.AddressableAssets.Settings;
     using UnityEngine;
+    using UnityEngine.AddressableAssets;
 
     public static class AddressableExtensions
     {
+        public static AssetReferenceGameObject PrefabToAssetReference(this Component source)
+        {
+            return source.gameObject.PrefabToAssetReference();
+        }
+
+        public static AssetReferenceGameObject PrefabToAssetReference(this GameObject source)
+        {
+            if (!PrefabUtility.IsPartOfAnyPrefab(source))
+                return null;
+            
+            var pathToPrefab = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(source);
+            var guid = AssetDatabase.AssetPathToGUID(pathToPrefab);
+            return new AssetReferenceGameObject(guid);
+        }
+
         public static void RemoveAddressableAssetLabel(this Object source, string label)
         {
             if (source == null || !AssetDatabase.Contains(source))
@@ -89,8 +105,10 @@
                 return false;
 
             var group = source.GetCurrentAddressableAssetGroup();
-            return group != null && group.Name == groupName;
+            return group != null && (string.IsNullOrEmpty(groupName) || group.Name == groupName);
         }
+
+        public static bool IsInAnyAddressableAssetGroup(this Object source) => IsInAddressableAssetGroup(source, string.Empty);
 
         public static AddressableAssetGroup GetCurrentAddressableAssetGroup(this Object source)
         {

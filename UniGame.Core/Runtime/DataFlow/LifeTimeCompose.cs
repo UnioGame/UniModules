@@ -2,41 +2,61 @@
 
 namespace UniModules.UniGame.Core.Runtime.DataFlow
 {
+    using System.Threading;
+    using Interfaces;
+    using UniGreenModules.UniCore.Runtime.DataFlow;
     using UniGreenModules.UniCore.Runtime.DataFlow.Interfaces;
     using UniGreenModules.UniCore.Runtime.ObjectPool.Runtime;
+    using UniGreenModules.UniCore.Runtime.ObjectPool.Runtime.Interfaces;
 
-    public class LifeTimeCompose : IDisposable
+    public class LifeTimeCompose : IDisposable, IPoolable
     {
         private int _counter;
-        private Action _action;
+        private LifeTimeDefinition _lifeTime = new LifeTimeDefinition();
+
+        #region lifetime api
         
-        public void Initialize(Action action, params ILifeTime[] lifeTimes)
+        public ILifeTime AddCleanUpAction(Action cleanAction) => _lifeTime.AddCleanUpAction(cleanAction);
+
+        public ILifeTime AddDispose(IDisposable item) => _lifeTime.AddDispose(item);
+
+        public ILifeTime AddRef(object o) => _lifeTime.AddRef(o);
+
+        public bool IsTerminated => _lifeTime.IsTerminated;  
+
+        #endregion
+        
+        public void Release()
         {
-            _action = action;
-            _counter = lifeTimes.Length;
-            
+            _lifeTime.Release();
+            _counter = 0;
+        }
+        
+        public void Add(params ILifeTime[] lifeTimes)
+        {
             foreach (var lifeTime in lifeTimes) {
-                lifeTime.AddDispose(this);
+                Add(lifeTime);
             }
         }
         
         public void Add(ILifeTime lifeTime)
         {
-            _counter++;
+            Interlocked.Increment(ref _counter);
             lifeTime.AddDispose(this);
         }
         
         public void Dispose()
         {
-            _counter--;
-            _action?.Invoke();
-            _action = null;
+            Interlocked.Decrement(ref _counter);
+            _lifeTime.Terminate();
             
             if (_counter > 0) {
                 return;
             }
+            
             //despawn when counter <= 0
             ClassPool.Despawn(this);
         }
+
     }
 }

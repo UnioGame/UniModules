@@ -30,7 +30,7 @@
 
             selection = Type.GetType(targetProperty.stringValue, false, true);
                 
-            var newSelection = TypDrawer.DrawTypePopup(position, label, targetType, selection);
+            var newSelection = TypeDrawer.DrawTypePopup(position, label, targetType, selection);
             if (newSelection == selection) {
                 return;
             }

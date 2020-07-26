@@ -71,6 +71,20 @@
             return null;
         }
         
+        
+        public static Object AssetPathToAsset(this string assetPath)
+        {
+            if (string.IsNullOrEmpty(assetPath)) return null;
+            return AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(assetPath);
+        }
+        
+        public static Object MarkDirty(this Object asset)
+        {
+            if (!asset) return asset;
+            EditorUtility.SetDirty(asset);
+            return asset;
+        }
+        
         /// <summary>
         /// Gets all childrens of `SerializedObjects`
         /// at 1 level depth if includeChilds == false.

@@ -37,11 +37,10 @@ namespace UniGreenModules.UniCore.EditorTools.Editor.AssetOperations
 
             return assets;
         }
-        
+
         public static List<T> GetAssets<T>(string filter, string[] folders = null) where T : Object
         {
-            var assets = new List<T>();
-            ShowActionProgress(GetAssets(assets, filter, folders));
+            var assets = GetAssets(new List<T>(), filter, folders);
             return assets;
         }
 
@@ -58,18 +57,11 @@ namespace UniGreenModules.UniCore.EditorTools.Editor.AssetOperations
             return assets;
         }
 
-        public static IEnumerator<ProgressData> GetAssets<T>(List<T> resultContainer, string filter, string[] folders = null) where T : Object
+        public static List<T> GetAssets<T>(List<T> resultContainer, string filter, string[] folders = null) where T : Object
         {
-            var progress = new ProgressData() {
-                Content = "loading...",
-                Title   = "GetAsset of type " + typeof(T).Name,
-            };
-
-            yield return progress;
-
             var type = typeof(T);
             var ids  = AssetDatabase.FindAssets(filter, folders);
-            for (int i = 0; i < ids.Length; i++) {
+            for (var i = 0; i < ids.Length; i++) {
                 var id        = ids[i];
                 var assetPath = AssetDatabase.GUIDToAssetPath(id);
                 if (string.IsNullOrEmpty(assetPath)) {
@@ -82,14 +74,11 @@ namespace UniGreenModules.UniCore.EditorTools.Editor.AssetOperations
                 asset = AssetDatabase.LoadAssetAtPath(assetPath, type) as T;
 
                 if (asset) resultContainer.Add(asset);
-
-                progress.Progress = (float) i / ids.Length;
-
-                yield return progress;
             }
+
+            return resultContainer;
         }
-        
-        
+ 
         /// <summary>
         /// load components
         /// </summary>

@@ -5,8 +5,10 @@
     using ObjectPool.Runtime.Interfaces;
     using Runtime.Interfaces;
     using UniGame.Core.Runtime.DataFlow;
+    using UniModules.UniGame.Core.Runtime.DataFlow.Interfaces;
 
-    public class LifeTimeDefinition : IUnique, 
+    public class LifeTimeDefinition : 
+        IUnique, 
         ILifeTime, 
         IPoolable
     {
@@ -15,11 +17,11 @@
         
         public LifeTimeDefinition()
         {
-            lifeTime = new LifeTime();
+            lifeTime = DataFlow.LifeTime.Create();
             id = Unique.GetId();
         }
         
-        public bool IsTerminated => lifeTime.IsTerminated;
+        public bool IsTerminated => lifeTime.isTerminated;
 
         public ILifeTime LifeTime => lifeTime;
 

@@ -3,6 +3,7 @@
     using Interfaces;
     using ObjectPool.Runtime.Extensions;
     using ObjectPool.Runtime.Interfaces;
+    using UniModules.UniGame.Core.Runtime.DataFlow.Interfaces;
 
     public class LifeTimeModel : ILifeTimeModel, IPoolable
     {

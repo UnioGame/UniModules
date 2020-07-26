@@ -1,7 +1,7 @@
-﻿namespace UniGreenModules.UniGame.SerializableContext.Runtime.Abstract
+﻿namespace UniModules.UniGame.SerializableContext.Runtime.Abstract
 {
-    using UniContextData.Runtime.Interfaces;
-    using UniCore.Runtime.Interfaces;
+    using Core.Runtime.Interfaces;
+    using UniGreenModules.UniContextData.Runtime.Interfaces;
 
     public interface IAsyncSource : IAsyncContextDataSource, ILifeTimeContext
     {

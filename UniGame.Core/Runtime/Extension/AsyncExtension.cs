@@ -1,8 +1,8 @@
 ﻿namespace UniGreenModules.UniCore.Runtime.Extension
 {
     using System;
+    using Cysharp.Threading.Tasks;
     using Interfaces;
-    using UniRx.Async;
     using UnityEngine;
 
     public static class AsyncExtension

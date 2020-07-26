@@ -26,6 +26,7 @@ namespace UniGreenModules.UniCore.EditorTools.Editor.AssetOperations
             return assets;
         }
 
+        
         public static AssetImporter GetDirectoryImporter(string path)
         {
             if (string.IsNullOrEmpty(path))
@@ -56,6 +57,12 @@ namespace UniGreenModules.UniCore.EditorTools.Editor.AssetOperations
             return GetAssetImporters($"t:{typeof(T).Name}", folders, foldersOnly);
         }
 
+        public static AssetImporter GetAssetImporter(Object asset)
+        {
+            var importer = AssetImporter.GetAtPath(AssetDatabase.GetAssetPath(asset));
+            return importer;
+        }
+        
         public static List<AssetImporter> GetAssetImporters(Type targetType, string[] folders = null, bool foldersOnly = false)
         {
             return GetAssetImporters(string.Format("t:{0}", targetType.Name), folders, foldersOnly);

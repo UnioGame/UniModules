@@ -7,9 +7,10 @@ namespace UniGreenModules.UniGame.Core.Runtime.Extension
 
     public static class UnityTypeExtension
     {
-        private static Type componentType = typeof(Component);
-        private static Type gameObjectType = typeof(GameObject);
-        private static Type assetType = typeof(Object);
+        public static Type componentType = typeof(Component);
+        public static Type gameObjectType = typeof(GameObject);
+        public static Type assetType = typeof(Object);
+        public static Type scriptableType = typeof(ScriptableObject);
 
         public static bool IsComponent(this Type type)
         {

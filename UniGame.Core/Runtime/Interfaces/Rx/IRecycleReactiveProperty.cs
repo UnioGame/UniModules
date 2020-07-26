@@ -2,6 +2,7 @@
 {
     using System;
     using ObjectPool.Runtime.Interfaces;
+    using UniModules.UniGame.Core.Runtime.Interfaces;
     using UniRx;
 
     public interface IRecycleReactiveProperty<TValue> : 

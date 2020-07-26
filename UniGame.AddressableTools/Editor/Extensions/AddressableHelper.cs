@@ -1,5 +1,6 @@
 ﻿namespace UniModules.UniGame.AddressableExtensions.Editor
 {
+    using UniGreenModules.UniCore.EditorTools.Editor.AssetOperations;
     using UnityEditor;
     using UnityEditor.AddressableAssets;
     using UnityEditor.AddressableAssets.Settings;
@@ -7,6 +8,17 @@
 
     public static class AddressableHelper
     {
+        private static AddressableAssetSettings addressableAssetSettings;
+        
+        public static string EvaluateActiveProfileString(this string key)
+        {
+            addressableAssetSettings = addressableAssetSettings ? addressableAssetSettings :  AssetEditorTools.GetAsset<AddressableAssetSettings>();
+            if (!addressableAssetSettings) return key;
+            var activeprofile = addressableAssetSettings.activeProfileId;
+            var result = addressableAssetSettings.profileSettings.EvaluateString(activeprofile, key);
+            return result;
+        }
+        
         public static AddressableAssetEntry CreateAssetEntry<T>(T source, string groupName, string label) where T : Object
         {
             var entry = CreateAssetEntry(source, groupName);

@@ -1,0 +1,26 @@
+{
+    "name": "unigame.build.buildcommands.editor",
+    "references": [
+        "unigame.buildpipeline.editor",
+        "unigame.addressables.editor",
+        "unigame.unieditortools",
+        "unigame.unicore.runtime",
+        "Unity.AddressableImporter.Editor",
+        "Unity.ResourceManager",
+        "Unity.Addressables",
+        "Unity.Addressables.Editor",
+        "Unity.ScriptableBuildPipeline",
+        "Unity.ScriptableBuildPipeline.Editor"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

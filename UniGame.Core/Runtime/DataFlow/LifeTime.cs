@@ -6,14 +6,38 @@
     using Interfaces;
     using ObjectPool.Runtime.Interfaces;
     using Rx.Extensions;
+    using UniGame.Core.Runtime.DataFlow;
+    using UniModules.UniGame.Core.Runtime.DataFlow.Interfaces;
 
     public class LifeTime : ILifeTime, IPoolable
     {
+        public readonly static ILifeTime TerminatedLifetime;
+        
         private List<IDisposable> disposables = new List<IDisposable>();
         private List<object> referencies = new List<object>();
         private List<Action> cleanupActions = new List<Action>();
-        private bool isTerminated;
+        
+        public readonly int id;
+        
+        public bool isTerminated;
 
+        static LifeTime()
+        {
+            var completedLifetime = new LifeTime();
+            completedLifetime.Release();
+            TerminatedLifetime = completedLifetime;
+        }
+
+        public static LifeTime Create()
+        {
+            return new LifeTime();
+        }
+        
+        protected LifeTime()
+        {
+            id = Unique.GetId();
+        }
+        
         /// <summary>
         /// cleanup action, call when life time terminated
         /// </summary>

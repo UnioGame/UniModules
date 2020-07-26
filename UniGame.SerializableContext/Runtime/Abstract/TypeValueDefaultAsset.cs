@@ -1,7 +1,6 @@
-﻿namespace UniGreenModules.UniGame.SerializableContext.Runtime.AssetTypes
+﻿namespace UniModules.UniGame.SerializableContext.Runtime.Abstract
 {
     using System;
-    using Abstract;
 
     [Serializable]
     public abstract class TypeValueDefaultAsset<TValue, TApiValue> :

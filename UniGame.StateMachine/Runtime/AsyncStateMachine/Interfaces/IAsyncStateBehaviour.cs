@@ -1,7 +1,8 @@
 namespace UniGreenModules.UniStateMachine.Runtime.AsyncStateMachine.Interfaces
 {
+    using Cysharp.Threading.Tasks;
     using Runtime.Interfaces;
-    using UniRx.Async;
+    
 
     public interface IAsyncStateBehaviour : IStateBehaviour<UniTask>{}
     

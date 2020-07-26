@@ -116,6 +116,13 @@ namespace UniModules.UniGame.Core.Runtime.Extension
             return result;
         }
 
+        public static TValue AddToCollection<TValue, TCollectionValue>(this TValue value, ICollection<TCollectionValue> collection)
+            where TValue : TCollectionValue
+        {
+            collection.Add(value);
+            return value;
+        }
+
         public static T GetRandomValue<T>(this IList<T> list, Predicate<T> predicate, T withoutElement)
         {
             var result = default(T);
@@ -137,6 +144,18 @@ namespace UniModules.UniGame.Core.Runtime.Extension
             }
             
             return result;
+        }
+        
+        /// <summary>
+        /// Wraps this object instance into an IEnumerable&lt;T&gt;
+        /// consisting of a single item.
+        /// </summary>
+        /// <typeparam name="T"> Type of the object. </typeparam>
+        /// <param name="item"> The instance that will be wrapped. </param>
+        /// <returns> An IEnumerable&lt;T&gt; consisting of a single item. </returns>
+        public static IEnumerable<T> Yield<T>(this T item)
+        {
+            yield return item;
         }
     }
 }

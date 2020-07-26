@@ -1,0 +1,18 @@
+{
+  "name": "com.unigame.fluentftp",
+  "author": "robinrodricks (https://github.com/robinrodricks)",
+  "displayName": "FluentFTP",
+  "description": "FluentFTP is a fully managed FTP and FTPS library for .NET & .NET Standard, optimized for speed",
+  "unity": "2019.3",
+  "version": "34.4.3",
+  "homepage": "https://github.com/robinrodricks/FluentFTP#readme",
+  "keywords": [
+    "ftp",
+    "async",
+    "files"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/robinrodricks/FluentFTP"
+  }
+}

@@ -1,15 +1,13 @@
 ﻿namespace UniGreenModules.UniGame.AddressableTools.Runtime.Extensions
 {
-    using System;
     using System.Collections.Generic;
-    using System.Threading.Tasks;
     using Core.Runtime.Extension;
+    using Cysharp.Threading.Tasks;
     using global::UniCore.Runtime.ProfilerTools;
     using SerializableContext.Runtime.Addressables;
-    using UniCore.Runtime.DataFlow.Interfaces;
     using UniCore.Runtime.ObjectPool.Runtime;
     using UniCore.Runtime.ObjectPool.Runtime.Extensions;
-    using UniRx.Async;
+    using UniModules.UniGame.Core.Runtime.DataFlow.Interfaces;
     using UnityEngine;
     using UnityEngine.AddressableAssets;
     using UnityEngine.ResourceManagement.AsyncOperations;
@@ -30,7 +28,7 @@
                 GameLog.LogError($"AssetReference key is NULL {sceneReference}");
                 return default;
             }
-            
+
             var dependencies = Addressables.DownloadDependenciesAsync(sceneReference.RuntimeKey);
             dependencies.AddTo(lifeTime);
             if(dependencies.Task != null)
@@ -51,13 +49,23 @@
             var targetAsset = reference.editorAsset;
             GameLog.Log($"UNLOAD AssetReference {targetAsset?.name} : {reference.AssetGUID}");    
 #endif
-            if(reference.Asset is IDisposable disposable)
-                disposable.Dispose();
-            
+            // if(reference.Asset is IDisposable disposable)
+            //     disposable.Dispose();
+            //
             reference.ReleaseAsset();
         }
 
-        public static async Task<IEnumerable<TSource>> LoadAssetsTaskAsync<TSource, TAsset>(
+        public static async UniTask<List<TResult>> LoadScriptableAssetsTaskAsync<TResult>(
+            this IEnumerable<AssetReference> assetReference, 
+            ILifeTime lifeTime)
+            where TResult : class
+        {
+            var container = new List<TResult>();
+            await assetReference.LoadAssetsTaskAsync<ScriptableObject, TResult, AssetReference>(container, lifeTime);
+            return container;
+        }
+        
+        public static async UniTask<IEnumerable<TSource>> LoadAssetsTaskAsync<TSource, TAsset>(
             this IEnumerable<TAsset> assetReference, 
             List<TSource> resultContainer, ILifeTime lifeTime)
             where TAsset : AssetReference
@@ -66,21 +74,21 @@
             return await assetReference.LoadAssetsTaskAsync<TSource, TSource, TAsset>(resultContainer, lifeTime);
         }
         
-        public static async Task<IEnumerable<TResult>> LoadAssetsTaskAsync<TSource,TResult,TAsset>(
+        public static async UniTask<IEnumerable<TResult>> LoadAssetsTaskAsync<TSource,TResult,TAsset>(
             this IEnumerable<TAsset> assetReference, 
             IList<TResult> resultContainer, ILifeTime lifeTime)
             where TResult : class
             where TAsset : AssetReference
             where TSource : Object
         {
-            var taskList = ClassPool.Spawn<List<Task<TSource>>>();
+            var taskList = ClassPool.Spawn<List<UniTask<TSource>>>();
 
             foreach (var asset in assetReference) {
                 var assetTask = asset.LoadAssetTaskAsync<TSource>(lifeTime);
                 taskList.Add(assetTask);
             }
 
-            var result = await Task.WhenAll(taskList);
+            var result = await UniTask.WhenAll(taskList);
             for (var j = 0; j < result.Length; j++) {
                 if(result[j] is TResult item) resultContainer.Add(item);
             }
@@ -90,7 +98,7 @@
             return resultContainer;
         }
         
-        public static async Task<IReadOnlyList<TSource>> LoadAssetsTaskAsync<TSource, TAsset>(
+        public static async UniTask<IReadOnlyList<TSource>> LoadAssetsTaskAsync<TSource, TAsset>(
             this IReadOnlyList<TAsset> assetReference, 
             List<TSource> resultContainer, ILifeTime lifeTime)
             where TAsset : AssetReference
@@ -99,14 +107,14 @@
             return await assetReference.LoadAssetsTaskAsync<TSource, TSource, TAsset>(resultContainer,lifeTime);
         }
 
-        public static async Task<IReadOnlyList<TResult>> LoadAssetsTaskAsync<TSource,TResult,TAsset>(
+        public static async UniTask<IReadOnlyList<TResult>> LoadAssetsTaskAsync<TSource,TResult,TAsset>(
             this IReadOnlyList<TAsset> assetReference, 
             List<TResult> resultContainer,ILifeTime lifeTime)
             where TResult : class
             where TAsset : AssetReference
             where TSource : Object
         {
-            var taskList = ClassPool.Spawn<List<Task<TSource>>>();
+            var taskList = ClassPool.Spawn<List<UniTask<TSource>>>();
             
             for (var i = 0; i < assetReference.Count; i++) {
                 var asset = assetReference[i];
@@ -114,7 +122,7 @@
                 taskList.Add(assetTask);
             }
             
-            var result = await Task.WhenAll(taskList);
+            var result = await UniTask.WhenAll(taskList);
             for (var j = 0; j < result.Length; j++) {
                 if(result[j] is TResult item) resultContainer.Add(item);
             }
@@ -123,8 +131,22 @@
 
             return resultContainer;
         }
+
+        /// <summary>
+        /// request local cache update by actual catalog
+        /// </summary>
+        /// <returns>list of updated ids</returns>
+        public static async UniTask<List<string>> ResetAddressablesCacheForUpdatedContent(this object _)
+        {
+            var handle = Addressables.CheckForCatalogUpdates();
+            var updatedIds = await handle.Task;
+            if (updatedIds == null || updatedIds.Count == 0)
+                return updatedIds;
+            Addressables.ClearDependencyCacheAsync(updatedIds);   
+            return updatedIds;
+        }    
         
-        public static async Task<T> LoadAssetTaskAsync<T>(this AssetReference assetReference,ILifeTime lifeTime)
+        public static async UniTask<T> LoadAssetTaskAsync<T>(this AssetReference assetReference,ILifeTime lifeTime)
             where T : Object
         {
             if (assetReference.RuntimeKeyIsValid() == false) {
@@ -174,6 +196,24 @@
             return result != null ? result.GetComponent<T>() : null;
         }
 
+        public static async UniTask<T> LoadAssetTaskAsync<T>(
+            this AssetReferenceScriptableObject<T> assetReference, 
+            ILifeTime lifeTime)
+            where T : class
+        {
+            var result = await LoadAssetTaskAsync<ScriptableObject>(assetReference as AssetReference,lifeTime);
+            return result as T;
+        }
+        
+        public static async UniTask<TApi> LoadAssetTaskAsync<T,TApi>(
+            this AssetReferenceScriptableObject<T,TApi> assetReference, 
+            ILifeTime lifeTime)
+            where T : ScriptableObject 
+            where TApi : class
+        {
+            var result = await LoadAssetTaskAsync<ScriptableObject>(assetReference,lifeTime);
+            return result as TApi;
+        }
         
         public static async UniTask<T> LoadAssetTaskAsync<T>(
             this AssetReferenceScriptableObject assetReference, 
@@ -215,8 +255,8 @@
             lifeTime.AddCleanUpAction(() => {
                 if (handle.IsValid() == false)
                     return;
-                if(handle.Result is IDisposable disposable)
-                    disposable.Dispose();
+                // if(handle.Result is IDisposable disposable)
+                //     disposable.Dispose();
                 Addressables.Release(handle);
             });
             return handle;
@@ -228,8 +268,8 @@
             lifeTime.AddCleanUpAction(() => {
                 if (handle.IsValid() == false)
                     return;
-                if(handle.Asset is IDisposable disposable)
-                    disposable.Dispose();
+                // if(handle.Asset is IDisposable disposable)
+                //     disposable.Dispose();
                 Addressables.Release(handle);
             });
             return lifeTime;
@@ -240,8 +280,8 @@
             lifeTime.AddCleanUpAction(() => {
                 if (handle.IsValid() == false)
                     return;
-                if(handle.Result is IDisposable disposable)
-                    disposable.Dispose();
+                // if(handle.Result is IDisposable disposable)
+                //     disposable.Dispose();
                 Addressables.Release(handle);
             });
             return lifeTime;
@@ -252,8 +292,8 @@
             lifeTime.AddCleanUpAction(() => {
                 if (handle.IsValid() == false)
                     return;
-                if(handle.Asset is IDisposable disposable)
-                    disposable.Dispose();
+                // if(handle.Asset is IDisposable disposable)
+                //     disposable.Dispose();
                 Addressables.Release(handle);
             });
             return lifeTime;

@@ -4,6 +4,15 @@
 
     public static class EnumFlagExtension  {
 
+        public static bool IsFlagSet<TEnum>(this TEnum value, TEnum flag)
+            where TEnum : Enum
+        {
+            var source = Convert.ToInt64(value); 
+            var flagValue = Convert.ToInt64(flag); 
+            
+            return IsFlagSet(source,flagValue);
+        }
+        
         public static bool IsFlagSet(this long value, long flag) 
         {
             return (value & flag) > 0;
