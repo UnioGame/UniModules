@@ -10,7 +10,7 @@ namespace UniModules.UniGame.Core.Runtime.Extension
 
     public static class CollectionExtension
     {
-        public static T GetRandomValue<T>(this IList<T> list)
+        public static T GetRandomValue<T>(this IReadOnlyList<T> list)
         {
             var randomIndex = Random.Range(0, list.Count);
             return list[randomIndex];
@@ -78,7 +78,7 @@ namespace UniModules.UniGame.Core.Runtime.Extension
             return -1;
         }
 
-        public static T GetRandomValue<T>(this IList<T> list, Predicate<T> predicate)
+        public static T GetRandomValue<T>(this IReadOnlyList<T> list, Predicate<T> predicate)
         {
             var validValues = list.Where(x=>predicate(x)).ToArray();
             var randomIndex = Random.Range(0, validValues.Length);
