@@ -29,4 +29,55 @@ public class KnapsackTests
             3,2,1,0
         }));
     }
+    
+        [Test]
+        public void ItemsCounterSolverTest()
+        {
+            int[] value    = new int[90];
+            int[] weight   = new int[90];
+            int   capacity = 1000;
+
+            for (int i = 0; i < weight.Length; i++) {
+                weight[i] = 10;
+                value[i] = 1;
+            }
+            
+            //act
+            var result = KnapsackSolver.Solve(capacity, weight, value, weight.Length);
+    
+            var selection     = result.selection;
+            var message       = "";
+            var selectedItems = string.Join(" ", selection);
+            message += $"SELECTION [{result.selection.Count}] : {selectedItems}";
+                
+            Debug.Log($"RESULT {result.maxValue} Selection:\n {message}");
+                
+            Assert.That(result.selection.Count == weight.Length);
+        }
+        
+        [Test]
+        public void ItemsZeroValueCounterSolverTest()
+        {
+            int[] value    = new int[90];
+            int[] weight   = new int[90];
+            int   capacity = 1000;
+
+            for (int i = 0; i < weight.Length; i++) {
+                weight[i] = 10;
+                value[i]  = 0;
+            }
+            
+            //act
+            var result = KnapsackSolver.Solve(capacity, weight, value, weight.Length);
+    
+            var selection     = result.selection;
+            var message       = "";
+            var selectedItems = string.Join(" ", selection);
+            message += $"SELECTION [{result.selection.Count}] : {selectedItems}";
+                
+            Debug.Log($"RESULT {result.maxValue} Selection:\n {message}");
+                
+            Assert.That(result.selection.Count == 0);
+        }
+        
 }
