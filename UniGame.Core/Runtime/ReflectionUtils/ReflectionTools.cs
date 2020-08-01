@@ -235,6 +235,24 @@
             return true;
         }
 
+        /// <summary>
+        /// utility method for returning the first matching custom attribute (or <c>null</c>) of the specified member.
+        /// </summary>
+        public static T GetCustomAttribute<T>(this Type type, bool inherit = true) where T : Attribute
+        {
+            var array = type.GetCustomAttributes(typeof (T), inherit).ToArray();
+            return array.Length != 0 ? (T) array[0] : default (T);
+        }
+        
+        /// <summary>
+        /// is type has target atteibtue
+        /// </summary>
+        public static bool HasAttribute<T>(this Type type, bool inherit = true) where T : Attribute
+        {
+            var array = type.GetCustomAttributes(typeof (T), inherit).ToArray();
+            return array.Length != 0 ;
+        }
+        
         public static void FindResources<TData>(List<Object> assets, Action<Object, TData> onFoundAction, HashSet<object> excludedItems = null, Func<TData, TData> resourceAction = null) where TData : class
         {
             GUI.changed = true;

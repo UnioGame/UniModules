@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Reflection;
     using System.Text.RegularExpressions;
     using System.Threading;
     using Runtime.ReflectionUtils;
@@ -15,7 +16,7 @@
     using Utility;
     using Object = UnityEngine.Object;
 
-    public partial class AssetEditorTools
+    public static partial class AssetEditorTools
     {
         private const string PrefabExtension = "prefab";
         private const string AssetExtension = "asset";
@@ -65,7 +66,7 @@
             return OpenScript(typeof(T),folders);
         }
 
-        public static bool OpenScript(Type type,params string[] folders)
+        public static bool OpenScript(this Type type,params string[] folders)
         {
             var asset = GetScriptAsset(type, folders);
             if (asset == null)
@@ -73,7 +74,7 @@
             return AssetDatabase.OpenAsset(asset.GetInstanceID(), 0, 0);
         }
 
-        public static MonoScript GetScriptAsset(Type type, params string[] folders)
+        public static MonoScript GetScriptAsset(this Type type, params string[] folders)
         {
             var typeName = type.Name;
             var filter   = $"t:script {typeName}";
@@ -90,7 +91,31 @@
             var asset = AssetDatabase.LoadAssetAtPath<MonoScript>(assetGuid.AssetGuidToPath());
             return asset;
         }
-        
+
+
+        public static List<AttributeItemData<T,TAttr>> GetAssetsWithAttribute<T, TAttr>(string[] folders = null)
+            where T : ScriptableObject
+            where TAttr : Attribute
+        {
+            var result = new List<AttributeItemData<T,TAttr>>();
+            
+            var assets = GetAssets<T>(folders);
+
+            foreach (var asset in assets) {
+                var type = asset.GetType();
+                var attribute = type.GetCustomAttribute<TAttr>();
+                if (attribute != null) {
+                    result.Add(new AttributeItemData<T, TAttr>() {
+                        Attribute = attribute,
+                        Value = asset
+                    });
+                }
+            }
+
+            return result;
+        }
+
+
         public static void FindItems<T>(Action<Object, T> action)
         {
 
