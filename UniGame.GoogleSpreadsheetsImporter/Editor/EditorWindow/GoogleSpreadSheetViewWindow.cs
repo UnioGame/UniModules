@@ -1,0 +1,57 @@
+﻿#if ODIN_INSPECTOR
+
+
+namespace UniModules.UniGame.GoogleSpreadsheetsImporter.Editor.EditorWindow
+{
+    using System.Collections.Generic;
+    using SheetsImporter;
+    using Sirenix.OdinInspector;
+    using Sirenix.OdinInspector.Editor;
+    using UnityEditor;
+    using UnityEngine;
+
+    public class GoogleSpreadSheetViewWindow : OdinEditorWindow
+    {
+        #region static data
+        
+        public static GoogleSpreadSheetViewWindow Open(List<GoogleSpreadsheetClient> spreadsheetClients)
+        {
+            var window = GetWindow<GoogleSpreadSheetViewWindow>();
+            window.Initialize(spreadsheetClients);
+            window.Show();
+            return window;
+        }
+        
+        #endregion
+
+#if ODIN_INSPECTOR
+        [InlineEditor()]
+#endif
+        public List<SpreadsheetSheetView> tables = new List<SpreadsheetSheetView>();
+
+        public void Initialize(List<GoogleSpreadsheetClient> spreadsheetClients)
+        {
+
+            foreach (var sheetView in tables) {
+                if (sheetView) {
+                    Destroy(sheetView); 
+                }
+                
+            }
+            tables.Clear();
+
+            foreach (var spreadsheetClient in spreadsheetClients) {
+                foreach (var sheet in spreadsheetClient.Sheets) {
+                    var sheetData = spreadsheetClient.GetData(sheet);
+                    var view = ScriptableObject.CreateInstance<SpreadsheetSheetView>();
+                    view.Initialize(sheetData);
+                    tables.Add(view);
+                }
+            }
+            
+        }
+        
+    }
+}
+
+#endif

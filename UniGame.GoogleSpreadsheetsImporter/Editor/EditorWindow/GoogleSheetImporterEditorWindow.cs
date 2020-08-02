@@ -1,13 +1,15 @@
-﻿using UnityEngine;
-#if ODIN_INSPECTOR
+﻿#if ODIN_INSPECTOR
     
 
-namespace UniModules.UniGame.GoogleSpreadsheets.Editor.EditorWindow
+namespace UniModules.UniGame.GoogleSpreadsheetsImporter.Editor.EditorWindow
 {
+    using GoogleSpreadsheets.Editor.SheetsImporter;
     using SheetsImporter;
+    using Sirenix.OdinInspector;
     using Sirenix.OdinInspector.Editor;
     using UniGreenModules.UniCore.EditorTools.Editor.AssetOperations;
     using UnityEditor;
+    using UnityEngine;
 
     public class GoogleSheetImporterEditorWindow : OdinEditorWindow
     {
@@ -22,9 +24,17 @@ namespace UniModules.UniGame.GoogleSpreadsheets.Editor.EditorWindow
         
         #endregion
 
-        private GoogleSheetImporter _googleSheetImporter;
-        
-        
+        [SerializeField]
+        [HideLabel]
+        [InlineEditor(InlineEditorModes.FullEditor,InlineEditorObjectFieldModes.Boxed,Expanded = true)]
+        public GoogleSheetImporter _googleSheetImporter;
+
+        [Button]
+        public void Reload()
+        {
+            _googleSheetImporter.Initialize();
+        }
+
         #region private methods
 
         protected override void OnEnable()
@@ -35,6 +45,8 @@ namespace UniModules.UniGame.GoogleSpreadsheets.Editor.EditorWindow
                 _googleSheetImporter = ScriptableObject.CreateInstance<GoogleSheetImporter>();
                 _googleSheetImporter.SaveAsset(nameof(GoogleSheetImporter), GoogleSheetImporterEditorConstants.DefaultGoogleSheetImporterPath);
             }
+
+            Reload();
             
             base.OnEnable();
 

@@ -1,4 +1,4 @@
-﻿namespace UniModules.UniGame.GoogleSpreadsheets.Editor.SheetsImporter
+﻿namespace UniModules.UniGame.GoogleSpreadsheetsImporter.Editor.SheetsImporter
 {
     using System.Collections.Generic;
 

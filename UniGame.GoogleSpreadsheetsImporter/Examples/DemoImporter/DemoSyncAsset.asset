@@ -9,9 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea28a9bc51a3a6c4f946ba6f8b07a018, type: 3}
-  m_Name: GoogleSheetImporter
+  m_Script: {fileID: 11500000, guid: f6b718bd65502804e828e1eeffa0bef1, type: 3}
+  m_Name: DemoSyncAsset
   m_EditorClassIdentifier: 
-  credentialsPath: Assets/UniModules/UniGame.GoogleSpreadsheets/Examples/credentials.json
-  sheetsIds:
-  - 1yFtDRq7BSKQu-EHOOIJj9d7BZhU7noo7xYg-ShKABM0
+  id: 
+  stringValue: 
+  intValue: 0
+  floatValue: 0
+  assetValue: {fileID: 0}

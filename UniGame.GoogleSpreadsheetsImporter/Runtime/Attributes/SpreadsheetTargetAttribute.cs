@@ -3,14 +3,14 @@
     using System;
 
     [AttributeUsage(AttributeTargets.Class)]
-    public class SheetItemAttribute : Attribute
+    public class SpreadsheetTargetAttribute : Attribute
     {
         private string _sheetName = string.Empty;
         private string _range = string.Empty;
         private bool _syncAllFields = false;
         private string _keyField = String.Empty;
 
-        public SheetItemAttribute(string sheetName = "",string range = "",string keyField = "", bool syncAllFields = false)
+        public SpreadsheetTargetAttribute(string sheetName = "",string keyField = "",string range = "", bool syncAllFields = true)
         {
             _sheetName = sheetName;
             _range = range;

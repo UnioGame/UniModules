@@ -11,7 +11,7 @@
     using Google.Apis.Util.Store;
     using UnityEngine;
 
-    [CreateAssetMenu(menuName = "UniGame/Google/Sheets/Examples/DemoGoogleSheetsDownloader", fileName = nameof(DemoGoogleSheetsDownloader))]
+    [CreateAssetMenu(menuName = "UniGame/Google/Spreadsheet/Examples/DemoGoogleSheetsDownloader", fileName = nameof(DemoGoogleSheetsDownloader))]
     public class DemoGoogleSheetsDownloader : ScriptableObject
     {
         // If modifying these scopes, delete your previously saved credentials
