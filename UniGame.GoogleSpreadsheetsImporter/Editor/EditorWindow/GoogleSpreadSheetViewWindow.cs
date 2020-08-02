@@ -34,9 +34,8 @@ namespace UniModules.UniGame.GoogleSpreadsheetsImporter.Editor.EditorWindow
 
             foreach (var sheetView in tables) {
                 if (sheetView) {
-                    Destroy(sheetView); 
+                    DestroyImmediate(sheetView); 
                 }
-                
             }
             tables.Clear();
 

@@ -2,6 +2,8 @@
 {
     using System.Linq;
     using SheetsImporter;
+    using Sirenix.Utilities;
+    using UnityEditor;
     using UnityEngine;
 
     public class SpreadsheetSheetView : ScriptableObject
@@ -11,6 +13,7 @@
         public string spreadSheetId;
         
 #if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.ShowInInspector]
         [Sirenix.OdinInspector.TableMatrix(SquareCells = true)]
 #endif
         public string[,] sheetValues;
@@ -22,6 +25,17 @@
             UpdateView(data);
         }
 
+        private static SheetCellView DrawCell(Rect rect, SheetCellView cellView)
+        {
+            EditorGUI.DrawRect(rect.Padding(1),cellView.isHeader ?
+                new Color(0.1f,0.8f,0.2f) :
+                new Color(0.0f,0.0f,0.5f));
+            
+            EditorGUILayout.LabelField(cellView.value);
+            
+            return cellView;
+        }
+        
         private void UpdateView(SheetData data)
         {
             var direction  = data.Dimension;
@@ -40,15 +54,20 @@
             height = isVertical ? tempHeight : width;
             width  = isVertical ? width : tempHeight;
             
-            for (int i = 0; i < width; i++) {
-                for (int j = 0; j < height; j++) {
-                    if (i == 0) {
-                        sheetValues[i, j] = lines[i].id;
+            for (var i = 0; i < width; i++) {
+                for (var j = 0; j < height; j++) {
+                    var valueItem = string.Empty;//new SheetCellView();
+                    if (j == 0) {
+                        valueItem = lines[i].id;
+                        sheetValues[i, j] = valueItem;
                         continue;
                     }
 
                     var values = lines[i].data;
-                    sheetValues[i, j] = j >= values.Count ? string.Empty : values[j]?.ToString();
+                    valueItem = j >= values.Count ? 
+                        string.Empty : 
+                        values[j]?.ToString();
+                    sheetValues[i, j] = valueItem;
                 }
             }
             

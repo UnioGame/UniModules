@@ -15,7 +15,6 @@
     using GoogleSpreadsheets.Editor.SheetsImporter;
     using UniGreenModules.UniCore.EditorTools.Editor.Utility;
     using UniGreenModules.UniCore.Runtime.DataFlow;
-    using UniGreenModules.UniCore.Runtime.Rx.Extensions;
     using UnityEngine;
     using Object = UnityEngine.Object;
 
@@ -47,7 +46,7 @@
         [Space(4)]
 #if ODIN_INSPECTOR
         [Sirenix.OdinInspector.HorizontalGroup("Sheets")]
-        [Sirenix.OdinInspector.BoxGroup("Sheets/Sheets Ids")]
+        [Sirenix.OdinInspector.BoxGroup("Sheets/Sheets Ids",false)]
 #endif
         public List<string> sheetsIds = new List<string>();
         

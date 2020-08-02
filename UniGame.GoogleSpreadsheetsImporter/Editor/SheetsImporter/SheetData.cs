@@ -4,22 +4,22 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    public class SheetData 
+    public class SheetData
     {
-        private string               _id;
-        private string _spreadsheetId;
-        private readonly MajorDimension _dimension;
-        private List<SheetLineData>  _lines  = new List<SheetLineData>();
-        private List<SheetSliceData> _slices = new List<SheetSliceData>();
-        private IList<IList<object>> _sourceData;
+        private          string               _id;
+        private          string               _spreadsheetId;
+        private readonly MajorDimension       _dimension;
+        private          List<SheetLineData>  _lines  = new List<SheetLineData>();
+        private          List<SheetSliceData> _slices = new List<SheetSliceData>();
+        private          IList<IList<object>> _sourceData;
 
-        public SheetData(string sheetId,string spreadsheetId, MajorDimension dimension)
+        public SheetData(string sheetId, string spreadsheetId, MajorDimension dimension)
         {
-            _id = sheetId;
+            _id            = sheetId;
             _spreadsheetId = spreadsheetId;
-            _dimension = dimension;
+            _dimension     = dimension;
         }
-        
+
         #region public properties
 
         public string SpreadsheetId => _spreadsheetId;
@@ -31,15 +31,15 @@
         public List<SheetLineData> Values => _lines;
 
         public IList<IList<object>> Source => _sourceData;
-        
+
         #endregion
-        
+
         public SheetData Update(IList<IList<object>> source)
         {
             _sourceData = source;
             _lines.Clear();
             _slices.Clear();
-            
+
             ParseSourceData(source);
 
             return this;
@@ -47,19 +47,17 @@
 
         public SheetSliceData GetSliceByKeyValue(string fieldName, string value)
         {
-            var result = _slices.
-                FirstOrDefault(x => x.keyId == fieldName && x.keyValue == value);
+            var result = _slices.FirstOrDefault(x => x.keyId == fieldName && x.keyValue == value);
             if (result != null) return result;
-            
+
             result = new SheetSliceData() {
                 sheetId  = _id,
                 keyId    = fieldName,
                 keyValue = value
             };
 
-            var line = _lines.
-                FirstOrDefault(x => 
-                    string.Equals(x.id, fieldName, StringComparison.OrdinalIgnoreCase));
+            var line = _lines.FirstOrDefault(x =>
+                string.Equals(x.id, fieldName, StringComparison.OrdinalIgnoreCase));
             if (line == null)
                 return result;
 
@@ -79,7 +77,7 @@
             if (index < 0) return result;
 
             foreach (var lineData in _lines) {
-                if(lineData == line)
+                if (lineData == line)
                     continue;
                 var items       = lineData.data;
                 var isValidData = lineData.data.Count > index;
@@ -90,31 +88,32 @@
                     sheetName = _id
                 });
             }
-            
+
             _slices.Add(result);
 
             return result;
         }
-        
+
         private void ParseSourceData(IList<IList<object>> source)
         {
             foreach (var line in source) {
                 var index = -1;
                 var key   = line.FirstOrDefault()?.ToString() ?? string.Empty;
-                
-                if(string.IsNullOrEmpty(key))
+
+                if (string.IsNullOrEmpty(key))
                     continue;
-                
+
                 var lineData = new SheetLineData() {
                     id         = key,
                     sourceData = line
                 };
-                
-                foreach (object item in line.Skip(1)) {
+
+                foreach (var item in line.Skip(1)) {
                     lineData.data.Add(item);
                 }
+
+                _lines.Add(lineData);
             }
         }
-        
     }
 }
