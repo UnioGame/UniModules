@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    [Serializable]
     public class SheetData
     {
         private          string               _id;
@@ -77,8 +78,6 @@
             if (index < 0) return result;
 
             foreach (var lineData in _lines) {
-                if (lineData == line)
-                    continue;
                 var items       = lineData.data;
                 var isValidData = lineData.data.Count > index;
                 result.data.Add(new SheetValue() {

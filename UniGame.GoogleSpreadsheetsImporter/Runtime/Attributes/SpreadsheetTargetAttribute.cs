@@ -1,20 +1,21 @@
 ﻿namespace UniModules.UniGame.GoogleSpreadsheets.Runtime.Attributes
 {
     using System;
+    using Editor.SheetsImporter;
 
-    [AttributeUsage(AttributeTargets.Class)]
+    [AttributeUsage(AttributeTargets.Class|AttributeTargets.Field)]
     public class SpreadsheetTargetAttribute : Attribute
     {
         private string _sheetName = string.Empty;
         private string _range = string.Empty;
         private bool _syncAllFields = false;
-        private string _keyField = String.Empty;
+        private string _keyField = GoogleSheetImporterConstants.KeyField;
 
         public SpreadsheetTargetAttribute(string sheetName = "",string keyField = "",string range = "", bool syncAllFields = true)
         {
             _sheetName = sheetName;
             _range = range;
-            _keyField = keyField;
+            _keyField = string.IsNullOrEmpty( keyField ) ? _keyField : keyField;
             _syncAllFields = syncAllFields;
         }
 

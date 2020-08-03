@@ -9,11 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6b718bd65502804e828e1eeffa0bef1, type: 3}
-  m_Name: DemoSyncAsset
+  m_Script: {fileID: 11500000, guid: dae6116b34be4066aa2700dcf243f71d, type: 3}
+  m_Name: AssetsWithAttributesImporter
   m_EditorClassIdentifier: 
-  id: 0
-  stringValue: 
-  intValue: 0
-  floatValue: 0
-  assetValue: {fileID: 0}
+  assets:
+  - sheetName: DemoSyncAsset
+    asset: {fileID: 11400000, guid: 582b550694cdb444db3a0fccbabbf9a8, type: 2}

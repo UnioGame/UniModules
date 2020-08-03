@@ -14,7 +14,7 @@ namespace UniModules.UniGame.GoogleSpreadsheetsImporter.Editor.EditorWindow
     {
         #region static data
         
-        [MenuItem("UniGame/Google/SheetImporterWindow")]
+        [MenuItem("UniGame/Google/SpreadsheetImporterWindow")]
         public static void Open()
         {
             var window = GetWindow<GoogleSheetImporterEditorWindow>();
@@ -26,9 +26,9 @@ namespace UniModules.UniGame.GoogleSpreadsheetsImporter.Editor.EditorWindow
         [SerializeField]
         [HideLabel]
         [InlineEditor(InlineEditorModes.FullEditor,InlineEditorObjectFieldModes.Boxed,Expanded = true)]
-        public GoogleSheetImporter _googleSheetImporter;
+        public GoogleSpreadsheetImporter _googleSheetImporter;
 
-        [Button]
+        [Button("Reload Spreadsheets")]
         public void Reload()
         {
             _googleSheetImporter.Initialize();
@@ -39,10 +39,10 @@ namespace UniModules.UniGame.GoogleSpreadsheetsImporter.Editor.EditorWindow
         protected override void OnEnable()
         {
             //load importer asset
-            _googleSheetImporter = AssetEditorTools.GetAsset<GoogleSheetImporter>();
+            _googleSheetImporter = AssetEditorTools.GetAsset<GoogleSpreadsheetImporter>();
             if (!_googleSheetImporter) {
-                _googleSheetImporter = ScriptableObject.CreateInstance<GoogleSheetImporter>();
-                _googleSheetImporter.SaveAsset(nameof(GoogleSheetImporter), GoogleSheetImporterEditorConstants.DefaultGoogleSheetImporterPath);
+                _googleSheetImporter = ScriptableObject.CreateInstance<GoogleSpreadsheetImporter>();
+                _googleSheetImporter.SaveAsset(nameof(GoogleSpreadsheetImporter), GoogleSheetImporterEditorConstants.DefaultGoogleSheetImporterPath);
             }
 
             Reload();

@@ -7,14 +7,21 @@
     using System.Linq.Expressions;
     using System.Reflection;
     using DataStructure;
-    using global::UniCore.Runtime.ProfilerTools;
-    using ProfilerTools;
     using UnityEngine;
+    using Utils;
     using Object = UnityEngine.Object;
 
     public static class ReflectionTools
     {
         private static Type _stringType = typeof(string);
+
+        public static Func<Type, IReadOnlyList<FieldInfo>> _instanceFieldInfoProvider = MemorizeTool.
+            Create<Type, IReadOnlyList<FieldInfo>>(x => {
+                var fields = new List<FieldInfo>();
+                if(x == null) return fields;
+                fields.AddRange(x.GetFields(bindingFlags));
+                return fields;
+            });
 
         public const BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic;
 
@@ -25,6 +32,11 @@
             fieldInfos.Clear();
         }
 
+        public static IReadOnlyList<FieldInfo> GetInstanceFields(this Type type)
+        {
+            return _instanceFieldInfoProvider(type);
+        }
+        
         public static bool IsReallyAssignableFrom(this Type type, Type otherType)
         {
             if (type.IsAssignableFrom(otherType))
@@ -43,7 +55,6 @@
                 return false;
             }
         }
-        
         
         public static FieldInfo GetFieldInfoCached(this object target,string name) => GetFieldInfoCached(target.GetType(),name);
         

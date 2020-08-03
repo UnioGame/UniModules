@@ -8,8 +8,15 @@
     using UnityEngine;
 
     [Serializable]
-    public class SyncAssetsImporterSource
+#if ODIN_INSPECTOR
+    [Sirenix.OdinInspector.HideLabel]
+    [Sirenix.OdinInspector.BoxGroup("Attributes Source")]
+#endif
+    [CreateAssetMenu(menuName = "UniGame/Google/Spreadsheet/Importers/AssetsWithAttributesImporter",fileName = nameof(AssetsWithAttributesImporter))]
+    public class AssetsWithAttributesImporter :  SpreadsheetsSyncAssetsImporter 
     {
+
+        
         /// <summary>
         /// list of assets linked by attributes
         /// </summary>
@@ -17,19 +24,16 @@
         [Sirenix.OdinInspector.TableList]
 #endif
         public List<SheetSyncItem> assets = new List<SheetSyncItem>();
-
-        public List<SheetSyncItem> Reload()
+        
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.Button]
+#endif
+        public override void Load()
         {
-            assets.Clear();
-            assets.AddRange(LoadSyncScriptableObjects());
-            return assets;
-        }
-
-        private List<SheetSyncItem> LoadSyncScriptableObjects()
-        {
-            var assets = AssetEditorTools.
+            var attributeAssets = AssetEditorTools.
                 GetAssetsWithAttribute<ScriptableObject,SpreadsheetTargetAttribute>();
-            return assets.
+            
+            assets = attributeAssets.
                 Select(x=> new SheetSyncItem() {
                     asset = x.Value,
                     sheetName = x.Attribute == null || x.Attribute.UseTypeName ?
@@ -37,7 +41,14 @@
                         x.Attribute.SheetName
                 }).
                 ToList();
+            
         }
-        
+
+        public override void Import(SpreadsheetData spreadsheetData)
+        {
+            foreach (var item in assets) {
+                item.asset?.ApplySpreadsheetData(spreadsheetData);
+            }
+        }
     }
 }

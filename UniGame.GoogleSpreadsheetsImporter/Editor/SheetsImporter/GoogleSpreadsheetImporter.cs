@@ -18,16 +18,8 @@
     using UnityEngine;
     using Object = UnityEngine.Object;
 
-    public class SheetValuesImporter : ScriptableObject
-    {
-        public void Import()
-        {
-            
-        }
-    }
-    
-    [CreateAssetMenu(menuName = "UniGame/Google/GoogleSheetImporter",fileName = nameof(GoogleSheetImporter))]
-    public class GoogleSheetImporter : ScriptableObject, ILifeTimeContext
+    [CreateAssetMenu(menuName = "UniGame/Google/GoogleSpreadSheetImporter",fileName = nameof(GoogleSpreadsheetImporter))]
+    public class GoogleSpreadsheetImporter : ScriptableObject, ILifeTimeContext
     {
         private const int DefaultButtonsWidth = 60;
 
@@ -68,13 +60,23 @@
         [Sirenix.OdinInspector.HorizontalGroup("Sources")]
         [Sirenix.OdinInspector.BoxGroup("Sources/Synced Assets")]
 #endif
-        public SyncAssetsImporterSource sheetsItemsSource = new SyncAssetsImporterSource();
+        public SpreadsheetImportersSource sheetsItemsSource = new SpreadsheetImportersSource();
+        
+#if ODIN_INSPECTOR
+        [Space(8)]
+        [Sirenix.OdinInspector.InlineEditor()]
+        [Sirenix.OdinInspector.HideLabel]
+        [Sirenix.OdinInspector.BoxGroup("Converters")]
+#endif
+        public ObjectTypeConverter typeConverters;
         
         #endregion
 
         #region private data
 
         private LifeTimeDefinition _lifeTime;
+        
+        private SpreadsheetData _spreadsheetData = new SpreadsheetData();
         
         private List<GoogleSpreadsheetClient> _sheetClients = new List<GoogleSpreadsheetClient>();
 
@@ -88,8 +90,7 @@
             (_sheetService = _sheetService ?? 
                              LoadSheetService(GoogleSheetImporterConstants.ApplicationName,GoogleSpreadsheetClient.ReadonlyScopes));
 
-        public IEnumerable<SheetData> AllSheets => _sheetClients.
-            SelectMany(x => x.GetAllSheetsData());
+        public SpreadsheetData SpreadsheetData => _spreadsheetData;
         
         public ILifeTime LifeTime => (_lifeTime = _lifeTime == null ? new LifeTimeDefinition() : _lifeTime);
         
@@ -102,6 +103,7 @@
             _lifeTime?.Release();
 
             CreateSheetClients();
+            LoadTypeConverters();
         }
         
         [Sirenix.OdinInspector.HorizontalGroup("Sources",DefaultButtonsWidth)]
@@ -109,7 +111,7 @@
         [Sirenix.OdinInspector.Button("Reload")]
         public void ReloadSyncedAssets()
         {
-            sheetsItemsSource.Reload();
+            sheetsItemsSource.Load();
             this.MarkDirty();
         }
         
@@ -117,7 +119,7 @@
         [Sirenix.OdinInspector.Button("Import")]
         public void ImportFromRemote()
         {
-            
+            sheetsItemsSource.Import(SpreadsheetData);
         }
 
         [Sirenix.OdinInspector.HorizontalGroup("Sheets",DefaultButtonsWidth)]
@@ -142,6 +144,16 @@
 
         #region private methods
 
+        private void LoadTypeConverters()
+        {
+            typeConverters = typeConverters ?? ObjectTypeConverter.TypeConverters;
+        }
+        
+        private void OnEnable()
+        {
+            LoadTypeConverters();
+        }
+
         private void CreateSheetClients()
         {
             foreach (var sheetsId in sheetsIds.Distinct()) {
@@ -152,6 +164,8 @@
                 _sheetClients.Add(client);
             }
 
+            _spreadsheetData.Initialize(_sheetClients);
+            
             LifeTime.AddCleanUpAction(_sheetClients.Clear);
         }
         

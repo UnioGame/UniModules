@@ -5,6 +5,7 @@ namespace UniGreenModules.UniCore.EditorTools.Editor.AssetOperations
     using System.IO;
     using System.Linq;
     using System.Text.RegularExpressions;
+    using UniModules.UniGame.Core.EditorTools.Editor.Tools;
     using UnityEditor;
     using UnityEngine;
     using Object = UnityEngine.Object;
@@ -20,7 +21,9 @@ namespace UniGreenModules.UniCore.EditorTools.Editor.AssetOperations
                 folder = folder.Remove(folder.Length - 1);
             }
 
-            var skinTypePath = folder + "\\" + name + "." + GetAssetExtension(asset);
+            EditorFileUtils.ValidateDirectories(folder);
+            
+            var skinTypePath = EditorFileUtils.Combine(folder,name + "." + GetAssetExtension(asset));
             var itemPath     = AssetDatabase.GenerateUniqueAssetPath(skinTypePath);
 
             var gameObjectAsset = asset as GameObject;
