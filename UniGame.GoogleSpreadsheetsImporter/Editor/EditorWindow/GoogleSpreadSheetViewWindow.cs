@@ -7,7 +7,6 @@ namespace UniModules.UniGame.GoogleSpreadsheetsImporter.Editor.EditorWindow
     using SheetsImporter;
     using Sirenix.OdinInspector;
     using Sirenix.OdinInspector.Editor;
-    using UnityEditor;
     using UnityEngine;
 
     public class GoogleSpreadSheetViewWindow : OdinEditorWindow
@@ -40,8 +39,7 @@ namespace UniModules.UniGame.GoogleSpreadsheetsImporter.Editor.EditorWindow
             tables.Clear();
 
             foreach (var spreadsheetClient in spreadsheetClients) {
-                foreach (var sheet in spreadsheetClient.Sheets) {
-                    var sheetData = spreadsheetClient.GetData(sheet);
+                foreach (var sheetData in spreadsheetClient.Sheets) {
                     var view = ScriptableObject.CreateInstance<SpreadsheetSheetView>();
                     view.Initialize(sheetData);
                     tables.Add(view);

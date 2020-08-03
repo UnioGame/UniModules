@@ -18,6 +18,14 @@
     using UnityEngine;
     using Object = UnityEngine.Object;
 
+    public class SheetValuesImporter : ScriptableObject
+    {
+        public void Import()
+        {
+            
+        }
+    }
+    
     [CreateAssetMenu(menuName = "UniGame/Google/GoogleSheetImporter",fileName = nameof(GoogleSheetImporter))]
     public class GoogleSheetImporter : ScriptableObject, ILifeTimeContext
     {
@@ -60,7 +68,7 @@
         [Sirenix.OdinInspector.HorizontalGroup("Sources")]
         [Sirenix.OdinInspector.BoxGroup("Sources/Synced Assets")]
 #endif
-        public SheetsItemsSource sheetsItemsSource = new SheetsItemsSource();
+        public SyncAssetsImporterSource sheetsItemsSource = new SyncAssetsImporterSource();
         
         #endregion
 
@@ -80,7 +88,9 @@
             (_sheetService = _sheetService ?? 
                              LoadSheetService(GoogleSheetImporterConstants.ApplicationName,GoogleSpreadsheetClient.ReadonlyScopes));
 
-
+        public IEnumerable<SheetData> AllSheets => _sheetClients.
+            SelectMany(x => x.GetAllSheetsData());
+        
         public ILifeTime LifeTime => (_lifeTime = _lifeTime == null ? new LifeTimeDefinition() : _lifeTime);
         
         #endregion
@@ -147,8 +157,8 @@
         
         /// <summary>
         /// create sheet service
-        /// </summary>d
-        /// <param name="scope">target and permitions scope. User GoogleSheetClient.*[Scope] constants</param>
+        /// </summary>
+        /// <param name="scope">target and permissions scope. User GoogleSheetClient.*[Scope] constants</param>
         /// <returns></returns>
         private SheetsService LoadSheetService(string applicationName,string[] scope)
         {

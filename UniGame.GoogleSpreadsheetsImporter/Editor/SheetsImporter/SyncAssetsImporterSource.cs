@@ -8,7 +8,7 @@
     using UnityEngine;
 
     [Serializable]
-    public class SheetsItemsSource
+    public class SyncAssetsImporterSource
     {
         /// <summary>
         /// list of assets linked by attributes
