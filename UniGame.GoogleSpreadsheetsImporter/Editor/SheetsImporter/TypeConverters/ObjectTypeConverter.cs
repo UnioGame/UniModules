@@ -3,6 +3,8 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Core.EditorTools.Editor;
+    using Core.EditorTools.Editor.Tools;
     using UniGreenModules.UniCore.EditorTools.Editor.AssetOperations;
     using UnityEngine;
 
@@ -11,7 +13,8 @@
     {
         #region static data
 
-        private const string _defaultAssetPath = "Assets/UniGame.Generated/TypeConverters/Editor/";
+        private static string DefaultConverterPath =
+                EditorFileUtils.Combine(EditorPathConstants.GeneratedContentPath,"TypeConverters/Editor/");
 
         private static ObjectTypeConverter _typeConverters;
         public static ObjectTypeConverter TypeConverters {
@@ -23,7 +26,7 @@
                     var typeConverters = _typeConverters.converters;
                     typeConverters.Add(new StringToPrimitiveTypeConverter());
                     typeConverters.Add(new PrimitiveTypeConverter());
-                    _typeConverters.SaveAsset(nameof(ObjectTypeConverter), _defaultAssetPath);
+                    _typeConverters.SaveAsset(nameof(ObjectTypeConverter), DefaultConverterPath);
                 }
 
                 return _typeConverters;
