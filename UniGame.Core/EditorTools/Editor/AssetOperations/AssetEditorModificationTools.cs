@@ -9,11 +9,11 @@ namespace UniGreenModules.UniCore.EditorTools.Editor.AssetOperations
     using UnityEngine;
     using Object = UnityEngine.Object;
 
-    public partial class AssetEditorTools
+    public static partial class AssetEditorTools
     {
         #region Asset Creation/Saving
 
-        public static TAsset SaveAsset<TAsset>(TAsset asset, string name, string folder)
+        public static TAsset SaveAsset<TAsset>(this TAsset asset, string name, string folder)
             where TAsset : Object
         {
             if (folder.IndexOf('\\', folder.Length - 1) >= 0) {
@@ -34,7 +34,7 @@ namespace UniGreenModules.UniCore.EditorTools.Editor.AssetOperations
             return AssetDatabase.LoadAssetAtPath<TAsset>(itemPath);
         }
 
-        public static bool SaveAssetAsNested(Object child, Object root, string name = null)
+        public static bool SaveAssetAsNested(this Object child, Object root, string name = null)
         {
             var assetPath = AssetDatabase.GetAssetPath(root);
             if (string.IsNullOrEmpty(assetPath))
@@ -54,7 +54,7 @@ namespace UniGreenModules.UniCore.EditorTools.Editor.AssetOperations
         }
 
 
-        public static Object SaveAssetAsNested(Object root, Type assetType, string name = null)
+        public static Object SaveAssetAsNested(this Object root, Type assetType, string name = null)
         {
             var asset  = ScriptableObject.CreateInstance(assetType);
             var result = SaveAssetAsNested(asset, root, name);
@@ -62,7 +62,7 @@ namespace UniGreenModules.UniCore.EditorTools.Editor.AssetOperations
             return null;
         }
 
-        public static TTarget SaveAssetAsNested<TTarget>(Object root, string name = null)
+        public static TTarget SaveAssetAsNested<TTarget>(this Object root, string name = null)
             where TTarget : ScriptableObject
         {
             var asset  = ScriptableObject.CreateInstance<TTarget>();

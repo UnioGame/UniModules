@@ -47,7 +47,7 @@ namespace UniModules.UniGame.EditorTools.Editor.AssetReferences
 
         [Sirenix.OdinInspector.Button]
         [Sirenix.OdinInspector.GUIColor(0.2f, 1, 0.2f)]
-        public void UpdateDependencies()
+        public void FindDependencies()
         { 
             CleanDependencies();
             if (!asset)
