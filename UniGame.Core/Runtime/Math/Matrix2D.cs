@@ -3,10 +3,10 @@
     using System;
     using UnityEngine;
 
-    public struct Matrix2x2
+    public struct Matrix2D
     {
-        private static readonly Matrix2x2 ZeroMatrix = new Matrix2x2(new Vector2(0, 0), new Vector2(0, 0), new Vector2(0, 0));
-        private static readonly Matrix2x2 IdentityMatrix = new Matrix2x2(new Vector2(1, 0), new Vector2(0, 1), new Vector2(0, 0));
+        private static readonly Matrix2D ZeroMatrix = new Matrix2D(new Vector2(0, 0), new Vector2(0, 0), new Vector2(0, 0));
+        private static readonly Matrix2D IdentityMatrix = new Matrix2D(new Vector2(1, 0), new Vector2(0, 1), new Vector2(0, 0));
         
         public float m00;
         public float m10;
@@ -15,8 +15,8 @@
         public float m02;
         public float m12;
         
-        public static Matrix2x2 Zero => ZeroMatrix;
-        public static Matrix2x2 Identity => IdentityMatrix;
+        public static Matrix2D Zero => ZeroMatrix;
+        public static Matrix2D Identity => IdentityMatrix;
 
         public float this[int row, int column] {
             get => this[row + column * 2];
@@ -50,7 +50,7 @@
             }
         }
 
-        public Matrix2x2(Vector2 column0, Vector2 column1, Vector2 column2)
+        public Matrix2D(Vector2 column0, Vector2 column1, Vector2 column2)
         {
             m00 = column0.x;
             m01 = column1.x;
@@ -110,9 +110,9 @@
             return res;
         }
         
-        public Matrix2x2 Inverse()
+        public Matrix2D Inverse()
         {
-            var invMat = new Matrix2x2();
+            var invMat = new Matrix2D();
 
             var det = this[0, 0] * this[1, 1] - this[0, 1] * this[1, 0];
             if (Mathf.Approximately(0.0f, det))
@@ -131,33 +131,33 @@
             return invMat;
         }
         
-        public static Matrix2x2 Scale(Vector2 vector)
+        public static Matrix2D Scale(Vector2 vector)
         {
-            Matrix2x2 m;
+            Matrix2D m;
             m.m00 = vector.x; m.m01 = 0F; m.m02 = 0F;
             m.m10 = 0F; m.m11 = vector.y; m.m12 = 0F;
             return m;
         }
         
-        public static Matrix2x2 Translate(Vector2 vector)
+        public static Matrix2D Translate(Vector2 vector)
         {
-            Matrix2x2 m;
+            Matrix2D m;
             m.m00 = 1F; m.m01 = 0F; m.m02 = vector.x;
             m.m10 = 0F; m.m11 = 1F; m.m12 = vector.y;
             return m;
         }
         
-        public static Matrix2x2 RotateRH(float angleRadians)
+        public static Matrix2D RotateRH(float angleRadians)
         {
             return RotateLH(-angleRadians);
         }
         
-        public static Matrix2x2 RotateLH(float angleRadians)
+        public static Matrix2D RotateLH(float angleRadians)
         {
             var s = Mathf.Sin(angleRadians);
             var c = Mathf.Cos(angleRadians);
 
-            Matrix2x2 m;
+            Matrix2D m;
             m.m00 = c; m.m10 = -s;
             m.m01 = s; m.m11 = c;
             m.m02 = 0.0F; m.m12 = 0.0F;
@@ -171,18 +171,18 @@
         
         public override bool Equals(object other)
         {
-            if (!(other is Matrix2x2)) 
+            if (!(other is Matrix2D)) 
                 return false;
 
-            var rhs = (Matrix2x2)other;
+            var rhs = (Matrix2D)other;
             return GetColumn(0).Equals(rhs.GetColumn(0))
                    && GetColumn(1).Equals(rhs.GetColumn(1))
                    && GetColumn(2).Equals(rhs.GetColumn(2));
         }
         
-        public static Matrix2x2 operator*(Matrix2x2 lhs, Matrix2x2 rhs)
+        public static Matrix2D operator*(Matrix2D lhs, Matrix2D rhs)
         {
-            Matrix2x2 res;
+            Matrix2D res;
             res.m00 = lhs.m00 * rhs.m00 + lhs.m01 * rhs.m10;
             res.m01 = lhs.m00 * rhs.m01 + lhs.m01 * rhs.m11;
             res.m02 = lhs.m00 * rhs.m02 + lhs.m01 * rhs.m12 + lhs.m02;
@@ -194,19 +194,19 @@
             return res;
         }
         
-        public static bool operator==(Matrix2x2 lhs, Matrix2x2 rhs)
+        public static bool operator==(Matrix2D lhs, Matrix2D rhs)
         {
             return lhs.GetColumn(0) == rhs.GetColumn(0)
                    && lhs.GetColumn(1) == rhs.GetColumn(1)
                    && lhs.GetColumn(2) == rhs.GetColumn(2);
         }
         
-        public static bool operator!=(Matrix2x2 lhs, Matrix2x2 rhs)
+        public static bool operator!=(Matrix2D lhs, Matrix2D rhs)
         {
             return !(lhs == rhs);
         }
         
-        public static Vector2 operator*(Matrix2x2 lhs, Vector2 vector)
+        public static Vector2 operator*(Matrix2D lhs, Vector2 vector)
         {
             Vector2 res;
             res.x = lhs.m00 * vector.x + lhs.m01 * vector.y + lhs.m02;
