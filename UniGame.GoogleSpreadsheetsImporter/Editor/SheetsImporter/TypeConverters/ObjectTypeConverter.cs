@@ -36,11 +36,12 @@
         
         #endregion
         
-        [SerializeReference]
+        
 #if ODIN_INSPECTOR
         [Sirenix.OdinInspector.InlineProperty]
         [Sirenix.OdinInspector.ListDrawerSettings(Expanded = true)]
 #endif
+        [SerializeReference]
         public List<ITypeConverter> converters = new List<ITypeConverter>();
         
         public bool CanConvert(Type fromType, Type toType)

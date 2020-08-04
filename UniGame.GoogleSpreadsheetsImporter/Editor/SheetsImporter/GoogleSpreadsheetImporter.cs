@@ -62,8 +62,8 @@
 #endif
         public SpreadsheetImportersHandler sheetsItemsHandler = new SpreadsheetImportersHandler();
         
-#if ODIN_INSPECTOR
         [Space(8)]
+#if ODIN_INSPECTOR
         [Sirenix.OdinInspector.InlineEditor()]
         [Sirenix.OdinInspector.HideLabel]
         [Sirenix.OdinInspector.BoxGroup("Converters")]
