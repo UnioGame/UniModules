@@ -10,14 +10,7 @@
 
     public static class EditorAssetUtility
     {
-        /// <summary>
-        //	This makes it easy to create, name and place unique new ScriptableObject asset files.
-        /// </summary>
-        public static Object CreateAsset(Type type, string path)
-        {
-            var asset = ScriptableObject.CreateInstance(type);
-            return SaveAsset(asset, path,"");
-        }
+
 
         public static Object SaveAsAsset(Object asset,string name,string extension)
         {

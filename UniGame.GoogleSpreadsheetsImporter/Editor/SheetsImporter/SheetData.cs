@@ -46,15 +46,22 @@
             return this;
         }
 
-        public SheetSliceData GetSliceByKeyValue(string fieldName, string value)
+        public SheetLineData GetLine(string id)
+        {
+            return _lines.FirstOrDefault(x => string.Equals(x.id, id, StringComparison.OrdinalIgnoreCase));
+        }
+
+        public SheetSliceData GetSliceByKeyValue(string fieldName, object value)
         {
             var result = _slices.FirstOrDefault(x => x.keyId == fieldName && x.keyValue == value);
             if (result != null) return result;
 
+            var keyValue = ObjectTypeConverter.TypeConverters.
+                ConvertValue(value, typeof(string)) as string;
             result = new SheetSliceData() {
                 sheetId  = _id,
                 keyId    = fieldName,
-                keyValue = value
+                keyValue = keyValue
             };
 
             var line = _lines.FirstOrDefault(x =>
@@ -66,7 +73,7 @@
             var data  = line.data;
             for (var i = 0; i < data.Count; i++) {
                 var dataValue = data[i];
-                if (!string.Equals(dataValue.ToString(), value, StringComparison.OrdinalIgnoreCase)) {
+                if (!string.Equals(dataValue.ToString(), keyValue, StringComparison.OrdinalIgnoreCase)) {
                     continue;
                 }
 

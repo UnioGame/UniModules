@@ -8,6 +8,5 @@
     {
         public string sheetName = string.Empty;
         public string keyField = GoogleSheetImporterConstants.KeyField;
-        public string keyValue = string.Empty;
     }
 }

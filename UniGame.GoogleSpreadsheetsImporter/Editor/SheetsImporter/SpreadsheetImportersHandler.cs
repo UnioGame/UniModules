@@ -4,7 +4,7 @@
     using System.Collections.Generic;
 
     [Serializable]
-    public class SpreadsheetImportersSource : ISpreadsheetAssetsSource
+    public class SpreadsheetImportersHandler : ISpreadsheetAssetsHandler
     {
         /// <summary>
         /// list of assets linked by attributes
@@ -15,16 +15,20 @@
 #endif
         public List<SpreadsheetsSyncAssetsImporter> importers = new List<SpreadsheetsSyncAssetsImporter>();
 
+        public IEnumerable<ISpreadsheetAssetsHandler> Importers => importers;
+
         public void Load()
         {
-            foreach (var importer in importers) {
+            foreach (var importer in Importers) {
                 importer.Load();
             }
         }
 
         public void Import(SpreadsheetData spreadsheetData)
         {
-            foreach (var importer in importers) {
+            Load();
+            
+            foreach (var importer in Importers) {
                 importer.Import(spreadsheetData);
             }
         }

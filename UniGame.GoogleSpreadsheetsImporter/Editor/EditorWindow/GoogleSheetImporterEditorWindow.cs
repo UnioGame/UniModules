@@ -7,6 +7,7 @@ namespace UniModules.UniGame.GoogleSpreadsheetsImporter.Editor.EditorWindow
     using Sirenix.OdinInspector;
     using Sirenix.OdinInspector.Editor;
     using UniGreenModules.UniCore.EditorTools.Editor.AssetOperations;
+    using UniGreenModules.UniCore.EditorTools.Editor.Utility;
     using UnityEditor;
     using UnityEngine;
 
@@ -32,6 +33,12 @@ namespace UniModules.UniGame.GoogleSpreadsheetsImporter.Editor.EditorWindow
         public void Reload()
         {
             _googleSheetImporter.Initialize();
+        }
+        
+        [Button("Save")]
+        public void Save()
+        {
+            _googleSheetImporter.MarkDirty();
         }
 
         #region private methods

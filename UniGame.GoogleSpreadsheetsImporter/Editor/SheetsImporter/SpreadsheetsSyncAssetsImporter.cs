@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using UnityEngine;
 
-    public abstract class SpreadsheetsSyncAssetsImporter : ScriptableObject, ISpreadsheetAssetsSource
+    public abstract class SpreadsheetsSyncAssetsImporter : ScriptableObject, ISpreadsheetAssetsHandler
     {
         public abstract void Load();
 

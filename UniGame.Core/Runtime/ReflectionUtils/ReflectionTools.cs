@@ -251,16 +251,16 @@
         /// </summary>
         public static T GetCustomAttribute<T>(this Type type, bool inherit = true) where T : Attribute
         {
-            var array = type.GetCustomAttributes(typeof (T), inherit).ToArray();
+            var array = type.GetCustomAttributes(typeof (T), inherit);
             return array.Length != 0 ? (T) array[0] : default (T);
         }
         
         /// <summary>
-        /// is type has target atteibtue
+        /// is type has target attribute
         /// </summary>
         public static bool HasAttribute<T>(this Type type, bool inherit = true) where T : Attribute
         {
-            var array = type.GetCustomAttributes(typeof (T), inherit).ToArray();
+            var array = type.GetCustomAttributes(typeof (T), inherit);
             return array.Length != 0 ;
         }
         

@@ -60,7 +60,7 @@
         [Sirenix.OdinInspector.HorizontalGroup("Sources")]
         [Sirenix.OdinInspector.BoxGroup("Sources/Synced Assets")]
 #endif
-        public SpreadsheetImportersSource sheetsItemsSource = new SpreadsheetImportersSource();
+        public SpreadsheetImportersHandler sheetsItemsHandler = new SpreadsheetImportersHandler();
         
 #if ODIN_INSPECTOR
         [Space(8)]
@@ -111,7 +111,7 @@
         [Sirenix.OdinInspector.Button("Reload")]
         public void ReloadSyncedAssets()
         {
-            sheetsItemsSource.Load();
+            sheetsItemsHandler.Load();
             this.MarkDirty();
         }
         
@@ -119,7 +119,7 @@
         [Sirenix.OdinInspector.Button("Import")]
         public void ImportFromRemote()
         {
-            sheetsItemsSource.Import(SpreadsheetData);
+            sheetsItemsHandler.Import(SpreadsheetData);
         }
 
         [Sirenix.OdinInspector.HorizontalGroup("Sheets",DefaultButtonsWidth)]

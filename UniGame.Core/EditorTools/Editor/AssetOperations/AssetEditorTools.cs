@@ -9,6 +9,7 @@
     using System.Threading;
     using Runtime.ReflectionUtils;
     using Runtime.Rx.Extensions;
+    using UniGame.Core.Runtime.Extension;
     using UniModules.UniGame.Core.Runtime.DataFlow.Interfaces;
     using UniRx;
     using UnityEditor;
@@ -34,6 +35,29 @@
         public static bool IsPureEditorMode => EditorApplication.isPlayingOrWillChangePlaymode == false && 
                                                EditorApplication.isCompiling == false && 
                                                EditorApplication.isUpdating == false;
+        
+        /// <summary>
+        //	Can create Scriptable object/ component /gameobject
+        /// </summary>
+        public static Object CreateAsset(this Type type)
+        {
+            Object asset = null;
+            switch (type) {
+                case Type t when t.IsScriptableObject():
+                    asset = ScriptableObject.CreateInstance(type);
+                    break;
+                case Type t when t.IsGameObject():
+                    var gameObject = new GameObject(t.Name);
+                    asset = gameObject;
+                    break;
+                case Type t when t.IsComponent():
+                    var assetObject = new GameObject(t.Name,t);
+                    asset = assetObject.GetComponent(t);
+                    break;
+            }
+
+            return asset;
+        }
 
         public static string GetAssetExtension(Object asset)
         {
@@ -326,6 +350,11 @@
         {
             var targetType = typeof(T);
             return GetAssets<T>(targetType, folders);
+        }
+        
+        public static List<T> GetAssets<T>(Type targetType,string folder) where T : Object
+        {
+            return GetAssets<T>(targetType, string.IsNullOrEmpty(folder) ? null : new[] {folder});
         }
         
         public static List<T> GetAssets<T>(Type targetType,string[] folders = null) where T : Object

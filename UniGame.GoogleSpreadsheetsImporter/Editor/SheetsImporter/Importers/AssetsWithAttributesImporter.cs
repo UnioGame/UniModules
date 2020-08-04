@@ -15,7 +15,6 @@
     [CreateAssetMenu(menuName = "UniGame/Google/Spreadsheet/Importers/AssetsWithAttributesImporter",fileName = nameof(AssetsWithAttributesImporter))]
     public class AssetsWithAttributesImporter :  SpreadsheetsSyncAssetsImporter 
     {
-
         
         /// <summary>
         /// list of assets linked by attributes
