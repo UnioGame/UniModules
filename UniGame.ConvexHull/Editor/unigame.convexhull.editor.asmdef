@@ -1,0 +1,17 @@
+{
+    "name": "unigame.convexhull.editor",
+    "references": [
+        "GUID:4fbb0eca0ccbe4e40b4aff060d3ae740"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
