@@ -36,7 +36,7 @@
         {
             return _instanceFieldInfoProvider(type);
         }
-        
+
         public static bool IsReallyAssignableFrom(this Type type, Type otherType)
         {
             if (type.IsAssignableFrom(otherType))

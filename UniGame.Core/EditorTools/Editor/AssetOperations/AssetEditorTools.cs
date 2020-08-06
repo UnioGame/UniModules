@@ -1,20 +1,19 @@
-﻿namespace UniGreenModules.UniCore.EditorTools.Editor.AssetOperations
+﻿namespace UniModules.UniGame.Core.EditorTools.Editor.AssetOperations
 {
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Reflection;
     using System.Text.RegularExpressions;
-    using System.Threading;
-    using Runtime.ReflectionUtils;
-    using Runtime.Rx.Extensions;
-    using UniGame.Core.Runtime.Extension;
-    using UniModules.UniGame.Core.Runtime.DataFlow.Interfaces;
+    using Runtime.DataFlow.Interfaces;
+    using UniGreenModules.UniCore.EditorTools.Editor;
+    using UniGreenModules.UniCore.EditorTools.Editor.Utility;
+    using UniGreenModules.UniCore.Runtime.ReflectionUtils;
+    using UniGreenModules.UniCore.Runtime.Rx.Extensions;
+    using UniGreenModules.UniGame.Core.Runtime.Extension;
     using UniRx;
     using UnityEditor;
     using UnityEngine;
-    using Utility;
     using Object = UnityEngine.Object;
 
     public static partial class AssetEditorTools
@@ -463,10 +462,14 @@
             }
         }
         
-        public static string GetGUID(Object asset)
+        public static string GetGUID(this Object asset)
         {
+            if (!asset) return string.Empty;
+            
             var path = AssetDatabase.GetAssetPath(asset);
-            return string.IsNullOrEmpty(path) ? string.Empty : AssetDatabase.AssetPathToGUID(path);
+            return string.IsNullOrEmpty(path) ? 
+                string.Empty : 
+                AssetDatabase.AssetPathToGUID(path);
         }
 
         public static string GetUniqueAssetName(string path)

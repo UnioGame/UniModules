@@ -13,6 +13,7 @@
     using Google.Apis.Sheets.v4;
     using Google.Apis.Util.Store;
     using GoogleSpreadsheets.Editor.SheetsImporter;
+    using TypeConverters;
     using UniGreenModules.UniCore.EditorTools.Editor.Utility;
     using UniGreenModules.UniCore.Runtime.DataFlow;
     using UnityEngine;
@@ -64,7 +65,7 @@
         
         [Space(8)]
 #if ODIN_INSPECTOR
-        [Sirenix.OdinInspector.InlineEditor()]
+        [Sirenix.OdinInspector.InlineEditor(Sirenix.OdinInspector.InlineEditorObjectFieldModes.Boxed ,Expanded = true)]
         [Sirenix.OdinInspector.HideLabel]
         [Sirenix.OdinInspector.BoxGroup("Converters")]
 #endif
@@ -117,7 +118,7 @@
         
         [Sirenix.OdinInspector.BoxGroup("Sources/Source Commands")]
         [Sirenix.OdinInspector.Button("Import")]
-        public void ImportFromRemote()
+        public void Import()
         {
             sheetsItemsHandler.Import(SpreadsheetData);
         }
@@ -146,7 +147,7 @@
 
         private void LoadTypeConverters()
         {
-            typeConverters = typeConverters ?? ObjectTypeConverter.TypeConverters;
+            typeConverters = typeConverters ? typeConverters : ObjectTypeConverter.TypeConverters;
         }
         
         private void OnEnable()

@@ -2,7 +2,8 @@
 {
     using System;
     using System.Collections.Generic;
-    using UniGreenModules.UniCore.EditorTools.Editor.AssetOperations;
+    using Core.EditorTools.Editor.AssetOperations;
+    using Extensions;
     using UnityEditor;
     using Object = UnityEngine.Object;
 

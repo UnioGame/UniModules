@@ -1,11 +1,11 @@
-namespace UniGreenModules.UniCore.EditorTools.Editor.AssetOperations
+namespace UniModules.UniGame.Core.EditorTools.Editor.AssetOperations
 {
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Text.RegularExpressions;
-    using UniModules.UniGame.Core.EditorTools.Editor.Tools;
+    using Tools;
     using UnityEditor;
     using UnityEngine;
     using Object = UnityEngine.Object;

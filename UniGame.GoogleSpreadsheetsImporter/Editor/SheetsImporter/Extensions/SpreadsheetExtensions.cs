@@ -1,7 +1,8 @@
-﻿namespace UniModules.UniGame.GoogleSpreadsheetsImporter.Editor.SheetsImporter
+﻿namespace UniModules.UniGame.GoogleSpreadsheetsImporter.Editor.SheetsImporter.Extensions
 {
     using System;
     using System.Collections.Generic;
+    using TypeConverters;
     using UniGreenModules.UniCore.Runtime.Utils;
     using Object = UnityEngine.Object;
 

@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: AssetsWithAttributesImporter
   m_EditorClassIdentifier: 
   assets:
-  - sheetName: DemoSyncAsset
-    asset: {fileID: 11400000, guid: 582b550694cdb444db3a0fccbabbf9a8, type: 2}
+  - sheetName: LevelsBalance
+    asset: {fileID: 11400000, guid: c94bbf719daf8c44abb9662e4dee04b6, type: 2}

@@ -3,10 +3,10 @@
 
 namespace UniModules.UniGame.GoogleSpreadsheetsImporter.Editor.EditorWindow
 {
+    using Core.EditorTools.Editor.AssetOperations;
     using SheetsImporter;
     using Sirenix.OdinInspector;
     using Sirenix.OdinInspector.Editor;
-    using UniGreenModules.UniCore.EditorTools.Editor.AssetOperations;
     using UniGreenModules.UniCore.EditorTools.Editor.Utility;
     using UnityEditor;
     using UnityEngine;
@@ -26,7 +26,7 @@ namespace UniModules.UniGame.GoogleSpreadsheetsImporter.Editor.EditorWindow
 
         [SerializeField]
         [HideLabel]
-        [InlineEditor(InlineEditorModes.FullEditor,InlineEditorObjectFieldModes.Boxed,Expanded = true)]
+        [InlineEditor(InlineEditorObjectFieldModes.CompletelyHidden, Expanded = true)]
         public GoogleSpreadsheetImporter _googleSheetImporter;
 
         [Button("Reload Spreadsheets")]

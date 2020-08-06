@@ -1,6 +1,6 @@
 ﻿namespace UniModules.UniGame.AddressableExtensions.Editor
 {
-    using UniGreenModules.UniCore.EditorTools.Editor.AssetOperations;
+    using Core.EditorTools.Editor.AssetOperations;
     using UnityEditor;
     using UnityEditor.AddressableAssets;
     using UnityEditor.AddressableAssets.Settings;

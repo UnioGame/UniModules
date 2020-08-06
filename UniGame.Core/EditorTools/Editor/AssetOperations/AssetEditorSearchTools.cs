@@ -1,8 +1,8 @@
-namespace UniGreenModules.UniCore.EditorTools.Editor.AssetOperations
+namespace UniModules.UniGame.Core.EditorTools.Editor.AssetOperations
 {
     using System;
     using System.Collections.Generic;
-    using System.IO;
+    using System.Linq;
     using UnityEditor;
     using UnityEngine;
     using Object = UnityEngine.Object;
@@ -37,6 +37,29 @@ namespace UniGreenModules.UniCore.EditorTools.Editor.AssetOperations
             }
 
             return assets;
+        }
+
+        public static Object GetAsset(string filter, string[] folders = null)
+        {
+            return GetAssets(filter, folders).FirstOrDefault();
+        }
+        
+        public static List<Object> GetAssets(string filter,Type type, string[] folders = null)
+        {
+            return GetAssets(filter, folders).
+                Where(x => x && type.IsInstanceOfType(x)).
+                ToList();
+        }
+        
+        public static List<Object> GetAssets(string filter, string[] folders = null)
+        {
+            if (string.IsNullOrEmpty(filter))
+                return null;
+            
+            var path = AssetDatabase.GUIDToAssetPath(filter);
+            return !string.IsNullOrEmpty(path) ? 
+                new List<Object>(){AssetDatabase.LoadAssetAtPath<Object>(path)} : 
+                GetAssets<Object>(filter, folders);
         }
 
         public static List<T> GetAssets<T>(string filter, string[] folders = null) where T : Object

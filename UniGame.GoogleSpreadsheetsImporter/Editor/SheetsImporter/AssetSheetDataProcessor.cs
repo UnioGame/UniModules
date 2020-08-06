@@ -3,10 +3,12 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Core.EditorTools.Editor.AssetOperations;
+    using Extensions;
     using GoogleSpreadsheets.Editor.SheetsImporter;
     using GoogleSpreadsheets.Runtime.Attributes;
-    using UniGreenModules.UniCore.EditorTools.Editor.AssetOperations;
     using UniGreenModules.UniCore.Runtime.ReflectionUtils;
+    using UniGreenModules.UniCore.Runtime.Utils;
     using UniGreenModules.UniGame.Core.Runtime.Extension;
     using UnityEngine;
     using Object = UnityEngine.Object;
@@ -123,6 +125,7 @@
                 if(fieldData == null)
                     continue;
                 
+                
                 var resultValue = fieldData.value.ConvertType(itemField.targetType);
                 
                 itemField.ApplyValue(source, resultValue);
@@ -155,7 +158,6 @@
                 Debug.LogWarning($"{nameof(AssetSheetDataProcessor)}: Missing sheet with name {sheetId}");
                 return source;
             }
-            
             var slice = sheet.GetSliceByKeyValue(keyField.sheetValueField, key);
 
             return ApplyData(source, value, slice);
@@ -190,8 +192,10 @@
                 if (customAttribute == null && !useAllFields)
                     continue;
 
-                var  fieldName  = fieldInfo.Name;
-                var  sheetField = fieldName;
+                var fieldName  = fieldInfo.Name;
+                var sheetField = customAttribute!=null && !customAttribute.useFieldName ? 
+                    customAttribute.dataField : fieldName;
+                
                 var isKeyField = string.Equals(keyFieldName, fieldName, StringComparison.OrdinalIgnoreCase);
                 var syncField = new SyncField(fieldInfo, sheetField,isKeyField);
 

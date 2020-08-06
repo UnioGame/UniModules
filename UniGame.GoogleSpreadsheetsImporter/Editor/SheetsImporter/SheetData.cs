@@ -3,6 +3,8 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using TypeConverters;
+    using UnityEngine;
 
     [Serializable]
     public class SheetData
@@ -53,11 +55,20 @@
 
         public SheetSliceData GetSliceByKeyValue(string fieldName, object value)
         {
-            var result = _slices.FirstOrDefault(x => x.keyId == fieldName && x.keyValue == value);
-            if (result != null) return result;
-
             var keyValue = ObjectTypeConverter.TypeConverters.
                 ConvertValue(value, typeof(string)) as string;
+
+            if (string.IsNullOrEmpty(keyValue)) {
+                Debug.LogWarning($"Empty value for field  = {fieldName}");
+            }
+            
+            var result = _slices.FirstOrDefault(
+                x => 
+                    x.keyId.Equals(fieldName,StringComparison.OrdinalIgnoreCase) && 
+                    x.keyValue.Equals(keyValue,StringComparison.OrdinalIgnoreCase));
+            
+            if (result != null) return result;
+            
             result = new SheetSliceData() {
                 sheetId  = _id,
                 keyId    = fieldName,

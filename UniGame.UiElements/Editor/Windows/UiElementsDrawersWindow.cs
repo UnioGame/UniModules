@@ -6,9 +6,9 @@ namespace UniModules.UniGame.UiElements.Editor.Windows
 {
     using System;
     using System.Collections.Generic;
+    using Core.EditorTools.Editor.AssetOperations;
     using global::UniGame.Core.EditorTools.Editor.UiElements;
     using Sirenix.OdinInspector;
-    using UniGreenModules.UniCore.EditorTools.Editor.AssetOperations;
     using UniGreenModules.UniCore.EditorTools.Editor.Utility;
     using UniGreenModules.UniCore.Runtime.DataFlow;
     using UniGreenModules.UniCore.Runtime.Rx.Extensions;

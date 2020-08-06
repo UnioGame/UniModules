@@ -1,10 +1,11 @@
-﻿namespace UniModules.UniGame.GoogleSpreadsheetsImporter.Editor.SheetsImporter
+﻿namespace UniModules.UniGame.GoogleSpreadsheetsImporter.Editor.SheetsImporter.Importers
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Core.EditorTools.Editor.AssetOperations;
+    using Extensions;
     using GoogleSpreadsheets.Runtime.Attributes;
-    using UniGreenModules.UniCore.EditorTools.Editor.AssetOperations;
     using UnityEngine;
 
     [Serializable]
@@ -24,9 +25,6 @@
 #endif
         public List<SheetSyncItem> assets = new List<SheetSyncItem>();
         
-#if ODIN_INSPECTOR
-        [Sirenix.OdinInspector.Button]
-#endif
         public override void Load()
         {
             var attributeAssets = AssetEditorTools.

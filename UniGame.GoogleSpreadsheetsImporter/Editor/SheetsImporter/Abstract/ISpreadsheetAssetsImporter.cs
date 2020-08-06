@@ -1,7 +1,5 @@
-﻿namespace UniModules.UniGame.GoogleSpreadsheetsImporter.Editor.SheetsImporter
+﻿namespace UniModules.UniGame.GoogleSpreadsheetsImporter.Editor.SheetsImporter.Abstract
 {
-    using System.Collections.Generic;
-
     public interface ISpreadsheetAssetsImporter
     {
         void Import(SpreadsheetData spreadsheetData);
