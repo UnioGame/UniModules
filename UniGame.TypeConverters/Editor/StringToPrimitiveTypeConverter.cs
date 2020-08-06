@@ -11,6 +11,7 @@
     {
         private static Type stringType = typeof(string);
         private static Type floatType = typeof(float);
+        private const string globalizationSeparator = ",";
 
         public sealed override bool CanConvert(Type fromType, Type toType)
         {
@@ -31,9 +32,10 @@
         public object ConvertValue(string source, Type target)
         {
             if (target == typeof(float)) {
-                var style   = NumberStyles.Float;
-                var culture = CultureInfo.InvariantCulture.NumberFormat;
-                float.TryParse(source,style,culture,out var resultFloat);
+                var floatSource = source.Replace(globalizationSeparator, ".");
+                var style   = NumberStyles.Any;
+                var culture = CultureInfo.InvariantCulture;
+                float.TryParse(floatSource,style,culture,out var resultFloat);
                 return resultFloat;
             }
             var typeConverter = TypeDescriptor.GetConverter(target);

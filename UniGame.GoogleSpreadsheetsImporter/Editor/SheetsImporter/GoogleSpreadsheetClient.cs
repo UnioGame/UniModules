@@ -89,7 +89,7 @@
             var spreadsheetId = _sheetId;
             var targetRange   = sheetId;
             var request       = _service.Spreadsheets.Values.Get(spreadsheetId, targetRange);
-
+            
             request = ApplyGetResourceDimmension(request);
 
             var response = request.Execute();

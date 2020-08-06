@@ -47,25 +47,50 @@
         /// <summary>
         /// Sync folder assets by spreadsheet data
         /// </summary>
-        /// <param name="type"></param>
+        /// <param name="filterType"></param>
         /// <param name="folder"></param>
         /// <param name="createMissing">if true - create missing assets</param>
         /// <param name="spreadsheetData"></param>
         /// <returns></returns>
         public List<Object> SyncFolderAssets(
-            Type type, 
+            Type filterType, 
             string folder,
             bool createMissing, 
             SpreadsheetData spreadsheetData)
         {
-            var result = new List<Object>();
-            
-            var filterType = type;
             if (!filterType.IsScriptableObject() && !filterType.IsComponent()) {
-                Debug.LogError($"SyncFolderAssets: BAD target type {type}");
-                return result;
+                Debug.LogError($"SyncFolderAssets: BAD target type {filterType}");
+                return null;
             }
             
+            var assets = AssetEditorTools.GetAssets<Object>(filterType, folder);
+            var result = SyncFolderAssets(filterType, assets, folder, createMissing, spreadsheetData);
+            return result;
+        }
+
+        /// <summary>
+        /// Sync folder assets by spreadsheet data
+        /// </summary>
+        /// <param name="filterType"></param>
+        /// <param name="assets"></param>
+        /// <param name="folder"></param>
+        /// <param name="createMissing">if true - create missing assets</param>
+        /// <param name="spreadsheetData"></param>
+        /// <returns></returns>
+        public List<Object> SyncFolderAssets(
+            Type filterType, 
+            List<Object> assets,
+            string folder,
+            bool createMissing, 
+            SpreadsheetData spreadsheetData)
+        {
+            var result = new List<Object>(assets);
+            
+            if (!filterType.IsScriptableObject() && !filterType.IsComponent()) {
+                Debug.LogError($"SyncFolderAssets: BAD target type {filterType}");
+                return result;
+            }
+
             var syncScheme = filterType.ToSpreadsheetSyncedItem();
             var sheetId    = syncScheme.sheetId;
             var sheet      = spreadsheetData[syncScheme.sheetId];
@@ -88,9 +113,6 @@
                 return result;
             }
 
-            var assets = AssetEditorTools.
-                GetAssets<Object>(filterType, folder);
-            
             foreach (var keyValue in keys.data) {
                 var key = keyValue as string;
                 var targetAsset = assets.FirstOrDefault(
@@ -103,7 +125,7 @@
                     if(createMissing == false)
                         continue;
                     
-                    targetAsset = filterType.CreateAsset() as ScriptableObject;
+                    targetAsset = filterType.CreateAsset();
                     targetAsset.SaveAsset($"{sheetId}_{key}", folder);
                     Debug.Log($"Create Asset [{targetAsset}] for path {folder}",targetAsset);
                 }
@@ -115,7 +137,7 @@
 
             return result;
         }
-
+        
         public object ApplyData(object source,SheetSyncValue value, SheetSliceData slice)
         {
             foreach (var itemField in value.fields) {

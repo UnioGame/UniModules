@@ -32,7 +32,7 @@ namespace UniModules.UniGame.GoogleSpreadsheetsImporter.Editor.EditorWindow
         [Button("Reload Spreadsheets")]
         public void Reload()
         {
-            _googleSheetImporter.Initialize();
+            _googleSheetImporter.ReloadSpreadsheetData();
         }
         
         [Button("Save")]

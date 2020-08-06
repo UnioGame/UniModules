@@ -7,6 +7,7 @@
     using Extensions;
     using GoogleSpreadsheets.Runtime.Attributes;
     using UnityEngine;
+    using Object = UnityEngine.Object;
 
     [Serializable]
 #if ODIN_INSPECTOR
@@ -14,7 +15,7 @@
     [Sirenix.OdinInspector.BoxGroup("Attributes Source")]
 #endif
     [CreateAssetMenu(menuName = "UniGame/Google/Spreadsheet/Importers/AssetsWithAttributesImporter",fileName = nameof(AssetsWithAttributesImporter))]
-    public class AssetsWithAttributesImporter :  SpreadsheetsSyncAssetsImporter 
+    public class AssetsWithAttributesImporter :  SpreadsheetsAssetsImporter 
     {
         
         /// <summary>
@@ -41,11 +42,15 @@
             
         }
 
-        public override void Import(SpreadsheetData spreadsheetData)
+        public override List<Object> Import(SpreadsheetData spreadsheetData)
         {
+            var result = new List<Object>();
             foreach (var item in assets) {
-                item.asset?.ApplySpreadsheetData(spreadsheetData);
+                var asset = item.asset?.ApplySpreadsheetData(spreadsheetData);
+                result.Add(asset);
             }
+
+            return result;
         }
     }
 }

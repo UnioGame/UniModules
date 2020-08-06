@@ -5,11 +5,13 @@
     using System.IO;
     using System.Linq;
     using System.Text.RegularExpressions;
+    using EditorResources;
     using Runtime.DataFlow.Interfaces;
     using UniGreenModules.UniCore.EditorTools.Editor;
     using UniGreenModules.UniCore.EditorTools.Editor.Utility;
     using UniGreenModules.UniCore.Runtime.ReflectionUtils;
     using UniGreenModules.UniCore.Runtime.Rx.Extensions;
+    using UniGreenModules.UniCore.Runtime.Utils;
     using UniGreenModules.UniGame.Core.Runtime.Extension;
     using UniRx;
     using UnityEditor;
@@ -25,6 +27,13 @@
         private static List<Object> _emptyAssets = new List<Object>();
         private static string clientDataPath;
         private static Regex modificationRegex;
+
+        private static Func<Object, EditorResource> _editorResourceFactory = MemorizeTool.Create<Object, EditorResource>(x => {
+            var result = new EditorResource();
+            if (!x) return result;
+            result.Update(x);
+            return result;
+        });
 
         public const string AssetRoot = "assets";
         public const string ModificationTemplate = @"\n( *)(m_Modifications:[\w,\W]*)(?=\n( *)m_RemovedComponents)";
@@ -349,6 +358,14 @@
         {
             var targetType = typeof(T);
             return GetAssets<T>(targetType, folders);
+        }
+
+        public static EditorResource ToEditorResource(this Object asset, bool forceUpdate = false)
+        {
+            var editorResource = _editorResourceFactory(asset);
+            if (forceUpdate)
+                editorResource.Update();
+            return editorResource;
         }
         
         public static List<T> GetAssets<T>(Type targetType,string folder) where T : Object

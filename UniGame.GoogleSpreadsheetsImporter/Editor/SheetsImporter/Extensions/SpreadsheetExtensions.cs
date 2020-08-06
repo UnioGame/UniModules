@@ -33,7 +33,21 @@
             return source;
         }
 
-        public static List<Object> SyncFolderAssets(this Type type, string folder,bool createMissing, SpreadsheetData spreadsheetData)
+        public static List<Object> SyncFolderAssets(
+            this Type type,
+            List<Object> assets, 
+            string folder,
+            bool createMissing, 
+            SpreadsheetData spreadsheetData)
+        {
+            return DefaultProcessor.SyncFolderAssets(type,assets, folder,createMissing, spreadsheetData);
+        }
+        
+        public static List<Object> SyncFolderAssets(
+            this Type type, 
+            string folder,
+            bool createMissing, 
+            SpreadsheetData spreadsheetData)
         {
             return DefaultProcessor.SyncFolderAssets(type, folder,createMissing, spreadsheetData);
         }

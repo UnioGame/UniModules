@@ -4,11 +4,11 @@
     using Abstract;
     using UnityEngine;
 
-    public abstract class SpreadsheetsSyncAssetsImporter : ScriptableObject, ISpreadsheetAssetsHandler
+    public abstract class SpreadsheetsAssetsImporter : ScriptableObject, ISpreadsheetAssetsHandler
     {
         public abstract void Load();
 
-        public abstract void Import(SpreadsheetData spreadsheetData);
+        public abstract List<Object> Import(SpreadsheetData spreadsheetData);
         
     }
 }

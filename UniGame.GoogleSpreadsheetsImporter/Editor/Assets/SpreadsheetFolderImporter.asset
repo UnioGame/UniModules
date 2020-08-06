@@ -13,8 +13,24 @@ MonoBehaviour:
   m_Name: SpreadsheetFolderImporter
   m_EditorClassIdentifier: 
   folderImporters:
-  - folder: Assets/Taktika.Tests/Experiments/SpreadsheetImporterTests
-    assetTypeScript: {fileID: 11500000, guid: 06636fb8f1fa25f48b257870cd540754, type: 3}
-    createMissingItems: 0
-    values:
-    - {fileID: 11400000, guid: ecb8211a20ef45d46b8e9f48e19720f1, type: 2}
+  - id: 0
+  - id: 1
+  references:
+    version: 1
+    00000000:
+      type: {class: FolderAssetsImporter, ns: UniModules.UniGame.GoogleSpreadsheetsImporter.Editor.SheetsImporter.Importers.Serializable,
+        asm: unigame.google.sheetsimporter.editor}
+      data:
+        folder: 
+        assetRegexFilter: 
+        createMissingItems: 0
+        values: []
+    00000001:
+      type: {class: AssetFolderByMonoScriptImporter, ns: UniModules.UniGame.GoogleSpreadsheetsImporter.Editor.SheetsImporter.Importers,
+        asm: unigame.google.sheetsimporter.editor}
+      data:
+        folder: 
+        assetRegexFilter: 
+        createMissingItems: 0
+        values: []
+        assetTypeScript: {fileID: 0}

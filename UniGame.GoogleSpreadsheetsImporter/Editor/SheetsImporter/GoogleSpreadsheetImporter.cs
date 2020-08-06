@@ -99,7 +99,7 @@
 
         #region public methods
         
-        public void Initialize()
+        public void ReloadSpreadsheetData()
         {
             _lifeTime?.Release();
 

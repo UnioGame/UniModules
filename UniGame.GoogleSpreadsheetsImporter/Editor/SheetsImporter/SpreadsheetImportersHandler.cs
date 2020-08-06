@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using Abstract;
+    using Object = UnityEngine.Object;
 
     [Serializable]
     public class SpreadsheetImportersHandler : ISpreadsheetAssetsHandler
@@ -14,7 +15,7 @@
         [Sirenix.OdinInspector.InlineEditor(Sirenix.OdinInspector.InlineEditorModes.GUIOnly,
             Sirenix.OdinInspector.InlineEditorObjectFieldModes.Foldout)]
 #endif
-        public List<SpreadsheetsSyncAssetsImporter> importers = new List<SpreadsheetsSyncAssetsImporter>();
+        public List<SpreadsheetsAssetsImporter> importers = new List<SpreadsheetsAssetsImporter>();
 
         public IEnumerable<ISpreadsheetAssetsHandler> Importers => importers;
 
@@ -25,13 +26,17 @@
             }
         }
 
-        public void Import(SpreadsheetData spreadsheetData)
+        public List<Object> Import(SpreadsheetData spreadsheetData)
         {
             Load();
             
+            var result = new List<Object>();
             foreach (var importer in Importers) {
-                importer.Import(spreadsheetData);
+                var imported = importer.Import(spreadsheetData);
+                result.AddRange(imported);
             }
+
+            return result;
         }
     }
 }
