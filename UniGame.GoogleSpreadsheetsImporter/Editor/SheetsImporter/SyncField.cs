@@ -18,7 +18,7 @@
         {
             _fieldInfo = field;
             this.objectValueField = _fieldInfo.Name;
-            this.sheetValueField  = sheetValueField;
+            this.sheetValueField  = sheetValueField.TrimStart('_');
             this.isKeyField = isKeyField;
             this.targetType = _fieldInfo.FieldType;
         }

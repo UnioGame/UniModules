@@ -12,25 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00fd1fef3f333d04d9c8ee89cb905e54, type: 3}
   m_Name: SpreadsheetFolderImporter
   m_EditorClassIdentifier: 
-  folderImporters:
-  - id: 0
-  - id: 1
+  importers: []
   references:
     version: 1
-    00000000:
-      type: {class: FolderAssetsImporter, ns: UniModules.UniGame.GoogleSpreadsheetsImporter.Editor.SheetsImporter.Importers.Serializable,
-        asm: unigame.google.sheetsimporter.editor}
-      data:
-        folder: 
-        assetRegexFilter: 
-        createMissingItems: 0
-        values: []
-    00000001:
-      type: {class: AssetFolderByMonoScriptImporter, ns: UniModules.UniGame.GoogleSpreadsheetsImporter.Editor.SheetsImporter.Importers,
-        asm: unigame.google.sheetsimporter.editor}
-      data:
-        folder: 
-        assetRegexFilter: 
-        createMissingItems: 0
-        values: []
-        assetTypeScript: {fileID: 0}

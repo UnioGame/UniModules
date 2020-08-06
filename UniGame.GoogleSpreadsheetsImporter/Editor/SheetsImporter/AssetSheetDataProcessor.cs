@@ -7,9 +7,10 @@
     using Extensions;
     using GoogleSpreadsheets.Editor.SheetsImporter;
     using GoogleSpreadsheets.Runtime.Attributes;
+    using UniGreenModules.UniCore.EditorTools.Editor;
     using UniGreenModules.UniCore.Runtime.ReflectionUtils;
-    using UniGreenModules.UniCore.Runtime.Utils;
     using UniGreenModules.UniGame.Core.Runtime.Extension;
+    using UnityEditor;
     using UnityEngine;
     using Object = UnityEngine.Object;
 
@@ -25,7 +26,7 @@
         public SheetSyncValue CreateSyncItem(Type type)
         {
             var sheetName    = type.Name;
-            var useAllFields = false;
+            var useAllFields = true;
 
             var sheetItemAttribute = type.GetCustomAttribute<SpreadsheetTargetAttribute>();
             if (sheetItemAttribute != null) {
@@ -51,12 +52,16 @@
         /// <param name="folder"></param>
         /// <param name="createMissing">if true - create missing assets</param>
         /// <param name="spreadsheetData"></param>
+        /// <param name="maxItems"></param>
+        /// <param name="overrideSheetId"></param>
         /// <returns></returns>
         public List<Object> SyncFolderAssets(
             Type filterType, 
             string folder,
             bool createMissing, 
-            SpreadsheetData spreadsheetData)
+            SpreadsheetData spreadsheetData,
+            int maxItems = -1,
+            string overrideSheetId = "")
         {
             if (!filterType.IsScriptableObject() && !filterType.IsComponent()) {
                 Debug.LogError($"SyncFolderAssets: BAD target type {filterType}");
@@ -64,7 +69,7 @@
             }
             
             var assets = AssetEditorTools.GetAssets<Object>(filterType, folder);
-            var result = SyncFolderAssets(filterType, assets, folder, createMissing, spreadsheetData);
+            var result = SyncFolderAssets(filterType, folder,spreadsheetData,assets, createMissing,maxItems,overrideSheetId );
             return result;
         }
 
@@ -76,15 +81,21 @@
         /// <param name="folder"></param>
         /// <param name="createMissing">if true - create missing assets</param>
         /// <param name="spreadsheetData"></param>
+        /// <param name="maxItemsCount"></param>
+        /// <param name="overrideSheetId">force override target sheet id</param>
         /// <returns></returns>
         public List<Object> SyncFolderAssets(
             Type filterType, 
-            List<Object> assets,
             string folder,
-            bool createMissing, 
-            SpreadsheetData spreadsheetData)
+            SpreadsheetData spreadsheetData,
+            List<Object> assets = null,
+            bool createMissing = true, 
+            int maxItemsCount = -1,
+            string overrideSheetId = "")
         {
-            var result = new List<Object>(assets);
+            var result = assets != null ? 
+                new List<Object>(assets) : 
+                new List<Object>();
             
             if (!filterType.IsScriptableObject() && !filterType.IsComponent()) {
                 Debug.LogError($"SyncFolderAssets: BAD target type {filterType}");
@@ -92,8 +103,12 @@
             }
 
             var syncScheme = filterType.ToSpreadsheetSyncedItem();
-            var sheetId    = syncScheme.sheetId;
-            var sheet      = spreadsheetData[syncScheme.sheetId];
+            
+            var sheetId = string.IsNullOrEmpty(overrideSheetId) ?
+                syncScheme.sheetId : 
+                overrideSheetId;
+            
+            var sheet      = spreadsheetData[sheetId];
             if (sheet == null) {
                 Debug.LogWarning($"{nameof(AssetSheetDataProcessor)} Missing Sheet with name {sheetId}");
                 return result;
@@ -113,30 +128,70 @@
                 return result;
             }
 
-            foreach (var keyValue in keys.data) {
-                var key = keyValue as string;
-                var targetAsset = assets.FirstOrDefault(
-                    x => string.Equals(keyField.GetValue(x).ToString(),
-                        key, StringComparison.OrdinalIgnoreCase));
-                
-                //create asset if missing
-                if (targetAsset == null ) {
-                    //skip asset creation step
-                    if(createMissing == false)
-                        continue;
-                    
-                    targetAsset = filterType.CreateAsset();
-                    targetAsset.SaveAsset($"{sheetId}_{key}", folder);
-                    Debug.Log($"Create Asset [{targetAsset}] for path {folder}",targetAsset);
-                }
- 
-                ApplyData(targetAsset,key, syncScheme, spreadsheetData);
-                
-                result.Add(targetAsset);
+            foreach (var importedAsset in ApplyAssets(filterType,sheetId,folder,syncScheme,spreadsheetData,keys,assets,maxItemsCount,createMissing)) {
+                result.Add(importedAsset);
             }
 
             return result;
         }
+
+        public IEnumerable<Object> ApplyAssets(Type filterType,
+            string sheetId,
+            string folder,
+            SheetSyncValue syncScheme,
+            SpreadsheetData spreadsheetData,
+            SheetLineData keys,
+            List<Object> assets = null,
+            int count = -1,
+            bool createMissing = true)
+        {
+            count = count < 0 ? keys.data.Count : count;
+            count = Math.Min(keys.data.Count, count);
+            
+            var keyField = syncScheme.keyField;
+            
+            try {
+                for (var i = 0; i < count; i++) {
+                    
+                    var keyValue = keys.data[i];
+                    var key      = keyValue as string;
+                    var targetAsset = assets?.
+                        FirstOrDefault(x => string.Equals(keyField.
+                                GetValue(x).ToString(),
+                            key, StringComparison.OrdinalIgnoreCase));
+
+                    //create asset if missing
+                    if (targetAsset == null) {
+                        //skip asset creation step
+                        if (createMissing == false)
+                            continue;
+
+                        targetAsset = filterType.CreateAsset();
+                        targetAsset.SaveAsset($"{filterType.Name}_{i+1}", folder,false);
+                        Debug.Log($"Create Asset [{targetAsset}] for path {folder}", targetAsset);
+                    }
+
+                    AssetEditorTools.ShowProgress(new ProgressData() {
+                        IsDone = false,
+                        Progress = i / (float)count,
+                        Content = $"{i}:{count}  {targetAsset.name}",
+                        Title = "Spreadsheet Importing"
+                    });
+                    
+                    ApplyData(targetAsset, key, sheetId, syncScheme, spreadsheetData);
+
+                    yield return targetAsset;
+                }
+            }
+            finally {
+                AssetEditorTools.ShowProgress(new ProgressData() {
+                    IsDone = true,
+                });
+                AssetDatabase.SaveAssets();
+            }
+
+        }
+        
         
         public object ApplyData(object source,SheetSyncValue value, SheetSliceData slice)
         {
@@ -161,12 +216,11 @@
             var keyField = value.keyField;
             var keyValue = keyField.GetValue(source);
 
-            return ApplyData(source,keyValue, value, spreadsheetData);
+            return ApplyData(source, keyValue,value.sheetId, value, spreadsheetData);
         }
         
-        public object ApplyData(object source,object key,SheetSyncValue value, SpreadsheetData spreadsheetData)
+        public object ApplyData(object source,object key,string sheetId,SheetSyncValue value, SpreadsheetData spreadsheetData)
         {
-            var sheetId  = value.sheetId;
             var keyField = value.keyField;
             
             if (string.IsNullOrEmpty(sheetId)) {
@@ -214,7 +268,7 @@
                 if (customAttribute == null && !useAllFields)
                     continue;
 
-                var fieldName  = fieldInfo.Name;
+                var fieldName  = fieldInfo.Name.TrimStart('_');
                 var sheetField = customAttribute!=null && !customAttribute.useFieldName ? 
                     customAttribute.dataField : fieldName;
                 

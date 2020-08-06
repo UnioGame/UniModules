@@ -7,7 +7,7 @@
     public class SpreadsheetImporter<T> : SpreadsheetsAssetsImporter
         where T : SpreadsheetSerializableImporter
     {
-        [SerializeReference]
+        
         public List<T> importers = new List<T>();
     
         public override void Load()

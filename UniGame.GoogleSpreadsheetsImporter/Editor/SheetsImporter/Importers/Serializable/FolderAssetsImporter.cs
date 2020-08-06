@@ -35,6 +35,22 @@
         public bool createMissingItems;
 
 #if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.VerticalGroup("Filter")]
+#endif
+        public bool overrideSheetId = false;
+        
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.VerticalGroup("Filter")]
+        [Sirenix.OdinInspector.ShowIf("overrideSheetId")]
+#endif
+        public string sheetId;
+        
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.VerticalGroup("Filter")]
+#endif
+        public int maxItemsCount = -1;
+        
+#if ODIN_INSPECTOR
         [Sirenix.OdinInspector.InlineEditor()]
 #endif
         public List<Object> values = new List<Object>();
@@ -60,14 +76,26 @@
             if (filterType == null)
                 return result;
 
-            var syncedAsset = filterType.SyncFolderAssets(values,folder, createMissingItems, spreadsheetData);
-            OnPostImportAction(syncedAsset);
-            return syncedAsset;
+            var syncedAsset = filterType.SyncFolderAssets(
+                folder,
+                spreadsheetData,
+                values,
+                createMissingItems, 
+                maxItemsCount,
+                overrideSheetId ? sheetId : string.Empty);
+            
+            result.AddRange(OnPostImportAction(syncedAsset));
+            values = result;
+            
+            return result;
         }
 
         protected virtual Type GetFilteredType() => typeof(Object);
 
-        protected virtual void OnPostImportAction(List<Object> importedAssets) { }
+        protected virtual IEnumerable<Object> OnPostImportAction(IEnumerable<Object> importedAssets)
+        {
+            return importedAssets;
+        }
         
         private List<Object> ApplyRegExpFilter(List<Object> assets)
         {

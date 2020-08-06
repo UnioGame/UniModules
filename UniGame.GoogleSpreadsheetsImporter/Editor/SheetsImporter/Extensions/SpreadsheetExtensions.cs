@@ -34,13 +34,15 @@
         }
 
         public static List<Object> SyncFolderAssets(
-            this Type type,
-            List<Object> assets, 
+            this Type filterType, 
             string folder,
-            bool createMissing, 
-            SpreadsheetData spreadsheetData)
+            SpreadsheetData spreadsheetData,
+            List<Object> assets = null,
+            bool createMissing = true, 
+            int maxItemsCount = -1,
+            string overrideSheetId = "")
         {
-            return DefaultProcessor.SyncFolderAssets(type,assets, folder,createMissing, spreadsheetData);
+            return DefaultProcessor.SyncFolderAssets(filterType,folder, spreadsheetData,assets, createMissing,maxItemsCount,overrideSheetId);
         }
         
         public static List<Object> SyncFolderAssets(
@@ -57,10 +59,7 @@
             return _syncCache(asset.GetType());
         }
         
-        public static SheetSyncValue ToSpreadsheetSyncedItem(this Type type)
-        {
-            return _syncCache(type);
-        }
+        public static SheetSyncValue ToSpreadsheetSyncedItem(this Type type) => _syncCache(type);
         
         public static T ApplySpreadsheetData<T>(this T asset, SpreadsheetData data)
         {
