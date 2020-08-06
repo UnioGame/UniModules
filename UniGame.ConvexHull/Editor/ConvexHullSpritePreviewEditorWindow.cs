@@ -17,8 +17,7 @@
         private const float MouseZoomSpeed = 0.005f;
 
         private Texture2D _texture;
-        private Texture2D _previousTexture;
-        
+
         private Rect _textureViewRect;
         private Rect _textureRect;
         
@@ -32,6 +31,8 @@
         private Vector2[] _convexHull;
 
         private Sprite _sourceSprite;
+        private Sprite _previousSprite;
+        
         private Matrix4x4 _oldHandlesMatrix;
         
         private Vector2 _screenSize = new Vector2(1920, 1080);
@@ -65,7 +66,7 @@
             var window = GetWindow<ConvexHullSpritePreviewEditorWindow>();
             window.titleContent = new GUIContent("Convex Hull Preview");
             window.minSize = new Vector2(400, 500);
-            window.SetNewTexture(Selection.activeObject as Texture2D);
+            window.SetNewTexture(Selection.activeObject as Sprite);
             window.Show();
         }
 
@@ -191,7 +192,7 @@
 
         private void DoTextureGui()
         {
-            if (_texture == null)
+            if (_texture == null || _sourceSprite == null)
                 return;
             
             if (_currentZoom < 0f)
@@ -274,14 +275,14 @@
             
             GUI.Box(panelRect, "Settings", _styles.SettingsPanelStyle);
             GUILayout.BeginArea(new Rect(panelRect.x + 10.0f, panelRect.y + 30.0f, panelRect.width - 20.0f, panelRect.height - 40.0f));
-            _previousTexture = EditorGUILayout.ObjectField("Texture:", _previousTexture, typeof(Texture2D), false) as Texture2D;
+            _previousSprite = EditorGUILayout.ObjectField("Texture:", _previousSprite, typeof(Sprite), false) as Sprite;
             _previousScreenSize = EditorGUILayout.Vector2Field("Screen size:", _previousScreenSize);
             _previousSceneSize = EditorGUILayout.Vector2Field("Scene size:", _previousSceneSize);
             _previousMinSizeInPixels = EditorGUILayout.Slider("Min size in pixels:", _previousMinSizeInPixels, 1.0f, 300.0f);
             GUILayout.EndArea();
 
-            if (_previousTexture != _texture) {
-                SetNewTexture(_previousTexture);
+            if (_previousSprite != _sourceSprite) {
+                SetNewTexture(_previousSprite);
             }
 
             if (_previousScreenSize != _screenSize) {
@@ -319,16 +320,23 @@
             _convexHull = adaptedConvexHull;
         }
 
-        private void SetNewTexture(Texture2D texture)
+        private void SetNewTexture(Sprite sprite)
         {
-            if (texture != _texture)
+            if (sprite != _sourceSprite)
             {
-                _texture = texture;
-                _previousTexture = texture;
+                _sourceSprite = sprite;
+                _previousSprite = sprite;
                 
                 _currentZoom = -1;
                 
-                _sourceSprite = Sprite.Create(_texture, new Rect(0.0f, 0.0f, _texture.width, _texture.height), new Vector2(0.5f, 0.5f), 100.0f);
+                _texture = new Texture2D((int)sprite.textureRect.width, (int)sprite.textureRect.height, TextureFormat.ARGB32, false);
+                var pixels = sprite.texture.GetPixels((int) sprite.textureRect.x, (int) sprite.textureRect.y,
+                    (int) sprite.textureRect.width, (int) sprite.textureRect.height);
+                
+                _texture.SetPixels(pixels);
+                _texture.Apply();
+
+                _texture.name = sprite.name;
                 
                 UpdateConvexHull();
             }
