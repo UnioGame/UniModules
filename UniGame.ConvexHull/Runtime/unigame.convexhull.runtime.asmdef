@@ -1,0 +1,15 @@
+{
+    "name": "unigame.convexhull.runtime",
+    "references": [
+        "GUID:8e4577c9194c10845984cf27eb974fd1"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
