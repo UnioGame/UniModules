@@ -1,4 +1,4 @@
-﻿namespace UniModules.UniGame.GoogleSpreadsheetsImporter.Editor.TypeConverters
+﻿namespace UniModules.UniGame.TypeConverters.Editor
 {
     using System;
     using System.Collections.Generic;
@@ -64,7 +64,9 @@
             if (source == null) {
                 return (false, source);
             }
-            foreach (var converter in converters) {
+
+            for (var i = 0; i < converters.Count; i++) {
+                var converter     = converters[i];
                 var convertResult = converter.TryConvert(source, target);
                 if (convertResult.isValid)
                     return convertResult;

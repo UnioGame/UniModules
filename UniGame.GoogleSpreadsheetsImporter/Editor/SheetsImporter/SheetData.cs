@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using TypeConverters;
+    using TypeConverters.Editor;
     using UnityEngine;
 
     [Serializable]

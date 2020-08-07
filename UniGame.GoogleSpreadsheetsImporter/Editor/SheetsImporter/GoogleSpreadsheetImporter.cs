@@ -13,7 +13,7 @@
     using Google.Apis.Sheets.v4;
     using Google.Apis.Util.Store;
     using GoogleSpreadsheets.Editor.SheetsImporter;
-    using TypeConverters;
+    using TypeConverters.Editor;
     using UniGreenModules.UniCore.EditorTools.Editor.Utility;
     using UniGreenModules.UniCore.Runtime.DataFlow;
     using UnityEngine;

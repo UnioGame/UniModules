@@ -1,4 +1,4 @@
-﻿namespace UniModules.UniGame.GoogleSpreadsheetsImporter.Editor.TypeConverters.Abstract
+﻿namespace UniModules.UniGame.TypeConverters.Editor.Abstract
 {
     using System;
 

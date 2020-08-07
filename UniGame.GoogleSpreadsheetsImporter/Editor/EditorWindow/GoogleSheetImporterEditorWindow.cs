@@ -43,14 +43,21 @@ namespace UniModules.UniGame.GoogleSpreadsheetsImporter.Editor.EditorWindow
 
         #region private methods
 
-        protected override void OnEnable()
+        public static GoogleSpreadsheetImporter GetGoogleSpreadsheetImporter()
         {
             //load importer asset
-            _googleSheetImporter = AssetEditorTools.GetAsset<GoogleSpreadsheetImporter>();
-            if (!_googleSheetImporter) {
-                _googleSheetImporter = ScriptableObject.CreateInstance<GoogleSpreadsheetImporter>();
-                _googleSheetImporter.SaveAsset(nameof(GoogleSpreadsheetImporter), GoogleSheetImporterEditorConstants.DefaultGoogleSheetImporterPath);
+            var importer = AssetEditorTools.GetAsset<GoogleSpreadsheetImporter>();
+            if (!importer) {
+                importer = ScriptableObject.CreateInstance<GoogleSpreadsheetImporter>();
+                importer.SaveAsset(nameof(GoogleSpreadsheetImporter), GoogleSheetImporterEditorConstants.DefaultGoogleSheetImporterPath);
             }
+
+            return importer;
+        }
+        
+        protected override void OnEnable()
+        {
+            _googleSheetImporter = GetGoogleSpreadsheetImporter();
 
             Reload();
             

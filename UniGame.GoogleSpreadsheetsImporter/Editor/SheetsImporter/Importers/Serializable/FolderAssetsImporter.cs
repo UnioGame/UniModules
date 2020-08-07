@@ -10,7 +10,7 @@
     [Serializable]
     public class FolderAssetsImporter : SpreadsheetSerializableImporter
     {
-        private const int LabelWidth = 100;
+        private const int LabelWidth = 120;
         
 #if ODIN_INSPECTOR
         [Sirenix.OdinInspector.VerticalGroup("Filter")]
@@ -29,23 +29,26 @@
 
 #if ODIN_INSPECTOR
         [Sirenix.OdinInspector.VerticalGroup("Filter")]
-        [Sirenix.OdinInspector.LabelWidth(120)]
+        [Sirenix.OdinInspector.LabelWidth(LabelWidth)]
         [Sirenix.OdinInspector.LabelText("Create Missing")]
 #endif
         public bool createMissingItems;
 
 #if ODIN_INSPECTOR
         [Sirenix.OdinInspector.VerticalGroup("Filter")]
+        [Sirenix.OdinInspector.LabelWidth(LabelWidth)]
 #endif
         public bool overrideSheetId = false;
         
 #if ODIN_INSPECTOR
         [Sirenix.OdinInspector.VerticalGroup("Filter")]
+        [Sirenix.OdinInspector.LabelWidth(LabelWidth)]
         [Sirenix.OdinInspector.ShowIf("overrideSheetId")]
 #endif
         public string sheetId;
         
 #if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.LabelWidth(LabelWidth)]
         [Sirenix.OdinInspector.VerticalGroup("Filter")]
 #endif
         public int maxItemsCount = -1;

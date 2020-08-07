@@ -2,7 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-    using TypeConverters;
+    using TypeConverters.Editor;
     using UniGreenModules.UniCore.Runtime.Utils;
     using Object = UnityEngine.Object;
 
