@@ -5,7 +5,7 @@
     using System.Linq;
 
     [Serializable]
-    public class SheetSliceData
+    public class SheetSliceData 
     {
         public string           sheetId  = string.Empty;
         public string           keyId    = string.Empty;
@@ -20,5 +20,6 @@
                 return value;
             }
         }
+
     }
 }

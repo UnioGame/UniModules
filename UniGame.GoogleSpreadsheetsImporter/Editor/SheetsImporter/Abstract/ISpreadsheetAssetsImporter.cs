@@ -5,6 +5,6 @@
 
     public interface ISpreadsheetAssetsImporter
     {
-        List<Object> Import(SpreadsheetData spreadsheetData);
+        List<object> Import(SpreadsheetData spreadsheetData);
     }
 }

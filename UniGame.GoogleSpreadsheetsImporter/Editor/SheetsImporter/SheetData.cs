@@ -3,18 +3,23 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using TypeConverters.Editor;
-    using UnityEngine;
+    using System.Text;
+    using UniGreenModules.UniCore.Runtime.Utils;
 
     [Serializable]
     public class SheetData
     {
-        private          string               _id;
-        private          string               _spreadsheetId;
-        private readonly MajorDimension       _dimension;
-        private          List<SheetLineData>  _lines  = new List<SheetLineData>();
-        private          List<SheetSliceData> _slices = new List<SheetSliceData>();
-        private          IList<IList<object>> _sourceData;
+        private static Func<string, string> _fieldKeyFactory = MemorizeTool.Create<string, string>(x => x.TrimStart('_').ToLower());
+        private StringBuilder _stringBuilder = new StringBuilder(300);
+        
+        private string                   _id;
+        private string                   _spreadsheetId;
+        private MajorDimension           _dimension;
+        private int _rows;
+        private int _columns;
+        private Dictionary<string,SheetLineData>      _lines        = new  Dictionary<string,SheetLineData>(4);
+        private IList<IList<object>>     _sourceData   = new List<IList<object>>();
+        private IList<IList<SheetValue>> _sourceValues = new List<IList<SheetValue>>();
 
         public SheetData(string sheetId, string spreadsheetId, MajorDimension dimension)
         {
@@ -31,105 +36,129 @@
 
         public MajorDimension Dimension => _dimension;
 
-        public List<SheetLineData> Values => _lines;
+        public IReadOnlyDictionary<string,SheetLineData> Values => _lines;
 
         public IList<IList<object>> Source => _sourceData;
 
+        public int Rows => _rows;
+
+        public int Columns => _columns;
+
+        public SheetValue this[int x, int y] {
+            get {
+                if (x >= _sourceValues.Count)
+                    return null;
+                var values =  _sourceValues[x];
+                return y >= values.Count ? null : values[y];
+            }
+        }
+
         #endregion
+
+        public void UpdateValue(object value, int row, int column)
+        {
+            _sourceValues[row][column].value = value;
+            _sourceData[row][column]         = value;
+        }
 
         public SheetData Update(IList<IList<object>> source)
         {
             _sourceData = source;
             _lines.Clear();
-            _slices.Clear();
+            _sourceValues.Clear();
 
             ParseSourceData(source);
-
+            
             return this;
         }
 
-        public SheetLineData GetLine(string id)
+        public bool HasData(string key)
         {
-            return _lines.FirstOrDefault(x => string.Equals(x.id, id, StringComparison.OrdinalIgnoreCase));
+            return _lines.ContainsKey(_fieldKeyFactory(key));
         }
 
-        public SheetSliceData GetSliceByKeyValue(string fieldName, object value)
+        public SheetLineData GetData(string key)
         {
-            var keyValue = ObjectTypeConverter.TypeConverters.
-                ConvertValue(value, typeof(string)) as string;
+            _lines.TryGetValue(_fieldKeyFactory(key), out var line);
+            return line;
+        }
 
-            if (string.IsNullOrEmpty(keyValue)) {
-                Debug.LogWarning($"Empty value for field  = {fieldName}");
-            }
-            
-            var result = _slices.FirstOrDefault(
-                x => 
-                    x.keyId.Equals(fieldName,StringComparison.OrdinalIgnoreCase) && 
-                    x.keyValue.Equals(keyValue,StringComparison.OrdinalIgnoreCase));
-            
-            if (result != null) return result;
-            
-            result = new SheetSliceData() {
-                sheetId  = _id,
-                keyId    = fieldName,
-                keyValue = keyValue
-            };
-
-            var line = _lines.FirstOrDefault(x =>
-                string.Equals(x.id, fieldName, StringComparison.OrdinalIgnoreCase));
-            if (line == null)
-                return result;
-
-            var index = -1;
-            var data  = line.data;
-            for (var i = 0; i < data.Count; i++) {
-                var dataValue = data[i];
-                if (!string.Equals(dataValue.ToString(), keyValue, StringComparison.OrdinalIgnoreCase)) {
-                    continue;
-                }
-
-                index        = i;
-                result.index = index;
-                break;
+        public SheetValue GetValue(string key, object keyValue, string fieldName)
+        {
+            fieldName = _fieldKeyFactory(fieldName);
+            foreach (var value in GetSliceByKeyValue(_fieldKeyFactory(key),keyValue)) {
+                if (value.fieldName == fieldName)
+                    return value;
             }
 
-            if (index < 0) return result;
+            return null;
+        }
 
-            foreach (var lineData in _lines) {
-                var items       = lineData.data;
-                var isValidData = lineData.data.Count > index;
-                result.data.Add(new SheetValue() {
-                    index     = isValidData ? index : -1,
-                    value     = isValidData ? items[index] : string.Empty,
-                    fieldName = lineData.id,
-                    sheetName = _id
-                });
+        public IEnumerable<SheetValue> GetSliceByKeyValue(string fieldName, object value)
+        {
+            var line = GetData(fieldName);
+
+            var sheetValue = line?.data.
+                FirstOrDefault(x => x.value == value);
+            if (sheetValue == null)
+                yield break;
+
+            for (var i = 0; i < _sourceValues.Count; i++) {
+                yield return _sourceValues[i][sheetValue.column];
             }
-
-            _slices.Add(result);
-
-            return result;
         }
 
         private void ParseSourceData(IList<IList<object>> source)
         {
-            foreach (var line in source) {
-                var index = -1;
-                var key   = line.FirstOrDefault()?.ToString() ?? string.Empty;
+            _rows    = source.Count;
+            for (var i = 0; i < _rows; i++) {
+                var              line       = source[i];
+                List<SheetValue> sourceLine = null;
+                var              key        = string.Empty;
+                var              lineData   = new SheetLineData();
 
-                if (string.IsNullOrEmpty(key))
-                    continue;
+                _columns = line.Count;
+                
+                for (var j = 0; j < _columns; j++) {
+                    var item = line[j];
 
-                var lineData = new SheetLineData() {
-                    id         = key,
-                    sourceData = line
-                };
+                    if (j == 0) {
+                        sourceLine = new List<SheetValue>();
+                        _sourceValues.Add(sourceLine);
+                        key            = item.ToString();
+                        lineData.id    = key;
+                        lineData.index = i;
+                        _lines[_fieldKeyFactory(key)] = lineData;
+                    }
 
-                foreach (var item in line.Skip(1)) {
-                    lineData.data.Add(item);
+                    if (string.IsNullOrEmpty(key))
+                        continue;
+
+                    var value = new SheetValue() {
+                        row       = i,
+                        column    = j,
+                        value     = item,
+                        fieldName = _fieldKeyFactory(key),
+                        sheetName = _id
+                    };
+
+                    sourceLine.Add(value);
+
+                    if (j > 0) {
+                        lineData.data.Add(value);
+                    }
                 }
 
-                _lines.Add(lineData);
+            }
+        }
+
+        public override string ToString()
+        {
+            for (int i = 0; i < _sourceValues.Count; i++) {
+                var line = _sourceValues[i];
+                for (int j = 0; j < UPPER; j++) {
+                    
+                }
             }
         }
     }

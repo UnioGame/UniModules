@@ -15,42 +15,27 @@
     [Sirenix.OdinInspector.BoxGroup("Attributes Source")]
 #endif
     [CreateAssetMenu(menuName = "UniGame/Google/Spreadsheet/Importers/AssetsWithAttributesImporter",fileName = nameof(AssetsWithAttributesImporter))]
-    public class AssetsWithAttributesImporter :  BaseSpreadsheetImporter 
+    public class SpreadsheetAssetImporter :  BaseSpreadsheetImporter 
     {
         
         /// <summary>
         /// list of assets linked by attributes
         /// </summary>
 #if ODIN_INSPECTOR
-        [Sirenix.OdinInspector.TableList]
+        [Sirenix.OdinInspector.HideLabel]
+        [Sirenix.OdinInspector.InlineProperty]
 #endif
-        public List<SheetSyncItem> assets = new List<SheetSyncItem>();
+        public SheetSyncItem asset = new SheetSyncItem();
         
         public override void Load()
         {
-            var attributeAssets = AssetEditorTools.
-                GetAssetsWithAttribute<ScriptableObject,SpreadsheetTargetAttribute>();
-            
-            assets = attributeAssets.
-                Select(x=> new SheetSyncItem() {
-                    asset = x.Value,
-                    sheetName = x.Attribute == null || x.Attribute.UseTypeName ?
-                        x.Value.GetType().Name : 
-                        x.Attribute.SheetName
-                }).
-                ToList();
-            
+
         }
 
         public override List<object> Import(SpreadsheetData spreadsheetData)
         {
-            var result = new List<object>();
-            foreach (var item in assets) {
-                var asset = item.asset?.ApplySpreadsheetData(spreadsheetData);
-                result.Add(asset);
-            }
-
-            return result;
+            var item = asset?.ApplySpreadsheetData(spreadsheetData);
+            return new List<object>(){item?.asset};
         }
     }
 }

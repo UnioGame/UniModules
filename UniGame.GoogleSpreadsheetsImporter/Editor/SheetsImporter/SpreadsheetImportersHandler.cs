@@ -15,7 +15,7 @@
         [Sirenix.OdinInspector.InlineEditor(Sirenix.OdinInspector.InlineEditorModes.GUIOnly,
             Sirenix.OdinInspector.InlineEditorObjectFieldModes.Foldout)]
 #endif
-        public List<SpreadsheetsAssetsImporter> importers = new List<SpreadsheetsAssetsImporter>();
+        public List<BaseSpreadsheetImporter> importers = new List<BaseSpreadsheetImporter>();
 
         public IEnumerable<ISpreadsheetAssetsHandler> Importers => importers;
 
@@ -26,17 +26,26 @@
             }
         }
 
-        public List<Object> Import(SpreadsheetData spreadsheetData)
+        public List<object> Import(SpreadsheetData spreadsheetData)
         {
-            Load();
-            
-            var result = new List<Object>();
+            var result = new List<object>();
             foreach (var importer in Importers) {
+                importer.Load();
                 var imported = importer.Import(spreadsheetData);
                 result.AddRange(imported);
             }
 
             return result;
+        }
+
+        public SpreadsheetData Export(SpreadsheetData data)
+        {
+            foreach (var importer in importers) {
+                importer.Load();
+                data = importer.Export(data);
+            }
+
+            return data;
         }
     }
 }

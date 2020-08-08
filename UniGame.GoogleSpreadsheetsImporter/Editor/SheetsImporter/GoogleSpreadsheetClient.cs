@@ -1,6 +1,8 @@
 ﻿namespace UniModules.UniGame.GoogleSpreadsheetsImporter.Editor.SheetsImporter
 {
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Cysharp.Threading.Tasks;
     using Google.Apis.Sheets.v4;
     using Google.Apis.Sheets.v4.Data;
@@ -22,7 +24,7 @@
 
         #endregion
 
-        private readonly string _sheetId;
+        private readonly string _spreadsheetId;
 
         private List<string>                  _sheetsTitles = new List<string>();
         private MajorDimension                _dimension    = MajorDimension.Columns;
@@ -35,18 +37,18 @@
 
         public GoogleSpreadsheetClient(
             SheetsService service,
-            string sheetId,
+            string spreadsheetId,
             MajorDimension dimension = MajorDimension.Columns)
         {
             // Create Google Sheets API service.
             _service   = service;
-            _sheetId   = sheetId;
+            _spreadsheetId   = spreadsheetId;
             _dimension = dimension;
         }
 
         #endregion
 
-        public string Id => _sheetId;
+        public string Id => _spreadsheetId;
 
         public IReadOnlyList<string> SheetsTitles => _sheetsTitles;
 
@@ -54,6 +56,13 @@
 
         public IReadOnlyList<SheetData> Sheets => GetAllSheetsData();
 
+        
+        
+        public bool HasSheet(string id)
+        {
+            return Sheets.Any(x => string.Equals(x.Id, id, StringComparison.OrdinalIgnoreCase));
+        }
+        
         public void Reload()
         {
             _sheetValueCache.Clear();
@@ -69,24 +78,41 @@
         {
             _sheets.Clear();
             foreach (var sheet in _sheetsTitles) {
-                var sheetData = GetData(sheet);
+                var sheetData = GetSheetData(sheet);
                 _sheets.Add(sheetData);
             }
 
             return _sheets;
         }
         
-        public SheetData GetData(string sheetId)
+        public SheetData GetSheetData(string sheetId)
         {
             return _sheetValueCache.TryGetValue(sheetId, out var result) ? result : LoadData(sheetId);
         }
 
+        public void UpdateData(SheetData data)
+        {
+            var sheetId = data.Id;
+            
+            var valueRange = new ValueRange() {
+                Values = data.Source,
+                Range = sheetId
+            };
+            
+            var request = _service.Spreadsheets.Values.Update(valueRange, Id, sheetId);
+            request.ValueInputOption = SpreadsheetsResource.ValuesResource.UpdateRequest.ValueInputOptionEnum.RAW;
+
+            //var response = request.Execute();
+            
+            UpdateCache(sheetId, data.Source);
+        }
+        
         public SheetData LoadData(string sheetId)
         {
             if (string.IsNullOrEmpty(sheetId))
                 return null;
             // Define request parameters.
-            var spreadsheetId = _sheetId;
+            var spreadsheetId = _spreadsheetId;
             var targetRange   = sheetId;
             var request       = _service.Spreadsheets.Values.Get(spreadsheetId, targetRange);
             
@@ -100,6 +126,23 @@
 
         #region async methods
 
+        public async UniTask UpdateDataAsync(SheetData data)
+        {
+            var sheetId = data.Id;
+            
+            var valueRange = new ValueRange() {
+                Values = data.Source,
+                Range  = sheetId
+            };
+            
+            var request = _service.Spreadsheets.Values.Update(valueRange, Id, sheetId);
+            request.ValueInputOption = SpreadsheetsResource.ValuesResource.UpdateRequest.ValueInputOptionEnum.RAW;
+
+            var response = await request.ExecuteAsync();
+            
+            UpdateCache(sheetId, data.Source);
+        }
+        
         public async UniTask<IReadOnlyList<SheetData>> GetAllSheetsDataAsync()
         {
             _sheets.Clear();
@@ -124,7 +167,7 @@
             if (string.IsNullOrEmpty(tableRequest))
                 return null;
             // Define request parameters.
-            var spreadsheetId = _sheetId;
+            var spreadsheetId = _spreadsheetId;
             var targetRange   = tableRequest;
             var request       = _service.Spreadsheets.Values.Get(spreadsheetId, targetRange);
 

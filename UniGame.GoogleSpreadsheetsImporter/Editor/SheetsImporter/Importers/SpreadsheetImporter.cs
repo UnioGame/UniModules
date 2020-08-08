@@ -4,7 +4,7 @@
     using System.Linq;
     using UnityEngine;
 
-    public class SpreadsheetImporter<T> : SpreadsheetsAssetsImporter
+    public class SpreadsheetImporter<T> : BaseSpreadsheetImporter
         where T : SpreadsheetSerializableImporter
     {
         
@@ -15,17 +15,16 @@
             importers.ForEach(x => x.Load());
         }
 
-        public sealed override List<Object> Import(SpreadsheetData spreadsheetData)
+        public sealed override List<object> Import(SpreadsheetData spreadsheetData)
         {
-            var result = new List<Object>();
+            var result = new List<object>();
             
             
             foreach (var importer in OnPreImport(importers)) {
                 result.AddRange(importer.Import(spreadsheetData));
             }
             
-            result = OnPostImport(result).
-                ToList();
+            result = OnPostImport(result).ToList();
             return result;
         }
 
@@ -34,7 +33,7 @@
             return sourceImporters;
         }
         
-        protected virtual IEnumerable<Object> OnPostImport(IEnumerable<Object> importedAssets)
+        protected virtual IEnumerable<object> OnPostImport(IEnumerable<object> importedAssets)
         {
             return importedAssets;
         }

@@ -12,6 +12,13 @@
     {
         private const int LabelWidth = 120;
         
+        private List<Object> _values = new List<Object>();
+
+        protected List<Object> Values {
+            get => _values = _values == null ? new List<Object>() : _values;
+            set => _values = value;
+        }
+
 #if ODIN_INSPECTOR
         [Sirenix.OdinInspector.VerticalGroup("Filter")]
         [Sirenix.OdinInspector.FolderPath(RequireExistingPath = true)]
@@ -53,28 +60,24 @@
 #endif
         public int maxItemsCount = -1;
         
-#if ODIN_INSPECTOR
-        [Sirenix.OdinInspector.InlineEditor()]
-#endif
-        public List<Object> values = new List<Object>();
 
 #if ODIN_INSPECTOR
         [Sirenix.OdinInspector.Button()]
 #endif
         public override void Load()
         {
-            values.Clear();
+            Values.Clear();
             var filterType = GetFilteredType();
             if (string.IsNullOrEmpty(folder) || filterType == null)
                 return;
 
-            values = AssetEditorTools.GetAssets<Object>(filterType, new[] {folder});
-            values = ApplyRegExpFilter(values);
+            Values = AssetEditorTools.GetAssets<Object>(filterType, new[] {folder});
+            Values = ApplyRegExpFilter(Values);
         }
 
-        public sealed override List<Object> Import(SpreadsheetData spreadsheetData)
+        public sealed override List<object> Import(SpreadsheetData spreadsheetData)
         {
-            var result = new List<Object>();
+            var result = new List<object>();
             var filterType = GetFilteredType();
             if (filterType == null)
                 return result;
@@ -82,14 +85,13 @@
             var syncedAsset = filterType.SyncFolderAssets(
                 folder,
                 spreadsheetData,
-                values,
+                Values,
                 createMissingItems, 
                 maxItemsCount,
                 overrideSheetId ? sheetId : string.Empty);
             
             result.AddRange(OnPostImportAction(syncedAsset));
-            values = result;
-            
+
             return result;
         }
 

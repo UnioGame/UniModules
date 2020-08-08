@@ -16,6 +16,7 @@
     using TypeConverters.Editor;
     using UniGreenModules.UniCore.EditorTools.Editor.Utility;
     using UniGreenModules.UniCore.Runtime.DataFlow;
+    using UniGreenModules.UniCore.Runtime.Rx.Extensions;
     using UnityEngine;
     using Object = UnityEngine.Object;
 
@@ -87,11 +88,20 @@
         
         #region public properties
 
-        public SheetsService ReadonlySheetsService => 
-            (_sheetService = _sheetService ?? 
-                             LoadSheetService(GoogleSheetImporterConstants.ApplicationName,GoogleSpreadsheetClient.ReadonlyScopes));
-
-        public SpreadsheetData SpreadsheetData => _spreadsheetData;
+        public SheetsService SheetsService {
+            get {
+                _sheetService = _sheetService ?? 
+                                 LoadSheetService(GoogleSheetImporterConstants.ApplicationName,GoogleSpreadsheetClient.WriteScope);
+                LifeTime.AddCleanUpAction(() => _sheetService = null);
+                return _sheetService;
+            }
+        }
+            
+        
+        public SpreadsheetData SpreadsheetData {
+            get => _spreadsheetData;
+            set => _spreadsheetData = value;
+        }
         
         public ILifeTime LifeTime => (_lifeTime = _lifeTime == null ? new LifeTimeDefinition() : _lifeTime);
         
@@ -108,7 +118,7 @@
         }
         
         [Sirenix.OdinInspector.HorizontalGroup("Sources",DefaultButtonsWidth)]
-        [Sirenix.OdinInspector.BoxGroup("Sources/Source Commands",false)]
+        [Sirenix.OdinInspector.VerticalGroup("Sources/Source Commands",PaddingTop = 20)]
         [Sirenix.OdinInspector.Button("Reload")]
         public void ReloadSyncedAssets()
         {
@@ -116,11 +126,25 @@
             this.MarkDirty();
         }
         
-        [Sirenix.OdinInspector.BoxGroup("Sources/Source Commands")]
+        [Sirenix.OdinInspector.VerticalGroup("Sources/Source Commands")]
         [Sirenix.OdinInspector.Button("Import")]
         public void Import()
         {
             sheetsItemsHandler.Import(SpreadsheetData);
+        }
+        
+        [Sirenix.OdinInspector.VerticalGroup("Sources/Source Commands")]
+        [Sirenix.OdinInspector.Button("Export")]
+        public void Export()
+        {
+            SpreadsheetData = sheetsItemsHandler.Export(SpreadsheetData);
+            foreach (var sheetData in SpreadsheetData.Sheets) {
+                foreach (var client in _sheetClients) {
+                    if(!client.HasSheet(sheetData.Id))
+                        continue;
+                    client.UpdateData(sheetData);
+                }
+            }
         }
 
         [Sirenix.OdinInspector.HorizontalGroup("Sheets",DefaultButtonsWidth)]
@@ -129,6 +153,15 @@
         public void ShowSpreadSheets()
         {
             GoogleSpreadSheetViewWindow.Open(_sheetClients);
+        }
+
+        [Sirenix.OdinInspector.Button("Reset Credentials")]
+        public void ResetCredentials()
+        {
+            if(Directory.Exists(GoogleSheetImporterConstants.TokenKey))
+                Directory.Delete(GoogleSheetImporterConstants.TokenKey,true);
+            _lifeTime?.Release();
+            
         }
         
         public List<Object> LoadSyncAssets()
@@ -160,7 +193,7 @@
             foreach (var sheetsId in sheetsIds.Distinct()) {
                 if(_sheetClients.Any(x => x.Id == sheetsId))
                     continue;
-                var client = new GoogleSpreadsheetClient(ReadonlySheetsService,sheetsId);
+                var client = new GoogleSpreadsheetClient(SheetsService,sheetsId);
                 client.Reload();
                 _sheetClients.Add(client);
             }
@@ -169,10 +202,11 @@
             
             LifeTime.AddCleanUpAction(_sheetClients.Clear);
         }
-        
+
         /// <summary>
         /// create sheet service
         /// </summary>
+        /// <param name="applicationName"></param>
         /// <param name="scope">target and permissions scope. User GoogleSheetClient.*[Scope] constants</param>
         /// <returns></returns>
         private SheetsService LoadSheetService(string applicationName,string[] scope)
@@ -181,23 +215,26 @@
 
             using (var stream = new FileStream(credentialsPath, FileMode.Open, FileAccess.Read))
             {
+                var cancelationSource = new CancellationTokenSource();
+                cancelationSource.CancelAfter(TimeSpan.FromSeconds(30f));
                 // The file token.json stores the user's access and refresh tokens, and is created
                 // automatically when the authorization flow completes for the first time.
                 credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
                     GoogleClientSecrets.Load(stream).Secrets,
                     scope,
                     user,
-                    CancellationToken.None,
+                    cancelationSource.Token,
                     new FileDataStore(GoogleSheetImporterConstants.TokenKey, true)).
                     Result;
                 Console.WriteLine("Credential file saved to: " + GoogleSheetImporterConstants.TokenKey);
             }
 
             // Create Google Sheets API service.
-            var service = new SheetsService(new BaseClientService.Initializer() {
-                HttpClientInitializer = credential,
-                ApplicationName       = applicationName,
-            });
+            var service = new SheetsService(
+                new BaseClientService.Initializer() {
+                    HttpClientInitializer = credential,
+                    ApplicationName       = applicationName,
+                }).AddTo(LifeTime);
 
             return service;
         }

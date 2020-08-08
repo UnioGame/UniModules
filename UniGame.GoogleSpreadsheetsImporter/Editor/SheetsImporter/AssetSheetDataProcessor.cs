@@ -122,7 +122,7 @@
             }
             
             var keysId   = keyField.sheetValueField;
-            var keys     = sheet.GetLine(keysId);
+            var keys     = sheet.GetData(keysId);
             if (keys == null) {
                 Debug.LogWarning($"{nameof(AssetSheetDataProcessor)} Keys line missing with id = {keysId}");
                 return result;
@@ -154,7 +154,7 @@
                 for (var i = 0; i < count; i++) {
                     
                     var keyValue = keys.data[i];
-                    var key      = keyValue as string;
+                    var key      = keyValue.value as string;
                     var targetAsset = assets?.
                         FirstOrDefault(x => string.Equals(keyField.
                                 GetValue(x).ToString(),
@@ -193,17 +193,18 @@
         }
         
         
-        public object ApplyData(object source,SheetSyncValue value, SheetSliceData slice)
+        public object ApplyData(object source,SheetSyncValue syncScheme, IEnumerable<SheetValue> slice)
         {
-            foreach (var itemField in value.fields) {
+            var sheetValues = slice as SheetValue[] ?? slice.ToArray();
+            foreach (var itemField in syncScheme.fields) {
+                
+                var sheetValue = sheetValues.
+                    FirstOrDefault(x => x.IsEqualField(itemField.sheetValueField));
 
-                var fieldData = slice[itemField.sheetValueField];
-
-                if(fieldData == null)
+                if(sheetValue == null)
                     continue;
                 
-                
-                var resultValue = fieldData.value.ConvertType(itemField.targetType);
+                var resultValue = sheetValue.value.ConvertType(itemField.targetType);
                 
                 itemField.ApplyValue(source, resultValue);
             }
@@ -219,6 +220,42 @@
             return ApplyData(source, keyValue,value.sheetId, value, spreadsheetData);
         }
         
+        public SheetData UpdateSheetValue(object source, SheetData data)
+        {
+            if (source == null)
+                return data;
+            var type = source.GetType();
+            var syncScheme = type.ToSpreadsheetSyncedItem();
+
+            var keyField = syncScheme.keyField;
+            if (keyField == null)
+                return data;
+            
+            var keyValue = keyField.GetValue(source);
+            
+            return UpdateSheetValue(source,keyValue,syncScheme,data);
+        }
+        
+        public SheetData UpdateSheetValue(object source,object keyValue, SheetSyncValue schemaValue, SheetData data)
+        {
+            if (keyValue == null || source == null)
+                return data;
+            
+            var keyField = schemaValue.keyField;
+            var key = keyField.sheetValueField;
+            foreach (var field in schemaValue.fields) {
+                var sheetField = field.sheetValueField;
+                var sheetValue = data.GetValue(key, keyField.GetValue(source), sheetField);
+                if(sheetValue == null)
+                    continue;
+                var value = field.GetValue(source);
+                data.UpdateValue(value,sheetValue.row,sheetValue.column);
+            }
+
+            return data;
+        }
+
+
         public object ApplyData(object source,object key,string sheetId,SheetSyncValue value, SpreadsheetData spreadsheetData)
         {
             var keyField = value.keyField;
@@ -234,6 +271,7 @@
                 Debug.LogWarning($"{nameof(AssetSheetDataProcessor)}: Missing sheet with name {sheetId}");
                 return source;
             }
+            
             var slice = sheet.GetSliceByKeyValue(keyField.sheetValueField, key);
 
             return ApplyData(source, value, slice);

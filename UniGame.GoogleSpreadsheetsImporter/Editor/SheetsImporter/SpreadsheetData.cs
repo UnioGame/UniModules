@@ -8,13 +8,15 @@
     public class SpreadsheetData
     {
         public List<SheetData> _sheets = new List<SheetData>();
-        
+
         public void Initialize(List<GoogleSpreadsheetClient> clients)
         {
             _sheets.Clear();
             _sheets.AddRange(clients.SelectMany(x => x.GetAllSheetsData()));
         }
 
+        public IReadOnlyList<SheetData> Sheets => _sheets;
+        
         public SheetData this[string sheetName] => _sheets.FirstOrDefault(x => x.Id == sheetName);
     }
 }

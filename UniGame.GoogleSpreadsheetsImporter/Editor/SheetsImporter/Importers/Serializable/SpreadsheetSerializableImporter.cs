@@ -8,8 +8,13 @@
     [Serializable]
     public abstract class SpreadsheetSerializableImporter : ISpreadsheetAssetsHandler
     {
-        public abstract List<Object> Import(SpreadsheetData spreadsheetData);
+        public abstract List<object> Import(SpreadsheetData spreadsheetData);
 
         public abstract void Load();
+
+        public virtual SpreadsheetData Export(SpreadsheetData data)
+        {
+            return data;
+        }
     }
 }

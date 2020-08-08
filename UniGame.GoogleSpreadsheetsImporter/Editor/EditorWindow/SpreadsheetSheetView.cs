@@ -28,8 +28,8 @@
         private static SheetCellView DrawCell(Rect rect, SheetCellView cellView)
         {
             EditorGUI.DrawRect(rect.Padding(1),cellView.isHeader ?
-                new Color(0.1f,0.8f,0.2f) :
-                new Color(0.0f,0.0f,0.5f));
+                new Color(0.4f,0.4f,0.4f) :
+                new Color(0.0f,0.0f,0.0f));
             
             EditorGUILayout.LabelField(cellView.value);
             
@@ -38,36 +38,17 @@
         
         private void UpdateView(SheetData data)
         {
-            var direction  = data.Dimension;
-            var lines      = data.Values;
-            if (lines.Count == 0)
+            if (data.Values.Count == 0)
                 return;
-            
-            var isVertical = direction == MajorDimension.Columns;
-            var maxLength  = lines.Max(x => x.data.Count)+1;
-            var width      = isVertical ? lines.Count : maxLength;
-            var height     = isVertical ? maxLength : lines.Count;
 
-            sheetValues = new string[width,height];
+            sheetValues = new string[data.Rows,data.Columns];
 
-            var tempHeight = height;
-            height = isVertical ? tempHeight : width;
-            width  = isVertical ? width : tempHeight;
-            
-            for (var i = 0; i < width; i++) {
-                for (var j = 0; j < height; j++) {
-                    var valueItem = string.Empty;//new SheetCellView();
-                    if (j == 0) {
-                        valueItem = lines[i].id;
-                        sheetValues[i, j] = valueItem;
-                        continue;
-                    }
-
-                    var values = lines[i].data;
-                    valueItem = j >= values.Count ? 
-                        string.Empty : 
-                        values[j]?.ToString();
-                    sheetValues[i, j] = valueItem;
+            for (var i = 0; i < data.Rows; i++) {
+                for (var j = 0; j < data.Columns; j++) {
+                    var valueItem = data[i,j];//new SheetCellView();
+                    sheetValues[i, j] = valueItem == null ? string.Empty :
+                        j == 0 ? valueItem.fieldName :
+                        valueItem.value.ToString();
                 }
             }
             

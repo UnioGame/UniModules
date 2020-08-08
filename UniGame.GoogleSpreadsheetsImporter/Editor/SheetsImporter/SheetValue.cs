@@ -1,10 +1,22 @@
 ﻿namespace UniModules.UniGame.GoogleSpreadsheetsImporter.Editor.SheetsImporter
 {
-    public class SheetValue
+    using System;
+
+    public class SheetValue : ISheetLocation
     {
         public object value;
-        public int    index;
-        public string sheetName;
-        public string fieldName;
+        public string sheetName = string.Empty;
+        public string fieldName = string.Empty;
+        public int row;
+        public int column;
+
+        public int Row => row;
+
+        public int Column => column;
+
+        public bool IsEqualField(string name)
+        {
+            return fieldName.Equals(name, StringComparison.OrdinalIgnoreCase);
+        }
     }
 }

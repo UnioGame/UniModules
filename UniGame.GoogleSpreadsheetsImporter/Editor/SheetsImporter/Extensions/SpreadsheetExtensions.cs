@@ -15,6 +15,16 @@
         
         public static readonly AssetSheetDataProcessor DefaultProcessor = new AssetSheetDataProcessor();
 
+        public static SheetData UpdateSheetValue(this object source, SheetData data)
+        {
+            return DefaultProcessor.UpdateSheetValue(source, data);
+        }
+        
+        public static SheetData UpdateSheetValue(this object source, object keyValue, SheetSyncValue schemaValue, SheetData data)
+        {
+            return DefaultProcessor.UpdateSheetValue(source, keyValue, schemaValue, data);
+        }
+        
         public static object ApplyBySheetFieldValue(this object source,string sheetField,object value)
         {
             var syncScheme = source.ToSpreadsheetSyncedItem();
@@ -66,6 +76,14 @@
             var syncAsset = asset.GetType().ToSpreadsheetSyncedItem();
             DefaultProcessor.ApplyDataByAssetKey(asset,syncAsset,data);
             return asset;
+        }
+        
+        public static T ApplySpreadsheetData<T>(this T asset,object keyValue,string sheetId, SpreadsheetData data)
+            where T : class
+        {
+            var syncAsset = asset.GetType().ToSpreadsheetSyncedItem();
+            var result = DefaultProcessor.ApplyData(asset,keyValue,sheetId,syncAsset,data);
+            return result as T;
         }
 
         public static object ConvertType(this object source, Type target)
