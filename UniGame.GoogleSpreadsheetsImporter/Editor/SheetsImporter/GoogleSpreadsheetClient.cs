@@ -39,7 +39,7 @@
         public GoogleSpreadsheetClient(
             SheetsService service,
             string spreadsheetId,
-            MajorDimension dimension = MajorDimension.Columns)
+            MajorDimension dimension = MajorDimension.Rows)
         {
             // Create Google Sheets API service.
             _service   = service;
@@ -98,16 +98,16 @@
             data.Commit();
             return data;
             
-            var valueRange = new ValueRange() {
-                Values = data.Source,
-                Range = sheetId
-            };
-            
-            var request = _service.Spreadsheets.Values.Update(valueRange, Id, sheetId);
-            request.ValueInputOption = SpreadsheetsResource.
-                ValuesResource.UpdateRequest.ValueInputOptionEnum.RAW;
-
-            var response = request.Execute();
+            // var valueRange = new ValueRange() {
+            //     Values = data.Source,
+            //     Range = sheetId
+            // };
+            //
+            // var request = _service.Spreadsheets.Values.Update(valueRange, Id, sheetId);
+            // request.ValueInputOption = SpreadsheetsResource.
+            //     ValuesResource.UpdateRequest.ValueInputOptionEnum.RAW;
+            //
+            // var response = request.Execute();
         }
         
         public SheetData LoadData(string sheetId)
@@ -132,18 +132,24 @@
         public async UniTask UpdateDataAsync(SheetData data)
         {
             var sheetId = data.Id;
-            
+            var table = data.Table;
+            var range = new GridRange() {
+                StartColumnIndex = 0,
+                StartRowIndex    = 1,
+                EndColumnIndex   = data.Columns,
+                EndRowIndex      = data.Rows + 1,
+            };
+
+            var sourceValues = data.CreateSource();
             var valueRange = new ValueRange() {
-                Values = data.Source,
-                Range  = sheetId
+                Values = data.CreateSource(),
+                Range  = sourceValues
             };
             
             var request = _service.Spreadsheets.Values.Update(valueRange, Id, sheetId);
             request.ValueInputOption = SpreadsheetsResource.ValuesResource.UpdateRequest.ValueInputOptionEnum.RAW;
 
             var response = await request.ExecuteAsync();
-            
-            UpdateCache(sheetId, data.Source);
         }
         
         public async UniTask<IReadOnlyList<SheetData>> GetAllSheetsDataAsync()

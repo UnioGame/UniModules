@@ -5,6 +5,7 @@
     using System.Data;
     using System.Linq;
     using System.Text;
+    using Google.Apis.Sheets.v4.Data;
     using UniGreenModules.UniCore.Runtime.Utils;
     using UnityEngine;
 
@@ -54,6 +55,13 @@
             return items;
         }
 
+        public DataColumn GetColumn(string key)
+        {
+            var fieldKey = _fieldKeyFactory(key);
+            return _table.Columns.Contains(fieldKey) ? 
+                _table.Columns[fieldKey] : 
+                null;
+        }
         
         public void Commit()
         {
@@ -166,8 +174,8 @@
         private void AddHeaders(DataTable table, IList<object> headers)
         {
             foreach (var header in headers) {
-                if(header==null) continue;
-                table.Columns.Add(header.ToString());
+                table.Columns.Add(header==null ? string.Empty :
+                    _fieldKeyFactory(header.ToString()));
             }
         }
         
