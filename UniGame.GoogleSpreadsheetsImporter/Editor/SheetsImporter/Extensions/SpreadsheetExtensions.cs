@@ -47,7 +47,7 @@
             this Type filterType, 
             string folder,
             SpreadsheetData spreadsheetData,
-            List<Object> assets = null,
+            Object[] assets = null,
             bool createMissing = true, 
             int maxItemsCount = -1,
             string overrideSheetId = "")

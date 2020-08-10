@@ -85,7 +85,7 @@
             var syncedAsset = filterType.SyncFolderAssets(
                 folder,
                 spreadsheetData,
-                Values,
+                Values.ToArray(),
                 createMissingItems, 
                 maxItemsCount,
                 overrideSheetId ? sheetId : string.Empty);

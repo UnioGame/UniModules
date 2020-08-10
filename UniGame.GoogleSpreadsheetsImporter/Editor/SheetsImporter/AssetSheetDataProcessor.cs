@@ -70,7 +70,12 @@
             }
             
             var assets = AssetEditorTools.GetAssets<Object>(filterType, folder);
-            var result = SyncFolderAssets(filterType, folder,spreadsheetData,assets, createMissing,maxItems,overrideSheetId );
+            var result = SyncFolderAssets(
+                filterType, 
+                folder,
+                spreadsheetData,
+                assets.ToArray(), 
+                createMissing,maxItems,overrideSheetId );
             return result;
         }
 
