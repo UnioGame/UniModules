@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Data;
     using System.Linq;
     using Core.EditorTools.Editor.AssetOperations;
     using Extensions;
@@ -88,7 +89,7 @@
             Type filterType, 
             string folder,
             SpreadsheetData spreadsheetData,
-            List<Object> assets = null,
+            Object[] assets = null,
             bool createMissing = true, 
             int maxItemsCount = -1,
             string overrideSheetId = "")
@@ -129,16 +130,22 @@
             }
             
             foreach (var importedAsset in 
-                ApplyAssets(filterType,
-                    sheetId,folder,
-                    syncScheme,spreadsheetData,column,assets,maxItemsCount,createMissing)) {
+                ApplyAssets(
+                    filterType,
+                    sheetId,
+                    folder,
+                    syncScheme,
+                    spreadsheetData,
+                    sheet.GetColumnValues(keysId).ToArray(),
+                    assets,maxItemsCount,createMissing)) {
                 result.Add(importedAsset);
             }
 
             return result;
         }
 
-        public IEnumerable<Object> ApplyAssets(Type filterType,
+        public IEnumerable<Object> ApplyAssets(
+            Type filterType,
             string sheetId,
             string folder,
             SheetSyncValue syncScheme,
@@ -148,16 +155,16 @@
             int count = -1,
             bool createMissing = true)
         {
-            count = count < 0 ? keys.data.Count : count;
-            count = Math.Min(keys.data.Count, count);
+            count = count < 0 ? keys.Length : count;
+            count = Math.Min(keys.Length, count);
             
             var keyField = syncScheme.keyField;
             
             try {
                 for (var i = 0; i < count; i++) {
                     
-                    var keyValue = keys.data[i];
-                    var key      = keyValue.value as string;
+                    var keyValue = keys[i];
+                    var key      = keyValue as string;
                     var targetAsset = assets?.
                         FirstOrDefault(x => string.Equals(keyField.
                                 GetValue(x).ToString(),
@@ -195,20 +202,22 @@
 
         }
         
-        
-        public object ApplyData(object source,SheetSyncValue syncScheme, IEnumerable<SheetValue> slice)
+        public object ApplyData(object source,SheetSyncValue syncScheme, DataRow row)
         {
-            var sheetValues = slice as SheetValue[] ?? slice.ToArray();
-            foreach (var itemField in syncScheme.fields) {
-                
-                var sheetValue = sheetValues.
-                    FirstOrDefault(x => x.IsEqualField(itemField.sheetValueField));
+            
+            var sheetValues = row.ItemArray;
+            var table = row.Table;
+            for (var i = 0; i < sheetValues.Length; i++) {
+                var columnName = table.Columns[i].ColumnName;
+                var itemField  = syncScheme.fields.
+                    FirstOrDefault(x => x.sheetValueField.Equals(columnName,StringComparison.OrdinalIgnoreCase));
 
-                if(sheetValue == null)
+                if (itemField == null)
                     continue;
-                
-                var resultValue = sheetValue.value.ConvertType(itemField.targetType);
-                
+
+                var sheetValue = sheetValues[i];
+                var resultValue = sheetValue.ConvertType(itemField.targetType);
+
                 itemField.ApplyValue(source, resultValue);
             }
 
@@ -252,7 +261,7 @@
                 if(sheetValue == null)
                     continue;
                 var value = field.GetValue(source);
-                data.UpdateValue(value,sheetValue.row,sheetValue.column);
+                //data.UpdateValue(value,sheetValue.row,sheetValue.column);
             }
 
             return data;

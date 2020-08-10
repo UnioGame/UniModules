@@ -61,9 +61,8 @@
             if(column == null)
                 yield break;
             var columnName = column.ColumnName;
-            foreach (RowData row in _table.Rows) {
-                
-                yield return row[];
+            foreach (DataRow row in _table.Rows) {
+                yield return row[columnName];
             }
         }
         
