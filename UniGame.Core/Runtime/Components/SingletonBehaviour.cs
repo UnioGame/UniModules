@@ -39,6 +39,10 @@
             }
         }
 
+        protected virtual void OnInstanceCreated()
+        {
+        }
+
         protected virtual void Awake()
         {
             if (_instance != null && _instance != this) {
@@ -62,14 +66,14 @@
         protected virtual void OnEnable()
         {
 #if UNITY_EDITOR
-            EditorApplication.playModeStateChanged += EditorApplicationOnplayModeStateChanged;
+            EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
 #endif
         }
 
         protected virtual void OnDisable()
         {
 #if UNITY_EDITOR
-            EditorApplication.playModeStateChanged -= EditorApplicationOnplayModeStateChanged;
+            EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
 #endif
         }
 
@@ -89,12 +93,14 @@
 
             var instance = singletonObject.AddComponent<T>();
             singletonObject.name = instance.GetGameObjectName();
+            
+            instance.OnInstanceCreated();
 
             return instance;
         }
         
 #if UNITY_EDITOR
-        private void EditorApplicationOnplayModeStateChanged(PlayModeStateChange state)
+        private void OnPlayModeStateChanged(PlayModeStateChange state)
         {
             if (state == PlayModeStateChange.ExitingPlayMode) {
                 DestroySingleton();
