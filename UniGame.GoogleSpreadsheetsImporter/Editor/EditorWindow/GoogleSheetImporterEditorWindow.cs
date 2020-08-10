@@ -29,18 +29,7 @@ namespace UniModules.UniGame.GoogleSpreadsheetsImporter.Editor.EditorWindow
         [InlineEditor(InlineEditorObjectFieldModes.CompletelyHidden, Expanded = true)]
         public GoogleSpreadsheetImporter _googleSheetImporter;
 
-        [Button("Reload Spreadsheets")]
-        public void Reload()
-        {
-            _googleSheetImporter.ReloadSpreadsheetData();
-        }
         
-        [Button("Save")]
-        public void Save()
-        {
-            _googleSheetImporter.MarkDirty();
-        }
-
         #region private methods
 
         public static GoogleSpreadsheetImporter GetGoogleSpreadsheetImporter()
@@ -58,11 +47,8 @@ namespace UniModules.UniGame.GoogleSpreadsheetsImporter.Editor.EditorWindow
         protected override void OnEnable()
         {
             _googleSheetImporter = GetGoogleSpreadsheetImporter();
-
-            Reload();
-            
+            _googleSheetImporter.ConnectSpreadsheets();
             base.OnEnable();
-
         }
 
         #endregion

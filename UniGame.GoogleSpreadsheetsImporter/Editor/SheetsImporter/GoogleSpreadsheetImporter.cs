@@ -17,6 +17,7 @@
     using UniGreenModules.UniCore.EditorTools.Editor.Utility;
     using UniGreenModules.UniCore.Runtime.DataFlow;
     using UniGreenModules.UniCore.Runtime.Rx.Extensions;
+    using UnityEditor;
     using UnityEngine;
     using Object = UnityEngine.Object;
 
@@ -49,6 +50,7 @@
 #if ODIN_INSPECTOR
         [Sirenix.OdinInspector.HorizontalGroup("Sheets")]
         [Sirenix.OdinInspector.BoxGroup("Sheets/Sheets Ids",false)]
+        [Sirenix.OdinInspector.InfoBox("Add any valid spreadsheet id's")]
 #endif
         public List<string> sheetsIds = new List<string>();
         
@@ -76,6 +78,8 @@
 
         #region private data
 
+        private bool _isConnectionRefused = true;
+        
         private LifeTimeDefinition _lifeTime;
         
         private SpreadsheetData _spreadsheetData = new SpreadsheetData();
@@ -88,6 +92,10 @@
         
         #region public properties
 
+        public bool IsValidToConnect => sheetsIds.Any(x => !string.IsNullOrEmpty(x));
+
+        public bool HasConnectedSheets => SpreadsheetData != null && SpreadsheetData.Sheets.Count > 0;
+        
         public SheetsService SheetsService {
             get {
                 _sheetService = _sheetService ?? 
@@ -96,49 +104,40 @@
                 return _sheetService;
             }
         }
-            
         
         public SpreadsheetData SpreadsheetData {
             get => _spreadsheetData;
             set => _spreadsheetData = value;
         }
         
-        public ILifeTime LifeTime => (_lifeTime = _lifeTime == null ? new LifeTimeDefinition() : _lifeTime);
+        public ILifeTime LifeTime => (_lifeTime = _lifeTime ?? new LifeTimeDefinition());
         
         #endregion
 
         #region public methods
         
-        public void ReloadSpreadsheetData()
-        {
-            _lifeTime?.Release();
-
-            CreateSheetClients();
-            LoadTypeConverters();
-        }
-        
+#if ODIN_INSPECTOR
         [Sirenix.OdinInspector.HorizontalGroup("Sources",DefaultButtonsWidth)]
-        [Sirenix.OdinInspector.VerticalGroup("Sources/Source Commands",PaddingTop = 20)]
-        [Sirenix.OdinInspector.Button("Reload")]
-        public void ReloadSyncedAssets()
-        {
-            sheetsItemsHandler.Load();
-            this.MarkDirty();
-        }
-        
-        [Sirenix.OdinInspector.VerticalGroup("Sources/Source Commands")]
+        [Sirenix.OdinInspector.VerticalGroup("Sources/Source Commands",PaddingTop = 30)]
         [Sirenix.OdinInspector.Button("Import")]
+        [Sirenix.OdinInspector.EnableIf("HasConnectedSheets")]
+#endif
         public void Import()
         {
             sheetsItemsHandler.Import(SpreadsheetData);
         }
-        
+       
+#if ODIN_INSPECTOR
         [Sirenix.OdinInspector.VerticalGroup("Sources/Source Commands")]
         [Sirenix.OdinInspector.Button("Export")]
+        [Sirenix.OdinInspector.EnableIf("HasConnectedSheets")]
+#endif
         public void Export()
         {
             SpreadsheetData = sheetsItemsHandler.Export(SpreadsheetData);
             foreach (var sheetData in SpreadsheetData.Sheets) {
+                if(!sheetData.IsChanged)
+                    continue;
                 foreach (var client in _sheetClients) {
                     if(!client.HasSheet(sheetData.Id))
                         continue;
@@ -147,33 +146,51 @@
             }
         }
 
+#if ODIN_INSPECTOR
         [Sirenix.OdinInspector.HorizontalGroup("Sheets",DefaultButtonsWidth)]
         [Sirenix.OdinInspector.BoxGroup("Sheets/Commands",false)]
         [Sirenix.OdinInspector.Button("Show")]
+#endif
         public void ShowSpreadSheets()
         {
             GoogleSpreadSheetViewWindow.Open(_sheetClients);
         }
-
+        
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.ButtonGroup()]
+        [Sirenix.OdinInspector.Button("Reload Spreadsheets")]   
+        [Sirenix.OdinInspector.EnableIf("HasConnectedSheets")]
+#endif
+        private void ReloadSpreadsheetsData()
+        {
+            _sheetClients.ForEach(x=> x.Reload());
+            _spreadsheetData.Initialize(_sheetClients);
+        }
+        
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.ButtonGroup()]
+        [Sirenix.OdinInspector.EnableIf("IsValidToConnect")]
+        [Sirenix.OdinInspector.Button("Connect Spreadsheets")]    
+#endif
+        public void ConnectSpreadsheets()
+        {
+            _lifeTime?.Release();
+            CreateSheetClients();
+            LoadTypeConverters();
+            ReloadSpreadsheetsData();
+        }
+        
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.ButtonGroup()]
         [Sirenix.OdinInspector.Button("Reset Credentials")]
+#endif
         public void ResetCredentials()
         {
             if(Directory.Exists(GoogleSheetImporterConstants.TokenKey))
                 Directory.Delete(GoogleSheetImporterConstants.TokenKey,true);
             _lifeTime?.Release();
-            
-        }
-        
-        public List<Object> LoadSyncAssets()
-        {
-            return new List<Object>();
         }
 
-        public void CreateSyncAssets()
-        {
-            
-        }
-        
         #endregion
 
         #region private methods
@@ -185,6 +202,7 @@
         
         private void OnEnable()
         {
+            _sheetClients = new List<GoogleSpreadsheetClient>();
             LoadTypeConverters();
         }
 
@@ -194,12 +212,9 @@
                 if(_sheetClients.Any(x => x.Id == sheetsId))
                     continue;
                 var client = new GoogleSpreadsheetClient(SheetsService,sheetsId);
-                client.Reload();
                 _sheetClients.Add(client);
             }
 
-            _spreadsheetData.Initialize(_sheetClients);
-            
             LifeTime.AddCleanUpAction(_sheetClients.Clear);
         }
 
@@ -235,7 +250,11 @@
                     HttpClientInitializer = credential,
                     ApplicationName       = applicationName,
                 }).AddTo(LifeTime);
-
+            
+            _isConnectionRefused = false;
+            
+            LifeTime.AddCleanUpAction(() => _isConnectionRefused = true);
+            
             return service;
         }
 

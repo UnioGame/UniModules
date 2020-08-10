@@ -8,6 +8,7 @@
     using Google.Apis.Sheets.v4.Data;
     using Sirenix.Utilities;
     using UniGreenModules.UniCore.Runtime.Interfaces;
+    using UnityEngine;
 
     public class GoogleSpreadsheetClient : IStringUnique
     {
@@ -90,9 +91,12 @@
             return _sheetValueCache.TryGetValue(sheetId, out var result) ? result : LoadData(sheetId);
         }
 
-        public void UpdateData(SheetData data)
+        public SheetData UpdateData(SheetData data)
         {
             var sheetId = data.Id;
+            Debug.Log(data);
+            data.Commit();
+            return data;
             
             var valueRange = new ValueRange() {
                 Values = data.Source,
@@ -100,11 +104,10 @@
             };
             
             var request = _service.Spreadsheets.Values.Update(valueRange, Id, sheetId);
-            request.ValueInputOption = SpreadsheetsResource.ValuesResource.UpdateRequest.ValueInputOptionEnum.RAW;
+            request.ValueInputOption = SpreadsheetsResource.
+                ValuesResource.UpdateRequest.ValueInputOptionEnum.RAW;
 
-            //var response = request.Execute();
-            
-            UpdateCache(sheetId, data.Source);
+            var response = request.Execute();
         }
         
         public SheetData LoadData(string sheetId)
@@ -205,7 +208,8 @@
         {
             var cacheValue = new SheetData(sheetId, Id, _dimension).Update(values);
             cacheValue.Update(values);
-
+            cacheValue.Commit();
+            
             _sheetValueCache[sheetId] = cacheValue;
             return cacheValue;
         }

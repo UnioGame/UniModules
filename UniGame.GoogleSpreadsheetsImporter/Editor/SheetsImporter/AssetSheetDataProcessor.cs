@@ -122,7 +122,7 @@
             }
             
             var keysId   = keyField.sheetValueField;
-            var keys     = sheet.GetData(keysId);
+            var keys     = sheet.GetLine(keysId);
             if (keys == null) {
                 Debug.LogWarning($"{nameof(AssetSheetDataProcessor)} Keys line missing with id = {keysId}");
                 return result;

@@ -1,6 +1,6 @@
 ﻿namespace UniModules.UniGame.GoogleSpreadsheetsImporter.Editor.EditorWindow
 {
-    using System.Linq;
+    using System.Data;
     using SheetsImporter;
     using Sirenix.Utilities;
     using UnityEditor;
@@ -38,17 +38,20 @@
         
         private void UpdateView(SheetData data)
         {
-            if (data.Values.Count == 0)
-                return;
-
             sheetValues = new string[data.Rows,data.Columns];
+            var table = data.Table;
 
-            for (var i = 0; i < data.Rows; i++) {
-                for (var j = 0; j < data.Columns; j++) {
-                    var valueItem = data[i,j];//new SheetCellView();
-                    sheetValues[i, j] = valueItem == null ? string.Empty :
-                        j == 0 ? valueItem.fieldName :
-                        valueItem.value.ToString();
+            for (var i = 0; i < table.Columns.Count; i++) {
+                DataColumn column = table.Columns[i];
+                sheetValues[i, 0] = column.ColumnName;
+            }
+
+            for (var i = 1; i < table.Columns.Count; i++) {
+                for (var j = 1; j < table.Rows.Count; j++) {
+                    var row = table.Rows[j];
+                    var rowValue = row[i];
+                    sheetValues[j,i] = rowValue == null ? string.Empty :
+                        rowValue.ToString();
                 }
             }
             

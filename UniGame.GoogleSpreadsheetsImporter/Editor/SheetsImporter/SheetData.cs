@@ -2,71 +2,85 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Data;
     using System.Linq;
     using System.Text;
     using UniGreenModules.UniCore.Runtime.Utils;
+    using UnityEngine;
 
     [Serializable]
     public class SheetData
     {
+        private readonly MajorDimension _dimension;
         private static Func<string, string> _fieldKeyFactory = MemorizeTool.Create<string, string>(x => x.TrimStart('_').ToLower());
-        private StringBuilder _stringBuilder = new StringBuilder(300);
+
+        private const string _spaceString = " ";
         
-        private string                   _id;
-        private string                   _spreadsheetId;
-        private MajorDimension           _dimension;
-        private int _rows;
-        private int _columns;
-        private Dictionary<string,SheetLineData>      _lines        = new  Dictionary<string,SheetLineData>(4);
-        private IList<IList<object>>     _sourceData   = new List<IList<object>>();
-        private IList<IList<SheetValue>> _sourceValues = new List<IList<SheetValue>>();
+        private StringBuilder _stringBuilder = new StringBuilder(300);
+        private DataTable _table;
+        private bool _isChanged = false;
 
         public SheetData(string sheetId, string spreadsheetId, MajorDimension dimension)
         {
-            _id            = sheetId;
-            _spreadsheetId = spreadsheetId;
-            _dimension     = dimension;
+            _dimension = dimension;
+            _table = new DataTable(sheetId, spreadsheetId);
         }
 
         #region public properties
 
-        public string SpreadsheetId => _spreadsheetId;
+        public bool IsChanged => _isChanged;
 
-        public string Id => _id;
+        public string SpreadsheetId => _table.Namespace;
 
-        public MajorDimension Dimension => _dimension;
+        public string Id => _table.TableName;
 
-        public IReadOnlyDictionary<string,SheetLineData> Values => _lines;
+        public DataTable Table => _table;
 
-        public IList<IList<object>> Source => _sourceData;
+        public int Rows => _table.Rows.Count;
 
-        public int Rows => _rows;
+        public int Columns => _table.Columns.Count;
 
-        public int Columns => _columns;
-
-        public SheetValue this[int x, int y] {
-            get {
-                if (x >= _sourceValues.Count)
-                    return null;
-                var values =  _sourceValues[x];
-                return y >= values.Count ? null : values[y];
-            }
-        }
+        public object this[int x, string y] => x == 0 ? _table.Columns[y].ColumnName : _table.Rows[x][y];
 
         #endregion
+        
+        public IList<IList<object>> CreateSource() {
+            var items = new List<IList<object>>();
 
-        public void UpdateValue(object value, int row, int column)
+            foreach (DataRow row in _table.Rows) {
+                items.Add(row.ItemArray.ToList());
+            }
+            
+            return items;
+        }
+
+        
+        public void Commit()
         {
-            _sourceValues[row][column].value = value;
-            _sourceData[row][column]         = value;
+            _isChanged = false;
+        }
+        
+        public bool UpdateValue(object value, int row, int column)
+        {
+            _isChanged = true;
+            if (row >= Rows || column >= Columns)
+                return false;
+            _table.Rows[row][column] = value;
+            return true;
+        }
+        
+        public object GetValue(string key, object keyValue, string fieldName)
+        {
+            fieldName = _fieldKeyFactory(fieldName);
+            var row = GetSliceByKeyValue(key, keyValue);
+            return row[_fieldKeyFactory(fieldName)];
         }
 
         public SheetData Update(IList<IList<object>> source)
         {
-            _sourceData = source;
-            _lines.Clear();
-            _sourceValues.Clear();
-
+            _isChanged = true;
+            _table.Clear();
+            
             ParseSourceData(source);
             
             return this;
@@ -74,92 +88,88 @@
 
         public bool HasData(string key)
         {
-            return _lines.ContainsKey(_fieldKeyFactory(key));
+            return _table.Columns.Contains(_fieldKeyFactory(key));
         }
 
-        public SheetLineData GetData(string key)
+        public bool AddValue(string key, object value)
         {
-            _lines.TryGetValue(_fieldKeyFactory(key), out var line);
-            return line;
+            var columnKey = _fieldKeyFactory(key);
+            if (!_table.Columns.Contains(columnKey))
+                return false;
+            var row = _table.NewRow();
+            foreach (DataColumn column in _table.Columns) {
+                row[column.ColumnName] = string.Empty;
+            }
+            row[columnKey] = value;
+            return true;
         }
-
-        public SheetValue GetValue(string key, object keyValue, string fieldName)
+        
+        public override string ToString()
         {
-            fieldName = _fieldKeyFactory(fieldName);
-            foreach (var value in GetSliceByKeyValue(_fieldKeyFactory(key),keyValue)) {
-                if (value.fieldName == fieldName)
-                    return value;
+            _stringBuilder.Clear();
+            var columns = _table.Columns;
+            foreach (DataColumn column in columns) {
+                _stringBuilder.Append(column.ColumnName);
+                _stringBuilder.Append(_spaceString);
+            }
+            _stringBuilder.AppendLine();
+            
+            foreach (DataRow row in _table.Rows) {
+                _stringBuilder.Append(string.Join(_spaceString,row.ItemArray));
+                _stringBuilder.AppendLine();
             }
 
+            return _stringBuilder.ToString();
+        }
+
+        public DataRow GetSliceByKeyValue(string fieldName, object value)
+        {
+            var key = _fieldKeyFactory(fieldName);
+            foreach (DataRow row in _table.Rows) {
+                var rowValue = row[key];
+                if (rowValue == value)
+                    return row;
+            }
             return null;
-        }
-
-        public IEnumerable<SheetValue> GetSliceByKeyValue(string fieldName, object value)
-        {
-            var line = GetData(fieldName);
-
-            var sheetValue = line?.data.
-                FirstOrDefault(x => x.value == value);
-            if (sheetValue == null)
-                yield break;
-
-            for (var i = 0; i < _sourceValues.Count; i++) {
-                yield return _sourceValues[i][sheetValue.column];
-            }
         }
 
         private void ParseSourceData(IList<IList<object>> source)
         {
-            _rows    = source.Count;
-            for (var i = 0; i < _rows; i++) {
+            var rows    = source.Count;
+            for (var i = 0; i < rows; i++) {
                 var              line       = source[i];
-                List<SheetValue> sourceLine = null;
-                var              key        = string.Empty;
-                var              lineData   = new SheetLineData();
 
-                _columns = line.Count;
-                
-                for (var j = 0; j < _columns; j++) {
-                    var item = line[j];
-
-                    if (j == 0) {
-                        sourceLine = new List<SheetValue>();
-                        _sourceValues.Add(sourceLine);
-                        key            = item.ToString();
-                        lineData.id    = key;
-                        lineData.index = i;
-                        _lines[_fieldKeyFactory(key)] = lineData;
-                    }
-
-                    if (string.IsNullOrEmpty(key))
-                        continue;
-
-                    var value = new SheetValue() {
-                        row       = i,
-                        column    = j,
-                        value     = item,
-                        fieldName = _fieldKeyFactory(key),
-                        sheetName = _id
-                    };
-
-                    sourceLine.Add(value);
-
-                    if (j > 0) {
-                        lineData.data.Add(value);
-                    }
+                if (i == 0) {
+                    AddHeaders(_table, line);
+                }
+                else {
+                    AddLine(_table, line);
                 }
 
             }
         }
 
-        public override string ToString()
+        private void AddLine(DataTable table, IList<object> line)
         {
-            for (int i = 0; i < _sourceValues.Count; i++) {
-                var line = _sourceValues[i];
-                for (int j = 0; j < UPPER; j++) {
-                    
-                }
+            var row = table.NewRow();
+            var columns = table.Columns;
+            var minLen = Mathf.Min(columns.Count, line.Count);
+            if (minLen <= 0)
+                return;
+            for (var i = 0; i < minLen; i++) {
+                row[columns[i].ColumnName] = line[i];
+            }
+
+            table.Rows.Add(row);
+        }
+        
+        private void AddHeaders(DataTable table, IList<object> headers)
+        {
+            foreach (var header in headers) {
+                if(header==null) continue;
+                table.Columns.Add(header.ToString());
             }
         }
+        
     }
 }
