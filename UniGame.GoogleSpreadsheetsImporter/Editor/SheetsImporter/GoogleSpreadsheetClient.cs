@@ -8,6 +8,7 @@
     using Google.Apis.Sheets.v4.Data;
     using Sirenix.Utilities;
     using UniGreenModules.UniCore.Runtime.Interfaces;
+    using UniGreenModules.UniCore.Runtime.Utils;
     using UnityEngine;
 
     public class GoogleSpreadsheetClient : IStringUnique
@@ -28,7 +29,7 @@
         private readonly string _spreadsheetId;
 
         private List<string>                  _sheetsTitles = new List<string>();
-        private MajorDimension                _dimension    = MajorDimension.Columns;
+        private MajorDimension                _dimension    = MajorDimension.COLUMNS;
         private SheetsService                 _service;
         private Spreadsheet                   _spreadSheet;
         private Dictionary<string, SheetData> _sheetValueCache = new Dictionary<string, SheetData>(4);
@@ -39,7 +40,7 @@
         public GoogleSpreadsheetClient(
             SheetsService service,
             string spreadsheetId,
-            MajorDimension dimension = MajorDimension.Rows)
+            MajorDimension dimension = MajorDimension.ROWS)
         {
             // Create Google Sheets API service.
             _service   = service;
@@ -94,20 +95,20 @@
         public SheetData UpdateData(SheetData data)
         {
             var sheetId = data.Id;
-            Debug.Log(data);
-            data.Commit();
-            return data;
+
+            var a1Range      = $"{sheetId}?A2:A";
+            var sourceValues = data.CreateSource();
+            var valueRange = new ValueRange() {
+                Values         = sourceValues,
+                Range          = a1Range,
+                MajorDimension = _dimension.ToStringFromCache()
+            };
             
-            // var valueRange = new ValueRange() {
-            //     Values = data.Source,
-            //     Range = sheetId
-            // };
-            //
-            // var request = _service.Spreadsheets.Values.Update(valueRange, Id, sheetId);
-            // request.ValueInputOption = SpreadsheetsResource.
-            //     ValuesResource.UpdateRequest.ValueInputOptionEnum.RAW;
-            //
-            // var response = request.Execute();
+            var request = _service.Spreadsheets.Values.Update(valueRange, Id, a1Range);
+            request.ValueInputOption = SpreadsheetsResource.ValuesResource.UpdateRequest.ValueInputOptionEnum.RAW;
+
+            var response = request.Execute();
+            return data;
         }
         
         public SheetData LoadData(string sheetId)
@@ -132,21 +133,16 @@
         public async UniTask UpdateDataAsync(SheetData data)
         {
             var sheetId = data.Id;
-            var table = data.Table;
-            var range = new GridRange() {
-                StartColumnIndex = 0,
-                StartRowIndex    = 1,
-                EndColumnIndex   = data.Columns,
-                EndRowIndex      = data.Rows + 1,
-            };
 
+            var a1Range = $"{sheetId}?A2:A";
             var sourceValues = data.CreateSource();
             var valueRange = new ValueRange() {
-                Values = data.CreateSource(),
-                Range  = sourceValues
+                Values = sourceValues,
+                Range  = a1Range,
+                MajorDimension = _dimension.ToStringFromCache()
             };
             
-            var request = _service.Spreadsheets.Values.Update(valueRange, Id, sheetId);
+            var request = _service.Spreadsheets.Values.Update(valueRange, Id, a1Range);
             request.ValueInputOption = SpreadsheetsResource.ValuesResource.UpdateRequest.ValueInputOptionEnum.RAW;
 
             var response = await request.ExecuteAsync();
@@ -199,10 +195,10 @@
                 case MajorDimension.DimensionUnspecified:
                     request.MajorDimension = SpreadsheetsResource.ValuesResource.GetRequest.MajorDimensionEnum.DIMENSIONUNSPECIFIED;
                     break;
-                case MajorDimension.Rows:
+                case MajorDimension.ROWS:
                     request.MajorDimension = SpreadsheetsResource.ValuesResource.GetRequest.MajorDimensionEnum.ROWS;
                     break;
-                case MajorDimension.Columns:
+                case MajorDimension.COLUMNS:
                     request.MajorDimension = SpreadsheetsResource.ValuesResource.GetRequest.MajorDimensionEnum.COLUMNS;
                     break;
             }

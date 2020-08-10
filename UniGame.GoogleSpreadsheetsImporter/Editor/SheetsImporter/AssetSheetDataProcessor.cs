@@ -122,13 +122,16 @@
             }
             
             var keysId   = keyField.sheetValueField;
-            var keys     = sheet.GetLine(keysId);
-            if (keys == null) {
+            var column     = sheet.GetColumn(keysId);
+            if (column == null) {
                 Debug.LogWarning($"{nameof(AssetSheetDataProcessor)} Keys line missing with id = {keysId}");
                 return result;
             }
-
-            foreach (var importedAsset in ApplyAssets(filterType,sheetId,folder,syncScheme,spreadsheetData,keys,assets,maxItemsCount,createMissing)) {
+            
+            foreach (var importedAsset in 
+                ApplyAssets(filterType,
+                    sheetId,folder,
+                    syncScheme,spreadsheetData,column,assets,maxItemsCount,createMissing)) {
                 result.Add(importedAsset);
             }
 
@@ -140,8 +143,8 @@
             string folder,
             SheetSyncValue syncScheme,
             SpreadsheetData spreadsheetData,
-            SheetLineData keys,
-            List<Object> assets = null,
+            object[] keys,
+            Object[] assets = null,
             int count = -1,
             bool createMissing = true)
         {

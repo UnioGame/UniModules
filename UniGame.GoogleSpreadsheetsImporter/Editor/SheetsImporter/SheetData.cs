@@ -55,6 +55,18 @@
             return items;
         }
 
+        public IEnumerable<object> GetColumnValues(string key)
+        {
+            var column = GetColumn(key);
+            if(column == null)
+                yield break;
+            var columnName = column.ColumnName;
+            foreach (RowData row in _table.Rows) {
+                
+                yield return row[];
+            }
+        }
+        
         public DataColumn GetColumn(string key)
         {
             var fieldKey = _fieldKeyFactory(key);

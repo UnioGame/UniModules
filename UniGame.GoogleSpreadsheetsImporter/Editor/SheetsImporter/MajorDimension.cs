@@ -3,7 +3,7 @@
     public enum MajorDimension
     {
         DimensionUnspecified,
-        Rows,
-        Columns,
+        ROWS,
+        COLUMNS,
     }
 }
