@@ -71,28 +71,33 @@
         
         public static SheetSyncValue ToSpreadsheetSyncedItem(this Type type) => _syncCache(type);
         
-        public static T ApplySpreadsheetData<T>(this T asset, SpreadsheetData data)
+        public static object ApplySpreadsheetData(this object asset, SpreadsheetData data)
         {
             var syncAsset = asset.GetType().ToSpreadsheetSyncedItem();
             DefaultProcessor.ApplyDataByAssetKey(asset,syncAsset,data);
             return asset;
         }
         
-        public static T ApplySpreadsheetData<T>(this T asset,object keyValue,string sheetId, SpreadsheetData data)
-            where T : class
+        public static object ApplySpreadsheetData(
+            this object asset,
+            Type type,
+            object keyValue,
+            SheetData sheetData)
         {
-            var syncAsset = asset.GetType().ToSpreadsheetSyncedItem();
-            var result = DefaultProcessor.ApplyData(asset,keyValue,sheetId,syncAsset,data);
-            return result as T;
+            var syncAsset = type.ToSpreadsheetSyncedItem();
+            
+            var result = DefaultProcessor.ApplyData(asset,keyValue,syncAsset,sheetData);
+            return result;
         }
 
         public static object ConvertType(this object source, Type target)
         {
             if (source == null)
                 return null;
-            if (target.IsInstanceOfType(source) )
-                return source;
             
+            if (target.IsInstanceOfType(source))
+                return source;
+
             return ObjectTypeConverter.TypeConverters.ConvertValue(source, target);
         }
         

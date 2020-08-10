@@ -94,7 +94,7 @@
 
         public bool IsValidToConnect => sheetsIds.Any(x => !string.IsNullOrEmpty(x));
 
-        public bool HasConnectedSheets => SpreadsheetData != null && SpreadsheetData.Sheets.Count > 0;
+        public bool HasConnectedSheets => SpreadsheetData != null && SpreadsheetData.Sheets.Count > 0 && _sheetClients.Count > 0;
         
         public SheetsService SheetsService {
             get {

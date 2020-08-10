@@ -21,7 +21,9 @@
         private static ObjectTypeConverter _typeConverters;
         public static ObjectTypeConverter TypeConverters {
             get {
-
+                if (_typeConverters)
+                    return _typeConverters;
+                
                 _typeConverters = AssetEditorTools.GetAsset<ObjectTypeConverter>();
                 if (!_typeConverters) {
                     _typeConverters = ScriptableObject.CreateInstance<ObjectTypeConverter>();
@@ -79,7 +81,7 @@
         {
             if (source == null)
                 return null;
-
+            
             var sourceType = source.GetType();
             if (sourceType == toType || toType.IsAssignableFrom(sourceType)) {
                 return source;

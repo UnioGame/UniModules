@@ -38,7 +38,7 @@
         
         private void UpdateView(SheetData data)
         {
-            sheetValues = new string[data.Rows,data.Columns];
+            sheetValues = new string[data.RowsCount,data.ColumnsCount];
             var table = data.Table;
 
             for (var i = 0; i < table.Columns.Count; i++) {

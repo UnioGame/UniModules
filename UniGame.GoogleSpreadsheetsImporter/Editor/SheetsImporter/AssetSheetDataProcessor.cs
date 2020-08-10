@@ -193,7 +193,7 @@
                         Title = "Spreadsheet Importing"
                     });
                     
-                    ApplyData(targetAsset, key, sheetId, syncScheme, spreadsheetData);
+                    ApplyData(targetAsset, key,  syncScheme, spreadsheetData[sheetId]);
 
                     yield return targetAsset;
                 }
@@ -209,19 +209,18 @@
         
         public object ApplyData(object source,SheetSyncValue syncScheme, DataRow row)
         {
-            
-            var sheetValues = row.ItemArray;
+            var rowValues = row.ItemArray;
             var table = row.Table;
-            for (var i = 0; i < sheetValues.Length; i++) {
+            for (var i = 0; i < rowValues.Length; i++) {
                 var columnName = table.Columns[i].ColumnName;
                 var itemField  = syncScheme.fields.
-                    FirstOrDefault(x => x.sheetValueField.Equals(columnName,StringComparison.OrdinalIgnoreCase));
+                    FirstOrDefault(x => SheetData.IsEquals(x.sheetValueField,columnName));
 
                 if (itemField == null)
                     continue;
 
-                var sheetValue = sheetValues[i];
-                var resultValue = sheetValue.ConvertType(itemField.targetType);
+                var rowValue = rowValues[i];
+                var resultValue = rowValue.ConvertType(itemField.targetType);
 
                 itemField.ApplyValue(source, resultValue);
             }
@@ -229,12 +228,12 @@
             return source;
         }
         
-        public object ApplyDataByAssetKey(object source,SheetSyncValue value, SpreadsheetData spreadsheetData)
+        public object ApplyDataByAssetKey(object source,SheetSyncValue schema, SpreadsheetData spreadsheetData)
         {
-            var keyField = value.keyField;
+            var keyField = schema.keyField;
             var keyValue = keyField.GetValue(source);
 
-            return ApplyData(source, keyValue,value.sheetId, value, spreadsheetData);
+            return ApplyData(source, keyValue, schema, spreadsheetData[schema.sheetId]);
         }
         
         public SheetData UpdateSheetValue(object source, SheetData data)
@@ -260,38 +259,51 @@
             
             var keyField = schemaValue.keyField;
             var key = keyField.sheetValueField;
-            foreach (var field in schemaValue.fields) {
-                var sheetField = field.sheetValueField;
-                var sheetValue = data.GetValue(key, keyField.GetValue(source), sheetField);
-                if(sheetValue == null)
-                    continue;
-                var value = field.GetValue(source);
-                //data.UpdateValue(value,sheetValue.row,sheetValue.column);
+            var keyFieldValue = keyField.GetValue(source);
+            if (keyFieldValue == null)
+                return data;
+
+            var row = data.GetRow(key, keyFieldValue) ?? data.CreateRow();
+            
+            var sheetFields = SelectSheetFields(schemaValue, data);
+
+            var index = 0;
+            foreach (var field in sheetFields) {
+                var sourceValue = field?.GetValue(source);
+                data.UpdateValue(row,index,sourceValue ?? string.Empty);
+                index++;
             }
 
             return data;
         }
 
+        public IEnumerable<SyncField> SelectSheetFields(SheetSyncValue schemaValue,SheetData data)
+        {
+            var columns = data.Columns;
+            for (var i = 0; i < columns.Count; i++) {
+                var column = columns[i];
+                var field = schemaValue.fields.
+                    FirstOrDefault(x => SheetData.
+                        IsEquals(x.sheetValueField, column.ColumnName));
+                if(field == null)
+                    yield return null;
+                yield return field;
+            }
+        }
 
-        public object ApplyData(object source,object key,string sheetId,SheetSyncValue value, SpreadsheetData spreadsheetData)
+        public object ApplyData(object source,object key,SheetSyncValue value, SheetData sheet)
         {
             var keyField = value.keyField;
-            
-            if (string.IsNullOrEmpty(sheetId)) {
-                Debug.LogWarning($"ApplyData SheetSyncValue : for {value.target} Key Field pr SheetId is Missing [KEY = {keyField} , SHEET_ID = {sheetId}]");
-                return source;
-            }
-            
-            var sheet    = spreadsheetData[sheetId];
-                            
+            var result = source;
             if (sheet == null) {
-                Debug.LogWarning($"{nameof(AssetSheetDataProcessor)}: Missing sheet with name {sheetId}");
-                return source;
+                Debug.LogWarning($"ApplyData SheetSyncValue : for {value.target} Key Field pr SheetId is Missing [KEY = {keyField} , SHEET_ID = {sheet?.Id}]");
+                return result;
             }
-            
-            var slice = sheet.GetSliceByKeyValue(keyField.sheetValueField, key);
 
-            return ApplyData(source, value, slice);
+            var slice = sheet.GetRow(keyField.sheetValueField, key);
+            result = ApplyData(source, value, slice);
+            
+            return result;
         }
 
         private IEnumerable<SyncField> LoadSyncFieldsData(Type sourceType, bool useAllFields)
@@ -323,11 +335,11 @@
                 if (customAttribute == null && !useAllFields)
                     continue;
 
-                var fieldName  = fieldInfo.Name.TrimStart('_');
+                var fieldName = SheetData.FormatKey(fieldInfo.Name);
                 var sheetField = customAttribute!=null && !customAttribute.useFieldName ? 
                     customAttribute.dataField : fieldName;
-                
-                var isKeyField = string.Equals(keyFieldName, fieldName, StringComparison.OrdinalIgnoreCase);
+
+                var isKeyField = SheetData.IsEquals(keyFieldName, fieldName);
                 var syncField = new SyncField(fieldInfo, sheetField,isKeyField);
 
                 yield return syncField;

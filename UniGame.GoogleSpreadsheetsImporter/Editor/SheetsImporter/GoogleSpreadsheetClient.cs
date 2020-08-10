@@ -96,14 +96,14 @@
         {
             var sheetId = data.Id;
 
-            var a1Range      = $"{sheetId}?A2:A";
+            var a1Range      = $"{sheetId}";
             var sourceValues = data.CreateSource();
             var valueRange = new ValueRange() {
                 Values         = sourceValues,
                 Range          = a1Range,
                 MajorDimension = _dimension.ToStringFromCache()
             };
-            
+
             var request = _service.Spreadsheets.Values.Update(valueRange, Id, a1Range);
             request.ValueInputOption = SpreadsheetsResource.ValuesResource.UpdateRequest.ValueInputOptionEnum.RAW;
 
@@ -208,7 +208,7 @@
 
         private SheetData UpdateCache(string sheetId, IList<IList<object>> values)
         {
-            var cacheValue = new SheetData(sheetId, Id, _dimension).Update(values);
+            var cacheValue = new SheetData(sheetId, Id, _dimension);
             cacheValue.Update(values);
             cacheValue.Commit();
             

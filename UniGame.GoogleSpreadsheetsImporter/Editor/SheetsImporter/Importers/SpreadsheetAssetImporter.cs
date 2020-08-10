@@ -25,7 +25,7 @@
         [Sirenix.OdinInspector.HideLabel]
         [Sirenix.OdinInspector.InlineProperty]
 #endif
-        public SheetSyncItem asset = new SheetSyncItem();
+        public SheetSyncItem syncAsset = new SheetSyncItem();
         
         public override void Load()
         {
@@ -34,8 +34,8 @@
 
         public override List<object> Import(SpreadsheetData spreadsheetData)
         {
-            var item = asset?.ApplySpreadsheetData(spreadsheetData);
-            return new List<object>(){item?.asset};
+            var item = syncAsset.asset?.ApplySpreadsheetData(spreadsheetData);
+            return new List<object>(){item};
         }
     }
 }
