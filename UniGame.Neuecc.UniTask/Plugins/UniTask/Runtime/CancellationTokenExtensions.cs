@@ -11,6 +11,18 @@ namespace Cysharp.Threading.Tasks
         static readonly Action<object> cancellationTokenCallback = Callback;
         static readonly Action<object> disposeCallback = DisposeCallback;
 
+        public static CancellationTokenSource ToCancellationTokenSource(this UniTask task)
+        {
+            var cts = new CancellationTokenSource();
+            ToCancellationTokenCore(task, cts).Forget();
+            return cts;
+        }
+        
+        public static CancellationTokenSource ToCancellationTokenSource<T>(this UniTask<T> task)
+        {
+            return ToCancellationTokenSource(task.AsUniTask());
+        }
+        
         public static CancellationToken ToCancellationToken(this UniTask task)
         {
             var cts = new CancellationTokenSource();
