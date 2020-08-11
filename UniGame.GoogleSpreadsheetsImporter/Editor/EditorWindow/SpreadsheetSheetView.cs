@@ -14,7 +14,7 @@
         
 #if ODIN_INSPECTOR
         [Sirenix.OdinInspector.ShowInInspector]
-        [Sirenix.OdinInspector.TableMatrix(SquareCells = true)]
+        [Sirenix.OdinInspector.TableMatrix(ResizableColumns = true,IsReadOnly = true)]
 #endif
         public string[,] sheetValues;
         
@@ -38,19 +38,21 @@
         
         private void UpdateView(SheetData data)
         {
-            sheetValues = new string[data.RowsCount,data.ColumnsCount];
+            sheetValues = new string[data.ColumnsCount,data.RowsCount+1];
             var table = data.Table;
+            var columns = table.Columns;
+            var rows = table.Rows;
 
-            for (var i = 0; i < table.Columns.Count; i++) {
-                DataColumn column = table.Columns[i];
+            for (var i = 0; i < data.ColumnsCount; i++) {
+                var column = columns[i];
                 sheetValues[i, 0] = column.ColumnName;
             }
 
-            for (var i = 1; i < table.Columns.Count; i++) {
-                for (var j = 1; j < table.Rows.Count; j++) {
-                    var row = table.Rows[j];
+            for (var i = 0; i < data.ColumnsCount; i++) {
+                for (var j = 0; j < data.RowsCount; j++) {
+                    var row = rows[j];
                     var rowValue = row[i];
-                    sheetValues[j,i] = rowValue == null ? string.Empty :
+                    sheetValues[i,j+1] = rowValue == null ? string.Empty :
                         rowValue.ToString();
                 }
             }
