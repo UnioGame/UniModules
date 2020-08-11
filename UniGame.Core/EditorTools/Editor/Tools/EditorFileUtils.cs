@@ -99,23 +99,17 @@ namespace UniModules.UniGame.Core.EditorTools.Editor.Tools
 
             return path.Replace("\\", "/").TrimEnd('/');
         }
-        
-        public static string ValidateUnityPath(this string path)
-        {
-            if (string.IsNullOrEmpty(path))
-                return path;
-            return path.Replace("\\", "/").TrimEnd('/');
-        }
+
 
         public static string[] SplitPath(this string path)
         {
-            return path.Split('/').ToArray();
+            return path.Split(Path.DirectorySeparatorChar).ToArray();
         }
 
         public static void ValidateDirectories(string sourcePath)
         {
             var directoryPath = Path.GetDirectoryName(sourcePath);
-            var directories = directoryPath.ValidateUnityPath();
+            var directories = directoryPath.FixUnityPath();
             var path = string.Empty;
             if (string.IsNullOrEmpty(directoryPath) == false) {
                 var folders = SplitPath(directories);

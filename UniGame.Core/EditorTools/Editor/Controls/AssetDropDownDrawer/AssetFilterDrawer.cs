@@ -6,8 +6,8 @@
     using DrawersTools;
     using Runtime.Attributes;
     using Runtime.Extension;
-    using UniCore.EditorTools.Editor.AssetOperations;
     using UniCore.Runtime.Utils;
+    using UniModules.UniGame.Core.EditorTools.Editor.AssetOperations;
     using UnityEditor;
     using UnityEngine;
     using Object = UnityEngine.Object;

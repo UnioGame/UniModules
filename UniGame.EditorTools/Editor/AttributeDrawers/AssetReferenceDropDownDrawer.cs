@@ -4,9 +4,9 @@
     using System.Collections.Generic;
     using System.Linq;
     using Runtime.Extension;
-    using UniCore.EditorTools.Editor.AssetOperations;
     using UniCore.Runtime.ReflectionUtils;
     using UniCore.Runtime.Utils;
+    using UniModules.UniGame.Core.EditorTools.Editor.AssetOperations;
     using UniModules.UniGame.EditorExtensions.Runtime.Attributes;
     using UnityEditor;
     using UnityEngine;

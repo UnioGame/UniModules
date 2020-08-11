@@ -1,8 +1,11 @@
 ﻿namespace UniModules.UniGame.Core.EditorTools.Editor.EditorResources
 {
+    using System;
     using UnityEditor;
     using UnityEngine;
+    using Object = UnityEngine.Object;
 
+    [Serializable]
     public class EditorResource : ResourceHandle
     {
        

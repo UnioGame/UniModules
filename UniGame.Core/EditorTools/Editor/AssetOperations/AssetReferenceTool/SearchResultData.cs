@@ -1,11 +1,11 @@
-﻿namespace UniModules.UniGame.EditorTools.Editor.AssetReferences
+﻿namespace UniModules.UniGame.Core.EditorTools.Editor.AssetOperations.AssetReferenceTool
 {
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
-    using Core.EditorTools.Editor.EditorResources;
-    using Core.Runtime.DataFlow.Interfaces;
-    using Core.Runtime.Interfaces;
+    using EditorResources;
+    using Runtime.DataFlow.Interfaces;
+    using Runtime.Interfaces;
     using UniGreenModules.UniCore.EditorTools.Editor;
     using UniGreenModules.UniCore.Runtime.DataFlow;
     using UniGreenModules.UniCore.Runtime.Rx.Extensions;
