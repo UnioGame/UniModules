@@ -1,7 +1,7 @@
-﻿namespace UniModules.UniGame.EditorTools.Editor.AssetReferences
+﻿namespace UniModules.UniGame.Core.EditorTools.Editor.AssetOperations.AssetReferenceTool
 {
     using System;
-    using Core.EditorTools.Editor.EditorResources;
+    using EditorResources;
     using UniGreenModules.UniGame.Core.Runtime.DataStructure;
     using Object = UnityEngine.Object;
 

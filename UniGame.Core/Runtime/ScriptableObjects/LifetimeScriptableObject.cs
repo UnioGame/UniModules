@@ -51,6 +51,8 @@
 
         private void Awake()
         {
+            if(_lifeTimeDefinition == null)
+                _lifeTimeDefinition = new LifeTimeDefinition();
             _lifeTimeDefinition?.Release();
         }
 
