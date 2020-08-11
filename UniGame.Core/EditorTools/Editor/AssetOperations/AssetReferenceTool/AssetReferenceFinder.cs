@@ -9,9 +9,7 @@
     using EditorResources;
     using Sirenix.Utilities;
     using Tools;
-    using UniGame.EditorTools.Editor.AssetReferences;
     using UniGreenModules.UniCore.EditorTools.Editor;
-    using UniGreenModules.UniCore.EditorTools.Editor.AssetOperations;
     using UniGreenModules.UniCore.EditorTools.Editor.Utility;
     using UniGreenModules.UniCore.Runtime.Rx.Extensions;
     using UnityEditor;
