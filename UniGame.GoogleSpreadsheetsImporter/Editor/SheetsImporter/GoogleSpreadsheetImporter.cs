@@ -24,7 +24,7 @@
     [CreateAssetMenu(menuName = "UniGame/Google/GoogleSpreadSheetImporter",fileName = nameof(GoogleSpreadsheetImporter))]
     public class GoogleSpreadsheetImporter : ScriptableObject, ILifeTimeContext
     {
-        private const int DefaultButtonsWidth = 60;
+        private const int DefaultButtonsWidth = 100;
 
         #region inspector
         
@@ -119,7 +119,7 @@
 #if ODIN_INSPECTOR
         [Sirenix.OdinInspector.HorizontalGroup("Sources",DefaultButtonsWidth)]
         [Sirenix.OdinInspector.VerticalGroup("Sources/Source Commands",PaddingTop = 30)]
-        [Sirenix.OdinInspector.Button("Import")]
+        [Sirenix.OdinInspector.Button("Import All")]
         [Sirenix.OdinInspector.EnableIf("HasConnectedSheets")]
 #endif
         public void Import()
@@ -129,7 +129,7 @@
        
 #if ODIN_INSPECTOR
         [Sirenix.OdinInspector.VerticalGroup("Sources/Source Commands")]
-        [Sirenix.OdinInspector.Button("Export")]
+        [Sirenix.OdinInspector.Button("Export All")]
         [Sirenix.OdinInspector.EnableIf("HasConnectedSheets")]
 #endif
         public void Export()
@@ -165,6 +165,7 @@
         {
             _sheetClients.ForEach(x=> x.Reload());
             _spreadsheetData.Initialize(_sheetClients);
+            sheetsItemsHandler.Initialize(_spreadsheetData);
         }
         
 #if ODIN_INSPECTOR

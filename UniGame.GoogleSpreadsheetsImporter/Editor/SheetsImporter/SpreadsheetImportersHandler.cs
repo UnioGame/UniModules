@@ -3,11 +3,15 @@
     using System;
     using System.Collections.Generic;
     using Abstract;
+    using Core.Runtime.DataFlow.Interfaces;
+    using UniGreenModules.UniCore.Runtime.DataFlow;
     using Object = UnityEngine.Object;
 
     [Serializable]
     public class SpreadsheetImportersHandler : ISpreadsheetAssetsHandler
     {
+        private SpreadsheetData _spreadsheetData;
+
         /// <summary>
         /// list of assets linked by attributes
         /// </summary>
@@ -19,6 +23,15 @@
 
         public IEnumerable<ISpreadsheetAssetsHandler> Importers => importers;
 
+        public void Initialize(SpreadsheetData spreadsheetData)
+        {
+            _spreadsheetData = spreadsheetData;
+            
+            foreach (var importer in importers) {
+                importer.Initialize(_spreadsheetData);
+            }
+        }
+        
         public void Load()
         {
             foreach (var importer in Importers) {
@@ -46,5 +59,6 @@
             }
             return data;
         }
+        
     }
 }
