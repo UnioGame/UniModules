@@ -4,10 +4,10 @@
     using System.Collections.Generic;
     using System.Linq;
     using AddressableExtensions.Editor;
+    using Core.EditorTools.Editor.AssetOperations;
     using Runtime.AssetReferencies;
     using Runtime.SpriteAtlases;
     using UniCore.Runtime.ProfilerTools;
-    using UniGreenModules.UniCore.EditorTools.Editor.AssetOperations;
     using UniGreenModules.UniCore.EditorTools.Editor.Utility;
     using Unity.EditorCoroutines.Editor;
     using UnityEditor;

@@ -5,11 +5,11 @@ namespace UniModules.UniGame.EditorTools.Editor.AssetReferences
 {
     using System.Collections.Generic;
     using System.Linq;
+    using Core.EditorTools.Editor.AssetOperations;
     using Core.EditorTools.Editor.AssetOperations.AssetReferenceTool;
     using Core.EditorTools.Editor.EditorResources;
     using Sirenix.OdinInspector;
     using Sirenix.OdinInspector.Editor;
-    using UniGreenModules.UniCore.EditorTools.Editor.AssetOperations;
     using UnityEditor;
     using UnityEngine;
     using Object = UnityEngine.Object;

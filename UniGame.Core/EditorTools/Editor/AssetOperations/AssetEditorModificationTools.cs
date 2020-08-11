@@ -1,10 +1,11 @@
-namespace UniGreenModules.UniCore.EditorTools.Editor.AssetOperations
+namespace UniModules.UniGame.Core.EditorTools.Editor.AssetOperations
 {
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Text.RegularExpressions;
+    using Tools;
     using UnityEditor;
     using UnityEngine;
     using Object = UnityEngine.Object;
@@ -13,14 +14,16 @@ namespace UniGreenModules.UniCore.EditorTools.Editor.AssetOperations
     {
         #region Asset Creation/Saving
 
-        public static TAsset SaveAsset<TAsset>(this TAsset asset, string name, string folder)
+        public static TAsset SaveAsset<TAsset>(this TAsset asset, string name, string folder,bool saveDatabase = true)
             where TAsset : Object
         {
             if (folder.IndexOf('\\', folder.Length - 1) >= 0) {
                 folder = folder.Remove(folder.Length - 1);
             }
 
-            var skinTypePath = folder + "\\" + name + "." + GetAssetExtension(asset);
+            EditorFileUtils.ValidateDirectories(folder);
+            
+            var skinTypePath = EditorFileUtils.Combine(folder,name + "." + GetAssetExtension(asset));
             var itemPath     = AssetDatabase.GenerateUniqueAssetPath(skinTypePath);
 
             var gameObjectAsset = asset as GameObject;
@@ -30,8 +33,13 @@ namespace UniGreenModules.UniCore.EditorTools.Editor.AssetOperations
             }
 
             AssetDatabase.CreateAsset(asset, itemPath);
-            AssetDatabase.SaveAssets();
-            return AssetDatabase.LoadAssetAtPath<TAsset>(itemPath);
+            
+            if (saveDatabase) {
+                AssetDatabase.SaveAssets();
+                return AssetDatabase.LoadAssetAtPath<TAsset>(itemPath);
+            }
+
+            return asset;
         }
 
         public static bool SaveAssetAsNested(this Object child, Object root, string name = null)
