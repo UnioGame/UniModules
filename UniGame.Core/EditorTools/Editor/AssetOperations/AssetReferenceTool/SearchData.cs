@@ -1,10 +1,9 @@
-﻿namespace UniModules.UniGame.EditorTools.Editor.AssetReferences
+﻿namespace UniModules.UniGame.Core.EditorTools.Editor.AssetOperations.AssetReferenceTool
 {
-    using System;
-    using System.Linq;
-    using Core.EditorTools.Editor.AssetOperations.AssetReferenceTool;
+        using System;
+        using System.Linq;
 
-    [Serializable]
+        [Serializable]
     public class SearchData
     {
         public UnityEngine.Object[] assets = new UnityEngine.Object[0];

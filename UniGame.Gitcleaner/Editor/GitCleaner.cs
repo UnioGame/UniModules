@@ -9,7 +9,7 @@ using UnityEngine;
 
 public class GitCleaner : EditorWindow
 {
-    private const string _ignorePathFilterPath = "UniGame.Generated/GitCleaner/ignore-list.txt";
+    private static string _ignorePathFilterPath =  "UniGame.Generated/GitCleaner/ignore-list.txt";
     private static List<string> _ignoreContent = new List<string>();
     private static List<string> _removedItems = new List<string>();
 

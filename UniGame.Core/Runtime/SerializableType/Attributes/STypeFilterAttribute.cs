@@ -9,7 +9,7 @@
         public readonly Type Type;
         public readonly string FieldName;
 
-        public STypeFilterAttribute(Type type,string fieldName = "type")
+        public STypeFilterAttribute(Type type,string fieldName = nameof(SType.fullTypeName))
         {
             this.Type = type;
             this.FieldName = fieldName;
