@@ -94,34 +94,22 @@
 
         public SheetData UpdateData(SheetData data)
         {
-            var sheetId = data.Id;
+            var request = CreateUpdateRequest(data);
 
-            var a1Range      = $"{sheetId}";
-            var sourceValues = data.CreateSource();
-            var valueRange = new ValueRange() {
-                Values         = sourceValues,
-                Range          = a1Range,
-                MajorDimension = _dimension.ToStringFromCache()
-            };
-
-            var request = _service.Spreadsheets.Values.Update(valueRange, Id, a1Range);
-            request.ValueInputOption = SpreadsheetsResource.ValuesResource.UpdateRequest.ValueInputOptionEnum.RAW;
-
-            var response = request.Execute();
+            try {
+                var response = request.Execute();
+                data.Commit();
+            }
+            catch (Exception e) {
+                Debug.LogError(e);
+            }
+            
             return data;
         }
-        
+
         public SheetData LoadData(string sheetId)
         {
-            if (string.IsNullOrEmpty(sheetId))
-                return null;
-            // Define request parameters.
-            var spreadsheetId = _spreadsheetId;
-            var targetRange   = sheetId;
-            var request       = _service.Spreadsheets.Values.Get(spreadsheetId, targetRange);
-            
-            request = ApplyGetResourceDimmension(request);
-
+            var request       = CreateGetRequest(sheetId);
             var response = request.Execute();
             var values   = response.Values;
 
@@ -130,22 +118,19 @@
 
         #region async methods
 
-        public async UniTask UpdateDataAsync(SheetData data)
+        public async UniTask<SheetData> UpdateDataAsync(SheetData data)
         {
-            var sheetId = data.Id;
-
-            var a1Range = $"{sheetId}?A2:A";
-            var sourceValues = data.CreateSource();
-            var valueRange = new ValueRange() {
-                Values = sourceValues,
-                Range  = a1Range,
-                MajorDimension = _dimension.ToStringFromCache()
-            };
             
-            var request = _service.Spreadsheets.Values.Update(valueRange, Id, a1Range);
-            request.ValueInputOption = SpreadsheetsResource.ValuesResource.UpdateRequest.ValueInputOptionEnum.RAW;
+            var request = CreateUpdateRequest(data);
+            try {
+                var response = await request.ExecuteAsync();
+                data.Commit();
+            }
+            catch (Exception e) {
+                Debug.LogError(e);
+            }
 
-            var response = await request.ExecuteAsync();
+            return data;
         }
         
         public async UniTask<IReadOnlyList<SheetData>> GetAllSheetsDataAsync()
@@ -169,41 +154,60 @@
 
         public async UniTask<SheetData> LoadDataAsync(string tableRequest)
         {
-            if (string.IsNullOrEmpty(tableRequest))
-                return null;
-            // Define request parameters.
-            var spreadsheetId = _spreadsheetId;
-            var targetRange   = tableRequest;
-            var request       = _service.Spreadsheets.Values.Get(spreadsheetId, targetRange);
-
-            request = ApplyGetResourceDimmension(request);
-
+            var request = CreateGetRequest(tableRequest);
             var response = await request.ExecuteAsync();
             var values   = response.Values;
 
             return UpdateCache(tableRequest, values);
         }
-
+        
         #endregion
 
+        public SpreadsheetsResource.ValuesResource.GetRequest CreateGetRequest(string sheetId)
+        {
+            if (string.IsNullOrEmpty(sheetId))
+                return null;
+            // Define request parameters.
+            var spreadsheetId = _spreadsheetId;
+            var targetRange   = sheetId;
+            var request       = _service.Spreadsheets.Values.Get(spreadsheetId, targetRange);
+            request.MajorDimension = GetResourceDimmension();
+
+            return request;
+        }
+        
+        public SpreadsheetsResource.ValuesResource.UpdateRequest CreateUpdateRequest(SheetData data)
+        {
+            var sheetId = data.Id;
+
+            var a1Range      = $"{sheetId}";
+            var sourceValues = data.CreateSource();
+            var valueRange = new ValueRange() {
+                Values         = sourceValues,
+                Range          = a1Range,
+                MajorDimension = _dimension.ToStringFromCache()
+            };
+
+            var request = _service.Spreadsheets.Values.Update(valueRange, Id, a1Range);
+            request.ValueInputOption = SpreadsheetsResource.ValuesResource.UpdateRequest.ValueInputOptionEnum.RAW;
+
+            return request;
+        }
 
         #region private methods
 
-        private SpreadsheetsResource.ValuesResource.GetRequest ApplyGetResourceDimmension(SpreadsheetsResource.ValuesResource.GetRequest request)
+        private SpreadsheetsResource.ValuesResource.GetRequest.MajorDimensionEnum GetResourceDimmension()
         {
             switch (_dimension) {
                 case MajorDimension.DimensionUnspecified:
-                    request.MajorDimension = SpreadsheetsResource.ValuesResource.GetRequest.MajorDimensionEnum.DIMENSIONUNSPECIFIED;
-                    break;
+                    return SpreadsheetsResource.ValuesResource.GetRequest.MajorDimensionEnum.DIMENSIONUNSPECIFIED;
                 case MajorDimension.ROWS:
-                    request.MajorDimension = SpreadsheetsResource.ValuesResource.GetRequest.MajorDimensionEnum.ROWS;
-                    break;
+                    return SpreadsheetsResource.ValuesResource.GetRequest.MajorDimensionEnum.ROWS;
                 case MajorDimension.COLUMNS:
-                    request.MajorDimension = SpreadsheetsResource.ValuesResource.GetRequest.MajorDimensionEnum.COLUMNS;
-                    break;
+                    return SpreadsheetsResource.ValuesResource.GetRequest.MajorDimensionEnum.COLUMNS;
             }
 
-            return request;
+            return SpreadsheetsResource.ValuesResource.GetRequest.MajorDimensionEnum.ROWS;
         }
 
         private SheetData UpdateCache(string sheetId, IList<IList<object>> values)
