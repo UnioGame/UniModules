@@ -6,9 +6,9 @@
     using ModelViewsMap.Runtime.Settings;
     using UiSystem.Runtime;
     using UiSystem.Runtime.Abstracts;
-    using UniGreenModules.UniCore.EditorTools.Editor.AssetOperations;
     using UniGreenModules.UniCore.Runtime.ReflectionUtils;
     using UniGreenModules.UniCore.Runtime.Utils;
+    using UniModules.UniGame.Core.EditorTools.Editor.AssetOperations;
     using UnityEditor;
 
     public class UpdateModelViewsSettingsProcessor : AssetModificationProcessor
