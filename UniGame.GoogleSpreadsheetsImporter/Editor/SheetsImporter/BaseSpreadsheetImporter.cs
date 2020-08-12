@@ -1,23 +1,31 @@
 ﻿namespace UniModules.UniGame.GoogleSpreadsheetsImporter.Editor.SheetsImporter
 {
+    using System;
     using System.Collections.Generic;
     using Abstract;
+    using UniRx;
     using UnityEngine;
 
     public abstract class BaseSpreadsheetImporter : ScriptableObject, ISpreadsheetAssetsHandler
     {
-        private SpreadsheetData _spreadsheetData;
+        private ISubject<ISpreadsheetAssetsHandler> _importCommand;
+        private ISubject<ISpreadsheetAssetsHandler> _exportCommand;
         
         #region public properties
-        public bool IsValidData => _spreadsheetData != null;
+        public bool IsValidData => _importCommand != null && _exportCommand !=null;
 
+        public IObservable<ISpreadsheetAssetsHandler> ImportCommand => _importCommand;
+
+        public IObservable<ISpreadsheetAssetsHandler> ExportCommand => _importCommand;
+        
         #endregion
 
-        public void Initialize(SpreadsheetData data)
+        public void Initialize()
         {
-            _spreadsheetData = data;
+            _importCommand = new Subject<ISpreadsheetAssetsHandler>();
+            _exportCommand = new Subject<ISpreadsheetAssetsHandler>();
         }
-        
+
         public abstract void Load();
 
         public abstract List<object> Import(SpreadsheetData spreadsheetData);
@@ -27,23 +35,21 @@
 #if ODIN_INSPECTOR
         [Sirenix.OdinInspector.ButtonGroup()]
         [Sirenix.OdinInspector.Button()]
-        [Sirenix.OdinInspector.EnableIf("IsValidData")]
+        [Sirenix.OdinInspector.ShowIf("IsValidData")]
 #endif
         public void Import()
         {
-            Load();
-            Import(_spreadsheetData);
+            _importCommand?.OnNext(this);
         }
 
 #if ODIN_INSPECTOR
         [Sirenix.OdinInspector.ButtonGroup()]
         [Sirenix.OdinInspector.Button()]
-        [Sirenix.OdinInspector.EnableIf("IsValidData")]
+        [Sirenix.OdinInspector.ShowIf("IsValidData")]
 #endif
         public void Export()
         {
-            Load();
-            Export(_spreadsheetData);
+            _exportCommand?.OnNext(this);
         }
 
     }
