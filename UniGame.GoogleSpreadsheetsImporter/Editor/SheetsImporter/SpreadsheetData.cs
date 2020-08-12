@@ -9,10 +9,10 @@
     {
         public List<SheetData> _sheets = new List<SheetData>();
 
-        public void Initialize(List<GoogleSpreadsheetClient> clients)
+        public void Initialize(IEnumerable<SheetData> sheets)
         {
             _sheets.Clear();
-            _sheets.AddRange(clients.SelectMany(x => x.GetAllSheetsData()));
+            _sheets.AddRange(sheets);
         }
 
         public IReadOnlyList<SheetData> Sheets => _sheets;
