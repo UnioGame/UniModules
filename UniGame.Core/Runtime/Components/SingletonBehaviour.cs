@@ -1,12 +1,13 @@
 ﻿namespace UniModules.UniGame.Core.Runtime.Components
 {
     using UniCore.Runtime.ProfilerTools;
+    using UniGreenModules.UniCore.Runtime.Interfaces;
 #if UNITY_EDITOR
     using UnityEditor;
 #endif
     using UnityEngine;
 
-    public class SingletonBehaviour<T> : MonoBehaviour where T : SingletonBehaviour<T>
+    public class SingletonBehaviour<T> : MonoBehaviour, INamedItem where T : SingletonBehaviour<T>
     {
         private static bool _shuttingDown;
         private static readonly object _lock = new object();
@@ -30,6 +31,8 @@
                 return _instance;
             }
         }
+        
+        public virtual string ItemName => typeof(T).Name;
 
         public static void DestroySingleton()
         {
@@ -77,8 +80,6 @@
 #endif
         }
 
-        protected virtual string GetGameObjectName() => typeof(T).Name;
-
         private static T CreateInstance()
         {
             var singletonObject = new GameObject();
@@ -92,7 +93,7 @@
             }
 
             var instance = singletonObject.AddComponent<T>();
-            singletonObject.name = instance.GetGameObjectName();
+            singletonObject.name = instance.ItemName;
             
             instance.OnInstanceCreated();
 
@@ -107,5 +108,6 @@
             }
         }
 #endif
+        
     }
 }
