@@ -16,7 +16,7 @@
 
         public IObservable<ISpreadsheetAssetsHandler> ImportCommand => _importCommand;
 
-        public IObservable<ISpreadsheetAssetsHandler> ExportCommand => _importCommand;
+        public IObservable<ISpreadsheetAssetsHandler> ExportCommand => _exportCommand;
         
         #endregion
 

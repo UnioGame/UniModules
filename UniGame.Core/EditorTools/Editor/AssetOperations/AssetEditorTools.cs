@@ -458,6 +458,21 @@
             return isCanceled;
         }
         
+        public static void ShowProgress(IEnumerable<ProgressData> awaiter)
+        {
+            try {
+                foreach (var progress in awaiter) {
+                    var isCanceled = EditorUtility.
+                        DisplayCancelableProgressBar(progress.Title, progress.Content, progress.Progress);
+                    if (isCanceled)
+                        break;
+                }
+            }
+            finally{
+                EditorUtility.ClearProgressBar();
+            }
+        }
+        
         
         public static void ShowActionProgress(IEnumerator<ProgressData> awaiter)
         {

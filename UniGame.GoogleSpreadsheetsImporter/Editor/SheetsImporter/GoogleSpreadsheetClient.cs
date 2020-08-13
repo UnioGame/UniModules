@@ -189,7 +189,8 @@
             };
 
             var request = _service.Spreadsheets.Values.Update(valueRange, Id, a1Range);
-            request.ValueInputOption = SpreadsheetsResource.ValuesResource.UpdateRequest.ValueInputOptionEnum.RAW;
+            request.ValueInputOption = SpreadsheetsResource.ValuesResource.
+                UpdateRequest.ValueInputOptionEnum.USERENTERED;
 
             return request;
         }
