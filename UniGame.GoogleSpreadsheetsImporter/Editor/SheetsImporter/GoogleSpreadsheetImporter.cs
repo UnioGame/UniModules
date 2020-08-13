@@ -124,7 +124,7 @@
 #endif
         public void Import()
         {
-            sheetsItemsHandler.Import(SpreadsheetData);
+            sheetsItemsHandler.Import();
         }
        
 #if ODIN_INSPECTOR
@@ -134,16 +134,7 @@
 #endif
         public void Export()
         {
-            SpreadsheetData = sheetsItemsHandler.Export(SpreadsheetData);
-            foreach (var sheetData in SpreadsheetData.Sheets) {
-                if(!sheetData.IsChanged)
-                    continue;
-                foreach (var client in _sheetClients) {
-                    if(!client.HasSheet(sheetData.Id))
-                        continue;
-                    client.UpdateData(sheetData);
-                }
-            }
+            SpreadsheetData = sheetsItemsHandler.Export();
         }
 
 #if ODIN_INSPECTOR
@@ -164,8 +155,7 @@
         private void ReloadSpreadsheetsData()
         {
             _sheetClients.ForEach(x=> x.Reload());
-            _spreadsheetData.Initialize(_sheetClients);
-            sheetsItemsHandler.Initialize(_spreadsheetData);
+            _spreadsheetData.Initialize(_sheetClients.SelectMany(x => x.GetAllSheetsData()));
         }
         
 #if ODIN_INSPECTOR
@@ -179,6 +169,7 @@
             CreateSheetClients();
             LoadTypeConverters();
             ReloadSpreadsheetsData();
+            sheetsItemsHandler.Initialize(_spreadsheetData,_sheetClients);
         }
         
 #if ODIN_INSPECTOR
