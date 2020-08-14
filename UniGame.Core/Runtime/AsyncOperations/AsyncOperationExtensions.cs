@@ -12,54 +12,12 @@
 
     public static class AsyncOperationExtensions
     {
-        public static async UniTask<T> WaitOrCancel<T>(this UniTask<T> task, CancellationToken token)
+        public static async Task<T> WaitAsync<T>(this Task<T> task, CancellationToken token)
         {
-            token.ThrowIfCancellationRequested();
-            await UniTask.WhenAny(task, token.WhenCanceled());
-            token.ThrowIfCancellationRequested();
-
-            return await task;
-        }
-
-        public static async UniTask WaitOrCancel(this UniTask task, CancellationToken token)
-        {
-            token.ThrowIfCancellationRequested();
-            await UniTask.WhenAny(task, token.WhenCanceled());
-            token.ThrowIfCancellationRequested();
-
-            await task;
-        }
-
-        public static async Task<T> WaitOrCancel<T>(this Task<T> task, CancellationToken token)
-        {
-            token.ThrowIfCancellationRequested();
-            await Task.WhenAny(task, token.WhenCanceledTask());
-            token.ThrowIfCancellationRequested();
-
-            return await task;
-        }
-
-        public static async Task WaitOrCancel(this Task task, CancellationToken token)
-        {
-            token.ThrowIfCancellationRequested();
-            await Task.WhenAny(task, token.WhenCanceledTask());
-            token.ThrowIfCancellationRequested();
-
-            await task;
-        }
-
-        public static UniTask WhenCanceled(this CancellationToken cancellationToken)
-        {
-            var completionSource = new UniTaskCompletionSource<bool>();
-            cancellationToken.Register(x=>((UniTaskCompletionSource<bool>)x).TrySetResult(true), completionSource);
-            return completionSource.Task;
-        }
-
-        public static Task WhenCanceledTask(this CancellationToken cancellationToken)
-        {
-            var completionSource = new TaskCompletionSource<bool>();
-            cancellationToken.Register(x=>((TaskCompletionSource<bool>)x).SetResult(true), completionSource);
-            return completionSource.Task;
+            var taskCompletionSource = new TaskCompletionSource<T>();
+            using (token.Register(() => taskCompletionSource.TrySetCanceled(token), false)) {
+                return await await Task.WhenAny(task, taskCompletionSource.Task).ConfigureAwait(false);
+            }
         }
 
         public static IEnumerator WaitAll(this List<IEnumerator> operations) {
