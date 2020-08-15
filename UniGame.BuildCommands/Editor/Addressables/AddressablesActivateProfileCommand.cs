@@ -7,7 +7,7 @@ namespace UniModules.UniGame.BuildCommands.Editor.Addressables
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using UniGreenModules.UniCore.EditorTools.Editor.AssetOperations;
+    using Core.EditorTools.Editor.AssetOperations;
     using UnityEditor.AddressableAssets.Settings;
 
     [CreateAssetMenu(menuName = "UniGame/UniBuild/Commands/AddressablesActivateProfile", fileName = nameof(AddressablesActivateProfileCommand))]

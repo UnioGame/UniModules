@@ -1,21 +1,24 @@
-﻿namespace UniGreenModules.UniCore.EditorTools.Editor.AssetOperations
+﻿namespace UniModules.UniGame.Core.EditorTools.Editor.AssetOperations
 {
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Text.RegularExpressions;
-    using System.Threading;
-    using Runtime.ReflectionUtils;
-    using Runtime.Rx.Extensions;
-    using UniModules.UniGame.Core.Runtime.DataFlow.Interfaces;
+    using EditorResources;
+    using Runtime.DataFlow.Interfaces;
+    using UniGreenModules.UniCore.EditorTools.Editor;
+    using UniGreenModules.UniCore.EditorTools.Editor.Utility;
+    using UniGreenModules.UniCore.Runtime.ReflectionUtils;
+    using UniGreenModules.UniCore.Runtime.Rx.Extensions;
+    using UniGreenModules.UniCore.Runtime.Utils;
+    using UniGreenModules.UniGame.Core.Runtime.Extension;
     using UniRx;
     using UnityEditor;
     using UnityEngine;
-    using Utility;
     using Object = UnityEngine.Object;
 
-    public partial class AssetEditorTools
+    public static partial class AssetEditorTools
     {
         private const string PrefabExtension = "prefab";
         private const string AssetExtension = "asset";
@@ -25,6 +28,13 @@
         private static string clientDataPath;
         private static Regex modificationRegex;
 
+        private static Func<Object, EditorResource> _editorResourceFactory = MemorizeTool.Create<Object, EditorResource>(x => {
+            var result = new EditorResource();
+            if (!x) return result;
+            result.Update(x);
+            return result;
+        });
+
         public const string AssetRoot = "assets";
         public const string ModificationTemplate = @"\n( *)(m_Modifications:[\w,\W]*)(?=\n( *)m_RemovedComponents)";
         public static List<string> _modificationsIgnoreList = new List<string>() { ".fbx" };
@@ -33,6 +43,29 @@
         public static bool IsPureEditorMode => EditorApplication.isPlayingOrWillChangePlaymode == false && 
                                                EditorApplication.isCompiling == false && 
                                                EditorApplication.isUpdating == false;
+        
+        /// <summary>
+        //	Can create Scriptable object/ component /gameobject
+        /// </summary>
+        public static Object CreateAsset(this Type type)
+        {
+            Object asset = null;
+            switch (type) {
+                case Type t when t.IsScriptableObject():
+                    asset = ScriptableObject.CreateInstance(type);
+                    break;
+                case Type t when t.IsGameObject():
+                    var gameObject = new GameObject(t.Name);
+                    asset = gameObject;
+                    break;
+                case Type t when t.IsComponent():
+                    var assetObject = new GameObject(t.Name,t);
+                    asset = assetObject.GetComponent(t);
+                    break;
+            }
+
+            return asset;
+        }
 
         public static string GetAssetExtension(Object asset)
         {
@@ -65,7 +98,7 @@
             return OpenScript(typeof(T),folders);
         }
 
-        public static bool OpenScript(Type type,params string[] folders)
+        public static bool OpenScript(this Type type,params string[] folders)
         {
             var asset = GetScriptAsset(type, folders);
             if (asset == null)
@@ -73,7 +106,7 @@
             return AssetDatabase.OpenAsset(asset.GetInstanceID(), 0, 0);
         }
 
-        public static MonoScript GetScriptAsset(Type type, params string[] folders)
+        public static MonoScript GetScriptAsset(this Type type, params string[] folders)
         {
             var typeName = type.Name;
             var filter   = $"t:script {typeName}";
@@ -90,7 +123,31 @@
             var asset = AssetDatabase.LoadAssetAtPath<MonoScript>(assetGuid.AssetGuidToPath());
             return asset;
         }
-        
+
+
+        public static List<AttributeItemData<T,TAttr>> GetAssetsWithAttribute<T, TAttr>(string[] folders = null)
+            where T : ScriptableObject
+            where TAttr : Attribute
+        {
+            var result = new List<AttributeItemData<T,TAttr>>();
+            
+            var assets = GetAssets<T>(folders);
+
+            foreach (var asset in assets) {
+                var type = asset.GetType();
+                var attribute = type.GetCustomAttribute<TAttr>();
+                if (attribute != null) {
+                    result.Add(new AttributeItemData<T, TAttr>() {
+                        Attribute = attribute,
+                        Value = asset
+                    });
+                }
+            }
+
+            return result;
+        }
+
+
         public static void FindItems<T>(Action<Object, T> action)
         {
 
@@ -262,6 +319,12 @@
             return items;
         }
 
+        public static T GetAsset<T>(string folder) where T : Object
+        {
+            var asset = GetAssets<T>(new string[]{folder}).FirstOrDefault();
+            return asset;
+        }
+        
         public static T GetAsset<T>(string[] folders = null) where T : Object
         {
             var asset = GetAssets<T>(folders).FirstOrDefault();
@@ -301,6 +364,19 @@
         {
             var targetType = typeof(T);
             return GetAssets<T>(targetType, folders);
+        }
+
+        public static EditorResource ToEditorResource(this Object asset, bool forceUpdate = false)
+        {
+            var editorResource = _editorResourceFactory(asset);
+            if (forceUpdate)
+                editorResource.Update();
+            return editorResource;
+        }
+        
+        public static List<T> GetAssets<T>(Type targetType,string folder) where T : Object
+        {
+            return GetAssets<T>(targetType, string.IsNullOrEmpty(folder) ? null : new[] {folder});
         }
         
         public static List<T> GetAssets<T>(Type targetType,string[] folders = null) where T : Object
@@ -388,6 +464,21 @@
             return isCanceled;
         }
         
+        public static void ShowProgress(IEnumerable<ProgressData> awaiter)
+        {
+            try {
+                foreach (var progress in awaiter) {
+                    var isCanceled = EditorUtility.
+                        DisplayCancelableProgressBar(progress.Title, progress.Content, progress.Progress);
+                    if (isCanceled)
+                        break;
+                }
+            }
+            finally{
+                EditorUtility.ClearProgressBar();
+            }
+        }
+        
         
         public static void ShowActionProgress(IEnumerator<ProgressData> awaiter)
         {
@@ -409,10 +500,14 @@
             }
         }
         
-        public static string GetGUID(Object asset)
+        public static string GetGUID(this Object asset)
         {
+            if (!asset) return string.Empty;
+            
             var path = AssetDatabase.GetAssetPath(asset);
-            return string.IsNullOrEmpty(path) ? string.Empty : AssetDatabase.AssetPathToGUID(path);
+            return string.IsNullOrEmpty(path) ? 
+                string.Empty : 
+                AssetDatabase.AssetPathToGUID(path);
         }
 
         public static string GetUniqueAssetName(string path)

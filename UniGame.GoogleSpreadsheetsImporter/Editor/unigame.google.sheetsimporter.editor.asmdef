@@ -1,0 +1,25 @@
+{
+    "name": "unigame.google.sheetsimporter.editor",
+    "references": [
+        "GUID:c951d0efda6aebb47b783290667d215b",
+        "GUID:2796129a6c23eb84a8181f62bf7332f1",
+        "GUID:8e4577c9194c10845984cf27eb974fd1",
+        "GUID:94b76ab488496fe4ba2e594d6c583770",
+        "GUID:a798b6c995887d74ea9a129f318438cb",
+        "GUID:560b04d1a97f54a4e82edc0cbbb69285",
+        "GUID:f51ebe6a0ceec4240a699833d6309b23",
+        "GUID:9e24947de15b9834991c9d8411ea37cf",
+        "GUID:69448af7b92c7f342b298e06a37122aa"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

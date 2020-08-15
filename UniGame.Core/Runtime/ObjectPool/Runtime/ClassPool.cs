@@ -59,9 +59,7 @@
 		public static T SpawnExists<T>()
 			where T : class 
 		{
-            GameProfiler.BeginSample("LeanClassPool.Spawn");
 			var instance = SpawnExists<T>(null);
-		    GameProfiler.EndSample();
             return instance;
         }
 

@@ -5,12 +5,12 @@ namespace UniModules.UniGame.EditorTools.Editor.AssetReferences
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Core.EditorTools.Editor.AssetOperations;
     using Core.EditorTools.Editor.AssetOperations.AssetReferenceTool;
     using Core.EditorTools.Editor.EditorResources;
     using Core.EditorTools.Editor.Tools;
     using Core.Runtime.Extension;
     using Sirenix.OdinInspector.Editor;
-    using UniGreenModules.UniCore.EditorTools.Editor.AssetOperations;
     using UniGreenModules.UniGame.Core.Runtime.Extension;
     using UnityEditor;
     using UnityEngine;
@@ -104,11 +104,11 @@ namespace UniModules.UniGame.EditorTools.Editor.AssetReferences
 
             var searchData = new SearchData() {
                 assets = assets.ToArray(),
-                excludeReferenceSearchFilters = ignoreFilter.
+                regExFilters = ignoreFilter.
                     Concat(ignoreFolders).
                     Select(EditorFileUtils.FixUnityPath).
                     ToArray(),
-                referenceFilters = typeFilter.ToArray(),
+                fileTypes = typeFilter.ToArray(),
             };
 
             var result = AssetReferenceFinder.FindReferences(searchData);

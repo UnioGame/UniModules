@@ -7,14 +7,21 @@
     using System.Linq.Expressions;
     using System.Reflection;
     using DataStructure;
-    using global::UniCore.Runtime.ProfilerTools;
-    using ProfilerTools;
     using UnityEngine;
+    using Utils;
     using Object = UnityEngine.Object;
 
     public static class ReflectionTools
     {
         private static Type _stringType = typeof(string);
+
+        public static Func<Type, IReadOnlyList<FieldInfo>> _instanceFieldInfoProvider = MemorizeTool.
+            Create<Type, IReadOnlyList<FieldInfo>>(x => {
+                var fields = new List<FieldInfo>();
+                if(x == null) return fields;
+                fields.AddRange(x.GetFields(bindingFlags));
+                return fields;
+            });
 
         public const BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic;
 
@@ -23,6 +30,11 @@
         public static void Clear()
         {
             fieldInfos.Clear();
+        }
+
+        public static IReadOnlyList<FieldInfo> GetInstanceFields(this Type type)
+        {
+            return _instanceFieldInfoProvider(type);
         }
 
         public static bool IsReallyAssignableFrom(this Type type, Type otherType)
@@ -43,7 +55,6 @@
                 return false;
             }
         }
-        
         
         public static FieldInfo GetFieldInfoCached(this object target,string name) => GetFieldInfoCached(target.GetType(),name);
         
@@ -235,6 +246,24 @@
             return true;
         }
 
+        /// <summary>
+        /// utility method for returning the first matching custom attribute (or <c>null</c>) of the specified member.
+        /// </summary>
+        public static T GetCustomAttribute<T>(this Type type, bool inherit = true) where T : Attribute
+        {
+            var array = type.GetCustomAttributes(typeof (T), inherit);
+            return array.Length != 0 ? (T) array[0] : default (T);
+        }
+        
+        /// <summary>
+        /// is type has target attribute
+        /// </summary>
+        public static bool HasAttribute<T>(this Type type, bool inherit = true) where T : Attribute
+        {
+            var array = type.GetCustomAttributes(typeof (T), inherit);
+            return array.Length != 0 ;
+        }
+        
         public static void FindResources<TData>(List<Object> assets, Action<Object, TData> onFoundAction, HashSet<object> excludedItems = null, Func<TData, TData> resourceAction = null) where TData : class
         {
             GUI.changed = true;

@@ -6,9 +6,9 @@ namespace UniModules.UniGame.EditorTools.Editor.TestureImporter
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using Core.EditorTools.Editor.AssetOperations;
     using Core.Runtime.Extension;
     using Sirenix.OdinInspector.Editor;
-    using UniGreenModules.UniCore.EditorTools.Editor.AssetOperations;
     using UniGreenModules.UniCore.EditorTools.Editor.Utility;
     using UniGreenModules.UniCore.Runtime.Extension;
     using UniGreenModules.UniCore.Runtime.Utils;
@@ -20,6 +20,7 @@ namespace UniModules.UniGame.EditorTools.Editor.TestureImporter
     [Flags]
     public enum TextureImporterFilter
     {
+        All = ~0,
         TextureImporter = 1<< 1,
         PSDImporter = 1 << 2,
     }
@@ -48,26 +49,36 @@ namespace UniModules.UniGame.EditorTools.Editor.TestureImporter
         #region inspector
 
         [Space(6)]
+        [Sirenix.OdinInspector.BoxGroup("Import Settings")]
         [Sirenix.OdinInspector.ValueDropdown("buildTargets")]
         public string buildTarget = "Default";
         [Space(4)]
+        [Sirenix.OdinInspector.BoxGroup("Import Settings")]
         public TextureImporterFilter importersFilter = (TextureImporterFilter)~0;
         
+        [Sirenix.OdinInspector.BoxGroup("Import Settings")]
+        public bool overrideCurrentPlatformFormat = false;
+
         [SerializeField]
         [Sirenix.OdinInspector.InlineProperty]
         [Sirenix.OdinInspector.HideLabel]
+        [Sirenix.OdinInspector.BoxGroup("Import Settings")]
         public TexturePlatformSettings platformSettings = new TexturePlatformSettings();
 
-        public bool overrideCurrentPlatformFormat = true;
+
+        [Space(8)] 
+        [Sirenix.OdinInspector.BoxGroup("Search Filter")]
+        [Sirenix.OdinInspector.InlineEditor]
+        public List<Object> targetAssets = new List<Object>();
 
         [Space(4)]
         [Sirenix.OdinInspector.FolderPath]
+        [Sirenix.OdinInspector.BoxGroup("Search Filter")]
         public List<string> searchFolders = new List<string>();
 
-        [Space(4)] public List<Object> assets = new List<Object>();
 
         [Sirenix.OdinInspector.InlineEditor]
-        [Space(4)]
+        [Space(8)]
         public List<AssetImporter> resultAssets = new List<AssetImporter>();
 
         #endregion
@@ -83,9 +94,11 @@ namespace UniModules.UniGame.EditorTools.Editor.TestureImporter
 
         [Sirenix.OdinInspector.Button]
         [Sirenix.OdinInspector.GUIColor(0.2f, 1, 0.2f)]
-        public void Apply()
+        public void ApplyImportSettings()
         {
-            Search();
+            if (resultAssets.Count == 0) {
+                Search();
+            }
             
             foreach (var assetImporter in resultAssets) {
                 Import(assetImporter);
@@ -96,6 +109,16 @@ namespace UniModules.UniGame.EditorTools.Editor.TestureImporter
             
             ClearSearch();
         }
+
+        public void ResetOverrirdes()
+        {
+            if (resultAssets.Count == 0) {
+                Search();
+            }
+
+            
+
+        }        
 
         public void ClearSearch()
         {
@@ -121,7 +144,7 @@ namespace UniModules.UniGame.EditorTools.Editor.TestureImporter
                 resultAssets.AddRange(importers);
             }
 
-            resultAssets.AddRange(Filter(assets.Where(x => x).Select(AssetEditorTools.GetAssetImporter)));
+            resultAssets.AddRange(Filter(targetAssets.Where(x => x).Select(AssetEditorTools.GetAssetImporter)));
         }
 
         private IEnumerable<AssetImporter> Filter(IEnumerable<AssetImporter> importers)

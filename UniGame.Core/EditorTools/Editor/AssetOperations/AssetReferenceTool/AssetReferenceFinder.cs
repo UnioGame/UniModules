@@ -5,13 +5,12 @@
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
+    using System.Text.RegularExpressions;
     using System.Threading;
     using EditorResources;
     using Sirenix.Utilities;
     using Tools;
-    using UniGame.EditorTools.Editor.AssetReferences;
     using UniGreenModules.UniCore.EditorTools.Editor;
-    using UniGreenModules.UniCore.EditorTools.Editor.AssetOperations;
     using UniGreenModules.UniCore.EditorTools.Editor.Utility;
     using UniGreenModules.UniCore.Runtime.Rx.Extensions;
     using UnityEditor;
@@ -34,12 +33,15 @@
             if (result.referenceMap.Count == 0)
                 return result;
 
-            var searchTargets = SearchReferenceFiles(searchData.referenceFilters, searchData.excludeReferenceSearchFilters);
+            var searchTargets = 
+                SearchReferenceFiles(
+                    searchData.fileTypes,
+                    searchData.foldersFilter,
+                    searchData.regExFilters);
 
             result = UpdateReferences(result, searchTargets);
 
             return result;
-            
         }
 
         public static SearchResultData UpdateReferences(SearchResultData searchResult, HashSet<string> files)
@@ -111,15 +113,27 @@
             return searchData;
         }
 
-        public static HashSet<string> SearchReferenceFiles(string[] filters,string[] excludeFilters = null)
+        public static HashSet<string> SearchReferenceFiles(string[] filters,
+            string[] excludeFilters = null,
+            string[] regExFilters = null)
         {
             var filterResult = new HashSet<string>();
+            var regExs = regExFilters == null ?
+                new List<Regex>() :  
+                regExFilters.Select(x => new Regex(x,RegexOptions.Compiled | RegexOptions.IgnoreCase));
             
             foreach (var filter in filters) {
                 var paths = Directory.GetFiles(Application.dataPath, filter, SearchOption.AllDirectories);
-                var assets = excludeFilters == null || excludeFilters.Length <=0 ? paths :
-                    paths.Where(x => !excludeFilters.Any(y => x.IndexOf(y, StringComparison.OrdinalIgnoreCase) >= 0));
-                filterResult.AddRange(assets);
+                
+                var filteredPaths = excludeFilters == null || excludeFilters.Length <=0 ? 
+                    paths :
+                    paths.Where(x => !excludeFilters.
+                        Any(y => x.IndexOf(y, StringComparison.OrdinalIgnoreCase) >= 0));
+
+                filteredPaths = filteredPaths.
+                    Where(x => regExs.All(regex => !regex.IsMatch(x)));
+                
+                filterResult.AddRange(filteredPaths);
             }
 
             return filterResult;

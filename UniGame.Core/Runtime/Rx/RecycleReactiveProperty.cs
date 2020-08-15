@@ -122,8 +122,6 @@
         
         private void Remove(ListNode<IObserver<T>> observer)
         {
-            if (!LifeTime.IsTerminated)
-                observer.Value?.OnCompleted();
             Observers.Remove(observer);
         }
 

@@ -1,6 +1,7 @@
 ﻿namespace UniGreenModules.UniCore.Runtime.Rx.Extensions
 {
     using System;
+    using System.Linq;
     using System.Collections.Generic;
     using Interfaces.Rx;
     using ObjectPool.Runtime;
@@ -9,6 +10,16 @@
 
     public static class RxExtension
     {
+        public static IObservable<bool> Any<T>(this IEnumerable<IObservable<T>> source, Predicate<T> predicate)
+        {
+            return source.CombineLatest().Select(x => x.Any(m => predicate(m)));
+        }
+
+        public static IObservable<bool> All<T>(this IEnumerable<IObservable<T>> source, Predicate<T> predicate)
+        {
+            return source.CombineLatest().Select(x => x.All(m => predicate(m)));
+        }
+        
         public static IObservable<TResult> CombineLatestFunc<TValue,TValue2, TResult>(
             this IObservable<TValue> source, 
             Func<IObservable<TValue>,IObservable<TValue2>> func,

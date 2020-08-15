@@ -5,7 +5,12 @@
 
 	public static class ColliderExtension
 	{
-		public static void SetCollider(this PolygonCollider2D collider, Sprite mask)
+        public static void ClearPaths(this PolygonCollider2D collider)
+        {
+            collider.pathCount = 0;
+        }
+
+        public static void SetCollider(this PolygonCollider2D collider, Sprite mask)
 		{
 			var triangles = mask.triangles;
             var vertices = mask.vertices;

@@ -1,4 +1,4 @@
-﻿namespace UniGreenModules.UniCore.EditorTools.Editor.AssetOperations
+﻿namespace UniModules.UniGame.Core.EditorTools.Editor.AssetOperations
 {
     public interface IEditorAssetResource
     {

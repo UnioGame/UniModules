@@ -1,26 +1,29 @@
-namespace UniGreenModules.UniCore.EditorTools.Editor.AssetOperations
+namespace UniModules.UniGame.Core.EditorTools.Editor.AssetOperations
 {
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Text.RegularExpressions;
+    using Tools;
     using UnityEditor;
     using UnityEngine;
     using Object = UnityEngine.Object;
 
-    public partial class AssetEditorTools
+    public static partial class AssetEditorTools
     {
         #region Asset Creation/Saving
 
-        public static TAsset SaveAsset<TAsset>(TAsset asset, string name, string folder)
+        public static TAsset SaveAsset<TAsset>(this TAsset asset, string name, string folder,bool saveDatabase = true)
             where TAsset : Object
         {
             if (folder.IndexOf('\\', folder.Length - 1) >= 0) {
                 folder = folder.Remove(folder.Length - 1);
             }
 
-            var skinTypePath = folder + "\\" + name + "." + GetAssetExtension(asset);
+            EditorFileUtils.ValidateDirectories(folder);
+            
+            var skinTypePath = EditorFileUtils.Combine(folder,name + "." + GetAssetExtension(asset));
             var itemPath     = AssetDatabase.GenerateUniqueAssetPath(skinTypePath);
 
             var gameObjectAsset = asset as GameObject;
@@ -30,11 +33,16 @@ namespace UniGreenModules.UniCore.EditorTools.Editor.AssetOperations
             }
 
             AssetDatabase.CreateAsset(asset, itemPath);
-            AssetDatabase.SaveAssets();
-            return AssetDatabase.LoadAssetAtPath<TAsset>(itemPath);
+            
+            if (saveDatabase) {
+                AssetDatabase.SaveAssets();
+                return AssetDatabase.LoadAssetAtPath<TAsset>(itemPath);
+            }
+
+            return asset;
         }
 
-        public static bool SaveAssetAsNested(Object child, Object root, string name = null)
+        public static bool SaveAssetAsNested(this Object child, Object root, string name = null)
         {
             var assetPath = AssetDatabase.GetAssetPath(root);
             if (string.IsNullOrEmpty(assetPath))
@@ -54,7 +62,7 @@ namespace UniGreenModules.UniCore.EditorTools.Editor.AssetOperations
         }
 
 
-        public static Object SaveAssetAsNested(Object root, Type assetType, string name = null)
+        public static Object SaveAssetAsNested(this Object root, Type assetType, string name = null)
         {
             var asset  = ScriptableObject.CreateInstance(assetType);
             var result = SaveAssetAsNested(asset, root, name);
@@ -62,7 +70,7 @@ namespace UniGreenModules.UniCore.EditorTools.Editor.AssetOperations
             return null;
         }
 
-        public static TTarget SaveAssetAsNested<TTarget>(Object root, string name = null)
+        public static TTarget SaveAssetAsNested<TTarget>(this Object root, string name = null)
             where TTarget : ScriptableObject
         {
             var asset  = ScriptableObject.CreateInstance<TTarget>();
