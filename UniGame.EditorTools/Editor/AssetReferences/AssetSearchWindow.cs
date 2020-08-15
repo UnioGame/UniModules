@@ -104,11 +104,11 @@ namespace UniModules.UniGame.EditorTools.Editor.AssetReferences
 
             var searchData = new SearchData() {
                 assets = assets.ToArray(),
-                excludeReferenceSearchFilters = ignoreFilter.
+                regExFilters = ignoreFilter.
                     Concat(ignoreFolders).
                     Select(EditorFileUtils.FixUnityPath).
                     ToArray(),
-                referenceFilters = typeFilter.ToArray(),
+                fileTypes = typeFilter.ToArray(),
             };
 
             var result = AssetReferenceFinder.FindReferences(searchData);

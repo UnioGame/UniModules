@@ -16,7 +16,12 @@
 #if ODIN_INSPECTOR
         [Sirenix.OdinInspector.FolderPath]
 #endif
-        public string[] excludeReferenceSearchFilters = new string[0];
-        public string[] referenceFilters = AssetReferenceFinder.DefaultSearchTargets.ToArray();
+        public string[] foldersFilter = new string[0];
+        
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.FolderPath]
+#endif
+        public string[] regExFilters = new string[0];
+        public string[] fileTypes = AssetReferenceFinder.DefaultSearchTargets.ToArray();
     }
 }

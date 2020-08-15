@@ -319,6 +319,12 @@
             return items;
         }
 
+        public static T GetAsset<T>(string folder) where T : Object
+        {
+            var asset = GetAssets<T>(new string[]{folder}).FirstOrDefault();
+            return asset;
+        }
+        
         public static T GetAsset<T>(string[] folders = null) where T : Object
         {
             var asset = GetAssets<T>(folders).FirstOrDefault();
