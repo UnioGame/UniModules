@@ -26,3 +26,6 @@
 [submodule "NpmPublisherSupport"]
 	path = NpmPublisherSupport
 	url = https://github.com/UniGameTeam/NpmPublisherSupport.git
+[submodule "UniGame.EditorTools"]
+	path = UniGame.EditorTools
+	url = https://github.com/UniGameTeam/UniGame.EditorTools.git
