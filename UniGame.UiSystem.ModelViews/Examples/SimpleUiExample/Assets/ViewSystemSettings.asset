@@ -17,20 +17,6 @@ MonoBehaviour:
   uiViewsDefaultFolders:
   - Assets/UniGame.UiSystem.ModelViews/Examples/SimpleUiExample/Assets/UiViews
   uiViewsSkinFolders: []
-  uiViews:
-  - Tag: 
-    Type:
-      fullTypeName: UniGame.UiSystem.ModelViews.Examples.SimpleUiExample.Scripts.Views.DemoOverlayView,
-        Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    View:
-      m_AssetGUID: 59569f2ce68902a4980ec6ae6259d99b
-      m_SubObjectName: 
-  - Tag: 
-    Type:
-      fullTypeName: UniGame.ModelViewsMap.Examples.SimpleUiExample.Scripts.Views.DemoScreenView,
-        Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    View:
-      m_AssetGUID: 45d624cdb3ae01845bd68e090fb8614f
-      m_SubObjectName: 
+  uiViews: []
   sources: []
   layoutFlow: {fileID: 11400000, guid: c22cfe04dc8dc9e43b8b9b36576fab63, type: 2}

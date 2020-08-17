@@ -158,12 +158,15 @@
             object[] keys,
             Object[] assets = null,
             int count = -1,
-            bool createMissing = true)
+            bool createMissing = true,
+            string keyFieldName = "")
         {
             count = count < 0 ? keys.Length : count;
             count = Math.Min(keys.Length, count);
             
-            var keyField = syncScheme.keyField;
+            var keyField = string.IsNullOrEmpty(keyFieldName) ?
+                syncScheme.keyField :
+                syncScheme.GetFieldBySheetFieldName(keyFieldName);
             
             try {
                 for (var i = 0; i < count; i++) {
@@ -172,8 +175,7 @@
                     var key      = keyValue as string;
                     var targetAsset = assets?.
                         FirstOrDefault(x => string.Equals(keyField.
-                                GetValue(x).ToString(),
-                            key, StringComparison.OrdinalIgnoreCase));
+                                GetValue(x).ToString(), key, StringComparison.OrdinalIgnoreCase));
 
                     //create asset if missing
                     if (targetAsset == null) {
@@ -193,7 +195,7 @@
                         Title = "Spreadsheet Importing"
                     });
                     
-                    ApplyData(targetAsset, key,  syncScheme, spreadsheetData[sheetId]);
+                    ApplyData(targetAsset,keyField, key,  syncScheme, spreadsheetData[sheetId]);
 
                     yield return targetAsset;
                 }
@@ -228,42 +230,43 @@
             return source;
         }
         
-        public object ApplyDataByAssetKey(object source,SheetSyncValue schema, SpreadsheetData spreadsheetData)
+        public object ApplyDataByAssetKey(object source,
+            SheetSyncValue schema, 
+            SpreadsheetData spreadsheetData,
+            string sheetKey = "")
         {
-            var keyField = schema.keyField;
+            var keyField = string.IsNullOrEmpty(sheetKey) ? schema.keyField : 
+                schema.GetFieldBySheetFieldName(sheetKey);
             var keyValue = keyField.GetValue(source);
-
-            return ApplyData(source, keyValue, schema, spreadsheetData[schema.sheetId]);
+            
+            return ApplyData(source, keyValue, keyField.sheetValueField, schema, spreadsheetData[schema.sheetId]);
         }
         
-        public SheetData UpdateSheetValue(object source, SheetData data)
+        public SheetData UpdateSheetValue(object source, SheetData data, string sheetKeyField = "")
         {
             if (source == null)
                 return data;
             var type = source.GetType();
             var syncScheme = type.ToSpreadsheetSyncedItem();
 
-            var keyField = syncScheme.keyField;
+            var keyField = string.IsNullOrEmpty(sheetKeyField) ?
+                syncScheme.keyField :
+                syncScheme.GetFieldBySheetFieldName(sheetKeyField);
+            
             if (keyField == null)
                 return data;
             
             var keyValue = keyField.GetValue(source);
             
-            return UpdateSheetValue(source,keyValue,syncScheme,data);
+            return UpdateSheetValue(source,keyValue,keyField.sheetValueField,syncScheme,data);
         }
         
-        public SheetData UpdateSheetValue(object source,object keyValue, SheetSyncValue schemaValue, SheetData data)
+        public SheetData UpdateSheetValue(object source,object keyValue,string keyFieldId, SheetSyncValue schemaValue, SheetData data)
         {
             if (keyValue == null || source == null)
                 return data;
             
-            var keyField = schemaValue.keyField;
-            var key = keyField.sheetValueField;
-            var keyFieldValue = keyField.GetValue(source);
-            if (keyFieldValue == null)
-                return data;
-
-            var row = data.GetRow(key, keyFieldValue) ?? data.CreateRow();
+            var row = data.GetRow(keyFieldId, keyValue) ?? data.CreateRow();
             
             var sheetFields = SelectSheetFields(schemaValue, data);
 
@@ -291,16 +294,20 @@
             }
         }
 
-        public object ApplyData(object source,object key,SheetSyncValue value, SheetData sheet)
+        public object ApplyData(object source,object key, string sheetField,SheetSyncValue value, SheetData sheet)
         {
-            var keyField = value.keyField;
+            return ApplyData(source,sheetField,key,value,sheet);
+        }
+        
+        public object ApplyData(object source,string sheetKeyField,object key,SheetSyncValue value, SheetData sheet)
+        {
             var result = source;
             if (sheet == null) {
-                Debug.LogWarning($"ApplyData SheetSyncValue : for {value.target} Key Field pr SheetId is Missing [KEY = {keyField} , SHEET_ID = {sheet?.Id}]");
+                Debug.LogWarning($"ApplyData SheetSyncValue : for {value.target} Key Field pr SheetId is Missing [KEY = {sheetKeyField} , SHEET_ID = {sheet?.Id}]");
                 return result;
             }
 
-            var slice = sheet.GetRow(keyField.sheetValueField, key);
+            var slice = sheet.GetRow(sheetKeyField, key);
             result = ApplyData(source, value, slice);
             
             return result;
