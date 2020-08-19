@@ -3,7 +3,6 @@
     using System;
     using DataFlow.Interfaces;
     using Interfaces;
-    using UniCore.Runtime.ProfilerTools;
     using UniGreenModules.UniCore.Runtime.DataFlow;
     using UnityEngine;
 
@@ -46,6 +45,10 @@
         {
             _lifeTimeDefinition?.Terminate();
             
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.playModeStateChanged -= PlayModeChanged;
+#endif
+            
             OnDisabled();
         }
 
@@ -54,8 +57,26 @@
             if(_lifeTimeDefinition == null)
                 _lifeTimeDefinition = new LifeTimeDefinition();
             _lifeTimeDefinition?.Release();
+
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.playModeStateChanged += PlayModeChanged;
+#endif
+            
         }
 
+#if UNITY_EDITOR
+        
+        private void PlayModeChanged(UnityEditor.PlayModeStateChange state)
+        {
+            switch (state) {
+                case UnityEditor.PlayModeStateChange.ExitingPlayMode:
+                    _lifeTimeDefinition?.Release();
+                    break;
+            }
+        }
+        
+#endif
+        
         protected virtual void OnActivate() {}
 
         protected virtual void OnReset() {}
