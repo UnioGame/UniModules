@@ -11,6 +11,7 @@ namespace UniModules.UniGame.Core.EditorTools.Editor.AssetOperations
     {
         #region asset loading
 
+        private static string[] EmptyDirFilter = new string[0];
         
         public static List<Object> GetAssets(Type assetType, string[] folders = null)
         {
@@ -84,7 +85,7 @@ namespace UniModules.UniGame.Core.EditorTools.Editor.AssetOperations
         public static List<T> GetAssets<T>(List<T> resultContainer, string filter, string[] folders = null) where T : Object
         {
             var type = typeof(T);
-            var ids  = AssetDatabase.FindAssets(filter, folders);
+            var ids  = AssetDatabase.FindAssets(filter,folders ?? EmptyDirFilter);
             for (var i = 0; i < ids.Length; i++) {
                 var id        = ids[i];
                 var assetPath = AssetDatabase.GUIDToAssetPath(id);

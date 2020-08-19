@@ -4,10 +4,11 @@ using UnityEngine;
 
 namespace UniModules.UniGame.BuildCommands.Editor.Addressables
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Core.EditorTools.Editor.AssetOperations;
+    using UniGreenModules.UniCore.EditorTools.Editor.Utility;
+    using UnityEditor;
     using UnityEditor.AddressableAssets.Settings;
 
     [CreateAssetMenu(menuName = "UniGame/UniBuild/Commands/AddressablesActivateProfile", fileName = nameof(AddressablesActivateProfileCommand))]
@@ -43,7 +44,9 @@ namespace UniModules.UniGame.BuildCommands.Editor.Addressables
 
             var targetProfileId = settings.profileSettings.GetProfileId(targetProfileName);
             settings.activeProfileId = targetProfileId;
+            settings.MarkDirty();
             
+            AssetDatabase.Refresh();
         }
 
         private List<string> GetProfiles()
