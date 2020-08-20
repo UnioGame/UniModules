@@ -4,16 +4,18 @@ using UnityEditor.Build.Reporting;
 
 namespace UniModules.UniGame.BuildCommands.Editor.Ftp
 {
+    using System;
     using System.IO;
     using System.Linq;
     using System.Net;
     using AddressableExtensions.Editor;
     using FluentFTP;
+    using UniBuild.Editor.ClientBuild.Commands.PreBuildCommands;
     using UnityEditor.AddressableAssets.Settings;
     using UnityEngine;
 
-    [CreateAssetMenu(menuName = "UniGame/UniBuild/Commands/FTP Upload", fileName = nameof(AddressablesFtpUploadPostCommand))]
-    public class AddressablesFtpUploadPostCommand : UnityPostBuildCommand
+    [Serializable]
+    public class AddressablesFtpUploadPostCommand : UnitySerializablePostBuildCommand
     {
 #if ODIN_INSPECTOR
         [Sirenix.OdinInspector.BoxGroup("Auth")]
@@ -32,7 +34,7 @@ namespace UniModules.UniGame.BuildCommands.Editor.Ftp
         [Sirenix.OdinInspector.BoxGroup("Server Info")]
 #endif
         public bool overrideTargetFolder = false;
-        
+
 #if ODIN_INSPECTOR
         [Sirenix.OdinInspector.BoxGroup("Server Info")]
         [Sirenix.OdinInspector.ShowIf("overrideTargetFolder")]
@@ -55,9 +57,7 @@ namespace UniModules.UniGame.BuildCommands.Editor.Ftp
             var buildFolder           = $"[{AddressableAssetSettings.kRemoteBuildPath}]".EvaluateActiveProfileString();
             var targetUploadDirectory = remoteDirectory;
             if (!overrideTargetFolder) {
-                targetUploadDirectory = Directory.Exists(buildFolder) ? 
-                        Path.GetFileName(buildFolder) : 
-                        Path.GetDirectoryName(buildFolder);
+                targetUploadDirectory = Directory.Exists(buildFolder) ? Path.GetFileName(buildFolder) : Path.GetDirectoryName(buildFolder);
             }
 
             Debug.Log($"Upload from: {buildFolder}");
@@ -76,14 +76,14 @@ namespace UniModules.UniGame.BuildCommands.Editor.Ftp
 
             var isValidResult = failed.Count <= 0;
             if (!isValidResult) {
-                Debug.LogError($"BuildCommand: {name} upload to {targetUploadDirectory} failed for:");
+                Debug.LogError($"BuildCommand: {Name} upload to {targetUploadDirectory} failed for:");
                 foreach (var ftpResult in failed) {
                     Debug.LogError($"{ftpResult.LocalPath} {ftpResult.Size}");
                 }
             }
 
             var uploadResult = isValidResult ? "successfully" : "failed";
-            Debug.Log($"BuildCommand: {name} Upload Complete. result: {uploadResult}");
+            Debug.Log($"BuildCommand: {Name} Upload Complete. result: {uploadResult}");
         }
 
         private void UploadProgress(FtpProgress progress)
