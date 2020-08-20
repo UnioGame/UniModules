@@ -27,14 +27,15 @@
 #endif
         public SheetSyncItem syncAsset = new SheetSyncItem();
         
-        public override void Load()
+        public override IEnumerable<object> Load()
         {
-
+            yield break;
         }
 
         public override List<object> Import(SpreadsheetData spreadsheetData)
         {
-            var item = syncAsset.asset?.ApplySpreadsheetData(spreadsheetData);
+            var sheet = spreadsheetData[syncAsset.sheetName];
+            var item  = syncAsset.asset?.ApplySpreadsheetData(sheet);
             return new List<object>(){item};
         }
     }

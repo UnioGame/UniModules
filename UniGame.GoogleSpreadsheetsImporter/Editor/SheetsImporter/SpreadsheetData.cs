@@ -15,6 +15,8 @@
             _sheets.AddRange(sheets);
         }
 
+        public bool HasSheet(string sheetId) => _sheets.Any(x => x.Id.Equals(sheetId));
+        
         public IReadOnlyList<SheetData> Sheets => _sheets;
         
         public SheetData this[string sheetName] => _sheets.FirstOrDefault(x => x.Id == sheetName);

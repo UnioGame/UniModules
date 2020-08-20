@@ -26,11 +26,11 @@
 #endif
         public List<SheetSyncItem> assets = new List<SheetSyncItem>();
         
-        public override void Load()
+        public override IEnumerable<object> Load()
         {
             var attributeAssets = AssetEditorTools.
                 GetAssetsWithAttribute<ScriptableObject,SpreadsheetTargetAttribute>();
-            
+
             assets = attributeAssets.
                 Select(x=> new SheetSyncItem() {
                     asset = x.Value,
@@ -40,13 +40,19 @@
                 }).
                 ToList();
             
+            return assets.Select(x => x.asset).
+                OfType<object>().
+                ToList();
         }
 
         public override List<object> Import(SpreadsheetData spreadsheetData)
         {
             var result = new List<object>();
             foreach (var item in assets) {
-                var asset = item.asset?.ApplySpreadsheetData(spreadsheetData);
+                if(!spreadsheetData.HasSheet(item.sheetName))
+                    continue;
+                var sheet = spreadsheetData[item.sheetName];
+                var asset = item.asset?.ApplySpreadsheetData(sheet);
                 result.Add(asset);
             }
 

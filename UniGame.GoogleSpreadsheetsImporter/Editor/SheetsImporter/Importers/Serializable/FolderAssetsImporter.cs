@@ -2,9 +2,11 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Text.RegularExpressions;
     using Core.EditorTools.Editor.AssetOperations;
     using Extensions;
+    using UniGreenModules.UniCore.EditorTools.Editor;
     using Object = UnityEngine.Object;
 
     [Serializable]
@@ -64,15 +66,27 @@
 #if ODIN_INSPECTOR
         [Sirenix.OdinInspector.Button()]
 #endif
-        public override void Load()
+        public override IEnumerable<object> Load()
         {
             Values.Clear();
             var filterType = GetFilteredType();
             if (string.IsNullOrEmpty(folder) || filterType == null)
-                return;
+                return Values;
 
             Values = AssetEditorTools.GetAssets<Object>(filterType, new[] {folder});
             Values = ApplyRegExpFilter(Values);
+            return Values;
+        }
+
+        public sealed override SpreadsheetData Export(SpreadsheetData data)
+        {
+            if (!data.HasSheet(sheetId))
+                return data;
+
+            var sheet         = data[sheetId];
+            AssetEditorTools.ShowProgress(ExportValues(sheet));
+
+            return data;
         }
 
         public sealed override List<object> Import(SpreadsheetData spreadsheetData)
@@ -82,6 +96,8 @@
             if (filterType == null)
                 return result;
 
+            Load();
+            
             var syncedAsset = filterType.SyncFolderAssets(
                 folder,
                 spreadsheetData,
@@ -100,6 +116,28 @@
         protected virtual IEnumerable<Object> OnPostImportAction(IEnumerable<Object> importedAssets)
         {
             return importedAssets;
+        }
+
+        private IEnumerable<ProgressData> ExportValues(SheetData sheet)
+        {
+            var progressData = new ProgressData() {
+                Title = "Export",
+                IsDone =  false,
+            };
+            
+            var targetObjects = Load().ToList();
+            var count         = targetObjects.Count;
+            for (var index = 0; index < targetObjects.Count; index++) {
+                var targetObject = targetObjects[index];
+                targetObject.UpdateSheetValue(sheet);
+                
+                progressData.Progress = index / (float) count;
+                progressData.Content  = $"{index} : {count}";
+                yield return progressData;
+            }
+
+            progressData.IsDone = true;
+            yield return progressData;
         }
         
         private List<Object> ApplyRegExpFilter(List<Object> assets)

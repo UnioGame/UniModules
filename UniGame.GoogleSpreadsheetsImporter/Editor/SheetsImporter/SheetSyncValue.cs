@@ -22,12 +22,12 @@
 
         public SyncField GetFieldBySheetFieldName(string fieldName)
         {
-            return fields.FirstOrDefault(x => SheetData.IsEquals(x.sheetValueField, fieldName));
+            return fields.FirstOrDefault(x => SheetData.IsEquals(x.sheetField, fieldName));
         }
         
         public SyncField GetFieldByObjectField(string fieldName)
         {
-            return fields.FirstOrDefault(x => SheetData.IsEquals(x.objectValueField, fieldName));
+            return fields.FirstOrDefault(x => SheetData.IsEquals(x.objectField, fieldName));
         }
     }
 }

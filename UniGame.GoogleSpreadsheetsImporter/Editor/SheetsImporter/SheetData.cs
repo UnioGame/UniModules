@@ -6,6 +6,7 @@
     using System.Linq;
     using System.Text;
     using Google.Apis.Sheets.v4.Data;
+    using TypeConverters.Editor;
     using UniGreenModules.UniCore.Runtime.Utils;
     using UnityEditor;
     using UnityEngine;
@@ -107,6 +108,28 @@
             if (column >= ColumnsCount)
                 return false;
             row[column] = value;
+            return true;
+        }
+        
+        public bool UpdateValue(DataRow row, string fieldName,object value)
+        {
+            var columns      = _table.Columns;
+            var columnsCount = columns.Count;
+
+            for (var i = 0; i < columnsCount; i++) {
+                var columnName = columns[i].ColumnName;
+                if (!SheetData.IsEquals(columnName, fieldName)) {
+                    continue;
+                }
+
+                var currentValue = row[i];
+                var newValue     = value.TryConvert(typeof(string));
+                
+                row[i]     = newValue;
+                _isChanged = true;
+                break;
+            }
+
             return true;
         }
 

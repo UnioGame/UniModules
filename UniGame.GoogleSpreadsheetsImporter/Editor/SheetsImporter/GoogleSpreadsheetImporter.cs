@@ -233,7 +233,7 @@
                     cancelationSource.Token,
                     new FileDataStore(GoogleSheetImporterConstants.TokenKey, true)).
                     Result;
-                Console.WriteLine("Credential file saved to: " + GoogleSheetImporterConstants.TokenKey);
+                Debug.Log("Credential file saved to: " + GoogleSheetImporterConstants.TokenKey);
             }
 
             // Create Google Sheets API service.

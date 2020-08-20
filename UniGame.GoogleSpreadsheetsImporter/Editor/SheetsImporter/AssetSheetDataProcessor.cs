@@ -40,7 +40,8 @@
             var fields = LoadSyncFieldsData(type, useAllFields);
             result.fields = fields.ToArray();
             
-            result.keyField = result.fields.FirstOrDefault(x => x.isKeyField);
+            result.keyField = result.fields.
+                FirstOrDefault(x => x.isKeyField);
             
             return result;
 
@@ -127,7 +128,7 @@
                 return result;
             }
             
-            var keysId   = keyField.sheetValueField;
+            var keysId   = keyField.sheetField;
             var column     = sheet.GetColumn(keysId);
             if (column == null) {
                 Debug.LogWarning($"{nameof(AssetSheetDataProcessor)} Keys line missing with id = {keysId}");
@@ -216,7 +217,7 @@
             for (var i = 0; i < rowValues.Length; i++) {
                 var columnName = table.Columns[i].ColumnName;
                 var itemField  = syncScheme.fields.
-                    FirstOrDefault(x => SheetData.IsEquals(x.sheetValueField,columnName));
+                    FirstOrDefault(x => SheetData.IsEquals(x.sheetField,columnName));
 
                 if (itemField == null)
                     continue;
@@ -230,16 +231,19 @@
             return source;
         }
         
-        public object ApplyDataByAssetKey(object source,
+        public object ApplyDataByAssetKey(
+            object source,
             SheetSyncValue schema, 
-            SpreadsheetData spreadsheetData,
+            SheetData sheetData,
             string sheetKey = "")
         {
-            var keyField = string.IsNullOrEmpty(sheetKey) ? schema.keyField : 
+            var keyField = string.IsNullOrEmpty(sheetKey) ? 
+                schema.keyField : 
                 schema.GetFieldBySheetFieldName(sheetKey);
+            
             var keyValue = keyField.GetValue(source);
             
-            return ApplyData(source, keyValue, keyField.sheetValueField, schema, spreadsheetData[schema.sheetId]);
+            return ApplyData(source, keyValue, keyField.sheetField, schema, sheetData);
         }
         
         public SheetData UpdateSheetValue(object source, SheetData data, string sheetKeyField = "")
@@ -258,7 +262,7 @@
             
             var keyValue = keyField.GetValue(source);
             
-            return UpdateSheetValue(source,keyValue,keyField.sheetValueField,syncScheme,data);
+            return UpdateSheetValue(source,keyValue,keyField.sheetField,syncScheme,data);
         }
         
         public SheetData UpdateSheetValue(object source,object keyValue,string keyFieldId, SheetSyncValue schemaValue, SheetData data)
@@ -268,13 +272,13 @@
             
             var row = data.GetRow(keyFieldId, keyValue) ?? data.CreateRow();
             
-            var sheetFields = SelectSheetFields(schemaValue, data);
+            //var sheetFields = SelectSheetFields(schemaValue, data);
+            var fields = schemaValue.fields;
 
-            var index = 0;
-            foreach (var field in sheetFields) {
-                var sourceValue = field?.GetValue(source);
-                data.UpdateValue(row,index,sourceValue ?? string.Empty);
-                index++;
+            for (var i = 0; i < fields.Length; i++) {
+                var field       = fields[i];
+                var sourceValue = field.GetValue(source);
+                data.UpdateValue(row, field.sheetField, sourceValue ?? string.Empty);
             }
 
             return data;
@@ -287,7 +291,7 @@
                 var column = columns[i];
                 var field = schemaValue.fields.
                     FirstOrDefault(x => SheetData.
-                        IsEquals(x.sheetValueField, column.ColumnName));
+                        IsEquals(x.sheetField, column.ColumnName));
                 if(field == null)
                     yield return null;
                 yield return field;
@@ -320,7 +324,7 @@
             var spreadsheetTargetAttribute = sourceType.
                 GetCustomAttribute<SpreadsheetTargetAttribute>();
             
-            var filedsAttributes = new List<SheetValueAttribute>();
+            var filedsAttributes = new List<SheetFieldAttribute>();
             var keyFieldSheetName = GoogleSheetImporterConstants.KeyField;
             var keyFieldName = spreadsheetTargetAttribute != null ? 
                 spreadsheetTargetAttribute.KeyField :
@@ -329,7 +333,7 @@
             foreach (var field in fields) {
                 var attributeInfo = field.
                     FieldType.
-                    GetCustomAttribute<SheetValueAttribute>();
+                    GetCustomAttribute<SheetFieldAttribute>();
                 filedsAttributes.Add(attributeInfo);
                 if (attributeInfo != null && attributeInfo.isKey)
                     keyFieldName = attributeInfo.useFieldName ? field.Name : attributeInfo.dataField;

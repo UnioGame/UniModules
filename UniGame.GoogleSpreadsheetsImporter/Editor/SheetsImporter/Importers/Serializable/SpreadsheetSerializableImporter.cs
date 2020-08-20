@@ -10,7 +10,7 @@
     {
         public abstract List<object> Import(SpreadsheetData spreadsheetData);
 
-        public abstract void Load();
+        public abstract IEnumerable<object> Load();
 
         public virtual SpreadsheetData Export(SpreadsheetData data)
         {

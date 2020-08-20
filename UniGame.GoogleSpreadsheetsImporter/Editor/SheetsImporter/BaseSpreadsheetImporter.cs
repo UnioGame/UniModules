@@ -26,7 +26,7 @@
             _exportCommand = new Subject<ISpreadsheetAssetsHandler>();
         }
 
-        public abstract void Load();
+        public abstract IEnumerable<object> Load();
 
         public abstract List<object> Import(SpreadsheetData spreadsheetData);
 

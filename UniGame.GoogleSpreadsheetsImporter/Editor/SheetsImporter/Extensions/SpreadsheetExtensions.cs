@@ -29,7 +29,7 @@
         {
             var syncScheme = source.ToSpreadsheetSyncedItem();
             foreach (var field in syncScheme.fields) {
-                if (string.Equals(field.sheetValueField, sheetField, StringComparison.OrdinalIgnoreCase))
+                if (string.Equals(field.sheetField, sheetField, StringComparison.OrdinalIgnoreCase))
                     field.ApplyValue(source, value);
             }
 
@@ -76,11 +76,34 @@
         
         public static SheetSyncValue ToSpreadsheetSyncedItem(this Type type) => _syncCache(type);
         
-        public static object ApplySpreadsheetData(this object asset, SpreadsheetData data,string sheetKeyField = "")
+        public static object ApplySpreadsheetData(this object asset, SheetData sheet)
         {
-            var syncAsset = asset.GetType().ToSpreadsheetSyncedItem();
-            DefaultProcessor.ApplyDataByAssetKey(asset,syncAsset,data,sheetKeyField);
-            return asset;
+            if (sheet == null)
+                return asset;
+            
+            var syncAsset = asset.GetType().
+                ToSpreadsheetSyncedItem();
+            var keyField  = syncAsset.keyField;
+            
+            return DefaultProcessor.
+                ApplyDataByAssetKey(asset,syncAsset,sheet,keyField.sheetField);
+        }
+        
+        public static object ApplySpreadsheetData(this object asset, SpreadsheetData data,string sheetKeyField)
+        {
+            var syncAsset = asset.GetType().
+                ToSpreadsheetSyncedItem();
+            var keyField = syncAsset.sheetId;
+            
+            return DefaultProcessor.ApplyDataByAssetKey(asset,syncAsset,data[keyField],sheetKeyField);
+        }
+        
+        public static object ApplySpreadsheetData(this object asset,SheetSyncValue syncAsset, SpreadsheetData data)
+        {
+            var sheetId  = syncAsset.sheetId;
+            var keyField = syncAsset.keyField;
+            
+            return DefaultProcessor.ApplyDataByAssetKey(asset,syncAsset,data[sheetId],keyField.sheetField);
         }
 
         public static object ApplySpreadsheetData(
@@ -106,7 +129,7 @@
             
             var result = DefaultProcessor.ApplyData(
                 asset,
-                keyField.sheetValueField,
+                keyField.sheetField,
                 keyValue,
                 syncAsset,sheetData);
             
