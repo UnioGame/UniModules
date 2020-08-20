@@ -3,44 +3,26 @@
     using System;
     using System.Collections.Generic;
     using TypeConverters.Editor;
-    using UniGreenModules.UniCore.Runtime.Utils;
     using Object = UnityEngine.Object;
 
     public static class SpreadsheetExtensions
     {
-
-        private static System.Func<Type, SheetSyncValue> _syncCache =
-            MemorizeTool.Create<Type, SheetSyncValue>(x => DefaultProcessor.CreateSyncItem(x));
-        
         
         public static readonly AssetSheetDataProcessor DefaultProcessor = new AssetSheetDataProcessor();
 
-        public static SheetData UpdateSheetValue(this object source, SheetData data,string sheetKeyField)
+        public static bool UpdateSheetValue(this object source, SpreadsheetData data,string sheetId,string sheetKeyField)
         {
-            return DefaultProcessor.UpdateSheetValue(source, data,sheetKeyField);
+            return DefaultProcessor.UpdateSheetValue(source, data,sheetId,sheetKeyField);
         }
         
-        public static SheetData UpdateSheetValue(this object source, SheetData data)
+        public static bool UpdateSheetValue(this object source, SpreadsheetData data)
         {
             return DefaultProcessor.UpdateSheetValue(source, data);
         }
-
-        public static object ApplyBySheetFieldValue(this object source,string sheetField,object value)
+        
+        public static bool UpdateSheetValue(this object source, SpreadsheetData data,string sheetId)
         {
-            var syncScheme = source.ToSpreadsheetSyncedItem();
-            foreach (var field in syncScheme.fields) {
-                if (string.Equals(field.sheetField, sheetField, StringComparison.OrdinalIgnoreCase))
-                    field.ApplyValue(source, value);
-            }
-
-            return source;
-        }
-
-        public static object GetSyncValueId(this object source)
-        {
-            var syncScheme = source.ToSpreadsheetSyncedItem();
-            syncScheme.keyField.GetValue(source);
-            return source;
+            return DefaultProcessor.UpdateSheetValue(source, data,sheetId);
         }
 
         public static List<Object> SyncFolderAssets(
@@ -63,75 +45,66 @@
         {
             return DefaultProcessor.SyncFolderAssets(type, folder,createMissing, spreadsheetData);
         }
-
-        public static SheetSyncValue ToSpreadsheetSyncedItem(this object asset)
-        {
-            return _syncCache(asset.GetType());
-        }
         
-        public static SheetSyncValue ToSpreadsheetSyncedItem(this object asset,string keyField)
-        {
-            return _syncCache(asset.GetType());
-        }
-        
-        public static SheetSyncValue ToSpreadsheetSyncedItem(this Type type) => _syncCache(type);
-        
-        public static object ApplySpreadsheetData(this object asset, SheetData sheet)
-        {
-            if (sheet == null)
-                return asset;
-            
-            var syncAsset = asset.GetType().
-                ToSpreadsheetSyncedItem();
-            var keyField  = syncAsset.keyField;
-            
-            return DefaultProcessor.
-                ApplyDataByAssetKey(asset,syncAsset,sheet,keyField.sheetField);
-        }
-        
-        public static object ApplySpreadsheetData(this object asset, SpreadsheetData data,string sheetKeyField)
-        {
-            var syncAsset = asset.GetType().
-                ToSpreadsheetSyncedItem();
-            var keyField = syncAsset.sheetId;
-            
-            return DefaultProcessor.ApplyDataByAssetKey(asset,syncAsset,data[keyField],sheetKeyField);
-        }
-        
-        public static object ApplySpreadsheetData(this object asset,SheetSyncValue syncAsset, SpreadsheetData data)
-        {
-            var sheetId  = syncAsset.sheetId;
-            var keyField = syncAsset.keyField;
-            
-            return DefaultProcessor.ApplyDataByAssetKey(asset,syncAsset,data[sheetId],keyField.sheetField);
-        }
-
         public static object ApplySpreadsheetData(
             this object asset,
-            object keyValue,
-            SheetData sheetData,
-            string sheetKeyName = "")
+            SpreadsheetData spreadsheetData, 
+            string sheetId,
+            object keyValue = null,
+            string sheetFieldName = "")
         {
-            return ApplySpreadsheetData(asset, asset.GetType(), keyValue, sheetData, sheetKeyName);
+            if (spreadsheetData.HasSheet(sheetId) == false)
+                return asset;
+            
+            var syncAsset = asset.CreateSheetScheme();
+
+            var sheetValueIndo = new SheetValueInfo() {
+                Source = asset,
+                SheetId = sheetId,
+                SpreadsheetData = spreadsheetData,
+                SyncScheme = syncAsset,
+                SyncFieldName = sheetFieldName,
+                SyncFieldValue = keyValue,
+            };
+            
+            return DefaultProcessor.ApplyData(sheetValueIndo);
+        }
+
+        public static object ApplySpreadsheetData(this object asset, SpreadsheetData data)
+        {
+            return DefaultProcessor.ApplyData(asset,data);
+        }
+        
+        public static object ApplySpreadsheetData(this object asset,SheetSyncScheme syncAsset, SpreadsheetData data)
+        {
+            var sheetValueInfo = new SheetValueInfo() {
+                Source = asset,
+                SyncScheme = syncAsset,
+                SpreadsheetData = data
+            };
+            return DefaultProcessor.ApplyData(sheetValueInfo);
         }
 
         public static object ApplySpreadsheetData(
             this object asset,
             Type type,
-            object keyValue,
-            SheetData sheetData,
-            string sheetKeyName = "")
+            SpreadsheetData sheetData,
+            string sheetId,
+            object keyValue = null,
+            string sheetFieldName = "")
         {
-            var syncAsset = type.ToSpreadsheetSyncedItem();
-            var keyField = string.IsNullOrEmpty(sheetKeyName) ? 
-                syncAsset.keyField : 
-                syncAsset.GetFieldBySheetFieldName(sheetKeyName);
+            var syncAsset = type.CreateSheetScheme();
             
-            var result = DefaultProcessor.ApplyData(
-                asset,
-                keyField.sheetField,
-                keyValue,
-                syncAsset,sheetData);
+            var sheetValue = new SheetValueInfo() {
+                Source = asset,
+                SheetId = sheetId,
+                SpreadsheetData = sheetData,
+                SyncScheme = syncAsset,
+                SyncFieldName = sheetFieldName,
+                SyncFieldValue = keyValue,
+            };
+            
+            var result = DefaultProcessor.ApplyData(sheetValue);
             
             return result;
         }

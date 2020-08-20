@@ -49,10 +49,10 @@
         {
             var result = new List<object>();
             foreach (var item in assets) {
-                if(!spreadsheetData.HasSheet(item.sheetName))
+                if(!spreadsheetData.HasSheet(item.sheetName) || item.asset == null)
                     continue;
-                var sheet = spreadsheetData[item.sheetName];
-                var asset = item.asset?.ApplySpreadsheetData(sheet);
+                var asset = item.asset.
+                    ApplySpreadsheetData(spreadsheetData,item.sheetName);
                 result.Add(asset);
             }
 

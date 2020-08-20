@@ -83,8 +83,7 @@
             if (!data.HasSheet(sheetId))
                 return data;
 
-            var sheet         = data[sheetId];
-            AssetEditorTools.ShowProgress(ExportValues(sheet));
+            AssetEditorTools.ShowProgress(ExportValues(data,sheetId));
 
             return data;
         }
@@ -118,7 +117,7 @@
             return importedAssets;
         }
 
-        private IEnumerable<ProgressData> ExportValues(SheetData sheet)
+        private IEnumerable<ProgressData> ExportValues(SpreadsheetData data,string sheeName)
         {
             var progressData = new ProgressData() {
                 Title = "Export",
@@ -129,7 +128,8 @@
             var count         = targetObjects.Count;
             for (var index = 0; index < targetObjects.Count; index++) {
                 var targetObject = targetObjects[index];
-                targetObject.UpdateSheetValue(sheet);
+                
+                targetObject.UpdateSheetValue(data,sheeName);
                 
                 progressData.Progress = index / (float) count;
                 progressData.Content  = $"{index} : {count}";

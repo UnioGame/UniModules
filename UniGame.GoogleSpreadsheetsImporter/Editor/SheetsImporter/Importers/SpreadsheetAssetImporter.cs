@@ -34,8 +34,7 @@
 
         public override List<object> Import(SpreadsheetData spreadsheetData)
         {
-            var sheet = spreadsheetData[syncAsset.sheetName];
-            var item  = syncAsset.asset?.ApplySpreadsheetData(sheet);
+            var item  = syncAsset.asset?.ApplySpreadsheetData(spreadsheetData,syncAsset.sheetName);
             return new List<object>(){item};
         }
     }

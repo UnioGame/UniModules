@@ -13,7 +13,7 @@ namespace UniModules.UniGame.Core.EditorTools.Editor.AssetOperations
         #region asset loading
 
         public const string FilterTemplate = "t: {0} {1}";
-
+        
         private static string[] EmptyDirFilter = new string[0];
         
         public static List<Object> GetAssets(Type assetType, string[] folders = null)
