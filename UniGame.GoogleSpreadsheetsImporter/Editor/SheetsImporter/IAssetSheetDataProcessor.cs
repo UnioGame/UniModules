@@ -60,8 +60,10 @@
         
         object ApplyData(SheetValueInfo syncValueInfo);
 
-        SheetData              UpdateSheetValue(object source, SheetData data, string sheetKeyField = "");
-        SheetData              UpdateSheetValue(object source,object keyValue,string keyFieldId, SheetSyncScheme schemaValue, SheetData data);
+        bool              UpdateSheetValue(object source, SpreadsheetData data,string sheetId = "", string sheetKeyField = "");
+
+        bool UpdateSheetValue(SheetValueInfo sheetValueInfo);
+        
         IEnumerable<SyncField> SelectSheetFields(SheetSyncScheme schemaValue,SheetData data);
 
     }

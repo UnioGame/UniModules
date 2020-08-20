@@ -1,0 +1,15 @@
+{
+  "name": "com.unigame.googleapi",
+  "author": "Mefodei",
+  "displayName": "UniGames Google API V4 for Unity",
+  "description": "Google API V4 for Unity",
+  "unity": "2019.3",
+  "version": "2020.0.0",
+  "keywords": [
+    "nodes",
+    "spreadsheet",
+    "sheet",
+    "importer",
+    "google"
+  ]
+}

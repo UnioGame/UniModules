@@ -296,10 +296,10 @@
             return result;
         }
 
-        public SheetData UpdateSheetValue(object source, SheetData data, string sheetKeyField = "")
+        public bool UpdateSheetValue(object source, SpreadsheetData data,string sheetId = "", string sheetKeyField = "")
         {
             if (source == null)
-                return data;
+                return false;
             var type       = source.GetType();
             var syncScheme = type.CreateSheetScheme();
 
@@ -308,11 +308,19 @@
                 syncScheme.GetFieldBySheetFieldName(sheetKeyField);
             
             if (keyField == null)
-                return data;
+                return false;
             
             var keyValue = keyField.GetValue(source);
             
-            return UpdateSheetValue(source,keyValue,keyField.sheetField,syncScheme,data);
+            var sheetValueInfo = new SheetValueInfo() {
+                Source = source,
+                SpreadsheetData = data,
+                SyncScheme = syncScheme,
+                SyncFieldName = sheetKeyField,
+                SheetId = sheetId
+            };
+            
+            return UpdateSheetValue(sheetValueInfo);
         }
         
         public bool UpdateSheetValue(SheetValueInfo sheetValueInfo)
