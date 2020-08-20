@@ -8,20 +8,26 @@
     public class SyncField
     {
         private FieldInfo _fieldInfo;
-        public readonly Type   targetType;
-        public readonly string objectValueField;
-        public readonly string sheetValueField;
-        public readonly bool isKeyField;
-        public readonly List<SyncField> fields = new List<SyncField>();
-
-        public SyncField(FieldInfo field, string sheetValueField,bool isKeyField)
+        
+        public readonly Type            targetType;
+        public readonly string          objectField;
+        public readonly string          sheetField;
+        public readonly bool            isKeyField;
+        public readonly SheetSyncScheme syncScheme;
+        
+        public SyncField(FieldInfo field, string sheetValueField,bool isKeyField, SheetSyncScheme fieldSheme = null)
         {
-            _fieldInfo = field;
-            this.objectValueField = _fieldInfo.Name;
-            this.sheetValueField  = sheetValueField.TrimStart('_');
-            this.isKeyField = isKeyField;
-            this.targetType = _fieldInfo.FieldType;
+            _fieldInfo       = field;
+            this.objectField = _fieldInfo.Name;
+            this.sheetField  = sheetValueField.TrimStart('_');
+            this.isKeyField  = isKeyField;
+            this.targetType  = _fieldInfo.FieldType;
+            this.syncScheme  = fieldSheme;
         }
+
+        public bool IsSheetTarget => syncScheme != null;
+        
+        #region public methods
 
         public object GetValue(object source)
         {
@@ -36,7 +42,9 @@
 
         public override string ToString()
         {
-            return $"Object Field: {objectValueField} IsKey: {isKeyField} Sheet Field: {sheetValueField} TargetType: {targetType.Name}";
+            return $"Object Field: {objectField} IsKey: {isKeyField} Sheet Field: {sheetField} TargetType: {targetType.Name}";
         }
+        
+        #endregion
     }
 }

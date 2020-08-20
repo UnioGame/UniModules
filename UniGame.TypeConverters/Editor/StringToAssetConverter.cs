@@ -24,7 +24,7 @@
             }
 
             var asssetFilter = source as string;
-            var assets = AssetEditorTools.GetAssets(asssetFilter,target);
+            var assets = AssetEditorTools.GetAssets(target,asssetFilter);
             return (assets.Count > 0, assets.FirstOrDefault());
         }
     }

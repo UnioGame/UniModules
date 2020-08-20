@@ -3,6 +3,7 @@ namespace UniModules.UniGame.Core.EditorTools.Editor.AssetOperations
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using UniGreenModules.UniGame.Core.Runtime.Extension;
     using UnityEditor;
     using UnityEngine;
     using Object = UnityEngine.Object;
@@ -11,6 +12,7 @@ namespace UniModules.UniGame.Core.EditorTools.Editor.AssetOperations
     {
         #region asset loading
 
+        public const string FilterTemplate = "t: {0} {1}";
         
         public static List<Object> GetAssets(Type assetType, string[] folders = null)
         {
@@ -44,9 +46,16 @@ namespace UniModules.UniGame.Core.EditorTools.Editor.AssetOperations
             return GetAssets(filter, folders).FirstOrDefault();
         }
         
-        public static List<Object> GetAssets(string filter,Type type, string[] folders = null)
+        public static List<Object> GetAssets(Type type,string filter, string[] folders = null)
         {
-            return GetAssets(filter, folders).
+            var isComponent = type.IsComponent();
+            if (isComponent) {
+                return GetComponentsAssets(type,filter, folders);
+            }
+            
+            var filterValue = string.Format(FilterTemplate, type.Name, filter);
+            
+            return GetAssets(filterValue, folders).
                 Where(x => x && type.IsInstanceOfType(x)).
                 ToList();
         }
@@ -102,25 +111,24 @@ namespace UniModules.UniGame.Core.EditorTools.Editor.AssetOperations
 
             return resultContainer;
         }
- 
+
         /// <summary>
         /// load components
         /// </summary>
         /// <param name="type">component type</param>
+        /// <param name="filter"></param>
         /// <param name="folders">folder filter</param>
         /// <returns>list of found items</returns>
-        public static List<Object> GetComponentsAssets(Type type, string[] folders = null)
+        public static List<Object> GetComponentsAssets(Type type,string filter = "", string[] folders = null)
         {
+            if (type.IsComponent() == false) return new List<Object>();
 
-            if (IsComponent(type) == false) return new List<Object>();
-
-            var filterText   = string.Format("t:{0}", typeof(GameObject));
+            var filterText   = string.Format(FilterTemplate, UnityTypeExtension.gameObjectType.Name, filter);
             var assets       = GetAssets<GameObject>(filterText, folders);
             var resultAssets = new List<Object>();
 
-            for (int i = 0; i < assets.Count; i++)
-            {
-                var targetComponents = assets[i].GetComponents(type);
+            foreach (var t in assets) {
+                var targetComponents = t.GetComponents(type);
                 resultAssets.AddRange(targetComponents);
             }
 

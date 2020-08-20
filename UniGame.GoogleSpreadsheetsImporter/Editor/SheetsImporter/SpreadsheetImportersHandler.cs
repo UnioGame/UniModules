@@ -61,11 +61,14 @@
             LifeTime.AddCleanUpAction(() => _spreadsheetData = null);
         }
         
-        public void Load()
+        public IEnumerable<object> Load()
         {
+            var result = new List<object>();
             foreach (var importer in Importers) {
-                importer.Load();
+                result.AddRange(importer.Load());
             }
+
+            return result;
         }
 
         public List<object> Import()

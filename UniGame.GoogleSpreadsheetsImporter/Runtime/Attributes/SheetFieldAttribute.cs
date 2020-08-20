@@ -3,7 +3,7 @@
     using System;
 
     [AttributeUsage(AttributeTargets.Field)]
-    public class SheetValueAttribute : Attribute
+    public class SheetFieldAttribute : Attribute
     {
         public string dataField = String.Empty;
         public bool isKey = false;
@@ -14,7 +14,7 @@
         /// </summary>
         /// <param name="dataField">Name of Table Filed</param>
         /// <param name="isKey">If true - use this field for sync items with data</param>
-        public SheetValueAttribute(string dataField = "", bool isKey = false)
+        public SheetFieldAttribute(string dataField = "", bool isKey = false)
         {
             this.useFieldName = string.IsNullOrEmpty(dataField);
             this.isKey = isKey;

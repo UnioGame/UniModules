@@ -5,7 +5,7 @@
     using System.Linq;
 
     [Serializable]
-    public class SheetSyncValue
+    public class SheetSyncScheme
     {
         public object target;
 
@@ -15,19 +15,19 @@
         
         public SyncField[] fields = new SyncField[0];
 
-        public SheetSyncValue(string sheetId)
+        public SheetSyncScheme(string sheetId)
         {
             this.sheetId = sheetId;
         }
 
         public SyncField GetFieldBySheetFieldName(string fieldName)
         {
-            return fields.FirstOrDefault(x => SheetData.IsEquals(x.sheetValueField, fieldName));
+            return fields.FirstOrDefault(x => SheetData.IsEquals(x.sheetField, fieldName));
         }
         
         public SyncField GetFieldByObjectField(string fieldName)
         {
-            return fields.FirstOrDefault(x => SheetData.IsEquals(x.objectValueField, fieldName));
+            return fields.FirstOrDefault(x => SheetData.IsEquals(x.objectField, fieldName));
         }
     }
 }
