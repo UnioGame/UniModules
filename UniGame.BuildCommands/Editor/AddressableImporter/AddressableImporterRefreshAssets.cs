@@ -1,13 +1,13 @@
 ﻿namespace UniModules.UniGame.BuildCommands.Editor.AddressableImporter
 {
+    using System;
     using System.Collections.Generic;
     using UniBuild.Editor.ClientBuild.Commands.PreBuildCommands;
     using UniBuild.Editor.ClientBuild.Interfaces;
-    using UnityEngine;
     using AddressableImporter = global::AddressableImporter;
 
-    [CreateAssetMenu(menuName = "UniGame/UniBuild/Commands/Refresh Addressable Assets", fileName = "RefreshAddressableAssets")]
-    public class AddressableImporterRefreshAssets : UnityPreBuildCommand
+    [Serializable]
+     public class AddressableImporterRefreshAssets : UnitySerializablePreBuildCommand
     {
 #if ODIN_INSPECTOR
         [Sirenix.OdinInspector.FolderPath]

@@ -81,10 +81,14 @@ namespace UniModules.UniGame.Core.EditorTools.Editor.Tools
         /// </summary>
         public static string Combine(string a, string b)
         {
+            if (string.IsNullOrEmpty(a))
+                return b;
             a = a.Replace("\\", "/").TrimEnd('/');
             b = b.Replace("\\", "/").TrimStart('/');
             return a + "/" + b;
         }
+
+        public static string CombinePath(this string a, string b) => Combine(a, b);
 
         public static string FixUnityPath(this string path)
         {
@@ -103,6 +107,7 @@ namespace UniModules.UniGame.Core.EditorTools.Editor.Tools
 
         public static string[] SplitPath(this string path)
         {
+            path = FixUnityPath(path);
             return path.Split(Path.DirectorySeparatorChar).ToArray();
         }
 
