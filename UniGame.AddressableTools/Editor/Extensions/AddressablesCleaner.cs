@@ -1,5 +1,6 @@
 ﻿namespace UniModules.UniGame.AddressableTools.Editor.Extensions
 {
+    using System;
     using System.IO;
     using Core.EditorTools.Editor.Tools;
     using UniCore.Runtime.ProfilerTools;
@@ -16,8 +17,14 @@
         [MenuItem("UniGame/Addressables/Clean Library Cache")]
         public static void RemoveLibraryCache()
         {
-            EditorFileUtils.DeleteDirectoryFiles(AddressablesCachePath);
-            EditorFileUtils.DeleteSubDirectories(AddressablesCachePath);
+            try {
+                EditorFileUtils.DeleteDirectoryFiles(AddressablesCachePath);
+                EditorFileUtils.DeleteSubDirectories(AddressablesCachePath);
+            }
+            catch (Exception e) {
+                Debug.LogError(e);
+            }
+
             GameLog.Log("Addressables Library Cache Removed");
         }
 
@@ -44,8 +51,14 @@
         
         public static void RemoveStreamingCache()
         {
-            var targetPath = Application.streamingAssetsPath + StreamingAddressablesPath;
-            EditorFileUtils.DeleteDirectory(targetPath);
+            try {
+                var targetPath = Application.streamingAssetsPath + StreamingAddressablesPath;
+                EditorFileUtils.DeleteDirectory(targetPath);
+            }
+            catch (Exception e) {
+                Debug.LogError(e);
+            }
+
         }
 
 

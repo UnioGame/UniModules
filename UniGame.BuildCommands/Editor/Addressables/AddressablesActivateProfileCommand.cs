@@ -45,6 +45,8 @@ namespace UniModules.UniGame.BuildCommands.Editor.Addressables
             settings.activeProfileId = targetProfileId;
             settings.MarkDirty();
 
+            Debug.Log($"Activate Addressables Profile {targetProfileName} {settings.activeProfileId}");
+            
             AssetDatabase.Refresh();
         }
 
