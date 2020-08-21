@@ -25,7 +25,16 @@
 
         public CleanType CleanType = CleanType.CleanAll;
         
+        
         public override void Execute(IUniBuilderConfiguration buildParameters)
+        {
+            Execute();
+        }
+
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.Button]
+#endif
+        public void Execute()
         {
             if (CleanUpLibraryCache) {
                 AddressablesCleaner.RemoveLibraryCache();
