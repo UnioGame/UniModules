@@ -14,7 +14,6 @@
     "com.unigame.neuecc.unirx": "7.1.1",
     "com.unigame.neuecc.unitask": "2.0.26",
     "com.unigame.unicore": "2020.0.1",
-    "com.unity.addressables": "1.14.2",
-    "jillejr.newtonsoft.json-for-unity" : "https://github.com/jilleJr/Newtonsoft.Json-for-Unity.git"
+    "com.unity.addressables": "1.14.2"
   }
 }
