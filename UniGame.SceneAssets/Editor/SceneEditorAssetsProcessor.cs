@@ -4,6 +4,7 @@
     using Runtime;
     using UniGreenModules.UniCore.Runtime.DataFlow;
     using UniGreenModules.UniCore.Runtime.Rx.Extensions;
+    using UniModules.UniGame.Core.EditorTools.Editor.AssetOperations;
     using UniRx;
     using UnityEditor;
     using UnityEditor.SceneManagement;
@@ -100,7 +101,7 @@
 
         public static void Close(Scene scene)
         {
-            if (EditorApplication.isPlayingOrWillChangePlaymode)
+            if (!AssetEditorTools.IsPureEditorMode)
                 return;
             foreach (var container in GetContainers(scene,Object.FindObjectsOfType<SceneAsset>())) {
                 container.Save();

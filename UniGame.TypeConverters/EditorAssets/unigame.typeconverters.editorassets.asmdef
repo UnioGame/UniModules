@@ -1,0 +1,17 @@
+{
+    "name": "unigame.typeconverters.editorassets",
+    "references": [
+        "GUID:a798b6c995887d74ea9a129f318438cb"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

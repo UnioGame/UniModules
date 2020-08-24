@@ -29,10 +29,16 @@
                     _typeConverters = ScriptableObject.CreateInstance<ObjectTypeConverter>();
                     var typeConverters = _typeConverters.converters;
                     
+                    typeConverters.Add(ScriptableObject.CreateInstance<AssetReferenceToStringConverter>().
+                        SaveAsset(nameof(AssetReferenceToStringConverter),DefaultConverterPath));
+                    typeConverters.Add(ScriptableObject.CreateInstance<AssetToStringConverter>().
+                        SaveAsset(nameof(AssetToStringConverter),DefaultConverterPath));
                     typeConverters.Add(ScriptableObject.CreateInstance<StringToAssetConverter>().
                         SaveAsset(nameof(StringToAssetConverter),DefaultConverterPath));
                     typeConverters.Add(ScriptableObject.CreateInstance<StringToAssetReferenceConverter>().
                         SaveAsset(nameof(StringToAssetReferenceConverter),DefaultConverterPath));
+                    typeConverters.Add(ScriptableObject.CreateInstance<JsonSerializableClassConverter>().
+                        SaveAsset(nameof(JsonSerializableClassConverter),DefaultConverterPath));
                     typeConverters.Add(ScriptableObject.CreateInstance<StringToPrimitiveTypeConverter>().
                         SaveAsset(nameof(StringToPrimitiveTypeConverter),DefaultConverterPath));
                     typeConverters.Add(ScriptableObject.CreateInstance<PrimitiveTypeConverter>().

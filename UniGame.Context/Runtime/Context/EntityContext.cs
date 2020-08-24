@@ -2,18 +2,27 @@
 {
     using System;
     using System.Collections.Generic;
+    using global::UniGame.UniNodes.NodeSystem.Runtime.Connections;
+    using global::UniGame.UniNodes.NodeSystem.Runtime.Interfaces;
     using UniCore.Runtime.Common;
     using UniCore.Runtime.DataFlow;
     using UniCore.Runtime.Interfaces;
     using UniCore.Runtime.ObjectPool.Runtime.Extensions;
+    using UniGame.Core.Runtime.DataFlow;
     using UniModules.UniGame.Core.Runtime.DataFlow.Interfaces;
+    using UniRx;
 
     [Serializable]
-    public class EntityContext : IContext
+    public class EntityContext : 
+        IContext,
+        IConnector<IMessagePublisher>
     {
-        private TypeData         data;
-        private                  LifeTimeDefinition lifeTimeDefinition;
-        private                  bool               hasValue;
+        private TypeData           data;
+        private LifeTimeDefinition lifeTimeDefinition;
+        private TypeDataBrodcaster broadcaster;
+    
+        private bool               hasValue;
+        private int                id;
 
         public EntityContext()
         {
@@ -21,11 +30,18 @@
             data = new TypeData();
             //context lifetime
             lifeTimeDefinition = new LifeTimeDefinition();
+            broadcaster = new TypeDataBrodcaster();
+            
+            id = Unique.GetId();
         }
 
 
         #region public properties
 
+        public int ConnectionsCount => broadcaster.ConnectionsCount;
+        
+        public int       Id       => id;
+        
         public ILifeTime LifeTime => lifeTimeDefinition.LifeTime;
 
         public bool HasValue => data.HasValue;
@@ -52,6 +68,7 @@
         public void Release()
         {
             data.Release();
+            broadcaster.Release();
             lifeTimeDefinition.Release();
         }
 
@@ -60,12 +77,19 @@
             Release();
             this.Despawn();
         }
-
+        
+        public IDisposable Bind(IMessagePublisher connection)
+        {
+            var disposable = broadcaster.Bind(connection);
+            return disposable;
+        }
+        
         #region rx
 
         public void Publish<T>(T message)
         {
             data.Publish(message);
+            broadcaster.Publish(message);
         }
 
         public IObservable<T> Receive<T>()
@@ -86,5 +110,6 @@
 #endif
 
         #endregion
+
     }
 }

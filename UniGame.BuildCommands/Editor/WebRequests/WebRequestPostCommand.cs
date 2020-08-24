@@ -3,15 +3,17 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.Specialized;
+    using Core.Runtime.Utils;
     using UniBuild.Editor.ClientBuild.Commands.PostBuildCommands;
+    using UniBuild.Editor.ClientBuild.Commands.PreBuildCommands;
     using UniBuild.Editor.ClientBuild.Interfaces;
     using UniGreenModules.UniCore.Runtime.Rx.Extensions;
     using UnityEditor.Build.Reporting;
     using UnityEngine;
     using UnityEngine.Networking;
 
-    [CreateAssetMenu(menuName = "UniGame/UniBuild/Commands/WebRequest Post", fileName = nameof(WebRequestPostCommand))]
-    public class WebRequestPostCommand : UnityPostBuildCommand
+    [Serializable]
+    public class WebRequestPostCommand : UnitySerializablePostBuildCommand
     {
         public string apiUrl = "";
 
@@ -36,17 +38,8 @@
 #endif
         public void Execute()
         {
-            var urlParameters = new List<string>();
-            foreach (var parameter in parameters) {
-                var keyValue = $"{parameter.Key}={UnityWebRequest.EscapeURL(parameter.Value)}";
-                urlParameters.Add(keyValue);
-            }
+            var targetUrl = apiUrl.CombineUrlParameters(parameters);
 
-            var targetUrl = apiUrl;
-            if (urlParameters.Count > 0) {
-                targetUrl += $"?{string.Join("&",urlParameters)}";
-            }
-            
             var webRequest = UnityWebRequest.Post(targetUrl,string.Empty);
             foreach (var headerParameter in header) {
                 webRequest.SetRequestHeader(headerParameter.Key,headerParameter.Value);

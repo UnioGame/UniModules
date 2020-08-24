@@ -1,0 +1,22 @@
+{
+  "name": "com.unigame.modelinq",
+  "displayName": "MoreLINQ",
+  "version": "2020.0.0",
+  "unity": "2019.1",
+  "description": "This project enhances LINQ to Objects with extra methods, in a manner which keeps to the spirit of LINQ",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/morelinq/MoreLINQ.git"
+  },
+  "keywords": [
+    "linq",
+    "morelinq",
+    "unity",
+    "upm"
+  ],
+  "author": "morelinq",
+  "license": "MIT",
+  "homepage": "https://github.com/morelinq/MoreLINQ#readme",
+  "category": "Utility",
+  "type": "library"
+}

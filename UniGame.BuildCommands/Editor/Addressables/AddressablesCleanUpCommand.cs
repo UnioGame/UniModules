@@ -1,5 +1,6 @@
 ﻿namespace UniModules.UniGame.BuildCommands.Editor.Addressables
 {
+    using System;
     using AddressableTools.Editor.Extensions;
     using UniBuild.Editor.ClientBuild.Commands.PreBuildCommands;
     using UniBuild.Editor.ClientBuild.Interfaces;
@@ -13,8 +14,8 @@
         CleanBuildPipelineCache,
     }
     
-    [CreateAssetMenu(menuName = "UniGame/UniBuild/Commands/Addressables Cleanup", fileName = nameof(AddressablesCleanUpCommand))]
-    public class AddressablesCleanUpCommand : UnityPreBuildCommand
+    [Serializable]
+    public class AddressablesCleanUpCommand : UnitySerializablePreBuildCommand
     {
         [Tooltip("Clean Addressables Library cache")]
         public bool CleanUpLibraryCache = true;
@@ -24,7 +25,16 @@
 
         public CleanType CleanType = CleanType.CleanAll;
         
+        
         public override void Execute(IUniBuilderConfiguration buildParameters)
+        {
+            Execute();
+        }
+
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.Button]
+#endif
+        public void Execute()
         {
             if (CleanUpLibraryCache) {
                 AddressablesCleaner.RemoveLibraryCache();

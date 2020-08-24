@@ -1,5 +1,5 @@
 {
-  "name": "com.greenbuttongames.userdata",
+  "name": "com.unigame.userdata",
   "displayName": "GBG User Data",
   "description": "User data library for Unity",
   "version": "0.2.12",
@@ -14,8 +14,8 @@
     "analytics"
   ],
   "dependencies": {
-    "com.greenbuttongames.neuecc.unirx": "7.0.2",
-    "com.greenbuttongames.newtonsoft.json": "2.0.6",
-    "com.greenbuttongames.unicore": "1.1.30"
+    "com.unigame.neuecc.unirx": "7.0.2",
+    "com.unigame.unicore": "1.1.30",
+    "com.unigame.newtonsoft.json-for-unity" : "2020.0.0"
   }
 }

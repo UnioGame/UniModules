@@ -26,3 +26,10 @@
 [submodule "NpmPublisherSupport"]
 	path = NpmPublisherSupport
 	url = https://github.com/UniGameTeam/NpmPublisherSupport.git
+[submodule "UniGame.EditorTools"]
+	path = UniGame.EditorTools
+	url = https://github.com/UniGameTeam/UniGame.EditorTools.git
+[submodule "UniGame.GoogleSpreadsheetsImporter"]
+	path = UniGame.GoogleSpreadsheetsImporter
+	url = https://github.com/UniGameTeam/UniGame.GoogleSpreadsheetsImporter.git
+	branch = master

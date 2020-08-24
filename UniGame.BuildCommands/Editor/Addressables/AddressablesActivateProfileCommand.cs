@@ -8,10 +8,12 @@ namespace UniModules.UniGame.BuildCommands.Editor.Addressables
     using System.Collections.Generic;
     using System.Linq;
     using Core.EditorTools.Editor.AssetOperations;
+    using UniGreenModules.UniCore.EditorTools.Editor.Utility;
+    using UnityEditor;
     using UnityEditor.AddressableAssets.Settings;
 
-    [CreateAssetMenu(menuName = "UniGame/UniBuild/Commands/AddressablesActivateProfile", fileName = nameof(AddressablesActivateProfileCommand))]
-    public class AddressablesActivateProfileCommand : UnityPreBuildCommand
+    [Serializable]
+    public class AddressablesActivateProfileCommand : UnitySerializablePreBuildCommand
     {
         private AddressableAssetSettings addressableAssetSettings;
 
@@ -21,10 +23,8 @@ namespace UniModules.UniGame.BuildCommands.Editor.Addressables
         public string targetProfileName = string.Empty;
 
         public AddressableAssetSettings AddressableAssetSettings => addressableAssetSettings =
-            addressableAssetSettings == null ? 
-                AssetEditorTools.GetAsset<AddressableAssetSettings>() : 
-                addressableAssetSettings;
-        
+            addressableAssetSettings == null ? AssetEditorTools.GetAsset<AddressableAssetSettings>() : addressableAssetSettings;
+
         public override void Execute(IUniBuilderConfiguration buildParameters)
         {
             Execute();
@@ -36,14 +36,18 @@ namespace UniModules.UniGame.BuildCommands.Editor.Addressables
         public void Execute()
         {
             var settings = AddressableAssetSettings;
-            var names = settings.profileSettings.GetAllProfileNames();
+            var names    = settings.profileSettings.GetAllProfileNames();
             if (!names.Contains(targetProfileName)) {
                 Debug.LogError($"Target profile name doesn't exists for Addressables Settings");
             }
 
             var targetProfileId = settings.profileSettings.GetProfileId(targetProfileName);
             settings.activeProfileId = targetProfileId;
+            settings.MarkDirty();
+
+            Debug.Log($"Activate Addressables Profile {targetProfileName} {settings.activeProfileId}");
             
+            AssetDatabase.Refresh();
         }
 
         private List<string> GetProfiles()

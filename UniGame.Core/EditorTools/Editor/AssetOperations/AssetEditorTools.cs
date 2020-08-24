@@ -40,9 +40,11 @@
         public static List<string> _modificationsIgnoreList = new List<string>() { ".fbx" };
 
         
-        public static bool IsPureEditorMode => EditorApplication.isPlayingOrWillChangePlaymode == false && 
-                                               EditorApplication.isCompiling == false && 
-                                               EditorApplication.isUpdating == false;
+        public static bool IsPureEditorMode => 
+            EditorApplication.isPlaying == false &&
+            EditorApplication.isPlayingOrWillChangePlaymode == false && 
+            EditorApplication.isCompiling == false && 
+            EditorApplication.isUpdating == false;
         
         /// <summary>
         //	Can create Scriptable object/ component /gameobject
