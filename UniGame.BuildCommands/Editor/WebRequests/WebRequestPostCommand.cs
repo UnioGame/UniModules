@@ -5,14 +5,15 @@
     using System.Collections.Specialized;
     using Core.Runtime.Utils;
     using UniBuild.Editor.ClientBuild.Commands.PostBuildCommands;
+    using UniBuild.Editor.ClientBuild.Commands.PreBuildCommands;
     using UniBuild.Editor.ClientBuild.Interfaces;
     using UniGreenModules.UniCore.Runtime.Rx.Extensions;
     using UnityEditor.Build.Reporting;
     using UnityEngine;
     using UnityEngine.Networking;
 
-    [CreateAssetMenu(menuName = "UniGame/UniBuild/Commands/WebRequest Post", fileName = nameof(WebRequestPostCommand))]
-    public class WebRequestPostCommand : UnityPostBuildCommand
+    [Serializable]
+    public class WebRequestPostCommand : UnitySerializablePostBuildCommand
     {
         public string apiUrl = "";
 

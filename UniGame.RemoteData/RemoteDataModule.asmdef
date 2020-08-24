@@ -2,6 +2,7 @@
     "name": "RemoteDataModule",
     "references": [
         "UniRx",
+        "unigame.newtonsoft.jsonforunity",
         "unigame.unicore.runtime"
     ],
     "includePlatforms": [],
