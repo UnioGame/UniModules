@@ -4,11 +4,11 @@
 
     public interface IVirtualTexture
     {
-        int Width  { get; }
+        int Width { get; }
         int Height { get; }
 
-        int PixelCount { get; }
-        
+        Bounds Bounds { get; }
+
         Color GetPixelColor(float x, float y);
     }
 }
