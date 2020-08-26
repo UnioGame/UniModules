@@ -9,7 +9,6 @@
     {
         public abstract bool CanConvert(Type fromType, Type toType);
 
-        
         public abstract (bool isValid, object result) TryConvert(object source, Type target);
     }
 }
