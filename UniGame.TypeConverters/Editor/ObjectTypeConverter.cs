@@ -10,7 +10,7 @@
     using UniCore.Runtime.ProfilerTools;
     using UnityEngine;
 
-    [CreateAssetMenu(menuName = "UniGame/Google/SpreadsheetTypeConverters", fileName = nameof(ObjectTypeConverter))]
+    [CreateAssetMenu(menuName = "UniGame/ObjectTypeConverter/Create Converter", fileName = nameof(ObjectTypeConverter))]
     public class ObjectTypeConverter : ScriptableObject, ITypeConverter
     {
         #region static data
@@ -27,40 +27,38 @@
                 _typeConverters = AssetEditorTools.GetAsset<ObjectTypeConverter>();
                 if (!_typeConverters) {
                     _typeConverters = ScriptableObject.CreateInstance<ObjectTypeConverter>();
-                    var typeConverters = _typeConverters.converters;
-                    
-                    typeConverters.Add(ScriptableObject.CreateInstance<AssetReferenceToStringConverter>().
-                        SaveAsset(nameof(AssetReferenceToStringConverter),DefaultConverterPath));
-                    typeConverters.Add(ScriptableObject.CreateInstance<AssetToStringConverter>().
-                        SaveAsset(nameof(AssetToStringConverter),DefaultConverterPath));
-                    typeConverters.Add(ScriptableObject.CreateInstance<StringToAssetConverter>().
-                        SaveAsset(nameof(StringToAssetConverter),DefaultConverterPath));
-                    typeConverters.Add(ScriptableObject.CreateInstance<StringToAssetReferenceConverter>().
-                        SaveAsset(nameof(StringToAssetReferenceConverter),DefaultConverterPath));
-                    typeConverters.Add(ScriptableObject.CreateInstance<JsonSerializableClassConverter>().
-                        SaveAsset(nameof(JsonSerializableClassConverter),DefaultConverterPath));
-                    typeConverters.Add(ScriptableObject.CreateInstance<StringToPrimitiveTypeConverter>().
-                        SaveAsset(nameof(StringToPrimitiveTypeConverter),DefaultConverterPath));
-                    typeConverters.Add(ScriptableObject.CreateInstance<PrimitiveTypeConverter>().
-                        SaveAsset(nameof(PrimitiveTypeConverter),DefaultConverterPath));
-                    
+                    _typeConverters.ResetToDefault();
                     _typeConverters.SaveAsset(nameof(ObjectTypeConverter), DefaultConverterPath);
                 }
 
                 return _typeConverters;
-
             }
         }
-        
+
         #endregion
         
-        
 #if ODIN_INSPECTOR
-        [Sirenix.OdinInspector.InlineEditor(Expanded = true)]
         [Sirenix.OdinInspector.ListDrawerSettings(Expanded = true)]
 #endif
         [SerializeReference]
         public List<BaseTypeConverter> converters = new List<BaseTypeConverter>();
+
+        [ContextMenu(nameof(ResetToDefault))]
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.Button]
+#endif
+        public void ResetToDefault()
+        {
+            this.converters.Clear();
+                                
+            converters.Add(new AssetReferenceToStringConverter());
+            converters.Add(new AssetToStringConverter());
+            converters.Add(new StringToAssetConverter());
+            converters.Add(new StringToAssetReferenceConverter());
+            converters.Add(new JsonSerializableClassConverter());
+            converters.Add(new StringToPrimitiveTypeConverter());
+            converters.Add(new PrimitiveTypeConverter());
+        }
         
         public bool CanConvert(Type fromType, Type toType)
         {

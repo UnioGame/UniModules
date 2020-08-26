@@ -18,12 +18,11 @@
             
             var typeConverters = converter.converters;
                     
-            typeConverters.Add(ScriptableObject.CreateInstance<StringToAssetConverter>());
-            typeConverters.Add(ScriptableObject.CreateInstance<StringToAssetReferenceConverter>());
-            typeConverters.Add(ScriptableObject.CreateInstance<JsonSerializableClassConverter>());
-            typeConverters.Add(ScriptableObject.CreateInstance<StringToPrimitiveTypeConverter>());
-            typeConverters.Add(ScriptableObject.CreateInstance<PrimitiveTypeConverter>());
-
+            typeConverters.Add(new StringToAssetConverter());
+            typeConverters.Add(new StringToAssetReferenceConverter());
+            typeConverters.Add(new JsonSerializableClassConverter());
+            typeConverters.Add(new StringToPrimitiveTypeConverter());
+            typeConverters.Add(new StringToPrimitiveTypeConverter());
         }
         
         [Test]

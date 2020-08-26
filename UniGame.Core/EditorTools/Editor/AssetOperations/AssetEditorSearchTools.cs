@@ -93,7 +93,7 @@ namespace UniModules.UniGame.Core.EditorTools.Editor.AssetOperations
             var type = typeof(T);
             var ids  = folders == null ? 
                 AssetDatabase.FindAssets(filter) : 
-                AssetDatabase.FindAssets(filter, folders);
+                AssetDatabase.FindAssets(filter, folders.Where(x => !string.IsNullOrEmpty(x)).ToArray());
 
             foreach (var id in ids) {
                 var assetPath = AssetDatabase.GUIDToAssetPath(id);
