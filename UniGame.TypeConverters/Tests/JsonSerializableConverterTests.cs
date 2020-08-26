@@ -15,7 +15,7 @@
             
             //info
             var serializedValue = "[\"1\",\"4\"]";
-            var converter       = ScriptableObject.CreateInstance<JsonSerializableClassConverter>();
+            var converter       = new JsonSerializableClassConverter();
 
             //action
 
@@ -42,7 +42,7 @@
         public void ConvertToListAndArraySerializeCheckTest()
         {
             //info
-            var converter   = ScriptableObject.CreateInstance<JsonSerializableClassConverter>();
+            var converter   = new JsonSerializableClassConverter();
             var targetList  = new List<string>(){"1","4"};
             var targetArray = targetList.ToArray();
             

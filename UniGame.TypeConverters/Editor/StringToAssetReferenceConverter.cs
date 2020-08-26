@@ -6,7 +6,6 @@
     using UnityEngine.AddressableAssets;
 
     [Serializable]
-    [CreateAssetMenu(menuName = "UniGame/TypeConverters/StringToAssetReferenceConverter",fileName = nameof(StringToAssetReferenceConverter))]
     public class StringToAssetReferenceConverter : BaseTypeConverter
     {
         private Type _assetReferenceType = typeof(AssetReference);

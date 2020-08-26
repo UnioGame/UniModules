@@ -7,7 +7,6 @@
     using UnityEngine;
 
     [Serializable]
-    [CreateAssetMenu(menuName = "UniGame/TypeConverters/StringToAssetConverter",fileName = nameof(StringToAssetConverter))]
     public class StringToAssetConverter : BaseTypeConverter
     {
         private Type _stringType = typeof(string);
