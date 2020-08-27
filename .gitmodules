@@ -33,3 +33,7 @@
 	path = UniGame.GoogleSpreadsheetsImporter
 	url = https://github.com/UniGameTeam/UniGame.GoogleSpreadsheetsImporter.git
 	branch = master
+[submodule "UniGame.NodeGraphProcessor/NodeGraphProcessor"]
+	path = UniGame.NodeGraphProcessor/NodeGraphProcessor
+	url = https://github.com/UniGameTeam/NodeGraphProcessor.git
+	branch = master

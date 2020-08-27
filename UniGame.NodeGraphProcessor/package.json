@@ -1,0 +1,25 @@
+{
+  "name": "com.unigame.alelievr.node-graph-processor",
+  "displayName": "Node Graph Processor",
+  "version": "0.7.1",
+  "unity": "2019.3",
+  "description": "Node graph editor framework focused on data processing using Unity UIElements and C# 4.7",
+  "keywords": [
+    "graph",
+    "UIElements",
+    "unity"
+  ],
+  "homepage": "https://github.com/UniGameTeam/NodeGraphProcessor#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/UniGameTeam/NodeGraphProcessor.git"
+  },
+  "samples": [
+    {
+      "displayName": "Examples",
+      "description": "A bunch of examples using the NodeGraphProcessor API to create custom nodes and graphs",
+      "path": "Samples~/Examples"
+    }
+  ],
+  "category": "Unity"
+}
