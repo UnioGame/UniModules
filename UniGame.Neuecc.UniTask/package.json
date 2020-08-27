@@ -1,11 +1,16 @@
 {
-    "name": "com.unigame.neuecc.unitask",
-    "displayName": "UniTask",
-    "version": "2.0.26",
-    "unity": "2018.4",
-    "description": "Provides an efficient async/await integration to Unity.",
-    "keywords": [ "async/await", "async", "Task", "UniTask" ],
-    "license": "MIT",
-    "category": "Task",
-    "dependencies": {}
+  "name": "com.unigame.neuecc.unitask",
+  "displayName": "UniTask",
+  "version": "2.0.31",
+  "unity": "2018.4",
+  "description": "Provides an efficient async/await integration to Unity.",
+  "keywords": [
+    "async/await",
+    "async",
+    "Task",
+    "UniTask"
+  ],
+  "license": "MIT",
+  "category": "Task",
+  "dependencies": {}
 }

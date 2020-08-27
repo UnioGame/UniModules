@@ -10,7 +10,6 @@ namespace UniModules.UniGame.TypeConverters.Editor
     using UniGreenModules.UniCore.Runtime.ReflectionUtils;
 
     [Serializable]
-    [CreateAssetMenu(menuName = "UniGame/TypeConverters/SerializableClassConverter", fileName = nameof(JsonSerializableClassConverter))]
     public class JsonSerializableClassConverter : BaseTypeConverter
     {
         private Type _stringType = typeof(string);

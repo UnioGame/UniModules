@@ -6,11 +6,13 @@
     using UnityEngine.AddressableAssets;
 
     [Serializable]
-    [CreateAssetMenu(menuName = "UniGame/TypeConverters/AssetReferenceToStringConverter",fileName = nameof(AssetReferenceToStringConverter))]
     public class AssetReferenceToStringConverter : BaseTypeConverter
     {
         #region inspector
 
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.LabelWidth(120)]
+#endif
         public bool addTypeFilter = true;
         
         #endregion

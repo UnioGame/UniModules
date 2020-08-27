@@ -8,7 +8,6 @@
     using Object = UnityEngine.Object;
 
     [Serializable]
-    [CreateAssetMenu(menuName = "UniGame/TypeConverters/AssetToStringConverter",fileName = nameof(AssetToStringConverter))]
     public class AssetToStringConverter : BaseTypeConverter
     {
         #region inspector

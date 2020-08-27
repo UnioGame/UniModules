@@ -6,7 +6,6 @@
     using UnityEngine;
 
     [Serializable]
-    [CreateAssetMenu(menuName = "UniGame/TypeConverters/StringToPrimitiveTypeConverter",fileName = nameof(StringToPrimitiveTypeConverter))]
     public class StringToPrimitiveTypeConverter : BaseTypeConverter
     {
         private static Type stringType = typeof(string);
