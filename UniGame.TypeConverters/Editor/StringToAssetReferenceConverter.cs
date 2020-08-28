@@ -8,8 +8,8 @@
     [Serializable]
     public class StringToAssetReferenceConverter : BaseTypeConverter
     {
-        private Type _assetReferenceType = typeof(AssetReference);
-        private Type _stringType = typeof(string);
+        private static Type _assetReferenceType = typeof(AssetReference);
+        private static Type _stringType         = typeof(string);
         
         public sealed override bool CanConvert(Type fromType, Type toType)
         {
