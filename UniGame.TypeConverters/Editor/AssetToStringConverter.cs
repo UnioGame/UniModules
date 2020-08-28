@@ -16,11 +16,11 @@
         
         #endregion
         
-        private Type _stringType = typeof(string);
+        private static Type stringType = typeof(string);
         
         public sealed override bool CanConvert(Type fromType, Type toType)
         {
-            return toType == _stringType && fromType.IsAsset();
+            return toType == stringType && fromType.IsAsset();
         }
 
         public sealed override (bool isValid, object result) TryConvert(object source, Type target)

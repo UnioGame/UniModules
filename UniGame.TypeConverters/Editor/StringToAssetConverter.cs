@@ -9,11 +9,11 @@
     [Serializable]
     public class StringToAssetConverter : BaseTypeConverter
     {
-        private Type _stringType = typeof(string);
+        private static Type stringType = typeof(string);
         
         public sealed override bool CanConvert(Type fromType, Type toType)
         {
-            return fromType == _stringType && toType.IsAsset();
+            return fromType == stringType && toType.IsAsset();
         }
 
         public sealed override (bool isValid, object result) TryConvert(object source, Type target)
