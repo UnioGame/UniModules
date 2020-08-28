@@ -176,11 +176,11 @@
 
         public static List<Type> GetDerivedTypes(this Type aType) {
             
-            var  appDomain = System.AppDomain.CurrentDomain;
-            var result = new List<System.Type>();
+            var  appDomain = AppDomain.CurrentDomain;
+            var result = new List<Type>();
             var assemblies = appDomain.GetAssemblies();
             
-            for(int i = 0; i<assemblies.Length; i++)
+            for(var i = 0; i<assemblies.Length; i++)
             {
                 var assembly = assemblies[i];
                 var types = assembly.GetTypes();
