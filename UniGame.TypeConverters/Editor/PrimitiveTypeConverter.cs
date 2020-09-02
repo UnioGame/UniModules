@@ -32,13 +32,9 @@
 
         public object ConvertValue(object source, Type target)
         {
-
-            
-            if (CanConvert(source.GetType(), target)) {
-                return Convert.ChangeType(source, target);
-            }
-
-            return source;
+            return CanConvert(source.GetType(), target) ? 
+                Convert.ChangeType(source, target) : 
+                source;
         }
 
         private (bool isValid, object result) ConvertToDefault(Type target)
