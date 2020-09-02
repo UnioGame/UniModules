@@ -43,5 +43,10 @@
             
             return _texture.GetPixel((int)realX, (int)realY);
         }
+
+        public void SetAverageColor(Color color, Color backgroundColor)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

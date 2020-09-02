@@ -10,5 +10,7 @@
         Bounds Bounds { get; }
 
         Color GetPixelColor(float x, float y);
+
+        void SetAverageColor(Color color, Color backgroundColor);
     }
 }
