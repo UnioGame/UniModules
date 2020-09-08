@@ -8,14 +8,14 @@
     [Serializable]
     public class StringToAssetReferenceConverter : BaseTypeConverter
     {
-        private Type _assetReferenceType = typeof(AssetReference);
-        private Type _stringType = typeof(string);
+        private static Type assetReferenceType = typeof(AssetReference);
+        private static Type stringType         = typeof(string);
         
         public sealed override bool CanConvert(Type fromType, Type toType)
         {
-            if (!_assetReferenceType.IsAssignableFrom(toType))
+            if (!assetReferenceType.IsAssignableFrom(toType))
                 return false;
-            if (!_assetReferenceType.IsAssignableFrom(fromType) && fromType != _stringType)
+            if (!assetReferenceType.IsAssignableFrom(fromType) && fromType != stringType)
                 return false;
 
             return true;
@@ -30,7 +30,7 @@
             if(!canConvert)
                 return (false, source);
             
-            if(_assetReferenceType.IsAssignableFrom(sourceType))
+            if(assetReferenceType.IsAssignableFrom(sourceType))
                 return (true, source);
 
             var filter = source as string;

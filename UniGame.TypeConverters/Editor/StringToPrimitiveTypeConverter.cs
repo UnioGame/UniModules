@@ -14,22 +14,29 @@
 
         public sealed override bool CanConvert(Type fromType, Type toType)
         {
-            return fromType == stringType && toType.IsPrimitive;
+            var sourceValidation = fromType == stringType || fromType == null;
+            var destValidation = toType == stringType || toType.IsPrimitive;
+            return sourceValidation && destValidation;
         }
 
         public sealed override (bool isValid, object result) TryConvert(object source, Type target)
         {
-            if (source is string stringValue) {
-                return string.IsNullOrEmpty(stringValue) ? 
-                    (false, source) : 
-                    (true, ConvertValue(stringValue, target));
-            }
-
-            return (false, source);
+            var sourceType = source?.GetType();
+            if (!CanConvert(sourceType, target))
+                return (false, source);
+            
+            var sourceValue = source == null ? string.Empty : source as string;
+            
+            return (true,ConvertValue(sourceValue,target));
         }
 
         public object ConvertValue(string source, Type target)
         {
+            //create default value of type
+            if (string.IsNullOrEmpty(source)) {
+                return Activator.CreateInstance(target);
+            }
+            
             if (target == typeof(float)) {
                 var floatSource = source.Replace(globalizationSeparator, ".");
                 var style   = NumberStyles.Any;
@@ -37,6 +44,7 @@
                 float.TryParse(floatSource,style,culture,out var resultFloat);
                 return resultFloat;
             }
+            
             var typeConverter = TypeDescriptor.GetConverter(target);
             var propValue     = typeConverter.ConvertFromString((string) source);
             return propValue;

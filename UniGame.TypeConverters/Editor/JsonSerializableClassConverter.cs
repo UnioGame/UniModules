@@ -12,19 +12,19 @@ namespace UniModules.UniGame.TypeConverters.Editor
     [Serializable]
     public class JsonSerializableClassConverter : BaseTypeConverter
     {
-        private Type _stringType = typeof(string);
+        private static Type stringType = typeof(string);
 
         public sealed override bool CanConvert(Type fromType, Type toType)
         {
-            if (fromType != _stringType && toType != _stringType)
+            if (fromType != stringType && toType != stringType)
                 return false;
             if (fromType.IsRegularType() && toType.IsRegularType())
                 return false;
 
-            if (fromType == _stringType && toType.HasAttribute<SerializableAttribute>())
+            if (fromType == stringType && toType.HasAttribute<SerializableAttribute>())
                 return true;
             
-            if (toType == _stringType && fromType.HasAttribute<SerializableAttribute>())
+            if (toType == stringType && fromType.HasAttribute<SerializableAttribute>())
                 return true;
 
             return false;
@@ -36,7 +36,7 @@ namespace UniModules.UniGame.TypeConverters.Editor
                 return (false, source);
             }
             
-            if (target == _stringType) {
+            if (target == stringType) {
                 var textValue = JsonConvert.SerializeObject(source);
                 return (true,textValue);
             }

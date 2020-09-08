@@ -20,7 +20,7 @@
         ILifeTime AddRef(object o);
 
         /// <summary>
-        /// is lifetime termicated
+        /// is lifetime terminated
         /// </summary>
         bool IsTerminated { get; }
     }

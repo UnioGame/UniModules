@@ -95,6 +95,23 @@
             
         }
 
+        public static TAsset LoadOrCreate<TAsset>(this TAsset asset,string path)
+            where TAsset : ScriptableObject
+        {
+            return asset ? asset : LoadOrCreate<TAsset>(path);
+        }
+
+        public static TAsset LoadOrCreate<TAsset>(string path)
+            where TAsset : ScriptableObject
+        {
+            var asset = AssetEditorTools.GetAsset<TAsset>(path);
+            if (asset) return asset;
+            
+            asset = ScriptableObject.CreateInstance<TAsset>();
+            asset.SaveAsset(nameof(TAsset), path);
+            return asset;
+        }
+        
         public static bool OpenScript<T>(params string[] folders)
         {
             return OpenScript(typeof(T),folders);

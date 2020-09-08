@@ -15,8 +15,8 @@
     {
         private static Type _stringType = typeof(string);
 
-        public static Func<Type, IReadOnlyList<FieldInfo>> _instanceFieldInfoProvider = MemorizeTool.
-            Create<Type, IReadOnlyList<FieldInfo>>(x => {
+        public static MemorizeItem<Type, IReadOnlyList<FieldInfo>> InstanceFields = MemorizeTool.
+            Memorize<Type, IReadOnlyList<FieldInfo>>(x => {
                 var fields = new List<FieldInfo>();
                 if(x == null) return fields;
                 fields.AddRange(x.GetFields(bindingFlags));
@@ -34,7 +34,7 @@
 
         public static IReadOnlyList<FieldInfo> GetInstanceFields(this Type type)
         {
-            return _instanceFieldInfoProvider(type);
+            return InstanceFields.GetValue(type);
         }
 
         public static bool IsReallyAssignableFrom(this Type type, Type otherType)
@@ -176,11 +176,11 @@
 
         public static List<Type> GetDerivedTypes(this Type aType) {
             
-            var  appDomain = System.AppDomain.CurrentDomain;
-            var result = new List<System.Type>();
+            var  appDomain = AppDomain.CurrentDomain;
+            var result = new List<Type>();
             var assemblies = appDomain.GetAssemblies();
             
-            for(int i = 0; i<assemblies.Length; i++)
+            for(var i = 0; i<assemblies.Length; i++)
             {
                 var assembly = assemblies[i];
                 var types = assembly.GetTypes();

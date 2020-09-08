@@ -4,7 +4,7 @@
   "displayName": "Editor Scriptable Type Converters",
   "description": "Scriptable Editor types converters",
   "unity": "2019.1",
-  "version": "2020.0.1",
+  "version": "2020.0.3",
   "keywords": [
     "type",
     "editor",
@@ -12,8 +12,8 @@
   ],
   "dependencies": {
     "com.unigame.neuecc.unirx": "7.1.1",
-    "com.unigame.neuecc.unitask": "2.0.26",
-    "com.unigame.unicore": "2020.0.1",
-    "com.unity.addressables": "1.14.2"
+    "com.unigame.neuecc.unitask": "2.0.31",
+    "com.unigame.unicore": "2020.0.2",
+    "com.unity.addressables": "1.15.1"
   }
 }

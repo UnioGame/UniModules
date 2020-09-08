@@ -142,9 +142,8 @@
         private IEnumerator LoadHandle<TValue>(ILifeTime lifeTime,Action<TValue> result) 
             where TValue : Object
         {
-            var handler = reference.
-                LoadAssetAsync<TValue>().
-                AddTo(lifeTime);
+            var handler = reference.LoadAssetAsyncOrExposeHandle<TValue>(out var yetRequested)
+                .AddTo(lifeTime, yetRequested);
             
             while (handler.IsDone == false) {
                 progress.Value = handler.PercentComplete;
