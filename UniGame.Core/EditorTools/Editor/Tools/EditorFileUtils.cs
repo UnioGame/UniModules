@@ -104,6 +104,29 @@ namespace UniModules.UniGame.Core.EditorTools.Editor.Tools
             return path.Replace("\\", "/").TrimEnd('/');
         }
 
+        public static bool MoveDirectory(string source, string dest, bool createTargetLocation = true)
+        {
+            if(string.IsNullOrEmpty(source) || Directory.Exists(source) == false)
+                return false;
+            if (string.IsNullOrEmpty(dest))
+                return false;
+
+            if (source.Equals(dest, StringComparison.OrdinalIgnoreCase))
+                return true;
+            
+            if(createTargetLocation)
+                ValidateDirectories(dest);
+
+            if (Directory.Exists(dest) == false) {
+                Debug.LogError($"Directory {dest} no exists");
+                return false;
+            }
+            
+            //FileUtil.MoveFileOrDirectory(source,dest);
+            
+            return true;
+        }
+        
 
         public static string[] SplitPath(this string path)
         {
@@ -116,6 +139,7 @@ namespace UniModules.UniGame.Core.EditorTools.Editor.Tools
             var directoryPath = Path.GetDirectoryName(sourcePath);
             var directories = directoryPath.FixUnityPath();
             var path = string.Empty;
+            
             if (string.IsNullOrEmpty(directoryPath) == false) {
                 var folders = SplitPath(directories);
 
