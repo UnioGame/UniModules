@@ -36,8 +36,8 @@
                 await dependencies.Task;
 
             var scenePreviouslyRequested = sceneReference.OperationHandle.IsValid();
-            var sceneHandle = scenePreviouslyRequested?
-                sceneReference.OperationHandle.Convert<SceneInstance>():
+            var sceneHandle = scenePreviouslyRequested ?
+                sceneReference.OperationHandle.Convert<SceneInstance>() :
                 sceneReference.LoadSceneAsync(loadSceneMode, activateOnLoad, priority);
             //add to resource unloading
             sceneHandle.AddTo(lifeTime, scenePreviouslyRequested);
@@ -185,6 +185,18 @@
 
         }
 
+        public static async UniTask<IList<Object>> LoadAssetsByLabel(string label, ILifeTime lifeTime)
+        {
+            var handle = Addressables.LoadAssetsAsync<Object>(label, null);
+            handle.AddTo(lifeTime);
+            if (handle.Task != null)
+            {
+                return await handle.Task;
+            }
+
+            return handle.Result;
+        }
+
         public static async UniTask<(TAsset, TResult)> LoadAssetTaskAsync<TAsset, TResult>(
             this AssetReference assetReference, ILifeTime lifeTime)
             where TAsset : Object
@@ -257,7 +269,7 @@
                 null;
         }
 
-        public static AsyncOperationHandle<TResult> LoadAssetAsyncOrExposeHandle<TResult>(this AssetReference assetReference, out bool yetRequested )
+        public static AsyncOperationHandle<TResult> LoadAssetAsyncOrExposeHandle<TResult>(this AssetReference assetReference, out bool yetRequested)
             where TResult : class
         {
             // TODO патч addressables:1.5.1 сломал шаринг ссылок, а именно если операция уже запрошена, возвращается текущий handle
@@ -265,7 +277,7 @@
             // руками увеличивать счётчик, если выйдет патч меняющий это поведение костыль надо выпилить
             yetRequested = assetReference.OperationHandle.IsValid();
             var handle = !yetRequested ? assetReference.LoadAssetAsync<TResult>() : assetReference.OperationHandle.Convert<TResult>();
-            
+
             return handle;
         }
 
@@ -273,7 +285,7 @@
 
         public static AsyncOperationHandle<TAsset> AddTo<TAsset>(this AsyncOperationHandle<TAsset> handle, ILifeTime lifeTime, bool incrementRefCount = true)
         {
-            if(incrementRefCount)
+            if (incrementRefCount)
                 Addressables.ResourceManager.Acquire(handle);
             lifeTime.AddCleanUpAction(() =>
             {
