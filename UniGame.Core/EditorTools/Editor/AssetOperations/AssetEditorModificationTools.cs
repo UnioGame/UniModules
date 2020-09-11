@@ -26,7 +26,7 @@ namespace UniModules.UniGame.Core.EditorTools.Editor.AssetOperations
                 AssetDatabase.GenerateUniqueAssetPath(skinTypePath) : 
                 skinTypePath;
 
-            EditorFileUtils.ValidateDirectories(itemPath);
+            EditorFileUtils.CreateDirectories(itemPath);
 
             var gameObjectAsset = asset as GameObject;
             if (gameObjectAsset != null) {
