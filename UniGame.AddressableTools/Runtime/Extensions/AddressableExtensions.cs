@@ -197,6 +197,17 @@
             return handle.Result;
         }
 
+        public static async UniTask<T> ConvertToUniTask<T>(this AsyncOperationHandle<T> handle, ILifeTime lifeTime) where T : class
+        {
+            handle.AddTo(lifeTime);
+            if (handle.Task != null)
+            {
+                return await handle.Task;
+            }
+
+            return handle.Result;
+        }
+
         public static async UniTask<(TAsset, TResult)> LoadAssetTaskAsync<TAsset, TResult>(
             this AssetReference assetReference, ILifeTime lifeTime)
             where TAsset : Object
