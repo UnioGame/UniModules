@@ -8,8 +8,6 @@
     using UniGreenModules.UniCore.Runtime.Interfaces;
     using UniGreenModules.UniGame.AddressableTools.Runtime.Extensions;
     using UniGreenModules.UniGame.SerializableContext.Runtime.Addressables;
-    using UniRx;
-    
     using UnityEngine;
 
     [CreateAssetMenu(menuName = "UniGame/GameSystem/Sources/AddressablesAsyncSources", fileName = nameof(AsyncDataSources))]
@@ -46,9 +44,12 @@
         private async UniTask<bool> RegisterContexts(IContext target,AssetReferenceDataSource sourceReference)
         {
             GameLog.Log($"RegisterContexts {name} {target.GetType().Name} LIFETIME CONTEXT");
-                
-            var lifetime = target.LifeTime;
-            lifetime.AddCleanUpAction(() => GameLog.Log($"RegisterContexts {name} {target.GetType().Name} END LIFETIME CONTEXT"));
+
+            var sourceName = name;
+            var lifetime   = target.LifeTime;
+            
+            lifetime.AddCleanUpAction(() => 
+                GameLog.Log($"RegisterContexts {sourceName} {target.GetType().Name} END LIFETIME CONTEXT"));
             
             var source = await sourceReference.LoadAssetTaskAsync(lifetime);
             if (source == null) {
@@ -66,6 +67,10 @@
                 LifeTime.AddDispose(reference);
             }
         }
-        
+
+        protected void OnDestroy()
+        {
+            Debug.LogError($"DESTROY {name}");
+        }
     }
 }
