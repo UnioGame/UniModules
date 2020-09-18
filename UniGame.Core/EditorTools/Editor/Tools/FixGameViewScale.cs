@@ -27,6 +27,7 @@ namespace UniGreenModules.UniCore.EditorTools.Editor.Utility
         private static void OnPlayStateChanged(PlayModeStateChange playModeStateChange) {
             var gameViews = Resources.FindObjectsOfTypeAll(CachedGameViewType);
             if (playModeStateChange == PlayModeStateChange.ExitingEditMode) {
+                
                 var scale = new ScaleCache(gameViews.Length);
 
                 for (var i = 0; i < gameViews.Length; i++) {

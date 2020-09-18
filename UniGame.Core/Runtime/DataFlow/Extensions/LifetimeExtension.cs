@@ -81,9 +81,15 @@ public static class LifetimeExtension
     public static CancellationTokenSource AsCancellationSource(this ILifeTime lifeTime)
     {
         var tokenSource = new CancellationTokenSource();
+        lifeTime.AddCleanUpAction(tokenSource.Cancel);
         lifeTime.AddDispose(tokenSource);
         return tokenSource;
     } 
 
+    public static CancellationToken AsCancellationToken(this ILifeTime lifeTime)
+    {
+        return lifeTime.AsCancellationSource().Token;
+    } 
+    
     #endregion
 }
