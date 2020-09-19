@@ -4,12 +4,14 @@ namespace UniModules.UniGame.AddressableTools.Runtime.SpriteAtlases
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
 #if UNITY_EDITOR
     using System.Reflection;
 #endif
     using AssetReferencies;
     using Core.Runtime.ScriptableObjects;
+    using Cysharp.Threading.Tasks;
     using UniCore.Runtime.ProfilerTools;
     using UniGreenModules.UniCore.Runtime.Attributes;
     using UniGreenModules.UniCore.Runtime.DataFlow;
@@ -19,7 +21,8 @@ namespace UniModules.UniGame.AddressableTools.Runtime.SpriteAtlases
     using UnityEngine.U2D;
 
     [CreateAssetMenu(menuName = "UniGame/Addressables/SpriteAtlasConfiguration",fileName = nameof(AddressableSpriteAtlasConfiguration))]
-    public class AddressableSpriteAtlasConfiguration : DisposableScriptableObject, IAddressableSpriteAtlasHandler
+    public class AddressableSpriteAtlasConfiguration : 
+        DisposableScriptableObject, IAddressableSpriteAtlasHandler
     {
         #region inspector
         
@@ -38,6 +41,7 @@ namespace UniModules.UniGame.AddressableTools.Runtime.SpriteAtlases
 
         private LifeTimeDefinition _atlasesLifetime;
 
+
         public IDisposable Execute()
         {
             Observable.FromEvent(
@@ -47,7 +51,7 @@ namespace UniModules.UniGame.AddressableTools.Runtime.SpriteAtlases
                 AddTo(LifeTime);
 
             if (preloadImmortalAtlases) {
-                //load unloadable immediate
+                //load immortal immediate
                 foreach (var referenceSpriteAtlas in immortalAtlases) {
                     referenceSpriteAtlas.LoadAssetTaskAsync(LifeTime);
                 }
@@ -65,6 +69,18 @@ namespace UniModules.UniGame.AddressableTools.Runtime.SpriteAtlases
         }
         
         public void Unload() => _atlasesLifetime.Release();
+
+        public async UniTask<bool> RequestSpriteAtlas(string guid)
+        {
+#if UNITY_EDITOR
+            var atlas = await LoadAtlas(guid);
+            if (atlas == null)
+                return false;
+            RegisterAtlas(atlas);
+            return true; 
+#endif
+            return false;
+        }
 
         [ContextMenu("Validate")]
         public void Validate()
@@ -85,19 +101,40 @@ namespace UniModules.UniGame.AddressableTools.Runtime.SpriteAtlases
         {
             if (atlasesTagsMap.TryGetValue(tag, out var atlasReference) == false)
                 return;
+
+            var atlas = await LoadAtlas(atlasReference.AssetGUID);
+            if (atlas == null)
+                return;
             
-            GameLog.Log($"OnSpriteAtlasRequested : TAG {tag}", Color.blue);
+            atlasAction(atlas);
+        }
+
+        private async UniTask<SpriteAtlas> LoadAtlas(string guid)
+        {
+            var atlasReferencePair = atlasesTagsMap.
+                FirstOrDefault(x => x.Value.AssetGUID == guid);
+            if (atlasReferencePair.Value == null)
+                return null;
+            
+            var tag            = atlasReferencePair.Key;
+            var atlasReference = atlasReferencePair.Value;
+            
+            GameLog.Log($"ATLAS: OnSpriteAtlasRequested : TAG {tag} GUID {atlasReference.AssetGUID}", Color.blue);
 
             var isImmortal = immortalAtlases.
-                FirstOrDefault(x => x.AssetGUID == atlasReference.AssetGUID) != null;
+                FirstOrDefault(x => x.AssetGUID == guid) != null;
 
             var lifetime = isImmortal ? LifeTime : _atlasesLifetime;
-            var result = await atlasReference.LoadAssetTaskAsync(lifetime);
+            var result   = await atlasReference.LoadAssetTaskAsync(lifetime);
             if (result == null) {
-                GameLog.LogError($"Null Atlas Result by TAG {tag}");
-                return;
+                GameLog.LogError($"ATLAS: Null Atlas Result by TAG {tag}");
             }
-            atlasAction(result);
+            else {
+                lifetime.AddCleanUpAction(() => GameLog.Log($"ATLAS: LifeTime Finished : {tag}"));
+                GameLog.Log($"ATLAS: Register NEW TAG : {tag}");
+            }
+
+            return result;
         }
 
         protected override void OnDispose() => _lifeTimeDefinition.Release();
@@ -109,11 +146,15 @@ namespace UniModules.UniGame.AddressableTools.Runtime.SpriteAtlases
         }
 
 #if UNITY_EDITOR
-        private void RegisterAtlas(SpriteAtlas atlas)
-        {
-            var methodInfo = typeof(SpriteAtlasManager).GetMethod("Register", BindingFlags.Static | BindingFlags.NonPublic);
-            methodInfo?.Invoke(null, new object[] {atlas});
-        }
+        
+        private static MethodInfo _registerMethod;
+        private static MethodInfo RegisterMethod => (_registerMethod = _registerMethod == null ?
+            typeof(SpriteAtlasManager).
+                GetMethod("Register", BindingFlags.Static | BindingFlags.NonPublic) : _registerMethod);
+
+        [Conditional("UNITY_EDITOR")]
+        private void RegisterAtlas(SpriteAtlas atlas) => RegisterMethod?.Invoke(null, new object[] {atlas});
+        
 #endif
     }
 }
