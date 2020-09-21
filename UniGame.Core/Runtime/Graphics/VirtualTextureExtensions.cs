@@ -22,8 +22,12 @@
             }
 
             var colorCount = colors.Count;
+            
+            if(colorCount == 0)
+                return Color.clear;
+            
             if (colorCount % 2 == 0) {
-                var firstColor = colors[colorCount / 2];
+                var firstColor  = colors[colorCount / 2];
                 var secondColor = colors[colorCount / 2 - 1];
 
                 return (firstColor + secondColor) * 0.5f;
