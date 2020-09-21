@@ -95,6 +95,25 @@
             
         }
 
+        public static TAsset LoadOrCreate<TAsset>(this TAsset asset,string path,string assetName = "", bool refreshDatabase = false)
+            where TAsset : ScriptableObject
+        {
+            assetName = string.IsNullOrEmpty(assetName) ? typeof(TAsset).Name : assetName;
+            return asset ? asset : LoadOrCreate<TAsset>(path,assetName,refreshDatabase);
+        }
+
+        public static TAsset LoadOrCreate<TAsset>(string path,string assetName, bool refreshDatabase = false)
+            where TAsset : ScriptableObject
+        {
+            assetName = string.IsNullOrEmpty(assetName) ? typeof(TAsset).Name : assetName;
+            var asset = AssetEditorTools.GetAsset<TAsset>(path);
+            if (asset) return asset;
+            
+            asset = ScriptableObject.CreateInstance<TAsset>();
+            asset.SaveAsset(assetName, path,refreshDatabase);
+            return asset;
+        }
+        
         public static bool OpenScript<T>(params string[] folders)
         {
             return OpenScript(typeof(T),folders);

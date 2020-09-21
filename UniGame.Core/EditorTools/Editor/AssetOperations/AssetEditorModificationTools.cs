@@ -21,10 +21,12 @@ namespace UniModules.UniGame.Core.EditorTools.Editor.AssetOperations
                 folder = folder.Remove(folder.Length - 1);
             }
 
-            EditorFileUtils.ValidateDirectories(folder);
-            
-            var skinTypePath = EditorFileUtils.Combine(folder,name + "." + GetAssetExtension(asset));
-            var itemPath     = AssetDatabase.GenerateUniqueAssetPath(skinTypePath);
+            var skinTypePath = EditorFileUtils.Combine(folder,$"{name}.{GetAssetExtension(asset)}");
+            var itemPath     = File.Exists(skinTypePath) ?
+                AssetDatabase.GenerateUniqueAssetPath(skinTypePath) : 
+                skinTypePath;
+
+            EditorFileUtils.CreateDirectories(itemPath);
 
             var gameObjectAsset = asset as GameObject;
             if (gameObjectAsset != null) {

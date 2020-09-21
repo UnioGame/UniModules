@@ -54,7 +54,6 @@
             var settings = AddressableAssetSettingsDefaultObject.Settings;
             while (settings == null) {
                 settings = AddressableAssetSettingsDefaultObject.Settings;
-
                 yield return null;
             }
             
