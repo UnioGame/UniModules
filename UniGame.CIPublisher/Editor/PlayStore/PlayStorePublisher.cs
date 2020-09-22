@@ -60,7 +60,7 @@ namespace ConsoleGPlayAPITool
                     OnUploadProgressChanged(artifactName, uploadProgress);
                 }
                 
-                Thread.Yield();
+                Thread.Sleep(UpdalodAwaitTimeout);
             }
 
             if (uploadProgress.Exception != null)

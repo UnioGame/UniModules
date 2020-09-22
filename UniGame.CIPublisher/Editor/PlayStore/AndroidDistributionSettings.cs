@@ -5,6 +5,7 @@ namespace ConsoleGPlayAPITool
 {
     using System.Linq;
     using UnityEditor;
+    using UnityEngine;
 
     [Serializable]
     public class AndroidDistributionSettings : IAndroidDistributionSettings
@@ -16,13 +17,19 @@ namespace ConsoleGPlayAPITool
             "internal", "alpha", "beta",
         };
 
+        public static readonly List<string> TrackNameStatus = new List<string>()
+        {
+            "inProgress", "completed","draft"
+        };
+
 
         public AndroidDistributionSettings()
         {
             packageName       = PlayerSettings.applicationIdentifier;
+            releaseName       = PlayerSettings.bundleVersion;
             recentChangesText = PlayerSettings.bundleVersion;
         }
-        
+
         public string packageName;
 
 #if ODIN_INSPECTOR
@@ -48,9 +55,16 @@ namespace ConsoleGPlayAPITool
 #endif
         public string trackBranch = BranchVersions.FirstOrDefault();
 
-        public string releaseName = PlayerSettings.bundleVersion;
-        public string trackStatus = "completed";
+        public string releaseName;
 
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.ValueDropdown(nameof(GetTrackStatus))]
+#endif
+        public string trackStatus = TrackNameStatus.FirstOrDefault();
+
+        [Range(0,100)]
+        public int userFraction = 100;
+        
         public string PackageName       => packageName;
         public string JsonKeyPath       => jsonKeyPath;
         public string ArtifactPath      => artifactPath;
@@ -58,12 +72,13 @@ namespace ConsoleGPlayAPITool
         public string RecentChangesLang => recentChangedLang;
         public string TrackBranch       => trackBranch;
         public string ReleaseName       => releaseName;
-        public int    UserFraction      => 0;
+        public int    UserFraction      => userFraction;
 
         public string TrackStatus => trackStatus;
 
         public bool IsAppBundle => ArtifactPath != null && ArtifactPath.Contains(AppBundleExtension);
 
-        public IEnumerable<string> GetBranchType() => BranchVersions;
+        public IEnumerable<string> GetBranchType()  => BranchVersions;
+        public IEnumerable<string> GetTrackStatus() => TrackNameStatus;
     }
 }

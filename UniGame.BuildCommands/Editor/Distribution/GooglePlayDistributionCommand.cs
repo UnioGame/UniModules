@@ -38,6 +38,7 @@ public class GooglePlayDistributionCommand : UnitySerializablePostBuildCommand
         
         settings.artifactPath = outputArtifactPath;
         settings.packageName  = PlayerSettings.applicationIdentifier;
+        settings.releaseName  = PlayerSettings.bundleVersion;
 
         var androidPublisher = new PlayStorePublisher();
         androidPublisher.Publish(settings);
