@@ -10,7 +10,8 @@
         "Unity.Addressables",
         "Unity.Addressables.Editor",
         "Unity.ScriptableBuildPipeline",
-        "Unity.ScriptableBuildPipeline.Editor"
+        "Unity.ScriptableBuildPipeline.Editor",
+        "unigame.cipublisher.editor"
     ],
     "includePlatforms": [
         "Editor"
