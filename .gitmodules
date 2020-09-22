@@ -40,3 +40,6 @@
 [submodule "UniGame.Distribution"]
 	path = UniGame.Distribution
 	url = https://github.com/UniGameTeam/UniGame.Distribution.git
+[submodule "UniBuild.Commands"]
+	path = UniBuild.Commands
+	url = https://github.com/UniGameTeam/UniBuild.Commands.git
