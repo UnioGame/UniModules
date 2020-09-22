@@ -62,8 +62,8 @@ namespace ConsoleGPlayAPITool
 #endif
         public string trackStatus = TrackNameStatus.FirstOrDefault();
 
-        [Range(0,100)]
-        public int userFraction = 100;
+        [Range(0,1)]
+        public float userFraction = 1;
         
         public string PackageName       => packageName;
         public string JsonKeyPath       => jsonKeyPath;
@@ -72,7 +72,7 @@ namespace ConsoleGPlayAPITool
         public string RecentChangesLang => recentChangedLang;
         public string TrackBranch       => trackBranch;
         public string ReleaseName       => releaseName;
-        public int    UserFraction      => userFraction;
+        public float    UserFraction      => userFraction;
 
         public string TrackStatus => trackStatus;
 

@@ -9,7 +9,7 @@ namespace ConsoleGPlayAPITool
         string RecentChangesLang { get; }
         string TrackBranch       { get; }
         string ReleaseName       { get; }
-        int    UserFraction      { get; }
+        float    UserFraction      { get; }
 
         bool IsAppBundle { get; }
 
