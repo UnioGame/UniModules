@@ -34,7 +34,7 @@
         
         public static void ExpandRect(ref Rect rect, float expandMultiplier, float widthLimit, float heightLimit)
         {
-            var widthOffset  = rect.width * expandMultiplier;
+            var widthOffset = rect.width * expandMultiplier;
             var heightOffset = rect.height * expandMultiplier;
             
             rect.xMin = Mathf.Clamp(rect.xMin - widthOffset * 0.5f, 0.0f, widthLimit);
