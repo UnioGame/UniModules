@@ -1,4 +1,4 @@
-﻿namespace UniGame.UniNodes.NodeSystem.Inspector.Editor.ContentContextWindow
+﻿namespace UniModules.UniGame.Context.Editor.ContextEditorWindow
 {
     public struct ContextDescription
     {

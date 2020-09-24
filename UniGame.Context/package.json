@@ -4,7 +4,7 @@
   "displayName": "UniGame Context Data",
   "description": "",
   "unity": "2019.2",
-  "version": "1.3.20",
+  "version": "1.3.30",
   "keywords": [
     "context",
     "rx"
@@ -12,8 +12,9 @@
   "dependencies": {
     "com.unigame.neuecc.unirx": "7.1.1",
     "com.unigame.neuecc.unitask": "2.0.32",
-    "com.unigame.unicore": "2020.0.5",
-    "com.unity.addressables": "1.6.2",
-    "com.unigame.addressablestools": "2020.0.6"
+    "com.unigame.unicore": "2020.0.9",
+    "com.unity.addressables": "1.16.1",
+    "com.unigame.addressablestools": "2020.0.12",
+    "com.unigame.uielements": "2020.0.17"
   }
 }

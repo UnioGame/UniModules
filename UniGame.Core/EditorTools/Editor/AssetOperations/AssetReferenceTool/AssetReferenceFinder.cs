@@ -8,7 +8,7 @@
     using System.Text.RegularExpressions;
     using System.Threading;
     using EditorResources;
-    using Sirenix.Utilities;
+    using Runtime.Extension;
     using Tools;
     using UniGreenModules.UniCore.EditorTools.Editor;
     using UniGreenModules.UniCore.EditorTools.Editor.Utility;
@@ -71,7 +71,7 @@
             files.AsParallel().
                 WithCancellation(cancelationToken).
                 AsUnordered().
-                ForEach(file => {
+                Do(file => {
                                     
                     Interlocked.Increment(ref progressIndex);
 
