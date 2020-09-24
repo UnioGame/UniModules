@@ -37,6 +37,12 @@
 	path = UniGame.NodeGraphProcessor/NodeGraphProcessor
 	url = https://github.com/UniGameTeam/NodeGraphProcessor.git
 	branch = master
+[submodule "UniGame.Distribution"]
+	path = UniGame.Distribution
+	url = https://github.com/UniGameTeam/UniGame.Distribution.git
+[submodule "UniBuild.Commands"]
+	path = UniBuild.Commands
+	url = https://github.com/UniGameTeam/UniBuild.Commands.git
 [submodule "UniGame.GraphicsTools"]
 	path = UniGame.GraphicsTools
 	url = https://github.com/UniGameTeam/UniGame.GraphicsTools

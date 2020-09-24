@@ -1,7 +1,6 @@
 ﻿namespace UniModules.UniGame.Core.EditorTools.Editor.EditorResources
 {
     using System;
-    using Sirenix.OdinInspector;
     using UniGreenModules.UniResourceSystem.Runtime.Interfaces;
     using UnityEngine;
     using Object = UnityEngine.Object;
@@ -24,7 +23,7 @@
         [SerializeField]
 #if ODIN_INSPECTOR
         [Sirenix.OdinInspector.InlineEditor()]
-        [Sirenix.OdinInspector.PreviewField(ObjectFieldAlignment.Center)]
+        [Sirenix.OdinInspector.PreviewField(Sirenix.OdinInspector.ObjectFieldAlignment.Center)]
 #endif
         public Object asset;
 

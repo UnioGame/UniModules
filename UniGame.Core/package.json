@@ -1,16 +1,16 @@
 {
   "name": "com.unigame.unicore",
   "author": "Mefodei",
-  "displayName": "UniGame Core module",
+  "displayName": "UniGame Core Module",
   "description": "UniGame Tools Core",
   "unity": "2019.2",
-  "version": "2020.0.2",
+  "version": "2020.0.9",
   "keywords": [
     "core"
   ],
   "dependencies": {
     "com.unigame.neuecc.unirx": "7.1.1",
-    "com.unigame.neuecc.unitask": "2.0.31",
+    "com.unigame.neuecc.unitask": "2.0.32",
     "com.unigame.neuecc.zstring": "1.0.0"
   }
 }

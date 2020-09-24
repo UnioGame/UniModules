@@ -1,4 +1,6 @@
-﻿namespace UniModules.UniGame.Core.EditorTools.Editor.AssetOperations.AssetReferenceTool
+﻿
+
+namespace UniModules.UniGame.Core.EditorTools.Editor.AssetOperations.AssetReferenceTool
 {
         using System;
         using System.Linq;
