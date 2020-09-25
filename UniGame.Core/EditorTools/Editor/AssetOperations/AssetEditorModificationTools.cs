@@ -40,6 +40,8 @@ namespace UniModules.UniGame.Core.EditorTools.Editor.AssetOperations
                 AssetDatabase.SaveAssets();
                 return AssetDatabase.LoadAssetAtPath<TAsset>(itemPath);
             }
+            
+            AssetDatabase.Refresh();
 
             return asset;
         }
