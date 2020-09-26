@@ -1,17 +1,25 @@
-namespace Helpers
+namespace UniModules.UniGame.DoTweenRoutines.Runtime
 {
+    using Core.Runtime.DataFlow.Interfaces;
     using DG.Tweening;
     using UnityEngine;
 
     public static class DoTweenExtension
     {
+        public static TTween AddTo<TTween>(this TTween tween, ILifeTime lifeTime)
+            where  TTween : Tween
+        {
+            lifeTime.AddCleanUpAction(() => tween.Kill());
+            return tween;
+        }
+        
         public static Tween MoveAnchored(this RectTransform rectTransform,Vector3 fromPosition,Vector3 toPosition,float time)
         {
             return DOTween.To(() => rectTransform.anchoredPosition,
                 (Vector3 pos) => rectTransform.anchoredPosition = pos,toPosition,time).
                 OnStart(() => rectTransform.anchoredPosition = fromPosition);
         }
-        
+
         public static Tween MoveAnchored(this RectTransform rectTransform,Vector3 toPosition,float time)
         {
             return rectTransform.MoveAnchored(rectTransform.anchoredPosition,toPosition,time);

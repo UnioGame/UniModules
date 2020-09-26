@@ -18,6 +18,12 @@ public static class LifetimeExtension
         return lifeTimeDefinition;
     }
 
+    public static LifeTimeDefinition ReleaseWith(this LifeTimeDefinition lifeTimeDefinition, ILifeTime lifeTime)
+    {
+        lifeTime.AddCleanUpAction(lifeTimeDefinition.Release);
+        return lifeTimeDefinition;
+    }
+    
     public static TLifeTime AddCleanUpAction<TLifeTime>(this TLifeTime context,Action action)
         where TLifeTime : ILifeTimeContext
     {
