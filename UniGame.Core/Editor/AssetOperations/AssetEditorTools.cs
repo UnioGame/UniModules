@@ -7,6 +7,7 @@
     using System.Text.RegularExpressions;
     using EditorResources;
     using Runtime.DataFlow.Interfaces;
+    using Tools;
     using UniGreenModules.UniCore.EditorTools.Editor;
     using UniGreenModules.UniCore.EditorTools.Editor.Utility;
     using UniGreenModules.UniCore.Runtime.ReflectionUtils;
@@ -102,6 +103,12 @@
         {
             assetName = string.IsNullOrEmpty(assetName) ? typeof(TAsset).Name : assetName;
             return asset ? asset : LoadOrCreate<TAsset>(path, assetName,null, refreshDatabase);
+        }
+        
+        public static TAsset LoadOrCreate<TAsset>(string path)
+            where TAsset : ScriptableObject
+        {
+            return LoadOrCreate<TAsset>(path, typeof(TAsset).Name, null,false);
         }
         
         public static TAsset LoadOrCreate<TAsset>(string path, Action<TAsset> action)
@@ -365,6 +372,7 @@
 
         public static T GetAsset<T>(string folder) where T : Object
         {
+            folder = folder.TrimEndPath();
             var asset = GetAssets<T>(new string[] {folder}).FirstOrDefault();
             return asset;
         }

@@ -3,6 +3,8 @@ namespace UniModules.UniGame.Core.EditorTools.Editor.AssetOperations
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Runtime.Extension;
+    using Tools;
     using UniGreenModules.UniGame.Core.Runtime.Extension;
     using UnityEditor;
     using UnityEngine;
@@ -93,7 +95,10 @@ namespace UniModules.UniGame.Core.EditorTools.Editor.AssetOperations
             var type = typeof(T);
             var ids  = folders == null ? 
                 AssetDatabase.FindAssets(filter) : 
-                AssetDatabase.FindAssets(filter, folders.Where(x => !string.IsNullOrEmpty(x)).ToArray());
+                AssetDatabase.FindAssets(filter, folders.
+                    Where(x => !string.IsNullOrEmpty(x)).
+                    Apply(x => x.TrimEndPath()).
+                    ToArray());
 
             foreach (var id in ids) {
                 var assetPath = AssetDatabase.GUIDToAssetPath(id);
@@ -102,9 +107,7 @@ namespace UniModules.UniGame.Core.EditorTools.Editor.AssetOperations
                     continue;
                 }
 
-                T asset = null;
-
-                asset = AssetDatabase.LoadAssetAtPath(assetPath, type) as T;
+                var asset = AssetDatabase.LoadAssetAtPath(assetPath, type) as T;
 
                 if (asset) resultContainer.Add(asset);
             }

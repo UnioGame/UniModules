@@ -23,6 +23,17 @@ namespace UniModules.UniGame.Core.Runtime.Extension
         /// <summary>Perform an action on each item.</summary>
         /// <param name="source">The source.</param>
         /// <param name="action">The action to perform.</param>
+        public static IEnumerable<T> Apply<T>(this IEnumerable<T> source, Func<T,T> action)
+        {
+            foreach (var obj in source)
+            {
+                yield return action(obj);
+            }
+        }
+        
+        /// <summary>Perform an action on each item.</summary>
+        /// <param name="source">The source.</param>
+        /// <param name="action">The action to perform.</param>
         public static IEnumerable<T> Do<T>(this IEnumerable<T> source, Action<T> action)
         {
             foreach (T obj in source)

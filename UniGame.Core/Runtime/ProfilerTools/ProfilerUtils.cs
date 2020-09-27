@@ -1,6 +1,7 @@
 ﻿namespace UniGreenModules.UniCore.Runtime.ProfilerTools
 {
     using System;
+    using System.Diagnostics;
     using System.IO;
     using System.Runtime.Serialization.Formatters.Binary;
 
