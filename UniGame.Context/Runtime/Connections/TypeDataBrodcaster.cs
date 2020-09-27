@@ -44,6 +44,7 @@ namespace UniGame.UniNodes.NodeSystem.Runtime.Connections
 
         #endregion
 
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public IDisposable Bind(IMessagePublisher connection)
         {
