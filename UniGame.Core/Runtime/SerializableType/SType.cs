@@ -1,12 +1,11 @@
 ﻿namespace UniGreenModules.UniGame.Core.Runtime.SerializableType
 {
     using System;
-    using Sirenix.OdinInspector;
     using Taktika.GameRuntime.Types;
     using UnityEngine;
 
 #if ODIN_INSPECTOR
-    [DrawWithUnity]
+    [Sirenix.OdinInspector.DrawWithUnity]
 #endif
     [Serializable]
     public class SType : ISerializationCallbackReceiver, IReadOnlyType

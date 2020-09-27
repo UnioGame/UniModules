@@ -4,6 +4,7 @@ namespace UniModules.UniGame.UiElements.Examples.Editor
 {
     using System.Collections.Generic;
     using global::UniGame.Core.EditorTools.Editor.UiElements;
+    using UiElements.Editor.TypeDrawers;
     using UnityEngine;
     using UnityEngine.UIElements;
 

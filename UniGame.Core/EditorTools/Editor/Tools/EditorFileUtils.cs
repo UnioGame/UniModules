@@ -193,12 +193,15 @@ namespace UniModules.UniGame.Core.EditorTools.Editor.Tools
         {
             if (string.IsNullOrEmpty(path))
                 return false;
+            if (File.Exists(path))
+                return true;
             var last = path[path.Length - 1];
+
             if (last == Path.PathSeparator || last == '\\' || last == '/')
                 return false;
-            if (FileRegExpr.IsMatch(path))
-                return true;
-            return File.Exists(path);
+
+            var extension = Path.GetExtension(path);
+            return string.IsNullOrEmpty(extension) == false;
         }
 
         public static void CreateDirectories(string sourcePath, bool isFilePath = false)

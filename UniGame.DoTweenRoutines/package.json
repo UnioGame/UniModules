@@ -4,11 +4,14 @@
   "displayName": "DoTween Routines",
   "description": "Routines Enumerators Extensions for DoTween animations",
   "unity": "2019.2",
-  "version": "2020.0.1",
+  "version": "2020.0.8",
   "keywords": [
     "dotween"
   ],
   "dependencies": {
-    "com.unigame.uniroutine": "1.5.33"
+    "com.unigame.uniroutine": "1.5.40",
+    "com.unigame.unicore" : "2020.0.9",
+    "com.unigame.neuecc.unirx": "7.1.1",
+    "com.unigame.neuecc.unitask": "2.0.32"
   }
 }
