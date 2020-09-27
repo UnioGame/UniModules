@@ -1,5 +1,6 @@
 ﻿namespace UniModules.UniGame.Core.EditorTools.Editor
 {
+    using System.IO;
     using AssetOperations;
     using Core.Editor.Constants;
     using UnityEditor;
@@ -15,7 +16,8 @@
                 if (!marker) {
                     return GeneratedContentDefaultPath;
                 }
-                return AssetDatabase.GetAssetPath(marker);
+                var path = AssetDatabase.GetAssetPath(marker);
+                return Path.GetDirectoryName(path);
             }
         }
     }

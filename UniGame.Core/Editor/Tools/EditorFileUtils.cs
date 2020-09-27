@@ -14,23 +14,24 @@ namespace UniModules.UniGame.Core.EditorTools.Editor.Tools
         public const string FileRefExpr = @"[\w|\W]*[\/|\\](?<filename>[\w]+)+\.(\w+)";
 
         private static string assetsFolderName       = "Assets";
-        private static char moveDirectorySeparator = '/';
-        public static Regex FileRegExpr = new Regex(FileRefExpr,RegexOptions.Compiled);
-        
+        private static char   moveDirectorySeparator = '/';
+        public static  Regex  FileRegExpr            = new Regex(FileRefExpr, RegexOptions.Compiled);
+
         public static bool WriteAssetsContent(string targetPath, string content)
         {
             if (string.IsNullOrEmpty(targetPath))
                 return false;
 
-            var result = ReadContent(targetPath, false);
-            var path = result.path;
+            var result        = ReadContent(targetPath, false);
+            var path          = result.path;
             var activeContent = result.content;
 
-            if (string.Equals(activeContent, content)) {
+            if (string.Equals(activeContent, content))
+            {
                 return false;
             }
 
-            File.WriteAllText(path,content);
+            File.WriteAllText(path, content);
 
             Debug.Log($"WRITE CONTENT TO {path}");
 
@@ -39,12 +40,13 @@ namespace UniModules.UniGame.Core.EditorTools.Editor.Tools
             return true;
         }
 
-        public static (string path,string content) ReadContent(string targetPath, bool createIfNotExists = false)
+        public static (string path, string content) ReadContent(string targetPath, bool createIfNotExists = false)
         {
             if (string.IsNullOrEmpty(targetPath))
-                return (string.Empty,string.Empty);
+                return (string.Empty, string.Empty);
 
-            if (targetPath.StartsWith(assetsFolderName, StringComparison.OrdinalIgnoreCase)) {
+            if (targetPath.StartsWith(assetsFolderName, StringComparison.OrdinalIgnoreCase))
+            {
                 targetPath = targetPath.Remove(0, assetsFolderName.Length);
             }
 
@@ -53,17 +55,16 @@ namespace UniModules.UniGame.Core.EditorTools.Editor.Tools
             CreateDirectories(path);
 
             var fileExists = File.Exists(path);
-            if (!fileExists && createIfNotExists) {
-                File.WriteAllText(path,string.Empty);
+            if (!fileExists && createIfNotExists)
+            {
+                File.WriteAllText(path, string.Empty);
                 AssetDatabase.Refresh();
-                return (path,string.Empty);
+                return (path, string.Empty);
             }
 
-            var activeContent = fileExists ?
-                File.ReadAllText(path) :
-                string.Empty;
+            var activeContent = fileExists ? File.ReadAllText(path) : string.Empty;
 
-            return (path,activeContent);
+            return (path, activeContent);
         }
 
         public static string ToProjectPathWithoutExtension(this string globalPath)
@@ -73,7 +74,7 @@ namespace UniModules.UniGame.Core.EditorTools.Editor.Tools
             assetPath = Combine(assetsFolderName, assetPath);
             return assetPath;
         }
-        
+
         public static string ToProjectPath(this string globalPath)
         {
             var assetPath = globalPath.Replace(Application.dataPath, string.Empty);
@@ -99,28 +100,29 @@ namespace UniModules.UniGame.Core.EditorTools.Editor.Tools
                 return path;
             return path.TrimEndPath() + Path.DirectorySeparatorChar;
         }
-        
+
         public static string CombinePath(this string a, string b) => Combine(a, b);
 
         public static string TrimStartPath(this string path)
         {
             if (string.IsNullOrEmpty(path))
                 return path;
-            return path.TrimStart('/').TrimStart('\\');
+            return path.TrimStart(Path.PathSeparator).TrimStart('/').TrimStart('\\');
         }
-        
+
         public static string TrimEndPath(this string path)
         {
             if (string.IsNullOrEmpty(path))
                 return path;
-            return path.TrimEnd('/').TrimEnd('\\');
+            return path.TrimEnd(Path.PathSeparator).TrimEnd('/').TrimEnd('\\');
         }
-        
+
         public static string FixUnityPath(this string path)
         {
             if (string.IsNullOrEmpty(path))
                 return path;
-            switch (Path.DirectorySeparatorChar) {
+            switch (Path.DirectorySeparatorChar)
+            {
                 case '\\':
                     return path.Replace("/", "\\").TrimEnd('\\');
                 case '/':
@@ -140,7 +142,7 @@ namespace UniModules.UniGame.Core.EditorTools.Editor.Tools
         /// <returns></returns>
         public static bool ReplaceDirectory(string source, string dest)
         {
-            if(string.IsNullOrEmpty(source) || Directory.Exists(source) == false)
+            if (string.IsNullOrEmpty(source) || Directory.Exists(source) == false)
                 return false;
             if (string.IsNullOrEmpty(dest))
                 return false;
@@ -148,18 +150,19 @@ namespace UniModules.UniGame.Core.EditorTools.Editor.Tools
             if (source.Equals(dest, StringComparison.OrdinalIgnoreCase))
                 return true;
 
-            dest   = dest.FixDirectoryPath();
+            dest = dest.FixDirectoryPath();
 
-            try {
-                
+            try
+            {
                 //create all sub directories
                 CreateDirectories(dest);
                 //remote target
                 DeleteDirectory(dest);
 
-                return MoveDirectory(source,dest);
+                return MoveDirectory(source, dest);
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 Debug.LogException(e);
             }
 
@@ -170,13 +173,15 @@ namespace UniModules.UniGame.Core.EditorTools.Editor.Tools
         {
             if (Directory.Exists(source) == false || Directory.Exists(dest))
                 return false;
-            
-            try {
-                Directory.Move(source,dest);
-                
+
+            try
+            {
+                Directory.Move(source, dest);
+
                 return true;
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 Debug.LogException(e);
             }
 
@@ -208,65 +213,69 @@ namespace UniModules.UniGame.Core.EditorTools.Editor.Tools
         {
             if (string.IsNullOrEmpty(sourcePath))
                 return;
-            
-            var isFile    = isFilePath || IsFilePath(sourcePath);
-            var directory = new DirectoryInfo(sourcePath);
-            var directoryPath = isFile ? 
-                Path.GetDirectoryName(sourcePath) :
-                directory.FullName;
-            
-            var directories   = directoryPath.FixUnityPath();
-            var path          = string.Empty;
-            var applyRefresh  = false;
-            
-            if (string.IsNullOrEmpty(directoryPath) == false) {
+
+            var isFile        = isFilePath || IsFilePath(sourcePath);
+            var directory     = new DirectoryInfo(sourcePath);
+            var directoryPath = isFile ? Path.GetDirectoryName(sourcePath) : directory.FullName;
+
+            var directories  = directoryPath.FixUnityPath();
+            var path         = string.Empty;
+            var applyRefresh = false;
+
+            if (string.IsNullOrEmpty(directoryPath) == false)
+            {
                 var folders = SplitPath(directories);
 
-                foreach (var folder in folders) {
-                    if (string.IsNullOrEmpty(path)) {
+                foreach (var folder in folders)
+                {
+                    if (string.IsNullOrEmpty(path))
+                    {
                         path = folder;
                         continue;
                     }
-                    path = Combine(path,folder);
-                    if (Directory.Exists(path)) {
+
+                    path = Combine(path, folder);
+                    if (Directory.Exists(path) || File.Exists(path))
+                    {
                         continue;
                     }
-
-                    Debug.Log(path);
                     applyRefresh = true;
                     Directory.CreateDirectory(path);
                 }
             }
-            
-            if(applyRefresh) AssetDatabase.Refresh();
+
+            if (applyRefresh) AssetDatabase.Refresh();
         }
-        
+
         public static void DeleteDirectoryFiles(string path)
         {
             if (!Directory.Exists(path))
                 return;
-            foreach (var file in new DirectoryInfo(path).GetFiles()) {
+            foreach (var file in new DirectoryInfo(path).GetFiles())
+            {
                 file.Delete();
             }
         }
-    
+
         public static void DeleteSubDirectories(string path)
         {
             if (!Directory.Exists(path))
                 return;
-            foreach (var subDir in new DirectoryInfo(path).GetDirectories()) {
+            foreach (var subDir in new DirectoryInfo(path).GetDirectories())
+            {
                 subDir.Delete(true);
             }
         }
-        
-        public static void DeleteDirectory(string path,bool recursive = true)
+
+        public static void DeleteDirectory(string path, bool recursive = true)
         {
-            if (Directory.Exists(path)) {
+            if (Directory.Exists(path))
+            {
                 GameLog.Log($"REMOVE Folder {path}");
-                Directory.Delete(path,recursive);
+                Directory.Delete(path, recursive);
                 return;
             }
-        
+
             GameLog.Log($"Addressables:  FAILED Remove addressable folder {path} NOT FOUND");
         }
     }

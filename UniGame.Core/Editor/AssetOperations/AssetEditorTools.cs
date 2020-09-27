@@ -7,6 +7,7 @@
     using System.Text.RegularExpressions;
     using EditorResources;
     using Runtime.DataFlow.Interfaces;
+    using Tools;
     using UniGreenModules.UniCore.EditorTools.Editor;
     using UniGreenModules.UniCore.EditorTools.Editor.Utility;
     using UniGreenModules.UniCore.Runtime.ReflectionUtils;
@@ -371,6 +372,7 @@
 
         public static T GetAsset<T>(string folder) where T : Object
         {
+            folder = folder.TrimEndPath();
             var asset = GetAssets<T>(new string[] {folder}).FirstOrDefault();
             return asset;
         }
