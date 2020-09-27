@@ -104,6 +104,12 @@
             return asset ? asset : LoadOrCreate<TAsset>(path, assetName,null, refreshDatabase);
         }
         
+        public static TAsset LoadOrCreate<TAsset>(string path)
+            where TAsset : ScriptableObject
+        {
+            return LoadOrCreate<TAsset>(path, typeof(TAsset).Name, null,false);
+        }
+        
         public static TAsset LoadOrCreate<TAsset>(string path, Action<TAsset> action)
             where TAsset : ScriptableObject
         {
