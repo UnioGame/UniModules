@@ -19,8 +19,9 @@
             var timer     = new Stopwatch();
             try
             {
-                var startTime = timer.ElapsedMilliseconds;
+                timer.Start();
                 action?.Invoke();
+                var startTime = timer.ElapsedMilliseconds;
                 Debug.Log($"UniEditorProfiler : {name} : {timer.ElapsedMilliseconds} ms");
             }
             finally{
