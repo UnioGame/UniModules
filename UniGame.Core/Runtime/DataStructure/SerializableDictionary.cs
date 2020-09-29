@@ -7,7 +7,8 @@ namespace UniGreenModules.UniGame.Core.Runtime.DataStructure
     using global::UniCore.Runtime.ProfilerTools;
 
     [Serializable]
-    public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>,
+    public class SerializableDictionary<TKey, TValue> : 
+        Dictionary<TKey, TValue>,
         ISerializationCallbackReceiver
     {
         [SerializeField] protected List<TKey>   keys   = new List<TKey>();
