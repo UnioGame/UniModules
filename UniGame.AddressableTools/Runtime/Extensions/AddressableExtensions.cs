@@ -348,11 +348,8 @@
             });
             return lifeTime;
         }
-
-        #endregion
-
-
-        private static async UniTask<Object> LoadAssetAsync<TResult>(AssetReference assetReference, ILifeTime lifeTime)
+        
+        public static async UniTask<Object> LoadAssetAsync<TResult>(AssetReference assetReference, ILifeTime lifeTime)
             where TResult : Object
         {
             var result = default(TResult);
@@ -366,6 +363,11 @@
 
             return result;
         }
+        
+        #endregion
+
+
+
 
     }
 }
