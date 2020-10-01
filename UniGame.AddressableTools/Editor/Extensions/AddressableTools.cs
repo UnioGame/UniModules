@@ -1,14 +1,36 @@
 ﻿namespace UniModules.UniGame.AddressableExtensions.Editor
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using Core.EditorTools.Editor.AssetOperations;
     using UnityEditor;
     using UnityEditor.AddressableAssets;
     using UnityEditor.AddressableAssets.Settings;
     using UnityEngine;
+    using UnityEngine.AddressableAssets;
 
-    public static class AddressableHelper
+    public static class AddressableTools
     {
         private static AddressableAssetSettings addressableAssetSettings;
+        
+        public static AssetReference FindReferenceByAddress(this AddressableAssetSettings settings,string address)
+        {
+            var entries = new List<AddressableAssetEntry>();
+            settings.GetAllAssets(entries,true,null,x => x.address == address);
+            var asset = entries.FirstOrDefault();
+            
+            if (asset == null) {
+                Debug.LogWarning($"Not found asset with address :: {address}");
+                return null;
+            }
+            return new AssetReference(asset.guid);
+        }
+
+        public static AssetReference FindReferenceByAddress(string address)
+        {
+            var settings = AddressableAssetSettingsDefaultObject.Settings;
+            return FindReferenceByAddress(settings, address);
+        }
         
         public static string EvaluateActiveProfileString(this string key)
         {

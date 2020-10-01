@@ -14,6 +14,7 @@
             return source.gameObject.PrefabToAssetReference();
         }
 
+        
         public static AssetReferenceGameObject PrefabToAssetReference(this GameObject source)
         {
             if (!PrefabUtility.IsPartOfAnyPrefab(source))
@@ -66,7 +67,7 @@
             if (source == null || !AssetDatabase.Contains(source))
                 return;
             
-            var group = !AddressableHelper.GroupExists(groupName) ? AddressableHelper.CreateGroup(groupName) : AddressableHelper.GetGroup(groupName);
+            var group = !AddressableTools.GroupExists(groupName) ? AddressableTools.CreateGroup(groupName) : AddressableTools.GetGroup(groupName);
             source.SetAddressableAssetGroup(group);
         }
         
