@@ -79,7 +79,7 @@
 
         private bool ValidateAtlasName(AtlasGeneratorRule rule, string filter)
         {
-            return rule.atlasName.IndexOf(filter, StringComparison.OrdinalIgnoreCase) >= 0;
+            return rule.pathToAtlas.IndexOf(filter, StringComparison.OrdinalIgnoreCase) >= 0;
         }
 
         private bool ValidateRulePath(AtlasGeneratorRule rule, string filter)

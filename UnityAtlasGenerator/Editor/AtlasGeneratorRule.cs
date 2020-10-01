@@ -41,19 +41,19 @@ public class AtlasGeneratorRule
     public AtlasGeneratorRuleMatchType matchType;
 
     /// <summary>
-    /// The group the asset will be added.
+    /// The atlas the asset will be added.
     /// </summary>
-    [Tooltip("The atlas name in which the sprites will be added. Leave blank for the default atlas.")]
-    public string atlasName = string.Empty;
+    [Tooltip("The path to atlas in which the sprites will be added. Leave blank for the default atlas.")]
+    public string pathToAtlas = string.Empty;
 
     /// <summary>
     /// Cleaned atlas name.
     /// </summary>
-    string CleanedGroupName
+    string CleanedPathToAtlas
     {
         get
         {
-            return atlasName.Trim().Replace('/', '-').Replace('\\', '-');
+            return pathToAtlas.Trim();
         }
     }
 
@@ -67,21 +67,7 @@ public class AtlasGeneratorRule
     /// Controls wether group template will be applied only on group creation, or also to already created groups.
     /// </summary>
     [Tooltip("Defines if the group template will only be applied to new groups, or will also overwrite existing groups settings.")]
-    public AtlasTemplateApplicationMode groupTemplateApplicationMode = AtlasTemplateApplicationMode.ApplyOnAtlasCreationOnly;
-
-    /// <summary>
-    /// Simplify address.
-    /// </summary>
-    [Tooltip("Simplify address to filename without extension.")]
-    [Label("Address Simplified")]
-    public bool simplified;
-
-    /// <summary>
-    /// Replacement string for the atlas address. This is only useful with regex capture groups.
-    /// </summary>
-    [Tooltip("Replacement address string for regex matches.")]
-    [ConditionalField("matchType", AtlasGeneratorRuleMatchType.Regex, "simplified", false)]
-    public string addressReplacement = string.Empty;
+    public AtlasTemplateApplicationMode aatlasTemplateApplicationMode = AtlasTemplateApplicationMode.ApplyOnAtlasCreationOnly;
 
     /// <summary>
     /// Returns True if given assetPath matched with the rule.
@@ -113,10 +99,10 @@ public class AtlasGeneratorRule
     /// </summary>
     public string ParseAtlasReplacement(string assetPath)
     {
-        if (string.IsNullOrWhiteSpace(path) || string.IsNullOrWhiteSpace(atlasName))
+        if (string.IsNullOrWhiteSpace(path) || string.IsNullOrWhiteSpace(pathToAtlas))
             return null;
         // Parse path elements.
-        var replacement = AtlasGeneratorRegex.ParsePath(assetPath, CleanedGroupName);
+        var replacement = AtlasGeneratorRegex.ParsePath(assetPath, CleanedPathToAtlas);
         // Parse this.path regex.
         if (matchType == AtlasGeneratorRuleMatchType.Regex)
         {
@@ -127,37 +113,11 @@ public class AtlasGeneratorRule
     }
 
     /// <summary>
-    /// Parse assetPath and replace all elements that match this.path regex
-    /// with the addressReplacement string.
-    /// Returns assetPath if this.path or addressReplacement is empty.
+    /// Full path to atlas.
     /// </summary>
-    public string ParseAddressReplacement(string assetPath)
+    public string GetFullPathToAtlas(string path)
     {
-        if (string.IsNullOrWhiteSpace(path))
-            return assetPath;
-        if (!simplified && string.IsNullOrWhiteSpace(addressReplacement))
-            return assetPath;
-        // Parse path elements.
-        if (addressReplacement == null)
-            addressReplacement = "";
-        var replacement = AtlasGeneratorRegex.ParsePath(assetPath, addressReplacement);
-        // Parse this.path regex.
-        // If Simplified is ticked, it's a pattern that matches any path, capturing the path, filename and extension.
-        // If the match type is Wildcard, the pattern will match and capture the entire path string.
-        string pathRegex =
-            simplified
-            ? @"(?<path>.*[/\\])+(?<filename>.+?)(?<extension>\.[^.]*$|$)"
-            : (matchType == AtlasGeneratorRuleMatchType.Wildcard
-                ? @"(.*)"
-                : path);
-        replacement =
-            simplified
-            ? @"${filename}"
-            : (matchType == AtlasGeneratorRuleMatchType.Wildcard
-                ? @"$1"
-                : replacement);
-        replacement = Regex.Replace(assetPath, pathRegex, replacement);
-        return replacement;
+        return "Assets/GameContent/Atlases/" + path + ".spriteatlas";
     }
 
     /// <summary>
