@@ -117,6 +117,10 @@ public class AtlasGeneratorRule
     /// </summary>
     public string GetFullPathToAtlas(string path)
     {
+        if (string.IsNullOrWhiteSpace(path))
+        {
+            return path;
+        }
         return "Assets/GameContent/Atlases/" + path + ".spriteatlas";
     }
 

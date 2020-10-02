@@ -18,6 +18,12 @@ public class AtlasGenerator : AssetPostprocessor
             Debug.LogWarningFormat("[AtlasGenerator] generation settings file not found.\nPlease go to Assets/Atlases/Editor folder, right click in the project window and choose 'Create > Atlas Generator > Generation Settings'.");
             return;
         }
+        var atlasSettings = AtlasGeneratorAtlasSettings.Instance;
+        if (atlasSettings == null)
+        {
+            Debug.LogWarningFormat("[AtlasGenerator] settings file not found.\nPlease go to Assets/Atlases/Editor folder, right click in the project window and choose 'Create > Atlas Generator > Atlas Settings'.");
+            return;
+        }
         if (generatorSettings.rules == null || generatorSettings.rules.Count == 0)
             return;
 
@@ -28,7 +34,7 @@ public class AtlasGenerator : AssetPostprocessor
         {
             if (AssetDatabase.GetMainAssetTypeAtPath(importedAsset) == typeof(Texture2D) && Path.GetExtension(importedAsset.ToLower()) != ".psb")
             {
-                dirty |= ApplyGenerationRule(importedAsset, null, generatorSettings);
+                dirty |= ApplyGenerationRule(importedAsset, null, generatorSettings, atlasSettings);
             }
         }
 
@@ -38,7 +44,7 @@ public class AtlasGenerator : AssetPostprocessor
             var movedFromAssetPath = movedFromAssetPaths[i];
             if (AssetDatabase.GetMainAssetTypeAtPath(movedAsset) == typeof(Texture2D) && Path.GetExtension(movedAsset.ToLower()) != ".psb")
             {
-                dirty |= ApplyGenerationRule(movedAsset, movedFromAssetPath, generatorSettings);
+                dirty |= ApplyGenerationRule(movedAsset, movedFromAssetPath, generatorSettings, atlasSettings);
             }
         }
 
@@ -50,7 +56,8 @@ public class AtlasGenerator : AssetPostprocessor
     static bool ApplyGenerationRule(
        string assetPath,
        string movedFromAssetPath,
-       AtlasGeneratorSettings generatorSettings)
+       AtlasGeneratorSettings generatorSettings,
+       AtlasGeneratorAtlasSettings atlasSettings)
     {
         var dirty = false;
         if (TryGetMatchedRule(assetPath, generatorSettings, out var matchedRule))
@@ -61,11 +68,11 @@ public class AtlasGenerator : AssetPostprocessor
                 var oldAtlasPath = oldMatchedRule.GetFullPathToAtlas(oldMatchedRule.ParseAtlasReplacement(movedFromAssetPath));
                 if (newAtlasPath != oldAtlasPath)
                 {
-                    RemoveFromAtlas(matchedRule, movedFromAssetPath, assetPath);
+                    RemoveFromAtlas(matchedRule, movedFromAssetPath, assetPath, atlasSettings);
                 }
             }
             // Apply the matched rule.
-            var atlas = CreateOrUpdateAtlas(generatorSettings, matchedRule, assetPath);
+            var atlas = CreateOrUpdateAtlas(generatorSettings, atlasSettings, matchedRule, assetPath);
             if (atlas != null)
             {
                 Debug.LogFormat("[AtlasGenerator] Added sprite {0} to atlas {1}", assetPath, atlas.name);
@@ -79,7 +86,7 @@ public class AtlasGenerator : AssetPostprocessor
             // But only if movedFromAssetPath has the matched rule, because the generator should not remove any unmanaged sprites.
             if (!string.IsNullOrEmpty(movedFromAssetPath) && TryGetMatchedRule(movedFromAssetPath, generatorSettings, out matchedRule))
             {
-                if (RemoveFromAtlas(matchedRule, movedFromAssetPath, assetPath))
+                if (RemoveFromAtlas(matchedRule, movedFromAssetPath, assetPath, atlasSettings))
                 {
                     dirty = true;
                 }
@@ -91,6 +98,7 @@ public class AtlasGenerator : AssetPostprocessor
 
     static SpriteAtlas CreateOrUpdateAtlas(
         AtlasGeneratorSettings generatorSettings,
+        AtlasGeneratorAtlasSettings atlasSettings,
         AtlasGeneratorRule rule,
         string assetPath)
     {
@@ -99,7 +107,7 @@ public class AtlasGenerator : AssetPostprocessor
         var pathToAtlas = rule.ParseAtlasReplacement(assetPath);
         pathToAtlas = rule.GetFullPathToAtlas(pathToAtlas);
         bool newAtlas = false;
-        if (!TryGetAtlas(pathToAtlas, out atlas))
+        if (!TryGetAtlas(pathToAtlas, atlasSettings, out atlas))
         {
             atlas = CreateAtlas(pathToAtlas);
             newAtlas = true;
@@ -137,11 +145,12 @@ public class AtlasGenerator : AssetPostprocessor
     static bool RemoveFromAtlas(
         AtlasGeneratorRule rule,
         string movedFromAssetPath,
-        string assetPath)
+        string assetPath,
+        AtlasGeneratorAtlasSettings atlasSettings)
     {
         var pathToAtlas = rule.ParseAtlasReplacement(movedFromAssetPath);
         pathToAtlas = rule.GetFullPathToAtlas(pathToAtlas);
-        if (!TryGetAtlas(pathToAtlas, out var atlas))
+        if (!TryGetAtlas(pathToAtlas, atlasSettings, out var atlas))
         {
             Debug.LogWarningFormat("[AtlasGenerator] Failed to find atlas {0} when removing {1} from it", rule.pathToAtlas, assetPath);
             return false;
@@ -162,11 +171,12 @@ public class AtlasGenerator : AssetPostprocessor
 
     static bool RemoveFromAtlas(
         AtlasGeneratorRule rule,
-        string assetPath)
+        string assetPath,
+        AtlasGeneratorAtlasSettings atlasSettings)
     {
         var pathToAtlas = rule.ParseAtlasReplacement(assetPath);
         pathToAtlas = rule.GetFullPathToAtlas(pathToAtlas);
-        if (!TryGetAtlas(pathToAtlas, out var atlas))
+        if (!TryGetAtlas(pathToAtlas, atlasSettings, out var atlas))
         {
             Debug.LogWarningFormat("[AtlasGenerator] Failed to find atlas {0} when removing {1} from it", rule.pathToAtlas, assetPath);
             return false;
@@ -208,11 +218,11 @@ public class AtlasGenerator : AssetPostprocessor
     /// <param name="pathToAtlas">The name of the atlas for the search.</param>
     /// <param name="atlas">The <see cref="SpriteAtlas"/> if found. Set to <see cref="null"/> if not found.</param>
     /// <returns>True if a atlas is found.</returns>
-    static bool TryGetAtlas(string pathToAtlas, out SpriteAtlas atlas)
+    static bool TryGetAtlas(string pathToAtlas, AtlasGeneratorAtlasSettings atlasSettings, out SpriteAtlas atlas)
     {
         if (string.IsNullOrWhiteSpace(pathToAtlas))
         {
-            atlas = new SpriteAtlas();
+            atlas = atlasSettings.DefaultAtlas;
             return true;
         }
         return ((atlas = AssetDatabase.LoadAssetAtPath<SpriteAtlas>(pathToAtlas)) == null) ? false : true;
@@ -226,6 +236,12 @@ public class AtlasGenerator : AssetPostprocessor
             Debug.LogWarningFormat("[AtlasGenerator] generation settings file not found.\nPlease go to Assets/Atlases/Editor folder, right click in the project window and choose 'Create > Atlas Generator > Generation Settings'.");
             return;
         }
+        var atlasSettings = AtlasGeneratorAtlasSettings.Instance;
+        if (atlasSettings == null)
+        {
+            Debug.LogWarningFormat("[AtlasGenerator] settings file not found.\nPlease go to Assets/Atlases/Editor folder, right click in the project window and choose 'Create > Atlas Generator > Atlas Settings'.");
+            return;
+        }
         if (generatorSettings.rules == null || generatorSettings.rules.Count == 0)
             return;
 
@@ -233,7 +249,7 @@ public class AtlasGenerator : AssetPostprocessor
 
         if (TryGetMatchedRule(assetPath, generatorSettings, out var matchedRule))
         {
-            if (RemoveFromAtlas(matchedRule, assetPath))
+            if (RemoveFromAtlas(matchedRule, assetPath, atlasSettings))
             {
                 dirty = true;
             }
