@@ -82,7 +82,6 @@ public class AtlasGenerator : AssetPostprocessor
                 if (RemoveFromAtlas(matchedRule, movedFromAssetPath, assetPath))
                 {
                     dirty = true;
-                    Debug.LogFormat("[AtlasGenerator] Removed removed for {0}", assetPath);
                 }
             }
         }
@@ -150,13 +149,15 @@ public class AtlasGenerator : AssetPostprocessor
         var packedAsset = new Texture2D[] { AssetDatabase.LoadAssetAtPath<Texture2D>(assetPath) };
         atlas.Remove(packedAsset);
         AssetDatabase.SaveAssets();
+        Debug.LogFormat("[AtlasGenerator] Removed {0} from atlas", assetPath);
         var packables = atlas.GetPackables();
         if (packables.Length == 0)
         {
             AssetDatabase.DeleteAsset(pathToAtlas);
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     static bool RemoveFromAtlas(
@@ -173,13 +174,15 @@ public class AtlasGenerator : AssetPostprocessor
         var assetToDelete = new Texture2D[] { AssetDatabase.LoadAssetAtPath<Texture2D>(assetPath) };
         atlas.Remove(assetToDelete);
         AssetDatabase.SaveAssets();
+        Debug.LogFormat("[AtlasGenerator] Removed {0} from atlas", assetPath);
         var packables = atlas.GetPackables();
         if (packables.Length == 0)
         {
             AssetDatabase.DeleteAsset(pathToAtlas);
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     static bool TryGetMatchedRule(
@@ -233,13 +236,10 @@ public class AtlasGenerator : AssetPostprocessor
             if (RemoveFromAtlas(matchedRule, assetPath))
             {
                 dirty = true;
-                Debug.LogFormat("[AtlasGenerator] Removed {0} from atlas", assetPath);
             }
         }
-
         if (dirty)
         {
-            AssetDatabase.Refresh();
             AssetDatabase.SaveAssets();
         }
     }
