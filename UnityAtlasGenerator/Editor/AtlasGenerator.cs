@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEditor.Experimental.SceneManagement;
 using UnityEngine.U2D;
 using UnityEditor.U2D;
+using System.Linq;
+using System;
 
 public class AtlasGenerator : AssetPostprocessor
 {
@@ -30,6 +32,16 @@ public class AtlasGenerator : AssetPostprocessor
             }
         }
 
+        for (var i = 0; i < movedAssets.Length; i++)
+        {
+            var movedAsset = movedAssets[i];
+            var movedFromAssetPath = movedFromAssetPaths[i];
+            if (AssetDatabase.GetMainAssetTypeAtPath(movedAsset) == typeof(Texture2D) && Path.GetExtension(movedAsset.ToLower()) != ".psb")
+            {
+                dirty |= ApplyGenerationRule(movedAsset, movedFromAssetPath, generatorSettings);
+            }
+        }
+
         if (dirty)
         {
             AssetDatabase.SaveAssets();
@@ -43,6 +55,15 @@ public class AtlasGenerator : AssetPostprocessor
         var dirty = false;
         if (TryGetMatchedRule(assetPath, generatorSettings, out var matchedRule))
         {
+            if (movedFromAssetPath != null && TryGetMatchedRule(movedFromAssetPath, generatorSettings, out var oldMatchedRule))
+            {
+                var newAtlasPath = matchedRule.GetFullPathToAtlas(matchedRule.ParseAtlasReplacement(assetPath));
+                var oldAtlasPath = oldMatchedRule.GetFullPathToAtlas(oldMatchedRule.ParseAtlasReplacement(movedFromAssetPath));
+                if (newAtlasPath != oldAtlasPath)
+                {
+                    RemoveFromAtlas(matchedRule, movedFromAssetPath, assetPath);
+                }
+            }
             // Apply the matched rule.
             var atlas = CreateOrUpdateAtlas(generatorSettings, matchedRule, assetPath);
             if (atlas != null)
@@ -58,9 +79,11 @@ public class AtlasGenerator : AssetPostprocessor
             // But only if movedFromAssetPath has the matched rule, because the generator should not remove any unmanaged sprites.
             if (!string.IsNullOrEmpty(movedFromAssetPath) && TryGetMatchedRule(movedFromAssetPath, generatorSettings, out matchedRule))
             {
-                RemoveFromAtlas(matchedRule, movedFromAssetPath, assetPath);
-                dirty = true;
-                Debug.LogFormat("[AtlasGenerator] Removed removed for {0}", assetPath);
+                if (RemoveFromAtlas(matchedRule, movedFromAssetPath, assetPath))
+                {
+                    dirty = true;
+                    Debug.LogFormat("[AtlasGenerator] Removed removed for {0}", assetPath);
+                }
             }
         }
 
@@ -88,9 +111,13 @@ public class AtlasGenerator : AssetPostprocessor
         {
             rule.atlasTemplate.ApplyToAtlas(atlas);
         }*/
-
+        
         var packedAsset = new Texture2D[] { AssetDatabase.LoadAssetAtPath<Texture2D>(assetPath) };
-        atlas.Add(packedAsset);
+        var packedAssets = atlas.GetPackables();
+        if (!packedAssets.Contains(packedAsset[0]))
+        {
+            atlas.Add(packedAsset);
+        }
 
         return atlas;
     }
@@ -114,6 +141,7 @@ public class AtlasGenerator : AssetPostprocessor
         string assetPath)
     {
         var pathToAtlas = rule.ParseAtlasReplacement(movedFromAssetPath);
+        pathToAtlas = rule.GetFullPathToAtlas(pathToAtlas);
         if (!TryGetAtlas(pathToAtlas, out var atlas))
         {
             Debug.LogWarningFormat("[AtlasGenerator] Failed to find atlas {0} when removing {1} from it", rule.pathToAtlas, assetPath);
@@ -121,6 +149,30 @@ public class AtlasGenerator : AssetPostprocessor
         }
         var packedAsset = new Texture2D[] { AssetDatabase.LoadAssetAtPath<Texture2D>(assetPath) };
         atlas.Remove(packedAsset);
+        AssetDatabase.SaveAssets();
+        var packables = atlas.GetPackables();
+        if (packables.Length == 0)
+        {
+            AssetDatabase.DeleteAsset(pathToAtlas);
+        }
+
+        return true;
+    }
+
+    static bool RemoveFromAtlas(
+        AtlasGeneratorRule rule,
+        string assetPath)
+    {
+        var pathToAtlas = rule.ParseAtlasReplacement(assetPath);
+        pathToAtlas = rule.GetFullPathToAtlas(pathToAtlas);
+        if (!TryGetAtlas(pathToAtlas, out var atlas))
+        {
+            Debug.LogWarningFormat("[AtlasGenerator] Failed to find atlas {0} when removing {1} from it", rule.pathToAtlas, assetPath);
+            return false;
+        }
+        var assetToDelete = new Texture2D[] { AssetDatabase.LoadAssetAtPath<Texture2D>(assetPath) };
+        atlas.Remove(assetToDelete);
+        AssetDatabase.SaveAssets();
         var packables = atlas.GetPackables();
         if (packables.Length == 0)
         {
@@ -161,5 +213,34 @@ public class AtlasGenerator : AssetPostprocessor
             return true;
         }
         return ((atlas = AssetDatabase.LoadAssetAtPath<SpriteAtlas>(pathToAtlas)) == null) ? false : true;
+    }
+
+    public static void RemoveSpriteFromAtlas(string assetPath)
+    {
+        var generatorSettings = AtlasGeneratorSettings.Instance;
+        if (generatorSettings == null)
+        {
+            Debug.LogWarningFormat("[AtlasGenerator] generation settings file not found.\nPlease go to Assets/Atlases/Editor folder, right click in the project window and choose 'Create > Atlas Generator > Generation Settings'.");
+            return;
+        }
+        if (generatorSettings.rules == null || generatorSettings.rules.Count == 0)
+            return;
+
+        var dirty = false;
+
+        if (TryGetMatchedRule(assetPath, generatorSettings, out var matchedRule))
+        {
+            if (RemoveFromAtlas(matchedRule, assetPath))
+            {
+                dirty = true;
+                Debug.LogFormat("[AtlasGenerator] Removed {0} from atlas", assetPath);
+            }
+        }
+
+        if (dirty)
+        {
+            AssetDatabase.Refresh();
+            AssetDatabase.SaveAssets();
+        }
     }
 }
