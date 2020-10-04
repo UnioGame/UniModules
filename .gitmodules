@@ -85,3 +85,7 @@
 	path = UniGame.MoreLinq
 	url = https://github.com/UniGameTeam/UniGame.MoreLinq.git
 	branch = main
+[submodule "UniGame.SafeArea"]
+	path = UniGame.SafeArea
+	url = https://github.com/UniGameTeam/UniGame.SafeArea.git
+	branch = main
