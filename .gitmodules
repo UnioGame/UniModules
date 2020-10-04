@@ -89,3 +89,6 @@
 	path = UniGame.SafeArea
 	url = https://github.com/UniGameTeam/UniGame.SafeArea.git
 	branch = main
+[submodule "UniGame.SceneAssets"]
+	path = UniGame.SceneAssets
+	url = https://github.com/UniGameTeam/UniGame.SceneAssets.git
