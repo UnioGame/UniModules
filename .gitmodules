@@ -62,3 +62,7 @@
 	path = UniGame.Context
 	url = https://github.com/UniGameTeam/UniGame.Context.git
 	branch = main
+[submodule "UniGame.ConvexHull"]
+	path = UniGame.ConvexHull
+	url = https://github.com/UniGameTeam/UniGame.ConvexHull.git
+	branch = main
