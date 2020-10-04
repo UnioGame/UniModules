@@ -58,3 +58,7 @@
 	path = UniGame.AsyncRoutines
 	url = https://github.com/UniGameTeam/UniGame.AsyncRoutines.git
 	branch = main
+[submodule "UniGame.Context"]
+	path = UniGame.Context
+	url = https://github.com/UniGameTeam/UniGame.Context.git
+	branch = main
