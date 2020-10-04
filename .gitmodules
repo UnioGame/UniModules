@@ -51,3 +51,6 @@
 	path = UniGame.AddressableTools
 	url = https://github.com/UniGameTeam/UniGame.AddressableTools.git
 	branch = main
+[submodule "UniGame.Algo"]
+	path = UniGame.Algo
+	url = https://github.com/UniGameTeam/UniGame.Algo.git
