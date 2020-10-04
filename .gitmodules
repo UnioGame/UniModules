@@ -78,3 +78,6 @@
 	path = UniGame.Gitcleaner
 	url = https://github.com/UniGameTeam/UniGame.Gitcleaner.git
 	branch = main
+[submodule "UniGame.IosPostProcessorsCollection"]
+	path = UniGame.IosPostProcessorsCollection
+	url = https://github.com/UniGameTeam/UniGame.IosPostProcessorsCollection.git
