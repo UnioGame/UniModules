@@ -47,3 +47,7 @@
 	path = UniGame.GraphicsTools
 	url = https://github.com/UniGameTeam/UniGame.GraphicsTools
 	branch = master
+[submodule "UniGame.AddressableTools"]
+	path = UniGame.AddressableTools
+	url = https://github.com/UniGameTeam/UniGame.AddressableTools.git
+	branch = main
