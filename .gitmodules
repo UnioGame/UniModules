@@ -92,3 +92,7 @@
 [submodule "UniGame.SceneAssets"]
 	path = UniGame.SceneAssets
 	url = https://github.com/UniGameTeam/UniGame.SceneAssets.git
+[submodule "UniGame.SerializableContext"]
+	path = UniGame.SerializableContext
+	url = https://github.com/UniGameTeam/UniGame.SerializableContext.git
+	branch = main
