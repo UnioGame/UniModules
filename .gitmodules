@@ -81,3 +81,7 @@
 [submodule "UniGame.IosPostProcessorsCollection"]
 	path = UniGame.IosPostProcessorsCollection
 	url = https://github.com/UniGameTeam/UniGame.IosPostProcessorsCollection.git
+[submodule "UniGame.MoreLinq"]
+	path = UniGame.MoreLinq
+	url = https://github.com/UniGameTeam/UniGame.MoreLinq.git
+	branch = main
