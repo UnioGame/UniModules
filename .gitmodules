@@ -100,3 +100,7 @@
 	path = UniGame.SplitTexture
 	url = https://github.com/UniGameTeam/UniGame.SplitTexture.git
 	branch = main
+[submodule "UniGame.TypeConverters"]
+	path = UniGame.TypeConverters
+	url = https://github.com/UniGameTeam/UniGame.TypeConverters.git
+	branch = main
