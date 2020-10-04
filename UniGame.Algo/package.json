@@ -1,0 +1,15 @@
+{
+  "name": "com.unigame.algo",
+  "author": "Mefodei",
+  "displayName": "UniGame algorithms collections",
+  "description": "Collections of helpful algorithms",
+  "unity": "2019.2",
+  "version": "2020.0.0",
+  "keywords": [
+    "algorithm",
+    "collections",
+    "utils"
+  ],
+  "dependencies": {
+  }
+}

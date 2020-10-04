@@ -1,0 +1,15 @@
+{
+  "name": "com.unigame.convexhull",
+  "author": "Mefodei",
+  "displayName": "UniGame Texture Convex Hull",
+  "description": "Texture Convex Hull",
+  "unity": "2019.2",
+  "version": "2020.0.0",
+  "keywords": [
+    "texture",
+    "convex hull"
+  ],
+  "dependencies": {
+    "com.unigame.unicore" : "2020.0.10"
+  }
+}
