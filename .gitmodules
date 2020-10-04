@@ -96,3 +96,7 @@
 	path = UniGame.SerializableContext
 	url = https://github.com/UniGameTeam/UniGame.SerializableContext.git
 	branch = main
+[submodule "UniGame.SplitTexture"]
+	path = UniGame.SplitTexture
+	url = https://github.com/UniGameTeam/UniGame.SplitTexture.git
+	branch = main
