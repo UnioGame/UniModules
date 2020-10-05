@@ -6,25 +6,24 @@ using UnityEngine;
 
 namespace UnityAtlasGenerator.Helper.Internal
 {
-	using System;
-	using System.Collections.Generic;
-	using System.Reflection;
-	using Editor.Helper;
-	using UnityEditor;
+    using System;
+    using System.Collections.Generic;
+    using System.Reflection;
+    using Editor.Helper;
+    using UnityEditor;
 
-
-	[CustomEditor(typeof(AtlasGeneratorSettings), true), CanEditMultipleObjects]
-	public class AtlasGeneratorSettingsEditor : Editor
+    [CustomEditor(typeof(AtlasGeneratorAtlasSettings), true), CanEditMultipleObjects]
+    public class AtlasGeneratorAtlasSettingsEditor : Editor
 	{
 		private List<MethodInfo> _methods;
-		private AtlasGeneratorSettings _target;
-		private AtlasGeneratorOdinHandler _drawer;
+		private AtlasGeneratorAtlasSettings _target;
+		private AtlasGeneratorAtlasSettingsOdinHandler _drawer;
 
 
 		private void OnEnable()
 		{
-			_target = target as AtlasGeneratorSettings;
-			_drawer = _drawer ?? new AtlasGeneratorOdinHandler();
+			_target = target as AtlasGeneratorAtlasSettings;
+			_drawer = _drawer ?? new AtlasGeneratorAtlasSettingsOdinHandler();
 			if (_target == null) return;
 
 			_drawer.Initialize(_target);

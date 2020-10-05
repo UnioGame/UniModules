@@ -9,24 +9,11 @@ public class AtlasGeneratorAtlasSettings : ScriptableObject
     public const string kDefaultConfigObjectName = "atlasgeneratoratlassettings";
     public const string kDefaultPath = "Assets/Atlases/Editor/AtlasGeneratorAtlasSettings.asset";
 
-    private SpriteAtlas _defaultAtlas;
-    public SpriteAtlas DefaultAtlas { 
-        get {
-            if (_defaultAtlas == null)
-            {
-                _defaultAtlas = SetDefaultAtlas();
-            }
-            return _defaultAtlas;
-        }
-        private set {
-            _defaultAtlas = value;
-        }
-    }
-
-    private void OnEnable()
-    {
-        SetDefaultAtlas();
-    }
+    [Tooltip("Atlas used when no atlas path is specified.")]
+#if ODIN_INSPECTOR
+    [Sirenix.OdinInspector.AssetsOnly]
+#endif
+    public SpriteAtlas DefaultAtlas;
 
     [ButtonMethod]
     public void Save()
@@ -50,8 +37,11 @@ public class AtlasGeneratorAtlasSettings : ScriptableObject
         }
     }
 
-    public SpriteAtlas SetDefaultAtlas()
+    public SpriteAtlas GetDefaultAtlas()
     {
+        if (DefaultAtlas != null)
+            return DefaultAtlas;
+
         var defaultAtlasPath = "Assets/GameContent/Atlases/DefaultAtlas.spriteatlas";
         var atlas = AssetDatabase.LoadAssetAtPath<SpriteAtlas>(defaultAtlasPath);
         if (atlas == null)

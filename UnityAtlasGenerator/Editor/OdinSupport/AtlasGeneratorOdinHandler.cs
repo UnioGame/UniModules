@@ -53,9 +53,9 @@
 
 #else
 
-    public class AddressablesImporterOdinHandler : IDisposable
+    public class AtlasGeneratorOdinHandler : IDisposable
     {
-        public void Initialize(AddressableImportSettings target) { } 
+        public void Initialize(AtlasGeneratorSettings target) { } 
         
         public void Draw() { }
 

@@ -222,7 +222,7 @@ public class AtlasGenerator : AssetPostprocessor
     {
         if (string.IsNullOrWhiteSpace(pathToAtlas))
         {
-            atlas = atlasSettings.DefaultAtlas;
+            atlas = atlasSettings.GetDefaultAtlas();
             return true;
         }
         return ((atlas = AssetDatabase.LoadAssetAtPath<SpriteAtlas>(pathToAtlas)) == null) ? false : true;
