@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using UnityAtlasGenerator.Helper;
-using UnityEngine.U2D;
 
 [CreateAssetMenu(fileName = "AtlasGeneratorAtlasSettings", menuName = "Atlas Generator/Atlas Settings", order = 50)]
 public class AtlasGeneratorAtlasSettings : ScriptableObject
@@ -9,7 +8,7 @@ public class AtlasGeneratorAtlasSettings : ScriptableObject
     public const string kDefaultConfigObjectName = "atlasgeneratoratlassettings";
     public const string kDefaultPath = "Assets/Atlases/Editor/AtlasGeneratorAtlasSettings.asset";
 
-    public int testValue;
+    //public SpriteAtlasSettings defaultAtlasSettings;
 
     [ButtonMethod]
     public void Save()

@@ -36,7 +36,8 @@ namespace UnityAtlasGenerator.Helper.Internal
 			_drawer.Dispose();
 		}
 
-		public override void OnInspectorGUI()
+		// Если будет норм, то все классы для кастомного эдитора будут удалены
+		/*public override void OnInspectorGUI()
 		{
 			DrawBaseEditor();
 
@@ -48,7 +49,7 @@ namespace UnityAtlasGenerator.Helper.Internal
 
 			serializedObject.ApplyModifiedProperties();
 
-		}
+		}*/
 
 		private void DrawBaseEditor()
 		{

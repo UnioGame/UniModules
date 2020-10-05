@@ -23,7 +23,7 @@
         public void Initialize(AtlasGeneratorAtlasSettings atlasSettings)
         {
             _atlasSettings = atlasSettings;
-            _testValue = atlasSettings.testValue;
+            //_testValue = atlasSettings.testValue;
             _drawerTree = PropertyTree.Create(this);
 
             _drawerTree.OnPropertyValueChanged += (property, index) => EditorUtility.SetDirty(_atlasSettings);
@@ -51,7 +51,7 @@
         private void ApplyChanges()
         {
             _drawerTree.ApplyChanges();
-            _atlasSettings.testValue = _testValue;
+            //_atlasSettings.testValue = _testValue;
 
         }
 

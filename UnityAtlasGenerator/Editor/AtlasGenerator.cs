@@ -153,7 +153,7 @@ public class AtlasGenerator : AssetPostprocessor
         string assetPath,
         AtlasGeneratorAtlasSettings atlasSettings)
     {
-        var pathToAtlas = rule.ParseAtlasReplacement(movedFromAssetPath);
+        var pathToAtlas = rule.ParseAtlasReplacement(movedFromAssetPath == null ? assetPath : movedFromAssetPath);
         pathToAtlas = rule.GetFullPathToAtlas(pathToAtlas);
         if (!TryGetAtlas(pathToAtlas, atlasSettings, out var atlas))
         {
@@ -162,32 +162,6 @@ public class AtlasGenerator : AssetPostprocessor
         }
         var packedAsset = new Texture2D[] { AssetDatabase.LoadAssetAtPath<Texture2D>(assetPath) };
         atlas.Remove(packedAsset);
-        AssetDatabase.SaveAssets();
-        Debug.LogFormat("[AtlasGenerator] Removed {0} from atlas", assetPath);
-        var packables = atlas.GetPackables();
-        if (packables.Length == 0)
-        {
-            AssetDatabase.DeleteAsset(pathToAtlas);
-            return true;
-        }
-
-        return false;
-    }
-
-    static bool RemoveFromAtlas(
-        AtlasGeneratorRule rule,
-        string assetPath,
-        AtlasGeneratorAtlasSettings atlasSettings)
-    {
-        var pathToAtlas = rule.ParseAtlasReplacement(assetPath);
-        pathToAtlas = rule.GetFullPathToAtlas(pathToAtlas);
-        if (!TryGetAtlas(pathToAtlas, atlasSettings, out var atlas))
-        {
-            Debug.LogWarningFormat("[AtlasGenerator] Failed to find atlas {0} when removing {1} from it", rule.pathToAtlas, assetPath);
-            return false;
-        }
-        var assetToDelete = new Texture2D[] { AssetDatabase.LoadAssetAtPath<Texture2D>(assetPath) };
-        atlas.Remove(assetToDelete);
         AssetDatabase.SaveAssets();
         Debug.LogFormat("[AtlasGenerator] Removed {0} from atlas", assetPath);
         var packables = atlas.GetPackables();
@@ -249,7 +223,7 @@ public class AtlasGenerator : AssetPostprocessor
 
         if (TryGetMatchedRule(assetPath, generatorSettings, out var matchedRule))
         {
-            if (RemoveFromAtlas(matchedRule, assetPath, atlasSettings))
+            if (RemoveFromAtlas(matchedRule, null, assetPath, atlasSettings))
             {
                 dirty = true;
             }
