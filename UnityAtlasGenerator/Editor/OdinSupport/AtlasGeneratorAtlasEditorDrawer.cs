@@ -18,12 +18,12 @@
         private bool _sourceChanged = false;
 
         [SerializeField]
-        [AssetsOnly]
-        private SpriteAtlas _defaultAtlas;
+        private int _testValue;
 
         public void Initialize(AtlasGeneratorAtlasSettings atlasSettings)
         {
             _atlasSettings = atlasSettings;
+            _testValue = atlasSettings.testValue;
             _drawerTree = PropertyTree.Create(this);
 
             _drawerTree.OnPropertyValueChanged += (property, index) => EditorUtility.SetDirty(_atlasSettings);
@@ -51,7 +51,7 @@
         private void ApplyChanges()
         {
             _drawerTree.ApplyChanges();
-            _atlasSettings.DefaultAtlas = _defaultAtlas;
+            _atlasSettings.testValue = _testValue;
 
         }
 

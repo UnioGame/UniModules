@@ -11,7 +11,7 @@ namespace UnityAtlasGenerator.Helper.Internal
     using System.Reflection;
     using Editor.Helper;
     using UnityEditor;
-
+	
     [CustomEditor(typeof(AtlasGeneratorAtlasSettings), true), CanEditMultipleObjects]
     public class AtlasGeneratorAtlasSettingsEditor : Editor
 	{

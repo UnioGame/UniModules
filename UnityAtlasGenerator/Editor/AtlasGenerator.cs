@@ -107,6 +107,11 @@ public class AtlasGenerator : AssetPostprocessor
         var pathToAtlas = rule.ParseAtlasReplacement(assetPath);
         pathToAtlas = rule.GetFullPathToAtlas(pathToAtlas);
         bool newAtlas = false;
+        if (string.IsNullOrWhiteSpace(pathToAtlas))
+        {
+            Debug.LogWarningFormat("[AtlasGenerator] Asset {0} wasn't packed because its rule has no atlas path", assetPath);
+            return null;
+        }
         if (!TryGetAtlas(pathToAtlas, atlasSettings, out atlas))
         {
             atlas = CreateAtlas(pathToAtlas);
@@ -220,11 +225,6 @@ public class AtlasGenerator : AssetPostprocessor
     /// <returns>True if a atlas is found.</returns>
     static bool TryGetAtlas(string pathToAtlas, AtlasGeneratorAtlasSettings atlasSettings, out SpriteAtlas atlas)
     {
-        if (string.IsNullOrWhiteSpace(pathToAtlas))
-        {
-            atlas = atlasSettings.GetDefaultAtlas();
-            return true;
-        }
         return ((atlas = AssetDatabase.LoadAssetAtPath<SpriteAtlas>(pathToAtlas)) == null) ? false : true;
     }
 
