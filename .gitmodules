@@ -37,3 +37,70 @@
 	path = UniGame.NodeGraphProcessor/NodeGraphProcessor
 	url = https://github.com/UniGameTeam/NodeGraphProcessor.git
 	branch = master
+[submodule "UniGame.Distribution"]
+	path = UniGame.Distribution
+	url = https://github.com/UniGameTeam/UniGame.Distribution.git
+[submodule "UniBuild.Commands"]
+	path = UniBuild.Commands
+	url = https://github.com/UniGameTeam/UniBuild.Commands.git
+[submodule "UniGame.GraphicsTools"]
+	path = UniGame.GraphicsTools
+	url = https://github.com/UniGameTeam/UniGame.GraphicsTools
+	branch = master
+[submodule "UniGame.AddressableTools"]
+	path = UniGame.AddressableTools
+	url = https://github.com/UniGameTeam/UniGame.AddressableTools.git
+	branch = main
+[submodule "UniGame.Algo"]
+	path = UniGame.Algo
+	url = https://github.com/UniGameTeam/UniGame.Algo.git
+[submodule "UniGame.AsyncRoutines"]
+	path = UniGame.AsyncRoutines
+	url = https://github.com/UniGameTeam/UniGame.AsyncRoutines.git
+	branch = main
+[submodule "UniGame.Context"]
+	path = UniGame.Context
+	url = https://github.com/UniGameTeam/UniGame.Context.git
+	branch = main
+[submodule "UniGame.ConvexHull"]
+	path = UniGame.ConvexHull
+	url = https://github.com/UniGameTeam/UniGame.ConvexHull.git
+	branch = main
+[submodule "UniGame.Core"]
+	path = UniGame.Core
+	url = https://github.com/UniGameTeam/UniGame.Core.git
+	branch = main
+[submodule "UniGame.DoTweenRoutines"]
+	path = UniGame.DoTweenRoutines
+	url = https://github.com/UniGameTeam/UniGame.DoTweenRoutines.git
+	branch = main
+[submodule "UniGame.Gitcleaner"]
+	path = UniGame.Gitcleaner
+	url = https://github.com/UniGameTeam/UniGame.Gitcleaner.git
+	branch = main
+[submodule "UniGame.IosPostProcessorsCollection"]
+	path = UniGame.IosPostProcessorsCollection
+	url = https://github.com/UniGameTeam/UniGame.IosPostProcessorsCollection.git
+[submodule "UniGame.MoreLinq"]
+	path = UniGame.MoreLinq
+	url = https://github.com/UniGameTeam/UniGame.MoreLinq.git
+	branch = main
+[submodule "UniGame.SafeArea"]
+	path = UniGame.SafeArea
+	url = https://github.com/UniGameTeam/UniGame.SafeArea.git
+	branch = main
+[submodule "UniGame.SceneAssets"]
+	path = UniGame.SceneAssets
+	url = https://github.com/UniGameTeam/UniGame.SceneAssets.git
+[submodule "UniGame.SerializableContext"]
+	path = UniGame.SerializableContext
+	url = https://github.com/UniGameTeam/UniGame.SerializableContext.git
+	branch = main
+[submodule "UniGame.SplitTexture"]
+	path = UniGame.SplitTexture
+	url = https://github.com/UniGameTeam/UniGame.SplitTexture.git
+	branch = main
+[submodule "UniGame.TypeConverters"]
+	path = UniGame.TypeConverters
+	url = https://github.com/UniGameTeam/UniGame.TypeConverters.git
+	branch = main

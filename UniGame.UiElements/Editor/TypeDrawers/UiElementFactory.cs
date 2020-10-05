@@ -1,11 +1,12 @@
-﻿namespace UniGame.Core.EditorTools.Editor.UiElements
+﻿namespace UniModules.UniGame.UiElements.Editor.TypeDrawers
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-    using Runtime.Attributes.FieldTypeDrawer;
-    using UniGame.UiElements.Runtime.Attributes;
+    using global::UniGame.Core.EditorTools.Editor.UiElements;
+    using global::UniGame.Core.Runtime.Attributes.FieldTypeDrawer;
+    using global::UniGame.UiElements.Runtime.Attributes;
     using UniGreenModules.UniCore.Runtime.ReflectionUtils;
     using UniGreenModules.UniCore.Runtime.Utils;
     using UniGreenModules.UniGame.Core.Runtime.Attributes.FieldTypeDrawer;

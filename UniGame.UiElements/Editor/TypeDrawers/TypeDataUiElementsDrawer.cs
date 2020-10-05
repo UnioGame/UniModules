@@ -4,6 +4,7 @@
     using Runtime.Attributes.FieldTypeDrawer;
     using UniGreenModules.UniCore.Runtime.Interfaces;
     using UniGreenModules.UniCore.Runtime.Interfaces.Rx;
+    using UniModules.UniGame.UiElements.Editor.TypeDrawers;
     using UnityEngine.UIElements;
 
     [UiElementsDrawer(1000)]
