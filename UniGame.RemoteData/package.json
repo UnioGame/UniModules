@@ -1,11 +1,11 @@
 {
   "name": "com.unigame.userdata",
-  "displayName": "GBG User Data",
+  "displayName": "UniGame User Data",
   "description": "User data library for Unity",
-  "version": "0.2.22",
+  "version": "2020.0.1",
   "unity": "2019.1",
   "license": "MIT",
-  "author": "Ivan Ilyushkin (https://github.com/Glongooo)",
+  "author": "UniGameTeam",
   "keywords": [
     "unity",
     "user data",
@@ -14,8 +14,8 @@
     "analytics"
   ],
   "dependencies": {
-    "com.unigame.neuecc.unirx": "7.0.2",
-    "com.unigame.unicore": "2020.0.10",
+    "com.unigame.neuecc.unirx": "7.1.1",
+    "com.unigame.unicore": "2020.0.14",
     "com.unigame.newtonsoft.json-for-unity": "2020.0.1"
   }
 }

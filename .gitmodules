@@ -1,18 +1,3 @@
-[submodule "UniGameFlow"]
-	path = UniGameFlow
-	url = https://github.com/UniGameTeam/UniGameFlow.git
-	branch = develop
-[submodule "UniRoutines"]
-	path = UniRoutines
-	url = https://github.com/UniGameTeam/UniRoutines.git
-	branch = master
-[submodule "UniGame.UISystem"]
-	path = UniGame.UISystem
-	url = https://github.com/UniGameTeam/UniGame.UISystem.git
-	branch = develop
-[submodule "UniGame.DoTweenRx"]
-	path = UniGame.DoTweenRx
-	url = https://github.com/UniGameTeam/UniGame.DoTweenRx.git
 [submodule "UnityAddressableImporter"]
 	path = UnityAddressableImporter
 	url = https://github.com/UniGameTeam/unity-addressable-importer.git
@@ -54,25 +39,13 @@
 [submodule "UniGame.Algo"]
 	path = UniGame.Algo
 	url = https://github.com/UniGameTeam/UniGame.Algo.git
-[submodule "UniGame.AsyncRoutines"]
-	path = UniGame.AsyncRoutines
-	url = https://github.com/UniGameTeam/UniGame.AsyncRoutines.git
-	branch = main
 [submodule "UniGame.Context"]
 	path = UniGame.Context
 	url = https://github.com/UniGameTeam/UniGame.Context.git
 	branch = main
-[submodule "UniGame.ConvexHull"]
-	path = UniGame.ConvexHull
-	url = https://github.com/UniGameTeam/UniGame.ConvexHull.git
-	branch = main
 [submodule "UniGame.Core"]
 	path = UniGame.Core
 	url = https://github.com/UniGameTeam/UniGame.Core.git
-	branch = main
-[submodule "UniGame.DoTweenRoutines"]
-	path = UniGame.DoTweenRoutines
-	url = https://github.com/UniGameTeam/UniGame.DoTweenRoutines.git
 	branch = main
 [submodule "UniGame.Gitcleaner"]
 	path = UniGame.Gitcleaner
@@ -92,15 +65,23 @@
 [submodule "UniGame.SceneAssets"]
 	path = UniGame.SceneAssets
 	url = https://github.com/UniGameTeam/UniGame.SceneAssets.git
-[submodule "UniGame.SerializableContext"]
-	path = UniGame.SerializableContext
-	url = https://github.com/UniGameTeam/UniGame.SerializableContext.git
-	branch = main
-[submodule "UniGame.SplitTexture"]
-	path = UniGame.SplitTexture
-	url = https://github.com/UniGameTeam/UniGame.SplitTexture.git
-	branch = main
 [submodule "UniGame.TypeConverters"]
 	path = UniGame.TypeConverters
 	url = https://github.com/UniGameTeam/UniGame.TypeConverters.git
 	branch = main
+[submodule "UniGame.GameFlow"]
+	path = UniGame.GameFlow
+	url = https://github.com/UniGameTeam/UniGame.GameFlow.git
+	branch = develop
+[submodule "UniGame.Rx"]
+	path = UniGame.Rx
+	url = https://github.com/UniGameTeam/UniGame.Rx.git
+	branch = main
+[submodule "UniGame.Routines"]
+	path = UniGame.Routines
+	url = https://github.com/UniGameTeam/UniGame.Routines.git
+	branch = master
+[submodule "UniGame.ViewSystem"]
+	path = UniGame.ViewSystem
+	url = https://github.com/UniGameTeam/UniGame.ViewSystem.git
+	branch = master

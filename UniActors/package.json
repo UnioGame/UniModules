@@ -1,19 +1,19 @@
 {
   "name": "com.unigame.nodeactors",
-  "author": "Mefodei",
+  "author": "UniGameTeam",
   "displayName": "UniGame Unity Actors System",
   "description": "Actors system for Unity",
   "unity": "2019.2",
-  "version": "1.2.155",
+  "version": "1.2.165",
   "keywords": [],
   "dependencies": {
     "com.unigame.neuecc.unirx": "7.1.1",
     "com.unigame.neuecc.unitask": "2.0.32",
-    "com.unigame.unicore": "2020.0.9",
-    "com.unigame.contextdata": "1.3.30",
-    "com.unigame.uniroutine": "1.5.40",
+    "com.unigame.unicore": "2020.0.14",
+    "com.unigame.contextdata": "2020.0.3",
+    "com.unigame.uniroutine": "2020.0.1",
     "com.unigame.resourcesystem": "1.1.72",
-    "com.unigame.nodessystem": "2020.0.18",
-    "com.unigame.unistatemachine": "1.2.90"
+    "com.unigame.nodessystem": "2020.1.1",
+    "com.unigame.unistatemachine": "1.2.97"
   }
 }
