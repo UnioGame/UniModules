@@ -59,10 +59,6 @@
 	path = UniGame.Core
 	url = https://github.com/UniGameTeam/UniGame.Core.git
 	branch = main
-[submodule "UniGame.DoTweenRoutines"]
-	path = UniGame.DoTweenRoutines
-	url = https://github.com/UniGameTeam/UniGame.DoTweenRoutines.git
-	branch = main
 [submodule "UniGame.Gitcleaner"]
 	path = UniGame.Gitcleaner
 	url = https://github.com/UniGameTeam/UniGame.Gitcleaner.git
