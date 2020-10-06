@@ -1,7 +1,3 @@
-[submodule "UniRoutines"]
-	path = UniRoutines
-	url = https://github.com/UniGameTeam/UniRoutines.git
-	branch = master
 [submodule "UniGame.UISystem"]
 	path = UniGame.UISystem
 	url = https://github.com/UniGameTeam/UniGame.UISystem.git
