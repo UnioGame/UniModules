@@ -39,17 +39,9 @@
 [submodule "UniGame.Algo"]
 	path = UniGame.Algo
 	url = https://github.com/UniGameTeam/UniGame.Algo.git
-[submodule "UniGame.AsyncRoutines"]
-	path = UniGame.AsyncRoutines
-	url = https://github.com/UniGameTeam/UniGame.AsyncRoutines.git
-	branch = main
 [submodule "UniGame.Context"]
 	path = UniGame.Context
 	url = https://github.com/UniGameTeam/UniGame.Context.git
-	branch = main
-[submodule "UniGame.ConvexHull"]
-	path = UniGame.ConvexHull
-	url = https://github.com/UniGameTeam/UniGame.ConvexHull.git
 	branch = main
 [submodule "UniGame.Core"]
 	path = UniGame.Core
@@ -76,10 +68,6 @@
 [submodule "UniGame.SerializableContext"]
 	path = UniGame.SerializableContext
 	url = https://github.com/UniGameTeam/UniGame.SerializableContext.git
-	branch = main
-[submodule "UniGame.SplitTexture"]
-	path = UniGame.SplitTexture
-	url = https://github.com/UniGameTeam/UniGame.SplitTexture.git
 	branch = main
 [submodule "UniGame.TypeConverters"]
 	path = UniGame.TypeConverters
