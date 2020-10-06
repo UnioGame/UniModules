@@ -1,7 +1,3 @@
-[submodule "UniGame.UISystem"]
-	path = UniGame.UISystem
-	url = https://github.com/UniGameTeam/UniGame.UISystem.git
-	branch = develop
 [submodule "UnityAddressableImporter"]
 	path = UnityAddressableImporter
 	url = https://github.com/UniGameTeam/unity-addressable-importer.git
@@ -100,4 +96,8 @@
 [submodule "UniGame.Routines"]
 	path = UniGame.Routines
 	url = https://github.com/UniGameTeam/UniGame.Routines.git
+	branch = master
+[submodule "UniGame.ViewSystem"]
+	path = UniGame.ViewSystem
+	url = https://github.com/UniGameTeam/UniGame.ViewSystem.git
 	branch = master
