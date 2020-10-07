@@ -1,4 +1,4 @@
-﻿namespace UniGreenModules.UniStateMachine.Runtime
+﻿namespace UniModules.UniStateMachine.Runtime
 {
     using System;
     using System.Collections;
@@ -6,7 +6,7 @@
     using Interfaces;
     using UniCore.Runtime.Extension;
     using UniCore.Runtime.Rx.Extensions;
-    using UniGreenModules.UniCore.Runtime.Extension;
+    using UniModules.UniCore.Runtime.Extension;
     using UniRx;
 
     public class StateBehaviour : IStateBehaviour<IEnumerator>

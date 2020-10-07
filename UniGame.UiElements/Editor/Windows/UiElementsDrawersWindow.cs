@@ -10,9 +10,9 @@ namespace UniModules.UniGame.UiElements.Editor.Windows
     using global::UniGame.Core.EditorTools.Editor.UiElements;
     using Sirenix.OdinInspector;
     using TypeDrawers;
-    using UniGreenModules.UniCore.EditorTools.Editor.Utility;
-    using UniGreenModules.UniCore.Runtime.DataFlow;
-    using UniGreenModules.UniCore.Runtime.Rx.Extensions;
+    using UniModules.UniCore.EditorTools.Editor.Utility;
+    using UniModules.UniCore.Runtime.DataFlow;
+    using UniModules.UniCore.Runtime.Rx.Extensions;
     using UniRx;
     using UnityEditor;
     using UnityEngine;

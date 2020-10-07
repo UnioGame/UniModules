@@ -1,4 +1,4 @@
-﻿namespace UniGreenModules.UniStateMachine.Runtime.ReactiveStateMachine
+﻿namespace UniModules.UniStateMachine.Runtime.ReactiveStateMachine
 {
     using System.Collections;
     using Interfaces;

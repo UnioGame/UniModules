@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace UniGreenModules.UniGame.UiElements.Editor
+namespace UniModules.UniGame.UiElements.Editor
 {
     using UnityEditor.UIElements;
     using UnityEngine.UIElements;

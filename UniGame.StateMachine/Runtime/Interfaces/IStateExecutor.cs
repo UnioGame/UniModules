@@ -1,5 +1,5 @@
 ﻿
-namespace UniGreenModules.UniStateMachine.Runtime.Interfaces
+namespace UniModules.UniStateMachine.Runtime.Interfaces
 {
     public interface IStateExecutor<TState>
     {

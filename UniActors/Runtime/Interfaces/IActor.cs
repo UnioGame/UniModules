@@ -1,4 +1,4 @@
-namespace UniGreenModules.UniActors.Runtime.Interfaces
+namespace UniModules.UniActors.Runtime.Interfaces
 {
     using UniCore.Runtime.DataFlow;
     using UniCore.Runtime.DataFlow.Interfaces;

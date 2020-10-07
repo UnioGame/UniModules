@@ -1,4 +1,4 @@
-﻿namespace UniGreenModules.UniActors.Runtime.Interfaces
+﻿namespace UniModules.UniActors.Runtime.Interfaces
 {
     public interface IEntityBehaciour {
 

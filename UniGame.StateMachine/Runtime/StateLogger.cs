@@ -1,4 +1,4 @@
-﻿namespace UniGreenModules.UniStateMachine.Runtime
+﻿namespace UniModules.UniStateMachine.Runtime
 {
     using System.Diagnostics;
     using global::UniCore.Runtime.ProfilerTools;

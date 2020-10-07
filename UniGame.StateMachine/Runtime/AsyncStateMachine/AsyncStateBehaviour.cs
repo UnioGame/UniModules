@@ -1,6 +1,6 @@
 #pragma warning disable 1998
 
-namespace UniGreenModules.UniStateMachine.Runtime.AsyncStateMachine
+namespace UniModules.UniStateMachine.Runtime.AsyncStateMachine
 {
     using Cysharp.Threading.Tasks;
     using Runtime.Interfaces;
