@@ -4,16 +4,16 @@
   "displayName": "UniGame UiElements",
   "description": "UiElements tools for Unity",
   "unity": "2019.3",
-  "version": "2020.0.25",
+  "version": "2020.0.35",
   "keywords": [
     "uielements"
   ],
   "dependencies": {
-    "com.unigame.addressablestools": "2020.0.19",
+    "com.unigame.addressablestools": "2020.0.27",
     "com.unigame.neuecc.unirx": "7.1.1",
-    "com.unigame.neuecc.unitask": "2.0.32",
-    "com.unigame.unicore": "2020.0.15",
-    "com.unigame.contextdata": "2020.0.4",
+    "com.unigame.neuecc.unitask": "2.0.33",
+    "com.unigame.unicore": "2020.0.20",
+    "com.unigame.contextdata": "2020.0.14",
     "com.unity.addressables": "1.16.1"
   }
 }

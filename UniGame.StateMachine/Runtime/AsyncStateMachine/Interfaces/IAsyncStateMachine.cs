@@ -1,4 +1,4 @@
-﻿namespace UniGreenModules.UniStateMachine.Runtime.AsyncStateMachine.Interfaces
+﻿namespace UniModules.UniStateMachine.Runtime.AsyncStateMachine.Interfaces
 {
     using System;
 

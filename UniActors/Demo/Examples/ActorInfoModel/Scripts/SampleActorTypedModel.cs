@@ -1,4 +1,4 @@
-﻿namespace UniGreenModules.UniActors.Demo.Examples.ActorInfoModel.Scripts
+﻿namespace UniModules.UniActors.Demo.Examples.ActorInfoModel.Scripts
 {
     using System;
     using Runtime.Models;

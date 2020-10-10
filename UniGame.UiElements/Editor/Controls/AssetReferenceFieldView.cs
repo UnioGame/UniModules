@@ -1,6 +1,6 @@
 ﻿using UnityEngine.UIElements;
 
-namespace UniGreenModules.UniGame.UiElements.Editor.Controls
+namespace UniModules.UniGame.UiElements.Editor.Controls
 {
     using System.Reflection;
     using UnityEngine.AddressableAssets;

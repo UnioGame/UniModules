@@ -1,4 +1,4 @@
-namespace UniGreenModules.UniActors.Runtime.Interfaces
+namespace UniModules.UniActors.Runtime.Interfaces
 {
     using System;
     using UniCore.Runtime.Interfaces;

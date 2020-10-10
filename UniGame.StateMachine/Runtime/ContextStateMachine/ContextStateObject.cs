@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace UniGreenModules.UniStateMachine.Runtime.ContextStateMachine
+namespace UniModules.UniStateMachine.Runtime.ContextStateMachine
 {
     public class ContextStateObject : ScriptableObject
     {

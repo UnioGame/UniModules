@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 
 namespace UniGame.UiElements.Editor.TypeDrawers
 {
-    using UniGreenModules.UniGame.Core.EditorTools.Editor.DrawersTools;
+    using UniModules.UniGame.Core.EditorTools.Editor.DrawersTools;
 
 #if ODIN_INSPECTOR
     [UiElementsDrawer(-1)]

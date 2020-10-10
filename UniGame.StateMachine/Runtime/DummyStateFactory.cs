@@ -1,4 +1,4 @@
-﻿namespace UniGreenModules.UniStateMachine.Runtime {
+﻿namespace UniModules.UniStateMachine.Runtime {
     using Interfaces;
 
     public class DummyStateFactory<TState> : IStateFactory<TState, TState> {

@@ -1,4 +1,4 @@
-﻿namespace UniGreenModules.UniActors.Runtime.Models
+﻿namespace UniModules.UniActors.Runtime.Models
 {
     using System;
     using Interfaces;

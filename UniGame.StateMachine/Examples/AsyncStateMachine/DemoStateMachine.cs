@@ -1,4 +1,4 @@
-﻿namespace UniGreenModules.UniStateMachine.Examples.AsyncStateMachine
+﻿namespace UniModules.UniStateMachine.Examples.AsyncStateMachine
 {
     public class DemoStateMachine
     {

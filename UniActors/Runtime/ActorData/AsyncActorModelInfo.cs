@@ -1,4 +1,4 @@
-﻿namespace UniGreenModules.UniActors.Runtime.ActorData
+﻿namespace UniModules.UniActors.Runtime.ActorData
 {
     using System.Threading.Tasks;
     using Interfaces;

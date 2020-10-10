@@ -1,9 +1,9 @@
 ﻿using System.Collections;
-using UniGreenModules.UniCore.Runtime.Interfaces;
-using UniGreenModules.UniStateMachine.Runtime.Interfaces;
+using UniModules.UniCore.Runtime.Interfaces;
+using UniModules.UniStateMachine.Runtime.Interfaces;
 using UnityEngine;
 
-namespace UniGreenModules.UniActors.Runtime.Actors
+namespace UniModules.UniActors.Runtime.Actors
 {
     using UniCore.Runtime.DataFlow.Interfaces;
     using UniModules.UniGame.Core.Runtime.DataFlow.Interfaces;

@@ -1,4 +1,4 @@
-﻿namespace UniGreenModules.UniActors.Runtime.Actors
+﻿namespace UniModules.UniActors.Runtime.Actors
 {
     using ActorData;
     using Interfaces;
