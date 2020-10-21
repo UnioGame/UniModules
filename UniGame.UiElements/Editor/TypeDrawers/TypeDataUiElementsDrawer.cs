@@ -2,8 +2,8 @@
 {
     using System;
     using Runtime.Attributes.FieldTypeDrawer;
-    using UniModules.UniCore.Runtime.Interfaces;
-    using UniModules.UniCore.Runtime.Interfaces.Rx;
+    using UniModules.UniGame.Core.Runtime.Interfaces;
+    using UniModules.UniGame.Core.Runtime.Interfaces.Rx;
     using UniModules.UniGame.UiElements.Editor.TypeDrawers;
     using UnityEngine.UIElements;
 

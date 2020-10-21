@@ -2,7 +2,7 @@
 {
     using System.Collections;
     using Interfaces;
-    using UniCore.Runtime.Interfaces;
+    using UniGame.Core.Runtime.Interfaces;
     using UniRx;
 
     public class ReactiveState<TState> : StateBehaviour

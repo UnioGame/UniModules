@@ -2,7 +2,7 @@
 {
     using System;
     using Interfaces;
-    using UniCore.Runtime.Interfaces;
+    using UniGame.Core.Runtime.Interfaces;
 
     [Serializable]
     public abstract class ActorModel : IActorModel

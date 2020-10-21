@@ -4,8 +4,8 @@
     using System.Collections.Generic;
     using Interfaces;
     using UniCore.Runtime.Extension;
-    using UniCore.Runtime.Interfaces;
     using UniCore.Runtime.Rx.Extensions;
+    using UniGame.Core.Runtime.Interfaces;
 
     /// <summary>
     /// FSM for supports states with context data

@@ -2,7 +2,7 @@
   "name": "com.unigame.userdata",
   "displayName": "UniGame User Data",
   "description": "User data library for Unity",
-  "version": "2020.0.11",
+  "version": "2020.0.12",
   "unity": "2019.1",
   "license": "MIT",
   "author": "UniGameTeam",
@@ -15,7 +15,7 @@
   ],
   "dependencies": {
     "com.unigame.neuecc.unirx": "7.1.1",
-    "com.unigame.unicore": "2020.1.0",
+    "com.unigame.unicore": "2020.1.1",
     "com.unigame.newtonsoft.json-for-unity": "2020.0.1"
   }
 }
