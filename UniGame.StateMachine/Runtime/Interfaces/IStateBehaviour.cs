@@ -1,10 +1,9 @@
 namespace UniModules.UniStateMachine.Runtime.Interfaces
 {
-    using UniCore.Runtime.Interfaces;
-    using UniModules.UniCore.Runtime.Interfaces;
+    using UniGame.Core.Runtime.Interfaces;
     using UniRx;
 
-    public interface IStateBehaviour<out TResult> : 
+    public interface IStateBehaviour<TResult> : 
         IRoutine<TResult>, 
         IEndPoint
     {
@@ -13,7 +12,7 @@ namespace UniModules.UniStateMachine.Runtime.Interfaces
 
     }
 
-    public interface IStateBehaviour< in TContext,out TResult> :
+    public interface IStateBehaviour<TContext,TResult> :
         IRoutine<TContext,TResult>, 
         IEndPoint
     {

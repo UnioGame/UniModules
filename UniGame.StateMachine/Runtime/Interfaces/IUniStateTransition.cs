@@ -1,7 +1,7 @@
 ﻿namespace UniModules.UniStateMachine.Runtime.Interfaces
 {
     using System.Collections;
-    using UniCore.Runtime.Interfaces;
+    using UniGame.Core.Runtime.Interfaces;
 
     public interface IUniStateTransition : IValidator<IContext>
     {

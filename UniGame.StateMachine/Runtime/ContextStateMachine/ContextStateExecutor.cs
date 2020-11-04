@@ -3,7 +3,7 @@
     using System;
     using System.Collections;
     using Interfaces;
-    using UniCore.Runtime.Interfaces;
+    using UniGame.Core.Runtime.Interfaces;
     using UniRoutine.Runtime;
 
     public class ContextStateExecutor : IContextStateExecutor<IEnumerator>

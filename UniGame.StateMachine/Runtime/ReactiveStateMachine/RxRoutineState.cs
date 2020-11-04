@@ -1,7 +1,7 @@
 ﻿namespace UniModules.UniStateMachine.Runtime.ReactiveStateMachine {
     using System.Collections;
     using Interfaces;
-    using UniCore.Runtime.Interfaces;
+    using UniGame.Core.Runtime.Interfaces;
 
     public class RxRoutineState<TData> : ReactiveState<IStateBehaviour<IEnumerator>> {
 

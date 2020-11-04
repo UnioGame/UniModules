@@ -2,8 +2,8 @@ namespace UniModules.UniActors.Runtime.Interfaces
 {
     using UniCore.Runtime.DataFlow;
     using UniCore.Runtime.DataFlow.Interfaces;
-    using UniCore.Runtime.Interfaces;
     using UniCore.Runtime.ObjectPool.Runtime.Interfaces;
+    using UniGame.Core.Runtime.Interfaces;
     using UniModules.UniGame.Core.Runtime.DataFlow.Interfaces;
     using UniRx;
 
