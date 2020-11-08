@@ -4,16 +4,16 @@
   "displayName": "UniGame Unity Actors System",
   "description": "Actors system for Unity",
   "unity": "2019.2",
-  "version": "1.2.190",
+  "version": "1.2.191",
   "keywords": [],
   "dependencies": {
     "com.unigame.neuecc.unirx": "7.1.1",
     "com.unigame.neuecc.unitask": "2.0.33",
-    "com.unigame.unicore": "2020.1.5",
-    "com.unigame.contextdata": "2020.0.29",
-    "com.unigame.uniroutine": "2020.0.15",
+    "com.unigame.unicore": "2020.1.6",
+    "com.unigame.contextdata": "2020.0.30",
+    "com.unigame.uniroutine": "2020.0.16",
     "com.unigame.resourcesystem": "1.1.72",
-    "com.unigame.nodessystem": "2020.1.25",
-    "com.unigame.unistatemachine": "1.2.120"
+    "com.unigame.nodessystem": "2020.1.26",
+    "com.unigame.unistatemachine": "1.2.121"
   }
 }
