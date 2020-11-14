@@ -1,18 +1,20 @@
 {
-  "name": "com.unigame.uielements",
+  "name": "com.unigame.uitoolkit",
   "author": "UniGameTeam",
   "displayName": "UniGame UiElements",
   "description": "UiElements tools for Unity",
   "unity": "2019.3",
-  "version": "2020.0.51",
+  "version": "2020.0.52",
   "keywords": [
-    "uielements"
+    "uielements",
+    "uitoolkit",
+    "ui"
   ],
   "dependencies": {
-    "com.unigame.addressablestools": "2020.1.6",
+    "com.unigame.addressablestools": "2020.1.7",
     "com.unigame.neuecc.unirx": "7.1.1",
     "com.unigame.neuecc.unitask": "2.0.33",
-    "com.unigame.unicore": "2020.1.9",
+    "com.unigame.unicore": "2020.1.10",
     "com.unity.addressables": "1.16.7"
   }
 }

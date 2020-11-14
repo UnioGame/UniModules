@@ -1,5 +1,5 @@
 {
-    "name": "unigame.uielements.editor",
+    "name": "unigame.uitoolkit.editor",
     "references": [
         "GUID:ab2596dba8b275d45ab41e03d00510b8",
         "GUID:2796129a6c23eb84a8181f62bf7332f1",
