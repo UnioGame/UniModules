@@ -1,8 +1,8 @@
 {
   "name": "com.unigame.uitoolkit",
   "author": "UniGameTeam",
-  "displayName": "UniGame UiElements",
-  "description": "UiElements tools for Unity",
+  "displayName": "UniGame UiToolkit",
+  "description": "UiToolkit tools for Unity",
   "unity": "2019.3",
   "version": "2020.0.53",
   "keywords": [
