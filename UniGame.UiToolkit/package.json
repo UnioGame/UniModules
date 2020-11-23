@@ -4,17 +4,17 @@
   "displayName": "UniGame UiToolkit",
   "description": "UiToolkit tools for Unity",
   "unity": "2019.3",
-  "version": "2020.1.1",
+  "version": "2020.1.2",
   "keywords": [
     "uielements",
     "uitoolkit",
     "ui"
   ],
   "dependencies": {
-    "com.unigame.addressablestools": "2020.1.9",
+    "com.unigame.addressablestools": "2020.1.10",
     "com.unigame.neuecc.unirx": "7.1.1",
     "com.unigame.neuecc.unitask": "2.0.33",
-    "com.unigame.unicore": "2020.1.11",
+    "com.unigame.unicore": "2020.1.12",
     "com.unity.addressables": "1.16.7"
   }
 }
