@@ -92,3 +92,7 @@
 	path = UniGame.ViewSystem
 	url = https://github.com/UniGameTeam/UniGame.ViewSystem.git
 	branch = master
+[submodule "UniGame.ECS"]
+	path = UniGame.ECS
+	url = https://github.com/UniGameTeam/GameFlowEcs.git
+	branch = main
