@@ -20,8 +20,9 @@
     [InitializeOnLoad]
     public static class UiElementFactory 
     {
-        private static BoolReactiveProperty ready = new BoolReactiveProperty();
-        private static List<IUiElementsTypeDrawer> drawers;
+        private static List<Attribute>              _attributes = new List<Attribute>();
+        private static BoolReactiveProperty         ready       = new BoolReactiveProperty();
+        private static List<IUiElementsTypeDrawer>  drawers;
         private static List<IUiElementsFieldDrawer> fieldDrawers;
         
         private static IUiElementsTypeDrawer defaultDrawer = new ClassUiElementsDrawer();
@@ -133,9 +134,10 @@
             if (info.IsNotSerialized)
                 return false;
             
-            var attributes = info.GetCustomAttributes();
+            _attributes.Clear();
+            _attributes.AddRange(info.GetCustomAttributes());
 
-            foreach (var attribute in attributes) {
+            foreach (var attribute in _attributes) {
                 switch (attribute) {
                     case HideInInspector hideInInspector:
                     case HideDrawerAttribute drawerAttribute:
@@ -144,11 +146,13 @@
                 }
             }
 
-            foreach (var attribute in attributes) {
+            foreach (var attribute in _attributes) {
                 if (attribute is SerializeField || attribute is SerializeReference)
                     return true;
             }
 
+            _attributes.Clear();
+            
             return info.IsPublic;
         }
 
