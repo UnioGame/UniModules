@@ -96,3 +96,6 @@
 	path = UniGame.ECS
 	url = https://github.com/UniGameTeam/GameFlowEcs.git
 	branch = main
+[submodule "UniGame.RemoteData"]
+	path = UniGame.RemoteData
+	url = ../UniGame.RemoteData.git
