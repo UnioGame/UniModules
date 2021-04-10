@@ -4,13 +4,13 @@
   "displayName": "UniGame Uni State Machine",
   "description": "Unity state machine core",
   "unity": "2019.2",
-  "version": "1.3.20",
+  "version": "1.3.24",
   "keywords": [],
   "dependencies": {
     "com.unigame.neuecc.unirx": "7.1.1",
     "com.unigame.neuecc.unitask": "2.2.3",
     "com.unigame.unicore": "2021.0.1",
     "com.unigame.uniroutine": "2020.0.42",
-    "com.unigame.contextdata": "2021.0.3"
+    "com.unigame.contextdata": "2021.0.7"
   }
 }
