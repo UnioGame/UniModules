@@ -1,7 +1,3 @@
-[submodule "UnityAddressableImporter"]
-	path = UnityAddressableImporter
-	url = https://github.com/UniGameTeam/unity-addressable-importer.git
-	branch = master
 [submodule "UniGame.CodeWriter"]
 	path = UniGame.CodeWriter
 	url = https://github.com/UniGameTeam/CodeWriter.git
@@ -99,3 +95,6 @@
 [submodule "UniGame.RemoteData"]
 	path = UniGame.RemoteData
 	url = ../UniGame.RemoteData.git
+[submodule "UniGame.AddressablesImporter/AddressablesImporter"]
+	path = UniGame.AddressablesImporter/AddressablesImporter
+	url = https://github.com/UniGameTeam/unity-addressable-importer.git
