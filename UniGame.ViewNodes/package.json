@@ -4,7 +4,7 @@
   "displayName": "UniGame View Nodes",
   "description": "GameFlow View System Nodes",
   "unity": "2019.2",
-  "version": "2021.0.18",
+  "version": "2021.0.19",
   "homepage": "https://github.com/UniGameTeam/UniGameFlow#readme",
   "keywords": [
     "nodes",
@@ -15,13 +15,13 @@
     "ui"
   ],
   "dependencies": {
-    "com.unigame.viewsystem": "2021.0.21",
+    "com.unigame.viewsystem": "2021.0.22",
     "com.unigame.neuecc.unirx": "7.1.1",
     "com.unigame.neuecc.unitask": "2.2.3",
-    "com.unigame.uitoolkit": "2020.1.31",
+    "com.unigame.uitoolkit": "2020.1.32",
     "com.unigame.unicore": "2021.0.4",
-    "com.unigame.addressablestools": "2021.0.8",
-    "com.unigame.contextdata": "2021.0.10",
+    "com.unigame.addressablestools": "2021.0.9",
+    "com.unigame.contextdata": "2021.0.11",
     "com.unigame.uniroutine": "2020.0.44",
     "com.unity.addressables": "1.17.15",
     "com.unity.textmeshpro": "2.1.1",
