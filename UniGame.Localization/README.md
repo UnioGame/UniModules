@@ -1,0 +1,1 @@
+UniGame Localization Tools with support of Unity Localization package
