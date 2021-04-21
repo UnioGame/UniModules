@@ -1,7 +1,10 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
+using TMPro;
 using UniModules.UniGame.Rx.Runtime.Extensions;
+using UniModules.UniUiSystem.Runtime.Utils;
 using UniRx;
+using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
 using UnityEngine.Localization.Tables;
@@ -37,21 +40,44 @@ namespace UniGame.Localization.Runtime.UniModules.UniGame.Localization.Runtime
             result.SetReference(tableEntry, reference);
             return result;
         }
+        
+        public static IDisposable BindChangeHandler(this LocalizedString source, IObserver<string> handler,int frameThrottle = 1)
+        {
+            return BindTo(source,x => handler?.OnNext(x),frameThrottle);          
+        }
   
-        public static IDisposable BindChangeHandler(this LocalizedString source, LocalizedString.ChangeHandler handler,int frameThrottle = 1)
+        public static IDisposable BindChangeHandler(this LocalizedString source, Action<string> handler,int frameThrottle = 1)
         {
             return BindTo(source,handler,frameThrottle);          
         }
-            
-        public static IDisposable BindTo(this LocalizedString source, LocalizedString.ChangeHandler handler,int frameThrottle = 1)
+
+        public static IDisposable BindTo(this LocalizedString source, TextMeshProUGUI text, int frameThrottle = 1)
         {
-            if(source == null || handler == null)
-                return Disposable.Empty;
-            
+            return source.BindTo(x => text.SetValue(x),frameThrottle);
+        }
+        
+        public static IDisposable BindTo(this LocalizedString source, Action<string> text, int frameThrottle = 1)
+        {
             var result = Observable
-                .FromEvent(x => source.StringChanged += handler, x => source.StringChanged -= handler)
-                .BatchPlayerTiming(frameThrottle,PlayerLoopTiming.LastPostLateUpdate)
+                .Create<string>(x => BindTo(source, x, frameThrottle),true)
+                .Do(x => text?.Invoke(x))
                 .Subscribe();
+            
+            return result;
+        }
+        
+        public static IDisposable BindTo(this LocalizedString source, IObserver<string> action,int frameThrottle = 1)
+        {
+            if(source == null || action == null)
+                return Disposable.Empty;
+
+            var result = source
+                .GetLocalizedString()
+                .Task
+                .ToObservable()
+                .BatchPlayerTiming(frameThrottle,PlayerLoopTiming.LastPostLateUpdate)
+                .Subscribe(action);
+            
             return result;          
         }
 
