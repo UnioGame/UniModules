@@ -1,7 +1,3 @@
-[submodule "UniGame.CodeWriter"]
-	path = UniGame.CodeWriter
-	url = https://github.com/UniGameTeam/CodeWriter.git
-	branch = master
 [submodule "UniGame.UniBuild"]
 	path = UniGame.UniBuild
 	url = https://github.com/UniGameTeam/UniBuild.git
