@@ -60,10 +60,6 @@
 	path = UniGame.SceneAssets
 	url = https://github.com/UniGameTeam/UniGame.SceneAssets.git
 	branch = main
-[submodule "UniGame.TypeConverters"]
-	path = UniGame.TypeConverters
-	url = https://github.com/UniGameTeam/UniGame.TypeConverters.git
-	branch = main
 [submodule "UniGame.GameFlow"]
 	path = UniGame.GameFlow
 	url = https://github.com/UniGameTeam/UniGame.GameFlow.git
