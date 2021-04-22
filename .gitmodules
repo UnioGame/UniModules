@@ -98,3 +98,7 @@
 [submodule "UniGame.AddressablesImporter/AddressablesImporter"]
 	path = UniGame.AddressablesImporter/AddressablesImporter
 	url = https://github.com/UniGameTeam/unity-addressable-importer.git
+[submodule "UniGame.CoreModules"]
+	path = UniGame.CoreModules
+	url = https://github.com/UniGameTeam/CoreModules.git
+	branch = main
