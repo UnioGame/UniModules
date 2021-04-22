@@ -20,10 +20,6 @@
 	path = UniBuild.Commands
 	url = https://github.com/UniGameTeam/UniBuild.Commands.git
 	branch = master
-[submodule "UniGame.GraphicsTools"]
-	path = UniGame.GraphicsTools
-	url = https://github.com/UniGameTeam/UniGame.GraphicsTools
-	branch = master
 [submodule "UniGame.Algo"]
 	path = UniGame.Algo
 	url = https://github.com/UniGameTeam/UniGame.Algo.git
