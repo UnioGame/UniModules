@@ -44,10 +44,6 @@
 	path = UniGame.SafeArea
 	url = https://github.com/UniGameTeam/UniGame.SafeArea.git
 	branch = main
-[submodule "UniGame.SceneAssets"]
-	path = UniGame.SceneAssets
-	url = https://github.com/UniGameTeam/UniGame.SceneAssets.git
-	branch = main
 [submodule "UniGame.GameFlow"]
 	path = UniGame.GameFlow
 	url = https://github.com/UniGameTeam/UniGame.GameFlow.git
@@ -63,9 +59,6 @@
 [submodule "UniGame.RemoteData"]
 	path = UniGame.RemoteData
 	url = ../UniGame.RemoteData.git
-[submodule "UniGame.AddressablesImporter/AddressablesImporter"]
-	path = UniGame.AddressablesImporter/AddressablesImporter
-	url = https://github.com/UniGameTeam/unity-addressable-importer.git
 [submodule "UniGame.CoreModules"]
 	path = UniGame.CoreModules
 	url = https://github.com/UniGameTeam/CoreModules.git
