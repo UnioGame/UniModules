@@ -44,10 +44,6 @@
 	path = UniGame.Context
 	url = https://github.com/UniGameTeam/UniGame.Context.git
 	branch = main
-[submodule "UniGame.Core"]
-	path = UniGame.Core
-	url = https://github.com/UniGameTeam/UniGame.Core.git
-	branch = main
 [submodule "UniGame.Gitcleaner"]
 	path = UniGame.Gitcleaner
 	url = https://github.com/UniGameTeam/UniGame.Gitcleaner.git
