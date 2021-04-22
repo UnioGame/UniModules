@@ -72,10 +72,6 @@
 	path = UniGame.Rx
 	url = https://github.com/UniGameTeam/UniGame.Rx.git
 	branch = main
-[submodule "UniGame.Routines"]
-	path = UniGame.Routines
-	url = https://github.com/UniGameTeam/UniGame.Routines.git
-	branch = master
 [submodule "UniGame.ViewSystem"]
 	path = UniGame.ViewSystem
 	url = https://github.com/UniGameTeam/UniGame.ViewSystem.git
