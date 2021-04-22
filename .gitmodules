@@ -68,10 +68,6 @@
 	path = UniGame.GameFlow
 	url = https://github.com/UniGameTeam/UniGame.GameFlow.git
 	branch = master
-[submodule "UniGame.Rx"]
-	path = UniGame.Rx
-	url = https://github.com/UniGameTeam/UniGame.Rx.git
-	branch = main
 [submodule "UniGame.ViewSystem"]
 	path = UniGame.ViewSystem
 	url = https://github.com/UniGameTeam/UniGame.ViewSystem.git
