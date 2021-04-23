@@ -1,6 +1,7 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
 using TMPro;
+using UniModules.UniGame.Core.Runtime.Utils;
 using UniModules.UniGame.Rx.Runtime.Extensions;
 using UniModules.UniUiSystem.Runtime.Utils;
 using UniRx;
@@ -66,24 +67,36 @@ namespace UniGame.Localization.Runtime.UniModules.UniGame.Localization.Runtime
             return result;
         }
         
+        public static IDisposable BindTo(this LocalizedString source, IReactiveProperty<string> text, int frameThrottle = 1)
+        {
+            var result = Observable
+                .Create<string>(x => BindTo(source, x, frameThrottle),true)
+                .Do(x => text.Value = x)
+                .Subscribe();
+            
+            return result;
+        }
+        
         public static IDisposable BindTo(this LocalizedString source, IObserver<string> action,int frameThrottle = 1)
         {
             if(source == null || action == null)
                 return Disposable.Empty;
 
             var result = source
-                .GetLocalizedString()
-                .Task
-                .ToObservable()
+                .AsObservable()
+                .Do(x =>  Debug.Log($"LOCALIZATION DATA {x} STATE {UniApplication.PlayModeState}"))
                 .BatchPlayerTiming(frameThrottle,PlayerLoopTiming.LastPostLateUpdate)
                 .Subscribe(action);
+
+            source.RefreshString();
             
             return result;          
         }
 
         public static IObservable<string> AsObservable(this LocalizedString localizedString)
         {
-            return Observable.Create<string>(x => localizedString.BindTo(x.OnNext));
+            return Observable.FromEvent<string>(y  => localizedString.StringChanged += y.Invoke,
+                y => localizedString.StringChanged -= y.Invoke);
         }
     }
 }
