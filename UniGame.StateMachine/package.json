@@ -4,9 +4,9 @@
   "displayName": "UniGame Uni State Machine",
   "description": "Unity state machine core",
   "unity": "2019.2",
-  "version": "1.3.45",
+  "version": "1.3.46",
   "keywords": [],
   "dependencies": {
-    "com.unigame.coremodules": "2021.1.3"
+    "com.unigame.coremodules": "2021.1.4"
   }
 }
