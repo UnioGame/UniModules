@@ -4,7 +4,7 @@
   "displayName": "UniGame View Nodes",
   "description": "GameFlow View System Nodes",
   "unity": "2019.2",
-  "version": "2021.0.75",
+  "version": "2021.0.76",
   "homepage": "https://github.com/UniGameTeam/UniGameFlow#readme",
   "keywords": [
     "nodes",
@@ -19,7 +19,7 @@
     "com.unigame.viewsystem": "2021.1.49",
     "com.unity.addressables": "1.17.17",
     "com.unity.textmeshpro": "2.1.1",
-    "com.unigame.alelievr.node-graph-processor": "0.9.3",
+    "com.unigame.alelievr.node-graph-processor": "0.9.4",
     "com.unity.editorcoroutines": "1.0.0"
   },
   "repository": {
