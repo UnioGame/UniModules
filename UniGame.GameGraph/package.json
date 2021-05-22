@@ -1,0 +1,27 @@
+{
+  "name": "com.unigame.gamegraph",
+  "author": "UniGameTeam",
+  "displayName": "UniGame Game Graph",
+  "description": "GameGraph System for Unity. Include base nodes realisation",
+  "unity": "2020.2",
+  "version": "2021.1.43",
+  "homepage": "https://github.com/UniGameTeam/UniGame.GameGraph#readme",
+  "keywords": [
+    "nodes",
+    "graph",
+    "uinode",
+    "gameflow",
+    "gamegraph",
+    "processor"
+  ],
+  "dependencies": {
+    "com.unigame.coremodules": "2021.2.3",
+    "com.unity.addressables": "1.17.17",
+    "com.unigame.alelievr.node-graph-processor": "0.9.4",
+    "com.unity.editorcoroutines": "1.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/UniGameTeam/UniGame.GameGraph.git"
+  }
+}

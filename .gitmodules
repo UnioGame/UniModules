@@ -59,3 +59,7 @@
 	path = UniGame.CoreModules
 	url = https://github.com/UniGameTeam/CoreModules.git
 	branch = main
+[submodule "UniGame.AtlasGenerator"]
+	path = UniGame.AtlasGenerator
+	url = https://github.com/UniGameTeam/UniGame.AtlasGenerator.git
+	branch = master
