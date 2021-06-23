@@ -74,7 +74,7 @@
         {
             var actorTransform = transform;
             
-            var state = ObjectPoolAsset.Spawn<ActorBehaviour>(behaviourSource, 
+            var state = ObjectPool.Spawn<ActorBehaviour>(behaviourSource, 
                 Vector3.zero, Quaternion.identity,actorTransform, false);
             state.gameObject.SetActive(true);
             

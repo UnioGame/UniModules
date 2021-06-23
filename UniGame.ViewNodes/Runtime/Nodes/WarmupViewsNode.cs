@@ -1,77 +1,48 @@
-using System;
-using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
+
+using UniGame.UiSystem.Runtime.Settings;
 using UniGame.UniNodes.Nodes.Runtime.Common;
-using UniModules.UniCore.Runtime.DataFlow;
-using UniModules.UniCore.Runtime.Rx.Extensions;
-using UniModules.UniGame.ViewSystem.Runtime.Extensions;
-using UniModules.UniGame.ViewSystem.Runtime.Settings;
-using UniModules.UniGameFlow.NodeSystem.Runtime.Core.Attributes;
-using UniRx;
-using Unity.Collections;
+using UniModules.AddressableTools.Pooling;
+using UniModules.UniCore.Runtime.ObjectPool.Runtime;
+using UniModules.UniGame.AddressableTools.Runtime.Extensions;
+using UnityEngine;
 
 namespace UniModules.UniGame.GameFlow.GameFlow.Runtime.Views.Nodes
 {
+    using System;
+    using System.Collections.Generic;
+    using Cysharp.Threading.Tasks;
+    using UniModules.UniGame.Core.Runtime.Interfaces;
+    using UniModules.UniGame.ViewSystem.Runtime.Settings;
+    using UniModules.UniGameFlow.NodeSystem.Runtime.Core.Attributes;
+    
     [Serializable]
-    [CreateNodeMenu("ViewSystem/WarmupViews")]
-    public class WarmupViewsNode : InOutPortBindNode
+    [CreateNodeMenu("ViewSystem/WarmupViews",nodeName = "ViewsWarmupNode")]
+    public class WarmupViewsNode : ContextNode
     {
-        #region inspector
+        public List<AssetReferenceViewSettings> viewSettingsReferences = new List<AssetReferenceViewSettings>();
 
-        public List<AssetReferenceViewSettings> viewSettings = new List<AssetReferenceViewSettings>();
-
-        [ReadOnly]
-        public bool warmupComplete = false;
+        public int preload = 1;
         
-        #endregion
-
-        private LifeTimeDefinition _warmupLifeTime = new LifeTimeDefinition();
-        
-#if ODIN_INSPECTOR
-        [Sirenix.OdinInspector.Button]
-#endif
-        public void Warmup()
+        protected override async UniTask OnContextActivate(IContext context)
         {
-            Preload();
-        }
-        
-#if ODIN_INSPECTOR
-        [Sirenix.OdinInspector.Button]
-#endif
-        public void Release()
-        {
-            _warmupLifeTime.Terminate();
-        }
-        
-        protected override void OnExecute()
-        {
-            var inputPort = PortPair.InputPort;
-            inputPort.PortValueChanged
-                .Where(x => !warmupComplete)
-                .Subscribe(async x => await Preload())
-                .AddTo(LifeTime);
-        }
-
-        private async UniTask Preload(AssetReferenceViewSettings settings)
-        {
-            await settings.Warmup(_warmupLifeTime);
-        }
-
-        private async UniTask Preload()
-        {
-            if (warmupComplete)
-                return;
+            //pooling now bind to this lifeTime
+            //todo remove
+            LifeTime.ApplyPoolAssetLifeTime();
             
-            _warmupLifeTime.AddTo(LifeTime);
-            _warmupLifeTime.AddCleanUpAction(() => this.warmupComplete = false);
-            
-            foreach (var viewSetting in viewSettings)
+            foreach (var viewSettingsReference in viewSettingsReferences)
             {
-                Preload(viewSetting);
+                await CreateViewPool(viewSettingsReference);
             }
-
-            warmupComplete = true;
         }
-        
+
+        private async UniTask CreateViewPool(AssetReferenceViewSettings viewSettings)
+        {
+            var settings = await viewSettings.LoadAssetTaskApiAsync<ScriptableObject,IViewsSettings>(LifeTime);
+            foreach (var viewReference in settings.Views)
+            {
+                var view = viewReference.View;
+                view.AttachPoolLifeTimeAsync(LifeTime, preload).Forget();
+            }
+        }
     }
 }
