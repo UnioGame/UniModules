@@ -11,7 +11,7 @@
   ],
   "dependencies": {
     "com.unity.localization": "0.10.0-preview",
-    "com.unigame.coremodules": "2021.3.7",
+    "com.unigame.coremodules": "2021.3.6",
     "com.unity.addressables": "1.17.17",
     "com.unity.textmeshpro": "2.1.6"
   }
