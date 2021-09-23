@@ -1,6 +1,7 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
 using TMPro;
+using UniModules.UniGame.Core.Runtime.DataFlow.Interfaces;
 using UniModules.UniGame.Core.Runtime.Utils;
 using UniModules.UniGame.Rx.Runtime.Extensions;
 using UniModules.UniUiSystem.Runtime.Utils;
@@ -98,5 +99,6 @@ namespace UniGame.Localization.Runtime.UniModules.UniGame.Localization.Runtime
             return Observable.FromEvent<string>(y  => localizedString.StringChanged += y.Invoke,
                 y => localizedString.StringChanged -= y.Invoke);
         }
+
     }
 }
