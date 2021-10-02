@@ -90,9 +90,7 @@
 
         private void Initialize(IContext context)
         {
-            LifeTime.AddCleanUpAction(context.Release);
             LifeTime.AddCleanUpAction(() => SetStatus(StateStatus.Disable));
-            
             OnInitialize(context);
         }
         
@@ -104,10 +102,7 @@
 
         protected abstract IEnumerator ExecuteState(IContext context);
 
-        private void SetStatus(StateStatus status)
-        {
-            _stateStatus = status;       
-        }
+        private void SetStatus(StateStatus status) => _stateStatus = status;    
         
     }
 }
