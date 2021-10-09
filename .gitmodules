@@ -62,6 +62,3 @@
 [submodule "UniGame.GraphVisualizer"]
 	path = UniGame.GraphVisualizer
 	url = https://github.com/UniGameTeam/graph-visualizer.git
-[submodule "UniGame.ECS"]
-	path = UniGame.ECS
-	url = https://github.com/UniGameTeam/GameFlowEcs.git
