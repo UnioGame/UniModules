@@ -25,17 +25,12 @@ namespace UniModules.UniGame.GameFlow.GameFlow.Runtime.Views.Nodes
 
         private LifeTimeDefinition _warmupLifeTime = new LifeTimeDefinition();
 
-        protected override async void OnExecute()
+        protected override async UniTask OnExecute()
         {
             _warmupLifeTime.Release();
             _warmupLifeTime.AddTo(LifeTime);
 
-            foreach (var viewSetting in viewSettings)
-            {
-                Preload(viewSetting);
-            }
-            
-            base.OnExecute();
+            await UniTask.WhenAll(viewSettings.Select(Preload));
         }
 
         private async UniTask Preload(AssetReferenceViewSettings settings)
