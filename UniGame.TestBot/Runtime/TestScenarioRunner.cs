@@ -16,12 +16,13 @@ namespace UniModules.UniGame.TestBot.Runtime
         [SerializeReference]
         public List<IReportProcessor> reportProcessors = new List<IReportProcessor>();
         
-        public async UniTask Execute()
+        public async UniTask<TestReport> Execute()
         {
+            //create report
             var report = await CreateTestReport();
-            
             //send report
-            await ProcessReport(report);
+            report = await ProcessReport(report);
+            return report;
         }
 
         private async UniTask<TestReport> CreateTestReport()
@@ -38,20 +39,20 @@ namespace UniModules.UniGame.TestBot.Runtime
             return report;
         }
 
-        private async UniTask ProcessReport(TestReport report)
+        private async UniTask<TestReport> ProcessReport(TestReport report)
         {
             //send report
             foreach (var processor in reportProcessors)
-            {
-                await processor.ProcessReport(report);
-            }
+                report = await processor.ProcessReport(report);
+            
+            return report;
         }
         
     }
     
     public interface IReportProcessor
     {
-        public UniTask ProcessReport(TestReport report);
+        public UniTask<TestReport> ProcessReport(TestReport report);
     }
 
     [Serializable]
