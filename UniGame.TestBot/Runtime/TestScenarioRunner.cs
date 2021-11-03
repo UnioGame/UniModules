@@ -19,16 +19,14 @@ namespace UniModules.UniGame.TestBot.Runtime
         public async UniTask<TestReport> Execute()
         {
             //create report
-            var report = await CreateTestReport();
+            var report = await RunTestFlow(new TestReport());
             //send report
             report = await ProcessReport(report);
             return report;
         }
 
-        private async UniTask<TestReport> CreateTestReport()
+        private async UniTask<TestReport> RunTestFlow(TestReport report)
         {
-            var report = new TestReport();
-
             //execute scenarios
             foreach (var scenario in scenarios)
             {
