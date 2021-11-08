@@ -1,18 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class TestScenarioReport : MonoBehaviour
+namespace UniModules.UniGame.TestBot.Runtime
 {
-    // Start is called before the first frame update
-    void Start()
+    using System;
+    
+    [Serializable]
+    public class TestScenarioReport
     {
-        
+        public bool complete;
     }
 
-    // Update is called once per frame
-    void Update()
+
+    [Serializable]
+    public class TestCase
     {
-        
+        public string name;
     }
 }
