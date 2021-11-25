@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace UniModules.UniGame.TestBot.Runtime
 {
     using System;
@@ -12,6 +14,16 @@ namespace UniModules.UniGame.TestBot.Runtime
     [Serializable]
     public class TestCase
     {
-        public string name;
+        public string name = string.Empty;
+        public List<TestResult> results = new List<TestResult>();
+    }
+
+    [Serializable]
+    public class TestResult
+    {
+        public string exception;
+        public bool success;
+        public string result;
+        public string stacktrace;
     }
 }
