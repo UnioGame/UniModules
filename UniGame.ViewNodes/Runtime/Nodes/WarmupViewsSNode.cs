@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UniModules.UniCore.Runtime.DataFlow;
-using UniModules.UniGame.GameFlow.GameFlow.Runtime.Nodes.Common;
+using UniModules.UniGame.GameFlow.Runtime;
 using UniModules.UniGame.ViewSystem.Runtime.Extensions;
 using UniModules.UniGame.ViewSystem.Runtime.Settings;
 using UniModules.UniGameFlow.NodeSystem.Runtime.Core.Attributes;
