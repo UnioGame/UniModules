@@ -62,3 +62,23 @@
 [submodule "UniGame.GraphVisualizer"]
 	path = UniGame.GraphVisualizer
 	url = https://github.com/UniGameTeam/graph-visualizer.git
+[submodule "UniGame.LeoEcs/Core/ecslite"]
+	path = UniGame.LeoEcs/Core/ecslite
+	url = git@github.com:UniGameTeam/ecslite.git
+	branch = master
+[submodule "UniGame.LeoEcs/Core/ecslite-extendedfilters"]
+	path = UniGame.LeoEcs/Core/ecslite-extendedfilters
+	url = git@github.com:UniGameTeam/ecslite-extendedfilters.git
+	branch = master
+[submodule "UniGame.LeoEcs/Core/ecslite-extendedsystems"]
+	path = UniGame.LeoEcs/Core/ecslite-extendedsystems
+	url = git@github.com:UniGameTeam/ecslite-extendedsystems.git
+	branch = master
+[submodule "UniGame.LeoEcs/Core/ecslite-threads"]
+	path = UniGame.LeoEcs/Core/ecslite-threads
+	url = git@github.com:UniGameTeam/ecslite-threads.git
+	branch = master
+[submodule "UniGame.LeoEcs/Core/ecslite-threads-unity"]
+	path = UniGame.LeoEcs/Core/ecslite-threads-unity
+	url = git@github.com:UniGameTeam/ecslite-threads-unity.git
+	branch = master
