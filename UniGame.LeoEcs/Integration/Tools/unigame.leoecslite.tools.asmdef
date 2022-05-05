@@ -1,0 +1,18 @@
+{
+    "name": "unigame.leoecslite.tools",
+    "rootNamespace": "",
+    "references": [
+        "GUID:e59bf9fc7d5a44b18a819a92edd46163",
+        "GUID:6ff945b8be9974b6a8caed1ef514ef4e",
+        "GUID:e06a58708b83247ca9dc984644f5b40b"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

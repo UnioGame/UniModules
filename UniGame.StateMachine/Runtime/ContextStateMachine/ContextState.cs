@@ -5,6 +5,7 @@
     using UniContextData.Runtime.Entities;
     using UniCore.Runtime.DataFlow;
     using UniCore.Runtime.DataFlow.Interfaces;
+    using UniGame.Context.Runtime.Context;
     using UniGame.Core.Runtime.Interfaces;
     using UniModules.UniGame.Core.Runtime.DataFlow.Interfaces;
     using UniRoutine.Runtime.Extension;
@@ -89,9 +90,7 @@
 
         private void Initialize(IContext context)
         {
-            LifeTime.AddCleanUpAction(context.Release);
             LifeTime.AddCleanUpAction(() => SetStatus(StateStatus.Disable));
-            
             OnInitialize(context);
         }
         
@@ -103,10 +102,7 @@
 
         protected abstract IEnumerator ExecuteState(IContext context);
 
-        private void SetStatus(StateStatus status)
-        {
-            _stateStatus = status;       
-        }
+        private void SetStatus(StateStatus status) => _stateStatus = status;    
         
     }
 }

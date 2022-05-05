@@ -1,0 +1,18 @@
+{
+  "displayName": "SharpZipLib",
+  "name": "com.unity.sharp-zip-lib",
+  "unity": "2018.4",
+  "version": "1.2.2-preview.1",
+  "description": "A package that wraps SharpZipLib (https://github.com/icsharpcode/SharpZipLib) to be used inside Unity",
+  "contributors": [
+    "Sindharta Tanuwijaya <sindharta.tanuwijaya@unity3d.com> (https://github.com/sindharta)"
+  ],
+  "upmCi": {
+    "footprint": "9c99a760953a5f526ac5e13343bb96452bc6d79c"
+  },
+  "repository": {
+    "url": "https://github.com/Unity-Technologies/SharpZipLib.git",
+    "type": "git",
+    "revision": "04de4d39f90c44783a1dbc7a9ab6758daae88af5"
+  }
+}

@@ -1,11 +1,3 @@
-[submodule "UnityAddressableImporter"]
-	path = UnityAddressableImporter
-	url = https://github.com/UniGameTeam/unity-addressable-importer.git
-	branch = master
-[submodule "UniGame.CodeWriter"]
-	path = UniGame.CodeWriter
-	url = https://github.com/UniGameTeam/CodeWriter.git
-	branch = master
 [submodule "UniGame.UniBuild"]
 	path = UniGame.UniBuild
 	url = https://github.com/UniGameTeam/UniBuild.git
@@ -13,10 +5,6 @@
 [submodule "NpmPublisherSupport"]
 	path = NpmPublisherSupport
 	url = https://github.com/UniGameTeam/NpmPublisherSupport.git
-[submodule "UniGame.EditorTools"]
-	path = UniGame.EditorTools
-	url = https://github.com/UniGameTeam/UniGame.EditorTools.git
-	branch = master
 [submodule "UniGame.GoogleSpreadsheetsImporter"]
 	path = UniGame.GoogleSpreadsheetsImporter
 	url = https://github.com/UniGameTeam/UniGame.GoogleSpreadsheetsImporter.git
@@ -32,25 +20,9 @@
 	path = UniBuild.Commands
 	url = https://github.com/UniGameTeam/UniBuild.Commands.git
 	branch = master
-[submodule "UniGame.GraphicsTools"]
-	path = UniGame.GraphicsTools
-	url = https://github.com/UniGameTeam/UniGame.GraphicsTools
-	branch = master
-[submodule "UniGame.AddressableTools"]
-	path = UniGame.AddressableTools
-	url = https://github.com/UniGameTeam/UniGame.AddressableTools.git
-	branch = main
 [submodule "UniGame.Algo"]
 	path = UniGame.Algo
 	url = https://github.com/UniGameTeam/UniGame.Algo.git
-	branch = main
-[submodule "UniGame.Context"]
-	path = UniGame.Context
-	url = https://github.com/UniGameTeam/UniGame.Context.git
-	branch = main
-[submodule "UniGame.Core"]
-	path = UniGame.Core
-	url = https://github.com/UniGameTeam/UniGame.Core.git
 	branch = main
 [submodule "UniGame.Gitcleaner"]
 	path = UniGame.Gitcleaner
@@ -68,27 +40,45 @@
 	path = UniGame.SafeArea
 	url = https://github.com/UniGameTeam/UniGame.SafeArea.git
 	branch = main
-[submodule "UniGame.SceneAssets"]
-	path = UniGame.SceneAssets
-	url = https://github.com/UniGameTeam/UniGame.SceneAssets.git
-	branch = main
-[submodule "UniGame.TypeConverters"]
-	path = UniGame.TypeConverters
-	url = https://github.com/UniGameTeam/UniGame.TypeConverters.git
-	branch = main
 [submodule "UniGame.GameFlow"]
 	path = UniGame.GameFlow
 	url = https://github.com/UniGameTeam/UniGame.GameFlow.git
 	branch = master
-[submodule "UniGame.Rx"]
-	path = UniGame.Rx
-	url = https://github.com/UniGameTeam/UniGame.Rx.git
-	branch = main
-[submodule "UniGame.Routines"]
-	path = UniGame.Routines
-	url = https://github.com/UniGameTeam/UniGame.Routines.git
-	branch = master
 [submodule "UniGame.ViewSystem"]
 	path = UniGame.ViewSystem
 	url = https://github.com/UniGameTeam/UniGame.ViewSystem.git
+	branch = master
+[submodule "UniGame.RemoteData"]
+	path = UniGame.RemoteData
+	url = ../UniGame.RemoteData.git
+[submodule "UniGame.CoreModules"]
+	path = UniGame.CoreModules
+	url = https://github.com/UniGameTeam/CoreModules.git
+	branch = main
+[submodule "UniGame.AtlasGenerator"]
+	path = UniGame.AtlasGenerator
+	url = https://github.com/UniGameTeam/UniGame.AtlasGenerator.git
+	branch = master
+[submodule "UniGame.GraphVisualizer"]
+	path = UniGame.GraphVisualizer
+	url = https://github.com/UniGameTeam/graph-visualizer.git
+[submodule "UniGame.LeoEcs/Core/ecslite"]
+	path = UniGame.LeoEcs/Core/ecslite
+	url = git@github.com:UniGameTeam/ecslite.git
+	branch = master
+[submodule "UniGame.LeoEcs/Core/ecslite-extendedfilters"]
+	path = UniGame.LeoEcs/Core/ecslite-extendedfilters
+	url = git@github.com:UniGameTeam/ecslite-extendedfilters.git
+	branch = master
+[submodule "UniGame.LeoEcs/Core/ecslite-extendedsystems"]
+	path = UniGame.LeoEcs/Core/ecslite-extendedsystems
+	url = git@github.com:UniGameTeam/ecslite-extendedsystems.git
+	branch = master
+[submodule "UniGame.LeoEcs/Core/ecslite-threads"]
+	path = UniGame.LeoEcs/Core/ecslite-threads
+	url = git@github.com:UniGameTeam/ecslite-threads.git
+	branch = master
+[submodule "UniGame.LeoEcs/Core/ecslite-threads-unity"]
+	path = UniGame.LeoEcs/Core/ecslite-threads-unity
+	url = git@github.com:UniGameTeam/ecslite-threads-unity.git
 	branch = master

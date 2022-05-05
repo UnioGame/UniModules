@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>Google.Apis</id>
+    <version>1.52.0</version>
+    <title>Google APIs Client Library</title>
+    <authors>Google LLC</authors>
+    <owners>Google LLC</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="file">LICENSE</license>
+    <licenseUrl>https://aka.ms/deprecateLicenseUrl</licenseUrl>
+    <icon>NuGetIcon.png</icon>
+    <projectUrl>https://github.com/googleapis/google-api-dotnet-client</projectUrl>
+    <iconUrl>https://www.gstatic.com/images/branding/product/1x/google_developers_64dp.png</iconUrl>
+    <description>The Google APIs Client Library is a runtime client for working with Google services.
+The library supports service requests, media upload and download, etc.
+    
+Supported Platforms:
+- .NET Framework 4.5+
+- NetStandard1.3, providing .NET Core support</description>
+    <copyright>Copyright 2021 Google LLC</copyright>
+    <tags>Google</tags>
+    <repository type="git" url="https://github.com/googleapis/google-api-dotnet-client" />
+    <dependencies>
+      <group targetFramework=".NETFramework4.5">
+        <dependency id="Google.Apis.Core" version="1.52.0" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETStandard1.3">
+        <dependency id="Google.Apis.Core" version="1.52.0" exclude="Build,Analyzers" />
+        <dependency id="NETStandard.Library" version="1.6.1" exclude="Build,Analyzers" />
+        <dependency id="System.Net.Http" version="4.3.4" exclude="Build,Analyzers" />
+        <dependency id="System.Reflection.TypeExtensions" version="4.3.0" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="Google.Apis.Core" version="1.52.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.Net.Http" targetFramework=".NETFramework4.5" />
+    </frameworkAssemblies>
+  </metadata>
+</package>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+  <Relationship Type="http://schemas.microsoft.com/packaging/2010/07/manifest" Target="/Google.Apis.Sheets.v4.nuspec" Id="RCE94AD1E1D6DB536" />
+  <Relationship Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="/package/services/metadata/core-properties/b358c33ab988428b9edbb658455d16a3.psmdcp" Id="R1598ADDC39200DF3" />
+</Relationships>

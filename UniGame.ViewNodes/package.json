@@ -1,0 +1,29 @@
+{
+  "name": "com.unigame.viewnodes",
+  "author": "UniGameTeam",
+  "displayName": "UniGame View Nodes",
+  "description": "GameFlow View System Nodes",
+  "unity": "2019.2",
+  "version": "2021.1.58",
+  "homepage": "https://github.com/UniGameTeam/UniGameFlow#readme",
+  "keywords": [
+    "nodes",
+    "graph",
+    "uinode",
+    "gameflow",
+    "view",
+    "ui"
+  ],
+  "dependencies": {
+    "com.unigame.coremodules": "2022.1.16",
+    "com.unigame.viewsystem": "2021.4.11",
+    "com.unity.addressables": "1.17.17",
+    "com.unity.textmeshpro": "2.1.1",
+    "com.unigame.alelievr.node-graph-processor": "2021.0.1",
+    "com.unity.editorcoroutines": "1.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/UniGameTeam/UniGameFlow.git"
+  }
+}
