@@ -82,3 +82,7 @@
 	path = UniGame.LeoEcs/Core/ecslite-threads-unity
 	url = git@github.com:UniGameTeam/ecslite-threads-unity.git
 	branch = master
+[submodule "UniGame.PsbDeconstructor"]
+	path = UniGame.PsbDeconstructor
+	url = git@github.com:UnioGame/UniGame.PsbDeconstructor.git
+	branch = main
