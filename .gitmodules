@@ -86,3 +86,7 @@
 [submodule "UniGame.RemoteGameData"]
 	path = UniGame.RemoteGameData
 	url = git@github.com:UnioGame/UniGame.RemoteGameData.git
+[submodule "UniGame.RemoteConfiguration"]
+	path = UniGame.RemoteConfiguration
+	url = git@github.com:UnioGame/UniGame.RemoteConfiguration.git
+	branch = main
