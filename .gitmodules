@@ -58,7 +58,7 @@
 	branch = master
 [submodule "UniGame.GraphVisualizer"]
 	path = UniGame.GraphVisualizer
-	url = https://github.com/UniGameTeam/graph-visualizer.git
+	url = git@github.com:UnioGame/graph-visualizer.git
 [submodule "UniGame.LeoEcs/Core/ecslite"]
 	path = UniGame.LeoEcs/Core/ecslite
 	url = git@github.com:UniGameTeam/ecslite.git
