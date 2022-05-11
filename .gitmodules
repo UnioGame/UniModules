@@ -86,3 +86,7 @@
 	path = UniGame.PsbDeconstructor
 	url = git@github.com:UnioGame/UniGame.PsbDeconstructor.git
 	branch = main
+[submodule "UniGame.RemoteConfiguration"]
+	path = UniGame.RemoteConfiguration
+	url = git@github.com:UnioGame/UniGame.RemoteConfiguration.git
+	branch = main
