@@ -24,7 +24,7 @@
             var task = state;
             _taskDisposable = Observable.
                 FromCoroutine(() => task.ToCoroutine(ExeptionHandler)).
-                Subscribe();
+                RxSubscribe();
         }
 
         public void Stop()

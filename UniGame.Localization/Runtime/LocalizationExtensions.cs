@@ -63,7 +63,7 @@ namespace UniGame.Localization.Runtime.UniModules.UniGame.Localization.Runtime
             var result = Observable
                 .Create<string>(x => BindTo(source, x, frameThrottle),true)
                 .Do(x => text?.Invoke(x))
-                .Subscribe();
+                .RxSubscribe();
             
             return result;
         }
@@ -73,7 +73,7 @@ namespace UniGame.Localization.Runtime.UniModules.UniGame.Localization.Runtime
             var result = Observable
                 .Create<string>(x => BindTo(source, x, frameThrottle),true)
                 .Do(x => text.Value = x)
-                .Subscribe();
+                .RxSubscribe();
             
             return result;
         }
