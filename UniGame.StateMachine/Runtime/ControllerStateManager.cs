@@ -19,8 +19,9 @@
         {
             _stateController = stateController;
             
-            ObservableExtensions.RxSubscribe<TStateType>(_stateController.StateObservable.
-                    Skip(1), ExecuteState).AddTo(_disposables);
+            _stateController.StateObservable
+                .Skip(1)
+                .RxSubscribe<TStateType>( ExecuteState).AddTo(_disposables);
             
         }
 
