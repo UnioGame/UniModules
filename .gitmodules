@@ -48,9 +48,6 @@
 	path = UniGame.ViewSystem
 	url = https://github.com/UniGameTeam/UniGame.ViewSystem.git
 	branch = master
-[submodule "UniGame.RemoteData"]
-	path = UniGame.RemoteData
-	url = ../UniGame.RemoteData.git
 [submodule "UniGame.CoreModules"]
 	path = UniGame.CoreModules
 	url = https://github.com/UniGameTeam/CoreModules.git
@@ -86,3 +83,6 @@
 	path = UniGame.PsbDeconstructor
 	url = git@github.com:UnioGame/UniGame.PsbDeconstructor.git
 	branch = main
+[submodule "UniGame.RemoteGameData"]
+	path = UniGame.RemoteGameData
+	url = git@github.com:UnioGame/UniGame.RemoteGameData.git

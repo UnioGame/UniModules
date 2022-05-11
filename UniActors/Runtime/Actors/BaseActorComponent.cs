@@ -78,7 +78,7 @@
                 Vector3.zero, Quaternion.identity,actorTransform, false);
             state.gameObject.SetActive(true);
             
-            _actor.LifeTime.AddCleanUpAction(() => state.Despawn());
+            _actor.LifeTime.AddCleanUpAction(() => state.DespawnObject());
             
             return state;
         }
