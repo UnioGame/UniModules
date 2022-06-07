@@ -21,7 +21,7 @@
             
             _stateController.StateObservable
                 .Skip(1)
-                .RxSubscribe<TStateType>( ExecuteState).AddTo(_disposables);
+                .Subscribe<TStateType>( ExecuteState).AddTo(_disposables);
             
         }
 

@@ -15,7 +15,7 @@
         public void Execute(IStateBehaviour<IEnumerator> state)
         {
             _state = state;
-            _disposables = Observable.FromCoroutine(x => _state.Execute()).RxSubscribe();
+            _disposables = Observable.FromCoroutine(x => _state.Execute()).Subscribe();
         }
 
         public void Stop()

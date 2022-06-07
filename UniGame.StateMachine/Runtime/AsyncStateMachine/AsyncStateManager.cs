@@ -28,7 +28,7 @@
             _validator = validator;
             _controllerDisposable = 
                 _stateController.StateObservable.
-                Skip(1).RxSubscribe(ExecuteState);
+                Skip(1).Subscribe(ExecuteState);
         }
 
         #endregion
