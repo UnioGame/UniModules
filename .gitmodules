@@ -16,10 +16,6 @@
 [submodule "UniGame.Distribution"]
 	path = UniGame.Distribution
 	url = https://github.com/UniGameTeam/UniGame.Distribution.git
-[submodule "UniBuild.Commands"]
-	path = UniBuild.Commands
-	url = https://github.com/UniGameTeam/UniBuild.Commands.git
-	branch = master
 [submodule "UniGame.Algo"]
 	path = UniGame.Algo
 	url = https://github.com/UniGameTeam/UniGame.Algo.git
