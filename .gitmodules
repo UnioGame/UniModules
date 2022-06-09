@@ -66,3 +66,7 @@
 	path = UniGame.RemoteConfiguration
 	url = git@github.com:UnioGame/UniGame.RemoteConfiguration.git
 	branch = main
+[submodule "UniGame.UniBuildCommands"]
+	path = UniGame.UniBuildCommands
+	url = git@github.com:UnioGame/UnioGame.UniBuildCommands.git
+	branch = master
