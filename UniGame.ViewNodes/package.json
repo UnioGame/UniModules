@@ -20,7 +20,8 @@
     "com.unity.addressables": "1.17.17",
     "com.unity.textmeshpro": "2.1.1",
     "com.unigame.alelievr.node-graph-processor": "2021.0.1",
-    "com.unity.editorcoroutines": "1.0.0"
+    "com.unity.editorcoroutines": "1.0.0",
+    "com.unigame.rx": "2021.0.34"
   },
   "repository": {
     "type": "git",
