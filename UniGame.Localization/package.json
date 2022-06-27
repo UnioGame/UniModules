@@ -4,14 +4,14 @@
   "displayName": "UniGame Localization Tools",
   "description": "helpful tools collection for localization",
   "unity": "2020.0",
-  "version": "2022.0.0",
+  "version": "2022.0.2",
   "keywords": [
     "localization",
     "localizations"
   ],
   "dependencies": {
     "com.unity.localization": "1.4.0-exp.1",
-    "com.unigame.coremodules": "2022.3.0",
+    "com.unigame.coremodules": "2022.3.2",
     "com.unity.addressables": "1.20.0",
     "com.unity.textmeshpro": "2.1.6"
   }
