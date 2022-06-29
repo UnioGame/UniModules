@@ -1,0 +1,16 @@
+{
+    "name": "unigame.utils.editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:2796129a6c23eb84a8181f62bf7332f1"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
