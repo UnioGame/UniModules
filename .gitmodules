@@ -70,3 +70,7 @@
 	path = UniGame.UniBuildCommands
 	url = git@github.com:UnioGame/UnioGame.UniBuildCommands.git
 	branch = master
+[submodule "UniGame.Localization"]
+	path = UniGame.Localization
+	url = git@github.com:UnioGame/UniGame.Localization.git
+	branch = main
