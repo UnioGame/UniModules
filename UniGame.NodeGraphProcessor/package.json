@@ -1,7 +1,7 @@
 {
   "name": "com.unigame.alelievr.node-graph-processor",
   "displayName": "UniGame Wrapper for Node Graph Processor",
-  "version": "2022.0.0",
+  "version": "2022.0.1",
   "unity": "2019.3",
   "description": "Node graph editor framework focused on data processing using Unity UIElements and C# 4.7",
   "keywords": [

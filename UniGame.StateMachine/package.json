@@ -4,10 +4,10 @@
   "displayName": "UniGame Uni State Machine",
   "description": "Unity state machine core",
   "unity": "2019.2",
-  "version": "2.0.4",
+  "version": "2.0.6",
   "keywords": [],
   "dependencies": {
-    "com.unigame.coremodules": "2022.4.5",
+    "com.unigame.coremodules": "2022.4.7",
     "com.unigame.rx": "2022.0.0"
   }
 }
