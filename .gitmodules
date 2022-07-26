@@ -74,3 +74,6 @@
 	path = UniGame.Localization
 	url = git@github.com:UnioGame/UniGame.Localization.git
 	branch = main
+[submodule "UniGame.GraphicsTools"]
+	path = UniGame.GraphicsTools
+	url = https://github.com/UniGameTeam/UniGame.GraphicsTools
