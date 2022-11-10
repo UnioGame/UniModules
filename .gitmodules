@@ -54,25 +54,25 @@
 	branch = master
 [submodule "UniGame.GraphVisualizer"]
 	path = UniGame.GraphVisualizer
-	url = git@github.com:UnioGame/graph-visualizer.git
+url=https://github.com/UnioGame/graph-visualizer.git
 [submodule "UniGame.PsbDeconstructor"]
 	path = UniGame.PsbDeconstructor
-	url = git@github.com:UnioGame/UniGame.PsbDeconstructor.git
+url=https://github.com/UnioGame/UniGame.PsbDeconstructor.git
 	branch = main
 [submodule "UniGame.RemoteGameData"]
 	path = UniGame.RemoteGameData
-	url = git@github.com:UnioGame/UniGame.RemoteGameData.git
+url=https://github.com/UnioGame/UniGame.RemoteGameData.git
 [submodule "UniGame.RemoteConfiguration"]
 	path = UniGame.RemoteConfiguration
-	url = git@github.com:UnioGame/UniGame.RemoteConfiguration.git
+url=https://github.com/UnioGame/UniGame.RemoteConfiguration.git
 	branch = main
 [submodule "UniGame.UniBuildCommands"]
 	path = UniGame.UniBuildCommands
-	url = git@github.com:UnioGame/UnioGame.UniBuildCommands.git
+url=https://github.com/UnioGame/UnioGame.UniBuildCommands.git
 	branch = master
 [submodule "UniGame.Localization"]
 	path = UniGame.Localization
-	url = git@github.com:UnioGame/UniGame.Localization.git
+url=https://github.com/UnioGame/UniGame.Localization.git
 	branch = main
 [submodule "UniGame.GraphicsTools"]
 	path = UniGame.GraphicsTools
