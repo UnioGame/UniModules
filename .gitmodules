@@ -77,3 +77,4 @@ url=https://github.com/UnioGame/UniGame.Localization.git
 [submodule "UniGame.GraphicsTools"]
 	path = UniGame.GraphicsTools
 	url = https://github.com/UniGameTeam/UniGame.GraphicsTools
+	
