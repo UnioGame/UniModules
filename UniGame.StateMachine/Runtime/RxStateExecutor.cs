@@ -4,7 +4,6 @@
     using System.Collections;
     using Interfaces;
     using UniCore.Runtime.Extension;
-    using UniCore.Runtime.Rx.Extensions;
     using UniRx;
 
     public class RxStateExecutor : IStateExecutor<IStateBehaviour<IEnumerator>>

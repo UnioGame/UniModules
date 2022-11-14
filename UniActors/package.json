@@ -4,10 +4,10 @@
   "displayName": "UniGame Unity Actors System",
   "description": "Actors system for Unity",
   "unity": "2019.2",
-  "version": "1.2.363",
+  "version": "2.0.8",
   "keywords": [],
   "dependencies": {
-    "com.unigame.unistatemachine": "1.3.147",
-    "com.unigame.coremodules": "2022.1.16"
+    "com.unigame.unistatemachine": "2.0.6",
+    "com.unigame.coremodules": "2022.4.7"
   }
 }

@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using Interfaces;
     using UniCore.Runtime.Extension;
-    using UniCore.Runtime.Rx.Extensions;
 
     public class StateManager<TStateType, TState> : IStateManager<TStateType> {
         

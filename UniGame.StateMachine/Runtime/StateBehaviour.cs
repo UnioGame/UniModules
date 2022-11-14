@@ -5,8 +5,6 @@
     using System.Collections.Generic;
     using Interfaces;
     using UniCore.Runtime.Extension;
-    using UniCore.Runtime.Rx.Extensions;
-    using UniModules.UniCore.Runtime.Extension;
     using UniRx;
 
     public class StateBehaviour : IStateBehaviour<IEnumerator>

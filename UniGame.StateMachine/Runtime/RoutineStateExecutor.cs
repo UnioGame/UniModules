@@ -4,7 +4,6 @@
     using System.Collections;
     using Interfaces;
     using UniCore.Runtime.Extension;
-    using UniCore.Runtime.Rx.Extensions;
     using UniRoutine.Runtime;
 
     public class RoutineStateExecutor : IStateExecutor<IStateBehaviour<IEnumerator>>
@@ -26,8 +25,7 @@
 
         public void Stop()
         {
-            if(_state!=null)
-                _state.Exit();
+            if(_state!=null) _state.Exit();
             _state = null;
             _disposables.Cancel();
             _disposables = null;
