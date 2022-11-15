@@ -78,3 +78,7 @@ url=https://github.com/UnioGame/UniGame.Localization.git
 	path = UniGame.GraphicsTools
 	url = https://github.com/UniGameTeam/UniGame.GraphicsTools
 	
+[submodule "UniGame.MultiScenes"]
+	path = UniGame.MultiScenes
+	url = https://github.com/UnioGame/MultiScenes.git
+	branch = main
