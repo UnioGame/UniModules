@@ -1,7 +1,7 @@
 namespace UniModules.UniActors.Runtime.Interfaces
 {
-    using UniContextData.Runtime.Interfaces;
-    using UniCore.Runtime.ObjectPool.Runtime.Interfaces;
+    using global::UniGame.Context.Runtime;
+    using global::UniGame.Core.Runtime.ObjectPool;
 
     public interface IActorModel : 
         IContextDataSource,

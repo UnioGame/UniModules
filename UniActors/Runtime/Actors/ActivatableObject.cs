@@ -1,6 +1,6 @@
 ﻿namespace UniModules.UniActors.Runtime.Actors 
 {
-    using UniGame.Core.Runtime.Interfaces;
+    using global::UniGame.Core.Runtime;
 
     public class ActivatableObject : IActivatableObject {
 

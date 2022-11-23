@@ -1,7 +1,7 @@
 namespace UniModules.UniActors.Runtime.Interfaces
 {
     using System;
-    using UniGame.Core.Runtime.Interfaces;
+    using global::UniGame.Core.Runtime;
 
     public interface IActorInfo<out TModel> : 
         IFactory<TModel>, 

@@ -3,7 +3,7 @@
 namespace UniModules.UniActors.Runtime.ActorData
 {
     using Interfaces;
-    using UniGame.Core.Runtime.Interfaces;
+    using global::UniGame.Core.Runtime;
     using UnityEngine;
 
     public class ActorModelInfo<TModel> : 

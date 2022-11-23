@@ -5,8 +5,7 @@ using UnityEngine;
 namespace UniModules.UniActors.Runtime.Actors
 {
     using UniCore.Runtime.DataFlow.Interfaces;
-    using UniGame.Core.Runtime.Interfaces;
-    using UniModules.UniGame.Core.Runtime.DataFlow.Interfaces;
+    using global::UniGame.Core.Runtime;
 
     public abstract class ActorBehaviour : MonoBehaviour, IContextState<IEnumerator>
     {
