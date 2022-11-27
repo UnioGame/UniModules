@@ -82,3 +82,7 @@ url=https://github.com/UnioGame/UniGame.Localization.git
 	path = UniGame.MultiScenes
 	url = https://github.com/UnioGame/MultiScenes.git
 	branch = main
+[submodule "Newtonsoft.Json-for-Unity.Converters"]
+	path = Newtonsoft.Json-for-Unity.Converters
+	url = https://github.com/UnioGame/Newtonsoft.Json-for-Unity.Converters.git
+	branch = master
