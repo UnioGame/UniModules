@@ -6,7 +6,7 @@ namespace UniModules.UniStateMachine.Runtime.AsyncStateMachine
     using Runtime.Interfaces;
     using UniCore.Runtime.DataFlow;
     using UniCore.Runtime.DataFlow.Interfaces;
-    using UniModules.UniGame.Core.Runtime.DataFlow.Interfaces;
+    using global::UniGame.Core.Runtime;
     using UniRx;
     
 

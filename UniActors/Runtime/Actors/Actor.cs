@@ -4,11 +4,11 @@
     using System.Collections;
     using Interfaces;
     using UniContextData.Runtime.Entities;
-    using UniContextData.Runtime.Interfaces;
+    using global::UniGame.Context.Runtime;
     using UniCore.Runtime.DataFlow;
     using UniCore.Runtime.DataFlow.Interfaces;
     using UniGame.Context.Runtime.Context;
-    using UniModules.UniGame.Core.Runtime.DataFlow.Interfaces;
+    using global::UniGame.Core.Runtime;
     using UniRoutine.Runtime;
     using UniRx;
     using UniStateMachine.Runtime.Interfaces;

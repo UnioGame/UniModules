@@ -3,7 +3,7 @@ namespace UniModules.UniStateMachine.Runtime.ContextStateMachine
 {
     using System;
     using System.Collections;
-    using UniGame.Core.Runtime.Interfaces;
+    using global::UniGame.Core.Runtime;
 
     public class ProxyState : ContextState
     {

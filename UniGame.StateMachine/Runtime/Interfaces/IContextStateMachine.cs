@@ -1,7 +1,7 @@
 ﻿namespace UniModules.UniStateMachine.Runtime.Interfaces
 {
     using System;
-    using UniGame.Core.Runtime.Interfaces;
+    using global::UniGame.Core.Runtime;
 
     public interface IContextStateMachine<TAwaiter> : IDisposable
     {
