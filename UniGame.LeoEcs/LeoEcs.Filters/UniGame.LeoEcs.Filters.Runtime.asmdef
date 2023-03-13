@@ -1,0 +1,22 @@
+{
+    "name": "UniGame.LeoEcs.Filters.Runtime",
+    "rootNamespace": "",
+    "references": [
+        "GUID:e59bf9fc7d5a44b18a819a92edd46163",
+        "GUID:e06a58708b83247ca9dc984644f5b40b",
+        "GUID:a758ff47af0484038b71625d05877e22",
+        "GUID:a22362b82293644e1bbe51356c008d63",
+        "GUID:c1d53fc1b1b71c647b00626be502b7b1",
+        "GUID:343deaaf83e0cee4ca978e7df0b80d21",
+        "GUID:2bafac87e7f4b9b418d9448d219b01ab"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
