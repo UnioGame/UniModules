@@ -1,0 +1,29 @@
+{
+  "name": "com.unigame.leoecslite",
+  "author": "UniGameTeam",
+  "displayName": "UniGame Leo Ecs Lite",
+  "description": "Leo Ecs Lite Tools",
+  "unity": "2020.2",
+  "version": "2023.0.0",
+  "license": "MIT",
+  "homepage": "https://github.com/UnioGame/UniGame.LeoEcsLite#readme",
+  "keywords": [
+    "ecs",
+    "mvvm",
+    "system",
+    "views"
+  ],
+  "dependencies": {
+    "com.unity.addressables": "1.20.0",
+    "com.unigame.coremodules": "2023.0.0",
+    "com.unigame.viewsystem": "2023.0.0",
+    "com.leopotam.ecslite": "https://github.com/UnioGame/ecslite.git",
+    "com.leopotam.ecslite.extendedsystems": "https://github.com/UnioGame/ecslite-extendedsystems.git",
+    "com.leopotam.ecslite.threads": "https://github.com/UnioGame/ecslite-threads.git",
+    "com.leopotam.ecslite.unityeditor": "https://github.com/UnioGame/ecslite-unityeditor.git"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/UnioGame/UniGame.LeoEcsLite.git"
+  }
+}
