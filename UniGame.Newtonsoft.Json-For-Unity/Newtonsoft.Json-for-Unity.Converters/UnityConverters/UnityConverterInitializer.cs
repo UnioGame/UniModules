@@ -141,7 +141,7 @@ namespace Newtonsoft.Json.UnityConverters
             var customs = FindFilteredCustomConverters(config)
                 .Concat(FindFilteredUnityConverters(config))
                 .Concat(FindFilteredJsonNetConverters(config))
-                .Select(type => CreateConverter(type))
+                .Select(CreateConverter)
                 .Where(o => o != null);
 
             return new List<JsonConverter>(customs);
