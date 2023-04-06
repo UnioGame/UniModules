@@ -1,8 +1,7 @@
 using System;
 using System.IO;
 using System.Threading;
-
-namespace ICSharpCode.SharpZipLib.Tests.TestSupport
+namespace Unity.SharpZipLib.Tests.TestSupport
 {
 	/// <summary>
 	/// An extended <see cref="MemoryStream">memory stream</see>
@@ -16,7 +15,6 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 		public TrackedMemoryStream()
 		{
 		}
-
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TrackedMemoryStream"/> class.
 		/// </summary>
@@ -25,7 +23,6 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 			: base(buffer)
 		{
 		}
-
 		/// <summary>
 		/// Write a short value in Little Endian order
 		/// </summary>
@@ -35,7 +32,6 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 			WriteByte(unchecked((byte)value));
 			WriteByte(unchecked((byte)(value >> 8)));
 		}
-
 		/// <summary>
 		/// Write an int value in little endian order.
 		/// </summary>
@@ -45,7 +41,6 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 			WriteLEShort(unchecked((short)value));
 			WriteLEShort(unchecked((short)(value >> 16)));
 		}
-
 		/// <summary>
 		/// Releases the unmanaged resources used by the <see cref="T:System.IO.MemoryStream"/> class and optionally releases the managed resources.
 		/// </summary>
@@ -55,7 +50,6 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 			isDisposed_ = true;
 			base.Dispose(disposing);
 		}
-
 		/// <summary>
 		/// Closes the current stream and releases any resources (such as sockets and file handles) associated with the current stream.
 		/// </summary>
@@ -65,11 +59,9 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 			{
 				throw new InvalidOperationException("Already closed");
 			}
-
 			isClosed_ = true;
 			base.Close();
 		}
-
 		/// <summary>
 		/// Gets a value indicating whether this instance is closed.
 		/// </summary>
@@ -78,7 +70,6 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 		{
 			get { return isClosed_; }
 		}
-
 		/// <summary>
 		/// Gets a value indicating whether this instance is disposed.
 		/// </summary>
@@ -89,16 +80,11 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 		{
 			get { return isDisposed_; }
 		}
-
 		#region Instance Fields
-
 		private bool isDisposed_;
-
 		private bool isClosed_;
-
 		#endregion Instance Fields
 	}
-
 	/// <summary>
 	/// An extended <see cref="FileStream">file stream</see>
 	/// that tracks closing and disposing
@@ -113,7 +99,6 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 			: base(path, mode, access)
 		{
 		}
-
 		/// <summary>
 		/// Releases the unmanaged resources used by the <see cref="T:System.IO.MemoryStream"/> class and optionally releases the managed resources.
 		/// </summary>
@@ -123,7 +108,6 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 			isDisposed_ = true;
 			base.Dispose(disposing);
 		}
-
 		/// <summary>
 		/// Closes the current stream and releases any resources (such as sockets and file handles) associated with the current stream.
 		/// </summary>
@@ -133,11 +117,9 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 			{
 				throw new InvalidOperationException("Already closed");
 			}
-
 			isClosed_ = true;
 			base.Close();
 		}
-
 		/// <summary>
 		/// Gets a value indicating whether this instance is closed.
 		/// </summary>
@@ -146,7 +128,6 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 		{
 			get { return isClosed_; }
 		}
-
 		/// <summary>
 		/// Gets a value indicating whether this instance is disposed.
 		/// </summary>
@@ -157,16 +138,11 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 		{
 			get { return isDisposed_; }
 		}
-
 		#region Instance Fields
-
 		private bool isDisposed_;
-
 		private bool isClosed_;
-
 		#endregion Instance Fields
 	}
-
 	/// <summary>
 	/// A <see cref="Stream"/> that cannot seek.
 	/// </summary>
@@ -185,7 +161,6 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 			}
 		}
 	}
-
 	/// <summary>
 	/// A <see cref="Stream"/> that cannot be read but supports infinite writes.
 	/// </summary>
@@ -200,7 +175,6 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 		{
 			get { return false; }
 		}
-
 		/// <summary>
 		/// When overridden in a derived class, gets a value indicating whether the current stream supports seeking.
 		/// </summary>
@@ -210,7 +184,6 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 		{
 			get { return false; }
 		}
-
 		/// <summary>
 		/// When overridden in a derived class, gets a value indicating whether the current stream supports writing.
 		/// </summary>
@@ -220,7 +193,6 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 		{
 			get { return true; }
 		}
-
 		/// <summary>
 		/// When overridden in a derived class, clears all buffers for this stream and causes any buffered data to be written to the underlying device.
 		/// </summary>
@@ -229,7 +201,6 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 		{
 			// Do nothing.
 		}
-
 		/// <summary>
 		/// When overridden in a derived class, gets the length in bytes of the stream.
 		/// </summary>
@@ -241,7 +212,6 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 		{
 			get { throw new Exception("The method or operation is not implemented."); }
 		}
-
 		/// <summary>
 		/// When overridden in a derived class, gets or sets the position within the current stream.
 		/// </summary>
@@ -261,7 +231,6 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 				throw new Exception("The method or operation is not implemented.");
 			}
 		}
-
 		/// <summary>
 		/// When overridden in a derived class, reads a sequence of bytes from the current stream and advances the position within the stream by the number of bytes read.
 		/// </summary>
@@ -283,7 +252,6 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 		{
 			throw new Exception("The method or operation is not implemented.");
 		}
-
 		/// <summary>
 		/// When overridden in a derived class, sets the position within the current stream.
 		/// </summary>
@@ -299,7 +267,6 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 		{
 			throw new Exception("The method or operation is not implemented.");
 		}
-
 		/// <summary>
 		/// When overridden in a derived class, sets the length of the current stream.
 		/// </summary>
@@ -311,7 +278,6 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 		{
 			throw new Exception("The method or operation is not implemented.");
 		}
-
 		/// <summary>
 		/// When overridden in a derived class, writes a sequence of bytes to the current stream and advances the current position within this stream by the number of bytes written.
 		/// </summary>
@@ -331,7 +297,6 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 			// Do nothing.
 		}
 	}
-
 	/// <summary>
 	/// A <see cref="Stream"/> that supports reading and writing from a fixed size memory buffer.
 	/// This provides the ability to test writing and reading from very large streams
@@ -347,7 +312,6 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 		{
 			ringBuffer = new ReadWriteRingBuffer(size, token);
 		}
-
 		/// <summary>
 		/// When overridden in a derived class, gets a value indicating whether the current stream supports reading.
 		/// </summary>
@@ -355,14 +319,12 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 		/// <returns>true if the stream is not closed.</returns>
 		/// <remarks>If the stream is closed, this property returns false.</remarks>
 		public override bool CanRead => !ringBuffer.IsClosed;
-
 		/// <summary>
 		/// Gets a value indicating whether the current stream supports seeking.
 		/// </summary>
 		/// <value></value>
 		/// <returns>false</returns>
 		public override bool CanSeek => false;
-
 		/// <summary>
 		/// When overridden in a derived class, gets a value indicating whether the current stream supports writing.
 		/// </summary>
@@ -370,7 +332,6 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 		/// <returns>true if the stream is not closed.</returns>
 		/// <remarks>If the stream is closed, this property returns false.</remarks>
 		public override bool CanWrite => !ringBuffer.IsClosed;
-
 		/// <summary>
 		/// When overridden in a derived class, clears all buffers for this stream and causes any buffered data to be written to the underlying device.
 		/// </summary>
@@ -379,7 +340,6 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 		{
 			// Do nothing
 		}
-
 		/// <summary>
 		/// When overridden in a derived class, gets the length in bytes of the stream.
 		/// </summary>
@@ -391,7 +351,6 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 		{
 			get => throw new NotSupportedException();
 		}
-
 		/// <summary>
 		/// When overridden in a derived class, gets or sets the position within the current stream.
 		/// </summary>
@@ -405,7 +364,6 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 			get => throw new NotSupportedException();
 			set => throw new NotSupportedException();
 		}
-
 		/// <summary>
 		/// When overridden in a derived class, reads a sequence of bytes from the current stream and advances the position within the stream by the number of bytes read.
 		/// </summary>
@@ -441,10 +399,8 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 					break;
 				}
 			}
-
 			return bytesRead;
 		}
-
 		/// <summary>
 		/// Not supported, throws <see cref="T:System.NotSupportedException"/>.
 		/// </summary>
@@ -453,14 +409,12 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 		/// <returns></returns>
 		/// <exception cref="T:System.NotSupportedException">The stream does not support seeking, such as if the stream is constructed from a pipe or console output. </exception>
 		public override long Seek(long offset, SeekOrigin origin) => throw new NotSupportedException();
-
 		/// <summary>
 		/// Not supported, throws <see cref="T:System.NotSupportedException"/>.
 		/// </summary>
 		/// <param name="value">The desired length of the current stream in bytes.</param>
 		/// <exception cref="T:System.NotSupportedException">The stream does not support both writing and seeking, such as if the stream is constructed from a pipe or console output. </exception>
 		public override void SetLength(long value) => throw new NotSupportedException();
-
 		/// <summary>
 		/// Writes a sequence of bytes to the current stream and advances the current position within this stream by the number of bytes written.
 		/// </summary>
@@ -482,7 +436,6 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 				ringBuffer.WriteByte(buffer[offset + i]);
 			}
 		}
-
 		/// <summary>
 		/// Gets a value indicating whether this instance is closed.
 		/// </summary>
@@ -491,7 +444,6 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 		{
 			get { return ringBuffer.IsClosed; }
 		}
-
 		/// <summary>Releases the unmanaged resources used by the <see cref="Stream"></see> and optionally releases the managed resources.</summary>
 		/// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
 		protected override void Dispose(bool disposing)
@@ -502,26 +454,20 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 			}
 			base.Dispose(disposing);
 		}
-
 		/// <summary>
 		/// Gets the bytes written.
 		/// </summary>
 		/// <value>The bytes written.</value>
 		public long BytesWritten => ringBuffer.BytesWritten;
-
 		/// <summary>
 		/// Gets the bytes read.
 		/// </summary>
 		/// <value>The bytes read.</value>
 		public long BytesRead => ringBuffer.BytesRead;
-
 		#region Instance Fields
-
 		private readonly ReadWriteRingBuffer ringBuffer;
-
 		#endregion Instance Fields
 	}
-
 	internal class SingleByteReadingStream : MemoryStream
 	{
 		/// <summary>
@@ -530,13 +476,52 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 		public SingleByteReadingStream()
 		{
 		}
-
 		public override int Read(byte[] buffer, int offset, int count)
 		{
 			if (count > 0)
 				count = 1;
-
 			return base.Read(buffer, offset, count);
+		}
+	}
+	/// <summary>
+	/// A stream that closes itself when all of its data is read.
+	/// </summary>
+	/// <remarks>
+	/// Useful for testing issues such as https://github.com/icsharpcode/SharpZipLib/issues/379
+	/// </remarks>
+	internal class SelfClosingStream : MemoryStream
+	{
+		private bool isFullyRead = false;
+		/// <summary>
+		/// Initializes a new instance of the <see cref="SelfClosingStream"/> class.
+		/// </summary>
+		public SelfClosingStream()
+		{
+		}
+		// <inheritdoc/>
+		public override int Read(byte[] buffer, int offset, int count)
+		{
+			var read = base.Read(buffer, offset, count);
+			if (read == 0)
+			{
+				isFullyRead = true;
+				Close();
+			}
+			return read;
+		}
+		/// <summary>
+		/// CanRead is false if we're closed, or base.CanRead otherwise.
+		/// </summary>
+		public override bool CanRead
+		{
+			get
+			{
+				if (isFullyRead)
+				{
+					return false;
+				}
+				return base.CanRead;
+			}
 		}
 	}
 }

@@ -4,9 +4,9 @@ using System.IO;
 using NUnit.Framework;
 using UnityEditor;
 
-namespace Unity.SharpZipLib.Utils.Tests {
+namespace Unity.SharpZipLib.Utils.EditorTests {
 
-    public class ZipUtilityTests {
+    public class ZipUtilityEditorTests {
     [Test]
     public void CompressAndDecompress() {
         //Compress code

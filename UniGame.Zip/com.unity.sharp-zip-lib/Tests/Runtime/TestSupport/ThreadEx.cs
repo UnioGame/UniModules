@@ -1,7 +1,6 @@
 using System;
 using System.Threading;
 using System.Reflection;
-
 public class ThreadEx
 {
 	public static void Abort(Thread thread)

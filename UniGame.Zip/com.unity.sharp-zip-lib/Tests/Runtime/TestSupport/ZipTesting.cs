@@ -1,7 +1,6 @@
+using Unity.SharpZipLib.Zip;
 using System.IO;
-using ICSharpCode.SharpZipLib.Zip;
-
-namespace ICSharpCode.SharpZipLib.Tests.TestSupport
+namespace Unity.SharpZipLib.Tests.TestSupport
 {
 	/// <summary>
 	/// Provides support for testing in memory zip archives.
@@ -17,7 +16,6 @@ namespace ICSharpCode.SharpZipLib.Tests.TestSupport
 		{
 			return TestArchive(data, null);
 		}
-
 		/// <summary>
 		/// Tests the archive.
 		/// </summary>

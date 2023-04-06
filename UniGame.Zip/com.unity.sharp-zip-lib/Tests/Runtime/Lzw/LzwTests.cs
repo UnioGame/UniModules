@@ -1,9 +1,8 @@
-﻿using NUnit.Framework;
+﻿using Unity.SharpZipLib.Lzw;
+using Unity.SharpZipLib.Tests.TestSupport;
+using NUnit.Framework;
 using System.IO;
-using ICSharpCode.SharpZipLib.Lzw;
-using ICSharpCode.SharpZipLib.Tests.TestSupport;
-
-namespace ICSharpCode.SharpZipLib.Tests.Lzw
+namespace Unity.SharpZipLib.Tests.Lzw
 {
 	[TestFixture]
 	public class LzwTestSuite
@@ -20,13 +19,11 @@ namespace ICSharpCode.SharpZipLib.Tests.Lzw
 		//    for (int i = 0; i < 1028; i++) {
 		//        Assert.AreEqual(data[i], dataRaw[i]);
 		//    }
-
 		//    Stream output = File.Open("D:\\erase.txt", FileMode.CreateNew);
 		//    output.Write(data, 0, 1028);
 		//    output.Close();
 		//    raw.Close();
 		//}
-
 		//[Test]
 		//[Category("LZW")]
 		//public void TestStream() {
@@ -36,7 +33,6 @@ namespace ICSharpCode.SharpZipLib.Tests.Lzw
 		//        StreamUtils.Copy(inStream, outStream, buffer);
 		//    }
 		//}
-
 		[Test]
 		[Category("LZW")]
 		public void ZeroLengthInputStream()
@@ -51,34 +47,25 @@ namespace ICSharpCode.SharpZipLib.Tests.Lzw
 			{
 				exception = true;
 			}
-
 			Assert.IsTrue(exception, "reading from an empty stream should cause an exception");
 		}
-
 		[Test]
 		[Category("LZW")]
 		public void InputStreamOwnership()
 		{
 			var memStream = new TrackedMemoryStream();
 			var s = new LzwInputStream(memStream);
-
 			Assert.IsFalse(memStream.IsClosed, "Shouldnt be closed initially");
 			Assert.IsFalse(memStream.IsDisposed, "Shouldnt be disposed initially");
-
 			s.Close();
-
 			Assert.IsTrue(memStream.IsClosed, "Should be closed after parent owner close");
 			Assert.IsTrue(memStream.IsDisposed, "Should be disposed after parent owner close");
-
 			memStream = new TrackedMemoryStream();
 			s = new LzwInputStream(memStream);
-
 			Assert.IsFalse(memStream.IsClosed, "Shouldnt be closed initially");
 			Assert.IsFalse(memStream.IsDisposed, "Shouldnt be disposed initially");
-
 			s.IsStreamOwner = false;
 			s.Close();
-
 			Assert.IsFalse(memStream.IsClosed, "Should not be closed after parent owner close");
 			Assert.IsFalse(memStream.IsDisposed, "Should not be disposed after parent owner close");
 		}

@@ -1,10 +1,9 @@
+using Unity.SharpZipLib.GZip;
+using Unity.SharpZipLib.Tests.TestSupport;
 using NUnit.Framework;
 using System;
 using System.IO;
-using ICSharpCode.SharpZipLib.GZip;
-using ICSharpCode.SharpZipLib.Tests.TestSupport;
-
-namespace ICSharpCode.SharpZipLib.Tests.GZip
+namespace Unity.SharpZipLib.Tests.GZip
 {
 	/// <summary>
 	/// This class contains test cases for GZip compression
@@ -21,22 +20,17 @@ namespace ICSharpCode.SharpZipLib.Tests.GZip
 		{
 			var ms = new MemoryStream();
 			var outStream = new GZipOutputStream(ms);
-
 			byte[] buf = new byte[100000];
 			var rnd = new Random();
 			rnd.NextBytes(buf);
-
 			outStream.Write(buf, 0, buf.Length);
 			outStream.Flush();
 			outStream.Finish();
-
 			ms.Seek(0, SeekOrigin.Begin);
-
 			var inStream = new GZipInputStream(ms);
 			byte[] buf2 = new byte[buf.Length];
 			int currentIndex = 0;
 			int count = buf2.Length;
-
 			while (true)
 			{
 				int numRead = inStream.Read(buf2, currentIndex, count);
@@ -47,15 +41,12 @@ namespace ICSharpCode.SharpZipLib.Tests.GZip
 				currentIndex += numRead;
 				count -= numRead;
 			}
-
 			Assert.AreEqual(0, count);
-
 			for (int i = 0; i < buf.Length; ++i)
 			{
 				Assert.AreEqual(buf2[i], buf[i]);
 			}
 		}
-
 		/// <summary>
 		/// Writing GZip headers is delayed so that this stream can be used with HTTP/IIS.
 		/// </summary>
@@ -65,17 +56,37 @@ namespace ICSharpCode.SharpZipLib.Tests.GZip
 		{
 			var ms = new MemoryStream();
 			Assert.AreEqual(0, ms.Length);
-
 			using (GZipOutputStream outStream = new GZipOutputStream(ms))
 			{
 				Assert.AreEqual(0, ms.Length);
 			}
-
 			byte[] data = ms.ToArray();
-
 			Assert.IsTrue(data.Length > 0);
 		}
-
+		/// <summary>
+		/// Variant of DelayedHeaderWriteNoData testing flushing for https://github.com/icsharpcode/SharpZipLib/issues/382
+		/// </summary>
+		[Test]
+		[Category("GZip")]
+		public void DelayedHeaderWriteFlushNoData()
+		{
+			var ms = new MemoryStream();
+			Assert.AreEqual(0, ms.Length);
+			using (GZipOutputStream outStream = new GZipOutputStream(ms) { IsStreamOwner = false })
+			{
+				// #382 - test flushing the stream before writing to it.
+				outStream.Flush();
+			}
+			ms.Seek(0, SeekOrigin.Begin);
+			// Test that the gzip stream can be read
+			var readStream = new MemoryStream();
+			using (GZipInputStream inStream = new GZipInputStream(ms))
+			{
+				inStream.CopyTo(readStream);
+			}
+			byte[] data = readStream.ToArray();
+			Assert.That(data, Is.Empty, "Should not have any decompressed data");
+		}
 		/// <summary>
 		/// Writing GZip headers is delayed so that this stream can be used with HTTP/IIS.
 		/// </summary>
@@ -89,16 +100,40 @@ namespace ICSharpCode.SharpZipLib.Tests.GZip
 			{
 				Assert.AreEqual(0, ms.Length);
 				outStream.WriteByte(45);
-
 				// Should in fact contain header right now with
 				// 1 byte in the compression pipeline
 				Assert.AreEqual(10, ms.Length);
 			}
 			byte[] data = ms.ToArray();
-
 			Assert.IsTrue(data.Length > 0);
 		}
-
+		/// <summary>
+		/// variant of DelayedHeaderWriteWithData to test https://github.com/icsharpcode/SharpZipLib/issues/382
+		/// </summary>
+		[Test]
+		[Category("GZip")]
+		public void DelayedHeaderWriteFlushWithData()
+		{
+			var ms = new MemoryStream();
+			Assert.AreEqual(0, ms.Length);
+			using (GZipOutputStream outStream = new GZipOutputStream(ms) { IsStreamOwner = false })
+			{
+				Assert.AreEqual(0, ms.Length);
+				// #382 - test flushing the stream before writing to it.
+				outStream.Flush();
+				outStream.WriteByte(45);
+			}
+			ms.Seek(0, SeekOrigin.Begin);
+			// Test that the gzip stream can be read
+			var readStream = new MemoryStream();
+			using (GZipInputStream inStream = new GZipInputStream(ms))
+			{
+				inStream.CopyTo(readStream);
+			}
+			// Check that the data was read
+			byte[] data = readStream.ToArray();
+			CollectionAssert.AreEqual(new byte[] { 45 }, data, "Decompressed data should match initial data");
+		}
 		[Test]
 		[Category("GZip")]
 		public void ZeroLengthInputStream()
@@ -114,67 +149,49 @@ namespace ICSharpCode.SharpZipLib.Tests.GZip
 			{
 				exception = true;
 			}
-
 			Assert.IsFalse(exception, "reading from an empty stream should not cause an exception");
 			Assert.That(retval, Is.EqualTo(-1), "should yield -1 byte value");
 		}
-
 		[Test]
 		[Category("GZip")]
 		public void OutputStreamOwnership()
 		{
 			var memStream = new TrackedMemoryStream();
 			var s = new GZipOutputStream(memStream);
-
 			Assert.IsFalse(memStream.IsClosed, "Shouldnt be closed initially");
 			Assert.IsFalse(memStream.IsDisposed, "Shouldnt be disposed initially");
-
 			s.Close();
-
 			Assert.IsTrue(memStream.IsClosed, "Should be closed after parent owner close");
 			Assert.IsTrue(memStream.IsDisposed, "Should be disposed after parent owner close");
-
 			memStream = new TrackedMemoryStream();
 			s = new GZipOutputStream(memStream);
-
 			Assert.IsFalse(memStream.IsClosed, "Shouldnt be closed initially");
 			Assert.IsFalse(memStream.IsDisposed, "Shouldnt be disposed initially");
-
 			s.IsStreamOwner = false;
 			s.Close();
-
 			Assert.IsFalse(memStream.IsClosed, "Should not be closed after parent owner close");
 			Assert.IsFalse(memStream.IsDisposed, "Should not be disposed after parent owner close");
 		}
-
 		[Test]
 		[Category("GZip")]
 		public void InputStreamOwnership()
 		{
 			var memStream = new TrackedMemoryStream();
 			var s = new GZipInputStream(memStream);
-
 			Assert.IsFalse(memStream.IsClosed, "Shouldnt be closed initially");
 			Assert.IsFalse(memStream.IsDisposed, "Shouldnt be disposed initially");
-
 			s.Close();
-
 			Assert.IsTrue(memStream.IsClosed, "Should be closed after parent owner close");
 			Assert.IsTrue(memStream.IsDisposed, "Should be disposed after parent owner close");
-
 			memStream = new TrackedMemoryStream();
 			s = new GZipInputStream(memStream);
-
 			Assert.IsFalse(memStream.IsClosed, "Shouldnt be closed initially");
 			Assert.IsFalse(memStream.IsDisposed, "Shouldnt be disposed initially");
-
 			s.IsStreamOwner = false;
 			s.Close();
-
 			Assert.IsFalse(memStream.IsClosed, "Should not be closed after parent owner close");
 			Assert.IsFalse(memStream.IsDisposed, "Should not be disposed after parent owner close");
 		}
-
 		[Test]
 		public void DoubleFooter()
 		{
@@ -185,7 +202,6 @@ namespace ICSharpCode.SharpZipLib.Tests.GZip
 			s.Close();
 			Assert.AreEqual(length, memStream.ToArray().Length);
 		}
-
 		[Test]
 		public void DoubleClose()
 		{
@@ -194,21 +210,18 @@ namespace ICSharpCode.SharpZipLib.Tests.GZip
 			s.Finish();
 			s.Close();
 			s.Close();
-
 			memStream = new TrackedMemoryStream();
 			using (GZipOutputStream no2 = new GZipOutputStream(memStream))
 			{
 				s.Close();
 			}
 		}
-
 		[Test]
 		public void WriteAfterFinish()
 		{
 			var memStream = new TrackedMemoryStream();
 			var s = new GZipOutputStream(memStream);
 			s.Finish();
-
 			try
 			{
 				s.WriteByte(7);
@@ -218,14 +231,12 @@ namespace ICSharpCode.SharpZipLib.Tests.GZip
 			{
 			}
 		}
-
 		[Test]
 		public void WriteAfterClose()
 		{
 			var memStream = new TrackedMemoryStream();
 			var s = new GZipOutputStream(memStream);
 			s.Close();
-
 			try
 			{
 				s.WriteByte(7);
@@ -235,7 +246,6 @@ namespace ICSharpCode.SharpZipLib.Tests.GZip
 			{
 			}
 		}
-
 		/// <summary>
 		/// Verify that if a decompression was successful for at least one block we're exiting gracefully.
 		/// </summary>
@@ -245,25 +255,20 @@ namespace ICSharpCode.SharpZipLib.Tests.GZip
 			/* ARRANGE */
 			var ms = new MemoryStream();
 			var outStream = new GZipOutputStream(ms);
-
 			// input buffer to be compressed
 			byte[] buf = new byte[100000];
 			var rnd = new Random();
 			rnd.NextBytes(buf);
-
 			// compress input buffer
 			outStream.Write(buf, 0, buf.Length);
 			outStream.Flush();
 			outStream.Finish();
-
 			// generate random trailing garbage and add to the compressed stream
 			byte[] garbage = new byte[4096];
 			rnd.NextBytes(garbage);
 			ms.Write(garbage, 0, garbage.Length);
-
 			// rewind the concatenated stream
 			ms.Seek(0, SeekOrigin.Begin);
-
 			/* ACT */
 			// decompress concatenated stream
 			var inStream = new GZipInputStream(ms);
@@ -280,7 +285,6 @@ namespace ICSharpCode.SharpZipLib.Tests.GZip
 				currentIndex += numRead;
 				count -= numRead;
 			}
-
 			/* ASSERT */
 			Assert.AreEqual(0, count);
 			for (int i = 0; i < buf.Length; ++i)
@@ -288,7 +292,6 @@ namespace ICSharpCode.SharpZipLib.Tests.GZip
 				Assert.AreEqual(buf2[i], buf[i]);
 			}
 		}
-
 		/// <summary>
 		/// Test that if we flush a GZip output stream then all data that has been written
 		/// is flushed through to the underlying stream and can be successfully read back
@@ -300,22 +303,17 @@ namespace ICSharpCode.SharpZipLib.Tests.GZip
 		{
 			var ms = new MemoryStream();
 			var outStream = new GZipOutputStream(ms);
-
 			byte[] buf = new byte[100000];
 			var rnd = new Random();
 			rnd.NextBytes(buf);
-
 			outStream.Write(buf, 0, buf.Length);
 			// Flush output stream but don't finish it yet
 			outStream.Flush();
-
 			ms.Seek(0, SeekOrigin.Begin);
-
 			var inStream = new GZipInputStream(ms);
 			byte[] buf2 = new byte[buf.Length];
 			int currentIndex = 0;
 			int count = buf2.Length;
-
 			while (true)
 			{
 				try
@@ -335,15 +333,12 @@ namespace ICSharpCode.SharpZipLib.Tests.GZip
 					break;
 				}
 			}
-
 			Assert.AreEqual(0, count);
-
 			for (int i = 0; i < buf.Length; ++i)
 			{
 				Assert.AreEqual(buf2[i], buf[i]);
 			}
 		}
-
 		[Test]
 		[Category("GZip")]
 		public void SmallBufferDecompression()
@@ -359,7 +354,6 @@ namespace ICSharpCode.SharpZipLib.Tests.GZip
 				using (var gzos = new GZipOutputStream(msGzip))
 				{
 					gzos.IsStreamOwner = false;
-
 					var rnd = new Random(0);
 					rnd.NextBytes(inputBuffer);
 					gzos.Write(inputBuffer, 0, inputBuffer.Length);
@@ -367,10 +361,8 @@ namespace ICSharpCode.SharpZipLib.Tests.GZip
 					gzos.Flush();
 					gzos.Finish();
 				}
-
 				msGzip.Seek(0, SeekOrigin.Begin);
 				
-
 				using (var gzis = new GZipInputStream(msGzip))
 				using (var msRaw = new MemoryStream())
 				{
@@ -380,20 +372,41 @@ namespace ICSharpCode.SharpZipLib.Tests.GZip
 					{
 						msRaw.Write(outputBuffer, 0, readOut);
 					}
-
 					var resultBuffer = msRaw.ToArray();
-
 					for (var i = 0; i < resultBuffer.Length; i++)
 					{
 						Assert.AreEqual(inputBuffer[i], resultBuffer[i]);
 					}
-
-
 				}
+			}
 		}
-
-	}
-
+		/// <summary>
+		/// Should gracefully handle reading from a stream that becomes unreadable after
+		///  all of the data has been read.
+		/// </summary>
+		/// <remarks>
+		/// Test for https://github.com/icsharpcode/SharpZipLib/issues/379
+		/// </remarks>
+		[Test]
+		[Category("Zip")]
+		public void ShouldGracefullyHandleReadingANonReableStream()
+		{
+			MemoryStream ms = new SelfClosingStream();
+			using (var gzos = new GZipOutputStream(ms))
+			{
+				gzos.IsStreamOwner = false;
+				byte[] buf = new byte[100000];
+				var rnd = new Random();
+				rnd.NextBytes(buf);
+				gzos.Write(buf, 0, buf.Length);
+			}
+			ms.Seek(0, SeekOrigin.Begin);
+			using (var gzis = new GZipInputStream(ms))
+			using (var msRaw = new MemoryStream())
+			{
+				gzis.CopyTo(msRaw);
+			}
+		}
 		[Test]
 		[Category("GZip")]
 		[Category("Performance")]
@@ -406,7 +419,6 @@ namespace ICSharpCode.SharpZipLib.Tests.GZip
 				output: w => new GZipOutputStream(w)
 			);
 		}
-
 		[Test]
 		[Category("GZip")]
 		[Category("Performance")]

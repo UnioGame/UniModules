@@ -1,10 +1,9 @@
+using Unity.SharpZipLib.BZip2;
+using Unity.SharpZipLib.Tests.TestSupport;
 using NUnit.Framework;
 using System;
 using System.IO;
-using ICSharpCode.SharpZipLib.BZip2;
-using ICSharpCode.SharpZipLib.Tests.TestSupport;
-
-namespace ICSharpCode.SharpZipLib.Tests.BZip2
+namespace Unity.SharpZipLib.Tests.BZip2
 {
 	/// <summary>
 	/// This class contains test cases for Bzip2 compression
@@ -21,16 +20,13 @@ namespace ICSharpCode.SharpZipLib.Tests.BZip2
 		{
 			var ms = new MemoryStream();
 			var outStream = new BZip2OutputStream(ms);
-
 			byte[] buf = new byte[10000];
 			var rnd = new Random();
 			rnd.NextBytes(buf);
-
 			outStream.Write(buf, 0, buf.Length);
 			outStream.Close();
 			ms = new MemoryStream(ms.GetBuffer());
 			ms.Seek(0, SeekOrigin.Begin);
-
 			using (BZip2InputStream inStream = new BZip2InputStream(ms))
 			{
 				byte[] buf2 = new byte[buf.Length];
@@ -44,14 +40,12 @@ namespace ICSharpCode.SharpZipLib.Tests.BZip2
 					}
 					pos += numRead;
 				}
-
 				for (int i = 0; i < buf.Length; ++i)
 				{
 					Assert.AreEqual(buf2[i], buf[i]);
 				}
 			}
 		}
-
 		/// <summary>
 		/// Check that creating an empty archive is handled ok
 		/// </summary>
@@ -63,9 +57,7 @@ namespace ICSharpCode.SharpZipLib.Tests.BZip2
 			var outStream = new BZip2OutputStream(ms);
 			outStream.Close();
 			ms = new MemoryStream(ms.GetBuffer());
-
 			ms.Seek(0, SeekOrigin.Begin);
-
 			using (BZip2InputStream inStream = new BZip2InputStream(ms))
 			{
 				byte[] buffer = new byte[1024];
@@ -79,11 +71,9 @@ namespace ICSharpCode.SharpZipLib.Tests.BZip2
 					}
 					pos += numRead;
 				}
-
-				Assert.AreEqual(pos, 0);
+				Assert.Zero(pos);
 			}
 		}
-
 		[Test]
 		[Category("BZip2")]
 		[Category("Performance")]
@@ -95,7 +85,6 @@ namespace ICSharpCode.SharpZipLib.Tests.BZip2
 				output: w => new BZip2OutputStream(w)
 			);
 		}
-
 		[Test]
 		[Category("BZip2")]
 		[Category("Performance")]
