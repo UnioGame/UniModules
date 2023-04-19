@@ -37,7 +37,7 @@ namespace Newtonsoft.Json.UnityConverters
     public static class UnityConverterInitializer
     {
         private static bool _shouldAddConvertsToDefaultSettings = true;
-
+        private static JsonSerializerSettings _defaultSettings;
         /// <summary>
         /// The default <see cref="JsonSerializerSettings"/> given by <c>Newtonsoft.Json-for-Unity.Converters</c>
         /// </summary>
@@ -113,6 +113,9 @@ namespace Newtonsoft.Json.UnityConverters
 
         private static JsonSerializerSettings CreateJsonSettingsWithFreslyLoadedConfig()
         {
+            //return new JsonSerializerSettings();
+            if (_defaultSettings != null) return _defaultSettings;
+            
             var config = Resources.Load<UnityConvertersConfig>(UnityConvertersConfig.PATH_FOR_RESOURCES_LOAD);
 
             if (!config)
@@ -120,16 +123,16 @@ namespace Newtonsoft.Json.UnityConverters
                 config = ScriptableObject.CreateInstance<UnityConvertersConfig>();
             }
 
-            var settings = new JsonSerializerSettings {
+            _defaultSettings = new JsonSerializerSettings {
                 Converters = CreateConverters(config),
             };
 
             if (config.useUnityContractResolver)
             {
-                settings.ContractResolver = new UnityTypeContractResolver();
+                _defaultSettings.ContractResolver = new UnityTypeContractResolver();
             }
 
-            return settings;
+            return _defaultSettings;
         }
 
         /// <summary>
