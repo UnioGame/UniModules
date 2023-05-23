@@ -3,6 +3,10 @@ using UnityFigmaBridge.Editor.Settings;
 
 namespace UniGame.UnityFigma.Editor.FlowGenerator
 {
+    using System;
+    using LeoEcs.ViewSystem.Behavriour;
+    using UniModules.UniCore.Runtime.Utils;
+    using UniModules.UniGame.UiSystem.Runtime;
     using UnityEngine.UI;
     using UnityFigmaBridge.Editor;
     using UnityFigmaBridge.Editor.FigmaApi;
@@ -36,11 +40,13 @@ namespace UniGame.UnityFigma.Editor.FlowGenerator
             if (string.IsNullOrEmpty(node.transitionNodeID)) return;
 
             var targetNodeId = node.transitionNodeID;
-            var targetNode = figmaImportProcessData.NodeLookupDictionary[targetNodeId]; 
-            //targetNode.name
-            //var prototypeFlowButton = nodeGameObject.AddComponent<>();
-            //prototypeFlowButton.TargetScreenNodeId = node.transitionNodeID;
-            // Future options to add transition information
+            var targetNode = figmaImportProcessData.NodeLookupDictionary[targetNodeId];
+            var targetView = targetNode.name;
+            
+            var flowButton = nodeGameObject.GetComponent<OpenViewButton>();
+            flowButton ??= nodeGameObject.AddComponent<OpenViewButton>();
+            flowButton.view = targetView;
+            flowButton.layoutType = GetLayoutType(targetView);
         }
 
         public void AddButton(GameObject nodeGameObject)
@@ -73,6 +79,25 @@ namespace UniGame.UnityFigma.Editor.FlowGenerator
             if (node.name.ToLower().Contains("button")) return true;
             return figmaImportProcessData.Settings.BuildPrototypeFlow && 
                    !string.IsNullOrEmpty(node.transitionNodeID);
+        }
+
+        public ViewType GetLayoutType(string viewId)
+        {
+            var layoutType = viewId switch
+            {
+                not null when IsLayout(viewId, ViewType.Window) => ViewType.Window,
+                not null when IsLayout(viewId, ViewType.Screen) => ViewType.Screen,
+                not null when IsLayout(viewId, ViewType.Overlay) => ViewType.Overlay,
+                _ => ViewType.None
+            };
+
+            return layoutType;
+        }
+        
+        public bool IsLayout(string viewId,ViewType layout)
+        {
+            return viewId.Contains(layout.ToStringFromCache(),
+                StringComparison.InvariantCultureIgnoreCase);
         }
     }
 }
