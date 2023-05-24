@@ -5,12 +5,12 @@ namespace UniGame.UnityFigma.Editor.FlowGenerator
 {
     using System;
     using LeoEcs.ViewSystem.Behavriour;
+    using UiSystem.Runtime.Settings;
     using UniModules.UniCore.Runtime.Utils;
     using UniModules.UniGame.UiSystem.Runtime;
     using UnityEngine.UI;
     using UnityFigmaBridge.Editor;
     using UnityFigmaBridge.Editor.FigmaApi;
-    using UnityFigmaBridge.Runtime.UI;
     using Color = UnityEngine.Color;
 
     [CreateAssetMenu(menuName = "UniGame/Figma/View System Figma Flow",fileName = "ViewSystem FigmaFlowGenerator")]
@@ -45,7 +45,7 @@ namespace UniGame.UnityFigma.Editor.FlowGenerator
             
             var flowButton = nodeGameObject.GetComponent<OpenViewButton>();
             flowButton ??= nodeGameObject.AddComponent<OpenViewButton>();
-            flowButton.view = targetView;
+            flowButton.view = (ViewId)targetView;
             flowButton.layoutType = GetLayoutType(targetView);
         }
 
