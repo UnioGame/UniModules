@@ -1,0 +1,18 @@
+{
+  "name": "com.unigame.zstring",
+  "author": "neuecc",
+  "displayName": "ZString",
+  "description": "Zero Allocation StringBuilder for .NET Core and Unity.",
+  "unity": "2021.3",
+  "version": "2023.0.0",
+  "keywords": [
+    "utils"
+  ],
+  "homepage": "https://github.com/Cysharp/ZString#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Cysharp/ZString.git"
+  },
+  "dependencies": {
+  }
+}

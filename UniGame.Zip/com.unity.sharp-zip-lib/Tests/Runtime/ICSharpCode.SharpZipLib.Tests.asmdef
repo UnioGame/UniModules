@@ -9,7 +9,7 @@
     "overrideReferences": true,
     "precompiledReferences": [
         "nunit.framework.dll",
-        "SharpZipLib.dll"
+        "Unity.SharpZipLib.dll"
     ],
     "autoReferenced": false,
     "defineConstraints": [

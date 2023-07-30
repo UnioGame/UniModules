@@ -1,5 +1,5 @@
-﻿using ICSharpCode.SharpZipLib.Core;
-using ICSharpCode.SharpZipLib.Zip;
+﻿using Unity.SharpZipLib.Core;
+using Unity.SharpZipLib.Zip;
 using System;
 using System.IO;
 
