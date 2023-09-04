@@ -1,5 +1,6 @@
 ﻿namespace UniGame.Shared.Runtime.Timeline
 {
+    using System.Collections.Generic;
     using UnityEngine.Playables;
     using UnityEngine.Timeline;
 
@@ -17,6 +18,18 @@
             }
 
             return null;
+        }
+        
+        public static IEnumerable<T> GetTracks<T>(this PlayableAsset playableAsset) where T : TrackAsset
+        {
+            if (!(playableAsset is TimelineAsset timelineAsset))
+                yield break;
+
+            foreach (var outputTrack in timelineAsset.GetOutputTracks())
+            {
+                if (outputTrack is T track)
+                    yield return track;
+            }
         }
     }
 }
