@@ -66,6 +66,24 @@
 
             return null;
         }
+
+        public static IEnumerable<TClip> GetClips<TClip, TTrack>(this PlayableAsset animation)
+            where TTrack : TrackAsset
+            where TClip : PlayableAsset
+        {
+            foreach (var animationOutput in animation.outputs)
+            {
+                var source = animationOutput.sourceObject;
+                if (source is not TTrack trackAsset) continue;
+                var clips = trackAsset.GetClips();
+            
+                foreach (var clip in clips)
+                {
+                    if(clip.asset is not TClip clipAsset) continue;
+                    yield return clipAsset;
+                }
+            }
+        }
         
         public static IEnumerable<T> GetTracks<T>(this PlayableAsset playableAsset) where T : TrackAsset
         {
