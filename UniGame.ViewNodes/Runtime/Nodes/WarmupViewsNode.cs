@@ -38,7 +38,8 @@ namespace UniModules.UniGame.GameFlow.GameFlow.Runtime.Views.Nodes
 
         private async UniTask CreateViewPool(AssetReferenceViewSettings viewSettings)
         {
-            var settings = await viewSettings.LoadAssetTaskApiAsync<ScriptableObject,IViewsSettings>(LifeTime);
+            var reference = viewSettings.reference;
+            var settings = await reference.LoadAssetTaskApiAsync<ScriptableObject,IViewsSettings>(LifeTime);
             foreach (var viewReference in settings.Views)
             {
                 var view = viewReference.View;
