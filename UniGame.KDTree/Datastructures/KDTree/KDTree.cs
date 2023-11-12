@@ -25,14 +25,19 @@ SOFTWARE.
 // if you know for sure you will not use duplicate coordinates (all unique)
 #define KDTREE_DUPLICATES
 
-using System.Collections;
 using System.Collections.Generic;
 using System;
-using UnityEngine;
 
 namespace DataStructures.ViliWonka.KDTree {
     using Unity.Mathematics;
 
+#if ENABLE_IL2CPP
+    using Unity.IL2CPP.CompilerServices;
+
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+#endif
     public class KDTree
     {
         public KDNode RootNode;
