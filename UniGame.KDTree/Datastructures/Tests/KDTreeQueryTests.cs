@@ -28,6 +28,9 @@ using UnityEngine;
 namespace DataStructures.ViliWonka.Tests {
 
     using KDTree;
+    using Unity.Mathematics;
+    using Random = UnityEngine.Random;
+
     public enum QType {
 
         ClosestPoint,
@@ -48,16 +51,16 @@ namespace DataStructures.ViliWonka.Tests {
 
         public bool DrawQueryNodes = true;
 
-        public Vector3 IntervalSize = new Vector3(0.2f, 0.2f, 0.2f);
+        public float3 IntervalSize = new float3(0.2f, 0.2f, 0.2f);
 
-        Vector3[] pointCloud;
+        float3[] pointCloud;
         KDTree tree;
 
         KDQuery query;
 
         void Awake() {
 
-            pointCloud = new Vector3[20000];
+            pointCloud = new float3[20000];
 
             query = new KDQuery();
 
@@ -75,8 +78,8 @@ namespace DataStructures.ViliWonka.Tests {
             for(int i = 0; i < pointCloud.Length; i++) {
 
                 for(int j=0; j < i; j++) {
-
-                    pointCloud[i] += LorenzStep(pointCloud[i]) * 0.01f;
+                    float3 diff = LorenzStep(pointCloud[i]) * 0.01f;
+                    pointCloud[i] += diff;
                 }
             }
 
@@ -100,8 +103,8 @@ namespace DataStructures.ViliWonka.Tests {
         void Update() {
 
             for(int i = 0; i < tree.Count; i++) {
-
-                tree.points[i] += LorenzStep(tree.points[i]) * Time.deltaTime * 0.1f;
+                float3 diff = LorenzStep(tree.points[i]) * Time.deltaTime * 0.1f;
+                tree.points[i] += diff;
             }
 
             tree.Rebuild();
@@ -148,9 +151,11 @@ namespace DataStructures.ViliWonka.Tests {
                 }
                 break;
 
-                case QType.Interval: {
+                case QType.Interval:
+                {
 
-                    query.Interval(tree, transform.position - IntervalSize/2f, transform.position + IntervalSize/2f, resultIndices);
+                    float3 position = transform.position;
+                    query.Interval(tree,  position- IntervalSize/2f, position + IntervalSize/2f, resultIndices);
 
                     Gizmos.DrawWireCube(transform.position, IntervalSize);
                 }

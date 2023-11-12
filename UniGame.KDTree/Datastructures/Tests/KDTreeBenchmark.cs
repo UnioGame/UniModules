@@ -28,21 +28,23 @@ using UnityEngine;
 using Debug = UnityEngine.Debug;
 
 namespace DataStructures.ViliWonka.Tests {
+    using Unity.Mathematics;
+    using Random = UnityEngine.Random;
 
     public class KDTreeBenchmark : MonoBehaviour {
 
-        Vector3[] points10k;
-        Vector3[] points100k;
-        Vector3[] points1m;
+        float3[] points10k;
+        float3[] points100k;
+        float3[] points1m;
 
-        Vector3[] testingArray;
+        float3[] testingArray;
         Stopwatch stopwatch;
 
         void Awake() {
 
-            points10k  = new Vector3[10000];
-            points100k = new Vector3[100000];
-            points1m   = new Vector3[1000000];
+            points10k  = new float3[10000];
+            points100k = new float3[100000];
+            points1m   = new float3[1000000];
 
             stopwatch  = new Stopwatch();
         }
@@ -111,7 +113,7 @@ namespace DataStructures.ViliWonka.Tests {
         void RandomizeUniform() {
 
             for(int i = 0; i < testingArray.Length; i++) {
-                testingArray[i] = new Vector3(
+                testingArray[i] = new float3(
                     Random.value,
                     Random.value,
                     Random.value
@@ -124,7 +126,7 @@ namespace DataStructures.ViliWonka.Tests {
 
             for(int i = 0; i < testingArray.Length; i++) {
 
-                testingArray[i] = new Vector3(
+                testingArray[i] = new float3(
                     (Random.value + Random.value) / 2f,
                     (Random.value + Random.value) / 2f,
                     (Random.value + Random.value) / 2f
@@ -149,9 +151,9 @@ namespace DataStructures.ViliWonka.Tests {
             Randomize2DPlane();
 
             //Sort by all coordinates
-            System.Array.Sort<Vector3>(testingArray, (v1, v2) => v1.x.CompareTo(v2.x));
-            System.Array.Sort<Vector3>(testingArray, (v1, v2) => v1.y.CompareTo(v2.y));
-            System.Array.Sort<Vector3>(testingArray, (v1, v2) => v1.z.CompareTo(v2.z));
+            System.Array.Sort<float3>(testingArray, (v1, v2) => v1.x.CompareTo(v2.x));
+            System.Array.Sort<float3>(testingArray, (v1, v2) => v1.y.CompareTo(v2.y));
+            System.Array.Sort<float3>(testingArray, (v1, v2) => v1.z.CompareTo(v2.z));
 
         }
 
@@ -179,7 +181,7 @@ namespace DataStructures.ViliWonka.Tests {
             stopwatch.Reset();
             stopwatch.Start();
 
-            Vector3 position = Vector3.one * 0.5f + Random.insideUnitSphere;
+            float3 position = Vector3.one * 0.5f + Random.insideUnitSphere;
             float radius = 0.25f;
 
             results.Clear();
@@ -195,7 +197,7 @@ namespace DataStructures.ViliWonka.Tests {
             stopwatch.Reset();
             stopwatch.Start();
 
-            Vector3 position = Vector3.one * 0.5f + Random.insideUnitSphere;
+            float3 position = Vector3.one * 0.5f + Random.insideUnitSphere;
             float radius = 0.25f;
 
             results.Clear();
@@ -211,7 +213,7 @@ namespace DataStructures.ViliWonka.Tests {
             stopwatch.Reset();
             stopwatch.Start();
 
-            Vector3 position = Vector3.one * 0.5f + Random.insideUnitSphere;
+            float3 position = Vector3.one * 0.5f + Random.insideUnitSphere;
             int k = 13;
 
             results.Clear();

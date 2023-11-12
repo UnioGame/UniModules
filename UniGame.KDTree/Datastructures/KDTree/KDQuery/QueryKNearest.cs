@@ -30,6 +30,7 @@ using System;
 namespace DataStructures.ViliWonka.KDTree {
 
     using Heap;
+    using Unity.Mathematics;
 
     public partial class KDQuery {
 
@@ -42,7 +43,7 @@ namespace DataStructures.ViliWonka.KDTree {
         /// <param name="k">Max number of points</param>
         /// <param name="resultIndices">List where resulting indices will be stored</param>
         /// <param name="resultDistances">Optional list where resulting distances will be stored</param>
-        public void KNearest(KDTree tree, Vector3 queryPosition, int k, List<int> resultIndices, List<float> resultDistances = null) {
+        public void KNearest(KDTree tree, float3 queryPosition, int k, List<int> resultIndices, List<float> resultDistances = null) {
 
             // pooled heap arrays
             KSmallestHeap<int> kHeap;
@@ -58,7 +59,7 @@ namespace DataStructures.ViliWonka.KDTree {
             kHeap.Clear();
             Reset();
 
-            Vector3[] points = tree.points;
+            float3[] points = tree.points;
             int[] permutation = tree.permutation;
 
             ///Biggest Smallest Squared Radius
@@ -136,15 +137,14 @@ namespace DataStructures.ViliWonka.KDTree {
 
                         int index = permutation[i];
 
-                        sqrDist = Vector3.SqrMagnitude(points[index] - queryPosition);
+                        sqrDist = math.distancesq(points[index] , queryPosition);
 
-                        if(sqrDist <= BSSR) {
+                        if (!(sqrDist <= BSSR)) continue;
+                        
+                        kHeap.PushObj(index, sqrDist);
 
-                            kHeap.PushObj(index, sqrDist);
-
-                            if(kHeap.Full) {
-                                BSSR = kHeap.HeadValue;
-                            }
+                        if(kHeap.Full) {
+                            BSSR = kHeap.HeadValue;
                         }
                     }
 

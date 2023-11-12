@@ -26,14 +26,15 @@ using UnityEngine;
 using System;
 
 namespace DataStructures.ViliWonka.KDTree {
+    using Unity.Mathematics;
 
     public partial class KDQuery {
 
-        public void Interval(KDTree tree, Vector3 min, Vector3 max, List<int> resultIndices) {
+        public void Interval(KDTree tree, float3 min, float3 max, List<int> resultIndices) {
 
             Reset();
 
-            Vector3[] points = tree.points;
+            float3[] points = tree.points;
             int[] permutation = tree.permutation;
 
             var rootNode = tree.RootNode;

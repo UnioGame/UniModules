@@ -28,6 +28,8 @@ using UnityEngine;
 namespace DataStructures.ViliWonka.Tests {
 
     using KDTree;
+    using Unity.Mathematics;
+    using Random = UnityEngine.Random;
 
     public class KDTreeQueryResizeTests : MonoBehaviour {
 
@@ -48,7 +50,7 @@ namespace DataStructures.ViliWonka.Tests {
 
         void Awake() {
 
-            Vector3[] pointCloud = new Vector3[1];
+            float3[] pointCloud = new float3[1];
 
             query = new KDQuery();
 
@@ -66,8 +68,8 @@ namespace DataStructures.ViliWonka.Tests {
             for(int i = 0; i < pointCloud.Length; i++) {
 
                 for(int j = 0; j < i; j++) {
-
-                    pointCloud[i] += LorenzStep(pointCloud[i]) * 0.01f;
+                    float3 diff = LorenzStep(pointCloud[i]) * 0.01f;
+                    pointCloud[i] += diff;
                 }
             }
 
@@ -106,8 +108,8 @@ namespace DataStructures.ViliWonka.Tests {
             for(int r = 0; r < 5; r++) {
 
                 for(int i = 0; i < tree.Count; i++) {
-
-                    tree.points[i] += LorenzStep(tree.points[i]) * Time.deltaTime * 0.1f;
+                    float3 diff =LorenzStep(tree.points[i]) * Time.deltaTime * 0.1f;
+                    tree.points[i] += diff;
                 }
             }
             

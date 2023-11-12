@@ -28,14 +28,15 @@ using System;
 namespace DataStructures.ViliWonka.KDTree {
 
     using Heap;
+    using Unity.Mathematics;
 
     public partial class KDQuery {
 
-        public void ClosestPoint(KDTree tree, Vector3 queryPosition, List<int> resultIndices, List<float> resultDistances = null) {
+        public void ClosestPoint(KDTree tree, float3 queryPosition, List<int> resultIndices, List<float> resultDistances = null) {
 
             Reset();
 
-            Vector3[] points = tree.points;
+            float3[] points = tree.points;
             int[] permutation = tree.permutation;
 
             if (points.Length == 0) {

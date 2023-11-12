@@ -26,6 +26,7 @@ using UnityEngine;
 using System;
 
 namespace DataStructures.ViliWonka.KDTree {
+    using Unity.Mathematics;
 
     public partial class KDQuery {
 
@@ -36,13 +37,12 @@ namespace DataStructures.ViliWonka.KDTree {
         /// <param name="queryPosition">Position</param>
         /// <param name="queryRadius">Radius</param>
         /// <param name="resultIndices">Initialized list, cleared.</param>
-        public void Radius(KDTree tree, Vector3 queryPosition, float queryRadius, List<int> resultIndices) {
+        public void Radius(KDTree tree, float3 queryPosition, float queryRadius, List<int> resultIndices) {
 
             Reset();
 
-            Vector3[] points = tree.points;
+            float3[] points = tree.points;
             int[] permutation = tree.permutation;
-
             float squaredRadius = queryRadius * queryRadius;
 
             var rootNode = tree.RootNode;
@@ -64,7 +64,7 @@ namespace DataStructures.ViliWonka.KDTree {
                     int partitionAxis = node.partitionAxis;
                     float partitionCoord = node.partitionCoordinate;
 
-                    Vector3 tempClosestPoint = queryNode.tempClosestPoint;
+                    float3 tempClosestPoint = queryNode.tempClosestPoint;
 
                     if((tempClosestPoint[partitionAxis] - partitionCoord) < 0) {
 
@@ -78,7 +78,7 @@ namespace DataStructures.ViliWonka.KDTree {
 
                         tempClosestPoint[partitionAxis] = partitionCoord;
 
-                        float sqrDist = Vector3.SqrMagnitude(tempClosestPoint - queryPosition);
+                        float sqrDist = math.distancesq(tempClosestPoint, queryPosition);
 
                         // testing other side
                         if(node.positiveChild.Count != 0
@@ -100,7 +100,7 @@ namespace DataStructures.ViliWonka.KDTree {
                         // project the tempClosestPoint to other bound
                         tempClosestPoint[partitionAxis] = partitionCoord;
 
-                        float sqrDist = Vector3.SqrMagnitude(tempClosestPoint - queryPosition);
+                        float sqrDist = math.distancesq(tempClosestPoint , queryPosition);
 
                         // testing other side
                         if(node.negativeChild.Count != 0
@@ -116,9 +116,8 @@ namespace DataStructures.ViliWonka.KDTree {
                     for(int i = node.start; i < node.end; i++) {
 
                         int index = permutation[i];
-
-                        if(Vector3.SqrMagnitude(points[index] - queryPosition) <= squaredRadius) {
-
+                        float sqrDistance = math.distancesq(points[index] , queryPosition);
+                        if(sqrDistance <= squaredRadius) {
                             resultIndices.Add(index);
                         }
                     }

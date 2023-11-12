@@ -28,10 +28,9 @@ namespace DataStructures.ViliWonka.Heap {
     // array start at index 1, optimisation reason
     public abstract class BaseHeap {
 
-        protected int nodesCount;
-        protected int maxSize;
-
-        protected float[] heap;
+        public int nodesCount;
+        public int maxSize;
+        public float[] heap;
 
         protected BaseHeap(int initialSize) {
 
