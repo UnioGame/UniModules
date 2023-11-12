@@ -25,6 +25,13 @@ using System.Collections.Generic;
 
 namespace DataStructures.ViliWonka.Heap {
 
+#if ENABLE_IL2CPP
+    using Unity.IL2CPP.CompilerServices;
+
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+#endif
     // array start at index 1, optimisation reason
     public abstract class BaseHeap {
 
@@ -37,8 +44,6 @@ namespace DataStructures.ViliWonka.Heap {
             maxSize = initialSize;
             heap = new float[initialSize + 1];
         }
-
-        public int Count { get { return nodesCount; } }
 
         public float HeadValue { get { return heap[1]; } }
 
@@ -202,7 +207,7 @@ namespace DataStructures.ViliWonka.Heap {
 
         public void FlushHeapResult(List<float> heapList) {
 
-            for(int i = 1; i < Count; i++) {
+            for(int i = 1; i < nodesCount; i++) {
                 heapList.Add(heap[i]);
             }
         }

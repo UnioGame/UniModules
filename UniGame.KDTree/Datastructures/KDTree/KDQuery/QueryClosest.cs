@@ -63,7 +63,7 @@ namespace DataStructures.ViliWonka.KDTree {
             Vector3 tempClosestPoint;
 
             // searching
-            while(minHeap.Count > 0) {
+            while(minHeap.nodesCount > 0) {
 
                 queryNode = PopFromHeap();
 
