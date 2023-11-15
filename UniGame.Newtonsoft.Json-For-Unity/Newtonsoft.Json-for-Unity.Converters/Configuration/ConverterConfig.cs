@@ -3,16 +3,15 @@ using System.Collections.Generic;
 
 namespace Newtonsoft.Json.UnityConverters.Configuration
 {
-    
 #pragma warning disable CA2235 // Mark all non-serializable fields
     [Serializable]
     [System.Diagnostics.DebuggerDisplay("{converterName}, enabled={enabled}")]
-    public class ConverterConfig : IEquatable<ConverterConfig>
+    public struct ConverterConfig : IEquatable<ConverterConfig>
     {
         public bool enabled;
 
         public string converterName;
-        
+
         public string converterType;
 
         public List<KeyedConfig> settings;

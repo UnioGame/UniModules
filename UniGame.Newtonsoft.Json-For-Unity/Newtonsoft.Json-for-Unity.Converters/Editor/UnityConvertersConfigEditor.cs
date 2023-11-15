@@ -30,6 +30,8 @@ namespace Newtonsoft.Json.UnityConverters.Editor
         private AnimBool _jsonNetConvertersShow;
 
         private UnityConvertersConfig _config;
+        private GUIStyle _headerStyle;
+        private GUIStyle _boldHeaderStyle;
 
         private bool _isDirty;
 
@@ -67,25 +69,22 @@ namespace Newtonsoft.Json.UnityConverters.Editor
             _outsideConvertersShow.valueChanged.AddListener(Repaint);
             _unityConvertersShow.valueChanged.AddListener(Repaint);
             _jsonNetConvertersShow.valueChanged.AddListener(Repaint);
+            _headerStyle = new GUIStyle { fontSize = 20, wordWrap = true, normal = EditorStyles.label.normal };
+            _boldHeaderStyle = new GUIStyle { fontSize = 20, fontStyle = FontStyle.Bold, wordWrap = true, normal = EditorStyles.label.normal };
 
             serializedObject.Update();
-            
             AddAndSetupConverters(_outsideConverters, outsideConverterTypes, _useAllOutsideConverters.boolValue);
             AddAndSetupConverters(_unityConverters, unityConverterTypes, _useAllUnityConverters.boolValue);
             AddAndSetupConverters(_jsonNetConverters, jsonNetConverterTypes, _useAllJsonNetConverters.boolValue);
-            
+
             serializedObject.ApplyModifiedProperties();
-            
-            if(_config!=null && _config.useBakedConverters)
-                _config.BakeTypes();
         }
 
         public override void OnInspectorGUI()
         {
             _isDirty = false;
-            
-            EditorGUILayout.LabelField("Settings for the converters of");
-            EditorGUILayout.LabelField("Newtonsoft.Json-for-Unity.Converters");
+            EditorGUILayout.LabelField("Settings for the converters of", _headerStyle);
+            EditorGUILayout.LabelField("Newtonsoft.Json-for-Unity.Converters", _boldHeaderStyle);
 
             serializedObject.Update();
 
@@ -100,9 +99,13 @@ namespace Newtonsoft.Json.UnityConverters.Editor
             
             EditorGUILayout.Separator();
             EditorGUILayout.Space();
-            
-            if(GUILayout.Button("Bake Json Converters"))
-                _config.BakeTypes();
+
+            if (GUILayout.Button("Bake Json Converters"))
+            {
+                UnityConverterInitializer.BakeConverters(_config);
+                EditorUtility.SetDirty(_config);
+                AssetDatabase.SaveAssetIfDirty(_config);
+            }
             
             EditorGUILayout.Space();
 
@@ -150,12 +153,15 @@ namespace Newtonsoft.Json.UnityConverters.Editor
             {
                 int nextIndex = arrayProperty.arraySize;
                 arrayProperty.InsertArrayElementAtIndex(nextIndex);
+                
                 SerializedProperty elemProp = arrayProperty.GetArrayElementAtIndex(nextIndex);
                 SerializedProperty enabledProp = elemProp.FindPropertyRelative(nameof(ConverterConfig.enabled));
                 SerializedProperty converterNameProp = elemProp.FindPropertyRelative(nameof(ConverterConfig.converterName));
+                SerializedProperty converterTypeProp = elemProp.FindPropertyRelative(nameof(ConverterConfig.converterType));
 
                 enabledProp.boolValue = newAreEnabledByDefault;
                 converterNameProp.stringValue = converterType.FullName;
+                converterTypeProp.stringValue = converterType.AssemblyQualifiedName;
             }
         }
 
