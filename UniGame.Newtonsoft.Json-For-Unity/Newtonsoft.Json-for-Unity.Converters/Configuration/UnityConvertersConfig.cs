@@ -88,7 +88,7 @@ namespace Newtonsoft.Json.UnityConverters.Configuration
             foreach (var item in items)
             {
                 if(!useAll && !item.enabled) continue;
-                var type = item.converterType;
+                var type = Type.GetType(item.converterType, false, true);
                 yield return type;
             }
         }

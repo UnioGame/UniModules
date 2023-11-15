@@ -3,8 +3,7 @@ using System.Collections.Generic;
 
 namespace Newtonsoft.Json.UnityConverters.Configuration
 {
-    using UniGame.Core.Runtime.SerializableType;
-
+    
 #pragma warning disable CA2235 // Mark all non-serializable fields
     [Serializable]
     [System.Diagnostics.DebuggerDisplay("{converterName}, enabled={enabled}")]
@@ -14,7 +13,7 @@ namespace Newtonsoft.Json.UnityConverters.Configuration
 
         public string converterName;
         
-        public SType converterType;
+        public string converterType;
 
         public List<KeyedConfig> settings;
 

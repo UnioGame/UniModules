@@ -34,9 +34,6 @@ using UnityEngine;
 
 namespace Newtonsoft.Json.UnityConverters
 {
-    using UniModules.UniCore.Runtime.Utils;
-    using UnityEngine.Profiling;
-
     public static class UnityConverterInitializer
     {
         private static bool _shouldAddConvertsToDefaultSettings = true;
@@ -120,7 +117,7 @@ namespace Newtonsoft.Json.UnityConverters
                     var fullName = type.FullName;
                     if(fullName == null || !fullName.Equals(config.converterName,StringComparison.OrdinalIgnoreCase))
                         continue;
-                    config.converterType = type;
+                    config.converterType = type.AssemblyQualifiedName;
                     break;
                 }
             }
@@ -296,10 +293,10 @@ namespace Newtonsoft.Json.UnityConverters
         [return: MaybeNull]
         private static JsonConverter CreateConverter(Type jsonConverterType)
         {
+            if (jsonConverterType == null) return null;
             try
             {
-                var jsonConverter = jsonConverterType
-                    .CreateWithDefaultConstructor() as JsonConverter;
+                var jsonConverter = (JsonConverter)Activator.CreateInstance(jsonConverterType);
                 return jsonConverter;
             }
             catch (Exception exception)
