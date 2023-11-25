@@ -19,15 +19,16 @@ namespace Newtonsoft.Json.UnityConverters.Configuration
 
         public bool useAllOutsideConverters = true;
 
-        public List<ConverterConfig> outsideConverters = new List<ConverterConfig>();
+        public List<ConverterConfig> outsideConverters = new();
 
         public bool useAllUnityConverters = true;
 
-        public List<ConverterConfig> unityConverters = new List<ConverterConfig>();
+        public List<ConverterConfig> unityConverters = new();
 
         public bool useAllJsonNetConverters;
 
-        public List<ConverterConfig> jsonNetConverters = new List<ConverterConfig> {
+        public List<ConverterConfig> jsonNetConverters = new()
+        {
             new ConverterConfig { converterName = typeof(StringEnumConverter).FullName, enabled = true },
             new ConverterConfig { converterName = typeof(VersionConverter).FullName, enabled = true },
         };

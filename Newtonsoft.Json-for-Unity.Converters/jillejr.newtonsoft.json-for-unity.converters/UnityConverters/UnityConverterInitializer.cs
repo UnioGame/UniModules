@@ -360,12 +360,12 @@ namespace Newtonsoft.Json.UnityConverters
                     : item.converterType;
                 
                 var type = Type.GetType(typeValue, false, true);
-#if UNITY_EDITOR
                 if (type == null)
                 {
                     Debug.LogErrorFormat("JsonConverter Type is NULL for {0} : {1}", item.converterName, item.converterType);
+                    continue;
                 }
-#endif
+                
                 yield return type;
             }
         }
