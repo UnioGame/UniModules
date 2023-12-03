@@ -89,3 +89,6 @@ url=https://github.com/UnioGame/UniGame.Localization.git
 [submodule "UnityFigmaBridge"]
 	path = UnityFigmaBridge
 	url = ../UnityFigmaBridge.git
+[submodule "UniGame.AssetsBookmarks"]
+	path = UniGame.AssetsBookmarks
+	url = ../UniGame.AssetsBookmarks.git
