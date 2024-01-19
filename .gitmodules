@@ -13,9 +13,6 @@
 	path = UniGame.NodeGraphProcessor/NodeGraphProcessor
 	url = https://github.com/UniGameTeam/NodeGraphProcessor.git
 	branch = master
-[submodule "UniGame.Distribution"]
-	path = UniGame.Distribution
-	url = https://github.com/UniGameTeam/UniGame.Distribution.git
 [submodule "UniGame.Gitcleaner"]
 	path = UniGame.Gitcleaner
 	url = https://github.com/UniGameTeam/UniGame.Gitcleaner.git
