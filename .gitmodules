@@ -13,33 +13,10 @@
 	path = UniGame.NodeGraphProcessor/NodeGraphProcessor
 	url = https://github.com/UniGameTeam/NodeGraphProcessor.git
 	branch = master
-[submodule "UniGame.Distribution"]
-	path = UniGame.Distribution
-	url = https://github.com/UniGameTeam/UniGame.Distribution.git
-[submodule "UniGame.Algo"]
-	path = UniGame.Algo
-	url = https://github.com/UniGameTeam/UniGame.Algo.git
-	branch = main
-[submodule "UniGame.Gitcleaner"]
-	path = UniGame.Gitcleaner
-	url = https://github.com/UniGameTeam/UniGame.Gitcleaner.git
-	branch = main
-[submodule "UniGame.IosPostProcessorsCollection"]
-	path = UniGame.IosPostProcessorsCollection
-	url = https://github.com/UniGameTeam/UniGame.IosPostProcessorsCollection.git
-	branch = master
-[submodule "UniGame.MoreLinq"]
-	path = UniGame.MoreLinq
-	url = https://github.com/UniGameTeam/UniGame.MoreLinq.git
-	branch = main
 [submodule "UniGame.SafeArea"]
 	path = UniGame.SafeArea
 	url = https://github.com/UniGameTeam/UniGame.SafeArea.git
 	branch = main
-[submodule "UniGame.GameFlow"]
-	path = UniGame.GameFlow
-	url = https://github.com/UniGameTeam/UniGame.GameFlow.git
-	branch = master
 [submodule "UniGame.ViewSystem"]
 	path = UniGame.ViewSystem
 	url = https://github.com/UniGameTeam/UniGame.ViewSystem.git
@@ -47,24 +24,6 @@
 [submodule "UniGame.CoreModules"]
 	path = UniGame.CoreModules
 	url = https://github.com/UniGameTeam/CoreModules.git
-	branch = main
-[submodule "UniGame.AtlasGenerator"]
-	path = UniGame.AtlasGenerator
-	url = https://github.com/UniGameTeam/UniGame.AtlasGenerator.git
-	branch = master
-[submodule "UniGame.GraphVisualizer"]
-	path = UniGame.GraphVisualizer
-url=https://github.com/UnioGame/graph-visualizer.git
-[submodule "UniGame.PsbDeconstructor"]
-	path = UniGame.PsbDeconstructor
-url=https://github.com/UnioGame/UniGame.PsbDeconstructor.git
-	branch = main
-[submodule "UniGame.RemoteGameData"]
-	path = UniGame.RemoteGameData
-url=https://github.com/UnioGame/UniGame.RemoteGameData.git
-[submodule "UniGame.RemoteConfiguration"]
-	path = UniGame.RemoteConfiguration
-url=https://github.com/UnioGame/UniGame.RemoteConfiguration.git
 	branch = main
 [submodule "UniGame.UniBuildCommands"]
 	path = UniGame.UniBuildCommands
@@ -74,10 +33,6 @@ url=https://github.com/UnioGame/UnioGame.UniBuildCommands.git
 	path = UniGame.Localization
 url=https://github.com/UnioGame/UniGame.Localization.git
 	branch = main
-[submodule "UniGame.GraphicsTools"]
-	path = UniGame.GraphicsTools
-	url = https://github.com/UniGameTeam/UniGame.GraphicsTools
-	
 [submodule "UniGame.MultiScenes"]
 	path = UniGame.MultiScenes
 	url = https://github.com/UnioGame/MultiScenes.git

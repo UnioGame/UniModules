@@ -2,20 +2,29 @@
 {
     using System;
     using Core.Runtime;
-    using Sirenix.OdinInspector;
 
+#if ODIN_INSPECTOR
+    using Sirenix.OdinInspector;
+#endif
+    
+#if ODIN_INSPECTOR
     [InlineProperty]
+#endif
     [Serializable]
     public struct NamedId : IUnique, IEquatable<int>,IEquatable<string>
     {
         public const string IdGroup = "Id";
         
+#if ODIN_INSPECTOR
         [BoxGroup(IdGroup)]
         [OnValueChanged(nameof(RecalculateId))]
+#endif
         public string name;
         
+#if ODIN_INSPECTOR
         [BoxGroup(IdGroup)]
         [ReadOnly]
+#endif
         public int id;
         
         public int Id => id;
@@ -30,7 +39,9 @@
             }
         }
         
+#if ODIN_INSPECTOR
         [OnInspectorInit]
+#endif
         public void RecalculateId()
         {
             id = string.IsNullOrEmpty(name) ? 0 : name.GetHashCode();
