@@ -28,10 +28,6 @@
 	path = UniGame.SafeArea
 	url = https://github.com/UniGameTeam/UniGame.SafeArea.git
 	branch = main
-[submodule "UniGame.GameFlow"]
-	path = UniGame.GameFlow
-	url = https://github.com/UniGameTeam/UniGame.GameFlow.git
-	branch = master
 [submodule "UniGame.ViewSystem"]
 	path = UniGame.ViewSystem
 	url = https://github.com/UniGameTeam/UniGame.ViewSystem.git
