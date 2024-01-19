@@ -24,10 +24,6 @@
 	path = UniGame.Gitcleaner
 	url = https://github.com/UniGameTeam/UniGame.Gitcleaner.git
 	branch = main
-[submodule "UniGame.IosPostProcessorsCollection"]
-	path = UniGame.IosPostProcessorsCollection
-	url = https://github.com/UniGameTeam/UniGame.IosPostProcessorsCollection.git
-	branch = master
 [submodule "UniGame.MoreLinq"]
 	path = UniGame.MoreLinq
 	url = https://github.com/UniGameTeam/UniGame.MoreLinq.git
@@ -62,10 +58,6 @@ url=https://github.com/UnioGame/UniGame.PsbDeconstructor.git
 [submodule "UniGame.RemoteGameData"]
 	path = UniGame.RemoteGameData
 url=https://github.com/UnioGame/UniGame.RemoteGameData.git
-[submodule "UniGame.RemoteConfiguration"]
-	path = UniGame.RemoteConfiguration
-url=https://github.com/UnioGame/UniGame.RemoteConfiguration.git
-	branch = main
 [submodule "UniGame.UniBuildCommands"]
 	path = UniGame.UniBuildCommands
 url=https://github.com/UnioGame/UnioGame.UniBuildCommands.git
