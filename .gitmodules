@@ -20,10 +20,6 @@
 	path = UniGame.Gitcleaner
 	url = https://github.com/UniGameTeam/UniGame.Gitcleaner.git
 	branch = main
-[submodule "UniGame.MoreLinq"]
-	path = UniGame.MoreLinq
-	url = https://github.com/UniGameTeam/UniGame.MoreLinq.git
-	branch = main
 [submodule "UniGame.SafeArea"]
 	path = UniGame.SafeArea
 	url = https://github.com/UniGameTeam/UniGame.SafeArea.git
