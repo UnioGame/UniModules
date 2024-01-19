@@ -55,9 +55,6 @@ url=https://github.com/UnioGame/graph-visualizer.git
 	path = UniGame.PsbDeconstructor
 url=https://github.com/UnioGame/UniGame.PsbDeconstructor.git
 	branch = main
-[submodule "UniGame.RemoteGameData"]
-	path = UniGame.RemoteGameData
-url=https://github.com/UnioGame/UniGame.RemoteGameData.git
 [submodule "UniGame.UniBuildCommands"]
 	path = UniGame.UniBuildCommands
 url=https://github.com/UnioGame/UnioGame.UniBuildCommands.git

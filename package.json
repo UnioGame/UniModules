@@ -2,7 +2,7 @@
   "name": "com.unigame.modules.assembles",
   "author": "UniGame",
   "displayName": "UniGame Modules Assembles",
-  "description": "Collection of All UniGame Modules",
+  "description": "Collection of All base UnioGame Modules",
   "unity": "2022.1",
   "version": "2023.0.0",
   "keywords": [
@@ -19,7 +19,8 @@
     "com.unity.textmeshpro": "2.1.6",
     "com.unity.timeline": "1.8.6",
     "com.unity.localization": "1.4.5",
-    "com.unity.2d.psdimporter": "8.0.3"
+    "com.unity.2d.psdimporter": "8.0.3",
+    "com.unity.nuget.newtonsoft-json": "3.2.1"
   },
   "repository": {
     "type": "git",
