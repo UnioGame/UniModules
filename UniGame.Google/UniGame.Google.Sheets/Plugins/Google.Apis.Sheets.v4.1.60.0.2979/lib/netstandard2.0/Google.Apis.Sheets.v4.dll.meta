@@ -21,10 +21,10 @@ PluginImporter:
         Exclude Editor: 0
         Exclude Linux64: 1
         Exclude OSXUniversal: 1
-        Exclude WebGL: 0
+        Exclude WebGL: 1
         Exclude Win: 1
         Exclude Win64: 1
-        Exclude iOS: 0
+        Exclude iOS: 1
   - first:
       Android: Android
     second:
@@ -72,7 +72,7 @@ PluginImporter:
   - first:
       WebGL: WebGL
     second:
-      enabled: 1
+      enabled: 0
       settings: {}
   - first:
       Windows Store Apps: WindowsStoreApps
@@ -83,7 +83,7 @@ PluginImporter:
   - first:
       iPhone: iOS
     second:
-      enabled: 1
+      enabled: 0
       settings:
         AddToEmbeddedBinaries: false
         CPU: AnyCPU
