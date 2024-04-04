@@ -44,3 +44,12 @@ url=https://github.com/UnioGame/UniGame.Localization.git
 [submodule "UnityFigmaBridge"]
 	path = UnityFigmaBridge
 	url = ../UnityFigmaBridge.git
+[submodule "UniGame.AssetDependenciesViewer"]
+	path = UniGame.AssetDependenciesViewer
+	url = https://github.com/UnioGame/UniGame.AssetDependenciesViewer.git
+[submodule "unity-addressable-importer"]
+	path = unity-addressable-importer
+	url = https://github.com/UnioGame/unity-addressable-importer.git
+[submodule "UniGame.Routines"]
+	path = UniGame.Routines
+	url = https://github.com/UnioGame/UniGame.Routines.git
