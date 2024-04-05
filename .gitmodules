@@ -59,3 +59,6 @@ url=https://github.com/UnioGame/UniGame.Localization.git
 [submodule "google.api.v4"]
 	path = google.api.v4
 	url = https://github.com/UnioGame/google.api.v4.git
+[submodule "kd.tree"]
+	path = kd.tree
+	url = https://github.com/UnioGame/kd.tree.git
