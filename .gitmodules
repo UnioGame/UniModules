@@ -53,3 +53,9 @@ url=https://github.com/UnioGame/UniGame.Localization.git
 [submodule "UniGame.Routines"]
 	path = UniGame.Routines
 	url = https://github.com/UnioGame/UniGame.Routines.git
+[submodule "FluentFTP"]
+	path = FluentFTP
+	url = https://github.com/UnioGame/FluentFTP.git
+[submodule "google.api.v4"]
+	path = google.api.v4
+	url = https://github.com/UnioGame/google.api.v4.git
