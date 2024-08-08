@@ -9,14 +9,6 @@
 	path = UniGame.GoogleSpreadsheetsImporter
 	url = https://github.com/UniGameTeam/UniGame.GoogleSpreadsheetsImporter.git
 	branch = master
-[submodule "UniGame.NodeGraphProcessor/NodeGraphProcessor"]
-	path = UniGame.NodeGraphProcessor/NodeGraphProcessor
-	url = https://github.com/UniGameTeam/NodeGraphProcessor.git
-	branch = master
-[submodule "UniGame.SafeArea"]
-	path = UniGame.SafeArea
-	url = https://github.com/UniGameTeam/UniGame.SafeArea.git
-	branch = main
 [submodule "UniGame.ViewSystem"]
 	path = UniGame.ViewSystem
 	url = https://github.com/UniGameTeam/UniGame.ViewSystem.git
@@ -44,15 +36,9 @@ url=https://github.com/UnioGame/UniGame.Localization.git
 [submodule "UnityFigmaBridge"]
 	path = UnityFigmaBridge
 	url = ../UnityFigmaBridge.git
-[submodule "UniGame.AssetDependenciesViewer"]
-	path = UniGame.AssetDependenciesViewer
-	url = https://github.com/UnioGame/UniGame.AssetDependenciesViewer.git
 [submodule "unity-addressable-importer"]
 	path = unity-addressable-importer
 	url = https://github.com/UnioGame/unity-addressable-importer.git
-[submodule "UniGame.Routines"]
-	path = UniGame.Routines
-	url = https://github.com/UnioGame/UniGame.Routines.git
 [submodule "FluentFTP"]
 	path = FluentFTP
 	url = https://github.com/UnioGame/FluentFTP.git
