@@ -29,10 +29,6 @@ url=https://github.com/UnioGame/UniGame.Localization.git
 	path = UniGame.MultiScenes
 	url = https://github.com/UnioGame/MultiScenes.git
 	branch = main
-[submodule "UniGame.LeoEcsLite"]
-	path = UniGame.LeoEcsLite
-	url = https://github.com/UnioGame/UniGame.LeoEcsLite.git
-	branch = master
 [submodule "UnityFigmaBridge"]
 	path = UnityFigmaBridge
 	url = ../UnityFigmaBridge.git
