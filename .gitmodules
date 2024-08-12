@@ -44,3 +44,6 @@ url=https://github.com/UnioGame/UniGame.Localization.git
 [submodule "kd.tree"]
 	path = kd.tree
 	url = https://github.com/UnioGame/kd.tree.git
+[submodule "UniGame.LeoEcsLite"]
+	path = UniGame.LeoEcsLite
+	url = https://github.com/UnioGame/UniGame.LeoEcsLite.git
