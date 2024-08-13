@@ -29,9 +29,6 @@ url=https://github.com/UnioGame/UniGame.Localization.git
 	path = UniGame.MultiScenes
 	url = https://github.com/UnioGame/MultiScenes.git
 	branch = main
-[submodule "UnityFigmaBridge"]
-	path = UnityFigmaBridge
-	url = ../UnityFigmaBridge.git
 [submodule "unity-addressable-importer"]
 	path = unity-addressable-importer
 	url = https://github.com/UnioGame/unity-addressable-importer.git
