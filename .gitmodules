@@ -5,10 +5,6 @@
 [submodule "NpmPublisherSupport"]
 	path = NpmPublisherSupport
 	url = https://github.com/UniGameTeam/NpmPublisherSupport.git
-[submodule "UniGame.GoogleSpreadsheetsImporter"]
-	path = UniGame.GoogleSpreadsheetsImporter
-	url = https://github.com/UniGameTeam/UniGame.GoogleSpreadsheetsImporter.git
-	branch = master
 [submodule "UniGame.ViewSystem"]
 	path = UniGame.ViewSystem
 	url = https://github.com/UniGameTeam/UniGame.ViewSystem.git
@@ -35,9 +31,6 @@ url=https://github.com/UnioGame/UniGame.Localization.git
 [submodule "FluentFTP"]
 	path = FluentFTP
 	url = https://github.com/UnioGame/FluentFTP.git
-[submodule "google.api.v4"]
-	path = google.api.v4
-	url = https://github.com/UnioGame/google.api.v4.git
 [submodule "kd.tree"]
 	path = kd.tree
 	url = https://github.com/UnioGame/kd.tree.git
