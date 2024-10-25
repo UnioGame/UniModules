@@ -1,5 +1,41 @@
 # Changelog
 
+## [1.3.7] - 2024-03-21
+
+### Changed
+* Re-releasing 1.3.7-pre.1 (prerelease) as 1.3.7 (released)
+
+## [1.3.7-pre.1] - 2024-03-15
+
+### Added
+* test: add runtime utility test
+
+### Fixed
+* fix-test: use Unity's temporary path to create temp files
+
+### Changed
+* test: rename test assembly to Unity.SharpZipLib.* 
+* test: move test code copied from source to Tests/Runtime/Src
+
+## [1.3.6-preview] - 2024-02-28
+
+### Fixed
+* fix: use SharpZipLib 1.3.3
+
+### Changed
+* doc: update the version of SharpZipLib source, DLL build steps, and installation doc
+
+## [1.3.5-preview] - 2024-01-09
+
+### Added
+* doc: add "How to Use" section
+* doc: add Installation page
+
+## [1.3.4-preview] - 2023-04-07
+
+### Added
+* internal: analytics
+
 ## [1.3.3-preview] - 2022-12-16
 
 * Reverted minimum Unity version from 2019.4 back to 2018.4 to increase utility
