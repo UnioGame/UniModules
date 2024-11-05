@@ -2,9 +2,6 @@
 	path = UniGame.UniBuild
 	url = https://github.com/UniGameTeam/UniBuild.git
 	branch = master
-[submodule "NpmPublisherSupport"]
-	path = NpmPublisherSupport
-	url = https://github.com/UniGameTeam/NpmPublisherSupport.git
 [submodule "UniGame.ViewSystem"]
 	path = UniGame.ViewSystem
 	url = https://github.com/UniGameTeam/UniGame.ViewSystem.git
