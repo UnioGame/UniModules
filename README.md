@@ -221,6 +221,7 @@ public class SomeDisposable : IDisposable
 
 ### Methods
 
+```csharp
 GetAssetLifeTime(Object source, bool terminateOnDisable = false) : Retrieves or creates a lifetime for the given asset.
 DestroyOnCleanup(LifeTime lifeTime, GameObject gameObject) : Adds a cleanup action to destroy the GameObject when the lifetime ends.
 DestroyOnCleanup(LifeTime lifeTime, Component component, bool onlyComponent = false) : Adds a cleanup action to destroy the component or its GameObject when the lifetime ends.
@@ -228,7 +229,7 @@ AddDisposable(Object gameObject, IDisposable disposable) : Adds a disposable obj
 AddCleanUp(Object gameObject, Action cleanupAction) : Adds a cleanup action to the GameObject's lifetime.
 AddDisposable(Component component, IDisposable disposable) : Adds a disposable object to the component's GameObject's lifetime.
 AddCleanUp(Component component, Action action) : Adds a cleanup action to the component's GameObject's lifetime.
-
+```
 
 ## Scene LifeTime
 
@@ -263,7 +264,7 @@ public class ExampleUsage : MonoBehaviour
         var disposable = new ExampleDisposable();
 
         disposable.AddToActiveScene();
-        
+
         activeSceneLifeTime.AddDispose(disposable);
 
         // Get the lifetime of a specific scene
