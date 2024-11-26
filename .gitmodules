@@ -2,9 +2,6 @@
 	path = UniGame.UniBuild
 	url = https://github.com/UniGameTeam/UniBuild.git
 	branch = master
-[submodule "NpmPublisherSupport"]
-	path = NpmPublisherSupport
-	url = https://github.com/UniGameTeam/NpmPublisherSupport.git
 [submodule "UniGame.ViewSystem"]
 	path = UniGame.ViewSystem
 	url = https://github.com/UniGameTeam/UniGame.ViewSystem.git
@@ -25,15 +22,12 @@ url=https://github.com/UnioGame/UniGame.Localization.git
 	path = UniGame.MultiScenes
 	url = https://github.com/UnioGame/MultiScenes.git
 	branch = main
-[submodule "unity-addressable-importer"]
-	path = unity-addressable-importer
-	url = https://github.com/UnioGame/unity-addressable-importer.git
 [submodule "FluentFTP"]
 	path = FluentFTP
 	url = https://github.com/UnioGame/FluentFTP.git
 [submodule "kd.tree"]
 	path = kd.tree
 	url = https://github.com/UnioGame/kd.tree.git
-[submodule "UniGame.LeoEcsLite"]
-	path = UniGame.LeoEcsLite
-	url = https://github.com/UnioGame/UniGame.LeoEcsLite.git
+[submodule "UniGame.GameDB"]
+	path = UniGame.GameDB
+	url = https://github.com/UnioGame/UniGame.GameDB.git
