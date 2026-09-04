@@ -9,23 +9,33 @@ namespace Unity.SharpZipLib.Utils.EditorTests {
     public class ZipUtilityEditorTests {
     [Test]
     public void CompressAndDecompress() {
-        //Compress code
         string tempZipPath = FileUtil.GetUniqueTempPathInProject();
-        string runtimeSrcPath ="Packages/com.unity.sharp-zip-lib/Runtime";
-        ZipUtility.CompressFolderToZip(tempZipPath,null, runtimeSrcPath);
-        Assert.True(File.Exists(tempZipPath));
-
-        //Uncompress
+        string tempSourcePath = FileUtil.GetUniqueTempPathInProject();
         string tempExtractPath = FileUtil.GetUniqueTempPathInProject();
-        Directory.CreateDirectory(tempExtractPath);
-        ZipUtility.UncompressFromZip(tempZipPath, null, tempExtractPath);
+        const string fileName = "round-trip.txt";
+        const string contents = "known zip contents";
 
-        string[] extractedFiles = Directory.GetFiles(tempExtractPath);
-        Assert.Greater(extractedFiles.Length,0);
+        try {
+            Directory.CreateDirectory(tempSourcePath);
+            File.WriteAllText(Path.Combine(tempSourcePath, fileName), contents);
 
-        //Cleanup
-        Directory.Delete(tempExtractPath,true);
-        File.Delete(tempZipPath);
+            ZipUtility.CompressFolderToZip(tempZipPath, null, tempSourcePath);
+            Assert.True(File.Exists(tempZipPath));
+
+            ZipUtility.UncompressFromZip(tempZipPath, null, tempExtractPath);
+
+            string extractedFilePath = Path.Combine(tempExtractPath, fileName);
+            Assert.True(File.Exists(extractedFilePath));
+            Assert.AreEqual(contents, File.ReadAllText(extractedFilePath));
+        }
+        finally {
+            if (Directory.Exists(tempSourcePath))
+                Directory.Delete(tempSourcePath, true);
+            if (Directory.Exists(tempExtractPath))
+                Directory.Delete(tempExtractPath, true);
+            if (File.Exists(tempZipPath))
+                File.Delete(tempZipPath);
+        }
     }
 
 }
