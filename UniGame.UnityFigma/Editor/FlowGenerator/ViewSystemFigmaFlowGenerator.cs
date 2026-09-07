@@ -5,7 +5,7 @@ namespace UniGame.UnityFigma.Editor.FlowGenerator
 {
     using System;
     using UiSystem.Runtime.Settings;
-    using UniModules.UniCore.Runtime.Utils;
+    using UniGame.Runtime.Utils;
     using UniModules.UniGame.UiSystem.Runtime;
     using UnityEngine.UI;
     using UnityFigmaBridge.Editor;
